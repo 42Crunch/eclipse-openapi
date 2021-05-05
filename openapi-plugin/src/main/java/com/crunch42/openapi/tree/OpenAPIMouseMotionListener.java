@@ -1,0 +1,74 @@
+package com.crunch42.openapi.tree;
+
+import com.crunch42.openapi.OpenApiPanelKeys;
+import com.crunch42.openapi.utils.OpenAPIUtils;
+import com.crunch42.openapi.services.IDataService;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.PlatformUI;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+public class OpenAPIMouseMotionListener implements MouseMoveListener {
+
+	private final TreeViewer viewer;
+    private final Set<TreeItem> paths = new HashSet<>();
+    private final List<OpenApiTreeNode> nodes = new LinkedList<>();
+
+    public OpenAPIMouseMotionListener(TreeViewer viewer) {
+        this.viewer = viewer;
+    }
+
+    @Override
+    public void mouseMove(MouseEvent e) {
+        clean();
+        TreeItem tp = viewer.getTree().getItem(new Point(e.x, e.y));
+        if (tp == null) {
+            return;
+        }
+        IFile file = OpenAPIUtils.getSelectedOpenAPIFile();
+        if (file == null) {
+            return;
+        }
+        IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
+        if (dataService.hasParserData(file.getFullPath().toPortableString()) && dataService.getParserData(file.getFullPath().toPortableString()).isValid()) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getData();
+            OpenApiTreeNode o = (OpenApiTreeNode) node.getUserObject();
+            if (o.isPanel() || OpenApiPanelKeys.PATHS.equals(o.getParentKey())) {
+                o.setApplyHint(true);
+                viewer.update(node, null);
+                paths.add(tp);
+                nodes.add(o);
+            }
+        }
+    }
+    
+    public void cleanPaths() {
+    	paths.clear();
+    	for (OpenApiTreeNode o : nodes) {
+            o.setApplyHint(false);
+        }
+    	nodes.clear();
+    }
+
+    private void clean() {
+    	for (TreeItem tp : paths) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getData();
+            OpenApiTreeNode o = (OpenApiTreeNode) node.getUserObject();
+            o.setApplyHint(false);
+            viewer.update(node, null);
+            paths.add(tp);
+            nodes.remove(o);
+        }
+    }
+}

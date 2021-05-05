@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%Actions.ActionSetName"
+            visible="true"
+            id="org.eclipse.ui.examples.fieldassist.actionSet">
+         <action
+               label="%Actions.TestDialogName"
+               icon="icons/42crunch_icon.png"
+               class="com.crunch42.openapi.actions.SecurityAuditAction"
+               tooltip="Perform Security Audit"
+               toolbarPath="workingSets"
+               initialEnabled="false"
+               id="org.eclipse.ui.examples.fieldassist.actions.ExampleAction">
+         </action>
+      </actionSet>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="OpenAPI (Swagger) Editor"
+            class="com.crunch42.openapi.settings.AuditPreferencePage"
+            id="org.eclipse.ui.examples.fieldassist.preferences.FieldAssistPreferencePage">
+      </page>
+   </extension>
+   
+	<extension
+		 point="org.eclipse.ui.genericeditor.contentAssistProcessors">
+	  <contentAssistProcessor
+		class="com.crunch42.openapi.editor.OpenAPIContentAssistProcessor"
+		contentType="org.eclipse.core.runtime.text">
+	  </contentAssistProcessor>
+	</extension>
+   
+       <extension point="org.eclipse.ui.commands">
+		<command
+			id="com.crunch42.openapi.gotoCommand"
+			name="Go to Definition" />
+	</extension>
+	
+	<extension point="org.eclipse.ui.handlers">
+		<handler
+			commandId="com.crunch42.openapi.gotoCommand"
+			class="com.crunch42.openapi.actions.GoToDefinitionAction" />
+	</extension>    
+	
+   <extension
+         point="org.eclipse.ui.menus">
+         
+     <menuContribution
+                locationURI="popup:org.eclipse.ui.popup.any?before=undo">
+                <command
+                        commandId="com.crunch42.openapi.gotoCommand"
+                        id="com.crunch42.openapi.gotoCommandId"
+                        label="Go to Definition"
+                        icon="icons/goto.png"
+                        style="push">
+                </command>
+                   <visibleWhen
+						 checkEnabled="true">
+				   </visibleWhen>
+     </menuContribution>
+
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="eclipse-openapi"
+            name="OpenAPI">
+      </category>
+      <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class="com.crunch42.openapi.tree.ui.OpenAPITreeView"
+            icon="icons/icon_api_16.png"
+            id="com.crunch42.openapi.tree.ui.OpenAPITreeView"
+            inject="true"
+            name="OpenAPI">
+      </view>
+      <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class=" com.crunch42.openapi.report.tree.ui.ReportPanelView"
+            icon="icons/icon_api_16.png"
+            id=" com.crunch42.openapi.report.tree.ui.ReportPanelView"
+            inject="true"
+            name="Audit Problems">
+      </view>
+      <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class="com.crunch42.openapi.report.html.ui.HTMLReportPanelView"
+            icon="icons/icon_api_16.png"
+            id="com.crunch42.openapi.report.html.ui.HTMLReportPanelView"
+            inject="true"
+            name="API Security Audit">
+      </view>
+   </extension>
+
+	<extension point="org.eclipse.ui.services">
+	
+		<serviceFactory factoryClass="com.crunch42.openapi.services.DataServiceFactory">
+			<service serviceClass="com.crunch42.openapi.services.IDataService"></service>
+		</serviceFactory>
+			
+		<serviceFactory factoryClass="com.crunch42.openapi.services.ParserServiceFactory">
+			<service serviceClass="com.crunch42.openapi.services.IParserService"></service>
+		</serviceFactory>
+		
+		<serviceFactory factoryClass="com.crunch42.openapi.services.SnippetServiceFactory">
+			<service serviceClass="com.crunch42.openapi.services.ISnippetService"></service>
+		</serviceFactory>
+		
+		<serviceFactory factoryClass="com.crunch42.openapi.services.AuditServiceFactory">
+			<service serviceClass="com.crunch42.openapi.services.IAuditService"></service>
+		</serviceFactory>
+		
+	</extension>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="OpenAPI"
+            id="com.crunch42.openapi.wizard">
+      </category>
+      <wizard
+            category="com.crunch42.openapi.wizard"
+            class="com.crunch42.openapi.wizard.OpenAPICreationWizardJson3"
+            icon="icons/json.png"
+            id="com.crunch42.openapi.wizard.json.v3"
+            name="JSON OpenAPI 3.0">
+      </wizard>
+      <wizard
+            category="com.crunch42.openapi.wizard"
+            class="com.crunch42.openapi.wizard.OpenAPICreationWizardJson2"
+            icon="icons/json.png"
+            id="com.crunch42.openapi.wizard.json.v2"
+            name="JSON OpenAPI 2.0">
+      </wizard>
+      <wizard
+            category="com.crunch42.openapi.wizard"
+            class="com.crunch42.openapi.wizard.OpenAPICreationWizardYaml3"
+            icon="icons/text.png"
+            id="com.crunch42.openapi.wizard.yaml.v3"
+            name="YAML OpenAPI 3.0">
+      </wizard>
+      <wizard
+            category="com.crunch42.openapi.wizard"
+            class="com.crunch42.openapi.wizard.OpenAPICreationWizardYaml2"
+            icon="icons/text.png"
+            id="com.crunch42.openapi.wizard.yaml.v2"
+            name="YAML OpenAPI 2.0">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="com.crunch42.openapi.OpenAPIPerspectiveFactory"
+            icon="icons/icon_api_16.png"
+            id="com.crunch42.openapi.OpenAPIPerspectiveFactory"
+            name="OpenAPI">
+      </perspective>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="com.crunch42.openapi.hover.OpenAPIMarkerResolutionGenerator"
+            markerType="org.eclipse.core.resources.problemmarker">
+      </markerResolutionGenerator>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="com.crunch42.openapi.OpenAPIAbstractUIPlugin">
+      </startup>
+   </extension>
+	
+</plugin>
