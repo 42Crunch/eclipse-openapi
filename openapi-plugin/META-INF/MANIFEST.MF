@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse-openapi
 Bundle-SymbolicName: openapi-plugin;singleton:=true
 Bundle-Version: 1.0.2
-Bundle-Vendor: Crunch42
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.13.700",
@@ -20,87 +19,87 @@ Require-Bundle: org.eclipse.ui,
 Automatic-Module-Name: eclipse.openapi
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: javax.inject
-Bundle-Activator: com.crunch42.openapi.OpenAPIAbstractUIPlugin
+Bundle-Activator: com.xliic.openapi.OpenAPIAbstractUIPlugin
 Bundle-ActivationPolicy: lazy
-Export-Package: com.crunch42.openapi;
+Export-Package: com.xliic.openapi;
   uses:="org.osgi.framework,
    org.eclipse.ui,
    org.eclipse.swt.graphics,
    org.eclipse.jface.resource,
    org.eclipse.ui.plugin,
    org.eclipse.jface.viewers",
- com.crunch42.openapi.actions;
+ com.xliic.openapi.actions;
   uses:="org.eclipse.ui,
    org.eclipse.ui.actions,
    org.eclipse.jface.action,
    org.eclipse.swt.graphics,
-   com.crunch42.openapi.snippets,
+   com.xliic.openapi.snippets,
    javax.swing.tree,
    org.eclipse.core.commands,
    org.eclipse.jface.viewers",
- com.crunch42.openapi.bundler;uses:="com.xliic.openapi.bundler,org.eclipse.core.resources,com.xliic.common",
- com.crunch42.openapi.callback;uses:="org.eclipse.swt.widgets,org.eclipse.core.resources",
- com.crunch42.openapi.editor;
+ com.xliic.openapi.bundler;uses:="com.xliic.openapi.bundler,org.eclipse.core.resources,com.xliic.common",
+ com.xliic.openapi.callback;uses:="org.eclipse.swt.widgets,org.eclipse.core.resources",
+ com.xliic.openapi.editor;
   uses:="org.eclipse.jface.text.contentassist,
    org.eclipse.core.runtime,
    org.eclipse.swt.graphics,
    org.eclipse.jface.text,
    org.eclipse.core.filebuffers",
- com.crunch42.openapi.hover;uses:="org.eclipse.ui,org.eclipse.core.resources",
- com.crunch42.openapi.listeners;uses:="org.eclipse.ui,org.eclipse.jface.text",
- com.crunch42.openapi.parser.pointer,
- com.crunch42.openapi.parser.tree;uses:="com.crunch42.openapi.parser.pointer,javax.swing.tree,com.crunch42.openapi",
- com.crunch42.openapi.report;
+ com.xliic.openapi.hover;uses:="org.eclipse.ui,org.eclipse.core.resources",
+ com.xliic.openapi.listeners;uses:="org.eclipse.ui,org.eclipse.jface.text",
+ com.xliic.openapi.parser.pointer,
+ com.xliic.openapi.parser.tree;uses:="com.xliic.openapi.parser.pointer,javax.swing.tree,com.xliic.openapi",
+ com.xliic.openapi.report;
   uses:="org.json,
-   com.crunch42.openapi.parser.pointer,
+   com.xliic.openapi.parser.pointer,
    org.eclipse.core.resources,
-   com.crunch42.openapi.bundler",
- com.crunch42.openapi.report.html;
+   com.xliic.openapi.bundler",
+ com.xliic.openapi.report.html;
   uses:="org.eclipse.ui,
    org.osgi.service.event,
    org.eclipse.core.resources,
    org.eclipse.swt.browser",
- com.crunch42.openapi.report.html.ui;
+ com.xliic.openapi.report.html.ui;
   uses:="org.eclipse.ui,
    org.eclipse.swt.widgets,
    org.eclipse.core.resources,
-   com.crunch42.openapi.report.html,
+   com.xliic.openapi.report.html,
    org.eclipse.ui.part",
- com.crunch42.openapi.report.tree;
+ com.xliic.openapi.report.tree;
   uses:="org.eclipse.ui,
    org.eclipse.swt.graphics,
-   com.crunch42.openapi.parser.pointer,
-   com.crunch42.openapi.report,
+   com.xliic.openapi.parser.pointer,
+   com.xliic.openapi.report,
    javax.swing.tree,
    org.eclipse.core.resources,
-   com.crunch42.openapi.report.tree.filter,
+   com.xliic.openapi.report.tree.filter,
    org.eclipse.jface.viewers",
- com.crunch42.openapi.report.tree.filter;
+ com.xliic.openapi.report.tree.filter;
   uses:="org.eclipse.ui,
    org.eclipse.jface.action,
    org.eclipse.swt.widgets,
    org.eclipse.jface.dialogs,
-   com.crunch42.openapi.report.tree",
- com.crunch42.openapi.report.tree.ui;
+   com.xliic.openapi.report.tree",
+ com.xliic.openapi.report.tree.ui;
   uses:="org.eclipse.ui,
    org.eclipse.swt.widgets,
-   com.crunch42.openapi.report,
+   com.xliic.openapi.report,
    org.eclipse.core.resources,
-   com.crunch42.openapi.report.tree.filter,
-   com.crunch42.openapi.report.tree,
+   com.xliic.openapi.report.tree.filter,
+   com.xliic.openapi.report.tree,
    org.eclipse.ui.part",
- com.crunch42.openapi.services;
+ com.xliic.openapi.services;
   uses:="org.eclipse.jface.text,
-   com.crunch42.openapi.parser.tree,
-   com.crunch42.openapi.bundler,
-   com.crunch42.openapi,
+   com.xliic.openapi.parser.tree,
+   com.xliic.openapi.bundler,
+   com.xliic.openapi,
    org.json,
    org.eclipse.ui.services,
-   com.crunch42.openapi.callback,
-   com.crunch42.openapi.report,
+   com.xliic.openapi.callback,
+   com.xliic.openapi.report,
    org.eclipse.core.resources,
-   com.crunch42.openapi.snippets",
- com.crunch42.openapi.settings;
+   com.xliic.openapi.snippets",
+ com.xliic.openapi.settings;
   uses:="org.eclipse.ui,
    org.eclipse.osgi.util,
    org.eclipse.swt.widgets,
@@ -108,31 +107,31 @@ Export-Package: com.crunch42.openapi;
    org.eclipse.core.runtime.preferences,
    org.eclipse.core.resources,
    org.eclipse.jface.dialogs",
- com.crunch42.openapi.snippets,
- com.crunch42.openapi.tree;
+ com.xliic.openapi.snippets,
+ com.xliic.openapi.tree;
   uses:="org.eclipse.jdt.internal.ui.actions,
    org.eclipse.ui,
    org.eclipse.swt.events,
    org.eclipse.jface.action,
    org.eclipse.swt.graphics,
-   com.crunch42.openapi.parser.pointer,
+   com.xliic.openapi.parser.pointer,
    org.eclipse.core.resources,
    javax.swing.tree,
    org.eclipse.jface.viewers",
- com.crunch42.openapi.tree.ui;
+ com.xliic.openapi.tree.ui;
   uses:="org.eclipse.ui,
    org.eclipse.jface.action,
-   com.crunch42.openapi.tree,
+   com.xliic.openapi.tree,
    org.eclipse.swt.widgets,
    org.eclipse.core.resources,
    org.eclipse.ui.part",
- com.crunch42.openapi.utils;
+ com.xliic.openapi.utils;
   uses:="org.eclipse.swt.events,
    org.eclipse.swt.graphics,
    org.eclipse.jface.text,
    org.eclipse.swt.widgets,
    org.eclipse.jface.bindings,
-   com.crunch42.openapi,
+   com.xliic.openapi,
    org.eclipse.jface.viewers,
    org.eclipse.ui,
    org.eclipse.ui.texteditor,
@@ -140,11 +139,11 @@ Export-Package: com.crunch42.openapi;
    org.eclipse.jface.preference,
    javax.swing.tree,
    org.eclipse.core.resources",
- com.crunch42.openapi.wizard;
+ com.xliic.openapi.wizard;
   uses:="org.eclipse.ui,
    org.eclipse.swt.widgets,
    org.eclipse.ui.dialogs,
-   com.crunch42.openapi,
+   com.xliic.openapi,
    org.eclipse.jface.wizard,
    org.eclipse.jface.viewers"
 Bundle-ClassPath: .,
