@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="com.crunch42.openapi.feature" label="OpenAPI (Swagger) Editor" version="1.0.1" provider-name="42Crunch" plugin="openapi-plugin">
+<feature id="com.crunch42.openapi.feature" label="OpenAPI (Swagger) Editor" version="1.0.2" provider-name="42Crunch" plugin="openapi-plugin">
 
    <description>
       An Eclipse OpenAPI (Swagger) Editor
@@ -696,6 +696,6 @@ For more information on this, and how to apply and follow the GNU AGPL, see
       <import plugin="org.eclipse.e4.core.services" />
    </requires>
 
-   <plugin id="openapi-plugin" download-size="0" install-size="0" version="1.0.1" unpack="false" />
+   <plugin id="openapi-plugin" download-size="0" install-size="0" version="1.0.2" unpack="false" />
 
 </feature>
