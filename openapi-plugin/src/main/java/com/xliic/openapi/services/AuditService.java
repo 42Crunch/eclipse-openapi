@@ -21,6 +21,7 @@ import com.xliic.openapi.callback.EmailDialogDoOkActionCallback;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.ResponseStatus;
 
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -152,17 +153,16 @@ public final class AuditService implements IAuditService, IDisposable {
                 .build();
     }
 
-    @SuppressWarnings("deprecation")
 	private static Request getGenerateTokenRequest(String email) {
+        RequestBody formBody = new FormBody.Builder()
+        .add("email", email)
+        .build();
 
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody body = RequestBody.create(mediaType, "email=" + email);
         return new Request.Builder()
-                .url(TOKEN_URL)
-                .method("POST", body)
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("User-Agent", USER_AGENT)
-                .build();
+            .url(TOKEN_URL)
+            .addHeader("User-Agent", USER_AGENT)
+            .post(formBody)
+            .build();
     }
 
     public void sendGenerateTokenRequest(String email, EmailDialogDoOkActionCallback callback) {
