@@ -74,7 +74,7 @@ public class AuditConfigEmailDialogWrapper extends StatusDialog {
 	}
 
 	private void setOKActionEnabled(boolean enabled) {
-		updateButtonsEnableState(new StatusInfo(enabled ? IStatus.OK : IStatus.ERROR, null));
+		updateStatus(new StatusInfo(enabled ? IStatus.OK : IStatus.ERROR, null));
 	}
 	
 	private Group getGroup(Composite parent) {

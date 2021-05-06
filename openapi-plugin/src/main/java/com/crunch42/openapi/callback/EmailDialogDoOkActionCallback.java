@@ -31,6 +31,10 @@ public class EmailDialogDoOkActionCallback extends ActionCallback {
 
     @Override
     public void setRejected() {
-		MessageDialog.openInformation(shell, OpenApiBundle.message("openapi.error.title"), getError());	
+    	Display.getDefault().asyncExec(new Runnable() {
+    	    public void run() {
+    	    	MessageDialog.openError(shell, OpenApiBundle.message("openapi.error.title"), getError());
+            }
+        });
     }
 }

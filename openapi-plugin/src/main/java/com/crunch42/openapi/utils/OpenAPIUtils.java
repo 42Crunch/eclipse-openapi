@@ -314,9 +314,11 @@ public class OpenAPIUtils {
 				return null;
 			}
 			IEditorInput input = EditorUtil.getCurrentEditor().getEditorInput();
-			IFileEditorInput fileInput = (IFileEditorInput) input;
-			file = fileInput.getFile();
-		}		
+			if (input instanceof IFileEditorInput) {
+				IFileEditorInput fileInput = (IFileEditorInput) input;
+				file = fileInput.getFile();
+			}
+		}
         return file;
 	}
 	
