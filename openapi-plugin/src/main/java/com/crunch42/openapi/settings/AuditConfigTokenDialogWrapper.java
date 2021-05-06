@@ -33,7 +33,7 @@ public class AuditConfigTokenDialogWrapper extends StatusDialog {
 
 	public AuditConfigTokenDialogWrapper(Shell parent, IFile file) {
 		super(parent);
-		setTitle(OpenApiBundle.message("Remote Audit Settings"));
+		setTitle(OpenApiBundle.message("Security Audit Settings"));
 		this.file = file;
 	}
 

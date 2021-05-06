@@ -39,7 +39,7 @@ public class AuditConfigEmailDialogWrapper extends StatusDialog {
 
 	public AuditConfigEmailDialogWrapper(Shell parent, @NotNull IFile file) {
 		super(parent);
-		setTitle(OpenApiBundle.message("Remote Audit Settings"));
+		setTitle(OpenApiBundle.message("Security Audit Settings"));
 		this.file = file;
 	}
 
