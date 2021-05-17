@@ -31,8 +31,8 @@ import okhttp3.Response;
 
 public final class AuditService implements IAuditService, IDisposable {
 
-    private static final String ASSESS_URL = "https://stateless.apisecurity.io/api/v1/anon/assess/vscode";
-    private static final String TOKEN_URL = "https://stateless.apisecurity.io/api/v1/anon/token";
+    private static final String ASSESS_URL = "https://stateless.42crunch.com/api/v1/anon/assess/vscode";
+    private static final String TOKEN_URL = "https://stateless.42crunch.com/api/v1/anon/token";
     private static final int MAX_RETRY_ATTEMPTS = 20;
     private static final int ATTEMPT_DELAY = 5000;
     private  static final String USER_AGENT = "Eclipse/4.16.0";
