@@ -10,7 +10,7 @@
 		<version>1.0.6</version>
 	</parent>
 
-	<artifactId>com.xliic.openapi.feature</artifactId>
+	<artifactId>com.xliic.openapi</artifactId>
 	<packaging>eclipse-feature</packaging>
 	<build>
 		<pluginManagement>

@@ -3,7 +3,7 @@
    <description name="OpenAPI (Swagger) Editor" url="https://github.com/42Crunch/eclipse-openapi/">
       This is the update site for OpenAPI (Swagger) Editor
    </description>
-   <feature id="com.xliic.openapi.feature">
+   <feature id="com.xliic.openapi">
       <category name="openapi-edit"/>
    </feature>
    <category-def name="openapi-edit" label="OpenAPI (Swagger) Editor"/>
