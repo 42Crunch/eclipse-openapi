@@ -30,7 +30,7 @@ THE SOFTWARE.
 }
 
 small {
-    font-size: x-small;
+    font-size: 13px;
 }
 
 body {
@@ -41,7 +41,7 @@ body {
     text-size-adjust: 100%;
     color: #cccccc;
     font-family: Helvetica, Arial, freesans, sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     line-height: 1.6;
     word-wrap: break-word;
     margin: 10px;

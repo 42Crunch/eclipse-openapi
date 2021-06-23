@@ -30,7 +30,7 @@ THE SOFTWARE.
 }
 
 small {
-    font-size: x-small;
+    font-size: 13px;
 }
 
 body {
@@ -41,7 +41,7 @@ body {
     text-size-adjust: 100%;
     color: #333;
     font-family: Helvetica, Arial, freesans, sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     line-height: 1.6;
     word-wrap: break-word;
     margin: 10px;
@@ -528,7 +528,7 @@ pre code:after {
 kbd {
     display: inline-block;
     padding: 3px 5px;
-    font-size: 11px;
+    font-size: 14px;
     line-height: 10px;
     color: #555;
     vertical-align: middle;
@@ -641,7 +641,7 @@ kbd {
 kbd {
     display: inline-block;
     padding: 3px 5px;
-    font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font: 14px Consolas, "Liberation Mono", Menlo, Courier, monospace;
     line-height: 10px;
     color: #555;
     vertical-align: middle;
