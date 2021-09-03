@@ -5,10 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IDisposable;
 
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiPanelKeys;
+import com.xliic.idea.project.Project;
 import com.xliic.openapi.snippets.Snippet;
 import com.xliic.openapi.snippets.SnippetIDs;
 
@@ -16,6 +18,10 @@ public final class SnippetService  implements ISnippetService, IDisposable {
 
     private List<Snippet> snippets;
     private Map<String, Snippet> snippetsMap;
+    
+    public static ISnippetService getInstance(Project project) {
+    	return (ISnippetService) PlatformUI.getWorkbench().getService(ISnippetService.class);  
+    }
 
     @Override
     public void load() {

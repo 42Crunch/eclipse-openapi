@@ -6,14 +6,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IDisposable;
 
 import com.xliic.openapi.FileProperty;
+import com.xliic.idea.FileDocumentManager;
+import com.xliic.idea.document.Document;
+import com.xliic.idea.editor.FileEditorManager;
+import com.xliic.idea.file.VirtualFile;
+import com.xliic.idea.project.Project;
 import com.xliic.openapi.listeners.ReportDocumentListener;
 import com.xliic.openapi.listeners.TreeDocumentListener;
 import com.xliic.openapi.parser.tree.ParserData;
@@ -35,64 +41,69 @@ public class DataService implements IDataService, IDisposable {
         treeListener = new TreeDocumentListener();
         reportListener = new ReportDocumentListener();
     }
+    
+    public static DataService getInstance(Project project) {
+    	return (DataService) PlatformUI.getWorkbench().getService(IDataService.class);  
+    }
 
     @Override
-    public void addTreeDocumentListener(@NotNull IDocument document) {
+    public void addTreeDocumentListener(@NotNull VirtualFile file) {
+        Document document = FileDocumentManager.getInstance().getDocument(file);
         if (document != null) {
             document.addDocumentListener(treeListener);
         }
     }
-    
+
     @Override
-    public void removeTreeDocumentListener(@NotNull IDocument document) {
+    public void removeTreeDocumentListener(@NotNull VirtualFile file) {
+        Document document = FileDocumentManager.getInstance().getDocument(file);
         if (document != null) {
             document.removeDocumentListener(treeListener);
         }
     }
     
     @Override
-    public void addReportDocumentListener(@NotNull IFile file) {
-		for (IFileEditorInput input : OpenAPIUtils.getOpenedIFileEditorInputs()) {
-	        if (hasAuditReport(file.getFullPath().toPortableString())) {
-	            Set<String> participantFileNames = getAuditReport(file.getFullPath().toPortableString()).getParticipantFileNames();
-                if (participantFileNames.contains(OpenAPIUtils.getAbsoluteFullFilePath(input.getFile()))) {
-                    IDocument document = EditorUtil.getDocument(input);
+    public void addReportDocumentListener(@NotNull VirtualFile file) {
+        if (hasAuditReport(file.getPath())) {
+            Set<String> participantFileNames = getAuditReport(file.getPath()).getParticipantFileNames();
+            for (VirtualFile openedFile : FileEditorManager.getInstance(new Project()).getOpenFiles()) {
+                if (participantFileNames.contains(openedFile.getPath())) {
+                    Document document = FileDocumentManager.getInstance().getDocument(openedFile);
                     if (document != null) {
                         document.addDocumentListener(reportListener);
                     }
                 }
-	        }
-	        else if (isAuditParticipantFile(OpenAPIUtils.getAbsoluteFullFilePath(file))) {        	
-                IDocument document = EditorUtil.getDocument(input);
-                if (document != null) {
-                    document.addDocumentListener(reportListener);
-                }
-	        }
-		}
+            }
+            return;
+        }
+        if (isAuditParticipantFile(file.getPath())) {
+            Document document = FileDocumentManager.getInstance().getDocument(file);
+            if (document != null) {
+                document.addDocumentListener(reportListener);
+            }
+        }
     }
     
     @Override
-    public void removeReportDocumentListener(@NotNull IFile file, @NotNull IDocument document2) {
-        if (document2 != null) {
-            document2.removeDocumentListener(reportListener);
-        }
-		for (IFileEditorInput input : OpenAPIUtils.getOpenedIFileEditorInputs()) {
-	        if (hasAuditReport(file.getFullPath().toPortableString())) {
-	            Set<String> participantFileNames = getAuditReport(file.getFullPath().toPortableString()).getParticipantFileNames();
-                if (participantFileNames.contains(OpenAPIUtils.getAbsoluteFullFilePath(input.getFile()))) {
-                    IDocument document = EditorUtil.getDocument(input);
-                    if (document != null && document != document2) {
+    public void removeReportDocumentListener(@NotNull VirtualFile file) {	
+        if (hasAuditReport(file.getPath())) {
+            Set<String> participantFileNames = getAuditReport(file.getPath()).getParticipantFileNames();
+            for (VirtualFile openedFile : FileEditorManager.getInstance(new Project()).getOpenFiles()) {
+                if (participantFileNames.contains(openedFile.getPath())) {
+                    Document document = FileDocumentManager.getInstance().getDocument(openedFile);
+                    if (document != null) {
                         document.removeDocumentListener(reportListener);
                     }
                 }
-	        }
-	        else if (isAuditParticipantFile(OpenAPIUtils.getAbsoluteFullFilePath(file))) {        	
-                IDocument document = EditorUtil.getDocument(input);
-                if (document != null && document != document2) {
-                    document.removeDocumentListener(reportListener);
-                }
-	        }
-		}
+            }
+            return;
+        }
+        if (isAuditParticipantFile(file.getPath())) {
+            Document document = FileDocumentManager.getInstance().getDocument(file);
+            if (document != null) {
+                document.removeDocumentListener(reportListener);
+            }
+        }
     }
     
     @Override

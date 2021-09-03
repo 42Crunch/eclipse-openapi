@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.text.DocumentEvent;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
+import com.xliic.idea.document.Document;
+import com.xliic.idea.document.DocumentEvent;
+import com.xliic.idea.document.DocumentListener;
 import com.xliic.openapi.parser.pointer.Location;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.html.HTMLReportManager;
@@ -23,13 +23,13 @@ import com.xliic.openapi.services.IParserService;
 import com.xliic.openapi.utils.OpenAPIUtils;
 import com.xliic.openapi.utils.WorkbenchUtils;
 
-public class ReportDocumentListener implements IDocumentListener {
+public class ReportDocumentListener extends DocumentListener {
 
     public ReportDocumentListener() {
     }
 
 	@Override
-	public void documentAboutToBeChanged(DocumentEvent event) {}
+	public void beforeDocumentChange(DocumentEvent event) {}
 
 	@Override
 	public void documentChanged(DocumentEvent event) {
@@ -41,8 +41,8 @@ public class ReportDocumentListener implements IDocumentListener {
 
         IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);       
 		IParserService parserService = (IParserService) PlatformUI.getWorkbench().getService(IParserService.class);
-        IDocument document = event.getDocument();
-        String text = document.get();
+        Document document = event.getDocument();
+        String text = document.getText();
         
     	Display.getDefault().asyncExec(new Runnable() {
     	    public void run() {

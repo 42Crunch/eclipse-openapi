@@ -31,6 +31,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.tree.ReportFileObject;
@@ -167,22 +168,22 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 	}
 
 	@Override
-	public void handleClosedFile(IFile file) {
+	public void handleClosedFile(VirtualFile file) {
 		IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-	    if (!dataService.hasAuditReport(file.getFullPath().toPortableString())) {
+	    if (!dataService.hasAuditReport(file.getPath())) {
 	      return;
 	    }
-	    Audit auditReport = dataService.getAuditReport(file.getFullPath().toPortableString());
+	    Audit auditReport = dataService.getAuditReport(file.getPath());
 	    removeIssues(auditReport.getIssues());
-	    currentFiles.remove(file);
+	    currentFiles.remove(file.getIFile());
 	}
 
 	@Override
-	public void handleSelectedFile(IFile file) {
+	public void handleSelectedFile(VirtualFile file) {
 	    if (filterState.isShowSelectedFileOnly()) {
 	    	reloadAndRestoreExpansion();
 	    }
-	    String fileName = OpenAPIUtils.getAbsoluteFullFilePath(file);
+	    String fileName = file.getAbsoluteFullFilePath();
 	    if (!fileNameToTreeNodeMap.containsKey(fileName)) {
 	        return;
 	    }

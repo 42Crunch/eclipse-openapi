@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.pointer.Location;

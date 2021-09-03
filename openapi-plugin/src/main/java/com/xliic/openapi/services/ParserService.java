@@ -3,11 +3,13 @@ package com.xliic.openapi.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IDisposable;
 
 import com.xliic.openapi.OpenApiFileType;
+import com.xliic.idea.project.Project;
 import com.xliic.openapi.parser.pointer.Location;
 import com.xliic.openapi.parser.pointer.PointerToLocationJSONParser;
 import com.xliic.openapi.parser.pointer.PointerToLocationYAMLParser;
@@ -22,6 +24,10 @@ public final class ParserService implements IParserService, IDisposable {
     private PointerToLocationJSONParser pointerToLocationJSONParser = new PointerToLocationJSONParser();
     private PointerToLocationYAMLParser pointerToLocationYAMLParser = new PointerToLocationYAMLParser();
 
+    public static ParserService getInstance(Project project) {
+    	return (ParserService) PlatformUI.getWorkbench().getService(IParserService.class);  
+    }
+    
     public Map<String, Location> parsePointerToLocationMap(@NotNull String text,
                                                            @NotNull OpenApiFileType fileType) {
         try {

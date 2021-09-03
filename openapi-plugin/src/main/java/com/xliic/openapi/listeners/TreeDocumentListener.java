@@ -3,12 +3,12 @@ package com.xliic.openapi.listeners;
 import java.util.Optional;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.text.DocumentEvent;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
+import com.xliic.idea.document.Document;
+import com.xliic.idea.document.DocumentEvent;
+import com.xliic.idea.document.DocumentListener;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.IDataService;
 import com.xliic.openapi.services.IParserService;
@@ -17,12 +17,12 @@ import com.xliic.openapi.tree.ui.OpenAPITreeView;
 import com.xliic.openapi.utils.OpenAPIUtils;
 import com.xliic.openapi.utils.WorkbenchUtils;
 
-public class TreeDocumentListener implements IDocumentListener {
+public class TreeDocumentListener extends DocumentListener {
 
     public TreeDocumentListener() {}
 
 	@Override
-	public void documentAboutToBeChanged(DocumentEvent event) {}
+	public void beforeDocumentChange(DocumentEvent event) {}
 
 	@Override
 	public void documentChanged(DocumentEvent event) {
@@ -34,9 +34,9 @@ public class TreeDocumentListener implements IDocumentListener {
       
         IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);       
 		IParserService parserService = (IParserService) PlatformUI.getWorkbench().getService(IParserService.class);
-        IDocument document = event.getDocument();
+        Document document = event.getDocument();
 
-        ParserData data = parserService.parse(document.get(), OpenAPIUtils.getFileType(file));
+        ParserData data = parserService.parse(document.getText(), OpenAPIUtils.getFileType(file));
         if (data.isValid()) {
             dataService.setParserData(file.getFullPath().toPortableString(), data);
         }

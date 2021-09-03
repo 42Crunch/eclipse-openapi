@@ -33,6 +33,7 @@ import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
 import org.eclipse.ui.part.ViewPart;
 
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
+import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.html.HTMLIcon;
@@ -109,7 +110,7 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager {
 	}
 
 	@Override
-	public void handleClosedFile(IFile file) {
+	public void handleClosedFile(VirtualFile file, boolean selected) {
     	IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
     	IFile selectedFile = OpenAPIUtils.getSelectedOpenAPIFile();
         if (selectedFile != null && dataService.hasAuditReport(selectedFile.getFullPath().toPortableString())) {
@@ -121,13 +122,13 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager {
 	}
 
 	@Override
-	public void handleSelectedFile(IFile file) {
+	public void handleSelectedFile(VirtualFile file) {
 		IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-	    if (dataService.hasAuditReport(file.getFullPath().toPortableString())) {
-	      update(dataService.getAuditReport(file.getFullPath().toPortableString()));
+	    if (dataService.hasAuditReport(file.getPath())) {
+	      update(dataService.getAuditReport(file.getPath()));
 	      return;
 	    }
-	    String fileName = OpenAPIUtils.getAbsoluteFullFilePath(file);
+	    String fileName = file.getAbsoluteFullFilePath();
 	    if (!dataService.isAuditParticipantFile(fileName)) {
 	      reportNotAvailable();
 	    }
