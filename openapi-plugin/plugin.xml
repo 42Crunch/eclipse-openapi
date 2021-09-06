@@ -2,29 +2,12 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-   <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%Actions.ActionSetName"
-            visible="true"
-            id="org.eclipse.ui.examples.fieldassist.actionSet">
-         <action
-               label="%Actions.TestDialogName"
-               icon="icons/42crunch_icon.png"
-               class="com.xliic.openapi.actions.SecurityAuditAction"
-               tooltip="Perform Security Audit"
-               toolbarPath="workingSets"
-               initialEnabled="false"
-               id="org.eclipse.ui.examples.fieldassist.actions.ExampleAction">
-         </action>
-      </actionSet>
-   </extension>
    
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
             name="OpenAPI (Swagger) Editor"
-            class="com.xliic.openapi.settings.AuditPreferencePage"
+            class="com.xliic.openapi.settings.AuditConfigurable"
             id="org.eclipse.ui.examples.fieldassist.preferences.FieldAssistPreferencePage">
       </page>
    </extension>
@@ -41,6 +24,26 @@
 		<command
 			id="com.xliic.openapi.gotoCommand"
 			name="Go to Definition" />
+  <command
+        defaultHandler="com.xliic.openapi.actions.SecurityAuditAction"
+        id="com.xliic.openapi.actions.SecurityAuditAction"
+        name="Perform Security Audit">
+  </command>
+  <command
+        defaultHandler="com.xliic.openapi.actions.PreviewAction"
+        id="com.xliic.openapi.actions.PreviewAction"
+        name="Show OpenAPI Preview">
+  </command>
+  <command
+        defaultHandler="com.xliic.openapi.actions.PreviewSwaggerUIAction"
+        id="com.xliic.openapi.actions.PreviewSwaggerUIAction"
+        name="SwaggerUI">
+  </command>
+  <command
+        defaultHandler="com.xliic.openapi.actions.PreviewReDocAction"
+        id="com.xliic.openapi.actions.PreviewReDocAction"
+        name="ReDoc">
+  </command>
 	</extension>
 	
 	<extension point="org.eclipse.ui.handlers">
@@ -121,6 +124,10 @@
 			<service serviceClass="com.xliic.openapi.services.IAuditService"></service>
 		</serviceFactory>
 		
+		<serviceFactory factoryClass="com.xliic.openapi.services.PreviewServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.IPreviewService"></service>
+		</serviceFactory>
+		
 	</extension>
 
    <extension
@@ -181,6 +188,61 @@
       <startup
             class="com.xliic.openapi.OpenAPIAbstractUIPlugin">
       </startup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?after=help">
+         <menu
+               id="com.xliic.openapi.menu"
+               label="OpenAPI">
+            <command
+                  commandId="com.xliic.openapi.actions.SecurityAuditAction"
+                  icon="icons/42crunch_icon.png"
+                  style="push">
+            </command>
+            <menu
+                  icon="icons/preview.png"
+                  id="com.xliic.openapi.preview.menu"
+                  label="Show OpenAPI Preview">
+               <command
+                     commandId="com.xliic.openapi.actions.PreviewSwaggerUIAction"
+                     icon="icons/renderer.png"
+                     id="com.xliic.openapi.actions.PreviewSwaggerUIAction"
+                     label="SwaggerUI"
+                     style="push"
+                     tooltip="Show OpenAPI Preview">
+               </command>
+               <command
+                     commandId="com.xliic.openapi.actions.PreviewReDocAction"
+                     icon="icons/renderer.png"
+                     id="com.xliic.openapi.actions.PreviewReDocAction"
+                     label="ReDoc"
+                     style="push"
+                     tooltip="Show OpenAPI Preview">
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="com.xliic.openapi.toolbar"
+               label="OpenAPI">
+            <command
+                  commandId="com.xliic.openapi.actions.SecurityAuditAction"
+                  icon="icons/42crunch_icon.png"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.xliic.openapi.actions.PreviewAction"
+                  icon="icons/preview.png"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
    </extension>
 	
 </plugin>

@@ -2,25 +2,25 @@ package com.xliic.openapi.services;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.text.IDocument;
 
 import com.xliic.openapi.FileProperty;
+import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 
 public interface IDataService {
 
-    void addTreeDocumentListener(@NotNull IDocument document);
+    void addTreeDocumentListener(@NotNull VirtualFile file);
 
-    void removeTreeDocumentListener(@NotNull IDocument document);
+    void removeTreeDocumentListener(@NotNull VirtualFile file);
     
-    void addReportDocumentListener(@NotNull IFile file);
+    void addReportDocumentListener(@NotNull VirtualFile file);
     
-    void removeReportDocumentListener(@NotNull IFile file, @NotNull IDocument document);
+    void removeReportDocumentListener(@NotNull VirtualFile file);
 
     Audit removeAuditReport(String fileName);
     

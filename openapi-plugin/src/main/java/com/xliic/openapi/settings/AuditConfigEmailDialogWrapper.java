@@ -3,8 +3,6 @@ package com.xliic.openapi.settings;
 import java.awt.EventQueue;
 import java.util.regex.Pattern;
 
-import javax.validation.constraints.NotNull;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
@@ -22,6 +20,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.OpenApiBundle;

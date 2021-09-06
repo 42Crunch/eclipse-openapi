@@ -2,7 +2,7 @@ package com.xliic.openapi.callback;
 
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -12,6 +12,7 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
 import com.xliic.openapi.OpenApiBundle;
+import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.html.HTMLReportManager;
 import com.xliic.openapi.report.html.ui.HTMLReportPanelView;
@@ -34,7 +35,7 @@ public class AuditActionCallback extends ActionCallback {
     public void setBeforeRequest() {
     	IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
         if (dataService.hasAuditReport(file.getFullPath().toPortableString())) {
-            dataService.removeReportDocumentListener(file, null);
+            dataService.removeReportDocumentListener(new VirtualFile(file));
 			Optional<IViewPart> ro = WorkbenchUtils.findView2(ReportPanelView.ID);
 			if (ro.isPresent()) {
 				ReportManager manager = (ReportManager) ro.get();
@@ -63,7 +64,7 @@ public class AuditActionCallback extends ActionCallback {
     			}   			
     			OpenAPIUtils.gotoFile(file, 0, 0);
                 IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-                dataService.addReportDocumentListener(file);
+                dataService.addReportDocumentListener(new VirtualFile(file));
             }
         });
     }

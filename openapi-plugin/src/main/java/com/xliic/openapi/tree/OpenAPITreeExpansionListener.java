@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.ITreeViewerListener;
@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
+import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.IDataService;
 import com.xliic.openapi.utils.OpenAPIUtils;
@@ -58,12 +59,12 @@ public class OpenAPITreeExpansionListener implements ITreeViewerListener {
         expandedPointers.get(file.getFullPath().toPortableString()).remove(pointer);
     }
 
-    public void expand(IFile file) {
-        if (expandedPointers.containsKey(file.getFullPath().toPortableString())) {
+    public void expand(VirtualFile file) {
+        if (expandedPointers.containsKey(file.getPath())) {
             restoreExpansionState();
         }
         else {
-            expandedPointers.put(file.getFullPath().toPortableString(), new HashSet<>());
+            expandedPointers.put(file.getPath(), new HashSet<>());
             setDefaultExpansionState();
         }
     }
@@ -72,8 +73,8 @@ public class OpenAPITreeExpansionListener implements ITreeViewerListener {
         expandedPointers.clear();
     }
 
-    public void clean(IFile file) {
-        expandedPointers.remove(file.getFullPath().toPortableString());
+    public void clean(VirtualFile file) {
+        expandedPointers.remove(file.getPath());
     }
 
     public void replace(String newKey, String oldKey) {

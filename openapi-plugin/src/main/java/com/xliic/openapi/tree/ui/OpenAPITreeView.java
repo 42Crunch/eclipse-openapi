@@ -29,11 +29,11 @@ import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.FileProperty;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.actions.SecurityAuditAction;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.IDataService;
 import com.xliic.openapi.services.IParserService;
@@ -55,84 +55,83 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 
 	private static final RGB RGB_ERROR_BACKGROUND = new RGB(242, 242, 242);
 	private static final RGB RGB_ERROR_BACKGROUND_DARCULA = new RGB(128, 128, 128);
-	
+
 	private static final RGB RGB_ERROR_FOREGRAUND = new RGB(255, 102, 102);
 	private static final RGB RGB_ERROR_FOREGRAUND_DARCULA = new RGB(255, 255, 255);
-	
+
 	private static RGB rgbErrorForegraund;
 	private static RGB rgbErrorBackground;
 
-	@Inject IWorkbench workbench;
-	
+	@Inject
+	IWorkbench workbench;
+
 	private TreeViewer viewer;
-    private final OpenAPITreeSelectionChangedListener listener;
-    private OpenAPITreeExpansionListener expansionListener;
-    private OpenAPIMouseMotionListener mouseMotionListener;
-    private OpenAPITreeActionGroup fActionSet;
-    private Menu fContextMenu;
-    
-    private final ITreeContentProvider contentProvider = new OpenAPITreeContentProvider();
-    private StyledCellLabelProvider labelProvider;
-    
+	private final OpenAPITreeSelectionChangedListener listener;
+	private OpenAPITreeExpansionListener expansionListener;
+	private OpenAPIMouseMotionListener mouseMotionListener;
+	private OpenAPITreeActionGroup fActionSet;
+	private Menu fContextMenu;
+
+	private final ITreeContentProvider contentProvider = new OpenAPITreeContentProvider();
+	private StyledCellLabelProvider labelProvider;
+
 	private OpenAPILAFListener lafListener;
 	private IEventBroker eventBroker;
 	private boolean isValid;
 
 	public OpenAPITreeView() {
-    	this.listener = new OpenAPITreeSelectionChangedListener();
-    	isValid = true;
-    }
+		this.listener = new OpenAPITreeSelectionChangedListener();
+		isValid = true;
+	}
 
-    private DecoratingStyledCellLabelProvider createLabelProvider() {
-        return new DecoratingStyledCellLabelProvider(
-                new OpenAPITreeLabelProvider(workbench), 
-                workbench.getDecoratorManager().getLabelDecorator(), 
-                DecorationContext.DEFAULT_CONTEXT);
-    }
+	private DecoratingStyledCellLabelProvider createLabelProvider() {
+		return new DecoratingStyledCellLabelProvider(new OpenAPITreeLabelProvider(workbench),
+				workbench.getDecoratorManager().getLabelDecorator(), DecorationContext.DEFAULT_CONTEXT);
+	}
 
 	@Override
 	public void createPartControl(Composite parent) {
 
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 
-        labelProvider = createLabelProvider();
-        viewer.setLabelProvider(labelProvider);
-        viewer.setContentProvider(contentProvider);
-        viewer.addSelectionChangedListener(listener);
-        expansionListener = new OpenAPITreeExpansionListener(workbench, viewer);
-        viewer.addTreeListener(expansionListener);
-        mouseMotionListener = new OpenAPIMouseMotionListener(viewer);
-        viewer.getTree().addMouseMoveListener(mouseMotionListener);
+		labelProvider = createLabelProvider();
+		viewer.setLabelProvider(labelProvider);
+		viewer.setContentProvider(contentProvider);
+		viewer.addSelectionChangedListener(listener);
+		expansionListener = new OpenAPITreeExpansionListener(workbench, viewer);
+		viewer.addTreeListener(expansionListener);
+		mouseMotionListener = new OpenAPIMouseMotionListener(viewer);
+		viewer.getTree().addMouseMoveListener(mouseMotionListener);
 
-        lafListener = new OpenAPILAFListener(workbench, this, parent);
-        eventBroker = workbench.getService(IEventBroker.class);
-        eventBroker.subscribe(WorkbenchThemeManager.Events.THEME_REGISTRY_RESTYLED, lafListener);
-        
-        fActionSet = new OpenAPITreeActionGroup();
-        MenuManager menuMgr = new MenuManager("#PopupMenu");
-        menuMgr.setRemoveAllWhenShown(true);
-        menuMgr.addMenuListener(this);
-        fContextMenu= menuMgr.createContextMenu(viewer.getTree());
-        viewer.getTree().setMenu(fContextMenu);
+		lafListener = new OpenAPILAFListener(workbench, this, parent);
+		eventBroker = workbench.getService(IEventBroker.class);
+		eventBroker.subscribe(WorkbenchThemeManager.Events.THEME_REGISTRY_RESTYLED, lafListener);
 
-        handleToolWindowRegistered();
+		fActionSet = new OpenAPITreeActionGroup();
+		MenuManager menuMgr = new MenuManager("#PopupMenu");
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(this);
+		fContextMenu = menuMgr.createContextMenu(viewer.getTree());
+		viewer.getTree().setMenu(fContextMenu);
+
+		handleToolWindowRegistered();
 	}
-	
+
 	@Override
-   public void dispose() {
-    	super.dispose();
-        if (fActionSet != null) {
-            fActionSet.dispose();
-        }
-        if (labelProvider != null) {
-            labelProvider.dispose();
-        }
-        expansionListener.clean();
-        mouseMotionListener.cleanPaths();
-        viewer.removeSelectionChangedListener(listener);
-        viewer.removeTreeListener(expansionListener);
-        eventBroker.unsubscribe(lafListener);
-    }
+	public void dispose() {
+		super.dispose();
+		if (fActionSet != null) {
+			fActionSet.dispose();
+		}
+		if (labelProvider != null) {
+			labelProvider.dispose();
+		}
+		expansionListener.clean();
+		mouseMotionListener.cleanPaths();
+		viewer.removeSelectionChangedListener(listener);
+		viewer.removeTreeListener(expansionListener);
+		eventBroker.unsubscribe(lafListener);
+	}
 
 	@Override
 	public void setFocus() {
@@ -141,102 +140,99 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 
 	@Override
 	public void handleAllFilesClosed() {
-	    setNoOpenAPITreeBackGround();
+		setNoOpenAPITreeBackGround();
 		mouseMotionListener.cleanPaths();
 		viewer.setInput(null);
-		eventBroker.send(SecurityAuditAction.TOPIC_OPENAPI_VALIDATION_CHANGED, false);
 	}
 
 	@Override
-	public void handleClosedFile(IFile file) {
+	public void handleClosedFile(VirtualFile file) {
 		expansionListener.clean(file);
 	}
 
 	@Override
-	public void handleSelectedFile(IFile file) {
-		
-		IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
+	public void handleSelectedFile(VirtualFile file) {
+
+		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
 		mouseMotionListener.cleanPaths();
-		
-	    if (dataService.hasParserData(file.getFullPath().toPortableString())) {
-	      ParserData data = dataService.getParserData(file.getFullPath().toPortableString());
-	      setTreeBackGround(data.isValid(), data.getExceptionMessage());
-	      if (!data.isValid()) {
-	    	  viewer.setInput(null);
-	    	  return;
-	      }
-	      viewer.setInput(data.getRoot());	      
-	      expansionListener.expand(file);
-	    }
-	    else {
-	    	viewer.setInput(null);
-	    	setNoOpenAPITreeBackGround();
-	    }
+
+		if (dataService.hasParserData(file.getPath())) {
+			ParserData data = dataService.getParserData(file.getPath());
+			setTreeBackGround(data.isValid(), data.getExceptionMessage());
+			if (!data.isValid()) {
+				viewer.setInput(null);
+				return;
+			}
+			viewer.setInput(data.getRoot());
+			expansionListener.expand(file);
+		} else {
+			viewer.setInput(null);
+			setNoOpenAPITreeBackGround();
+		}
 	}
 
 	@Override
 	public void handleToolWindowRegistered() {
-		
+
 		IWorkbenchPage page = EditorUtil.getActivePage();
 		IEditorReference[] editors = page.getEditorReferences();
-		
+
 		for (IEditorReference editor : editors) {
 			try {
 				IEditorInput input = editor.getEditorInput();
 				if (!(input instanceof IFileEditorInput)) {
-					continue;			
+					continue;
 				}
-				
+
 				IFileEditorInput fileInput = (IFileEditorInput) input;
 				IFile file = fileInput.getFile();
-				
-		        OpenApiFileType fileType = OpenAPIUtils.getFileType(file);
-		        if (fileType == OpenApiFileType.Unsupported) {
-		        	continue;
-		        }
-		        
-		        IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-		        dataService.addReportDocumentListener(file);
-		        
-				IParserService parserService = (IParserService) PlatformUI.getWorkbench().getService(IParserService.class);			
-				ParserData data = parserService.parse(EditorUtil.getDocument(fileInput).get(), fileType);
-		        OpenApiVersion version = data.getVersion();
-		        if (version == OpenApiVersion.Unknown) {
-		        	continue;
-		        }
 
-		        dataService.setFileProperty(file.getFullPath().toPortableString(), new FileProperty(fileType, version));
-		        dataService.setParserData(file.getFullPath().toPortableString(), data);
-		        dataService.addTreeDocumentListener(EditorUtil.getDocument(fileInput));
-			} 
-			catch (PartInitException e) {
+				OpenApiFileType fileType = OpenAPIUtils.getFileType(file);
+				if (fileType == OpenApiFileType.Unsupported) {
+					continue;
+				}
+
+				IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
+				dataService.addReportDocumentListener(new VirtualFile(file));
+
+				IParserService parserService = PlatformUI.getWorkbench().getService(IParserService.class);
+				ParserData data = parserService.parse(EditorUtil.getDocument(fileInput).get(), fileType);
+				OpenApiVersion version = data.getVersion();
+				if (version == OpenApiVersion.Unknown) {
+					continue;
+				}
+
+				dataService.setFileProperty(file.getFullPath().toPortableString(), new FileProperty(fileType, version));
+				dataService.setParserData(file.getFullPath().toPortableString(), data);
+				dataService.addTreeDocumentListener(new VirtualFile(file));
+			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		ITextEditor editor = (ITextEditor) EditorUtil.getCurrentEditor();
 		if (editor == null) {
 			return;
 		}
 		IEditorInput input = editor.getEditorInput();
 		if (!(input instanceof IFileEditorInput)) {
-			return;			
+			return;
 		}
 		IFileEditorInput fileInput = (IFileEditorInput) input;
 		IFile file = fileInput.getFile();
-		handleSelectedFile(file);	
+		handleSelectedFile(new VirtualFile(file));
 	}
 
 	@Override
 	public void handleDocumentChanged(IFile file) {
-		IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-	    ParserData data = dataService.getParserData(file.getFullPath().toPortableString());
-	    setTreeBackGround(data.isValid(), data.getExceptionMessage());
-	    if (data.isValid()) {
-	    	mouseMotionListener.cleanPaths();
-	    	viewer.setInput(data.getRoot());
-	    	expansionListener.expand(file);
-	    }
+		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
+		ParserData data = dataService.getParserData(file.getFullPath().toPortableString());
+		setTreeBackGround(data.isValid(), data.getExceptionMessage());
+		if (data.isValid()) {
+			mouseMotionListener.cleanPaths();
+			viewer.setInput(data.getRoot());
+			expansionListener.expand(new VirtualFile(file));
+		}
 	}
 
 	@Override
@@ -246,40 +242,37 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 
 	@Override
 	public void menuAboutToShow(IMenuManager menu) {
-        fActionSet.setContext(new ActionContext(viewer.getSelection()));
-        fActionSet.fillContextMenu(menu);
-        fActionSet.setContext(null);	
+		fActionSet.setContext(new ActionContext(viewer.getSelection()));
+		fActionSet.fillContextMenu(menu);
+		fActionSet.setContext(null);
 	}
-	
+
 	@Override
 	public void handleLAFUpdate(boolean isDarkTheme) {
 		rgbErrorForegraund = isDarkTheme ? RGB_ERROR_FOREGRAUND_DARCULA : RGB_ERROR_FOREGRAUND;
 		rgbErrorBackground = isDarkTheme ? RGB_ERROR_BACKGROUND_DARCULA : RGB_ERROR_BACKGROUND;
 		if (!isValid) {
-	    	viewer.getTree().setBackground(new Color(getSite().getShell().getDisplay(), rgbErrorBackground));
-	    	viewer.getTree().setForeground(new Color(getSite().getShell().getDisplay(), rgbErrorForegraund));
+			viewer.getTree().setBackground(new Color(getSite().getShell().getDisplay(), rgbErrorBackground));
+			viewer.getTree().setForeground(new Color(getSite().getShell().getDisplay(), rgbErrorForegraund));
 		}
 	}
-	
+
 	private void setNoOpenAPITreeBackGround() {
 	}
-	
+
 	private void setTreeBackGround(boolean valid, String exceptionMessage) {
 		if (valid) {
-	    	isValid = true;
-	    	viewer.getTree().setToolTipText(null);
-	    	viewer.getTree().setBackground(null);
-	    	viewer.getTree().setForeground(null);
-	    	lafListener.refresh();
-	    	eventBroker.send(SecurityAuditAction.TOPIC_OPENAPI_VALIDATION_CHANGED, true);
-	    }
-	    else {
-	    	isValid = false;
-	    	String text = OpenApiBundle.message("openapi.tree.invalid.empty.text");
-	    	viewer.getTree().setToolTipText(text + " " + exceptionMessage);
-	    	viewer.getTree().setBackground(new Color(getSite().getShell().getDisplay(), rgbErrorBackground));
-	    	viewer.getTree().setForeground(new Color(getSite().getShell().getDisplay(), rgbErrorForegraund));
-	    	eventBroker.send(SecurityAuditAction.TOPIC_OPENAPI_VALIDATION_CHANGED, false);
-	    }
+			isValid = true;
+			viewer.getTree().setToolTipText(null);
+			viewer.getTree().setBackground(null);
+			viewer.getTree().setForeground(null);
+			lafListener.refresh();
+		} else {
+			isValid = false;
+			String text = OpenApiBundle.message("openapi.tree.invalid.empty.text");
+			viewer.getTree().setToolTipText(text + " " + exceptionMessage);
+			viewer.getTree().setBackground(new Color(getSite().getShell().getDisplay(), rgbErrorBackground));
+			viewer.getTree().setForeground(new Color(getSite().getShell().getDisplay(), rgbErrorForegraund));
+		}
 	}
 }

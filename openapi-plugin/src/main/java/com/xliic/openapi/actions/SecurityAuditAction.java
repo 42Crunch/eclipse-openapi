@@ -2,47 +2,40 @@ package com.xliic.openapi.actions;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.text.ITextSelection;
-import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
-import org.osgi.service.event.EventHandler;
 
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.OpenAPIBundler;
 import com.xliic.openapi.bundler.ReferenceResolutionException;
 import com.xliic.openapi.callback.AuditActionCallback;
+import com.xliic.idea.DumbAware;
+import com.xliic.idea.action.AnAction;
+import com.xliic.idea.action.AnActionEvent;
+import com.xliic.idea.file.VirtualFile;
+import com.xliic.idea.project.Project;
+import com.xliic.openapi.services.DataService;
 import com.xliic.openapi.services.IAuditService;
 import com.xliic.openapi.settings.AuditConfigEmailDialogWrapper;
 import com.xliic.openapi.settings.AuditKeys;
 import com.xliic.openapi.utils.OpenAPIUtils;
 
-public class SecurityAuditAction implements IWorkbenchWindowActionDelegate {
-	
-	public static final String TOPIC_OPENAPI_VALIDATION_CHANGED = "TOPIC_OPENAPI_VALIDATION_CHANGED";
-	
-	private IWorkbenchWindow window;
-	private IEventBroker eventBroker;
-	private IAction action;
-	private EventHandler eventHandler;
-	
-	public SecurityAuditAction() {
-		action = null;
-	}
+public class SecurityAuditAction extends AnAction implements DumbAware {
 
 	@Override
-	public void run(IAction action) {
+	public void actionPerformed(AnActionEvent event) {
 		
 		IFile file = OpenAPIUtils.getSelectedOpenAPIFile();
         if (file == null) {
             return;
         }
+		IWorkbench workbench = PlatformUI.getWorkbench();
+        IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		
         IPreferenceStore store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
         String token = store.getString(AuditKeys.TOKEN);
@@ -69,32 +62,18 @@ public class SecurityAuditAction implements IWorkbenchWindowActionDelegate {
 	}
 
 	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
-		
-		this.action = action;
-		if (selection instanceof ITextSelection) {
-			IFile file = OpenAPIUtils.getSelectedOpenAPIFile();
-			action.setEnabled(file != null);
-		}
-		else {
-			action.setEnabled(false);	
-		}
-	}
-
-	@Override
-	public void dispose() {
-		eventBroker.unsubscribe(eventHandler);
-	}
-
-	@Override
-	public void init(IWorkbenchWindow window) {
-		this.window = window;
-		eventBroker = window.getWorkbench().getService(IEventBroker.class);
-		eventHandler = event -> {
-			if (action != null) {
-				action.setEnabled((boolean) event.getProperty(IEventBroker.DATA));				
-			}
-		}; 
-		eventBroker.subscribe(TOPIC_OPENAPI_VALIDATION_CHANGED, eventHandler);
+	public void update(AnActionEvent event) {
+        Project project = event.getProject();
+        if (project == null) {
+            event.getPresentation().setEnabled(false);
+            return;
+        }
+        DataService dataService = DataService.getInstance(project);
+        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        if (file == null || !dataService.getParserData(file.getPath()).isValid()) {
+            event.getPresentation().setEnabled(false);
+            return;
+        }
+        event.getPresentation().setEnabled(true);
 	}
 }

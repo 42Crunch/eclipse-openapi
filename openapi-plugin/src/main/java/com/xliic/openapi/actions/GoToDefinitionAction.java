@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.commands.AbstractHandler;

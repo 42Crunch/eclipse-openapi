@@ -2,7 +2,7 @@ package com.xliic.openapi.services;
 
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.parser.pointer.Location;
