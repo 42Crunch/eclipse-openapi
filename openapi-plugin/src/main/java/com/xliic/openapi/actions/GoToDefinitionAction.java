@@ -30,6 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.parser.pointer.Location;
 import com.xliic.openapi.services.IDataService;
 import com.xliic.openapi.services.IParserService;
@@ -113,7 +114,7 @@ public class GoToDefinitionAction extends AbstractHandler {
 			      if (StringUtils.isEmpty(refFileName)) {
 			        // Internal reference
 			    	  IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-			    	  DefaultMutableTreeNode node = dataService.getParserData(file.getFullPath().toPortableString()).getPointerToNodesMap().get(key);
+			    	  DefaultMutableTreeNode node = dataService.getParserData(new VirtualFile(file).getPath()).getPointerToNodesMap().get(key);
 			    	  if (node == null) {
 			    		  showRefNotFoundPopup(title, editor.getSite().getShell());
 			    		  return null;

@@ -1,4 +1,4 @@
-package  com.xliic.openapi.report.tree.ui;
+package com.xliic.openapi.report.tree.ui;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -14,7 +14,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -57,8 +56,9 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 
 	public static final String ID = "com.xliic.openapi.report.tree.ui.ReportPanelView";
 
-	@Inject IWorkbench workbench;
-	
+	@Inject
+	IWorkbench workbench;
+
 	private TreeViewer viewer;
 	private Action filterShowInfoAction;
 	private Action filterShowWarningsAction;
@@ -66,18 +66,18 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 	private Action filterShowForSelectedFileAction;
 	private Action filterFilterResetAction;
 	private Action filterShowFilterAction;
-	
-    private ReportTreeContentProvider contentProvider;
-    private StyledCellLabelProvider labelProvider;
-    
-    private ReportTreeSelectionChangedListener listener;
-    private ReportTreeExpansionListener expansionListener;
-	
-    private final Map<String, DefaultMutableTreeNode> fileNameToTreeNodeMap = new HashMap<>();
-    private final Map<Issue, DefaultMutableTreeNode> issueToTreeNodeMap = new HashMap<>();
-    private static final Set<IFile> currentFiles = new HashSet<>();
-	  
-    private FilterState filterState;
+
+	private ReportTreeContentProvider contentProvider;
+	private StyledCellLabelProvider labelProvider;
+
+	private ReportTreeSelectionChangedListener listener;
+	private ReportTreeExpansionListener expansionListener;
+
+	private final Map<String, DefaultMutableTreeNode> fileNameToTreeNodeMap = new HashMap<>();
+	private final Map<Issue, DefaultMutableTreeNode> issueToTreeNodeMap = new HashMap<>();
+	private static final Set<VirtualFile> currentFiles = new HashSet<>();
+
+	private FilterState filterState;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -86,11 +86,11 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 		contentProvider = new ReportTreeContentProvider(this);
 		viewer.setContentProvider(contentProvider);
 		viewer.setInput(new DefaultMutableTreeNode());
-		
-		labelProvider = new DecoratingStyledCellLabelProvider(new ReportTreeLabelProvider(workbench, contentProvider), 
+
+		labelProvider = new DecoratingStyledCellLabelProvider(new ReportTreeLabelProvider(workbench, contentProvider),
 				workbench.getDecoratorManager().getLabelDecorator(), DecorationContext.DEFAULT_CONTEXT);
 		viewer.setLabelProvider(labelProvider);
-		
+
 		this.listener = new ReportTreeSelectionChangedListener();
 		this.expansionListener = new ReportTreeExpansionListener(workbench, viewer);
 		viewer.addSelectionChangedListener(listener);
@@ -114,8 +114,8 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 		manager.add(filterShowFilterAction);
 		manager.add(filterFilterResetAction);
 	}
-	
-	private void fillLocalToolBar(IToolBarManager manager) {	
+
+	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(filterShowInfoAction);
 		manager.add(filterShowWarningsAction);
 		manager.add(filterShowErrorAction);
@@ -157,142 +157,140 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 	public void reloadAndRestoreExpansion() {
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) viewer.getInput();
 		viewer.setInput(root);
-	    expansionListener.expand(fileNameToTreeNodeMap.values());
+		expansionListener.expand(fileNameToTreeNodeMap.values());
 	}
 
 	@Override
 	public void handleAllFilesClosed() {
 		currentFiles.clear();
-	    expansionListener.clear();
-	    cleanTree();
+		expansionListener.clear();
+		cleanTree();
 	}
 
 	@Override
 	public void handleClosedFile(VirtualFile file) {
-		IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-	    if (!dataService.hasAuditReport(file.getPath())) {
-	      return;
-	    }
-	    Audit auditReport = dataService.getAuditReport(file.getPath());
-	    removeIssues(auditReport.getIssues());
-	    currentFiles.remove(file.getIFile());
+		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
+		if (!dataService.hasAuditReport(file.getPath())) {
+			return;
+		}
+		Audit auditReport = dataService.getAuditReport(file.getPath());
+		removeIssues(auditReport.getIssues());
+		currentFiles.remove(file);
 	}
 
 	@Override
 	public void handleSelectedFile(VirtualFile file) {
-	    if (filterState.isShowSelectedFileOnly()) {
-	    	reloadAndRestoreExpansion();
-	    }
-	    String fileName = file.getAbsoluteFullFilePath();
-	    if (!fileNameToTreeNodeMap.containsKey(fileName)) {
-	        return;
-	    }
-	    goToFileTreeNode(fileNameToTreeNodeMap.get(fileName));
+		if (filterState.isShowSelectedFileOnly()) {
+			reloadAndRestoreExpansion();
+		}
+		String fileName = file.getPath();
+		if (!fileNameToTreeNodeMap.containsKey(fileName)) {
+			return;
+		}
+		goToFileTreeNode(fileNameToTreeNodeMap.get(fileName));
 	}
 
 	@Override
-	public void handleAuditReportReady(IFile file) {
+	public void handleAuditReportReady(VirtualFile file) {
 
-	  WorkbenchUtils.showView2(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
-	  IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-      Audit data = dataService.getAuditReport(file.getFullPath().toPortableString());
-      addIssues(data.getIssues());
-      currentFiles.add(file);
+		WorkbenchUtils.showView2(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
+		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
+		Audit data = dataService.getAuditReport(file.getPath());
+		addIssues(data.getIssues());
+		currentFiles.add(file);
 
-      // Navigate to the report tree node
-      if (fileNameToTreeNodeMap.containsKey(data.getAuditFileName())) {
-        goToFileTreeNode(fileNameToTreeNodeMap.get(data.getAuditFileName()));
-      }
-      else {
-        for (String fileName : data.getParticipantFileNames()) {
-          if (fileNameToTreeNodeMap.containsKey(fileName)) {
-            goToFileTreeNode(fileNameToTreeNodeMap.get(fileName));
-            break;
-          }
-        }
-      }
+		// Navigate to the report tree node
+		if (fileNameToTreeNodeMap.containsKey(data.getAuditFileName())) {
+			goToFileTreeNode(fileNameToTreeNodeMap.get(data.getAuditFileName()));
+		} else {
+			for (String fileName : data.getParticipantFileNames()) {
+				if (fileNameToTreeNodeMap.containsKey(fileName)) {
+					goToFileTreeNode(fileNameToTreeNodeMap.get(fileName));
+					break;
+				}
+			}
+		}
 	}
-	
+
 	private void cleanTree() {
-	    fileNameToTreeNodeMap.clear();
-	    issueToTreeNodeMap.clear();
-	    viewer.setInput(new DefaultMutableTreeNode());
+		fileNameToTreeNodeMap.clear();
+		issueToTreeNodeMap.clear();
+		viewer.setInput(new DefaultMutableTreeNode());
 	}
-	
-	  private void addIssues(List<Issue> issues) {
 
-		    if (issues.isEmpty()) {
-		      return;
-		    }
+	private void addIssues(List<Issue> issues) {
 
-		    DefaultMutableTreeNode root = (DefaultMutableTreeNode) viewer.getInput();
+		if (issues.isEmpty()) {
+			return;
+		}
 
-		    for (Issue issue : issues) {
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) viewer.getInput();
 
-		      String fileName = issue.getFileName();
-		      ReportIssueObject io = new ReportIssueObject(issue);
-		      DefaultMutableTreeNode child = new DefaultMutableTreeNode(io);
+		for (Issue issue : issues) {
 
-		      if (fileNameToTreeNodeMap.containsKey(fileName)) {
-		        DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(fileName);
-		        node.add(child);
-		        issueToTreeNodeMap.put(issue, child);
-		        expansionListener.addNodeExpandedState(node);
-		      }
-		      else {
-		        ReportFileObject fo = new ReportFileObject(fileName, issue.getFile());
-		        DefaultMutableTreeNode node = new DefaultMutableTreeNode(fo);
-		        node.add(child);
-		        root.add(node);
-		        fileNameToTreeNodeMap.put(fileName, node);
-		        issueToTreeNodeMap.put(issue, child);
-		        expansionListener.addNodeExpandedState(node);
-		      }
-		    }
-		    for (String fileName : fileNameToTreeNodeMap.keySet()) {
-		      sortChildren(fileNameToTreeNodeMap.get(fileName));
-		    }
-		    reloadAndRestoreExpansion();
-		  }
-	  
-	  private void removeIssues(List<Issue> issues) {
-	    if (issues.isEmpty()) {
-	      return;
-	    }
-	    for (Issue issue : issues) {
-	      if (issueToTreeNodeMap.containsKey(issue)) {
-	        DefaultMutableTreeNode node = issueToTreeNodeMap.remove(issue);
-	        DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
-	        parent.remove(node);
-	      }
-	    }
-	    Iterator<String> iterator = fileNameToTreeNodeMap.keySet().iterator();
-	    while (iterator.hasNext()) {
-	      String fileName = iterator.next();
-	      DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(fileName);
-	      if (node.getChildCount() == 0) {
-	        DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
-	        parent.remove(node);
-	        expansionListener.clearNodeExpandedState(node);
-	        iterator.remove();
-	      }
-	    }
-	    reloadAndRestoreExpansion();
-	  }
-	  
-	  private void sortChildren(DefaultMutableTreeNode node) {
-		    Enumeration<TreeNode> children = node.children();
-		    List<TreeNode> list = Collections.list(children);
-		    list.sort(new ReportTreeNodeComparator());
-		    node.removeAllChildren();
-		    for (TreeNode o : list) {
-		      node.add((MutableTreeNode) o);
-		    }
-		  }
-	  
-	  private void goToFileTreeNode(TreeNode node) {
-		  viewer.setSelection(new TreeSelection(OpenAPIUtils.getTreePathFromTreeNode(node)));
-	  }
+			String fileName = issue.getFileName();
+			ReportIssueObject io = new ReportIssueObject(issue);
+			DefaultMutableTreeNode child = new DefaultMutableTreeNode(io);
+
+			if (fileNameToTreeNodeMap.containsKey(fileName)) {
+				DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(fileName);
+				node.add(child);
+				issueToTreeNodeMap.put(issue, child);
+				expansionListener.addNodeExpandedState(node);
+			} else {
+				ReportFileObject fo = new ReportFileObject(fileName, issue.getFile());
+				DefaultMutableTreeNode node = new DefaultMutableTreeNode(fo);
+				node.add(child);
+				root.add(node);
+				fileNameToTreeNodeMap.put(fileName, node);
+				issueToTreeNodeMap.put(issue, child);
+				expansionListener.addNodeExpandedState(node);
+			}
+		}
+		for (String fileName : fileNameToTreeNodeMap.keySet()) {
+			sortChildren(fileNameToTreeNodeMap.get(fileName));
+		}
+		reloadAndRestoreExpansion();
+	}
+
+	private void removeIssues(List<Issue> issues) {
+		if (issues.isEmpty()) {
+			return;
+		}
+		for (Issue issue : issues) {
+			if (issueToTreeNodeMap.containsKey(issue)) {
+				DefaultMutableTreeNode node = issueToTreeNodeMap.remove(issue);
+				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
+				parent.remove(node);
+			}
+		}
+		Iterator<String> iterator = fileNameToTreeNodeMap.keySet().iterator();
+		while (iterator.hasNext()) {
+			String fileName = iterator.next();
+			DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(fileName);
+			if (node.getChildCount() == 0) {
+				DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
+				parent.remove(node);
+				expansionListener.clearNodeExpandedState(node);
+				iterator.remove();
+			}
+		}
+		reloadAndRestoreExpansion();
+	}
+
+	private void sortChildren(DefaultMutableTreeNode node) {
+		Enumeration<TreeNode> children = node.children();
+		List<TreeNode> list = Collections.list(children);
+		list.sort(new ReportTreeNodeComparator());
+		node.removeAllChildren();
+		for (TreeNode o : list) {
+			node.add((MutableTreeNode) o);
+		}
+	}
+
+	private void goToFileTreeNode(TreeNode node) {
+		viewer.setSelection(new TreeSelection(OpenAPIUtils.getTreePathFromTreeNode(node)));
+	}
 
 	@Override
 	public void handleAuditReportClean(Audit auditReport) {
@@ -300,28 +298,32 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 	}
 
 	@Override
-	public void handleDocumentChanged(IFile file) {
-		IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-	    if (!dataService.isAuditParticipantFile(OpenAPIUtils.getAbsoluteFullFilePath(file))) {
-	      return;
-	    }
-	    if (!fileNameToTreeNodeMap.containsKey(OpenAPIUtils.getAbsoluteFullFilePath(file))) {
-	      return;
-	    }
-	    TreeNode node = fileNameToTreeNodeMap.get(OpenAPIUtils.getAbsoluteFullFilePath(file));
-	    viewer.refresh(node);
+	public void handleDocumentChanged(VirtualFile file) {
+		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
+		if (!dataService.isAuditParticipantFile(file.getPath())) {
+			return;
+		}
+		if (!fileNameToTreeNodeMap.containsKey(file.getPath())) {
+			return;
+		}
+		TreeNode node = fileNameToTreeNodeMap.get(file.getPath());
+		if (node.isLeaf()) {
+			reloadAndRestoreExpansion();
+		} else {
+			viewer.refresh(node);
+		}
 	}
 
 	@Override
 	public void handleToolWindowRegistered() {
 		boolean hide = true;
-		IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-		for (IFile file : currentFiles) {
-			  if (dataService.hasAuditReport(file.getFullPath().toPortableString())) {
-			      Audit data = dataService.getAuditReport(file.getFullPath().toPortableString());
-			      addIssues(data.getIssues());
-			      hide = false;
-			  }
+		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
+		for (VirtualFile file : currentFiles) {
+			if (dataService.hasAuditReport(file.getPath())) {
+				Audit data = dataService.getAuditReport(file.getPath());
+				addIssues(data.getIssues());
+				hide = false;
+			}
 		}
 		if (hide) {
 			WorkbenchUtils.hideView(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
@@ -329,32 +331,32 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 	}
 
 	@Override
-	public void handleFileNameChanged(IFile newFile, IFile oldFile) {
+	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
 
-		String oldKey = OpenAPIUtils.getAbsoluteFullFilePath(oldFile);	
-	    if (fileNameToTreeNodeMap.containsKey(oldKey)) {
-	    	String newKey = OpenAPIUtils.getAbsoluteFullFilePath(newFile);
-	        expansionListener.replace(newKey, oldKey);	        
-	        fileNameToTreeNodeMap.put(newKey, fileNameToTreeNodeMap.remove(oldKey));
-	        DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(newKey);	        
-	        ((ReportFileObject) node.getUserObject()).setFileWithFileName(newFile, newKey);
-	        viewer.refresh(node);
-	        expansionListener.expand(fileNameToTreeNodeMap.values());
-	      }
+		String oldKey = oldFileName;
+		if (fileNameToTreeNodeMap.containsKey(oldKey)) {
+			String newKey = newFile.getPath();
+			expansionListener.replace(newKey, oldKey);
+			fileNameToTreeNodeMap.put(newKey, fileNameToTreeNodeMap.remove(oldKey));
+			DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(newKey);
+			((ReportFileObject) node.getUserObject()).setFileWithFileName(newFile, newKey);
+			viewer.refresh(node);
+			expansionListener.expand(fileNameToTreeNodeMap.values());
+		}
 	}
-	
+
 	@Override
-    public void dispose() {
-    	super.dispose();
-        if (labelProvider != null) {
-            labelProvider.dispose();
-        }
-	    fileNameToTreeNodeMap.clear();
-	    issueToTreeNodeMap.clear();
-        filterState = null;       
-        viewer.removeSelectionChangedListener(listener);
-        viewer.removeTreeListener(expansionListener);
-    }
+	public void dispose() {
+		super.dispose();
+		if (labelProvider != null) {
+			labelProvider.dispose();
+		}
+		fileNameToTreeNodeMap.clear();
+		issueToTreeNodeMap.clear();
+		filterState = null;
+		viewer.removeSelectionChangedListener(listener);
+		viewer.removeTreeListener(expansionListener);
+	}
 
 	public static void handlePluginStop() {
 		currentFiles.clear();

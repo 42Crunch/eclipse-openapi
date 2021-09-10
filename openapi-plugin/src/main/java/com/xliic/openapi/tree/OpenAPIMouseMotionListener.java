@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
+import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.OpenApiPanelKeys;
 import com.xliic.openapi.services.IDataService;
 import com.xliic.openapi.utils.OpenAPIUtils;
@@ -41,7 +42,7 @@ public class OpenAPIMouseMotionListener implements MouseMoveListener {
             return;
         }
         IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-        if (dataService.hasParserData(file.getFullPath().toPortableString()) && dataService.getParserData(file.getFullPath().toPortableString()).isValid()) {
+        if (dataService.hasParserData(new VirtualFile(file).getPath()) && dataService.getParserData(new VirtualFile(file).getPath()).isValid()) {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getData();
             OpenApiTreeNode o = (OpenApiTreeNode) node.getUserObject();
             if (o.isPanel() || OpenApiPanelKeys.PATHS.equals(o.getParentKey())) {
