@@ -1,5 +1,7 @@
 package com.xliic.openapi.tree.ui;
 
+import static com.xliic.openapi.OpenApiUtils.getToolWindowComponent;
+
 import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
@@ -28,12 +30,15 @@ import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.jetbrains.annotations.NotNull;
 
 import com.xliic.idea.file.VirtualFile;
+import com.xliic.idea.project.Project;
 import com.xliic.openapi.FileProperty;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
+import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.IDataService;
 import com.xliic.openapi.services.IParserService;
@@ -82,6 +87,10 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 	public OpenAPITreeView() {
 		this.listener = new OpenAPITreeSelectionChangedListener();
 		isValid = true;
+	}
+
+	public static PanelManager getInstance(@NotNull Project project) {
+		return (PanelManager) getToolWindowComponent(project, ToolWindowId.OPEN_API);
 	}
 
 	private DecoratingStyledCellLabelProvider createLabelProvider() {
@@ -202,8 +211,8 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 					continue;
 				}
 
-				dataService.setFileProperty(file.getFullPath().toPortableString(), new FileProperty(fileType, version));
-				dataService.setParserData(file.getFullPath().toPortableString(), data);
+				dataService.setFileProperty(new VirtualFile(file).getPath(), new FileProperty(fileType, version));
+				dataService.setParserData(new VirtualFile(file).getPath(), data);
 				dataService.addTreeDocumentListener(new VirtualFile(file));
 			} catch (PartInitException e) {
 				e.printStackTrace();
@@ -224,20 +233,20 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 	}
 
 	@Override
-	public void handleDocumentChanged(IFile file) {
+	public void handleDocumentChanged(VirtualFile file) {
 		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		ParserData data = dataService.getParserData(file.getFullPath().toPortableString());
+		ParserData data = dataService.getParserData(file.getPath());
 		setTreeBackGround(data.isValid(), data.getExceptionMessage());
 		if (data.isValid()) {
 			mouseMotionListener.cleanPaths();
 			viewer.setInput(data.getRoot());
-			expansionListener.expand(new VirtualFile(file));
+			expansionListener.expand(file);
 		}
 	}
 
 	@Override
-	public void handleFileNameChanged(IFile newFile, IFile oldFile) {
-		expansionListener.replace(newFile.getFullPath().toPortableString(), oldFile.getFullPath().toPortableString());
+	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
+		expansionListener.replace(newFile.getPath(), oldFileName);
 	}
 
 	@Override

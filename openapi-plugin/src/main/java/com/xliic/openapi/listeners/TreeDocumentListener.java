@@ -1,53 +1,64 @@
 package com.xliic.openapi.listeners;
 
-import java.util.Optional;
+import static com.xliic.openapi.OpenApiUtils.getFileType;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.PlatformUI;
+import org.jetbrains.annotations.NotNull;
 
+import com.xliic.idea.ApplicationManager;
+import com.xliic.idea.FileDocumentManager;
 import com.xliic.idea.document.Document;
 import com.xliic.idea.document.DocumentEvent;
 import com.xliic.idea.document.DocumentListener;
+import com.xliic.idea.file.VirtualFile;
+import com.xliic.idea.project.Project;
+import com.xliic.openapi.FileProperty;
+import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.parser.tree.ParserData;
-import com.xliic.openapi.services.IDataService;
-import com.xliic.openapi.services.IParserService;
+import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.ParserService;
 import com.xliic.openapi.tree.PanelManager;
-import com.xliic.openapi.tree.ui.OpenAPITreeView;
-import com.xliic.openapi.utils.OpenAPIUtils;
-import com.xliic.openapi.utils.WorkbenchUtils;
+import com.xliic.openapi.tree.ui.OpenApiTreePanel;
 
 public class TreeDocumentListener extends DocumentListener {
 
-    public TreeDocumentListener() {}
+	private final Project project;
+
+	public TreeDocumentListener(@NotNull Project project) {
+		this.project = project;
+	}
 
 	@Override
-	public void beforeDocumentChange(DocumentEvent event) {}
+	public void beforeDocumentChange(DocumentEvent event) {
+	}
 
 	@Override
 	public void documentChanged(DocumentEvent event) {
 
-        IFile file = OpenAPIUtils.getSelectedOpenAPIFile();
-        if (file == null) {
-            return;
-        }
-      
-        IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);       
-		IParserService parserService = (IParserService) PlatformUI.getWorkbench().getService(IParserService.class);
-        Document document = event.getDocument();
+		PanelManager manager = OpenApiTreePanel.getInstance(project);
+		if (manager == null) {
+			return;
+		}
+		Document document = event.getDocument();
+		VirtualFile file = FileDocumentManager.getInstance().getFile(document);
+		if (file == null) {
+			return;
+		}
+		DataService dataService = DataService.getInstance(project);
+		ParserService parserService = ParserService.getInstance(project);
+		OpenApiFileType fileType = getFileType(file);
+		String text = document.getText();
 
-        ParserData data = parserService.parse(document.getText(), OpenAPIUtils.getFileType(file));
-        if (data.isValid()) {
-            dataService.setParserData(file.getFullPath().toPortableString(), data);
-        }
-        else {
-            dataService.getParserData(file.getFullPath().toPortableString()).invalidate(data.getExceptionMessage());
-        }
-        
-        Optional<IViewPart> o = WorkbenchUtils.findView(OpenAPITreeView.ID);
-		if (o.isPresent()) {
-			PanelManager manager = (PanelManager) o.get();
+		ApplicationManager.getApplication().invokeLater(() -> {
+			ParserData data = parserService.parse(text, fileType);
+			if (dataService.getFileProperty(file.getPath()).getVersion() != data.getVersion()) {
+				dataService.setFileProperty(file.getPath(), new FileProperty(fileType, data.getVersion()));
+			}
+			if (data.isValid()) {
+				dataService.setParserData(file.getPath(), data);
+			} else {
+				dataService.getParserData(file.getPath()).invalidate(data.getExceptionMessage());
+			}
 			manager.handleDocumentChanged(file);
-        }
+		});
 	}
 }

@@ -41,7 +41,7 @@ public class OpenAPITreeExpansionListener implements ITreeViewerListener {
             return;
         }
         String pointer = ((OpenApiTreeNode) (((DefaultMutableTreeNode) obj).getUserObject())).getPointer();
-        expandedPointers.get(file.getFullPath().toPortableString()).add(pointer);
+        expandedPointers.get(new VirtualFile(file).getPath()).add(pointer);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class OpenAPITreeExpansionListener implements ITreeViewerListener {
             return;
         }
         String pointer = ((OpenApiTreeNode) (((DefaultMutableTreeNode) obj).getUserObject())).getPointer();
-        expandedPointers.get(file.getFullPath().toPortableString()).remove(pointer);
+        expandedPointers.get(new VirtualFile(file).getPath()).remove(pointer);
     }
 
     public void expand(VirtualFile file) {
@@ -100,9 +100,9 @@ public class OpenAPITreeExpansionListener implements ITreeViewerListener {
             return;
         }
         IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-        ParserData data = dataService.getParserData(file.getFullPath().toPortableString());
+        ParserData data = dataService.getParserData(new VirtualFile(file).getPath());
         Map<String, DefaultMutableTreeNode> pointerToNodesMap = data.getPointerToNodesMap();
-        for (String pointerToExpand : expandedPointers.get(file.getFullPath().toPortableString())) {
+        for (String pointerToExpand : expandedPointers.get(new VirtualFile(file).getPath())) {
             DefaultMutableTreeNode node = pointerToNodesMap.get(pointerToExpand);
             if (node != null) {
                 viewer.expandToLevel(node, 1);

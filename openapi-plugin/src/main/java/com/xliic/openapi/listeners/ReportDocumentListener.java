@@ -2,74 +2,68 @@ package com.xliic.openapi.listeners;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.PlatformUI;
+import org.jetbrains.annotations.NotNull;
 
+import com.xliic.idea.ApplicationManager;
+import com.xliic.idea.FileDocumentManager;
 import com.xliic.idea.document.Document;
 import com.xliic.idea.document.DocumentEvent;
 import com.xliic.idea.document.DocumentListener;
+import com.xliic.idea.file.VirtualFile;
+import com.xliic.idea.project.Project;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.pointer.Location;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.html.HTMLReportManager;
-import com.xliic.openapi.report.html.ui.HTMLReportPanelView;
+import com.xliic.openapi.report.html.ui.HTMLReportPanel;
 import com.xliic.openapi.report.tree.ReportManager;
-import com.xliic.openapi.report.tree.ui.ReportPanelView;
-import com.xliic.openapi.services.IDataService;
-import com.xliic.openapi.services.IParserService;
-import com.xliic.openapi.utils.OpenAPIUtils;
-import com.xliic.openapi.utils.WorkbenchUtils;
+import com.xliic.openapi.report.tree.ui.ReportPanel;
+import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.ParserService;
 
 public class ReportDocumentListener extends DocumentListener {
 
-    public ReportDocumentListener() {
-    }
+	private final Project project;
+
+	public ReportDocumentListener(@NotNull Project project) {
+		this.project = project;
+	}
 
 	@Override
-	public void beforeDocumentChange(DocumentEvent event) {}
+	public void beforeDocumentChange(@NotNull DocumentEvent event) {
+	}
 
 	@Override
-	public void documentChanged(DocumentEvent event) {
+	public void documentChanged(@NotNull DocumentEvent event) {
 
-        IFile file = OpenAPIUtils.getSelectedFile();
-        if (file == null) {
-            return;
-        }
+		Document document = event.getDocument();
+		VirtualFile file = FileDocumentManager.getInstance().getFile(document);
+		DataService dataService = DataService.getInstance(project);
+		ParserService parserService = ParserService.getInstance(project);
+		String text = document.getText();
 
-        IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);       
-		IParserService parserService = (IParserService) PlatformUI.getWorkbench().getService(IParserService.class);
-        Document document = event.getDocument();
-        String text = document.getText();
-        
-    	Display.getDefault().asyncExec(new Runnable() {
-    	    public void run() {
-                Map<String, Location> pointerToLocationMap =
-                        parserService.parsePointerToLocationMap(text, OpenAPIUtils.getFileType(file));
-                if (pointerToLocationMap.isEmpty()) {
-                    return;
-                }
-                List<Audit> reports = dataService.getAuditReportsForAuditParticipantFileName(OpenAPIUtils.getAbsoluteFullFilePath(file));
-                if (reports.isEmpty()) {
-                    return;
-                }
-                for (Audit audit : reports) {
-                    audit.updateLocation(OpenAPIUtils.getAbsoluteFullFilePath(file), pointerToLocationMap);
-                }
-                
-    			Optional<IViewPart> ro = WorkbenchUtils.findView2(ReportPanelView.ID);
-    			if (ro.isPresent()) {
-					ReportManager manager = (ReportManager) ro.get();
-					manager.handleDocumentChanged(file);
-    			}
-    			Optional<IViewPart> hro = WorkbenchUtils.findView2(HTMLReportPanelView.ID);
-    			if (hro.isPresent()) {
-    				HTMLReportManager manager = (HTMLReportManager) hro.get();
-					manager.handleDocumentChanged(file);
-    			}
-            }
-        });
-    }
+		ApplicationManager.getApplication().invokeLater(() -> {
+			Map<String, Location> pointerToLocationMap = parserService.parsePointerToLocationMap(text,
+					OpenApiUtils.getFileType(file));
+			if (pointerToLocationMap.isEmpty()) {
+				return;
+			}
+			List<Audit> reports = dataService.getAuditReportsForAuditParticipantFileName(file.getPath());
+			if (reports.isEmpty()) {
+				return;
+			}
+			for (Audit audit : reports) {
+				audit.updateLocation(file.getPath(), pointerToLocationMap);
+			}
+			ReportManager reportManager = ReportPanel.getInstance(project);
+			if (reportManager != null) {
+				reportManager.handleDocumentChanged(file);
+			}
+			HTMLReportManager htmlReportManager = HTMLReportPanel.getInstance(project);
+			if (htmlReportManager != null) {
+				htmlReportManager.handleDocumentChanged(file);
+			}
+		});
+	}
 }

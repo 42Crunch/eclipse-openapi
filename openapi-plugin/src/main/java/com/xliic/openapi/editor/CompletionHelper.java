@@ -14,6 +14,7 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.ui.PlatformUI;
 
+import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.OpenApiTargetMapping;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.tree.ParserData;
@@ -63,16 +64,16 @@ public class CompletionHelper {
             return EMPTY_ARRAY;
         }
         IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-        if (!dataService.hasFileProperty(file.getFullPath().toPortableString())) {
+        if (!dataService.hasFileProperty(new VirtualFile(file).getPath())) {
             return EMPTY_ARRAY;
         }
-        ParserData data = dataService.getParserData(file.getFullPath().toPortableString());
+        ParserData data = dataService.getParserData(new VirtualFile(file).getPath());
         Map<Integer, DefaultMutableTreeNode> lineToRefMap = data.getLineToRefMap();       
         if (!lineToRefMap.containsKey(line)) {
             return EMPTY_ARRAY;
         }
         
-        OpenApiVersion version = dataService.getFileProperty(file.getFullPath().toPortableString()).getVersion();
+        OpenApiVersion version = dataService.getFileProperty(new VirtualFile(file).getPath()).getVersion();
         DefaultMutableTreeNode node = lineToRefMap.get(line);
         Map<String, String> mapping = OpenApiTargetMapping.getTargetMapping(version);
 

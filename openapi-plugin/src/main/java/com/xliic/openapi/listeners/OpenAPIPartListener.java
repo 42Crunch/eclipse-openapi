@@ -15,6 +15,8 @@ import com.xliic.idea.editor.FileEditorManager;
 import com.xliic.idea.editor.FileEditorManagerEvent;
 import com.xliic.idea.file.VirtualFile;
 import com.xliic.idea.project.Project;
+import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.services.DataService;
 import com.xliic.openapi.settings.AuditKeys;
 import com.xliic.openapi.utils.EditorUtil;
 import com.xliic.openapi.utils.WorkbenchUtils;
@@ -24,13 +26,15 @@ public class OpenAPIPartListener implements IPartListener {
 	private IEditorInput prevInput = null;
 	private boolean forceActivation = true;
 	private IPreferenceStore store;
+	private final Project project;
 
 	private final OpenApiFileEditorManagerListener fileEditorManagerListener;
 	private final OpenAPIFileEditorManagerBeforeListener fileEditorManagerBeforeListener;
 
 	public OpenAPIPartListener(IPreferenceStore store) {
 		this.store = store;
-		fileEditorManagerListener = new OpenApiFileEditorManagerListener(new Project());
+		this.project = new Project();
+		fileEditorManagerListener = new OpenApiFileEditorManagerListener(project);
 		fileEditorManagerBeforeListener = new OpenAPIFileEditorManagerBeforeListener();
 	}
 
@@ -97,6 +101,7 @@ public class OpenAPIPartListener implements IPartListener {
 				IFileEditorInput fileInput = (IFileEditorInput) input;
 				IFile file = fileInput.getFile();
 				if (file != null) {
+					beforeFileClosed(new VirtualFile(file));
 					fileEditorManagerBeforeListener.beforeFileClosed(FileEditorManager.getInstance(null),
 							new VirtualFile(file));
 					fileEditorManagerListener.fileClosed(FileEditorManager.getInstance(null), new VirtualFile(file));
@@ -106,6 +111,15 @@ public class OpenAPIPartListener implements IPartListener {
 					fileEditorManagerListener.selectionChanged(new FileEditorManagerEvent(null));
 				}
 			}
+		}
+	}
+
+	private void beforeFileClosed(VirtualFile file) {
+		// Eclipse markers need to be cleared from the code
+		DataService dataService = DataService.getInstance(project);
+		Audit report = dataService.removeAuditReport(file.getPath());
+		if (report != null) {
+			report.clean();
 		}
 	}
 
