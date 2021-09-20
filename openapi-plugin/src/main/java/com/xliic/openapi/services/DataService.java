@@ -25,6 +25,7 @@ import com.xliic.openapi.report.Issue;
 
 public class DataService implements IDataService, IDisposable {
 
+	private final Project project;
 	private final TreeDocumentListener treeListener;
 	private final ReportDocumentListener reportListener;
 
@@ -32,9 +33,10 @@ public class DataService implements IDataService, IDisposable {
 	private Map<String, ParserData> parserDataContext = new HashMap<>();
 	private Map<String, FileProperty> fileContext = new HashMap<>();
 
-	public DataService() {
-		treeListener = new TreeDocumentListener(new Project());
-		reportListener = new ReportDocumentListener(new Project());
+	public DataService(@NotNull Project project) {
+		this.project = project;
+		treeListener = new TreeDocumentListener(project);
+		reportListener = new ReportDocumentListener(project);
 	}
 
 	public static DataService getInstance(Project project) {
@@ -61,7 +63,7 @@ public class DataService implements IDataService, IDisposable {
 	public void addReportDocumentListener(@NotNull VirtualFile file) {
 		if (hasAuditReport(file.getPath())) {
 			Set<String> participantFileNames = getAuditReport(file.getPath()).getParticipantFileNames();
-			for (VirtualFile openedFile : FileEditorManager.getInstance(new Project()).getOpenFiles()) {
+			for (VirtualFile openedFile : FileEditorManager.getInstance(project).getOpenFiles()) {
 				if (participantFileNames.contains(openedFile.getPath())) {
 					Document document = FileDocumentManager.getInstance().getDocument(openedFile);
 					if (document != null) {
@@ -83,7 +85,7 @@ public class DataService implements IDataService, IDisposable {
 	public void removeReportDocumentListener(@NotNull VirtualFile file) {
 		if (hasAuditReport(file.getPath())) {
 			Set<String> participantFileNames = getAuditReport(file.getPath()).getParticipantFileNames();
-			for (VirtualFile openedFile : FileEditorManager.getInstance(new Project()).getOpenFiles()) {
+			for (VirtualFile openedFile : FileEditorManager.getInstance(project).getOpenFiles()) {
 				if (participantFileNames.contains(openedFile.getPath())) {
 					Document document = FileDocumentManager.getInstance().getDocument(openedFile);
 					if (document != null) {

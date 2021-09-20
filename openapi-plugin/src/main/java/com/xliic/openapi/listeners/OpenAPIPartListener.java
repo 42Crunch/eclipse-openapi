@@ -10,13 +10,14 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.jetbrains.annotations.NotNull;
 
+import com.xliic.idea.codeHighlighting.HighlightingManager;
 import com.xliic.idea.editor.FileEditorManager;
 import com.xliic.idea.editor.FileEditorManagerEvent;
 import com.xliic.idea.file.VirtualFile;
 import com.xliic.idea.project.Project;
-import com.xliic.openapi.report.Audit;
-import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.settings.AuditKeys;
 import com.xliic.openapi.utils.EditorUtil;
 import com.xliic.openapi.utils.WorkbenchUtils;
@@ -28,12 +29,14 @@ public class OpenAPIPartListener implements IPartListener {
 	private IPreferenceStore store;
 	private final Project project;
 
+	private final HighlightingManager manager;
 	private final OpenApiFileEditorManagerListener fileEditorManagerListener;
 	private final OpenAPIFileEditorManagerBeforeListener fileEditorManagerBeforeListener;
 
-	public OpenAPIPartListener(IPreferenceStore store) {
-		this.store = store;
-		this.project = new Project();
+	public OpenAPIPartListener(@NotNull Project project) {
+		this.project = project;
+		manager = HighlightingManager.getInstance(project);
+		store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
 		fileEditorManagerListener = new OpenApiFileEditorManagerListener(project);
 		fileEditorManagerBeforeListener = new OpenAPIFileEditorManagerBeforeListener();
 	}
@@ -46,9 +49,9 @@ public class OpenAPIPartListener implements IPartListener {
 				IFileEditorInput fileInput = (IFileEditorInput) input;
 				IFile file = fileInput.getFile();
 				if (file != null) {
-					fileEditorManagerBeforeListener.beforeFileOpened(FileEditorManager.getInstance(null),
+					fileEditorManagerBeforeListener.beforeFileOpened(FileEditorManager.getInstance(project),
 							new VirtualFile(file));
-					fileEditorManagerListener.fileOpened(FileEditorManager.getInstance(null), new VirtualFile(file));
+					fileEditorManagerListener.fileOpened(FileEditorManager.getInstance(project), new VirtualFile(file));
 					// When eclipse is started there may be a case where file is opened, but not
 					// activated (selected)
 					// To fix that we call activate directly below
@@ -101,25 +104,16 @@ public class OpenAPIPartListener implements IPartListener {
 				IFileEditorInput fileInput = (IFileEditorInput) input;
 				IFile file = fileInput.getFile();
 				if (file != null) {
-					beforeFileClosed(new VirtualFile(file));
-					fileEditorManagerBeforeListener.beforeFileClosed(FileEditorManager.getInstance(null),
+					fileEditorManagerBeforeListener.beforeFileClosed(FileEditorManager.getInstance(project),
 							new VirtualFile(file));
-					fileEditorManagerListener.fileClosed(FileEditorManager.getInstance(null), new VirtualFile(file));
+					fileEditorManagerListener.fileClosed(FileEditorManager.getInstance(project), new VirtualFile(file));
+					manager.close(fileInput);
 				}
 				if (EditorUtil.getCurrentEditor() == null) {
 					prevInput = null;
 					fileEditorManagerListener.selectionChanged(new FileEditorManagerEvent(null));
 				}
 			}
-		}
-	}
-
-	private void beforeFileClosed(VirtualFile file) {
-		// Eclipse markers need to be cleared from the code
-		DataService dataService = DataService.getInstance(project);
-		Audit report = dataService.removeAuditReport(file.getPath());
-		if (report != null) {
-			report.clean();
 		}
 	}
 

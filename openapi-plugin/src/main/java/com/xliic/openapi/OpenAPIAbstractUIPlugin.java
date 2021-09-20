@@ -16,28 +16,36 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.xliic.idea.codeHighlighting.HighlightingManager;
 import com.xliic.idea.project.Project;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
-import com.xliic.openapi.report.tree.ui.ReportPanelView;
-import com.xliic.openapi.utils.WorkbenchUtils;
 
-// IStartup helps to activate plugin without user's interaction
 @SuppressWarnings("restriction")
 public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartup {
 
 	public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";
 
 	private static OpenAPIAbstractUIPlugin plugin;
+	private static Project project = new Project();
+
 	private IPartListener partListener;
-	private OpenAPIResourceChangeListener resourceChangeListener;
+	private OpenAPIResourceChangeListener resourceListener;
 	private OpenAPIStartupActivity startupActivity;
+	private HighlightingManager highlightingManager;
+
+	public OpenAPIAbstractUIPlugin() {
+		plugin = this;
+		startupActivity = new OpenAPIStartupActivity();
+		highlightingManager = HighlightingManager.getInstance(project);
+		partListener = new OpenAPIPartListener(project);
+		resourceListener = new OpenAPIResourceChangeListener();
+	}
 
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		plugin = this;
-		startupActivity = new OpenAPIStartupActivity();
-		startupActivity.runActivity(new Project());
+		startupActivity.runActivity(project);
+		highlightingManager.run();
 	}
 
 	@Override
@@ -48,27 +56,19 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 			public void run() {
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 				if (window != null) {
-
-					partListener = new OpenAPIPartListener(plugin.getPreferenceStore());
 					window.getPartService().addPartListener(partListener);
-
-					resourceChangeListener = new OpenAPIResourceChangeListener();
-					ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener,
+					ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceListener,
 							IResourceChangeEvent.POST_CHANGE);
-
 					IWorkbenchPage page = window.getActivePage();
-					if (page == null) {
-						return;
+					if (page != null) {
+						IEditorPart editor = page.getActiveEditor();
+						if (editor != null) {
+							IWorkbenchPart part = editor.getEditorSite().getPart();
+							if (part != null) {
+								partListener.partOpened(part);
+							}
+						}
 					}
-					IEditorPart editor = page.getActiveEditor();
-					if (editor == null) {
-						return;
-					}
-					IWorkbenchPart part = editor.getEditorSite().getPart();
-					if (part == null) {
-						return;
-					}
-					partListener.partOpened(part);
 				}
 				setPreference();
 			}
@@ -78,19 +78,33 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		try {
-			ReportPanelView.handlePluginStop();
-			if (WorkbenchUtils.getActiveWorkbenchWindow() != null) {
-				WorkbenchUtils.getActiveWorkbenchWindow().getPartService().removePartListener(partListener);
-			}
-			if (resourceChangeListener != null) {
-				ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
-				resourceChangeListener = null;
-			}
+			dispose();
+			removeListeners();
 			partListener = null;
+			resourceListener = null;
+			startupActivity = null;
+			highlightingManager = null;
 			plugin = null;
 		} finally {
 			super.stop(context);
 		}
+	}
+
+	private void dispose() {
+		project.dispose();
+		highlightingManager.dispose();
+	}
+
+	private void removeListeners() {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (window != null) {
+			window.getPartService().removePartListener(partListener);
+		}
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceListener);
+	}
+
+	public Project getProject() {
+		return project;
 	}
 
 	public static OpenAPIAbstractUIPlugin getInstance() {

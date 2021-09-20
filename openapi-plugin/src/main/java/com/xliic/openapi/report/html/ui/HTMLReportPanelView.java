@@ -32,6 +32,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
 import org.eclipse.ui.part.ViewPart;
 
+import com.xliic.idea.Disposable;
 import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.report.Audit;
@@ -45,7 +46,7 @@ import com.xliic.openapi.utils.OpenAPIUtils;
 import com.xliic.openapi.utils.WorkbenchUtils;
 
 @SuppressWarnings("restriction")
-public class HTMLReportPanelView extends ViewPart implements HTMLReportManager {
+public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, Disposable {
 
 	public static final String ID = "com.xliic.openapi.report.html.ui.HTMLReportPanelView";
 	public static final String HTML_GO_BACK_LINK = "#back";

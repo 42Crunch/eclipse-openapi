@@ -39,6 +39,10 @@ public class ReportDocumentListener extends DocumentListener {
 
 		Document document = event.getDocument();
 		VirtualFile file = FileDocumentManager.getInstance().getFile(document);
+		if (file == null) {
+			return;
+		}
+
 		DataService dataService = DataService.getInstance(project);
 		ParserService parserService = ParserService.getInstance(project);
 		String text = document.getText();

@@ -11,33 +11,56 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.xliic.idea.file.VirtualFile;
-import com.xliic.openapi.bundler.OpenAPIBundler;
+import com.xliic.idea.project.Project;
+import com.xliic.openapi.OpenApiFileType;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.pointer.Location;
+import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.services.ParserService;
 
 public class Audit {
 
 	private Summary summary;
 	private List<Issue> issues;
-	private final Map<String, List<Issue>> fileNameToIssuesMap = new HashMap<>();
+	private final Map<String, List<Issue>> fileNameToIssuesMap;
 	private String auditFileName;
+	private final Project project;
+	private Map<String, Map<String, Location>> fileToPointerToLocationMap;
 
-	public Audit(@NotNull OpenAPIBundler bundler, @NotNull JSONObject response) {
-		auditFileName = bundler.getAuditFileName();
-		read(bundler, response);
+	public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull JSONObject response) {
+
+		this.project = project;
+		this.auditFileName = auditFileName;
+
+		initFileToPointerToLocationMap();
+		read(response);
+
+		fileNameToIssuesMap = new HashMap<>();
 		for (Issue issue : issues) {
 			if (issue.getFileName() != null) {
 				if (!fileNameToIssuesMap.containsKey(issue.getFileName())) {
 					fileNameToIssuesMap.put(issue.getFileName(), new LinkedList<>());
 				}
 				fileNameToIssuesMap.get(issue.getFileName()).add(issue);
+			}
+		}
+	}
+
+	private void initFileToPointerToLocationMap() {
+		fileToPointerToLocationMap = new HashMap<>();
+		BundleService bundleService = BundleService.getInstance(project);
+		Set<String> files = bundleService.getBundle(auditFileName).getBundledFiles();
+		ParserService parserService = ParserService.getInstance(project);
+		for (String bundleFile : files) {
+			if (!fileToPointerToLocationMap.containsKey(bundleFile)) {
+				String text = OpenApiUtils.getTextFromFile(bundleFile);
+				OpenApiFileType fileType = OpenApiUtils.getFileType(bundleFile);
+				fileToPointerToLocationMap.put(bundleFile, parserService.parsePointerToLocationMap(text, fileType));
 			}
 		}
 	}
@@ -51,9 +74,8 @@ public class Audit {
 			auditFileName = newFileName;
 		}
 		if (fileNameToIssuesMap.containsKey(oldFileName)) {
-			List<IMarker> markers = getFileIssueMarkers(newFile);
 			for (Issue issue : fileNameToIssuesMap.get(oldFileName)) {
-				issue.handleFileNameChanged(newFile, oldFile, markers);
+				issue.handleFileNameChanged(newFile, oldFile);
 			}
 			fileNameToIssuesMap.put(newFileName, fileNameToIssuesMap.remove(oldFileName));
 		}
@@ -99,13 +121,7 @@ public class Audit {
 		return summary.getHTMLSummary();
 	}
 
-	public void clean() {
-		for (Issue issue : issues) {
-			issue.clean();
-		}
-	}
-
-	private void read(OpenAPIBundler bundler, JSONObject response) {
+	private void read(JSONObject response) {
 
 		Map<String, Object> report = getMap(response.toJsonMap(), "report");
 		assert report != null;
@@ -132,42 +148,40 @@ public class Audit {
 
 		if (report.containsKey("data")) {
 			Map<String, Object> data = getMap(report, "data");
-			issues.addAll(transformIssues(bundler, data, pointers, 5));
+			issues.addAll(transformIssues(data, pointers, 5));
 			Number value = (Number) getValue(data, "score");
 			dataGrade = new Grade((value == null) ? 0 : Math.round(value.floatValue()), 70);
 		}
 
 		if (report.containsKey("security")) {
 			Map<String, Object> security = getMap(report, "security");
-			issues.addAll(transformIssues(bundler, security, pointers, 5));
+			issues.addAll(transformIssues(security, pointers, 5));
 			Number value = (Number) getValue(security, "score");
 			securityGrade = new Grade((value == null) ? 0 : Math.round(value.floatValue()), 30);
 		}
 
 		if (report.containsKey("warnings")) {
 			Map<String, Object> warnings = getMap(report, "warnings");
-			issues.addAll(transformIssues(bundler, warnings, pointers, 1));
+			issues.addAll(transformIssues(warnings, pointers, 1));
 		}
 
 		if (report.containsKey("semanticErrors")) {
 			Map<String, Object> semanticErrors = getMap(report, "semanticErrors");
-			issues.addAll(transformIssues(bundler, semanticErrors, pointers, 5));
+			issues.addAll(transformIssues(semanticErrors, pointers, 5));
 			hasGradeErrors = true;
 		}
 
 		if (report.containsKey("validationErrors")) {
 			Map<String, Object> validationErrors = getMap(report, "validationErrors");
-			issues.addAll(transformIssues(bundler, validationErrors, pointers, 5));
+			issues.addAll(transformIssues(validationErrors, pointers, 5));
 			hasGradeErrors = true;
 		}
 
 		issues.sort(new IssueComparator());
 		summary = new Summary(hasGradeErrors, false, dataGrade, securityGrade);
-		createMarkers();
 	}
 
-	private List<Issue> transformIssues(OpenAPIBundler bundler, Map<String, Object> context, List<String> pointers,
-			int defaultCriticality) {
+	private List<Issue> transformIssues(Map<String, Object> context, List<String> pointers, int defaultCriticality) {
 
 		List<Issue> result = new LinkedList<>();
 		Map<String, Object> issues = getMap(context, "issues");
@@ -193,28 +207,9 @@ public class Audit {
 				int criticality = issue.containsKey("criticality") ? (Integer) getValue(issue, "criticality")
 						: defaultCriticality;
 
-				result.add(new Issue(bundler, id, description, pointer, score, criticality));
+				result.add(new Issue(project, auditFileName, id, description, pointer, score, criticality,
+						fileToPointerToLocationMap));
 			}
-		}
-
-		return result;
-	}
-
-	public void createMarkers() {
-		for (int i = 0; i < issues.size(); i++) {
-			issues.get(i).createMarker(i);
-		}
-	}
-
-	private List<IMarker> getFileIssueMarkers(IFile file) {
-		List<IMarker> result = new LinkedList<>();
-		try {
-			for (IMarker marker : file.findMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO)) {
-				if (Issue.isIssueMarker(marker)) {
-					result.add(marker);
-				}
-			}
-		} catch (CoreException e) {
 		}
 		return result;
 	}
