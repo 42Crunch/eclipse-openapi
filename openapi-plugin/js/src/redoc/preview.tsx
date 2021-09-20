@@ -5,12 +5,13 @@ import useWebSocket from 'react-use-websocket';
 export const Preview = () => {
 
   const urlParams = new URLSearchParams(window.location.search);
+  const project = urlParams.get('project');
   const filename = urlParams.get('filename');
   const renderer = urlParams.get('renderer');
   const port = window.location.port;
   
   const { sendMessage, lastMessage, readyState } = useWebSocket("ws://localhost:" + 
-    port + "/preview/ws?filename=" + filename + "&renderer=" + renderer);
+    port + "/preview/ws?project=" + project + "&filename=" + filename + "&renderer=" + renderer);
 
   if (!lastMessage) {
     return <p>Loading...</p>;

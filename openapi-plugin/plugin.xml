@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
    
    <extension
          point="org.eclipse.ui.preferencePages">
@@ -126,6 +125,10 @@
 		
 		<serviceFactory factoryClass="com.xliic.openapi.services.PreviewServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.IPreviewService"></service>
+		</serviceFactory>
+
+		<serviceFactory factoryClass="com.xliic.openapi.services.BundleServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.IBundleService"></service>
 		</serviceFactory>
 		
 	</extension>

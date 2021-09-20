@@ -30,6 +30,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import com.xliic.idea.Disposable;
 import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
@@ -52,7 +53,7 @@ import com.xliic.openapi.services.IDataService;
 import com.xliic.openapi.utils.OpenAPIUtils;
 import com.xliic.openapi.utils.WorkbenchUtils;
 
-public class ReportPanelView extends ViewPart implements ReportManager {
+public class ReportPanelView extends ViewPart implements ReportManager, Disposable {
 
 	public static final String ID = "com.xliic.openapi.report.tree.ui.ReportPanelView";
 
@@ -75,7 +76,7 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 
 	private final Map<String, DefaultMutableTreeNode> fileNameToTreeNodeMap = new HashMap<>();
 	private final Map<Issue, DefaultMutableTreeNode> issueToTreeNodeMap = new HashMap<>();
-	private static final Set<VirtualFile> currentFiles = new HashSet<>();
+	private final Set<VirtualFile> currentFiles = new HashSet<>();
 
 	private FilterState filterState;
 
@@ -353,12 +354,9 @@ public class ReportPanelView extends ViewPart implements ReportManager {
 		}
 		fileNameToTreeNodeMap.clear();
 		issueToTreeNodeMap.clear();
+		currentFiles.clear();
 		filterState = null;
 		viewer.removeSelectionChangedListener(listener);
 		viewer.removeTreeListener(expansionListener);
-	}
-
-	public static void handlePluginStop() {
-		currentFiles.clear();
 	}
 }

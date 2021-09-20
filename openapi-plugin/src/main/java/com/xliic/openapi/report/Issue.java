@@ -1,30 +1,27 @@
 package com.xliic.openapi.report;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
+import static com.xliic.openapi.OpenApiUtils.getFileLanguage;
+
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.xliic.idea.TextRange;
 import com.xliic.idea.file.VirtualFile;
+import com.xliic.idea.project.Project;
+import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.bundler.Mapping;
-import com.xliic.openapi.bundler.OpenAPIBundler;
 import com.xliic.openapi.parser.pointer.Location;
 import com.xliic.openapi.report.html.HTMLArticlesProvider;
+import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class Issue {
-
-	private static final String ISSUE_MARKER_ID = "ISSUE_MARKER_ID";
-	private static final String ISSUE_MARKER_FILENAME = "ISSUE_MARKER_FILENAME";
-	private static final String ISSUE_MARKER_AUDIT_FILENAME = "ISSUE_MARKER_AUDIT_FILENAME";
 
 	private static final HTMLArticlesProvider articles = new HTMLArticlesProvider();
 
@@ -41,10 +38,9 @@ public class Issue {
 	private Location location;
 
 	private IFile file;
-	private IMarker marker;
-	private int markerListId;
 
-	public Issue(OpenAPIBundler bundler, String id, String description, String pointer, float score, int criticality) {
+	public Issue(Project project, String auditFileName, String id, String description, String pointer, float score,
+			int criticality, Map<String, Map<String, Location>> fileToPointerToLocationMap) {
 
 		this.id = id;
 		this.description = description;
@@ -52,96 +48,26 @@ public class Issue {
 		this.displayScore = transformScore(score);
 		this.criticality = criticality;
 		this.severity = Severity.getSeverity(criticality);
-		this.auditFileName = bundler.getAuditFileName();
-		this.markerListId = -1;
+		this.auditFileName = auditFileName;
 
-		try {
-			// For pointers to entities in the main file which
-			// don't resolve to an external file, return null
-			Mapping.Location error = bundler.original(pointer);
-			if (error == null) {
-				fileName = VirtualFile.filePathToIdeaFormat(auditFileName);
-				this.pointer = pointer;
-			} else {
-				File directory = new File(Paths.get(auditFileName).getParent().toString());
-				fileName = VirtualFile.filePathToIdeaFormat(new File(directory, error.file).getPath());
-				this.pointer = error.pointer;
-			}
-			file = OpenAPIUtils.getIFile(fileName);
-			if (file == null) {
-				fileName = null;
-				location = null;
-			} else {
-				location = bundler.getParserData(file).get(this.pointer);
-			}
-		} catch (UnsupportedEncodingException exception) {
-			fileName = null;
+		BundleService bundleService = BundleService.getInstance(project);
+		BundleResult bundleResult = bundleService.getBundle(auditFileName);
+		Mapping.Location errorLocation = bundleResult.getBundleErrorLocation(pointer);
+
+		if (errorLocation != null) {
+			this.fileName = errorLocation.file;
+			this.pointer = errorLocation.pointer;
+			this.location = fileToPointerToLocationMap.get(fileName).get(errorLocation.pointer);
+			this.file = OpenAPIUtils.getIFile(fileName);
+
+		} else {
+			this.fileName = null;
 			this.pointer = pointer;
-			location = null;
+			this.location = null;
 		}
 	}
 
-	public void clean() {
-		try {
-			if (marker != null) {
-				marker.delete();
-				marker = null;
-			}
-		} catch (CoreException e) {
-		}
-	}
-
-	public static boolean isIssueMarker(IMarker marker2) {
-		try {
-			return (marker2 != null) && (marker2.getAttribute(ISSUE_MARKER_ID) != null);
-		} catch (CoreException e) {
-			return false;
-		}
-	}
-
-	public static IFile getFileFromMarker(IMarker marker2) {
-		try {
-			return OpenAPIUtils.getIFile((String) (marker2.getAttribute(ISSUE_MARKER_FILENAME)));
-		} catch (CoreException e) {
-			return null;
-		}
-	}
-
-	public static IFile getAuditFileFromMarker(IMarker marker2) {
-		try {
-			return OpenAPIUtils.getIFile((String) (marker2.getAttribute(ISSUE_MARKER_AUDIT_FILENAME)));
-		} catch (CoreException e) {
-			return null;
-		}
-	}
-
-	public static int getIssueListIdFromMarker(IMarker marker2) {
-		try {
-			return (int) marker2.getAttribute(ISSUE_MARKER_ID);
-		} catch (CoreException e) {
-			return -1;
-		}
-	}
-
-	public void createMarker(int listId) {
-		try {
-			marker = file.createMarker(IMarker.PROBLEM);
-			marker.setAttribute(IMarker.SEVERITY, Severity.getMarkerSeverity(severity));
-			marker.setAttribute(IMarker.MESSAGE, getLabel());
-			marker.setAttribute(IMarker.TRANSIENT, true);
-			marker.setAttribute(IMarker.LINE_NUMBER, (int) location.getLine());
-			marker.setAttribute(IMarker.CHAR_START, (int) location.getStartOffset());
-			marker.setAttribute(IMarker.CHAR_END, (int) location.getEndOffset());
-			marker.setAttribute(ISSUE_MARKER_ID, listId);
-			marker.setAttribute(ISSUE_MARKER_FILENAME, fileName);
-			marker.setAttribute(ISSUE_MARKER_AUDIT_FILENAME, auditFileName);
-			markerListId = listId;
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void handleFileNameChanged(IFile newFile, IFile oldFile, List<IMarker> markers) {
+	public void handleFileNameChanged(IFile newFile, IFile oldFile) {
 
 		String oldFileName = new VirtualFile(oldFile).getPath();
 		String newFileName = new VirtualFile(newFile).getPath();
@@ -152,16 +78,6 @@ public class Issue {
 		if (Objects.equals(fileName, oldFileName)) {
 			fileName = newFileName;
 			file = newFile;
-		}
-		try {
-			for (IMarker m : markers) {
-				if (getIssueListIdFromMarker(m) == markerListId) {
-					marker = m;
-					marker.setAttribute(ISSUE_MARKER_FILENAME, fileName);
-					marker.setAttribute(ISSUE_MARKER_AUDIT_FILENAME, auditFileName);
-				}
-			}
-		} catch (CoreException e) {
 		}
 	}
 
@@ -259,6 +175,10 @@ public class Issue {
 				+ criticality + "." + scoreImpact + "  </small>" + "</p>" + article;
 	}
 
+	public TextRange getTextRange() {
+		return new TextRange((int) location.getStartOffset(), (int) location.getEndOffset());
+	}
+
 	private String getCriticalityName(int criticality) {
 
 		switch (criticality) {
@@ -281,7 +201,7 @@ public class Issue {
 				+ "and we make sure to add it to the encyclopedia.</p>";
 	};
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked" })
 	private String partToText(Map<String, Object> part) {
 
 		if (part == null || !part.containsKey("sections")) {
@@ -296,9 +216,9 @@ public class Issue {
 			if (s.containsKey("text")) {
 				text.append((String) s.get("text"));
 			} else if (s.containsKey("code")) {
-				String exampleLanguage = fileName.toLowerCase().endsWith(".yaml")
-						|| fileName.toLowerCase().endsWith("yml") ? "yaml" : "json";
-				text.append("<pre><code>" + ((Map) s.get("code")).get(exampleLanguage) + "</code></pre>");
+				text.append("<pre><code>");
+				text.append(((Map<String, String>) s.get("code")).get(getFileLanguage(fileName)));
+				text.append("</code></pre>");
 			}
 		}
 		return text.toString();

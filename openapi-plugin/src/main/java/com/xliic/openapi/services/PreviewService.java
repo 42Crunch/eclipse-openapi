@@ -29,14 +29,11 @@ import org.eclipse.ui.PlatformUI;
 
 import com.xliic.idea.ApplicationManager;
 import com.xliic.idea.Disposable;
-import com.xliic.idea.FileDocumentManager;
 import com.xliic.idea.PropertiesComponent;
 import com.xliic.idea.ResourceUtil;
-import com.xliic.idea.document.Document;
 import com.xliic.idea.file.FileUtil;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.openapi.listeners.PreviewDocumentListener;
 import com.xliic.openapi.preview.PreviewKeys;
+import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.preview.PreviewWebSocket;
 import com.xliic.openapi.preview.PreviewWebSocketHandler;
 
@@ -45,15 +42,13 @@ public class PreviewService implements IPreviewService, Disposable {
 	private Server server;
 	private PreviewWebSocketHandler socketHandler;
 	private File resourcesPath;
-
 	private final Map<String, PreviewWebSocket> sockets;
-	private final Map<String, Map<String, PreviewDocumentListener>> previewListeners;
 
 	public PreviewService() {
+
 		this.server = null;
 		this.resourcesPath = null;
 		this.sockets = new ConcurrentHashMap<>();
-		this.previewListeners = new ConcurrentHashMap<>();
 
 		// Set plugin properties
 		PropertiesComponent pc = PropertiesComponent.getInstance();
@@ -92,9 +87,12 @@ public class PreviewService implements IPreviewService, Disposable {
 	}
 
 	@Override
-	public void sendText(String queue, String text) {
-		if (sockets.containsKey(queue) && !StringUtils.isEmpty(text)) {
-			sockets.get(queue).sendText(text);
+	public void sendText(String projectId, String canonicalPath, String text) {
+		for (int rendererIndex = 0; rendererIndex < 2; rendererIndex++) {
+			String query = PreviewUtils.getQuery(projectId, canonicalPath, rendererIndex);
+			if (sockets.containsKey(query) && !StringUtils.isEmpty(text)) {
+				sockets.get(query).sendText(text);
+			}
 		}
 	}
 
@@ -124,7 +122,7 @@ public class PreviewService implements IPreviewService, Disposable {
 		// Create web socket context
 		ContextHandler context0 = new ContextHandler();
 		context0.setContextPath("/preview");
-		socketHandler = new PreviewWebSocketHandler(sockets, previewListeners);
+		socketHandler = new PreviewWebSocketHandler(sockets);
 		context0.setHandler(socketHandler);
 
 		// Create web resources context (html, js, ...)
@@ -154,7 +152,6 @@ public class PreviewService implements IPreviewService, Disposable {
 		create(resourcesPath, RENDERER_REDOC, ".js");
 	}
 
-	// todo: move to utils!!!
 	private void create(File dir, String prefix, String suffix) throws IOException {
 		InputStream inputStream = ResourceUtil.getResourceAsStream(getClass(), "preview", prefix + suffix);
 		Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
@@ -162,43 +159,6 @@ public class PreviewService implements IPreviewService, Disposable {
 		PrintWriter writer = new PrintWriter(tmp, StandardCharsets.UTF_8);
 		stream.forEach(writer::println);
 		writer.close();
-	}
-
-	@Override
-	public void addListener(VirtualFile file) {
-
-		for (Map.Entry<String, Map<String, PreviewDocumentListener>> entry : previewListeners.entrySet()) {
-
-			String bundledFile = file.getCanonicalPath();
-			Map<String, PreviewDocumentListener> listeners = entry.getValue();
-
-			if (listeners.containsKey(bundledFile) && (listeners.get(bundledFile) == null)) {
-				Document document = FileDocumentManager.getInstance().getDocument(file);
-				if (document != null) {
-					String query = entry.getKey();
-					listeners.put(bundledFile, new PreviewDocumentListener(query, listeners));
-					document.addDocumentListener(listeners.get(bundledFile));
-				}
-			}
-		}
-	}
-
-	@Override
-	public void removeListener(VirtualFile file) {
-
-		for (Map.Entry<String, Map<String, PreviewDocumentListener>> entry : previewListeners.entrySet()) {
-
-			String bundledFile = file.getCanonicalPath();
-			Map<String, PreviewDocumentListener> listeners = entry.getValue();
-
-			if (listeners.containsKey(bundledFile) && (listeners.get(bundledFile) != null)) {
-				Document document = FileDocumentManager.getInstance().getDocument(file);
-				if (document != null) {
-					document.removeDocumentListener(listeners.get(bundledFile));
-					listeners.put(bundledFile, null);
-				}
-			}
-		}
 	}
 
 	@Override

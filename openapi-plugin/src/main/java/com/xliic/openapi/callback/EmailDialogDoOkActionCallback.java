@@ -2,39 +2,33 @@ package com.xliic.openapi.callback;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-
+import com.xliic.idea.Messages;
+import com.xliic.idea.SwingUtilities;
+import com.xliic.idea.file.VirtualFile;
+import com.xliic.idea.project.Project;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.settings.AuditConfigTokenDialogWrapper;
 
 public class EmailDialogDoOkActionCallback extends ActionCallback {
 
-    private final IFile file;
-    private final Shell shell;
+	private final Project project;
+	private final VirtualFile file;
 
-    public EmailDialogDoOkActionCallback(@NotNull Shell shell, @NotNull IFile file) {
-        this.file = file;
-        this.shell = shell;
-    }
+	public EmailDialogDoOkActionCallback(@NotNull Project project, @NotNull VirtualFile file) {
+		this.project = project;
+		this.file = file;
+	}
 
-    @Override
-    public void setDone() {
-    	Display.getDefault().asyncExec(new Runnable() {
-    	    public void run() {
-                new AuditConfigTokenDialogWrapper(shell, file).open();
-    	    }
-    	});
-    }
+	@Override
+	public void setDone() {
+		SwingUtilities.invokeLater(() -> {
+			new AuditConfigTokenDialogWrapper(project, file).showAndGet();
+		});
+	}
 
-    @Override
-    public void setRejected() {
-    	Display.getDefault().asyncExec(new Runnable() {
-    	    public void run() {
-    	    	MessageDialog.openError(shell, OpenApiBundle.message("openapi.error.title"), getError());
-            }
-        });
-    }
+	@Override
+	public void setRejected() {
+		Messages.showMessageDialog(project, getError(), OpenApiBundle.message("openapi.error.title"),
+				Messages.getErrorIcon());
+	}
 }

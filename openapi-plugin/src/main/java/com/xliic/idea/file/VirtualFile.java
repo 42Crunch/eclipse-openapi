@@ -13,22 +13,55 @@ import org.jetbrains.annotations.NotNull;
 public class VirtualFile {
 
 	private final IFile file;
+	private final String path;
 
-	public VirtualFile(IFile file) {
+	private volatile int hashCode;
+
+	public VirtualFile(@NotNull IFile file) {
 		this.file = file;
+		this.path = getAbsoluteFullFilePath(file);
 	}
 
-	// todo: remove later?
+	@Override
+	public int hashCode() {
+		int result = hashCode;
+		if (result == 0) {
+			final int prime = 31;
+			result = 1;
+			result = prime * result + ((file == null) ? 0 : getPath().hashCode());
+			hashCode = result;
+		}
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VirtualFile other = (VirtualFile) obj;
+		String otherPath = other.getPath();
+		if (path == null) {
+			if (otherPath != null)
+				return false;
+		} else if (!path.equals(otherPath))
+			return false;
+		return true;
+	}
+
 	public IFile getIFile() {
 		return file;
 	}
 
 	public String getPath() {
-		return getAbsoluteFullFilePath(file);
+		return path;
 	}
 
 	public String getCanonicalPath() {
-		return getAbsoluteFullFilePath(file);
+		return path;
 	}
 
 	public boolean equalsToIFile(IFile file2) {

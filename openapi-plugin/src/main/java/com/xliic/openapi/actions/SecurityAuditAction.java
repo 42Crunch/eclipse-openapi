@@ -1,79 +1,70 @@
 package com.xliic.openapi.actions;
 
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
+import static com.xliic.openapi.OpenApiUtils.isToolWindowRegistered;
 
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
-import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.bundler.OpenAPIBundler;
-import com.xliic.openapi.bundler.ReferenceResolutionException;
-import com.xliic.openapi.callback.AuditActionCallback;
+import org.apache.commons.lang.StringUtils;
+
 import com.xliic.idea.DumbAware;
+import com.xliic.idea.PropertiesComponent;
 import com.xliic.idea.action.AnAction;
 import com.xliic.idea.action.AnActionEvent;
 import com.xliic.idea.file.VirtualFile;
 import com.xliic.idea.project.Project;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.ToolWindowId;
+import com.xliic.openapi.callback.AuditActionCallback;
+import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DataService;
-import com.xliic.openapi.services.IAuditService;
 import com.xliic.openapi.settings.AuditConfigEmailDialogWrapper;
 import com.xliic.openapi.settings.AuditKeys;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class SecurityAuditAction extends AnAction implements DumbAware {
 
 	@Override
-	public void actionPerformed(AnActionEvent event) {
-		
-		IFile file = OpenAPIUtils.getSelectedOpenAPIFile();
-        if (file == null) {
-            return;
-        }
-		IWorkbench workbench = PlatformUI.getWorkbench();
-        IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		
-        IPreferenceStore store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
-        String token = store.getString(AuditKeys.TOKEN);
-        if (StringUtils.isEmpty(token)) {
-        	new AuditConfigEmailDialogWrapper(window.getShell(), file).open();
-        }
-        else {
-            OpenAPIBundler bundler;
-            try {
-                bundler = new OpenAPIBundler(file);
-            } 
-            catch (ReferenceResolutionException re) {
-            	MessageDialog.openError(window.getShell(), OpenApiBundle.message("openapi.error.title"),
-            			"Error in file " + re.sourceFile + " for pointer " + re.sourcePointer);
-                return;
-            }
-            catch (Exception exception) {
-            	MessageDialog.openError(window.getShell(), OpenApiBundle.message("openapi.error.title"), exception.getMessage());
-                return;
-            }
-            IAuditService auditService = (IAuditService) PlatformUI.getWorkbench().getService(IAuditService.class);
-            auditService.sendAuditRequest(token, bundler, new AuditActionCallback(window.getShell(), file));
-        }
+	public void update(AnActionEvent event) {
+
+		Project project = event.getProject();
+		if ((project == null) || !isToolWindowRegistered(project, ToolWindowId.OPEN_API_REPORT)
+				|| !isToolWindowRegistered(project, ToolWindowId.OPEN_API_HTML_REPORT)) {
+			event.getPresentation().setEnabled(false);
+			return;
+		}
+		DataService dataService = DataService.getInstance(project);
+		VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+		if (file == null || !dataService.getParserData(file.getPath()).isValid()) {
+			event.getPresentation().setEnabled(false);
+			return;
+		}
+		event.getPresentation().setEnabled(true);
 	}
 
 	@Override
-	public void update(AnActionEvent event) {
-        Project project = event.getProject();
-        if (project == null) {
-            event.getPresentation().setEnabled(false);
-            return;
-        }
-        DataService dataService = DataService.getInstance(project);
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
-        if (file == null || !dataService.getParserData(file.getPath()).isValid()) {
-            event.getPresentation().setEnabled(false);
-            return;
-        }
-        event.getPresentation().setEnabled(true);
+	public void actionPerformed(AnActionEvent e) {
+
+		Project project = e.getProject();
+		if (project == null) {
+			return;
+		}
+		VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+		if (file == null) {
+			return;
+		}
+		String rootFileName = file.getPath();
+		BundleService bundleService = BundleService.getInstance(project);
+		if (!bundleService.hasBundle(rootFileName)) {
+			return;
+		}
+		if (!bundleService.getBundle(rootFileName).isBundleComplete()) {
+			bundleService.notifyOfErrors(rootFileName);
+			return;
+		}
+		String token = PropertiesComponent.getInstance().getValue(AuditKeys.TOKEN);
+		if (StringUtils.isEmpty(token)) {
+			new AuditConfigEmailDialogWrapper(project, file).showAndGet();
+		} else {
+			AuditService auditService = AuditService.getInstance(project);
+			auditService.sendAuditRequest(token, file.getPath(), new AuditActionCallback(project, file));
+		}
 	}
 }
