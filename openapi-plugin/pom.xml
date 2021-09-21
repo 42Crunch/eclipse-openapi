@@ -12,22 +12,67 @@
   <packaging>eclipse-plugin</packaging>
 
   <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
     <commons.lang.version>2.6</commons.lang.version>
     <json.java.version>1.1</json.java.version>
     <kotlin.stdlib.version>1.4.0</kotlin.stdlib.version>
     <annotations.version>13.0</annotations.version>
     <okhttp.version>4.7.2</okhttp.version>
     <okio.version>2.6.0</okio.version>
-    <openapi.bundler.version>1.7</openapi.bundler.version>
+    <openapi.bundler.version>1.8</openapi.bundler.version>
 	<jackson.version>2.10.2</jackson.version>
     <snakeyaml.engine.version>2.1</snakeyaml.engine.version>
     <snakeyaml.version>1.24</snakeyaml.version>
     <javax.servlet.api.version>3.1.0</javax.servlet.api.version>
 	<jetty.version>9.4.43.v20210629</jetty.version>
   </properties>
-
+  
+  <dependencies>
+    <dependency>
+	  <groupId>junit</groupId>
+	  <artifactId>junit</artifactId>
+	  <version>4.13.2</version>
+	  <scope>test</scope>
+	</dependency>
+  </dependencies>
+  
   <build>
     <plugins>
+      <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<version>2.22.0</version>
+		<executions>
+		  <execution>
+		    <id>test</id>
+		    <phase>test</phase>
+		    <configuration>
+		      <includes>
+		        <include>**/*Test.java</include>
+		      </includes>
+		      <workingDirectory>${project.basedir}/src</workingDirectory>
+		    </configuration>
+		    <goals>
+		      <goal>test</goal>
+		    </goals>
+		  </execution>
+		</executions>
+      </plugin>
+      <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<version>2.5.1</version>
+		<executions>
+		  <execution>
+		    <id>compiletests</id>
+		    <phase>test-compile</phase>
+		    <goals>
+		      <goal>testCompile</goal>
+		    </goals>
+		  </execution>
+	    </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>

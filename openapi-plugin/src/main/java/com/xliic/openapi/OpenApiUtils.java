@@ -105,4 +105,25 @@ public class OpenApiUtils {
 			return new OpenFileDescriptor(project, file, (int) location.getLine(), (int) location.getColumn());
 		}
 	}
+
+	public static String getRelativePathFromTo(@NotNull String from, @NotNull String to) {
+
+		assert !from.equals(to) && from.contains("/") && to.contains("/");
+
+		String[] froms = from.split("/");
+		String[] tos = to.split("/");
+		assert froms[0].equals(tos[0]);
+
+		StringBuilder result = new StringBuilder();
+		for (int i = froms.length - 2; i >= 0; i--) {
+			for (int j = 0; j < tos.length - 1; j++) {
+				final String t = tos[j];
+				if (froms[i].equals(t)) {
+					return result.append(to.substring(to.indexOf(t) + t.length() + 1)).toString();
+				}
+			}
+			result.append("../");
+		}
+		return result.toString();
+	}
 }

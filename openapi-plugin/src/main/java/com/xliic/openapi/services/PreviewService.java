@@ -118,6 +118,7 @@ public class PreviewService implements IPreviewService, Disposable {
 
 		int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
 		server = new Server(port);
+		server.setStopAtShutdown(true);
 
 		// Create web socket context
 		ContextHandler context0 = new ContextHandler();
