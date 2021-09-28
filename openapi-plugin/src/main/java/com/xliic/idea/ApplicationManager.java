@@ -19,6 +19,10 @@ public class ApplicationManager {
 		Display.getDefault().asyncExec(runnable);
 	}
 
+	public <T> T runReadAction(@NotNull Computable<T> computable) {
+		return computable.get();
+	}
+
 	public void runWriteAction(@NotNull Runnable runnable) {
 		Display.getDefault().asyncExec(runnable);
 	}

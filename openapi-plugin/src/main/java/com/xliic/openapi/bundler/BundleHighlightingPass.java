@@ -21,10 +21,10 @@ import com.xliic.idea.codeInsight.HighlightInfo;
 import com.xliic.idea.codeInsight.HighlightInfoType;
 import com.xliic.idea.editor.Editor;
 import com.xliic.idea.file.PsiFile;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.parser.pointer.Location;
+import com.xliic.openapi.parser.ast.Range;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.ParserService;
 
 public class BundleHighlightingPass extends TextEditorHighlightingPass {
 
@@ -53,21 +53,19 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
 		}
 
 		Set<BundleError> exceptions = bundleErrorsMap.get(bundleFile);
-		ParserService parserService = ParserService.getInstance(myProject);
-		Map<String, Location> pointerToLocationMap = parserService.parsePointerToLocationMap(myDocument.getText(),
-				OpenApiUtils.getFileType(bundleFile));
+		ASTService astService = ASTService.getInstance(myProject);
+		Node root = astService.getRootNode(psiFile.getVirtualFile());
 
 		for (BundleError error : exceptions) {
-			if (!pointerToLocationMap.containsKey(error.getSourcePointer())) {
-				continue;
+			Node target = root.find(error.getSourcePointer());
+			if (target != null) {
+				String msg = error.getMessage();
+				Range nodeRange = target.getKeyRange();
+				TextRange range = new TextRange(nodeRange.getStartOffset(), nodeRange.getEndOffset());
+				HighlightInfoType type = getHighlightInfoType(GENERIC_ERROR, ERROR, getSeverityRegistrar(myProject));
+				HighlightInfo info = newHighlightInfo(type).range(range).descriptionAndTooltip(msg).create();
+				highlights.add(info);
 			}
-			String msg = error.getMessage();
-			String pointer = error.getSourcePointer();
-			TextRange range = pointerToLocationMap.get(pointer).getTextRange();
-			HighlightInfoType type = getHighlightInfoType(GENERIC_ERROR, ERROR, getSeverityRegistrar(myProject));
-			HighlightInfo info = newHighlightInfo(type).range(range).pointer(pointer).descriptionAndTooltip(msg)
-					.create();
-			highlights.add(info);
 		}
 	}
 

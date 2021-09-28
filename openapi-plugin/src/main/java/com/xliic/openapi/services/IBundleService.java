@@ -11,13 +11,13 @@ import com.xliic.openapi.bundler.BundleResult;
 
 public interface IBundleService {
 
-	public void bundle(@NotNull String rootFileName);
+	public boolean isFileBeingBundled(@NotNull String fileName);
+
+	public void scheduleToBundle(@NotNull String rootFileName, String changedFileName);
 
 	public boolean hasBundles();
 
-	public void removeBundle(@NotNull String rootFileName);
-
-	public boolean hasBundle(@NotNull String rootFileName);
+	public void scheduleToRemoveBundle(@NotNull String rootFileName);
 
 	public BundleResult getBundle(@NotNull String rootFileName);
 
@@ -28,4 +28,6 @@ public interface IBundleService {
 	public void removeBundleDocumentListener(@NotNull VirtualFile file);
 
 	public void notifyOfErrors(@NotNull String rootFileName);
+
+	public void handleFileNameChanged(VirtualFile newFile, String oldFileName);
 }

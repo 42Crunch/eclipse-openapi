@@ -12,7 +12,7 @@ import com.xliic.openapi.utils.WorkbenchUtils;
 public class HTMLReportPanel {
 
 	public static HTMLReportManager getInstance(@NotNull Project project) {
-		Optional<IViewPart> opt = WorkbenchUtils.findView2(HTMLReportPanelView.ID);
+		Optional<IViewPart> opt = WorkbenchUtils.findView(HTMLReportPanelView.ID);
 		return opt.isPresent() ? (HTMLReportManager) opt.get() : null;
 	}
 }

@@ -29,7 +29,6 @@ public class AuditActionCallback extends ActionCallback {
 	public void setBeforeRequest() {
 		DataService dataService = DataService.getInstance(project);
 		if (dataService.hasAuditReport(file.getPath())) {
-			dataService.removeReportDocumentListener(file);
 			Objects.requireNonNull(ReportPanel.getInstance(project))
 					.handleAuditReportClean(dataService.removeAuditReport(file.getPath()));
 		}
@@ -42,7 +41,6 @@ public class AuditActionCallback extends ActionCallback {
 			Objects.requireNonNull(HTMLReportPanel.getInstance(project)).handleAuditReportReady(file);
 			ApplicationManager.getApplication().invokeLater(() -> {
 				FileEditorManager.getInstance(project).openEditor(new OpenFileDescriptor(project, file), true);
-				DataService.getInstance(project).addReportDocumentListener(file);
 			});
 		});
 	}

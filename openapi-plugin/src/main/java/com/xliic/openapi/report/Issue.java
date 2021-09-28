@@ -2,24 +2,28 @@ package com.xliic.openapi.report;
 
 import static com.xliic.openapi.OpenApiUtils.getFileLanguage;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.eclipse.core.resources.IFile;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.xliic.idea.TextRange;
+import com.xliic.idea.document.Document;
+import com.xliic.idea.editor.RangeMarker;
+import com.xliic.idea.file.LocalFileSystem;
 import com.xliic.idea.file.VirtualFile;
 import com.xliic.idea.project.Project;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.bundler.Mapping;
-import com.xliic.openapi.parser.pointer.Location;
+import com.xliic.openapi.parser.ast.Range;
+import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.html.HTMLArticlesProvider;
+import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class Issue {
 
@@ -35,54 +39,56 @@ public class Issue {
 	private String auditFileName;
 	private String pointer;
 	private String fileName;
-	private Location location;
+	private Range range;
 
-	private IFile file;
-
-	public Issue(Project project, String auditFileName, String id, String description, String pointer, float score,
-			int criticality, Map<String, Map<String, Location>> fileToPointerToLocationMap) {
+	public Issue(Project project, String auditFileName, String id, String description, String bundlePointer,
+			float score, int criticality) {
 
 		this.id = id;
 		this.description = description;
 		this.score = score;
-		this.displayScore = transformScore(score);
+		displayScore = transformScore(score);
 		this.criticality = criticality;
-		this.severity = Severity.getSeverity(criticality);
+		severity = Severity.getSeverity(criticality);
 		this.auditFileName = auditFileName;
+		fileName = null;
+		pointer = bundlePointer;
 
 		BundleService bundleService = BundleService.getInstance(project);
 		BundleResult bundleResult = bundleService.getBundle(auditFileName);
-		Mapping.Location errorLocation = bundleResult.getBundleErrorLocation(pointer);
+		Mapping.Location errorLocation = bundleResult.getBundleErrorLocation(bundlePointer);
 
 		if (errorLocation != null) {
-			this.fileName = errorLocation.file;
-			this.pointer = errorLocation.pointer;
-			this.location = fileToPointerToLocationMap.get(fileName).get(errorLocation.pointer);
-			this.file = OpenAPIUtils.getIFile(fileName);
-
-		} else {
-			this.fileName = null;
-			this.pointer = pointer;
-			this.location = null;
+			fileName = errorLocation.file;
+			pointer = errorLocation.pointer;
+			VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
+			if (file != null) {
+				ASTService astService = ASTService.getInstance(project);
+				Node root = astService.getRootNode(file);
+				Node node = root.find(pointer);
+				if (node != null) {
+					range = node.getHighlightRange();
+				}
+			}
 		}
 	}
 
-	public void handleFileNameChanged(IFile newFile, IFile oldFile) {
-
-		String oldFileName = new VirtualFile(oldFile).getPath();
-		String newFileName = new VirtualFile(newFile).getPath();
-
+	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
 		if (Objects.equals(auditFileName, oldFileName)) {
-			auditFileName = newFileName;
+			auditFileName = newFile.getPath();
 		}
 		if (Objects.equals(fileName, oldFileName)) {
-			fileName = newFileName;
-			file = newFile;
+			fileName = newFile.getPath();
 		}
 	}
 
-	public void updateLocation(Map<String, Location> pointerToLocationMap) {
-		location = pointerToLocationMap.get(pointer);
+	public void updateRangeMarkers(Document document, Node root) {
+		Node node = root.find(pointer);
+		if (node == null) {
+			range = null;
+		} else {
+			range = node.getHighlightRange();
+		}
 	}
 
 	private String transformScore(float score) {
@@ -106,10 +112,6 @@ public class Issue {
 
 	public String getId() {
 		return id;
-	}
-
-	public IFile getFile() {
-		return file;
 	}
 
 	public String getFileName() {
@@ -136,16 +138,20 @@ public class Issue {
 		return criticality;
 	}
 
-	public Location getLocation() {
-		return location;
+	public Range getRange() {
+		return range;
 	}
 
-	public boolean isLocationFound() {
-		return location != null;
+	public RangeMarker getRangeMarker() {
+		return (range == null) ? null : new RangeMarker(range);
 	}
 
 	public String getAuditFileName() {
 		return auditFileName;
+	}
+
+	public TextRange getTextRange() {
+		return new TextRange(range.getStartOffset(), range.getEndOffset());
 	}
 
 	public String getLabel() {
@@ -153,8 +159,7 @@ public class Issue {
 	}
 
 	public String getLabelLocation() {
-		return " audit of " + Paths.get(auditFileName).getFileName().toString() + " [" + location.getVisualLine() + ", "
-				+ location.getVisualColumn() + "]";
+		return " audit of " + Paths.get(auditFileName).getFileName().toString() + " " + rangeToString(range);
 	}
 
 	public String getHTMLIssue() {
@@ -163,20 +168,18 @@ public class Issue {
 		String scoreImpact = "0".equals(getDisplayScore()) ? "" : "Score impact: " + getDisplayScore();
 		String article = articleById(getId());
 
-		int line = (int) getLocation().getVisualLine();
-		String href = "target://" + fileName + "?startOffset=" + getLocation().getStartOffset() + "&length="
-				+ getLocation().getLength();
+		String href = "file://" + fileName + "?pointer=" + pointer;
 		String shortFileName = Paths.get(fileName).getFileName().toString();
 		String hrefForIssueID = "data-issue-id=" + id;
 
 		return "<h1>" + getDescription() + "</h1>" + "<p>" + "  <small>" + "  Issue ID: <a class=\"issue-id\" href=\""
 				+ hrefForIssueID + "\">" + id + "</a>" + "  </small>" + "</p>" + "<p>" + "  <small>"
-				+ "<a class=\"focus-line\" href=\"" + href + "\">" + shortFileName + ":" + line + "</a>.Severity: "
-				+ criticality + "." + scoreImpact + "  </small>" + "</p>" + article;
+				+ "<a class=\"focus-line\" href=\"" + href + "\">" + shortFileName + ":" + (range.getLine() + 1)
+				+ "</a>.Severity: " + criticality + "." + scoreImpact + "  </small>" + "</p>" + article;
 	}
 
-	public TextRange getTextRange() {
-		return new TextRange((int) location.getStartOffset(), (int) location.getEndOffset());
+	private String rangeToString(Range range) {
+		return "[" + (range.getLine() + 1) + ", " + (range.getColumn() + 1) + "]";
 	}
 
 	private String getCriticalityName(int criticality) {
@@ -201,7 +204,7 @@ public class Issue {
 				+ "and we make sure to add it to the encyclopedia.</p>";
 	};
 
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings("unchecked")
 	private String partToText(Map<String, Object> part) {
 
 		if (part == null || !part.containsKey("sections")) {

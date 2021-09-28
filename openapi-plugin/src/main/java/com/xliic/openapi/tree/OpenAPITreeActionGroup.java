@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.internal.ui.actions.CompositeActionGroup;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -39,18 +38,18 @@ public class OpenAPITreeActionGroup extends CompositeActionGroup {
 		if (treeNode == null) {
 			return;
 		}
-		IFile selectedFile = OpenAPIUtils.getSelectedOpenAPIFile();
+		VirtualFile selectedFile = OpenAPIUtils.getSelectedOpenAPIFile();
 		if (selectedFile == null) {
 			return;
 		}
 		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		if (!dataService.getParserData(new VirtualFile(selectedFile).getPath()).isValid()) {
+		if (!dataService.getParserData(selectedFile.getPath()).isValid()) {
 			return;
 		}
 
-		OpenApiFileType type = dataService.getFileProperty(new VirtualFile(selectedFile).getPath()).getType();
+		OpenApiFileType type = dataService.getFileProperty(selectedFile.getPath()).getType();
 		boolean isJson = (type == OpenApiFileType.Json);
-		OpenApiVersion version = dataService.getFileProperty(new VirtualFile(selectedFile).getPath()).getVersion();
+		OpenApiVersion version = dataService.getFileProperty(selectedFile.getPath()).getVersion();
 		List<String> snippetIds = new LinkedList<>();
 		OpenApiTreeNode node = (OpenApiTreeNode) treeNode.getUserObject();
 

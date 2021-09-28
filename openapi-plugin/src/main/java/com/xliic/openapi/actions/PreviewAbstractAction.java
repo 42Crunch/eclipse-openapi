@@ -8,6 +8,7 @@ import com.xliic.idea.action.AnActionEvent;
 import com.xliic.idea.file.VirtualFile;
 import com.xliic.idea.project.Project;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DataService;
 import com.xliic.openapi.services.PreviewService;
@@ -48,10 +49,11 @@ public abstract class PreviewAbstractAction extends AnAction implements DumbAwar
 		}
 		String rootFileName = file.getPath();
 		BundleService bundleService = BundleService.getInstance(project);
-		if (!bundleService.hasBundle(rootFileName)) {
+		BundleResult bundleResult = bundleService.getBundle(rootFileName);
+		if (bundleResult == null) {
 			return;
 		}
-		if (!bundleService.getBundle(rootFileName).isBundleComplete()) {
+		if (!bundleResult.isBundleComplete()) {
 			bundleService.notifyOfErrors(rootFileName);
 			return;
 		}

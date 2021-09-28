@@ -3,6 +3,7 @@ package com.xliic.openapi.utils;
 import java.util.Optional;
 
 import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IPerspectiveRegistry;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -17,82 +18,88 @@ import com.xliic.openapi.OpenAPIPerspectiveFactory;
 @SuppressWarnings("restriction")
 public final class WorkbenchUtils {
 
-    private WorkbenchUtils() {
-    }
+	private WorkbenchUtils() {
+	}
 
-    public static <T extends IViewPart> T showView(String viewId, String secondaryId, int mode) {
-    	
-        IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        
-        try {
-            @SuppressWarnings("unchecked")
-            T view = (T) activeWorkbenchWindow.getActivePage().showView(viewId, secondaryId, mode);
-            return view;
-        } 
-        catch (PartInitException e) {
-            throw new RuntimeException(String.format("Cannot show view with id %s and secondary id %s.", viewId, secondaryId), e);
-        }
-    }
-    
-    public static <T extends IViewPart> T showView2(String viewId, String secondaryId, int mode) {
-    	
-		Workbench workbench = Workbench.getInstance();
-		IWorkbenchWindow window = (workbench.getActiveWorkbenchWindow() == null) ? workbench.getWorkbenchWindows()[0] : workbench.getActiveWorkbenchWindow();
-		IWorkbenchPage page = (window.getActivePage() == null) ? window.getPages()[0] : window.getActivePage();
-		
-        try {
-            @SuppressWarnings("unchecked")
-            T view = (T) page.showView(viewId, secondaryId, mode);
-    		IViewReference reference = (IViewReference) page.getReference(view);
-    		page.setPartState(reference, IWorkbenchPage.STATE_RESTORED);
-            return view;
-        } 
-        catch (PartInitException e) {
-            throw new RuntimeException(String.format("Cannot show view with id %s and secondary id %s.", viewId, secondaryId), e);
-        }
-    }
+	@SuppressWarnings("unchecked")
+	public static <T extends IViewPart> T showView(String viewId, String secondaryId, int mode) {
+		IWorkbenchWindow window = getIWorkbenchWindow(Workbench.getInstance());
+		IWorkbenchPage page = getIWorkbenchPage(window);
+		if (page == null) {
+			return null;
+		}
+		try {
+			T view = (T) page.showView(viewId, secondaryId, mode);
+			IViewReference reference = (IViewReference) page.getReference(view);
+			page.setPartState(reference, IWorkbenchPage.STATE_RESTORED);
+			return view;
+		} catch (PartInitException e) {
+			throw new RuntimeException(
+					String.format("Cannot show view with id %s and secondary id %s.", viewId, secondaryId), e);
+		}
+	}
 
-    public static <T extends IViewPart> T hideView(String viewId, String secondaryId, int mode) {
-    	
-		Workbench workbench = Workbench.getInstance();
-		IWorkbenchWindow window = (workbench.getActiveWorkbenchWindow() == null) ? workbench.getWorkbenchWindows()[0] : workbench.getActiveWorkbenchWindow();
-		IWorkbenchPage page = (window.getActivePage() == null) ? window.getPages()[0] : window.getActivePage();
-		
-        @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
+	public static <T extends IViewPart> T hideView(String viewId, String secondaryId, int mode) {
+		IWorkbenchWindow window = getIWorkbenchWindow(Workbench.getInstance());
+		IWorkbenchPage page = getIWorkbenchPage(window);
+		if (page == null) {
+			return null;
+		}
 		T view = (T) page.findView(viewId);
 		IViewReference reference = (IViewReference) page.getReference(view);
 		page.setPartState(reference, IWorkbenchPage.STATE_MINIMIZED);
 		return view;
-    }
-    
-    public static <T extends IViewPart> Optional<T> findView(String viewId) {
-    	
-        IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        @SuppressWarnings("unchecked")
-        T result = (T) activeWorkbenchWindow.getActivePage().findView(viewId);
-        return Optional.ofNullable(result);
-    }
-    
-    public static IWorkbenchWindow getActiveWorkbenchWindow() {
-    	return PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-    }
-
-	public static <T extends IViewPart> Optional<T> findView2(String viewId) {
-		
-		Workbench workbench = Workbench.getInstance();
-		IWorkbenchWindow window = (workbench.getActiveWorkbenchWindow() == null) ? workbench.getWorkbenchWindows()[0] : workbench.getActiveWorkbenchWindow();
-		IWorkbenchPage page = (window.getActivePage() == null) ? window.getPages()[0] : window.getActivePage();
-        @SuppressWarnings("unchecked")
-        T result = (T) page.findView(viewId);
-        return Optional.ofNullable(result);
 	}
-	
+
+	public static IWorkbenchWindow getActiveWorkbenchWindow() {
+		return PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends IViewPart> Optional<T> findView(String viewId) {
+		IWorkbenchWindow window = getIWorkbenchWindow(Workbench.getInstance());
+		IWorkbenchPage page = getIWorkbenchPage(window);
+		if (page == null) {
+			return Optional.ofNullable(null);
+		}
+		T result = (T) page.findView(viewId);
+		return Optional.ofNullable(result);
+	}
+
 	public static void openPerspective() {
-		
-		IPerspectiveDescriptor perspective = WorkbenchPlugin.getDefault().getPerspectiveRegistry().findPerspectiveWithId(OpenAPIPerspectiveFactory.ID);
+		IPerspectiveRegistry registry = WorkbenchPlugin.getDefault().getPerspectiveRegistry();
+		IPerspectiveDescriptor perspective = registry.findPerspectiveWithId(OpenAPIPerspectiveFactory.ID);
 		if (perspective != null) {
 			IWorkbenchPage page = EditorUtil.getActivePage();
 			page.setPerspective(perspective);
 		}
+	}
+
+	private static IWorkbenchWindow getIWorkbenchWindow(Workbench workbench) {
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		if (window == null) {
+			IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+			if (windows.length > 0) {
+				return windows[0];
+			}
+			return null;
+		}
+		return window;
+	}
+
+	private static IWorkbenchPage getIWorkbenchPage(IWorkbenchWindow window) {
+		if (window == null) {
+			return null;
+		}
+		IWorkbenchPage page = window.getActivePage();
+		if (page == null) {
+			IWorkbenchPage[] pages = window.getPages();
+			if (pages.length > 0) {
+				return pages[0];
+			}
+			return null;
+		}
+		return page;
 	}
 }

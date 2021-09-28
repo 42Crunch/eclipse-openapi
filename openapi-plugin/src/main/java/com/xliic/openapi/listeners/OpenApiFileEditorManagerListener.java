@@ -2,7 +2,7 @@ package com.xliic.openapi.listeners;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.ApplicationManager;
+import com.xliic.idea.SwingUtilities;
 import com.xliic.idea.editor.FileEditorManager;
 import com.xliic.idea.editor.FileEditorManagerEvent;
 import com.xliic.idea.editor.FileEditorManagerListener;
@@ -44,15 +44,13 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
 			return;
 		}
 
-		DataService dataService = DataService.getInstance(project);
-		dataService.addReportDocumentListener(file);
-
 		BundleService bundleService = BundleService.getInstance(project);
 		bundleService.addBundleDocumentListener(file);
 
 		// Bundle for OpenAPI file
+		DataService dataService = DataService.getInstance(project);
 		if (dataService.hasFileProperty(file.getPath())) {
-			bundleService.bundle(file.getPath());
+			bundleService.scheduleToBundle(file.getPath(), null);
 		}
 	}
 
@@ -73,19 +71,15 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
 			}
 			return;
 		}
-		ApplicationManager.getApplication().invokeLater(() -> {
+		SwingUtilities.invokeLater(() -> {
 			ReportManager reportManager = ReportPanel.getInstance(project);
 			if (reportManager != null) {
 				reportManager.handleSelectedFile(event.getNewFile());
 			}
-		});
-		ApplicationManager.getApplication().invokeLater(() -> {
 			HTMLReportManager htmlReportManager = HTMLReportPanel.getInstance(project);
 			if (htmlReportManager != null) {
 				htmlReportManager.handleSelectedFile(event.getNewFile());
 			}
-		});
-		ApplicationManager.getApplication().invokeLater(() -> {
 			PanelManager manager = OpenApiTreePanel.getInstance(project);
 			if (manager != null) {
 				manager.handleSelectedFile(event.getNewFile());
@@ -107,9 +101,6 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
 			// File also opened in another editor(s)
 			return;
 		}
-
-		DataService dataService = DataService.getInstance(project);
-		dataService.removeReportDocumentListener(file);
 
 		BundleService bundleService = BundleService.getInstance(project);
 		bundleService.removeBundleDocumentListener(file);

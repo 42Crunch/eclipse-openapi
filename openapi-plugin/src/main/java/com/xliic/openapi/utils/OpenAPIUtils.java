@@ -227,7 +227,7 @@ public class OpenAPIUtils {
 		}
 	}
 
-	public static IFile getSelectedOpenAPIFile() {
+	public static VirtualFile getSelectedOpenAPIFile() {
 		IFile file = getSelectedFile();
 		if (file == null) {
 			return null;
@@ -236,7 +236,7 @@ public class OpenAPIUtils {
 		if (!dataService.hasFileProperty(new VirtualFile(file).getPath())) {
 			return null;
 		}
-		return file;
+		return new VirtualFile(file);
 	}
 
 	public static IFile getSelectedFile() {

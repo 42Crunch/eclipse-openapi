@@ -14,4 +14,8 @@ public class Caret {
 	public int getOffset() {
 		return selection.getOffset();
 	}
+
+	public int getLength() {
+		return selection.getLength();
+	}
 }

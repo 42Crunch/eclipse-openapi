@@ -16,7 +16,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.osgi.services;bundle-version="3.8.0",
  org.eclipse.e4.ui.css.swt.theme;bundle-version="0.12.700",
  org.eclipse.e4.core.services;bundle-version="2.2.300",
- org.eclipse.ui.browser;bundle-version="3.6.1000"
+ org.eclipse.ui.browser;bundle-version="3.6.1000",
+ org.eclipse.ui.workbench.texteditor;bundle-version="3.15.100"
 Automatic-Module-Name: eclipse.openapi
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: javax.inject
@@ -160,7 +161,7 @@ Bundle-ClassPath: .,
  libs/kotlin-stdlib-common-1.4.0.jar,
  libs/okhttp-4.7.2.jar,
  libs/okio-2.6.0.jar,
- libs/snakeyaml-1.24.jar,
+ libs/snakeyaml-1.27.jar,
  libs/snakeyaml-engine-2.1.jar,
  libs/validation-api-2.0.1.Final.jar,
  libs/jetty-client-9.4.43.v20210629.jar,
@@ -177,4 +178,4 @@ Bundle-ClassPath: .,
  libs/websocket-server-9.4.43.v20210629.jar,
  libs/websocket-servlet-9.4.43.v20210629.jar,
  libs/javax.servlet-api-3.1.0.jar,
- libs/openapi-bundler-1.8.jar
+ libs/openapi-bundler-1.9.jar

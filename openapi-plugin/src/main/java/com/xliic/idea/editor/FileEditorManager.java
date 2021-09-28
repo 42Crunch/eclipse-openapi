@@ -13,6 +13,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.idea.file.OpenFileDescriptor;
 import com.xliic.idea.file.VirtualFile;
@@ -116,5 +117,17 @@ public class FileEditorManager {
 			}
 		}
 		return files.toArray(new VirtualFile[0]);
+	}
+
+	@Nullable
+	public FileEditor getSelectedEditor() {
+		VirtualFile[] files = this.getSelectedFiles();
+		if (files.length > 0) {
+			FileEditor[] editors = getAllEditors(files[0]);
+			if (editors.length > 0) {
+				return editors[0];
+			}
+		}
+		return null;
 	}
 }

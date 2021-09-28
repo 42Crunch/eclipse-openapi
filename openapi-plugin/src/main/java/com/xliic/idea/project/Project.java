@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.jetbrains.annotations.Nullable;
 
 public class Project {
 
@@ -11,6 +12,11 @@ public class Project {
 
 	public Project() {
 		this.isDisposed = false;
+	}
+
+	@Nullable
+	public String getBasePath() {
+		return "";
 	}
 
 	public String getLocationHash() {

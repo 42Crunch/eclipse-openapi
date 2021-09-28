@@ -1,10 +1,13 @@
 package com.xliic.openapi.report.tree;
 
 import com.xliic.idea.file.VirtualFile;
+import com.xliic.idea.project.Project;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.tree.filter.FilterState;
 
 public interface ReportManager {
+
+	Project getProject();
 
 	FilterState getFilterState();
 

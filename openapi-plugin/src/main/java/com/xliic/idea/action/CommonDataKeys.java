@@ -1,0 +1,15 @@
+package com.xliic.idea.action;
+
+import com.xliic.idea.editor.Editor;
+import com.xliic.idea.file.VirtualFile;
+import com.xliic.idea.project.Project;
+
+public class CommonDataKeys {
+
+	public static final DataKey<Project> PROJECT = DataKey.create("project");
+	public static final DataKey<Editor> EDITOR = DataKey.create("editor");
+	public static final DataKey<VirtualFile> VIRTUAL_FILE = DataKey.create("virtualFile");
+
+	public CommonDataKeys() {
+	}
+}

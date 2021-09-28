@@ -50,12 +50,11 @@ public class GoToHTMLIntentionAction extends IntentionAction {
 		ApplicationManager.getApplication().runWriteAction(() -> {
 			List<Issue> selectedIssues = new LinkedList<>();
 			for (Issue issue : issues) {
-				if (!issue.isLocationFound()) {
-					continue;
-				}
-				TextRange range = issue.getTextRange();
-				if (range.containsOffset(offset)) {
-					selectedIssues.add(issue);
+				if (issue.getRange() != null) {
+					TextRange range = issue.getTextRange();
+					if (range.containsOffset(offset)) {
+						selectedIssues.add(issue);
+					}
 				}
 			}
 			Objects.requireNonNull(HTMLReportPanel.getInstance(project)).handleGoToHTMLIntention(virtualFile,

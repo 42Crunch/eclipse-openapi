@@ -40,17 +40,17 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 		}
 		List<Issue> issues = dataService.getIssuesForAuditParticipantFileName(psiFile.getVirtualFile().getPath());
 		for (Issue issue : issues) {
-			if (!issue.isLocationFound()) {
-				continue;
+			if (issue.getRangeMarker() != null) {
+				ProblemHighlightType type = Severity.getProblemHighlightType(issue.getSeverity());
+				HighlightSeverity severity = Severity.getHighlightSeverity(issue.getSeverity());
+				HighlightInfoType highlightInfoType = ProblemDescriptorUtil.getHighlightInfoType(type, severity,
+						SeverityRegistrar.getSeverityRegistrar(myProject));
+				HighlightInfo info = HighlightInfo.newHighlightInfo(highlightInfoType).range(issue.getTextRange())
+						.pointer(issue.getPointer()).descriptionAndTooltip(issue.getLabel()).create();
+				QuickFixAction.registerQuickFixAction(info,
+						new GoToHTMLIntentionAction(psiFile.getVirtualFile(), issues));
+				highlights.add(info);
 			}
-			ProblemHighlightType type = Severity.getProblemHighlightType(issue.getSeverity());
-			HighlightSeverity severity = Severity.getHighlightSeverity(issue.getSeverity());
-			HighlightInfoType highlightInfoType = ProblemDescriptorUtil.getHighlightInfoType(type, severity,
-					SeverityRegistrar.getSeverityRegistrar(myProject));
-			HighlightInfo info = HighlightInfo.newHighlightInfo(highlightInfoType).range(issue.getTextRange())
-					.pointer(issue.getPointer()).descriptionAndTooltip(issue.getLabel()).create();
-			QuickFixAction.registerQuickFixAction(info, new GoToHTMLIntentionAction(psiFile.getVirtualFile(), issues));
-			highlights.add(info);
 		}
 	}
 

@@ -3,6 +3,10 @@ package com.xliic.idea.file;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.idea.project.Project;
+import com.xliic.idea.psi.LeafPsiElement;
+import com.xliic.idea.psi.PsiElement;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.ASTService;
 
 public class PsiFile {
 
@@ -14,6 +18,22 @@ public class PsiFile {
 	public PsiFile(@NotNull Project project, @NotNull VirtualFile file) {
 		this.file = file;
 		this.project = project;
+	}
+
+	public PsiElement findElementAt(int offset) {
+		ASTService astService = ASTService.getInstance(project);
+		Node root = astService.getRootNode(file);
+		if (root != null) {
+			Node target = root.findNodeAtOffset(offset);
+			if (target != null) {
+				if (target.isScalar()) {
+					return new LeafPsiElement(offset, target, this);
+				} else {
+					return new PsiElement(offset, target, this);
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -56,4 +76,14 @@ public class PsiFile {
 	public int getTextLength() {
 		return 0; // todo
 	}
+
+	public PsiElement toPsiElement() {
+		ASTService astService = ASTService.getInstance(project);
+		Node root = astService.getRootNode(file);
+		if (root != null) {
+			return new PsiElement(0, root, this);
+		}
+		return null;
+	}
+
 }

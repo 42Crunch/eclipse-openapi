@@ -12,7 +12,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.codeHighlighting.HighlightingManager;
 import com.xliic.idea.editor.FileEditorManager;
 import com.xliic.idea.editor.FileEditorManagerEvent;
 import com.xliic.idea.file.VirtualFile;
@@ -29,13 +28,11 @@ public class OpenAPIPartListener implements IPartListener {
 	private IPreferenceStore store;
 	private final Project project;
 
-	private final HighlightingManager manager;
 	private final OpenApiFileEditorManagerListener fileEditorManagerListener;
 	private final OpenAPIFileEditorManagerBeforeListener fileEditorManagerBeforeListener;
 
 	public OpenAPIPartListener(@NotNull Project project) {
 		this.project = project;
-		manager = HighlightingManager.getInstance(project);
 		store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
 		fileEditorManagerListener = new OpenApiFileEditorManagerListener(project);
 		fileEditorManagerBeforeListener = new OpenAPIFileEditorManagerBeforeListener();
@@ -107,7 +104,6 @@ public class OpenAPIPartListener implements IPartListener {
 					fileEditorManagerBeforeListener.beforeFileClosed(FileEditorManager.getInstance(project),
 							new VirtualFile(file));
 					fileEditorManagerListener.fileClosed(FileEditorManager.getInstance(project), new VirtualFile(file));
-					manager.close(fileInput);
 				}
 				if (EditorUtil.getCurrentEditor() == null) {
 					prevInput = null;

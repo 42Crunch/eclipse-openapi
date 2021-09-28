@@ -203,8 +203,6 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 				}
 
 				IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-				dataService.addReportDocumentListener(new VirtualFile(file));
-
 				IParserService parserService = PlatformUI.getWorkbench().getService(IParserService.class);
 				ParserData data = parserService.parse(EditorUtil.getDocument(fileInput).get(), fileType);
 				OpenApiVersion version = data.getVersion();
@@ -214,7 +212,6 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 
 				dataService.setFileProperty(new VirtualFile(file).getPath(), new FileProperty(fileType, version));
 				dataService.setParserData(new VirtualFile(file).getPath(), data);
-				dataService.addTreeDocumentListener(new VirtualFile(file));
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}

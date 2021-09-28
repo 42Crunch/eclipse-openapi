@@ -131,6 +131,10 @@
 			<service serviceClass="com.xliic.openapi.services.IBundleService"></service>
 		</serviceFactory>
 		
+		<serviceFactory factoryClass="com.xliic.openapi.services.ASTServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.IASTService"></service>
+		</serviceFactory>
+		
 	</extension>
 
    <extension
@@ -246,6 +250,16 @@
             </command>
          </toolbar>
       </menuContribution>
+   </extension>
+   
+   <extension point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            activate="true"
+            class="com.xliic.openapi.hyperlink.OpenAPIHyperlinkDetector"
+            id="com.xliic.openapi.hyperlink.OpenAPIHyperlinkDetector"
+            name="OpenAPI"
+            targetId="org.eclipse.ui.genericeditor.GenericEditor">
+      </hyperlinkDetector>
    </extension>
 	
 </plugin>

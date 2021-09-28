@@ -30,6 +30,8 @@ import com.xliic.idea.file.VirtualFile;
 import com.xliic.idea.project.Project;
 import com.xliic.openapi.bundler.BundleHighlightingPassFactory;
 import com.xliic.openapi.report.ReportHighlightingPassFactory;
+import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.services.BundleService;
 
 public class HighlightingManager extends TextEditorHighlightingPassRegistrar implements Runnable {
 
@@ -42,6 +44,9 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 	private final Map<VirtualFile, Set<Marker>> markers;
 	private final Map<IMarker, Marker> markersBinding;
 
+	private final AuditService auditService;
+	private final BundleService bundleService;
+
 	private HighlightingManager(@NotNull Project project) {
 		this.project = project;
 		factories = new LinkedList<>();
@@ -51,6 +56,8 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 		new ReportHighlightingPassFactory().registerHighlightingPassFactory(this, project);
 		ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 		scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(this, 1000, 1000, TimeUnit.MILLISECONDS);
+		auditService = AuditService.getInstance(project);
+		bundleService = BundleService.getInstance(project);
 	}
 
 	public static HighlightingManager getInstance(@NotNull Project project) {
@@ -111,17 +118,26 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 					}
 				}
 			}
+			for (Map.Entry<VirtualFile, Set<Marker>> entry : markers.entrySet()) {
+				String fileName = entry.getKey().getPath();
+				if (!auditService.isFileBeingAudited(fileName) && !bundleService.isFileBeingBundled(fileName)) {
+					for (Marker myMarker : entry.getValue()) {
+						myMarker.dispose(markersBinding);
+					}
+					entry.getValue().clear();
+				}
+			}
+			markers.values().removeIf(value -> value.isEmpty());
 		}
 	}
 
-	public void close(IFileEditorInput fileInput) {
+	public void close(VirtualFile file) {
 		synchronized (this) {
-			VirtualFile file = new VirtualFile(fileInput.getFile());
 			Set<Marker> fileMarkers = markers.get(file);
 			if ((fileMarkers != null) && !fileMarkers.isEmpty()) {
 				Set<Marker> newMarkers = new HashSet<>();
-				PsiFile psiFile = new PsiFile(project, new VirtualFile(fileInput.getFile()));
-				Editor textEditor = new Editor(project, fileInput);
+				PsiFile psiFile = new PsiFile(project, file);
+				Editor textEditor = new Editor(project);
 				for (TextEditorHighlightingPassFactory factory : factories) {
 					TextEditorHighlightingPass hp = factory.createHighlightingPass(psiFile, textEditor);
 					if (hp != null) {

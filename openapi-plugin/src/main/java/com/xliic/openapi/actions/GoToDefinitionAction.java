@@ -1,185 +1,136 @@
 package com.xliic.openapi.actions;
 
+import static com.xliic.openapi.OpenApiUtils.JSON_REF_PATTERN;
+import static com.xliic.openapi.OpenApiUtils.YAML_REF_PATTERN;
+import static com.xliic.openapi.OpenApiUtils.getOpenFileDescriptor;
+import static com.xliic.openapi.OpenApiUtils.getRefTextFromPsiElement;
+
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import org.jetbrains.annotations.NotNull;
 
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.expressions.IEvaluationContext;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.ISources;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.texteditor.ITextEditor;
+import org.jetbrains.annotations.NotNull;
 
+import com.xliic.idea.DumbAware;
+import com.xliic.idea.action.AnAction;
+import com.xliic.idea.action.AnActionEvent;
+import com.xliic.idea.action.CommonDataKeys;
+import com.xliic.idea.editor.Editor;
+import com.xliic.idea.file.LocalFileSystem;
+import com.xliic.idea.file.OpenFileDescriptor;
+import com.xliic.idea.file.PsiFile;
 import com.xliic.idea.file.VirtualFile;
-import com.xliic.openapi.parser.pointer.Location;
-import com.xliic.openapi.services.IDataService;
-import com.xliic.openapi.services.IParserService;
+import com.xliic.idea.project.Project;
+import com.xliic.idea.psi.LeafPsiElement;
+import com.xliic.idea.psi.PsiDocumentManager;
+import com.xliic.idea.psi.PsiElement;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.services.DataService;
 import com.xliic.openapi.tree.OpenApiTreeNode;
-import com.xliic.openapi.utils.EditorUtil;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
-public class GoToDefinitionAction extends AbstractHandler {
+public class GoToDefinitionAction extends AnAction implements DumbAware {
 
 	private static final String REF = "#/";
-	private static final String REF_KEY = "$ref";
-  	private static final Pattern KEY_VALUE_REGEX = Pattern.compile("(.*):(.*)");
-  
-  	private String key;
-  	private String value;
-  	private boolean isKeyValuePattern;
-  	private int indexStart;
-  	private int indexStop;
 
 	@Override
-	public void setEnabled(Object evaluationContext) {
-		
-		setBaseEnabled(false);
-        if (evaluationContext instanceof IEvaluationContext) {
+	public void update(AnActionEvent event) {
 
-        	Object editor = ((IEvaluationContext) evaluationContext).getVariable(ISources.ACTIVE_EDITOR_NAME);
-			if (editor instanceof IEditorPart) {
-				
-				IEditorInput input = ((IEditorPart) editor).getEditorInput();
-				if (!(input instanceof IFileEditorInput)) {
-					return;			
-				}			
-				IFileEditorInput fileInput = (IFileEditorInput) input;
-				IDocument doc = EditorUtil.getDocument(fileInput);
-				ITextSelection sel = (ITextSelection) ((ITextEditor) editor).getSelectionProvider().getSelection();
-
-				try {
-					int lineOffset = doc.getLineOffset(sel.getStartLine());
-					int innerOffset = sel.getOffset() - lineOffset;
-					int length = doc.getLineLength(sel.getStartLine());
-					analize(doc.get(lineOffset, length));
-					if (REF_KEY.equals(key) && !StringUtils.isEmpty(value) && isInsideRefValue(innerOffset)) {
-						setBaseEnabled(true);
-					}
-				} 
-				catch (BadLocationException e) {
-				}
-			}
-        }
+		Project project = event.getProject();
+		Editor editor = event.getData(CommonDataKeys.EDITOR);
+		VirtualFile file = event.getData(CommonDataKeys.VIRTUAL_FILE);
+		if (project == null || editor == null || file == null) {
+			return;
+		}
+		event.getPresentation().setEnabled(false);
+		PsiElement psiElement = getDoubleClickedPsiElement(project, editor);
+		if ((psiElement instanceof LeafPsiElement)
+				&& (JSON_REF_PATTERN.accepts(psiElement) || YAML_REF_PATTERN.accepts(psiElement))) {
+			event.getPresentation().setEnabled(true);
+		}
 	}
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-	  
-		IEditorPart editor = HandlerUtil.getActiveEditor(event);
-		if (editor instanceof IEditorPart) {
-			
-			IEditorInput input = ((IEditorPart) editor).getEditorInput();
-			if (!(input instanceof IFileEditorInput)) {
-				return null;			
-			}			
-			IFileEditorInput fileInput = (IFileEditorInput) input;
-			IDocument doc = EditorUtil.getDocument(fileInput);
-			ITextSelection sel = (ITextSelection) ((ITextEditor) editor).getSelectionProvider().getSelection();
-			IFile file = fileInput.getFile();
-			
-			try {
-				int lineOffset = doc.getLineOffset(sel.getStartLine());		
-				int length = doc.getLineLength(sel.getStartLine());
-				analize(doc.get(lineOffset, length));
+	public void actionPerformed(@NotNull AnActionEvent event) {
 
-			    String text = value;
-			    String title = "No definition found for " + text;
-
-			    if (text.contains(REF)) {
-
-			      String [] parts = text.split(REF);
-			      String key = "/" + parts[1];
-			      String refFileName = parts[0];
-
-			      if (StringUtils.isEmpty(refFileName)) {
-			        // Internal reference
-			    	  IDataService dataService = (IDataService) PlatformUI.getWorkbench().getService(IDataService.class);
-			    	  DefaultMutableTreeNode node = dataService.getParserData(new VirtualFile(file).getPath()).getPointerToNodesMap().get(key);
-			    	  if (node == null) {
-			    		  showRefNotFoundPopup(title, editor.getSite().getShell());
-			    		  return null;
-			    	  }
-			    	  OpenApiTreeNode on = (OpenApiTreeNode) node.getUserObject();
-                      int startOffset = (int) on.getStartOffset();
-                      int endOffset = (int) on.getEndOffset();
-                      ((ITextEditor) editor).selectAndReveal(startOffset, endOffset - startOffset);
-			      }
-			      else {
-			        // External ref
-			    	String name = new File(new File(Paths.get(file.getFullPath().toString()).getParent().toString()), refFileName).getAbsolutePath();
-			    	IFile refFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(name));			    	
-			        if (refFile == null) {
-			        	showRefNotFoundPopup(title, editor.getSite().getShell());
-			        	return null;
-			        }
-
-			        String text2 = OpenAPIUtils.getTextFromFile(refFile.getLocationURI());
-			        IParserService parserService = (IParserService) PlatformUI.getWorkbench().getService(IParserService.class);
-			        Map<String, Location> pointerToLocationMap = parserService.parsePointerToLocationMap(text2, OpenAPIUtils.getFileType(file));
-			        if (!pointerToLocationMap.containsKey(key)) {
-			        	showRefNotFoundPopup(title, editor.getSite().getShell());
-			        	return null;
-			        }
-			        Location location = pointerToLocationMap.get(key);
-			        OpenAPIUtils.gotoFile(refFile, (int) location.getStartOffset(), (int) (location.getEndOffset() - location.getStartOffset()));
-			      }
-			    }
-			    else {
-			    	String name = new File(new File(Paths.get(file.getFullPath().toString()).getParent().toString()), text).getAbsolutePath();
-			    	IFile refFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(name));
-			    	if (refFile == null) {
-			    		showRefNotFoundPopup(title, editor.getSite().getShell());
-			    		return null;
-			    	}
-			    	OpenAPIUtils.gotoFile(refFile, 0, 0);
-			    }
-			} 
-			catch (BadLocationException e) {
-			}
+		Project project = event.getProject();
+		Editor editor = event.getData(CommonDataKeys.EDITOR);
+		VirtualFile file = event.getData(CommonDataKeys.VIRTUAL_FILE);
+		if (project == null || editor == null || file == null) {
+			return;
 		}
-		
-	  return null;
-  }
+		PsiElement psiElement = getDoubleClickedPsiElement(project, editor);
+		if (psiElement == null) {
+			return;
+		}
+		String text = getRefTextFromPsiElement(psiElement);
+		String title = "No definition found for " + text;
 
-  private static void showRefNotFoundPopup(@NotNull String title, @NotNull Shell shell) {	
-	  // Tooltip is better UI here, but it is impossible to calculate correct location to show
-	  MessageDialog.openWarning(shell, "Warning", title);
-  }
+		if (text.contains(REF)) {
 
-   private void analize(String selectedString) {
+			String[] parts = text.split(REF);
+			String key = "/" + parts[1];
+			String refFileName = parts[0];
 
-      Matcher matcher = KEY_VALUE_REGEX.matcher(selectedString);
-      isKeyValuePattern = matcher.find();
-      
-      if (isKeyValuePattern) {
-	      key = StringUtils.strip(matcher.group(1), "\"' ");
-		  value = StringUtils.strip(matcher.group(2), "\"' ");
-		  indexStart = selectedString.indexOf(value);
-		  indexStop = indexStart + value.length();
-      }
-   }
+			if (StringUtils.isEmpty(refFileName)) {
+				// Internal ref
+				DataService dataService = DataService.getInstance(project);
+				DefaultMutableTreeNode node = dataService.getParserData(file.getPath()).getPointerToNodesMap().get(key);
+				if (node == null) {
+					showRefNotFoundPopup(title, editor.getShell());
+					return;
+				}
+				OpenApiUtils.goToNodeInEditor(editor, (OpenApiTreeNode) node.getUserObject());
+			} else {
+				// External ref
+				File refIoFile = new File(new File(Paths.get(file.getPath()).getParent().toString()), refFileName);
+				VirtualFile refFile = LocalFileSystem.getInstance().findFileByIoFile(refIoFile);
+				if (refFile == null) {
+					showRefNotFoundPopup(title, editor.getShell());
+					return;
+				}
+				String fileText = OpenApiUtils.getTextFromFile(refIoFile);
+				if (fileText == null) {
+					showRefNotFoundPopup(title, editor.getShell());
+					return;
+				}
+				ASTService astService = ASTService.getInstance(project);
+				Node root = astService.getRootNode(refFile);
+				Node target = root.find(key);
+				if (target == null) {
+					showRefNotFoundPopup(title, editor.getShell());
+					return;
+				}
+				getOpenFileDescriptor(project, refFile, target.getRange()).navigate(true);
+			}
+		} else {
+			// Possible file
+			File refIoFile = new File(new File(Paths.get(file.getPath()).getParent().toString()), text);
+			VirtualFile refFile = LocalFileSystem.getInstance().findFileByIoFile(refIoFile);
+			if (refFile == null) {
+				showRefNotFoundPopup(title, editor.getShell());
+				return;
+			}
+			new OpenFileDescriptor(project, refFile, 0).navigate(true);
+		}
+	}
 
-   private boolean isInsideRefValue(int innerOffset) {
-	   return (indexStart <= innerOffset) && (innerOffset <= indexStop);
-   }
+	private static void showRefNotFoundPopup(@NotNull String title, @NotNull Shell shell) {
+		// It is impossible to calculate correct location to show
+		MessageDialog.openWarning(shell, "Warning", title);
+	}
+
+	private PsiElement getDoubleClickedPsiElement(@NotNull Project project, @NotNull Editor editor) {
+		PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
+		if (psiFile == null) {
+			return null;
+		}
+		int offset = editor.logicalPositionToOffset(editor.getCaretModel().getLogicalPosition());
+		return psiFile.findElementAt(offset);
+	}
 }

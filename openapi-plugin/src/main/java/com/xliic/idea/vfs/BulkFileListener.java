@@ -1,6 +1,6 @@
-package com.xliic.openapi;
+package com.xliic.idea.vfs;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -9,19 +9,11 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.PlatformUI;
+import org.jetbrains.annotations.NotNull;
 
 import com.xliic.idea.file.VirtualFile;
-import com.xliic.openapi.report.html.ui.HTMLReportPanelView;
-import com.xliic.openapi.report.tree.ReportManager;
-import com.xliic.openapi.report.tree.ui.ReportPanelView;
-import com.xliic.openapi.services.IDataService;
-import com.xliic.openapi.tree.PanelManager;
-import com.xliic.openapi.tree.ui.OpenAPITreeView;
-import com.xliic.openapi.utils.WorkbenchUtils;
 
-public class OpenAPIResourceChangeListener implements IResourceChangeListener {
+public abstract class BulkFileListener implements IResourceChangeListener {
 
 	private IFile fromFile;
 	private IFile toFile;
@@ -81,24 +73,8 @@ public class OpenAPIResourceChangeListener implements IResourceChangeListener {
 	}
 
 	private void update(IFile newFile, IFile oldFile) {
-
-		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		dataService.handleFileNameChanged(newFile, oldFile);
-
-		Optional<IViewPart> to = WorkbenchUtils.findView(OpenAPITreeView.ID);
-		if (to.isPresent() && (to.get() instanceof PanelManager)) {
-			PanelManager manager = (PanelManager) to.get();
-			manager.handleFileNameChanged(new VirtualFile(newFile), new VirtualFile(oldFile).getPath());
-		}
-		Optional<IViewPart> ro = WorkbenchUtils.findView(ReportPanelView.ID);
-		if (ro.isPresent() && (ro.get() instanceof ReportManager)) {
-			ReportManager manager = (ReportManager) ro.get();
-			manager.handleFileNameChanged(new VirtualFile(newFile), new VirtualFile(oldFile).getPath());
-		}
-		Optional<IViewPart> hro = WorkbenchUtils.findView(HTMLReportPanelView.ID);
-		if (hro.isPresent() && (hro.get() instanceof HTMLReportPanelView)) {
-			HTMLReportPanelView manager = (HTMLReportPanelView) hro.get();
-			manager.handleFileNameChanged(new VirtualFile(newFile), new VirtualFile(oldFile).getPath());
-		}
+		after(List.of(new VFilePropertyChangeEvent(new VirtualFile(newFile), new VirtualFile(oldFile))));
 	}
+
+	protected abstract void after(@NotNull List<? extends VFileEvent> events);
 }
