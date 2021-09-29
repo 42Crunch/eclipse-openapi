@@ -2,9 +2,9 @@ package com.xliic.openapi.listeners;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.document.DocumentEvent;
-import com.xliic.idea.document.DocumentListener;
-import com.xliic.idea.project.Project;
+import com.xliic.core.editor.event.DocumentEvent;
+import com.xliic.core.editor.event.DocumentListener;
+import com.xliic.core.project.Project;
 import com.xliic.openapi.services.ASTService;
 
 public class TreeDocumentListener extends DocumentListener {

@@ -2,11 +2,11 @@ package com.xliic.openapi.actions;
 
 import java.net.MalformedURLException;
 
-import com.xliic.idea.DumbAware;
-import com.xliic.idea.action.AnAction;
-import com.xliic.idea.action.AnActionEvent;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.actionSystem.AnAction;
+import com.xliic.core.actionSystem.AnActionEvent;
+import com.xliic.core.project.DumbAware;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.services.BundleService;

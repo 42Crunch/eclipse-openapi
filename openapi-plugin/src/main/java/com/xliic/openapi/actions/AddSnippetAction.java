@@ -25,7 +25,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;

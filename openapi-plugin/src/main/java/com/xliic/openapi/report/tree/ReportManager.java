@@ -1,7 +1,7 @@
 package com.xliic.openapi.report.tree;
 
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.tree.filter.FilterState;
 

@@ -2,7 +2,7 @@ package com.xliic.openapi.services.api;
 
 import java.util.List;
 
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.FileProperty;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.report.Audit;

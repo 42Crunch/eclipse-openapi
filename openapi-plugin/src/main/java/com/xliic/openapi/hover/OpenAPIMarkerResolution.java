@@ -5,11 +5,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.action.IntentionAction;
-import com.xliic.idea.codeHighlighting.HighlightingManager;
-import com.xliic.idea.editor.Editor;
-import com.xliic.idea.file.PsiFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.codeHighlighting.HighlightingManager;
+import com.xliic.core.codeInsight.IntentionAction;
+import com.xliic.core.editor.Editor;
+import com.xliic.core.project.Project;
+import com.xliic.core.psi.PsiFile;
 
 public class OpenAPIMarkerResolution implements IMarkerResolution {
 

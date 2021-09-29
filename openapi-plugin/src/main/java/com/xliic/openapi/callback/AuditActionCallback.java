@@ -4,13 +4,13 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.ApplicationManager;
-import com.xliic.idea.Messages;
-import com.xliic.idea.SwingUtilities;
-import com.xliic.idea.editor.FileEditorManager;
-import com.xliic.idea.file.OpenFileDescriptor;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.fileEditor.FileEditorManager;
+import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.Messages;
+import com.xliic.core.util.SwingUtilities;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.report.html.ui.HTMLReportPanel;
 import com.xliic.openapi.report.tree.ui.ReportPanel;

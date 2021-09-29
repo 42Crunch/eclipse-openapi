@@ -1,11 +1,11 @@
 package com.xliic.openapi.bundler;
 
-import static com.xliic.idea.codeHighlighting.HighlightSeverity.ERROR;
-import static com.xliic.idea.codeInsight.HighlightInfo.newHighlightInfo;
-import static com.xliic.idea.codeInsight.SeverityRegistrar.getSeverityRegistrar;
-import static com.xliic.idea.codeInsight.UpdateHighlightersUtil.setHighlightersToEditor;
-import static com.xliic.idea.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
-import static com.xliic.idea.codeInspection.ProblemHighlightType.GENERIC_ERROR;
+import static com.xliic.core.codeInsight.HighlightInfo.newHighlightInfo;
+import static com.xliic.core.codeInsight.SeverityRegistrar.getSeverityRegistrar;
+import static com.xliic.core.codeInsight.UpdateHighlightersUtil.setHighlightersToEditor;
+import static com.xliic.core.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
+import static com.xliic.core.codeInspection.ProblemHighlightType.GENERIC_ERROR;
+import static com.xliic.core.lang.HighlightSeverity.ERROR;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,13 +14,13 @@ import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.ProgressIndicator;
-import com.xliic.idea.TextRange;
-import com.xliic.idea.codeHighlighting.TextEditorHighlightingPass;
-import com.xliic.idea.codeInsight.HighlightInfo;
-import com.xliic.idea.codeInsight.HighlightInfoType;
-import com.xliic.idea.editor.Editor;
-import com.xliic.idea.file.PsiFile;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
+import com.xliic.core.codeInsight.HighlightInfo;
+import com.xliic.core.codeInsight.HighlightInfoType;
+import com.xliic.core.editor.Editor;
+import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.util.TextRange;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;

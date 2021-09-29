@@ -2,14 +2,14 @@ package com.xliic.openapi.report;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.codeHighlighting.Pass;
-import com.xliic.idea.codeHighlighting.TextEditorHighlightingPass;
-import com.xliic.idea.codeHighlighting.TextEditorHighlightingPassFactory;
-import com.xliic.idea.codeHighlighting.TextEditorHighlightingPassFactoryRegistrar;
-import com.xliic.idea.codeHighlighting.TextEditorHighlightingPassRegistrar;
-import com.xliic.idea.editor.Editor;
-import com.xliic.idea.file.PsiFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.codeHighlighting.Pass;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPassFactory;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPassFactoryRegistrar;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPassRegistrar;
+import com.xliic.core.editor.Editor;
+import com.xliic.core.project.Project;
+import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;
 

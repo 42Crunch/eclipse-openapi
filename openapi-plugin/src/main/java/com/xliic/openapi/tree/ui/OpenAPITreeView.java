@@ -32,9 +32,9 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.Disposable;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.Disposable;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.FileProperty;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiFileType;

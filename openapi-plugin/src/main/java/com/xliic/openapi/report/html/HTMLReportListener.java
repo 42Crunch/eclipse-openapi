@@ -14,9 +14,9 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.internal.about.AboutUtils;
 
-import com.xliic.idea.file.LocalFileSystem;
-import com.xliic.idea.file.OpenFileDescriptor;
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 

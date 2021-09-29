@@ -5,18 +5,18 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.ProgressIndicator;
-import com.xliic.idea.codeHighlighting.HighlightSeverity;
-import com.xliic.idea.codeHighlighting.TextEditorHighlightingPass;
-import com.xliic.idea.codeInsight.HighlightInfo;
-import com.xliic.idea.codeInsight.HighlightInfoType;
-import com.xliic.idea.codeInsight.QuickFixAction;
-import com.xliic.idea.codeInsight.SeverityRegistrar;
-import com.xliic.idea.codeInsight.UpdateHighlightersUtil;
-import com.xliic.idea.codeInspection.ProblemDescriptorUtil;
-import com.xliic.idea.codeInspection.ProblemHighlightType;
-import com.xliic.idea.editor.Editor;
-import com.xliic.idea.file.PsiFile;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
+import com.xliic.core.codeInsight.HighlightInfo;
+import com.xliic.core.codeInsight.HighlightInfoType;
+import com.xliic.core.codeInsight.QuickFixAction;
+import com.xliic.core.codeInsight.SeverityRegistrar;
+import com.xliic.core.codeInsight.UpdateHighlightersUtil;
+import com.xliic.core.codeInspection.ProblemDescriptorUtil;
+import com.xliic.core.codeInspection.ProblemHighlightType;
+import com.xliic.core.editor.Editor;
+import com.xliic.core.lang.HighlightSeverity;
+import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.actions.GoToHTMLIntentionAction;
 import com.xliic.openapi.services.DataService;
 

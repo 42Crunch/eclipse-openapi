@@ -12,10 +12,10 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.editor.FileEditorManager;
-import com.xliic.idea.editor.FileEditorManagerEvent;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.fileEditor.FileEditorManager;
+import com.xliic.core.fileEditor.FileEditorManagerEvent;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.settings.AuditKeys;
 import com.xliic.openapi.utils.EditorUtil;

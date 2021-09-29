@@ -19,9 +19,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.DialogWrapper;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.DialogWrapper;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.callback.EmailDialogDoOkActionCallback;

@@ -14,7 +14,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.utils.OpenAPIUtils;

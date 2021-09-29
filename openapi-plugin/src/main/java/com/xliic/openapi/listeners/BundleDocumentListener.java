@@ -2,11 +2,11 @@ package com.xliic.openapi.listeners;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.FileDocumentManager;
-import com.xliic.idea.document.DocumentEvent;
-import com.xliic.idea.document.DocumentListener;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.editor.event.DocumentEvent;
+import com.xliic.core.editor.event.DocumentListener;
+import com.xliic.core.fileEditor.FileDocumentManager;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.services.BundleService;
 
 public class BundleDocumentListener extends DocumentListener {

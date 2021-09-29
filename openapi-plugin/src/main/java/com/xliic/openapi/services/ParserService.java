@@ -4,7 +4,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IDisposable;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.project.Project;
+import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.parser.tree.TreeJSONParser;

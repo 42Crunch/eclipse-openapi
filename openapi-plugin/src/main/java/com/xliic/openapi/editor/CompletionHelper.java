@@ -13,7 +13,7 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.ui.PlatformUI;
 
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiTargetMapping;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.tree.ParserData;

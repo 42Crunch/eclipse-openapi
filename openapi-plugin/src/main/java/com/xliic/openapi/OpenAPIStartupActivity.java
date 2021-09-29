@@ -2,8 +2,8 @@ package com.xliic.openapi;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.StartupActivity;
-import com.xliic.idea.project.Project;
+import com.xliic.core.project.Project;
+import com.xliic.core.startup.StartupActivity;
 import com.xliic.openapi.services.SnippetService;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {

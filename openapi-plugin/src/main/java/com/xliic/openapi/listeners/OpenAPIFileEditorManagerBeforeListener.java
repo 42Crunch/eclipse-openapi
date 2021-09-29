@@ -2,12 +2,12 @@ package com.xliic.openapi.listeners;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.FileDocumentManager;
-import com.xliic.idea.document.Document;
-import com.xliic.idea.editor.FileEditorManager;
-import com.xliic.idea.editor.FileEditorManagerListener;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.editor.Document;
+import com.xliic.core.fileEditor.FileDocumentManager;
+import com.xliic.core.fileEditor.FileEditorManager;
+import com.xliic.core.fileEditor.FileEditorManagerListener;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.FileProperty;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;

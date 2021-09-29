@@ -4,8 +4,8 @@ import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.document.Document;
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.editor.Document;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
 
 public interface IASTService {

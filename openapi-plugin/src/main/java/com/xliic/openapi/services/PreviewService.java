@@ -27,11 +27,11 @@ import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.ui.PlatformUI;
 
-import com.xliic.idea.ApplicationManager;
-import com.xliic.idea.Disposable;
-import com.xliic.idea.PropertiesComponent;
-import com.xliic.idea.ResourceUtil;
-import com.xliic.idea.file.FileUtil;
+import com.xliic.core.Disposable;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.util.FileUtil;
+import com.xliic.core.util.ResourceUtil;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.preview.PreviewWebSocket;

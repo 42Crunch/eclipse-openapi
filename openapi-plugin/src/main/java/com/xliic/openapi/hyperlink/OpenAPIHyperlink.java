@@ -5,7 +5,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.psi.PsiElement;
+import com.xliic.core.psi.PsiElement;
 import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class OpenAPIHyperlink implements IHyperlink {

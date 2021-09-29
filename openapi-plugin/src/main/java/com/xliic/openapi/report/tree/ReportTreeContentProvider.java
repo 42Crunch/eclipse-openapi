@@ -10,9 +10,9 @@ import javax.swing.tree.TreeNode;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 
-import com.xliic.idea.editor.FileEditor;
-import com.xliic.idea.editor.FileEditorManager;
-import com.xliic.idea.project.Project;
+import com.xliic.core.fileEditor.FileEditor;
+import com.xliic.core.fileEditor.FileEditorManager;
+import com.xliic.core.project.Project;
 import com.xliic.openapi.report.tree.filter.FilterState;
 
 public class ReportTreeContentProvider implements ITreeContentProvider {

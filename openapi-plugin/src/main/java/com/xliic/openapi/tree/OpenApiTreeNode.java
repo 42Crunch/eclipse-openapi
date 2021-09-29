@@ -13,7 +13,7 @@ import static com.xliic.openapi.OpenApiPanelKeys.RESPONSES;
 import static com.xliic.openapi.OpenApiPanelKeys.RESPONSES_KEY;
 import static com.xliic.openapi.parser.pointer.LocationUtils.pointer;
 
-import com.xliic.idea.editor.LogicalPosition;
+import com.xliic.core.editor.LogicalPosition;
 import com.xliic.openapi.parser.pointer.Location;
 
 public class OpenApiTreeNode {

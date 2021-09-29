@@ -14,10 +14,10 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import com.xliic.common.Workspace;
-import com.xliic.idea.ApplicationManager;
-import com.xliic.idea.Computable;
-import com.xliic.idea.file.LocalFileSystem;
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.util.Computable;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 
 public class BundleResult {

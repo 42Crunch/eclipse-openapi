@@ -2,9 +2,9 @@ package com.xliic.openapi.actions;
 
 import java.net.MalformedURLException;
 
-import com.xliic.idea.BrowserUtil;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.ide.BrowserUtil;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.preview.PreviewUtils;
 
 public class PreviewReDocAction extends PreviewAbstractAction {

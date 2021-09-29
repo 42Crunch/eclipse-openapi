@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.eclipse.ui.IViewPart;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.project.Project;
+import com.xliic.core.project.Project;
 import com.xliic.openapi.report.html.HTMLReportManager;
 import com.xliic.openapi.utils.WorkbenchUtils;
 

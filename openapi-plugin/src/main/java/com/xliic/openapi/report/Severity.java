@@ -1,7 +1,7 @@
 package com.xliic.openapi.report;
 
-import com.xliic.idea.codeHighlighting.HighlightSeverity;
-import com.xliic.idea.codeInspection.ProblemHighlightType;
+import com.xliic.core.codeInspection.ProblemHighlightType;
+import com.xliic.core.lang.HighlightSeverity;
 
 public enum Severity {
 

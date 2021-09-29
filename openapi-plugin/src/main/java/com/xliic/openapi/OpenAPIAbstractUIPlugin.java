@@ -16,8 +16,8 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.xliic.idea.codeHighlighting.HighlightingManager;
-import com.xliic.idea.project.Project;
+import com.xliic.core.codeHighlighting.HighlightingManager;
+import com.xliic.core.project.Project;
 import com.xliic.openapi.listeners.OpenAPIBulkFileListener;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
 

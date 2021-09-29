@@ -10,7 +10,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbench;
 
-import com.xliic.idea.project.Project;
+import com.xliic.core.project.Project;
 import com.xliic.openapi.FontStyler;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.report.Severity;

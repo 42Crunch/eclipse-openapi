@@ -11,12 +11,12 @@ import java.util.Objects;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.xliic.idea.TextRange;
-import com.xliic.idea.document.Document;
-import com.xliic.idea.editor.RangeMarker;
-import com.xliic.idea.file.LocalFileSystem;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.editor.Document;
+import com.xliic.core.editor.RangeMarker;
+import com.xliic.core.project.Project;
+import com.xliic.core.util.TextRange;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.bundler.Mapping;
 import com.xliic.openapi.parser.ast.Range;

@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
-import com.xliic.idea.vfs.BulkFileListener;
-import com.xliic.idea.vfs.VFileEvent;
-import com.xliic.idea.vfs.VFileMoveEvent;
-import com.xliic.idea.vfs.VFilePropertyChangeEvent;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.BulkFileListener;
+import com.xliic.core.vfs.VFileEvent;
+import com.xliic.core.vfs.VFileMoveEvent;
+import com.xliic.core.vfs.VFilePropertyChangeEvent;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.report.html.HTMLReportManager;
