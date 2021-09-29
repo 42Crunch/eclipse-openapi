@@ -38,6 +38,7 @@ import com.xliic.openapi.report.html.HTMLReportManager;
 import com.xliic.openapi.report.html.ui.HTMLReportPanel;
 import com.xliic.openapi.report.tree.ReportManager;
 import com.xliic.openapi.report.tree.ui.ReportPanel;
+import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.tree.PanelManager;
 import com.xliic.openapi.tree.ui.OpenApiTreePanel;
 

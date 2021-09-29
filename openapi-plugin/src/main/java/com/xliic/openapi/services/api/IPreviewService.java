@@ -1,4 +1,4 @@
-package com.xliic.openapi.services;
+package com.xliic.openapi.services.api;
 
 import java.io.IOException;
 

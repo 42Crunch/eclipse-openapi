@@ -1,4 +1,4 @@
-package com.xliic.openapi.services;
+package com.xliic.openapi.services.api;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -7,5 +7,5 @@ import com.xliic.openapi.parser.tree.ParserData;
 
 public interface IParserService {
 
-	ParserData parse(@NotNull String text, @NotNull OpenApiFileType fileType);
+	public ParserData parse(@NotNull String text, @NotNull OpenApiFileType fileType);
 }

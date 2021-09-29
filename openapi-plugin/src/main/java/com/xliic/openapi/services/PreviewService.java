@@ -36,6 +36,7 @@ import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.preview.PreviewWebSocket;
 import com.xliic.openapi.preview.PreviewWebSocketHandler;
+import com.xliic.openapi.services.api.IPreviewService;
 
 public class PreviewService implements IPreviewService, Disposable {
 

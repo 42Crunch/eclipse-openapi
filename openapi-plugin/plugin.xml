@@ -107,32 +107,32 @@
 
 	<extension point="org.eclipse.ui.services">
 	
-		<serviceFactory factoryClass="com.xliic.openapi.services.DataServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.IDataService"></service>
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.DataServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IDataService"></service>
 		</serviceFactory>
 			
-		<serviceFactory factoryClass="com.xliic.openapi.services.ParserServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.IParserService"></service>
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ParserServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IParserService"></service>
 		</serviceFactory>
 		
-		<serviceFactory factoryClass="com.xliic.openapi.services.SnippetServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.ISnippetService"></service>
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.SnippetServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.ISnippetService"></service>
 		</serviceFactory>
 		
-		<serviceFactory factoryClass="com.xliic.openapi.services.AuditServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.IAuditService"></service>
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.AuditServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IAuditService"></service>
 		</serviceFactory>
 		
-		<serviceFactory factoryClass="com.xliic.openapi.services.PreviewServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.IPreviewService"></service>
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.PreviewServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IPreviewService"></service>
 		</serviceFactory>
 
-		<serviceFactory factoryClass="com.xliic.openapi.services.BundleServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.IBundleService"></service>
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.BundleServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IBundleService"></service>
 		</serviceFactory>
 		
-		<serviceFactory factoryClass="com.xliic.openapi.services.ASTServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.IASTService"></service>
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ASTServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IASTService"></service>
 		</serviceFactory>
 		
 	</extension>

@@ -10,6 +10,7 @@ import org.eclipse.ui.services.IDisposable;
 
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiPanelKeys;
+import com.xliic.openapi.services.api.ISnippetService;
 import com.xliic.idea.project.Project;
 import com.xliic.openapi.snippets.Snippet;
 import com.xliic.openapi.snippets.SnippetIDs;

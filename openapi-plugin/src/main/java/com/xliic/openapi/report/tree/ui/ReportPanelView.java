@@ -51,7 +51,7 @@ import com.xliic.openapi.report.tree.filter.ShowFilterAction;
 import com.xliic.openapi.report.tree.filter.ShowForSelectedFileAction;
 import com.xliic.openapi.report.tree.filter.ShowInfoAction;
 import com.xliic.openapi.report.tree.filter.ShowWarningsAction;
-import com.xliic.openapi.services.IDataService;
+import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.utils.OpenAPIUtils;
 import com.xliic.openapi.utils.WorkbenchUtils;
 

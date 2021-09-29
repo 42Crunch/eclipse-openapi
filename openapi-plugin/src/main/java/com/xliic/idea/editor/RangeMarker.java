@@ -9,4 +9,8 @@ public class RangeMarker {
 	public RangeMarker(Range range) {
 		this.range = range;
 	}
+
+	public Range getRange() {
+		return range;
+	}
 }

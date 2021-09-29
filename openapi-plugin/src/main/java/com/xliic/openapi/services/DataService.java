@@ -15,16 +15,15 @@ import com.xliic.openapi.FileProperty;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.services.api.IDataService;
 
 public class DataService implements IDataService, IDisposable {
 
-	private final Project project;
 	private Map<String, Audit> auditContext = new HashMap<>();
 	private Map<String, ParserData> parserDataContext = new HashMap<>();
 	private Map<String, FileProperty> fileContext = new HashMap<>();
 
 	public DataService(@NotNull Project project) {
-		this.project = project;
 	}
 
 	public static DataService getInstance(Project project) {

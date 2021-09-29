@@ -25,7 +25,7 @@ import com.xliic.idea.project.Project;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.callback.EmailDialogDoOkActionCallback;
-import com.xliic.openapi.services.IAuditService;
+import com.xliic.openapi.services.api.IAuditService;
 
 @SuppressWarnings("restriction")
 public class AuditConfigEmailDialogWrapper extends DialogWrapper {

@@ -36,6 +36,7 @@ import com.xliic.openapi.bundler.BundleError;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.listeners.BundleDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.api.IBundleService;
 
 public class BundleService implements IBundleService, Runnable, Disposable {
 

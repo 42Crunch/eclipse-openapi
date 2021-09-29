@@ -30,7 +30,7 @@ import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.tree.ParserData;
-import com.xliic.openapi.services.IDataService;
+import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.snippets.Snippet;
 import com.xliic.openapi.snippets.SnippetIDs;
 import com.xliic.openapi.snippets.SnippetLayout;

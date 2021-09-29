@@ -43,7 +43,7 @@ import com.xliic.openapi.report.html.HTMLReportLAFListener;
 import com.xliic.openapi.report.html.HTMLReportListener;
 import com.xliic.openapi.report.html.HTMLReportManager;
 import com.xliic.openapi.services.DataService;
-import com.xliic.openapi.services.IDataService;
+import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.utils.OpenAPIUtils;
 import com.xliic.openapi.utils.WorkbenchUtils;
 

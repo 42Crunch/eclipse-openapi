@@ -41,7 +41,7 @@ import org.json.JSONObject;
 
 import com.xliic.idea.file.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.services.IDataService;
+import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.tree.OpenApiTreeNode;
 
 @SuppressWarnings("restriction")

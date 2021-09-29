@@ -9,6 +9,7 @@ import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.parser.tree.TreeJSONParser;
 import com.xliic.openapi.parser.tree.TreeYAMLParser;
+import com.xliic.openapi.services.api.IParserService;
 
 public final class ParserService implements IParserService, IDisposable {
 
