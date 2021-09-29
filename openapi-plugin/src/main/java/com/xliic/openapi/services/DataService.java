@@ -4,39 +4,26 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.services.IDisposable;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.FileDocumentManager;
-import com.xliic.idea.document.Document;
-import com.xliic.idea.editor.FileEditorManager;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.FileProperty;
-import com.xliic.openapi.listeners.ReportDocumentListener;
-import com.xliic.openapi.listeners.TreeDocumentListener;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.services.api.IDataService;
 
 public class DataService implements IDataService, IDisposable {
-
-	private final Project project;
-	private final TreeDocumentListener treeListener;
-	private final ReportDocumentListener reportListener;
 
 	private Map<String, Audit> auditContext = new HashMap<>();
 	private Map<String, ParserData> parserDataContext = new HashMap<>();
 	private Map<String, FileProperty> fileContext = new HashMap<>();
 
 	public DataService(@NotNull Project project) {
-		this.project = project;
-		treeListener = new TreeDocumentListener(project);
-		reportListener = new ReportDocumentListener(project);
 	}
 
 	public static DataService getInstance(Project project) {
@@ -44,82 +31,20 @@ public class DataService implements IDataService, IDisposable {
 	}
 
 	@Override
-	public void addTreeDocumentListener(@NotNull VirtualFile file) {
-		Document document = FileDocumentManager.getInstance().getDocument(file);
-		if (document != null) {
-			document.addDocumentListener(treeListener);
-		}
-	}
-
-	@Override
-	public void removeTreeDocumentListener(@NotNull VirtualFile file) {
-		Document document = FileDocumentManager.getInstance().getDocument(file);
-		if (document != null) {
-			document.removeDocumentListener(treeListener);
-		}
-	}
-
-	@Override
-	public void addReportDocumentListener(@NotNull VirtualFile file) {
-		if (hasAuditReport(file.getPath())) {
-			Set<String> participantFileNames = getAuditReport(file.getPath()).getParticipantFileNames();
-			for (VirtualFile openedFile : FileEditorManager.getInstance(project).getOpenFiles()) {
-				if (participantFileNames.contains(openedFile.getPath())) {
-					Document document = FileDocumentManager.getInstance().getDocument(openedFile);
-					if (document != null) {
-						document.addDocumentListener(reportListener);
-					}
-				}
-			}
-			return;
-		}
-		if (isAuditParticipantFile(file.getPath())) {
-			Document document = FileDocumentManager.getInstance().getDocument(file);
-			if (document != null) {
-				document.addDocumentListener(reportListener);
-			}
-		}
-	}
-
-	@Override
-	public void removeReportDocumentListener(@NotNull VirtualFile file) {
-		if (hasAuditReport(file.getPath())) {
-			Set<String> participantFileNames = getAuditReport(file.getPath()).getParticipantFileNames();
-			for (VirtualFile openedFile : FileEditorManager.getInstance(project).getOpenFiles()) {
-				if (participantFileNames.contains(openedFile.getPath())) {
-					Document document = FileDocumentManager.getInstance().getDocument(openedFile);
-					if (document != null) {
-						document.removeDocumentListener(reportListener);
-					}
-				}
-			}
-			return;
-		}
-		if (isAuditParticipantFile(file.getPath())) {
-			Document document = FileDocumentManager.getInstance().getDocument(file);
-			if (document != null) {
-				document.removeDocumentListener(reportListener);
-			}
-		}
-	}
-
-	@Override
-	public void handleFileNameChanged(IFile newFile, IFile oldFile) {
-
-		String oldFileName = new VirtualFile(oldFile).getPath();
+	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
 
 		if (hasParserData(oldFileName)) {
-			setParserData(new VirtualFile(newFile).getPath(), removeParserData(oldFileName));
+			setParserData(newFile.getPath(), removeParserData(oldFileName));
 		}
 		if (hasFileProperty(oldFileName)) {
-			setFileProperty(new VirtualFile(newFile).getPath(), removeFileProperty(oldFileName));
+			setFileProperty(newFile.getPath(), removeFileProperty(oldFileName));
 		}
 		if (hasAuditReport(oldFileName)) {
-			setAuditReport(new VirtualFile(newFile).getPath(), removeAuditReport(oldFileName));
+			setAuditReport(newFile.getPath(), removeAuditReport(oldFileName));
 		}
 		if (!auditContext.isEmpty()) {
 			for (Audit audit : auditContext.values()) {
-				audit.handleFileNameChanged(newFile, oldFile);
+				audit.handleFileNameChanged(newFile, oldFileName);
 			}
 		}
 	}

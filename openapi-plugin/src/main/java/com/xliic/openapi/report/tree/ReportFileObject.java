@@ -2,16 +2,14 @@ package com.xliic.openapi.report.tree;
 
 import org.eclipse.core.resources.IFile;
 
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class ReportFileObject {
 
 	private String fileName;
-	private VirtualFile file;
 
-	public ReportFileObject(String fileName, IFile file) {
+	public ReportFileObject(String fileName) {
 		this.fileName = fileName;
-		this.file = new VirtualFile(file);
 	}
 
 	@Override
@@ -27,17 +25,13 @@ public class ReportFileObject {
 		this.fileName = fileName;
 	}
 
-	public void setFileWithFileName(VirtualFile file, String fileName) {
-		this.file = file;
+	public void setFileWithFileName(String fileName) {
 		setFileName(fileName);
 	}
 
-	public boolean hasFile(IFile file) {
-		return this.file.equalsToIFile(file);
-	}
-
-	public String getShortFileName() {
-		String shortName = file.getPath();
+	public String getShortFileName(String projectPath) {
+		IFile file = OpenAPIUtils.getIFile(fileName);
+		String shortName = file.getFullPath().toPortableString();
 		if (shortName.startsWith("/")) {
 			shortName = shortName.replaceFirst("/", "");
 		}

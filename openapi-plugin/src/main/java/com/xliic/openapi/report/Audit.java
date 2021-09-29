@@ -10,18 +10,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
-import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.parser.pointer.Location;
-import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.ParserService;
+import com.xliic.core.editor.Document;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class Audit {
 
@@ -30,16 +26,12 @@ public class Audit {
 	private final Map<String, List<Issue>> fileNameToIssuesMap;
 	private String auditFileName;
 	private final Project project;
-	private Map<String, Map<String, Location>> fileToPointerToLocationMap;
 
 	public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull JSONObject response) {
 
 		this.project = project;
 		this.auditFileName = auditFileName;
-
-		initFileToPointerToLocationMap();
 		read(response);
-
 		fileNameToIssuesMap = new HashMap<>();
 		for (Issue issue : issues) {
 			if (issue.getFileName() != null) {
@@ -51,33 +43,15 @@ public class Audit {
 		}
 	}
 
-	private void initFileToPointerToLocationMap() {
-		fileToPointerToLocationMap = new HashMap<>();
-		BundleService bundleService = BundleService.getInstance(project);
-		Set<String> files = bundleService.getBundle(auditFileName).getBundledFiles();
-		ParserService parserService = ParserService.getInstance(project);
-		for (String bundleFile : files) {
-			if (!fileToPointerToLocationMap.containsKey(bundleFile)) {
-				String text = OpenApiUtils.getTextFromFile(bundleFile);
-				OpenApiFileType fileType = OpenApiUtils.getFileType(bundleFile);
-				fileToPointerToLocationMap.put(bundleFile, parserService.parsePointerToLocationMap(text, fileType));
-			}
-		}
-	}
-
-	public void handleFileNameChanged(IFile newFile, IFile oldFile) {
-
-		String oldFileName = new VirtualFile(oldFile).getPath();
-		String newFileName = new VirtualFile(newFile).getPath();
-
+	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
 		if (Objects.equals(auditFileName, oldFileName)) {
-			auditFileName = newFileName;
+			auditFileName = newFile.getPath();
 		}
 		if (fileNameToIssuesMap.containsKey(oldFileName)) {
 			for (Issue issue : fileNameToIssuesMap.get(oldFileName)) {
-				issue.handleFileNameChanged(newFile, oldFile);
+				issue.handleFileNameChanged(newFile, oldFileName);
 			}
-			fileNameToIssuesMap.put(newFileName, fileNameToIssuesMap.remove(oldFileName));
+			fileNameToIssuesMap.put(newFile.getPath(), fileNameToIssuesMap.remove(oldFileName));
 		}
 	}
 
@@ -100,12 +74,11 @@ public class Audit {
 		return new LinkedList<>();
 	}
 
-	public void updateLocation(String fileName, Map<String, Location> pointerToLocationMap) {
-		if (!hasAuditParticipantFileName(fileName)) {
-			return;
-		}
-		for (Issue issue : getIssuesForAuditParticipantFileName(fileName)) {
-			issue.updateLocation(pointerToLocationMap);
+	public void updateRangeMarkers(String fileName, Document document, Node root) {
+		if (hasAuditParticipantFileName(fileName)) {
+			for (Issue issue : getIssuesForAuditParticipantFileName(fileName)) {
+				issue.updateRangeMarkers(document, root);
+			}
 		}
 	}
 
@@ -207,8 +180,7 @@ public class Audit {
 				int criticality = issue.containsKey("criticality") ? (Integer) getValue(issue, "criticality")
 						: defaultCriticality;
 
-				result.add(new Issue(project, auditFileName, id, description, pointer, score, criticality,
-						fileToPointerToLocationMap));
+				result.add(new Issue(project, auditFileName, id, description, pointer, score, criticality));
 			}
 		}
 		return result;

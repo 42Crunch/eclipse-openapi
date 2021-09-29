@@ -14,8 +14,10 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 import com.xliic.common.Workspace;
-import com.xliic.idea.file.LocalFileSystem;
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.util.Computable;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 
 public class BundleResult {
@@ -35,12 +37,12 @@ public class BundleResult {
 
 			@Override
 			public URI resolve(String filename) {
-				// check if the filename is absolute, and return URI if so
+				// Check if the filename is absolute, and return URI if so
 				Path filepath = Paths.get(filename);
 				if (filepath.isAbsolute()) {
 					return filepath.toUri();
 				}
-				// for relative filenames, resolve relative to the workspace
+				// For relative filenames, resolve relative to the workspace
 				// URI() constructor will handle the special chars
 				try {
 					return workspaceUri.resolve(new URI(null, filename, null));
@@ -55,11 +57,12 @@ public class BundleResult {
 			}
 
 			@Override
-			public String read(URI uri) throws IOException {
-				String text = OpenApiUtils.getTextFromFile(uri.getPath());
+			public String read(URI uri) {
+				final String text = ApplicationManager.getApplication()
+						.runReadAction((Computable<String>) () -> OpenApiUtils.getTextFromFile(uri.getPath()));
 				VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(uri.getPath()));
 				if (StringUtils.isEmpty(text) || file == null) {
-					throw new IOException("Failed to read URI " + uri);
+					return null;
 				}
 				bundleFiles.add(file.getPath());
 				return text;

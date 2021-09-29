@@ -15,11 +15,12 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import com.xliic.idea.ApplicationManager;
-import com.xliic.idea.file.LocalFileSystem;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
-import com.xliic.idea.project.ProjectLocator;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.project.Project;
+import com.xliic.core.project.ProjectLocator;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.services.BundleService;
 
 @WebSocket
@@ -48,8 +49,11 @@ public class PreviewWebSocket {
 					for (Project project : projects) {
 						if (project.getLocationHash().equals(projectId)) {
 							BundleService bundleService = BundleService.getInstance(project);
-							if (bundleService != null && bundleService.hasBundle(rootFileName)) {
-								text = bundleService.getBundle(rootFileName).getJsonText();
+							if (bundleService != null) {
+								final BundleResult bundleResult = bundleService.getBundle(rootFileName);
+								if (bundleResult != null) {
+									text = bundleResult.getJsonText();
+								}
 							}
 						}
 					}

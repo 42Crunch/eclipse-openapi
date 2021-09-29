@@ -30,8 +30,10 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import com.xliic.idea.Disposable;
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.Disposable;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.tree.ReportFileObject;
@@ -49,7 +51,7 @@ import com.xliic.openapi.report.tree.filter.ShowFilterAction;
 import com.xliic.openapi.report.tree.filter.ShowForSelectedFileAction;
 import com.xliic.openapi.report.tree.filter.ShowInfoAction;
 import com.xliic.openapi.report.tree.filter.ShowWarningsAction;
-import com.xliic.openapi.services.IDataService;
+import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.utils.OpenAPIUtils;
 import com.xliic.openapi.utils.WorkbenchUtils;
 
@@ -87,8 +89,9 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 		contentProvider = new ReportTreeContentProvider(this);
 		viewer.setContentProvider(contentProvider);
 		viewer.setInput(new DefaultMutableTreeNode());
-
-		labelProvider = new DecoratingStyledCellLabelProvider(new ReportTreeLabelProvider(workbench, contentProvider),
+		Project project = OpenAPIAbstractUIPlugin.getInstance().getProject();
+		labelProvider = new DecoratingStyledCellLabelProvider(
+				new ReportTreeLabelProvider(project, workbench, contentProvider),
 				workbench.getDecoratorManager().getLabelDecorator(), DecorationContext.DEFAULT_CONTEXT);
 		viewer.setLabelProvider(labelProvider);
 
@@ -132,6 +135,11 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 		filterShowForSelectedFileAction = new ShowForSelectedFileAction(this);
 		filterFilterResetAction = new FilterResetAction(this);
 		filterShowFilterAction = new ShowFilterAction(workbench.getActiveWorkbenchWindow(), this);
+	}
+
+	@Override
+	public Project getProject() {
+		return OpenAPIAbstractUIPlugin.getInstance().getProject();
 	}
 
 	@Override
@@ -194,7 +202,7 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 	@Override
 	public void handleAuditReportReady(VirtualFile file) {
 
-		WorkbenchUtils.showView2(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
+		WorkbenchUtils.showView(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
 		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
 		Audit data = dataService.getAuditReport(file.getPath());
 		addIssues(data.getIssues());
@@ -239,7 +247,7 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 				issueToTreeNodeMap.put(issue, child);
 				expansionListener.addNodeExpandedState(node);
 			} else {
-				ReportFileObject fo = new ReportFileObject(fileName, issue.getFile());
+				ReportFileObject fo = new ReportFileObject(fileName);
 				DefaultMutableTreeNode node = new DefaultMutableTreeNode(fo);
 				node.add(child);
 				root.add(node);
@@ -340,7 +348,7 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 			expansionListener.replace(newKey, oldKey);
 			fileNameToTreeNodeMap.put(newKey, fileNameToTreeNodeMap.remove(oldKey));
 			DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(newKey);
-			((ReportFileObject) node.getUserObject()).setFileWithFileName(newFile, newKey);
+			((ReportFileObject) node.getUserObject()).setFileWithFileName(newKey);
 			viewer.refresh(node);
 			expansionListener.expand(fileNameToTreeNodeMap.values());
 		}

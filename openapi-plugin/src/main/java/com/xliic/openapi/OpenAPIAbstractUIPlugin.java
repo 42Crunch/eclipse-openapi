@@ -16,8 +16,9 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.xliic.idea.codeHighlighting.HighlightingManager;
-import com.xliic.idea.project.Project;
+import com.xliic.core.codeHighlighting.HighlightingManager;
+import com.xliic.core.project.Project;
+import com.xliic.openapi.listeners.OpenAPIBulkFileListener;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
 
 @SuppressWarnings("restriction")
@@ -29,7 +30,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	private static Project project = new Project();
 
 	private IPartListener partListener;
-	private OpenAPIResourceChangeListener resourceListener;
+	private OpenAPIBulkFileListener resourceListener;
 	private OpenAPIStartupActivity startupActivity;
 	private HighlightingManager highlightingManager;
 
@@ -38,7 +39,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 		startupActivity = new OpenAPIStartupActivity();
 		highlightingManager = HighlightingManager.getInstance(project);
 		partListener = new OpenAPIPartListener(project);
-		resourceListener = new OpenAPIResourceChangeListener();
+		resourceListener = new OpenAPIBulkFileListener(project);
 	}
 
 	@Override

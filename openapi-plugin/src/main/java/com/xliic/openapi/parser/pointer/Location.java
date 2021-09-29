@@ -1,6 +1,6 @@
 package com.xliic.openapi.parser.pointer;
 
-import com.xliic.idea.TextRange;
+import com.xliic.core.util.TextRange;
 
 public class Location {
 

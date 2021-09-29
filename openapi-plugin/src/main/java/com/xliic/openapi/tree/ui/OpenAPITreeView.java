@@ -32,17 +32,17 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.Disposable;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.Disposable;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.FileProperty;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.tree.ParserData;
-import com.xliic.openapi.services.IDataService;
-import com.xliic.openapi.services.IParserService;
+import com.xliic.openapi.services.api.IDataService;
+import com.xliic.openapi.services.api.IParserService;
 import com.xliic.openapi.tree.OpenAPILAFListener;
 import com.xliic.openapi.tree.OpenAPIMouseMotionListener;
 import com.xliic.openapi.tree.OpenAPITreeActionGroup;
@@ -203,8 +203,6 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 				}
 
 				IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-				dataService.addReportDocumentListener(new VirtualFile(file));
-
 				IParserService parserService = PlatformUI.getWorkbench().getService(IParserService.class);
 				ParserData data = parserService.parse(EditorUtil.getDocument(fileInput).get(), fileType);
 				OpenApiVersion version = data.getVersion();
@@ -214,7 +212,6 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 
 				dataService.setFileProperty(new VirtualFile(file).getPath(), new FileProperty(fileType, version));
 				dataService.setParserData(new VirtualFile(file).getPath(), data);
-				dataService.addTreeDocumentListener(new VirtualFile(file));
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}

@@ -4,10 +4,10 @@ import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
 
 import java.net.MalformedURLException;
 
-import com.xliic.idea.BrowserUtil;
-import com.xliic.idea.PropertiesComponent;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.ide.BrowserUtil;
+import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 

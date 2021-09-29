@@ -2,7 +2,11 @@ package com.xliic.openapi.services;
 
 import static com.xliic.openapi.utils.OpenAPIUtils.getValue;
 
+import java.io.File;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ICoreRunnable;
@@ -14,14 +18,25 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.xliic.idea.ApplicationManager;
-import com.xliic.idea.project.Project;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.editor.Document;
+import com.xliic.core.fileEditor.FileDocumentManager;
+import com.xliic.core.project.Project;
+import com.xliic.core.util.SwingUtilities;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Logger;
 import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.callback.EmailDialogDoOkActionCallback;
+import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.ResponseStatus;
+import com.xliic.openapi.report.tree.ReportManager;
+import com.xliic.openapi.report.tree.ui.ReportPanel;
+import com.xliic.openapi.services.api.IAuditService;
+import com.xliic.openapi.services.api.IDataService;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -52,6 +67,48 @@ public final class AuditService implements IAuditService, IDisposable {
 		return (AuditService) PlatformUI.getWorkbench().getService(IAuditService.class);
 	}
 
+	public boolean isFileBeingAudited(@NotNull String fileName) {
+		DataService dataService = DataService.getInstance(project);
+		return !dataService.getAuditReportsForAuditParticipantFileName(fileName).isEmpty();
+	}
+
+	@SuppressWarnings("serial")
+	public void update(@NotNull String fileName) {
+		update(new HashSet<>() {
+			{
+				add(fileName);
+			}
+		});
+	}
+
+	public void update(@NotNull Set<String> fileNames) {
+		ASTService astService = ASTService.getInstance(project);
+		DataService dataService = DataService.getInstance(project);
+		for (String fileName : fileNames) {
+			List<Audit> reports = dataService.getAuditReportsForAuditParticipantFileName(fileName);
+			if (!reports.isEmpty()) {
+				VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
+				if (file != null) {
+					Node root = astService.getRootNode(file);
+					ApplicationManager.getApplication().invokeLater(() -> {
+						Document document = FileDocumentManager.getInstance().getDocument(file);
+						if (document != null) {
+							for (Audit audit : reports) {
+								audit.updateRangeMarkers(fileName, document, root);
+							}
+						}
+					});
+					SwingUtilities.invokeLater(() -> {
+						ReportManager reportManager = ReportPanel.getInstance(project);
+						if (reportManager != null) {
+							reportManager.handleDocumentChanged(file);
+						}
+					});
+				}
+			}
+		}
+	}
+
 	@Override
 	public void sendAuditRequest(String token, String fileName, AuditActionCallback callback) {
 
@@ -61,7 +118,12 @@ public final class AuditService implements IAuditService, IDisposable {
 		}
 
 		BundleService bundleService = BundleService.getInstance(project);
-		final String text = bundleService.getBundle(fileName).getJsonText();
+		final BundleResult bundleResult = bundleService.getBundle(fileName);
+		if (bundleResult == null) {
+			callback.reject("No bundle found for file " + fileName);
+			return;
+		}
+		final String text = bundleResult.getJsonText();
 
 		ICoreRunnable task = new ICoreRunnable() {
 			@Override

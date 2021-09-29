@@ -2,8 +2,8 @@ package com.xliic.openapi.callback;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.services.AuditService;
 
 public class TokenDialogDoOkActionCallback extends ActionCallback {

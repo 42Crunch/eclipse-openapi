@@ -1,6 +1,6 @@
 package com.xliic.openapi.tree;
 
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.vfs.VirtualFile;
 
 public interface PanelManager {
 

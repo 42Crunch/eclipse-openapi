@@ -3,9 +3,9 @@ package com.xliic.openapi.preview;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import com.xliic.idea.PropertiesComponent;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 
 public class PreviewUtils {
 

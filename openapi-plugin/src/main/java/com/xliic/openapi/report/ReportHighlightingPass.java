@@ -5,18 +5,18 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.ProgressIndicator;
-import com.xliic.idea.codeHighlighting.HighlightSeverity;
-import com.xliic.idea.codeHighlighting.TextEditorHighlightingPass;
-import com.xliic.idea.codeInsight.HighlightInfo;
-import com.xliic.idea.codeInsight.HighlightInfoType;
-import com.xliic.idea.codeInsight.QuickFixAction;
-import com.xliic.idea.codeInsight.SeverityRegistrar;
-import com.xliic.idea.codeInsight.UpdateHighlightersUtil;
-import com.xliic.idea.codeInspection.ProblemDescriptorUtil;
-import com.xliic.idea.codeInspection.ProblemHighlightType;
-import com.xliic.idea.editor.Editor;
-import com.xliic.idea.file.PsiFile;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
+import com.xliic.core.codeInsight.HighlightInfo;
+import com.xliic.core.codeInsight.HighlightInfoType;
+import com.xliic.core.codeInsight.QuickFixAction;
+import com.xliic.core.codeInsight.SeverityRegistrar;
+import com.xliic.core.codeInsight.UpdateHighlightersUtil;
+import com.xliic.core.codeInspection.ProblemDescriptorUtil;
+import com.xliic.core.codeInspection.ProblemHighlightType;
+import com.xliic.core.editor.Editor;
+import com.xliic.core.lang.HighlightSeverity;
+import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.actions.GoToHTMLIntentionAction;
 import com.xliic.openapi.services.DataService;
 
@@ -40,17 +40,17 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 		}
 		List<Issue> issues = dataService.getIssuesForAuditParticipantFileName(psiFile.getVirtualFile().getPath());
 		for (Issue issue : issues) {
-			if (!issue.isLocationFound()) {
-				continue;
+			if (issue.getRangeMarker() != null) {
+				ProblemHighlightType type = Severity.getProblemHighlightType(issue.getSeverity());
+				HighlightSeverity severity = Severity.getHighlightSeverity(issue.getSeverity());
+				HighlightInfoType highlightInfoType = ProblemDescriptorUtil.getHighlightInfoType(type, severity,
+						SeverityRegistrar.getSeverityRegistrar(myProject));
+				HighlightInfo info = HighlightInfo.newHighlightInfo(highlightInfoType).range(issue.getTextRange())
+						.pointer(issue.getPointer()).descriptionAndTooltip(issue.getLabel()).create();
+				QuickFixAction.registerQuickFixAction(info,
+						new GoToHTMLIntentionAction(psiFile.getVirtualFile(), issues));
+				highlights.add(info);
 			}
-			ProblemHighlightType type = Severity.getProblemHighlightType(issue.getSeverity());
-			HighlightSeverity severity = Severity.getHighlightSeverity(issue.getSeverity());
-			HighlightInfoType highlightInfoType = ProblemDescriptorUtil.getHighlightInfoType(type, severity,
-					SeverityRegistrar.getSeverityRegistrar(myProject));
-			HighlightInfo info = HighlightInfo.newHighlightInfo(highlightInfoType).range(issue.getTextRange())
-					.pointer(issue.getPointer()).descriptionAndTooltip(issue.getLabel()).create();
-			QuickFixAction.registerQuickFixAction(info, new GoToHTMLIntentionAction(psiFile.getVirtualFile(), issues));
-			highlights.add(info);
 		}
 	}
 

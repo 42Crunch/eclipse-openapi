@@ -2,10 +2,10 @@ package com.xliic.openapi.callback;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.Messages;
-import com.xliic.idea.SwingUtilities;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.Messages;
+import com.xliic.core.util.SwingUtilities;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.settings.AuditConfigTokenDialogWrapper;
 

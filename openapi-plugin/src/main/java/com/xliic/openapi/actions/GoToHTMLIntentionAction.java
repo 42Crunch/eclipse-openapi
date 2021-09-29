@@ -6,13 +6,13 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.idea.ApplicationManager;
-import com.xliic.idea.TextRange;
-import com.xliic.idea.action.IntentionAction;
-import com.xliic.idea.editor.Editor;
-import com.xliic.idea.file.PsiFile;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.codeInsight.IntentionAction;
+import com.xliic.core.editor.Editor;
+import com.xliic.core.project.Project;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.util.TextRange;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.html.ui.HTMLReportPanel;
@@ -50,12 +50,11 @@ public class GoToHTMLIntentionAction extends IntentionAction {
 		ApplicationManager.getApplication().runWriteAction(() -> {
 			List<Issue> selectedIssues = new LinkedList<>();
 			for (Issue issue : issues) {
-				if (!issue.isLocationFound()) {
-					continue;
-				}
-				TextRange range = issue.getTextRange();
-				if (range.containsOffset(offset)) {
-					selectedIssues.add(issue);
+				if (issue.getRange() != null) {
+					TextRange range = issue.getTextRange();
+					if (range.containsOffset(offset)) {
+						selectedIssues.add(issue);
+					}
 				}
 			}
 			Objects.requireNonNull(HTMLReportPanel.getInstance(project)).handleGoToHTMLIntention(virtualFile,

@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -32,16 +31,19 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
 import org.eclipse.ui.part.ViewPart;
 
-import com.xliic.idea.Disposable;
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.Disposable;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.html.HTMLIcon;
 import com.xliic.openapi.report.html.HTMLReportLAFListener;
 import com.xliic.openapi.report.html.HTMLReportListener;
 import com.xliic.openapi.report.html.HTMLReportManager;
-import com.xliic.openapi.services.IDataService;
+import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.utils.OpenAPIUtils;
 import com.xliic.openapi.utils.WorkbenchUtils;
 
@@ -73,11 +75,13 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 	private String summary = StringUtils.EMPTY;
 	private final Set<String> participants = new HashSet<>();
 	private final Map<Issue, String> issueToHTMLText = new LinkedHashMap<>();
+	private Audit lastAuditReport;
 
 	public HTMLReportPanelView() {
 		defaultCssRules = getCssRules("default.css");
 		darculaCssRules = getCssRules("darcula.css");
 		cssRules = defaultCssRules;
+		lastAuditReport = null;
 	}
 
 	@Override
@@ -107,16 +111,24 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 	}
 
 	@Override
+	public Project getProject() {
+		return OpenAPIAbstractUIPlugin.getInstance().getProject();
+	}
+
+	@Override
 	public void handleAllFilesClosed() {
 		reportNotAvailable();
 	}
 
 	@Override
-	public void handleClosedFile(VirtualFile file, boolean selected) {
-		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		IFile selectedFile = OpenAPIUtils.getSelectedOpenAPIFile();
-		if (selectedFile != null && dataService.hasAuditReport(new VirtualFile(selectedFile).getPath())) {
-			update(dataService.getAuditReport(new VirtualFile(selectedFile).getPath()));
+	public void handleClosedFile(VirtualFile file) {
+		DataService dataService = DataService.getInstance(getProject());
+		VirtualFile selectedFile = OpenAPIUtils.getSelectedOpenAPIFile();
+		if (selectedFile != null) {
+			Audit audit = dataService.getAuditReport(selectedFile.getPath());
+			if (audit != null) {
+				update(audit);
+			}
 		} else {
 			reportNotAvailable();
 		}
@@ -137,7 +149,7 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 
 	@Override
 	public void handleAuditReportReady(VirtualFile file) {
-		WorkbenchUtils.showView2(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
+		WorkbenchUtils.showView(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
 		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
 		update(dataService.getAuditReport(file.getPath()));
 	}
@@ -161,14 +173,16 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 
 	@Override
 	public void handleBackToLink() {
-		if (issueToHTMLText.keySet().isEmpty()) {
-			return;
+		if (lastAuditReport != null) {
+			update(lastAuditReport);
+		} else {
+			VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(getProject());
+			if (file != null) {
+				handleSelectedFile(file);
+			} else {
+				reportNotAvailable();
+			}
 		}
-		Issue issue = (Issue) issueToHTMLText.keySet().toArray()[0];
-		String auditFileName = issue.getAuditFileName();
-		IFile file = OpenAPIUtils.getIFile(auditFileName);
-		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		update(dataService.getAuditReport(new VirtualFile(file).getPath()));
 	}
 
 	@Override
@@ -181,7 +195,7 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 		for (Map.Entry<Issue, String> entry : issueToHTMLText.entrySet()) {
 			Issue issue = entry.getKey();
 			if (Objects.equals(issue.getFileName(), key)) {
-				if (issue.isLocationFound()) {
+				if (issue.getRange() != null) {
 					issueToHTMLText.put(issue, issue.getHTMLIssue());
 				} else {
 					toRemove.add(issue);
@@ -196,17 +210,17 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 
 	@Override
 	public void handleToolWindowRegistered() {
-		IFile file = OpenAPIUtils.getSelectedOpenAPIFile();
+		VirtualFile file = OpenAPIUtils.getSelectedOpenAPIFile();
 		if (file == null) {
 			return;
 		}
 		boolean hide = true;
 		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		if (dataService.hasAuditReport(new VirtualFile(file).getPath())) {
-			update(dataService.getAuditReport(new VirtualFile(file).getPath()));
+		if (dataService.hasAuditReport(file.getPath())) {
+			update(dataService.getAuditReport(file.getPath()));
 			hide = false;
 		} else {
-			String fileName = new VirtualFile(file).getPath();
+			String fileName = file.getPath();
 			if (!dataService.isAuditParticipantFile(fileName)) {
 				reportNotAvailable();
 			}
@@ -260,11 +274,12 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 	}
 
 	private void update(Audit auditReport) {
+		lastAuditReport = auditReport;
 		summary = auditReport.getHTMLSummary();
 		participants.clear();
 		issueToHTMLText.clear();
 		for (Issue issue : auditReport.getIssues()) {
-			if (issue.isLocationFound() && !StringUtils.isEmpty(issue.getFileName())) {
+			if ((issue.getRange() != null) && !StringUtils.isEmpty(issue.getFileName())) {
 				participants.add(issue.getFileName());
 				issueToHTMLText.put(issue, issue.getHTMLIssue());
 			}
@@ -278,6 +293,7 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 
 	private void reportNotAvailable() {
 		clean();
+		lastAuditReport = null;
 		browser.setText(HTML_NO_REPORT_AVAILABLE);
 	}
 
@@ -314,5 +330,6 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 		participants.clear();
 		issueToHTMLText.clear();
 		eventBroker.unsubscribe(lafListener);
+		lastAuditReport = null;
 	}
 }

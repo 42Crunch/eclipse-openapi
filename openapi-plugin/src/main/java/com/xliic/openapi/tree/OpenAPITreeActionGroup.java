@@ -5,20 +5,19 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.internal.ui.actions.CompositeActionGroup;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiPanelKeys;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.actions.AddSnippetAction;
-import com.xliic.openapi.services.IDataService;
-import com.xliic.openapi.services.ISnippetService;
+import com.xliic.openapi.services.api.IDataService;
+import com.xliic.openapi.services.api.ISnippetService;
 import com.xliic.openapi.snippets.Snippet;
 import com.xliic.openapi.snippets.SnippetIDs;
 import com.xliic.openapi.utils.OpenAPIUtils;
@@ -39,18 +38,18 @@ public class OpenAPITreeActionGroup extends CompositeActionGroup {
 		if (treeNode == null) {
 			return;
 		}
-		IFile selectedFile = OpenAPIUtils.getSelectedOpenAPIFile();
+		VirtualFile selectedFile = OpenAPIUtils.getSelectedOpenAPIFile();
 		if (selectedFile == null) {
 			return;
 		}
 		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		if (!dataService.getParserData(new VirtualFile(selectedFile).getPath()).isValid()) {
+		if (!dataService.getParserData(selectedFile.getPath()).isValid()) {
 			return;
 		}
 
-		OpenApiFileType type = dataService.getFileProperty(new VirtualFile(selectedFile).getPath()).getType();
+		OpenApiFileType type = dataService.getFileProperty(selectedFile.getPath()).getType();
 		boolean isJson = (type == OpenApiFileType.Json);
-		OpenApiVersion version = dataService.getFileProperty(new VirtualFile(selectedFile).getPath()).getVersion();
+		OpenApiVersion version = dataService.getFileProperty(selectedFile.getPath()).getVersion();
 		List<String> snippetIds = new LinkedList<>();
 		OpenApiTreeNode node = (OpenApiTreeNode) treeNode.getUserObject();
 

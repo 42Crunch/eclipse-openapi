@@ -39,9 +39,9 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.services.IDataService;
+import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.tree.OpenApiTreeNode;
 
 @SuppressWarnings("restriction")
@@ -227,7 +227,7 @@ public class OpenAPIUtils {
 		}
 	}
 
-	public static IFile getSelectedOpenAPIFile() {
+	public static VirtualFile getSelectedOpenAPIFile() {
 		IFile file = getSelectedFile();
 		if (file == null) {
 			return null;
@@ -236,7 +236,7 @@ public class OpenAPIUtils {
 		if (!dataService.hasFileProperty(new VirtualFile(file).getPath())) {
 			return null;
 		}
-		return file;
+		return new VirtualFile(file);
 	}
 
 	public static IFile getSelectedFile() {

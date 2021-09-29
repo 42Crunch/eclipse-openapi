@@ -25,12 +25,12 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import com.xliic.idea.file.VirtualFile;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.tree.ParserData;
-import com.xliic.openapi.services.IDataService;
+import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.snippets.Snippet;
 import com.xliic.openapi.snippets.SnippetIDs;
 import com.xliic.openapi.snippets.SnippetLayout;
@@ -74,15 +74,15 @@ public class AddSnippetAction extends Action {
 
 		if (o.isPanel() && o.is(GENERAL)) {
 
-			IFile file = OpenAPIUtils.getSelectedOpenAPIFile();
+			VirtualFile file = OpenAPIUtils.getSelectedOpenAPIFile();
 			if (file == null) {
 				return false;
 			}
 
 			IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-			OpenApiVersion version = dataService.getFileProperty(new VirtualFile(file).getPath()).getVersion();
-			Map<String, DefaultMutableTreeNode> pointerToNodesMap = dataService
-					.getParserData(new VirtualFile(file).getPath()).getPointerToNodesMap();
+			OpenApiVersion version = dataService.getFileProperty(file.getPath()).getVersion();
+			Map<String, DefaultMutableTreeNode> pointerToNodesMap = dataService.getParserData(file.getPath())
+					.getPointerToNodesMap();
 
 			if (SnippetIDs.INFO.equals(snippet.getId()) || SnippetIDs.INFO_YAML.equals(snippet.getId())) {
 				return !pointerToNodesMap.containsKey(INFO_POINTER);

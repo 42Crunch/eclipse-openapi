@@ -4,14 +4,15 @@ import static com.xliic.openapi.OpenApiUtils.isToolWindowRegistered;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.xliic.idea.DumbAware;
-import com.xliic.idea.PropertiesComponent;
-import com.xliic.idea.action.AnAction;
-import com.xliic.idea.action.AnActionEvent;
-import com.xliic.idea.file.VirtualFile;
-import com.xliic.idea.project.Project;
+import com.xliic.core.actionSystem.AnAction;
+import com.xliic.core.actionSystem.AnActionEvent;
+import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.project.DumbAware;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
+import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
@@ -52,10 +53,11 @@ public class SecurityAuditAction extends AnAction implements DumbAware {
 		}
 		String rootFileName = file.getPath();
 		BundleService bundleService = BundleService.getInstance(project);
-		if (!bundleService.hasBundle(rootFileName)) {
+		BundleResult bundleResult = bundleService.getBundle(rootFileName);
+		if (bundleResult == null) {
 			return;
 		}
-		if (!bundleService.getBundle(rootFileName).isBundleComplete()) {
+		if (!bundleResult.isBundleComplete()) {
 			bundleService.notifyOfErrors(rootFileName);
 			return;
 		}
