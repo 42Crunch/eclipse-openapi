@@ -28,7 +28,9 @@ public class EmailDialogDoOkActionCallback extends ActionCallback {
 
 	@Override
 	public void setRejected() {
-		Messages.showMessageDialog(project, getError(), OpenApiBundle.message("openapi.error.title"),
-				Messages.getErrorIcon());
+		SwingUtilities.invokeLater(() -> {
+			Messages.showMessageDialog(project, getError(), OpenApiBundle.message("openapi.error.title"),
+					Messages.getErrorIcon());
+		});
 	}
 }

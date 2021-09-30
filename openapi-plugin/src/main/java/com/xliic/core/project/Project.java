@@ -1,10 +1,9 @@
 package com.xliic.core.project;
 
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.utils.WorkbenchUtils;
 
 public class Project {
 
@@ -24,9 +23,7 @@ public class Project {
 	}
 
 	public Shell getShell() {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		return window.getShell();
+		return WorkbenchUtils.getIWorkbenchWindow().getShell();
 	}
 
 	public boolean isDisposed() {

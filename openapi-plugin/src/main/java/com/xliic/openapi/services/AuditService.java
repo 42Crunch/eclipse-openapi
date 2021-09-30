@@ -242,7 +242,7 @@ public final class AuditService implements IAuditService, IDisposable {
 				} catch (Exception e) {
 					monitor.done();
 					Logger.log(e);
-					callback.reject(OpenApiBundle.message("openapi.error.token.unexpected" + " " + e.getMessage()));
+					callback.reject(OpenApiBundle.message("openapi.error.token.unexpected") + " " + e.getMessage());
 				} finally {
 					requestInProgress = false;
 				}

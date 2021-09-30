@@ -76,6 +76,10 @@ public final class WorkbenchUtils {
 		}
 	}
 
+	public static IWorkbenchWindow getIWorkbenchWindow() {
+		return getIWorkbenchWindow(Workbench.getInstance());
+	}
+
 	private static IWorkbenchWindow getIWorkbenchWindow(Workbench workbench) {
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		if (window == null) {
