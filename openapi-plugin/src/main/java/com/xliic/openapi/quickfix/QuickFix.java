@@ -26,6 +26,7 @@ public class QuickFix {
 	private final FixTextType fixTextType;
 	private final List<FixParameter> parameters;
 
+	private static final String JSON_SPACES = "\" : ";
 	private static final String YAML_DASHES = "---\n";
 	private static final DefaultIndenter indenter = new DefaultIndenter("\t", "\n");
 	private static final DefaultPrettyPrinter printer = new DefaultPrettyPrinter().withObjectIndenter(indenter);
@@ -86,7 +87,11 @@ public class QuickFix {
 		}
 		try {
 			if (asJson) {
-				return new ObjectMapper().writer(printer).writeValueAsString(node).trim();
+				String result = new ObjectMapper().writer(printer).writeValueAsString(node).trim();
+				if (result.contains(JSON_SPACES)) {
+					result = result.replace(JSON_SPACES, "\": ");
+				}
+				return result;
 			} else {
 				return wrap(new YAMLMapper().writeValueAsString(node).trim(), false);
 			}

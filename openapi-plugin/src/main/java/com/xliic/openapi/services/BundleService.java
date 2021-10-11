@@ -81,6 +81,14 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 
 	@Override
 	public void run() {
+		try {
+			safeRun();
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+	}
+
+	private void safeRun() {
 		if (project.isDisposed()) {
 			return;
 		}

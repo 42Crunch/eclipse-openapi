@@ -11,6 +11,8 @@ import com.xliic.core.util.TextRange;
 
 public class Document {
 
+	private static final String CRLF = "\r\n";
+
 	private final IDocument document;
 
 	private volatile int hashCode;
@@ -96,7 +98,11 @@ public class Document {
 	public int getLineEndOffset(int lineNumber) {
 		try {
 			IRegion region = document.getLineInformation(lineNumber);
-			return region.getOffset() + region.getLength();
+			int offset = region.getOffset() + region.getLength();
+			if (CRLF.equals(document.getLineDelimiter(lineNumber))) {
+				return offset + 1; // add invisible \r for consistency
+			}
+			return offset;
 		} catch (BadLocationException e) {
 			return -1;
 		}
@@ -124,9 +130,8 @@ public class Document {
 
 	public void insertString(int offset, @NotNull CharSequence s) {
 		try {
-			document.replace(offset, 0, s.toString());
+			document.replace(offset, 0, wrapText(s.toString()));
 		} catch (BadLocationException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -134,15 +139,31 @@ public class Document {
 		try {
 			document.replace(startOffset, endOffset - startOffset, "");
 		} catch (BadLocationException e) {
-			e.printStackTrace();
 		}
 	}
 
 	public void replaceString(int startOffset, int endOffset, @NotNull CharSequence s) {
 		try {
-			document.replace(startOffset, endOffset - startOffset, s.toString());
+			document.replace(startOffset, endOffset - startOffset, wrapText(s.toString()));
 		} catch (BadLocationException e) {
-			e.printStackTrace();
 		}
+	}
+
+	public boolean hasCrLfEnding() {
+		try {
+			return CRLF.equals(document.getLineDelimiter(0));
+		} catch (BadLocationException e) {
+		}
+		return false;
+	}
+
+	private String wrapText(String text) {
+		try {
+			if (CRLF.equals(document.getLineDelimiter(0))) {
+				return text.replace("\n", CRLF);
+			}
+		} catch (BadLocationException e) {
+		}
+		return text;
 	}
 }

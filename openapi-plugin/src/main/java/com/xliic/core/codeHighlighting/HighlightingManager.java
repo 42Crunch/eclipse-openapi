@@ -92,58 +92,62 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 
 	@Override
 	public void run() {
+		try {
+			safeRun();
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+	}
+
+	private void safeRun() {
 		synchronized (this) {
-			try {
-				IWorkbench workbench = PlatformUI.getWorkbench();
-				for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
-					for (IWorkbenchPage page : window.getPages()) {
-						for (IEditorReference editor : page.getEditorReferences()) {
-							try {
-								IEditorInput input = editor.getEditorInput();
-								if (input instanceof IFileEditorInput) {
-									IFileEditorInput fileInput = (IFileEditorInput) input;
-									if (isFileEditorActive(page, fileInput)) {
-										Set<Marker> newMarkers = new HashSet<>();
-										Map<String, List<FixAction>> newFixActions = new HashMap<>();
-										PsiFile psiFile = new PsiFile(project, new VirtualFile(fileInput.getFile()));
-										Editor textEditor = new Editor(project, fileInput);
-										for (TextEditorHighlightingPassFactory factory : factories) {
-											TextEditorHighlightingPass hp = factory.createHighlightingPass(psiFile,
-													textEditor);
-											if (hp != null) {
-												hp.doCollectInformation(null);
-												List<HighlightInfo> infos = hp.getInformationToEditor();
-												if ((infos != null) && !infos.isEmpty()) {
-													newMarkers.addAll(convertToMarkers(textEditor, psiFile, infos));
-													Map<String, List<FixAction>> actions = hp.getActionsToEditor();
-													if ((actions != null) && !actions.isEmpty()) {
-														mergeActions(actions, newFixActions);
-													}
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
+				for (IWorkbenchPage page : window.getPages()) {
+					for (IEditorReference editor : page.getEditorReferences()) {
+						try {
+							IEditorInput input = editor.getEditorInput();
+							if (input instanceof IFileEditorInput) {
+								IFileEditorInput fileInput = (IFileEditorInput) input;
+								if (isFileEditorActive(page, fileInput)) {
+									Set<Marker> newMarkers = new HashSet<>();
+									Map<String, List<FixAction>> newFixActions = new HashMap<>();
+									PsiFile psiFile = new PsiFile(project, new VirtualFile(fileInput.getFile()));
+									Editor textEditor = new Editor(project, fileInput);
+									for (TextEditorHighlightingPassFactory factory : factories) {
+										TextEditorHighlightingPass hp = factory.createHighlightingPass(psiFile,
+												textEditor);
+										if (hp != null) {
+											hp.doCollectInformation(null);
+											List<HighlightInfo> infos = hp.getInformationToEditor();
+											if ((infos != null) && !infos.isEmpty()) {
+												newMarkers.addAll(convertToMarkers(textEditor, psiFile, infos));
+												Map<String, List<FixAction>> actions = hp.getActionsToEditor();
+												if ((actions != null) && !actions.isEmpty()) {
+													mergeActions(actions, newFixActions);
 												}
 											}
 										}
-										updateMarkers(textEditor, psiFile.getVirtualFile(), newMarkers, newFixActions);
 									}
+									updateMarkers(textEditor, psiFile.getVirtualFile(), newMarkers, newFixActions);
 								}
-							} catch (PartInitException e) {
-								e.printStackTrace();
 							}
+						} catch (PartInitException e) {
+							e.printStackTrace();
 						}
 					}
 				}
-				for (Map.Entry<VirtualFile, Set<Marker>> entry : markers.entrySet()) {
-					String fileName = entry.getKey().getPath();
-					if (!auditService.isFileBeingAudited(fileName) && !bundleService.isFileBeingBundled(fileName)) {
-						for (Marker myMarker : entry.getValue()) {
-							myMarker.dispose(markersBinding);
-						}
-						entry.getValue().clear();
-					}
-				}
-				markers.values().removeIf(value -> value.isEmpty());
-			} catch (Throwable t) {
-				t.printStackTrace();
 			}
+			for (Map.Entry<VirtualFile, Set<Marker>> entry : markers.entrySet()) {
+				String fileName = entry.getKey().getPath();
+				if (!auditService.isFileBeingAudited(fileName) && !bundleService.isFileBeingBundled(fileName)) {
+					for (Marker myMarker : entry.getValue()) {
+						myMarker.dispose(markersBinding);
+					}
+					entry.getValue().clear();
+				}
+			}
+			markers.values().removeIf(value -> value.isEmpty());
 		}
 	}
 

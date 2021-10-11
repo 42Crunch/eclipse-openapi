@@ -181,6 +181,10 @@ public abstract class DocumentUpdater {
 		return index;
 	}
 
+	private boolean hasCrLfEnding() {
+		return document.hasCrLfEnding();
+	}
+
 	private String getLineTextByOffset(int offset) {
 		return document.getText(DocumentUtil.getLineTextRange(document, document.getLineNumber(offset)));
 	}
@@ -188,9 +192,9 @@ public abstract class DocumentUpdater {
 	protected int getSafeEndOffset(int offset) {
 		int column = editor.offsetToLogicalPosition(offset).column;
 		if (column == 0) {
-			return offset - 1;
+			return offset - (hasCrLfEnding() ? 2 : 1);
 		} else if (hasNoAlphabeticCharBeforeOffset(offset)) {
-			return offset - column - 1;
+			return offset - column - (hasCrLfEnding() ? 2 : 1);
 		}
 		return offset;
 	}
@@ -198,9 +202,12 @@ public abstract class DocumentUpdater {
 	protected int includeEOL(int offset) {
 		int column = editor.offsetToLogicalPosition(offset).column;
 		String text = getLineTextByOffset(offset);
-		// If the next symbol is \n
-		if (text.length() == column) {
-			return offset + 1;
+		int len = text.length();
+		if (len == column) {
+			return offset + 1; // next symbol is \n
+		}
+		if (hasCrLfEnding() && text.endsWith("\r") && (len == (column + 1))) {
+			return offset + 2; // symbol is between \r and \n in CRLF
 		}
 		return offset;
 	}

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse-openapi
 Bundle-SymbolicName: openapi-plugin;singleton:=true
-Bundle-Version: 1.0.15
+Bundle-Version: 1.0.16
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.13.700",
@@ -213,8 +213,6 @@ Bundle-ClassPath: .,
  libs/kotlin-stdlib-common-1.4.0.jar,
  libs/okhttp-4.7.2.jar,
  libs/okio-2.6.0.jar,
- libs/snakeyaml-1.27.jar,
- libs/snakeyaml-engine-2.1.jar,
  libs/validation-api-2.0.1.Final.jar,
  libs/jetty-client-9.4.43.v20210629.jar,
  libs/jetty-http-9.4.43.v20210629.jar,
@@ -230,4 +228,6 @@ Bundle-ClassPath: .,
  libs/websocket-server-9.4.43.v20210629.jar,
  libs/websocket-servlet-9.4.43.v20210629.jar,
  libs/javax.servlet-api-3.1.0.jar,
- libs/openapi-bundler-1.9.jar
+ libs/openapi-bundler-1.9.jar,
+ libs/snakeyaml-1.29.jar,
+ libs/snakeyaml-engine-2.3.jar
