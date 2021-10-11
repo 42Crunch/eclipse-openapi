@@ -30,6 +30,20 @@ public class DataService implements IDataService, IDisposable {
 		return (DataService) PlatformUI.getWorkbench().getService(IDataService.class);
 	}
 
+	public void removeIssues(@NotNull List<Issue> issues) {
+		Map<String, List<Issue>> issuesMap = new HashMap<>();
+		for (Issue issue : issues) {
+			String key = issue.getAuditFileName();
+			if (!issuesMap.containsKey(key)) {
+				issuesMap.put(key, new LinkedList<>());
+			}
+			issuesMap.get(key).add(issue);
+		}
+		for (Map.Entry<String, List<Issue>> entry : issuesMap.entrySet()) {
+			auditContext.get(entry.getKey()).removeIssues(entry.getValue());
+		}
+	}
+
 	@Override
 	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
 

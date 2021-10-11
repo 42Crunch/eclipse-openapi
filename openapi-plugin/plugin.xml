@@ -29,18 +29,18 @@
         name="Perform Security Audit">
   </command>
   <command
-        defaultHandler="com.xliic.openapi.actions.PreviewAction"
-        id="com.xliic.openapi.actions.PreviewAction"
+        defaultHandler="com.xliic.openapi.preview.actions.PreviewAction"
+        id="com.xliic.openapi.preview.actions.PreviewAction"
         name="Show OpenAPI Preview">
   </command>
   <command
-        defaultHandler="com.xliic.openapi.actions.PreviewSwaggerUIAction"
-        id="com.xliic.openapi.actions.PreviewSwaggerUIAction"
+        defaultHandler="com.xliic.openapi.preview.actions.PreviewSwaggerUIAction"
+        id="com.xliic.openapi.preview.actions.PreviewSwaggerUIAction"
         name="SwaggerUI">
   </command>
   <command
-        defaultHandler="com.xliic.openapi.actions.PreviewReDocAction"
-        id="com.xliic.openapi.actions.PreviewReDocAction"
+        defaultHandler="com.xliic.openapi.preview.actions.PreviewReDocAction"
+        id="com.xliic.openapi.preview.actions.PreviewReDocAction"
         name="ReDoc">
   </command>
 	</extension>
@@ -63,9 +63,6 @@
                         icon="icons/goto.png"
                         style="push">
                 </command>
-                   <visibleWhen
-						 checkEnabled="true">
-				   </visibleWhen>
      </menuContribution>
 
    </extension>
@@ -133,6 +130,10 @@
 		
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ASTServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.api.IASTService"></service>
+		</serviceFactory>
+		
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.QuickFixServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IQuickFixService"></service>
 		</serviceFactory>
 		
 	</extension>
@@ -205,7 +206,7 @@
                id="com.xliic.openapi.menu"
                label="OpenAPI">
             <command
-                  commandId="com.xliic.openapi.actions.SecurityAuditAction"
+                  commandId="com.xliic.openapi.preview.actions.PreviewAction"
                   icon="icons/42crunch_icon.png"
                   style="push">
             </command>
@@ -214,7 +215,7 @@
                   id="com.xliic.openapi.preview.menu"
                   label="Show OpenAPI Preview">
                <command
-                     commandId="com.xliic.openapi.actions.PreviewSwaggerUIAction"
+                     commandId="com.xliic.openapi.preview.actions.PreviewSwaggerUIAction"
                      icon="icons/renderer.png"
                      id="com.xliic.openapi.actions.PreviewSwaggerUIAction"
                      label="SwaggerUI"
@@ -222,7 +223,7 @@
                      tooltip="Show OpenAPI Preview">
                </command>
                <command
-                     commandId="com.xliic.openapi.actions.PreviewReDocAction"
+                     commandId="com.xliic.openapi.preview.actions.PreviewReDocAction"
                      icon="icons/renderer.png"
                      id="com.xliic.openapi.actions.PreviewReDocAction"
                      label="ReDoc"
@@ -244,7 +245,7 @@
                   style="push">
             </command>
             <command
-                  commandId="com.xliic.openapi.actions.PreviewAction"
+                  commandId="com.xliic.openapi.preview.actions.PreviewAction"
                   icon="icons/preview.png"
                   style="push">
             </command>

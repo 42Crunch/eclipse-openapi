@@ -1,56 +1,129 @@
 package com.xliic.openapi.report;
 
+import static com.xliic.core.codeInsight.HighlightInfo.newHighlightInfo;
+import static com.xliic.core.codeInsight.SeverityRegistrar.getSeverityRegistrar;
+import static com.xliic.core.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
+import static com.xliic.openapi.report.Severity.getHighlightSeverity;
+import static com.xliic.openapi.report.Severity.getProblemHighlightType;
+
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
 import com.xliic.core.codeInsight.HighlightInfo;
 import com.xliic.core.codeInsight.HighlightInfoType;
-import com.xliic.core.codeInsight.QuickFixAction;
-import com.xliic.core.codeInsight.SeverityRegistrar;
 import com.xliic.core.codeInsight.UpdateHighlightersUtil;
-import com.xliic.core.codeInspection.ProblemDescriptorUtil;
 import com.xliic.core.codeInspection.ProblemHighlightType;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.lang.HighlightSeverity;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.actions.GoToHTMLIntentionAction;
+import com.xliic.core.util.TextRange;
+import com.xliic.openapi.quickfix.actions.FixAction;
+import com.xliic.openapi.quickfix.actions.FixBulkAction;
+import com.xliic.openapi.quickfix.actions.FixCombinedAction;
+import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
 import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.QuickFixService;
 
 public class ReportHighlightingPass extends TextEditorHighlightingPass {
 
 	private final PsiFile psiFile;
-	private final List<HighlightInfo> highlights = new LinkedList<>();
+	private final List<HighlightInfo> highlights;
+	private final Map<String, List<FixAction>> pointerToActions;
 
 	public ReportHighlightingPass(final PsiFile file, final Editor editor) {
 		super(file.getProject(), editor.getDocument(), true);
 		psiFile = file;
+		highlights = new LinkedList<>();
+		pointerToActions = new HashMap<>();
 	}
 
 	@Override
 	public void doCollectInformation(@NotNull final ProgressIndicator progress) {
 
+		String fileName = psiFile.getVirtualFile().getPath();
 		DataService dataService = DataService.getInstance(myProject);
-		if (!dataService.isAuditParticipantFile(psiFile.getVirtualFile().getPath())) {
+		if (!dataService.isAuditParticipantFile(fileName)) {
 			highlights.clear();
 			return;
 		}
-		List<Issue> issues = dataService.getIssuesForAuditParticipantFileName(psiFile.getVirtualFile().getPath());
+		List<Issue> issues = dataService.getIssuesForAuditParticipantFileName(fileName);
+		if (issues.isEmpty()) {
+			highlights.clear();
+			return;
+		}
+		QuickFixService quickFixService = QuickFixService.getInstance();
+		Map<String, List<HighlightInfo>> pointerToInfo = new HashMap<>();
+		Map<String, List<Issue>> idToIssues = new HashMap<>();
+		Map<String, List<Issue>> pointerToIssues = new HashMap<>();
 		for (Issue issue : issues) {
 			if (issue.getRangeMarker() != null) {
-				ProblemHighlightType type = Severity.getProblemHighlightType(issue.getSeverity());
-				HighlightSeverity severity = Severity.getHighlightSeverity(issue.getSeverity());
-				HighlightInfoType highlightInfoType = ProblemDescriptorUtil.getHighlightInfoType(type, severity,
-						SeverityRegistrar.getSeverityRegistrar(myProject));
-				HighlightInfo info = HighlightInfo.newHighlightInfo(highlightInfoType).range(issue.getTextRange())
-						.pointer(issue.getPointer()).descriptionAndTooltip(issue.getLabel()).create();
-				QuickFixAction.registerQuickFixAction(info,
-						new GoToHTMLIntentionAction(psiFile.getVirtualFile(), issues));
-				highlights.add(info);
+				String pointer = issue.getPointer();
+				if (!pointerToIssues.containsKey(pointer)) {
+					pointerToIssues.put(pointer, new LinkedList<>());
+				}
+				pointerToIssues.get(pointer).add(issue);
+				String id = issue.getId();
+				if (!idToIssues.containsKey(id)) {
+					idToIssues.put(id, new LinkedList<>());
+				}
+				idToIssues.get(id).add(issue);
 			}
+		}
+		// Create editor highlights per pointer
+		for (Map.Entry<String, List<Issue>> entry : pointerToIssues.entrySet()) {
+
+			String pointer = entry.getKey();
+			List<Issue> pointerIssues = entry.getValue();
+			pointerToInfo.put(pointer, new LinkedList<>());
+			List<HighlightInfo> infoList = pointerToInfo.get(pointer);
+			pointerToActions.put(pointer, new LinkedList<>());
+			List<FixAction> actions = pointerToActions.get(pointer);
+			actions.add(new FixGoToHTMLAction(pointerIssues));
+
+			// Create single fixes
+			for (Issue issue : pointerIssues) {
+				String label = issue.getHighlightInfoLabel();
+				TextRange range = issue.getTextRange();
+				ProblemHighlightType type = getProblemHighlightType(issue.getSeverity());
+				HighlightSeverity severity = getHighlightSeverity(issue.getSeverity());
+				HighlightInfoType infoType = getHighlightInfoType(type, severity, getSeverityRegistrar(myProject));
+				HighlightInfo info = newHighlightInfo(infoType).pointer(issue.getPointer()).range(range)
+						.descriptionAndTooltip(label).create();
+				infoList.add(info);
+				actions.addAll(quickFixService.getSingleFixActions(psiFile, issue));
+			}
+			// Create combined fixes
+			FixCombinedAction ca = quickFixService.getCombinedFixAction(psiFile, pointerIssues);
+			if (ca != null) {
+				actions.add(ca);
+			}
+		}
+		// Create bulk fixes
+		for (Map.Entry<String, List<Issue>> idToIssuesEntry : idToIssues.entrySet()) {
+			List<Issue> idIssues = idToIssuesEntry.getValue();
+			Map<Issue, List<FixBulkAction>> issueToActions = quickFixService.getBulkFixActions(psiFile, idIssues);
+			for (Map.Entry<Issue, List<FixBulkAction>> entry : issueToActions.entrySet()) {
+				pointerToActions.get(entry.getKey().getPointer()).addAll(entry.getValue());
+			}
+		}
+		// Register actions
+		for (Map.Entry<String, List<HighlightInfo>> entry : pointerToInfo.entrySet()) {
+			String pointer = entry.getKey();
+			List<HighlightInfo> infoList = entry.getValue();
+			List<FixAction> actions = pointerToActions.get(pointer);
+			if (!actions.isEmpty()) {
+				Collections.sort(actions);
+				pointerToActions.put(pointer, actions);
+			}
+			highlights.addAll(infoList);
 		}
 	}
 
@@ -65,5 +138,11 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 	@Override
 	public List<HighlightInfo> getInformationToEditor() {
 		return highlights;
+	}
+
+	@Override
+	@Nullable
+	public Map<String, List<FixAction>> getActionsToEditor() {
+		return pointerToActions;
 	}
 }

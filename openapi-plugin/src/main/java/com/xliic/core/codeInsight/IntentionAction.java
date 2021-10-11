@@ -21,4 +21,6 @@ public abstract class IntentionAction {
 			throws IncorrectOperationException;
 
 	public abstract boolean startInWriteAction();
+
+	public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);
 }

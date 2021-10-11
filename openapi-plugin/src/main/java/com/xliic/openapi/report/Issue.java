@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import com.xliic.core.editor.Document;
 import com.xliic.core.editor.RangeMarker;
+import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.TextRange;
 import com.xliic.core.vfs.LocalFileSystem;
@@ -35,11 +36,13 @@ public class Issue {
 	private final String displayScore;
 	private final int criticality;
 	private final Severity severity;
+	private final Project project;
 
 	private String auditFileName;
 	private String pointer;
 	private String fileName;
 	private Range range;
+	private RangeMarker rangeMarker;
 
 	public Issue(Project project, String auditFileName, String id, String description, String bundlePointer,
 			float score, int criticality) {
@@ -51,23 +54,29 @@ public class Issue {
 		this.criticality = criticality;
 		severity = Severity.getSeverity(criticality);
 		this.auditFileName = auditFileName;
+		this.project = project;
 		fileName = null;
 		pointer = bundlePointer;
 
 		BundleService bundleService = BundleService.getInstance(project);
 		BundleResult bundleResult = bundleService.getBundle(auditFileName);
-		Mapping.Location errorLocation = bundleResult.getBundleErrorLocation(bundlePointer);
+		Mapping.Location errorLocation = bundleResult.getBundlePointerLocation(bundlePointer);
+		disposeRangeMarker();
 
 		if (errorLocation != null) {
 			fileName = errorLocation.file;
 			pointer = errorLocation.pointer;
 			VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
 			if (file != null) {
-				ASTService astService = ASTService.getInstance(project);
-				Node root = astService.getRootNode(file);
-				Node node = root.find(pointer);
-				if (node != null) {
-					range = node.getHighlightRange();
+				Document document = FileDocumentManager.getInstance().getDocument(file);
+				if (document != null) {
+					ASTService astService = ASTService.getInstance(project);
+					Node root = astService.getRootNode(file);
+					Node node = root.find(pointer);
+					if (node != null) {
+						range = node.getHighlightRange();
+						rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+					}
 				}
 			}
 		}
@@ -83,12 +92,23 @@ public class Issue {
 	}
 
 	public void updateRangeMarkers(Document document, Node root) {
+		if ((rangeMarker != null) && !rangeMarker.isValid()) {
+			disposeRangeMarker();
+		}
 		Node node = root.find(pointer);
 		if (node == null) {
 			range = null;
+			disposeRangeMarker();
 		} else {
 			range = node.getHighlightRange();
+			if (rangeMarker == null) {
+				rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+			}
 		}
+	}
+
+	public Project getProject() {
+		return project;
 	}
 
 	private String transformScore(float score) {
@@ -143,7 +163,7 @@ public class Issue {
 	}
 
 	public RangeMarker getRangeMarker() {
-		return (range == null) ? null : new RangeMarker(range);
+		return rangeMarker;
 	}
 
 	public String getAuditFileName() {
@@ -151,15 +171,20 @@ public class Issue {
 	}
 
 	public TextRange getTextRange() {
-		return new TextRange(range.getStartOffset(), range.getEndOffset());
+		return new TextRange(rangeMarker.getStartOffset(), rangeMarker.getEndOffset());
 	}
 
 	public String getLabel() {
 		return getDescription() + " " + ("0".equals(displayScore) ? "" : "(score impact " + displayScore + ")");
 	}
 
+	public String getHighlightInfoLabel() {
+		return getDescription() + " in " + getAuditOfString()
+				+ ("0".equals(displayScore) ? "" : " (score impact " + displayScore + ")");
+	}
+
 	public String getLabelLocation() {
-		return " audit of " + Paths.get(auditFileName).getFileName().toString() + " " + rangeToString(range);
+		return " " + getAuditOfString() + " " + rangeToString(range);
 	}
 
 	public String getHTMLIssue() {
@@ -249,5 +274,16 @@ public class Issue {
 		}
 
 		return getFallbackArticleText();
+	}
+
+	private void disposeRangeMarker() {
+		if (rangeMarker != null) {
+			rangeMarker.dispose();
+			rangeMarker = null;
+		}
+	}
+
+	private String getAuditOfString() {
+		return "audit of " + Paths.get(auditFileName).getFileName().toString();
 	}
 }

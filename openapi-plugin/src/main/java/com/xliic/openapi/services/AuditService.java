@@ -191,11 +191,10 @@ public final class AuditService implements IAuditService, IDisposable {
 		Job.create(OpenApiBundle.message("openapi.audit.report.progress.title"), task).schedule();
 	}
 
-	@SuppressWarnings("deprecation")
 	private static Request getSubmitAuditRequest(String token, String fileName, String text) {
 
 		RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-				.addFormDataPart("specfile", fileName, RequestBody.create(MediaType.parse("application/json"), text))
+				.addFormDataPart("specfile", fileName, RequestBody.create(text, MediaType.parse("application/json")))
 				.build();
 
 		return new Request.Builder().url(ASSESS_URL).method("POST", body).addHeader("X-API-TOKEN", token)

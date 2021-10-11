@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
@@ -12,6 +13,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -21,6 +23,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.texteditor.MarkerAnnotation;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.codeInsight.HighlightInfo;
@@ -29,6 +32,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleHighlightingPassFactory;
+import com.xliic.openapi.quickfix.actions.FixAction;
 import com.xliic.openapi.report.ReportHighlightingPassFactory;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
@@ -89,45 +93,57 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 	@Override
 	public void run() {
 		synchronized (this) {
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
-				for (IWorkbenchPage page : window.getPages()) {
-					for (IEditorReference editor : page.getEditorReferences()) {
-						try {
-							IEditorInput input = editor.getEditorInput();
-							if (input instanceof IFileEditorInput) {
-								IFileEditorInput fileInput = (IFileEditorInput) input;
-								if (isFileEditorActive(page, fileInput)) {
-									Set<Marker> newMarkers = new HashSet<>();
-									PsiFile psiFile = new PsiFile(project, new VirtualFile(fileInput.getFile()));
-									Editor textEditor = new Editor(project, fileInput);
-									for (TextEditorHighlightingPassFactory factory : factories) {
-										TextEditorHighlightingPass hp = factory.createHighlightingPass(psiFile,
-												textEditor);
-										if (hp != null) {
-											hp.doCollectInformation(null);
-											newMarkers.addAll(
-													convertToMarkers(textEditor, psiFile, hp.getInformationToEditor()));
+			try {
+				IWorkbench workbench = PlatformUI.getWorkbench();
+				for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
+					for (IWorkbenchPage page : window.getPages()) {
+						for (IEditorReference editor : page.getEditorReferences()) {
+							try {
+								IEditorInput input = editor.getEditorInput();
+								if (input instanceof IFileEditorInput) {
+									IFileEditorInput fileInput = (IFileEditorInput) input;
+									if (isFileEditorActive(page, fileInput)) {
+										Set<Marker> newMarkers = new HashSet<>();
+										Map<String, List<FixAction>> newFixActions = new HashMap<>();
+										PsiFile psiFile = new PsiFile(project, new VirtualFile(fileInput.getFile()));
+										Editor textEditor = new Editor(project, fileInput);
+										for (TextEditorHighlightingPassFactory factory : factories) {
+											TextEditorHighlightingPass hp = factory.createHighlightingPass(psiFile,
+													textEditor);
+											if (hp != null) {
+												hp.doCollectInformation(null);
+												List<HighlightInfo> infos = hp.getInformationToEditor();
+												if ((infos != null) && !infos.isEmpty()) {
+													newMarkers.addAll(convertToMarkers(textEditor, psiFile, infos));
+													Map<String, List<FixAction>> actions = hp.getActionsToEditor();
+													if ((actions != null) && !actions.isEmpty()) {
+														mergeActions(actions, newFixActions);
+													}
+												}
+											}
 										}
+										updateMarkers(textEditor, psiFile.getVirtualFile(), newMarkers, newFixActions);
 									}
-									updateMarkers(psiFile.getVirtualFile(), newMarkers);
 								}
+							} catch (PartInitException e) {
+								e.printStackTrace();
 							}
-						} catch (PartInitException e) {
 						}
 					}
 				}
-			}
-			for (Map.Entry<VirtualFile, Set<Marker>> entry : markers.entrySet()) {
-				String fileName = entry.getKey().getPath();
-				if (!auditService.isFileBeingAudited(fileName) && !bundleService.isFileBeingBundled(fileName)) {
-					for (Marker myMarker : entry.getValue()) {
-						myMarker.dispose(markersBinding);
+				for (Map.Entry<VirtualFile, Set<Marker>> entry : markers.entrySet()) {
+					String fileName = entry.getKey().getPath();
+					if (!auditService.isFileBeingAudited(fileName) && !bundleService.isFileBeingBundled(fileName)) {
+						for (Marker myMarker : entry.getValue()) {
+							myMarker.dispose(markersBinding);
+						}
+						entry.getValue().clear();
 					}
-					entry.getValue().clear();
 				}
+				markers.values().removeIf(value -> value.isEmpty());
+			} catch (Throwable t) {
+				t.printStackTrace();
 			}
-			markers.values().removeIf(value -> value.isEmpty());
 		}
 	}
 
@@ -136,16 +152,24 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 			Set<Marker> fileMarkers = markers.get(file);
 			if ((fileMarkers != null) && !fileMarkers.isEmpty()) {
 				Set<Marker> newMarkers = new HashSet<>();
+				Map<String, List<FixAction>> newFixActions = new HashMap<>();
 				PsiFile psiFile = new PsiFile(project, file);
 				Editor textEditor = new Editor(project);
 				for (TextEditorHighlightingPassFactory factory : factories) {
 					TextEditorHighlightingPass hp = factory.createHighlightingPass(psiFile, textEditor);
 					if (hp != null) {
 						hp.doCollectInformation(null);
-						newMarkers.addAll(convertToMarkers(textEditor, psiFile, hp.getInformationToEditor()));
+						List<HighlightInfo> infos = hp.getInformationToEditor();
+						if ((infos != null) && !infos.isEmpty()) {
+							newMarkers.addAll(convertToMarkers(textEditor, psiFile, infos));
+							Map<String, List<FixAction>> actions = hp.getActionsToEditor();
+							if ((actions != null) && !actions.isEmpty()) {
+								mergeActions(actions, newFixActions);
+							}
+						}
 					}
 				}
-				updateMarkers(psiFile.getVirtualFile(), newMarkers);
+				updateMarkers(textEditor, psiFile.getVirtualFile(), newMarkers, newFixActions);
 			}
 		}
 	}
@@ -167,7 +191,19 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 		return markers;
 	}
 
-	private void updateMarkers(VirtualFile file, Set<Marker> newMarkers) {
+	private static void mergeActions(Map<String, List<FixAction>> from, Map<String, List<FixAction>> to) {
+		for (Map.Entry<String, List<FixAction>> entry : from.entrySet()) {
+			String key = entry.getKey();
+			if (to.containsKey(key)) {
+				to.get(key).addAll(entry.getValue());
+			} else {
+				to.put(key, entry.getValue());
+			}
+		}
+	}
+
+	private void updateMarkers(Editor editor, VirtualFile file, Set<Marker> newMarkers,
+			Map<String, List<FixAction>> actions) {
 		Set<Marker> myMarkers = markers.get(file);
 		if (myMarkers == null) {
 			markers.put(file, new HashSet<>());
@@ -201,6 +237,35 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 		}
 		if (myMarkers.isEmpty()) {
 			markers.remove(file);
+		} else {
+			updateIntentionActions(editor, myMarkers, actions);
+		}
+	}
+
+	private void updateIntentionActions(Editor editor, Set<Marker> markers, Map<String, List<FixAction>> actions) {
+		for (Marker marker : markers) {
+			marker.clearActions();
+		}
+		IAnnotationModel annotationModel = editor.getModel();
+		if (annotationModel != null) {
+			annotationModel.getAnnotationIterator().forEachRemaining(annotation -> {
+				if (annotation instanceof MarkerAnnotation) {
+					Marker marker = markersBinding.get(((MarkerAnnotation) annotation).getMarker());
+					if (marker != null) {
+						List<FixAction> markerActionsList = actions.get(marker.getPointer());
+						if (markerActionsList != null) {
+							ListIterator<FixAction> iter = markerActionsList.listIterator();
+							while (iter.hasNext()) {
+								FixAction action = iter.next();
+								if (action.isResponsibleFor(marker.getPointer(), marker.getMessage())) {
+									marker.addAction(action);
+									iter.remove();
+								}
+							}
+						}
+					}
+				}
+			});
 		}
 	}
 }

@@ -10,23 +10,25 @@ public interface HTMLReportManager {
 
 	public Project getProject();
 
-	void handleAllFilesClosed();
+	public void handleAllFilesClosed();
 
-	void handleClosedFile(VirtualFile file);
+	public void handleClosedFile(VirtualFile file);
 
-	void handleSelectedFile(VirtualFile file);
+	public void handleSelectedFile(VirtualFile file);
 
-	void handleAuditReportReady(VirtualFile file);
+	public void handleAuditReportReady(VirtualFile file);
 
-	void handleGoToHTMLIntention(VirtualFile file, List<Issue> issues);
+	public void handleGoToHTMLIntention(VirtualFile file, List<Issue> issues);
 
-	void handleBackToLink();
+	public void handleBackToLink();
 
-	void handleDocumentChanged(VirtualFile file);
+	public void handleDocumentChanged(VirtualFile file);
 
-	void handleToolWindowRegistered();
+	public void handleToolWindowRegistered();
 
-	void handleFileNameChanged(VirtualFile newFile, String oldFileName);
+	public void handleFileNameChanged(VirtualFile newFile, String oldFileName);
 
-	void updateCssRules(boolean isDarkTheme);
+	public void updateCssRules(boolean isDarkTheme);
+
+	public void handleIssuesFixed(List<Issue> issues);
 }

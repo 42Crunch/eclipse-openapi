@@ -2,9 +2,12 @@ package com.xliic.core.editor;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Position;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.editor.event.DocumentListener;
+import com.xliic.core.util.TextRange;
 
 public class Document {
 
@@ -49,13 +52,51 @@ public class Document {
 		return this.document.equals(document);
 	}
 
+	public IDocument getIDocument() {
+		return document;
+	}
+
 	public String getText() {
 		return document.get();
+	}
+
+	@NotNull
+	public String getText(@NotNull TextRange range) {
+		return range.substring(this.getText());
+	}
+
+	public int getTextLength() {
+		return document.getLength();
 	}
 
 	public int getLineOffset(int line) {
 		try {
 			return document.getLineOffset(line);
+		} catch (BadLocationException e) {
+			return -1;
+		}
+	}
+
+	public int getLineNumber(int offset) {
+		try {
+			return document.getLineOfOffset(offset);
+		} catch (BadLocationException e) {
+			return -1;
+		}
+	}
+
+	public int getLineStartOffset(int lineNumber) {
+		try {
+			return document.getLineInformation(lineNumber).getOffset();
+		} catch (BadLocationException e) {
+			return -1;
+		}
+	}
+
+	public int getLineEndOffset(int lineNumber) {
+		try {
+			IRegion region = document.getLineInformation(lineNumber);
+			return region.getOffset() + region.getLength();
 		} catch (BadLocationException e) {
 			return -1;
 		}
@@ -67,5 +108,41 @@ public class Document {
 
 	public void removeDocumentListener(@NotNull DocumentListener listener) {
 		document.removeDocumentListener(listener);
+	}
+
+	public RangeMarker createRangeMarker(int startOffset, int endOffset) {
+		try {
+			return new RangeMarker(this, new Position(startOffset, endOffset - startOffset));
+		} catch (BadLocationException e) {
+			return null;
+		}
+	}
+
+	public RangeMarker createRangeMarker(@NotNull TextRange textRange) {
+		return createRangeMarker(textRange.getMyStartOffset(), textRange.getMyEndOffset());
+	}
+
+	public void insertString(int offset, @NotNull CharSequence s) {
+		try {
+			document.replace(offset, 0, s.toString());
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteString(int startOffset, int endOffset) {
+		try {
+			document.replace(startOffset, endOffset - startOffset, "");
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void replaceString(int startOffset, int endOffset, @NotNull CharSequence s) {
+		try {
+			document.replace(startOffset, endOffset - startOffset, s.toString());
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
 	}
 }

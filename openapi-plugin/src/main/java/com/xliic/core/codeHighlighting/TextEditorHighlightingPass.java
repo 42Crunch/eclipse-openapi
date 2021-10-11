@@ -1,6 +1,7 @@
 package com.xliic.core.codeHighlighting;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +11,7 @@ import com.xliic.core.editor.Document;
 import com.xliic.core.editor.EditorColorsScheme;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
+import com.xliic.openapi.quickfix.actions.FixAction;
 
 public abstract class TextEditorHighlightingPass {
 
@@ -36,4 +38,7 @@ public abstract class TextEditorHighlightingPass {
 	}
 
 	public abstract List<HighlightInfo> getInformationToEditor();
+
+	@Nullable
+	public abstract Map<String, List<FixAction>> getActionsToEditor();
 }

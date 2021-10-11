@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
 import com.xliic.core.startup.StartupActivity;
+import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.services.SnippetService;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
@@ -13,5 +14,8 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 
 		// Load snippets from disk
 		SnippetService.getInstance(project).load();
+
+		// Load quickfix configuration
+		QuickFixService.getInstance().load();
 	}
 }
