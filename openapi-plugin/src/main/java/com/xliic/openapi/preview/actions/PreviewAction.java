@@ -1,4 +1,4 @@
-package com.xliic.openapi.actions;
+package com.xliic.openapi.preview.actions;
 
 import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
 

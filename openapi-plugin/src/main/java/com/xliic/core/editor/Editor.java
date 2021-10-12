@@ -1,5 +1,7 @@
 package com.xliic.core.editor;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -27,6 +29,10 @@ public class Editor {
 		this.input = input;
 	}
 
+	public IFile getIFile() {
+		return input.getFile();
+	}
+
 	public Document getDocument() {
 		return new Document(EditorUtil.getDocument(input));
 	}
@@ -42,11 +48,12 @@ public class Editor {
 
 	public CaretModel getCaretModel() {
 		ITextEditor editor = getTextEditor();
-		return (editor == null) ? null : new CaretModel(editor, input);
+		return (editor == null) ? null : new CaretModel(this);
 	}
 
 	public int logicalPositionToOffset(@NotNull LogicalPosition position) {
-		return position.getOffset();
+		Document document = getDocument();
+		return document.getLineOffset(position.line) + position.column - 1;
 	}
 
 	public Shell getShell() {
@@ -59,7 +66,7 @@ public class Editor {
 		return new ScrollingModel();
 	}
 
-	private ITextEditor getTextEditor() {
+	public ITextEditor getTextEditor() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
 			for (IWorkbenchPage page : window.getPages()) {
@@ -70,5 +77,20 @@ public class Editor {
 			}
 		}
 		return null;
+	}
+
+	public LogicalPosition offsetToLogicalPosition(int offset) {
+		Document document = getDocument();
+		int line = document.getLineNumber(offset);
+		int column = offset - document.getLineOffset(line);
+		if (offset >= 0) {
+			return new LogicalPosition(line, column);
+		}
+		return null;
+	}
+
+	public IAnnotationModel getModel() {
+		ITextEditor editor = getTextEditor();
+		return editor.getDocumentProvider().getAnnotationModel(editor.getEditorInput());
 	}
 }

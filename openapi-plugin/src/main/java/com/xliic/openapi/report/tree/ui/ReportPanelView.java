@@ -302,6 +302,11 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 	}
 
 	@Override
+	public void handleIssuesFixed(List<Issue> issues) {
+		removeIssues(issues);
+	}
+
+	@Override
 	public void handleAuditReportClean(Audit auditReport) {
 		removeIssues(auditReport.getIssues());
 	}

@@ -25,6 +25,7 @@ import com.xliic.core.patterns.JsonElementPattern;
 import com.xliic.core.patterns.YamlElementPattern;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiElement;
+import com.xliic.core.psi.PsiFile;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.Range;
@@ -55,6 +56,13 @@ public class OpenApiUtils {
 
 	public static VirtualFile getSelectedOpenAPIFile(@NotNull Project project) {
 		return OpenAPIUtils.getSelectedOpenAPIFile();
+	}
+
+	public static OpenApiFileType getFileType(PsiFile file) {
+		if (file == null) {
+			return OpenApiFileType.Unsupported;
+		}
+		return getFileType(file.getVirtualFile());
 	}
 
 	public static OpenApiFileType getFileType(final VirtualFile file) {

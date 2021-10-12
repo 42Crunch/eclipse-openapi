@@ -1,23 +1,25 @@
 package com.xliic.core.codeHighlighting;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.codeInsight.HighlightInfo;
-import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.openapi.quickfix.actions.FixAction;
 
 public class Marker {
 
 	public static final String JSON_POINTER = "JSON_POINTER";
 
 	private IMarker marker;
-	private List<IntentionAction> actions;
+	private List<FixAction> actions;
 
 	private final PsiFile file;
 	private final Editor editor;
@@ -38,11 +40,25 @@ public class Marker {
 		charStart = info.getCharStart();
 		charEnd = info.getCharEnd();
 		pointer = info.getPointer();
-		actions = info.getActions();
+		actions = null;
 		marker = null;
 	}
 
-	public List<IntentionAction> getActions() {
+	public void clearActions() {
+		if (actions != null) {
+			actions.clear();
+		}
+	}
+
+	public void addAction(FixAction action) {
+		if (actions == null) {
+			actions = new LinkedList<>();
+		}
+		actions.add(action);
+	}
+
+	@Nullable
+	public List<FixAction> getActions() {
 		return actions;
 	}
 
@@ -52,6 +68,14 @@ public class Marker {
 
 	public Editor getEditor() {
 		return editor;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public String getPointer() {
+		return pointer;
 	}
 
 	@Override
@@ -95,6 +119,11 @@ public class Marker {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Marker [file=" + file + ", message=" + message + ", pointer=" + pointer + "]";
+	}
+
 	public boolean exists() {
 		return (marker != null) && marker.exists();
 	}
@@ -116,9 +145,7 @@ public class Marker {
 			marker.setAttribute(IMarker.CHAR_START, charStart);
 			marker.setAttribute(IMarker.CHAR_END, charEnd);
 			marker.setAttribute(JSON_POINTER, pointer);
-			if (!actions.isEmpty()) {
-				markersBinding.put(marker, this);
-			}
+			markersBinding.put(marker, this);
 		} catch (CoreException e) {
 			marker = null;
 		}
@@ -127,6 +154,7 @@ public class Marker {
 	public void dispose(Map<IMarker, Marker> markersBinding) {
 		try {
 			if (marker != null) {
+				clearActions();
 				markersBinding.remove(marker);
 				marker.delete();
 				marker = null;

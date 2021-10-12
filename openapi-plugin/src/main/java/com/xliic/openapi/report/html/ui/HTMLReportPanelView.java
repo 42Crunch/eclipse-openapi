@@ -68,6 +68,7 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 	private String darculaCssRules = "";
 	private String cssRules = "";
 
+	private final Project project;
 	private HTMLReportListener reportListener;
 	private HTMLReportLAFListener lafListener;
 	private IEventBroker eventBroker;
@@ -78,6 +79,7 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 	private Audit lastAuditReport;
 
 	public HTMLReportPanelView() {
+		project = OpenAPIAbstractUIPlugin.getInstance().getProject();
 		defaultCssRules = getCssRules("default.css");
 		darculaCssRules = getCssRules("darcula.css");
 		cssRules = defaultCssRules;
@@ -155,6 +157,15 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 	}
 
 	@Override
+	public void handleIssuesFixed(List<Issue> issues) {
+		for (Issue issue : issues) {
+			issueToHTMLText.remove(issue);
+		}
+		updateParticipants();
+		report();
+	}
+
+	@Override
 	public void handleGoToHTMLIntention(VirtualFile file, List<Issue> issues) {
 		if (issues.isEmpty()) {
 			return;
@@ -173,16 +184,22 @@ public class HTMLReportPanelView extends ViewPart implements HTMLReportManager, 
 
 	@Override
 	public void handleBackToLink() {
-		if (lastAuditReport != null) {
-			update(lastAuditReport);
-		} else {
-			VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(getProject());
+		DataService dataService = DataService.getInstance(project);
+		if (issueToHTMLText.keySet().isEmpty()) {
+			VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
 			if (file != null) {
-				handleSelectedFile(file);
-			} else {
-				reportNotAvailable();
+				update(dataService.getAuditReport(file.getPath()));
 			}
+		} else {
+			Issue issue = (Issue) issueToHTMLText.keySet().toArray()[0];
+			String auditFileName = issue.getAuditFileName();
+			update(dataService.getAuditReport(auditFileName));
 		}
+	}
+
+	private void updateParticipants() {
+		participants.clear();
+		issueToHTMLText.forEach((key, value) -> participants.add(key.getFileName()));
 	}
 
 	@Override

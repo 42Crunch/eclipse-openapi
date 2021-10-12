@@ -2,7 +2,9 @@ package com.xliic.openapi.hover;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.ui.IMarkerResolution;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMarkerResolution2;
+import org.eclipse.ui.IMarkerResolutionRelevance;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.codeHighlighting.HighlightingManager;
@@ -11,10 +13,13 @@ import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.quickfix.actions.FixAction;
+import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
 import com.xliic.openapi.services.ASTService;
 
-public class OpenAPIMarkerResolution implements IMarkerResolution {
+public class OpenAPIMarkerResolution implements IMarkerResolutionRelevance, IMarkerResolution2 {
 
 	private final Editor editor;
 	private final PsiFile file;
@@ -35,8 +40,31 @@ public class OpenAPIMarkerResolution implements IMarkerResolution {
 	}
 
 	@Override
+	public int getRelevanceForResolution() {
+		if (action instanceof FixAction) {
+			return ((FixAction) action).getPriority();
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
 	public String getLabel() {
 		return action.getText();
+	}
+
+	@Override
+	public String getDescription() {
+		return getLabel();
+	}
+
+	@Override
+	public Image getImage() {
+		if (action instanceof FixGoToHTMLAction) {
+			return OpenAPIImages.ViewQuickFix.createImage();
+		} else {
+			return OpenAPIImages.QuickFix.createImage();
+		}
 	}
 
 	@Override

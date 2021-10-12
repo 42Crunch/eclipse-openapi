@@ -43,6 +43,18 @@ public class Audit {
 		}
 	}
 
+	public void removeIssues(@NotNull List<Issue> issuesToRemove) {
+		issues.removeAll(issuesToRemove);
+		for (Issue issue : issuesToRemove) {
+			fileNameToIssuesMap.get(issue.getFileName()).remove(issue);
+		}
+	}
+
+	public List<Issue> removeIssuesForFile(@NotNull String fileName) {
+		issues.removeAll(fileNameToIssuesMap.get(fileName));
+		return fileNameToIssuesMap.remove(fileName);
+	}
+
 	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
 		if (Objects.equals(auditFileName, oldFileName)) {
 			auditFileName = newFile.getPath();

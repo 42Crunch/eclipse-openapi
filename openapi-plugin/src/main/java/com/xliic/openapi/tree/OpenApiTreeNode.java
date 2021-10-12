@@ -169,6 +169,6 @@ public class OpenApiTreeNode {
 	}
 
 	public LogicalPosition getLogicalPosition() {
-		return new LogicalPosition((int) location.getStartOffset());
+		return new LogicalPosition((int) location.getLine(), (int) location.getColumn());
 	}
 }
