@@ -1,8 +1,5 @@
 package com.xliic.core.codeInsight;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,15 +13,12 @@ public class HighlightInfo {
 	private final int charEnd;
 	private final String pointer;
 
-	private List<IntentionAction> actions;
-
 	public HighlightInfo(int severity, String message, int charStart, int charEnd, String pointer) {
 		this.severity = severity;
 		this.message = message;
 		this.charStart = charStart;
 		this.charEnd = charEnd;
 		this.pointer = pointer;
-		actions = new LinkedList<>();
 	}
 
 	public int getSeverity() {
@@ -45,14 +39,6 @@ public class HighlightInfo {
 
 	public String getPointer() {
 		return pointer;
-	}
-
-	public List<IntentionAction> getActions() {
-		return actions;
-	}
-
-	public void setActions(List<IntentionAction> actions) {
-		this.actions = actions;
 	}
 
 	public static class Builder {
@@ -94,9 +80,5 @@ public class HighlightInfo {
 	@NotNull
 	public static HighlightInfo.Builder newHighlightInfo(@NotNull HighlightInfoType type) {
 		return new HighlightInfo.Builder(type);
-	}
-
-	public void addAction(@Nullable IntentionAction action) {
-		actions.add(action);
 	}
 }

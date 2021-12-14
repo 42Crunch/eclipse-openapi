@@ -1,5 +1,7 @@
 package com.xliic.openapi.callback;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +14,10 @@ import com.xliic.core.ui.Messages;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.html.ui.HTMLReportPanel;
+import com.xliic.openapi.report.tree.ReportManager;
 import com.xliic.openapi.report.tree.ui.ReportPanel;
 import com.xliic.openapi.services.DataService;
 
@@ -36,11 +41,26 @@ public class AuditActionCallback extends ActionCallback {
 
 	@Override
 	public void setDone() {
+		DataService dataService = DataService.getInstance(project);
 		SwingUtilities.invokeLater(() -> {
-			Objects.requireNonNull(ReportPanel.getInstance(project)).handleAuditReportReady(file);
+			List<Issue> issues = new LinkedList<>();
+			Audit newAudit = dataService.getAuditReport(file.getPath());
+			for (String fileName : newAudit.getParticipantFileNames()) {
+				for (Audit audit : dataService.getAuditReportsForAuditParticipantFileName(fileName)) {
+					if (audit != newAudit) {
+						issues.addAll(audit.removeIssuesForFile(fileName));
+					}
+				}
+			}
+			ReportManager reportManager = Objects.requireNonNull(ReportPanel.getInstance(project));
+			reportManager.handleIssuesFixed(issues);
+
+			reportManager.handleAuditReportReady(file);
 			Objects.requireNonNull(HTMLReportPanel.getInstance(project)).handleAuditReportReady(file);
+
 			ApplicationManager.getApplication().invokeLater(() -> {
-				FileEditorManager.getInstance(project).openEditor(new OpenFileDescriptor(project, file), true);
+				OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(project, file);
+				FileEditorManager.getInstance(project).openEditor(fileDescriptor, true);
 			});
 		});
 	}

@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
 import com.xliic.core.codeInsight.HighlightInfo;
@@ -23,6 +24,7 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.TextRange;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.quickfix.actions.FixAction;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 
@@ -78,5 +80,11 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
 	@Override
 	public List<HighlightInfo> getInformationToEditor() {
 		return highlights;
+	}
+
+	@Override
+	@Nullable
+	public Map<String, List<FixAction>> getActionsToEditor() {
+		return null;
 	}
 }

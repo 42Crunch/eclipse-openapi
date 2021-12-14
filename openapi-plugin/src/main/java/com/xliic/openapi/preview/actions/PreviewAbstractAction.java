@@ -1,4 +1,4 @@
-package com.xliic.openapi.actions;
+package com.xliic.openapi.preview.actions;
 
 import java.net.MalformedURLException;
 

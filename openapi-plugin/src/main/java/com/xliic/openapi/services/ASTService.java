@@ -87,6 +87,14 @@ public class ASTService implements IASTService, Runnable, Disposable {
 
 	@Override
 	public void run() {
+		try {
+			safeRun();
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+	}
+
+	private void safeRun() {
 		if (project.isDisposed()) {
 			return;
 		}
@@ -178,24 +186,31 @@ public class ASTService implements IASTService, Runnable, Disposable {
 
 	@Override
 	public Node getRootNode(@NotNull VirtualFile file) {
-		Node result = cache.get(file.getPath());
+		return getRootNode(file.getPath());
+	}
+
+	public Node getRootNode(@NotNull String fileName) {
+		Node result = cache.get(fileName);
 		if (result != null) {
 			return result;
 		} else {
 			final String text = ApplicationManager.getApplication()
-					.runReadAction((Computable<String>) () -> OpenApiUtils.getTextFromFile(file.getPath()));
-			return getRootNode(file, text);
+					.runReadAction((Computable<String>) () -> OpenApiUtils.getTextFromFile(fileName));
+			return getRootNode(fileName, text);
 		}
 	}
 
 	@Override
 	public Node getRootNode(@NotNull VirtualFile file, @NotNull String text) {
-		String fileName = file.getPath();
-		Node result = cache.get(file.getPath());
+		return getRootNode(file.getPath(), text);
+	}
+
+	public Node getRootNode(@NotNull String fileName, @NotNull String text) {
+		Node result = cache.get(fileName);
 		if (result != null) {
 			return result;
 		} else {
-			Node root = getParser(file).parse(text);
+			Node root = getParser(fileName).parse(text);
 			cache.put(fileName, root);
 			return root;
 		}
@@ -228,8 +243,8 @@ public class ASTService implements IASTService, Runnable, Disposable {
 		}
 	}
 
-	private ParserAST getParser(VirtualFile file) {
-		return (OpenApiUtils.getFileType(file) == OpenApiFileType.Json) ? parserJsonAST : parserYamlAST;
+	private ParserAST getParser(String fileName) {
+		return (OpenApiUtils.getFileType(fileName) == OpenApiFileType.Json) ? parserJsonAST : parserYamlAST;
 	}
 
 	@Override
@@ -257,6 +272,8 @@ public class ASTService implements IASTService, Runnable, Disposable {
 			dataService.removeParserData(file.getPath());
 			dataService.removeAuditReport(file.getPath());
 			dataService.removeFileProperty(file.getPath());
+			QuickFixService quickFixService = QuickFixService.getInstance();
+			quickFixService.handleAuditReportRemoved(file.getPath());
 			highlightingManager.close(file);
 		});
 	}

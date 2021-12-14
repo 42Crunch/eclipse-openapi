@@ -2,13 +2,16 @@ package com.xliic.core.editor;
 
 public class LogicalPosition {
 
-	private final int offset;
+	public final int line;
+	public final int column;
 
-	public LogicalPosition(int offset) {
-		this.offset = offset;
+	public LogicalPosition(int line, int column) {
+		this.line = line;
+		this.column = column;
 	}
 
-	public int getOffset() {
-		return offset;
+	@Override
+	public String toString() {
+		return "LogicalPosition [line=" + line + ", column=" + column + "]";
 	}
 }

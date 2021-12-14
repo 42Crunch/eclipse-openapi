@@ -1,33 +1,38 @@
 package com.xliic.openapi.report.tree;
 
+import java.util.List;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.tree.filter.FilterState;
 
 public interface ReportManager {
 
-	Project getProject();
+	public Project getProject();
 
-	FilterState getFilterState();
+	public FilterState getFilterState();
 
-	void cleanSearchTextArea();
+	public void cleanSearchTextArea();
 
-	void reloadAndRestoreExpansion();
+	public void reloadAndRestoreExpansion();
 
-	void handleAllFilesClosed();
+	public void handleAllFilesClosed();
 
-	void handleClosedFile(VirtualFile file);
+	public void handleClosedFile(VirtualFile file);
 
-	void handleSelectedFile(VirtualFile file);
+	public void handleSelectedFile(VirtualFile file);
 
-	void handleAuditReportReady(VirtualFile file);
+	public void handleAuditReportReady(VirtualFile file);
 
-	void handleAuditReportClean(Audit auditReport);
+	public void handleAuditReportClean(Audit auditReport);
 
-	void handleDocumentChanged(VirtualFile file);
+	public void handleDocumentChanged(VirtualFile file);
 
-	void handleToolWindowRegistered();
+	public void handleToolWindowRegistered();
 
-	void handleFileNameChanged(VirtualFile newFile, String oldFileName);
+	public void handleFileNameChanged(VirtualFile newFile, String oldFileName);
+
+	public void handleIssuesFixed(List<Issue> issues);
 }

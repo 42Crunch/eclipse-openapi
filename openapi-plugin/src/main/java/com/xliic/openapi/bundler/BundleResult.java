@@ -19,6 +19,8 @@ import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.parser.ast.ParserJsonAST;
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class BundleResult {
 
@@ -27,10 +29,14 @@ public class BundleResult {
 	private Mapping mapping;
 	private Exception exception;
 	private final Set<String> bundleFiles = new HashSet<>();
+	private Node bundleNode;
+
+	private static final ParserJsonAST parser = new ParserJsonAST();
 
 	public BundleResult(String rootFileName) {
 
 		this.rootFileName = rootFileName;
+		bundleNode = null;
 		final URI workspaceUri = Paths.get(rootFileName).getParent().toUri();
 
 		Workspace workspace = new Workspace() {
@@ -80,6 +86,7 @@ public class BundleResult {
 		Bundler bundler;
 		Document document;
 		exception = null;
+
 		try {
 			bundler = new Bundler(parser, serializer);
 			document = parser.parse(workspace.resolve(rootFileName));
@@ -127,7 +134,7 @@ public class BundleResult {
 		return result;
 	}
 
-	public Mapping.Location getBundleErrorLocation(String pointer) {
+	public Mapping.Location getBundlePointerLocation(String pointer) {
 		try {
 			// For pointers to entities in the main file which don't resolve to an external
 			// file, return null
@@ -146,5 +153,15 @@ public class BundleResult {
 		} catch (UnsupportedEncodingException exception) {
 			return null;
 		}
+	}
+
+	public Node getAST() {
+		if (isBundleComplete()) {
+			if (bundleNode == null) {
+				bundleNode = parser.parse(json);
+			}
+			return bundleNode;
+		}
+		return null;
 	}
 }
