@@ -206,7 +206,7 @@
                id="com.xliic.openapi.menu"
                label="OpenAPI">
             <command
-                  commandId="com.xliic.openapi.preview.actions.PreviewAction"
+                  commandId="com.xliic.openapi.actions.SecurityAuditAction"
                   icon="icons/42crunch_icon.png"
                   style="push">
             </command>

@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.util.Util;
 import org.jetbrains.annotations.NotNull;
 
 public class VirtualFile {
@@ -109,7 +110,7 @@ public class VirtualFile {
 		if (fileName.contains("\\")) {
 			fileName = fileName.replace("\\", "/");
 		}
-		if (fileName.startsWith("/")) {
+		if (Util.isWindows() && fileName.startsWith("/")) {
 			fileName = fileName.substring(1);
 		}
 		return fileName;
