@@ -46,7 +46,6 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		startupActivity.runActivity(project);
-		highlightingManager.run();
 	}
 
 	@Override
