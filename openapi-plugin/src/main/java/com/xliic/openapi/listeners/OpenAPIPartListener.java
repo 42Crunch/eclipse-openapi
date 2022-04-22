@@ -1,5 +1,7 @@
 package com.xliic.openapi.listeners;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import org.eclipse.core.resources.IFile;
@@ -12,11 +14,13 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.editor.Editor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.FileEditorManagerEvent;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
+import com.xliic.openapi.editor.OpenAPIEnterTypedHandler;
 import com.xliic.openapi.settings.AuditKeys;
 import com.xliic.openapi.utils.EditorUtil;
 import com.xliic.openapi.utils.WorkbenchUtils;
@@ -30,12 +34,14 @@ public class OpenAPIPartListener implements IPartListener {
 
 	private final OpenApiFileEditorManagerListener fileEditorManagerListener;
 	private final OpenAPIFileEditorManagerBeforeListener fileEditorManagerBeforeListener;
-
+	private final Map<Editor, OpenAPIEnterTypedHandler> enterTypedHandlers;
+	
 	public OpenAPIPartListener(@NotNull Project project) {
 		this.project = project;
 		store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
 		fileEditorManagerListener = new OpenApiFileEditorManagerListener(project);
 		fileEditorManagerBeforeListener = new OpenAPIFileEditorManagerBeforeListener();
+		enterTypedHandlers = new HashMap<>();
 	}
 
 	@Override
@@ -46,6 +52,13 @@ public class OpenAPIPartListener implements IPartListener {
 				IFileEditorInput fileInput = (IFileEditorInput) input;
 				IFile file = fileInput.getFile();
 				if (file != null) {
+
+					Editor editor = new Editor(project, fileInput);
+					if (!enterTypedHandlers.containsKey(editor)) {
+						enterTypedHandlers.put(editor, new OpenAPIEnterTypedHandler(editor));
+						editor.addTraverseListener(enterTypedHandlers.get(editor));									
+					}
+
 					fileEditorManagerBeforeListener.beforeFileOpened(FileEditorManager.getInstance(project),
 							new VirtualFile(file));
 					fileEditorManagerListener.fileOpened(FileEditorManager.getInstance(project), new VirtualFile(file));
@@ -104,6 +117,11 @@ public class OpenAPIPartListener implements IPartListener {
 					fileEditorManagerBeforeListener.beforeFileClosed(FileEditorManager.getInstance(project),
 							new VirtualFile(file));
 					fileEditorManagerListener.fileClosed(FileEditorManager.getInstance(project), new VirtualFile(file));
+
+					Editor editor = new Editor(project, fileInput);
+					if (enterTypedHandlers.containsKey(editor)) {
+						editor.removeTraverseListener(enterTypedHandlers.remove(editor));									
+					}
 				}
 				if (EditorUtil.getCurrentEditor() == null) {
 					prevInput = null;

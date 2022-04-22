@@ -20,7 +20,7 @@ public class JSONDocumentDeleter extends DocumentUpdater {
 	@Override
 	public DocumentUpdate process(FixItem item) {
 
-		Node target = root.find(item.getAbsolutePointer());
+		Node target = root.find(item.getAbsPointer());
 		Range range = target.getRange();
 		int start = range.getStartOffset();
 		int end = range.getEndOffset();

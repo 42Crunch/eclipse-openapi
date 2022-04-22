@@ -216,7 +216,8 @@ public class ASTService implements IASTService, Runnable, Disposable {
 		}
 	}
 
-	private void resetCacheEntry(@NotNull String fileName) {
+	@Override
+	public void resetCacheEntry(@NotNull String fileName) {
 		if (cache.containsKey(fileName)) {
 			cache.put(fileName, null);
 		}

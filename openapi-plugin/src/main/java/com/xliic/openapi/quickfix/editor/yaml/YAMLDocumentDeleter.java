@@ -23,7 +23,7 @@ public class YAMLDocumentDeleter extends DocumentUpdater {
 
 		Document document = editor.getDocument();
 		Node root = parser.parse(document.getText());
-		Node target = root.find(item.getAbsolutePointer());
+		Node target = root.find(item.getAbsPointer());
 
 		Range range = target.getRange();
 		int start = range.getStartOffset();

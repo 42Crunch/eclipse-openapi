@@ -27,8 +27,10 @@
       "problem": [
         "parameter-array-maxitems",
         "response-header-array-maxitems",
-        "schema-array-maxitems",
-        "v3-schema-array-maxitems"
+        "schema-request-array-maxitems",
+        "v3-schema-request-array-maxitems",
+        "schema-response-array-maxitems",
+        "v3-schema-response-array-maxitems"
       ],
       "title": "Add 'maxItems' property",
       "type": "insert",
@@ -47,8 +49,8 @@
       "problem": [
         "parameter-numerical-format",
         "response-header-numerical-format",
-        "schema-numerical-format",
-        "v3-schema-numerical-format"
+        "schema-request-numerical-format",
+        "v3-schema-request-numerical-format"
       ],
       "title": "Add 'format' property",
       "type": "insert",
@@ -73,8 +75,8 @@
       "problem": [
         "parameter-numerical-max",
         "response-header-numerical-max",
-        "schema-numerical-max",
-        "v3-schema-numerical-max"
+        "schema-request-numerical-max",
+        "v3-schema-request-numerical-max"
       ],
       "title": "Add 'maximum' property",
       "type": "insert",
@@ -93,8 +95,8 @@
       "problem": [
         "parameter-numerical-min",
         "response-header-numerical-min",
-        "schema-numerical-min",
-        "v3-schema-numerical-min"
+        "schema-request-numerical-min",
+        "v3-schema-request-numerical-min"
       ],
       "title": "Add 'minimum' property",
       "type": "insert",
@@ -113,8 +115,10 @@
       "problem": [
         "parameter-string-maxlength",
         "response-header-string-maxlength",
-        "schema-string-maxlength",
-        "v3-schema-string-maxlength"
+        "schema-request-string-maxlength",
+        "v3-schema-request-string-maxlength",
+        "schema-response-string-maxlength",
+        "v3-schema-response-string-maxlength"
       ],
       "title": "Add 'maxLength' property",
       "type": "insert",
@@ -133,13 +137,15 @@
       "problem": [
         "parameter-string-pattern",
         "response-header-string-pattern",
-        "schema-string-pattern",
-        "v3-schema-string-pattern"
+        "schema-request-string-pattern",
+        "v3-schema-request-string-pattern",
+        "schema-response-string-pattern",
+        "v3-schema-response-string-pattern"
       ],
       "title": "Add 'pattern' property",
       "type": "insert",
       "fix": {
-        "pattern": "^example[0-9a-f]{8}$"
+        "pattern": "^example-[0-9a-z]+$"
       },
       "parameters": [
         {
@@ -721,8 +727,10 @@
     },
     {
       "problem": [
-        "v3-schema-notype",
-        "schema-notype"
+        "v3-schema-request-notype",
+        "schema-request-notype",
+        "v3-schema-response-notype",
+        "schema-response-notype"
       ],
       "title": "Add 'type' property",
       "type": "insert",
@@ -797,6 +805,26 @@
       "fix": {
         "required": true
       }
+    },
+    {
+      "problem": [
+        "v3-mediatype-request-schema-undefined",
+        "v3-mediatype-response-schema-undefined"
+      ],
+      "title": "Create response schema",
+      "type": "insert",
+      "fix": {
+        "schema": {
+          "$ref": "#/components/schemas/"
+        }
+      },
+      "parameters": [
+        {
+          "name": "schema",
+          "path": "/schema/$ref",
+          "source": "schemaRefByResponseCode"
+        }
+      ]
     }
   ]
 }

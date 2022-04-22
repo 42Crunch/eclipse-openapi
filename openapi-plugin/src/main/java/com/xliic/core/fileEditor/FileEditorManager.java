@@ -80,9 +80,6 @@ public class FileEditorManager {
 				}
 			}
 		}
-		if (fileEditors.size() > 0) {
-			fileEditors.remove(0);
-		}
 		return fileEditors.toArray(new FileEditor[0]);
 
 	}

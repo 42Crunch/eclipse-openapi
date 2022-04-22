@@ -135,6 +135,11 @@
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.QuickFixServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.api.IQuickFixService"></service>
 		</serviceFactory>
+  <serviceFactory
+        factoryClass="com.xliic.openapi.services.factory.PlaceHolderServiceFactory">
+     <service
+           serviceClass="com.xliic.openapi.services.api.IPlaceHolderService"></service>
+  </serviceFactory>
 		
 	</extension>
 

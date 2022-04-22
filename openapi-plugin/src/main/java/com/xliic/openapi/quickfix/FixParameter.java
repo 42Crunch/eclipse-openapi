@@ -47,4 +47,8 @@ public class FixParameter {
 	public boolean isKeyType() {
 		return "key".equalsIgnoreCase(type);
 	}
+	
+    public List<Object> getValues() {
+        return values;
+    }
 }

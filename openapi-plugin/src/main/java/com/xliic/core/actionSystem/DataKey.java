@@ -9,4 +9,8 @@ public final class DataKey<T> {
 	public static <T> DataKey<T> create(@NotNull @NonNls String name) {
 		return new DataKey<T>();
 	}
+	
+	  public @NotNull @NonNls String getName() {
+	    return "";
+	  }
 }

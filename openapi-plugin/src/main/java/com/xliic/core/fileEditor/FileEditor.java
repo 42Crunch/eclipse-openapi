@@ -17,4 +17,8 @@ public class FileEditor {
 	public VirtualFile getFile() {
 		return new VirtualFile(input.getFile());
 	}
+	
+	public IFileEditorInput getIFileEditorInput() {
+		return input;
+	}
 }

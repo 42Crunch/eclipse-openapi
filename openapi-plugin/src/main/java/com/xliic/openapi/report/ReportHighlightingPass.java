@@ -30,26 +30,35 @@ import com.xliic.openapi.quickfix.actions.FixBulkAction;
 import com.xliic.openapi.quickfix.actions.FixCombinedAction;
 import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
 import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.services.QuickFixService;
 
 public class ReportHighlightingPass extends TextEditorHighlightingPass {
 
+	private final Editor editor;
 	private final PsiFile psiFile;
 	private final List<HighlightInfo> highlights;
 	private final Map<String, List<FixAction>> pointerToActions;
 
+    private final DataService dataService;
+    private final QuickFixService quickFixService;
+    private final PlaceHolderService placeHolderService;
+    
 	public ReportHighlightingPass(final PsiFile file, final Editor editor) {
 		super(file.getProject(), editor.getDocument(), true);
+		this.editor = editor;
 		psiFile = file;
 		highlights = new LinkedList<>();
 		pointerToActions = new HashMap<>();
+        dataService = DataService.getInstance(myProject);
+        quickFixService = QuickFixService.getInstance();
+        placeHolderService = PlaceHolderService.getInstance(myProject);
 	}
 
 	@Override
 	public void doCollectInformation(@NotNull final ProgressIndicator progress) {
-
+		placeHolderService.update(editor);
 		String fileName = psiFile.getVirtualFile().getPath();
-		DataService dataService = DataService.getInstance(myProject);
 		if (!dataService.isAuditParticipantFile(fileName)) {
 			highlights.clear();
 			return;
@@ -59,7 +68,6 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 			highlights.clear();
 			return;
 		}
-		QuickFixService quickFixService = QuickFixService.getInstance();
 		Map<String, List<HighlightInfo>> pointerToInfo = new HashMap<>();
 		Map<String, List<Issue>> idToIssues = new HashMap<>();
 		Map<String, List<Issue>> pointerToIssues = new HashMap<>();
@@ -79,7 +87,6 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 		}
 		// Create editor highlights per pointer
 		for (Map.Entry<String, List<Issue>> entry : pointerToIssues.entrySet()) {
-
 			String pointer = entry.getKey();
 			List<Issue> pointerIssues = entry.getValue();
 			pointerToInfo.put(pointer, new LinkedList<>());
@@ -87,7 +94,6 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 			pointerToActions.put(pointer, new LinkedList<>());
 			List<FixAction> actions = pointerToActions.get(pointer);
 			actions.add(new FixGoToHTMLAction(pointerIssues));
-
 			// Create single fixes
 			for (Issue issue : pointerIssues) {
 				String label = issue.getHighlightInfoLabel();
