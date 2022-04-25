@@ -25,4 +25,6 @@ public interface IASTService {
 	public void removeASTDocumentListener(@NotNull VirtualFile file);
 
 	public void scheduleToRemove(@NotNull VirtualFile file);
+	
+	public void resetCacheEntry(@NotNull String fileName);
 }

@@ -15,7 +15,7 @@ public abstract class FixSource {
 
 	public List<Object> get(Issue issue, QuickFix fix, FixParameter parameter, OpenApiVersion version,
 			BundleResult bundle) {
-		if (bundle.isBundleComplete()) {
+		if ((bundle != null) && bundle.isBundleComplete()) {
 			return getValues(issue, fix, parameter, version, bundle);
 		} else {
 			return Collections.emptyList();

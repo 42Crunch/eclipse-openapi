@@ -16,6 +16,7 @@ import com.xliic.openapi.report.tree.ReportManager;
 import com.xliic.openapi.report.tree.ui.ReportPanel;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.tree.PanelManager;
 import com.xliic.openapi.tree.ui.OpenApiTreePanel;
 
@@ -56,6 +57,8 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
 
 	@Override
 	public void selectionChanged(@NotNull FileEditorManagerEvent event) {
+        PlaceHolderService placeHolderService = PlaceHolderService.getInstance(project);
+        placeHolderService.closePopup();
 		if (event.getNewFile() == null) {
 			PanelManager manager = OpenApiTreePanel.getInstance(project);
 			if (manager != null) {

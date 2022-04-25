@@ -1,10 +1,5 @@
 package com.xliic.openapi.quickfix.managers;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.jetbrains.annotations.NotNull;
 import org.snakeyaml.engine.v2.api.Dump;
 import org.snakeyaml.engine.v2.api.DumpSettings;
@@ -21,72 +16,83 @@ import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.FixTitle;
 import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
+import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.report.Issue;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class FixManagerCombined extends FixManager {
 
-	private final List<QuickFix> quickFixes;
-	private final Map<QuickFix, Issue> fixToIssueMap;
+    private final List<QuickFix> quickFixes;
+    private final Map<QuickFix, Issue> fixToIssueMap;
 
-	private static final Dump dump = new Dump(DumpSettings.builder().build());
-	private static final Load load = new Load(LoadSettings.builder().build());
+    private static final Dump dump = new Dump(DumpSettings.builder().build());
+    private static final Load load = new Load(LoadSettings.builder().build());
 
-	public FixManagerCombined(PsiFile psiFile, List<QuickFix> quickFixes, Map<QuickFix, Issue> issuesMap) {
-		super(psiFile);
-		this.quickFixes = quickFixes;
-		this.fixToIssueMap = issuesMap;
-	}
+    public FixManagerCombined(PsiFile psiFile, List<QuickFix> quickFixes, Map<QuickFix, Issue> issuesMap) {
+        super(psiFile);
+        this.quickFixes = quickFixes;
+        this.fixToIssueMap = issuesMap;
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<FixItem> getFixItems() {
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<FixItem> getFixItems() {
 
-		boolean isJson = isJson(psiFile);
-		List<FixItem> result = new LinkedList<>();
-		String pointer = getAbsolutePointer(getIssuePointer(), "");
-		// Use tree map to sort inserted fix properties by key
-		Map<String, Object> root = new TreeMap<>();
-		for (QuickFix fix : quickFixes) {
-			root.putAll((Map<String, Object>) load.loadFromString(fix.getFixText(isJson)));
-		}
+        boolean isJson = isJson(psiFile);
+        List<FixItem> result = new LinkedList<>();
+        String pointer = getAbsolutePointer(getIssuePointer(), "");
+        // Use tree map to sort inserted fix properties by key
+        Map<String, Object> root = new TreeMap<>();
+        for (QuickFix fix : quickFixes) {
+            root.putAll((Map<String, Object>) load.loadFromString(fix.getFixText(isJson)));
+        }
 
-		String auditFileName = getAuditFileName();
-		String text = QuickFix.formatFixText(dump.dumpToString(root), isJson);
-		OpenApiVersion version = getOpenApiVersion(auditFileName, psiFile.getProject());
-		BundleResult bundle = getBundle(auditFileName, psiFile.getProject());
-		List<Replacement> replacements = new LinkedList<>();
+        String auditFileName = getAuditFileName();
+        String text = QuickFix.formatFixText(dump.dumpToString(root), isJson);
+        OpenApiVersion version = getOpenApiVersion(auditFileName, psiFile.getProject());
+        BundleResult bundle = getBundle(auditFileName, psiFile.getProject());
+        List<Replacement> replacements = new LinkedList<>();
+        List<PlaceHolder> placeHolders = new LinkedList<>();
 
-		for (QuickFix quickFix : quickFixes) {
-			for (FixParameter parameter : quickFix.getParameters()) {
-				Issue issue = fixToIssueMap.get(quickFix);
-				List<Object> values = parameter.getSource().get(issue, quickFix, parameter, version, bundle);
-				if (!values.isEmpty()) {
-					String value = (String) values.get(0);
-					replacements.add(new Replacement(parameter.getPath(), value, parameter.isKeyType()));
-				}
-			}
-		}
-		if (!replacements.isEmpty()) {
-			String sourceText = ReplaceManager.replace(text, replacements, isJson);
-			result.add(new FixItem(new LinkedList<>(fixToIssueMap.values()), pointer, sourceText));
-			return result;
-		}
-		result.add(new FixItem(new LinkedList<>(fixToIssueMap.values()), pointer, text));
-		return result;
-	}
+        for (QuickFix quickFix : quickFixes) {
+            for (FixParameter parameter : quickFix.getParameters()) {
+                Issue issue = fixToIssueMap.get(quickFix);
+                List<Object> values = parameter.getSource().get(issue, quickFix, parameter, version, bundle);
+                if (values.isEmpty()) {
+                    values = parameter.getValues();
+                }
+                placeHolders.add(new PlaceHolder(parameter.getPath(), parameter.isKeyType(), values));
+                if (!values.isEmpty()) {
+                    String value = (String) values.get(0);
+                    replacements.add(new Replacement(parameter.getPath(), value, parameter.isKeyType()));
+                }
+            }
+        }
+        if (!replacements.isEmpty()) {
+            String sourceText = ReplaceManager.replace(text, replacements, isJson);
+            result.add(new FixItem(new LinkedList<>(fixToIssueMap.values()), pointer, sourceText, placeHolders));
+            return result;
+        }
+        result.add(new FixItem(new LinkedList<>(fixToIssueMap.values()), pointer, text, placeHolders));
+        return result;
+    }
 
-	@Override
-	public FixType getType() {
-		return FixType.Insert;
-	}
+    @Override
+    public FixType getType() {
+        return FixType.Insert;
+    }
 
-	@Override
-	public String getTitle() {
-		FixTitle title = new FixTitle();
-		quickFixes.stream().map(QuickFix::getTitle).sorted().forEach(title::update);
-		return title.toString();
-	}
-
+    @Override
+    public String getTitle() {
+        FixTitle title = new FixTitle();
+        quickFixes.stream().map(QuickFix::getTitle).sorted().forEach(title::update);
+        return title.toString();
+    }
+    
 	@Override
 	public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
 		for (Issue issue : fixToIssueMap.values()) {
@@ -97,17 +103,17 @@ public class FixManagerCombined extends FixManager {
 		return false;
 	}
 
-	private String getAuditFileName() {
-		for (Map.Entry<QuickFix, Issue> entry : fixToIssueMap.entrySet()) {
-			return entry.getValue().getAuditFileName();
-		}
-		return null;
-	}
+    private String getAuditFileName() {
+        for (Map.Entry<QuickFix, Issue> entry : fixToIssueMap.entrySet()) {
+            return entry.getValue().getAuditFileName();
+        }
+        return null;
+    }
 
-	private String getIssuePointer() {
-		for (Map.Entry<QuickFix, Issue> entry : fixToIssueMap.entrySet()) {
-			return entry.getValue().getPointer();
-		}
-		return null;
-	}
+    private String getIssuePointer() {
+        for (Map.Entry<QuickFix, Issue> entry : fixToIssueMap.entrySet()) {
+            return entry.getValue().getPointer();
+        }
+        return null;
+    }
 }

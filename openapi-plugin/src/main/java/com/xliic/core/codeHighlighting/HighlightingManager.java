@@ -153,27 +153,13 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 
 	public void close(VirtualFile file) {
 		synchronized (this) {
-			Set<Marker> fileMarkers = markers.get(file);
+			Set<Marker> fileMarkers = markers.remove(file);
 			if ((fileMarkers != null) && !fileMarkers.isEmpty()) {
-				Set<Marker> newMarkers = new HashSet<>();
-				Map<String, List<FixAction>> newFixActions = new HashMap<>();
-				PsiFile psiFile = new PsiFile(project, file);
-				Editor textEditor = new Editor(project);
-				for (TextEditorHighlightingPassFactory factory : factories) {
-					TextEditorHighlightingPass hp = factory.createHighlightingPass(psiFile, textEditor);
-					if (hp != null) {
-						hp.doCollectInformation(null);
-						List<HighlightInfo> infos = hp.getInformationToEditor();
-						if ((infos != null) && !infos.isEmpty()) {
-							newMarkers.addAll(convertToMarkers(textEditor, psiFile, infos));
-							Map<String, List<FixAction>> actions = hp.getActionsToEditor();
-							if ((actions != null) && !actions.isEmpty()) {
-								mergeActions(actions, newFixActions);
-							}
-						}
+				for (Marker marker : fileMarkers) {
+					if (marker.exists()) {
+						marker.dispose(markersBinding);
 					}
 				}
-				updateMarkers(textEditor, psiFile.getVirtualFile(), newMarkers, newFixActions);
 			}
 		}
 	}

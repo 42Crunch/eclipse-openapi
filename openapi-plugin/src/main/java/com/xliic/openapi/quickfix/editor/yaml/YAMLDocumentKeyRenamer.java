@@ -19,7 +19,7 @@ public class YAMLDocumentKeyRenamer extends DocumentUpdater {
 
 	@Override
 	public DocumentUpdate process(FixItem item) {
-		Node target = root.find(item.getAbsolutePointer());
+		Node target = root.find(item.getAbsPointer());
 		Range range = target.getKeyRange();
 		return new DocumentUpdate(item, createMarker(range), item.getText());
 	}

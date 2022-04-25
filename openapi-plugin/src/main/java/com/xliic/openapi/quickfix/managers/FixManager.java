@@ -1,7 +1,5 @@
 package com.xliic.openapi.quickfix.managers;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,41 +14,41 @@ import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DataService;
 
+import java.util.List;
+
 public abstract class FixManager {
 
-	protected final PsiFile psiFile;
+    protected final PsiFile psiFile;
 
-	protected FixManager(PsiFile psiFile) {
-		this.psiFile = psiFile;
-	}
+    protected FixManager(PsiFile psiFile) {
+        this.psiFile = psiFile;
+    }
 
-	public abstract FixType getType();
+    public abstract FixType getType();
+    public abstract String getTitle();
+    public abstract List<FixItem> getFixItems();
 
-	public abstract String getTitle();
+    public boolean isAvailable() {
+        return true;
+    }
 
-	public abstract List<FixItem> getFixItems();
+    public static String getAbsolutePointer(String issuePointer, String fixPointer) {
+        return StringUtils.isEmpty(fixPointer) ? issuePointer : issuePointer + fixPointer;
+    }
 
-	public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);
+    protected BundleResult getBundle(String auditFileName, Project project) {
+        BundleService bundleService = BundleService.getInstance(project);
+        return bundleService.getBundle(auditFileName);
+    }
 
-	public boolean isAvailable() {
-		return true;
-	}
+    protected OpenApiVersion getOpenApiVersion(String auditFileName, Project project) {
+        DataService dataService = DataService.getInstance(project);
+        return dataService.getFileProperty(auditFileName).getVersion();
+    }
 
-	public static String getAbsolutePointer(String issuePointer, String fixPointer) {
-		return StringUtils.isEmpty(fixPointer) ? issuePointer : issuePointer + fixPointer;
-	}
-
-	protected BundleResult getBundle(String auditFileName, Project project) {
-		BundleService bundleService = BundleService.getInstance(project);
-		return bundleService.getBundle(auditFileName);
-	}
-
-	protected OpenApiVersion getOpenApiVersion(String auditFileName, Project project) {
-		DataService dataService = DataService.getInstance(project);
-		return dataService.getFileProperty(auditFileName).getVersion();
-	}
-
-	protected boolean isJson(PsiFile file) {
-		return OpenApiUtils.getFileType(file) == OpenApiFileType.Json;
-	}
+    protected boolean isJson(PsiFile file) {
+        return OpenApiUtils.getFileType(file) == OpenApiFileType.Json;
+    }
+    
+    public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);
 }

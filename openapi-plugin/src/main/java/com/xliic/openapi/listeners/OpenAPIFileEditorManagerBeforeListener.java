@@ -4,8 +4,10 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
+import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.FileEditorManagerListener;
+import com.xliic.core.fileEditor.TextEditor;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.FileProperty;
@@ -15,6 +17,9 @@ import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.PlaceHolderService;
+
+import static com.xliic.core.util.ObjectUtils.tryCast;
 
 // This class is responsible to handle open/close file system events, update data service and panels
 // Do not subscribe to the events anywhere outside the class as it may lead to execution inconsistency
@@ -31,7 +36,7 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
 		}
 
 		Project project = source.getProject();
-		if (FileEditorManager.getInstance(project).getAllEditors(file).length > 0) {
+		if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {
 			// File already opened in another editor(s)
 			return;
 		}
@@ -75,5 +80,14 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
 
 		BundleService bundleService = BundleService.getInstance(project);
 		bundleService.scheduleToRemoveBundle(file.getPath());
+		
+        FileEditor[] fileEditors = FileEditorManager.getInstance(project).getAllEditors(file);
+        if (fileEditors.length > 0) {
+            TextEditor textEditor = tryCast(fileEditors[0], TextEditor.class);
+            if (textEditor != null) {
+                PlaceHolderService placeHolderService = PlaceHolderService.getInstance(project);
+                placeHolderService.dispose(textEditor.getEditor());
+            }
+        }
 	}
 }

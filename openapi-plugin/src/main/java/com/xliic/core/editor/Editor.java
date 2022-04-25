@@ -1,7 +1,14 @@
 package com.xliic.core.editor;
 
+import java.util.Objects;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -12,6 +19,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.editor.event.EditorMouseListener;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.utils.EditorUtil;
 
@@ -19,10 +27,6 @@ public class Editor {
 
 	private final Project project;
 	private final IFileEditorInput input;
-
-	public Editor(@NotNull Project project) {
-		this(project, null);
-	}
 
 	public Editor(@NotNull Project project, IFileEditorInput input) {
 		this.project = project;
@@ -33,14 +37,31 @@ public class Editor {
 		return input.getFile();
 	}
 
-	public Document getDocument() {
-		return new Document(EditorUtil.getDocument(input));
-	}
-
 	public Project getProject() {
 		return project;
 	}
 
+	public Document getDocument() {
+		return new Document(EditorUtil.getDocument(input));
+	}
+
+	public IFileEditorInput getIFileEditorInput() {
+		return input;
+	}
+	
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if ((o == null) || (getClass() != o.getClass())) return false;
+        Editor editor = (Editor) o;
+        return Objects.equals(input, editor.getIFileEditorInput());
+    }
+
+    @Override
+    public int hashCode() {
+        return input.hashCode();
+    }
+    
 	public boolean isDirty() {
 		ITextEditor editor = getTextEditor();
 		return (editor == null) ? true : editor.isDirty();
@@ -92,5 +113,49 @@ public class Editor {
 	public IAnnotationModel getModel() {
 		ITextEditor editor = getTextEditor();
 		return editor.getDocumentProvider().getAnnotationModel(editor.getEditorInput());
+	}
+	
+	public ISourceViewer getSourceViewer() {
+		IEditorPart editorPart = getTextEditor();
+		if (editorPart instanceof IEditorPart) {
+			return (ISourceViewer) editorPart.getAdapter(ITextOperationTarget.class);
+		}
+		return null;
+	}
+
+	public StyledText getStyledText() {
+		ISourceViewer viewer = getSourceViewer();
+		if (viewer != null) {
+			return viewer.getTextWidget();
+		}
+		return null;
+	}
+	
+	public void addTraverseListener(@NotNull Listener listener) {
+		StyledText widget = getStyledText();
+		if (widget != null) {
+			widget.addListener(SWT.Traverse, listener);	
+		}
+	}
+	
+	public void removeTraverseListener(@NotNull Listener listener) {
+		StyledText widget = getStyledText();
+		if (widget != null) {
+			widget.removeListener(SWT.Traverse, listener);	
+		}
+	}
+	
+	public void addEditorMouseListener(@NotNull EditorMouseListener listener) {
+		StyledText widget = getStyledText();
+		if (widget != null) {
+			widget.addMouseListener(listener);
+		}
+	}
+	
+	public void removeEditorMouseListener(@NotNull EditorMouseListener listener) {
+		StyledText widget = getStyledText();
+		if (widget != null) {
+			widget.addMouseListener(listener);
+		}
 	}
 }

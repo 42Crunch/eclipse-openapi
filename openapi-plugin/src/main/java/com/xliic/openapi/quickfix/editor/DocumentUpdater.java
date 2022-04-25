@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.editor.Document;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.editor.RangeMarker;
+import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.DocumentUtil;
 import com.xliic.core.util.TextRange;
@@ -29,6 +30,7 @@ import com.xliic.openapi.quickfix.editor.yaml.YAMLDocumentInserter;
 import com.xliic.openapi.quickfix.editor.yaml.YAMLDocumentKeyRenamer;
 import com.xliic.openapi.quickfix.managers.FixManager;
 import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.services.PlaceHolderService;
 
 public abstract class DocumentUpdater {
 
@@ -66,7 +68,19 @@ public abstract class DocumentUpdater {
 				fixedIssues.addAll(update.getItem().getIssues());
 			} catch (Exception ignored) {
 			}
+            finally {
+                update.getMarker().dispose();
+            }
 		}
+        // Apply placeholders if not in bulk mode
+        if (updates.size() == 1) {
+            Project project = editor.getProject();
+            FixItem fixItem = updates.get(0).getItem();
+            if ((project != null) && !fixItem.getPlaceHolders().isEmpty()) {
+                PlaceHolderService placeHolderService = PlaceHolderService.getInstance(project);
+                placeHolderService.register(editor, fixItem);
+            }
+        }
 		return fixedIssues;
 	}
 
@@ -85,18 +99,6 @@ public abstract class DocumentUpdater {
 				return new JSONDocumentInserter(editor, parserJsonAST, fixItems);
 			} else {
 				return new YAMLDocumentInserter(editor, parserYamlAST, fixItems);
-			}
-		} else if (provider.getType() == FixType.Replace) {
-			if (isJson) {
-				return new DefaultDocumentUpdater(editor);
-			} else {
-				return new DefaultDocumentUpdater(editor);
-			}
-		} else if (provider.getType() == FixType.RegexReplace) {
-			if (isJson) {
-				return new DefaultDocumentUpdater(editor);
-			} else {
-				return new DefaultDocumentUpdater(editor);
 			}
 		} else if (provider.getType() == FixType.RenameKey) {
 			if (isJson) {

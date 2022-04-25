@@ -20,7 +20,7 @@ public class YAMLDocumentInserter extends DocumentUpdater {
 	@Override
 	public DocumentUpdate process(FixItem item) {
 
-		Node target = root.find(item.getAbsolutePointer());
+		Node target = root.find(item.getAbsPointer());
 		if (target.isScalar()) {
 			return null;
 		}
