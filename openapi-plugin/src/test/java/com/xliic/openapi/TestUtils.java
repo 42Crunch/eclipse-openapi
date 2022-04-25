@@ -9,8 +9,11 @@ import com.xliic.openapi.parser.ast.node.YamlNode;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Stream;
+import java.nio.file.Paths;
 
 public class TestUtils {
+	
+	private final static String CURRENT_PATH = Paths.get(".").toAbsolutePath().normalize().toString();
 
     public static YamlNode loadYaml(String fileName) throws FileNotFoundException {
         return parseYaml(loadFile(fileName));
@@ -31,7 +34,8 @@ public class TestUtils {
     }
 
     public static String loadFile(String fileName) throws FileNotFoundException {
-        File file = new File(fileName);
+    	String joinPath = CURRENT_PATH.endsWith("src") ? "/" : "/src/";
+        File file = new File(CURRENT_PATH + joinPath + fileName);
         InputStream inputStream = new FileInputStream(file);
         Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
         StringBuilder builder = new StringBuilder();

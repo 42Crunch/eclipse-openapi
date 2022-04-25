@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.xliic.openapi</groupId>
 	<artifactId>openapi-parent</artifactId>
-	<version>1.0.20</version>
+	<version>1.0.21</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -16,7 +16,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<tycho.version>2.3.0</tycho.version>
+		<tycho.version>2.7.0</tycho.version>
 	</properties>
 
 	<repositories>
