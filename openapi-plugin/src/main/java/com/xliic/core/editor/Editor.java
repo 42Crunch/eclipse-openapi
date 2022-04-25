@@ -28,10 +28,6 @@ public class Editor {
 	private final Project project;
 	private final IFileEditorInput input;
 
-	public Editor(@NotNull Project project) {
-		this(project, null);
-	}
-
 	public Editor(@NotNull Project project, IFileEditorInput input) {
 		this.project = project;
 		this.input = input;

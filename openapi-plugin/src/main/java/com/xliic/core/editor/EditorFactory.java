@@ -31,40 +31,18 @@ public class EditorFactory {
 	
     @NotNull
     public final Editor[] getEditors(@NotNull Document document, @Nullable Project project) {
-    	
     	List<Editor> result = new LinkedList<>();
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
-		for (int i = 0; i < windows.length; i++) {
-
-			IWorkbenchPage[] pages = windows[i].getPages();
-			for (int x = 0; x < pages.length; x++) {
-
-				IEditorReference[] editors = pages[x].getEditorReferences();
-				for (int z = 0; z < editors.length; z++) {
-
-					IEditorInput input;
-					try {
-						input = editors[z].getEditorInput();
-					} catch (PartInitException e) {
-						continue;
-					}
-					if (!(input instanceof IFileEditorInput)) {
-						continue;
-					}
-					IFileEditorInput fileInput = (IFileEditorInput) input;
-					if (Objects.equals(document.getIDocument(), EditorUtil.getDocument(fileInput))) {
-						result.add(new Editor(project, fileInput));
-					}
-				}
+    	for (Editor editor : getEditors(project)) {
+			IFileEditorInput input = editor.getIFileEditorInput();
+			if (Objects.equals(document.getIDocument(), EditorUtil.getDocument(input))) {
+				result.add(new Editor(project, input));
 			}
-		}
+    	}	
 		return result.toArray(new Editor[0]);
     }
 
     @NotNull
-    public final Editor[] getEditors(@NotNull Project project) {
-    	
+    public final Editor[] getEditors(@NotNull Project project) {    	
     	List<Editor> result = new LinkedList<>();
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
