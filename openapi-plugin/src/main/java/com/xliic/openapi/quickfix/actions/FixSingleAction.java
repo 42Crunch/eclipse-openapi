@@ -5,6 +5,6 @@ import com.xliic.openapi.quickfix.managers.FixManager;
 public class FixSingleAction extends FixAction {
 
 	public FixSingleAction(FixManager provider) {
-		super(1, provider.getTitle(), provider);
+		super(0, provider.getTitle(), provider);
 	}
 }

@@ -5,6 +5,6 @@ import com.xliic.openapi.quickfix.managers.FixManager;
 public class FixBulkAction extends FixAction {
 
 	public FixBulkAction(FixManager provider) {
-		super(3, provider.getTitle(), provider);
+		super(2, provider.getTitle(), provider);
 	}
 }

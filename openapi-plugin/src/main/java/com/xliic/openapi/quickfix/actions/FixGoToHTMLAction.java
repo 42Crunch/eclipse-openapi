@@ -18,7 +18,7 @@ public class FixGoToHTMLAction extends FixAction {
 	private final List<Issue> issues;
 
 	public FixGoToHTMLAction(List<Issue> issues) {
-		super(0, OpenApiBundle.message("openapi.audit.intention.name"), null);
+		super(3, OpenApiBundle.message("openapi.audit.intention.name"), null);
 		this.issues = issues;
 	}
 
