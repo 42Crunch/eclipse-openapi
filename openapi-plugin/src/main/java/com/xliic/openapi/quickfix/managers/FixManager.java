@@ -14,6 +14,7 @@ import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DataService;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class FixManager {
@@ -51,4 +52,18 @@ public abstract class FixManager {
     }
     
     public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);
+    
+    protected static List<Object> wrap(List<Object> values) {
+        List<Object> result = new LinkedList<>();
+        for (Object object : values) {
+            if (object instanceof String) {
+                String value = (String) object;
+                result.add(value.replace("\\", "\\\\"));
+            }
+            else {
+                result.add(object);
+            }
+        }
+        return result;
+    }
 }

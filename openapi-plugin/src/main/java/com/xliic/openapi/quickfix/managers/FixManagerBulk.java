@@ -99,7 +99,7 @@ public class FixManagerBulk extends FixManager {
 		for (FixParameter parameter : parameters) {
 			List<Object> values = parameter.getSource().get(issue, quickFix, parameter, version, bundle);
 			if (!values.isEmpty()) {
-				String value = (String) values.get(0);
+				String value = (String) wrap(values).get(0);
 				replacements.add(new Replacement(parameter.getPath(), value, parameter.isKeyType()));
 			}
 		}

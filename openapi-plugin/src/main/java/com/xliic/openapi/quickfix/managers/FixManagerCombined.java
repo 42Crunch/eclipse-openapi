@@ -62,9 +62,8 @@ public class FixManagerCombined extends FixManager {
             for (FixParameter parameter : quickFix.getParameters()) {
                 Issue issue = fixToIssueMap.get(quickFix);
                 List<Object> values = parameter.getSource().get(issue, quickFix, parameter, version, bundle);
-                if (values.isEmpty()) {
-                    values = parameter.getValues();
-                }
+                values.addAll(parameter.getValues());
+                values = wrap(values);
                 placeHolders.add(new PlaceHolder(parameter.getPath(), parameter.isKeyType(), values));
                 if (!values.isEmpty()) {
                     String value = (String) values.get(0);

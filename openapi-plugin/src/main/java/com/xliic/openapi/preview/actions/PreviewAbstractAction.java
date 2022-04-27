@@ -1,11 +1,13 @@
 package com.xliic.openapi.preview.actions;
 
 import java.net.MalformedURLException;
+import java.util.Collection;
 
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
+import com.xliic.core.project.ProjectLocator;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleResult;
@@ -29,11 +31,12 @@ public abstract class PreviewAbstractAction extends AnAction implements DumbAwar
 			event.getPresentation().setEnabled(false);
 			return;
 		}
-		if (!PreviewService.getInstance().isRunning()) {
-			event.getPresentation().setEnabled(false);
-			return;
-		}
-		event.getPresentation().setEnabled(true);
+        Collection<Project> projects = ProjectLocator.getInstance().getProjectsForFile(file);
+        if (projects.isEmpty() || !PreviewService.getInstance().isRunning()) {
+            event.getPresentation().setEnabled(false);
+            return;
+        }
+        event.getPresentation().setEnabled(true);
 	}
 
 	@Override
