@@ -18,9 +18,19 @@ public class OpenAPITreeLabelProvider extends StyledCellLabelProvider
 	implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvider {
 
 	private final Font defaultFont;
-
+	private final FontStyler boldFontStyler;
+	private final FontStyler counterBoldFontStyler;
+	
+	private final Image panelNodeImage;
+	private final Image propertyNodeImage;
+	
 	public OpenAPITreeLabelProvider(IWorkbench workbench) {
 		this.defaultFont = workbench.getDisplay().getSystemFont();
+		Font boldFont = OpenAPIUtils.getBoldFont(defaultFont);
+		this.boldFontStyler = new FontStyler(boldFont, null);
+		this.counterBoldFontStyler = new FontStyler(boldFont, StyledString.COUNTER_STYLER);
+		this.panelNodeImage = OpenAPIImages.PanelNode.createImage();
+		this.propertyNodeImage = OpenAPIImages.PropertyNode.createImage();
 	}
 
     @Override
@@ -33,13 +43,13 @@ public class OpenAPITreeLabelProvider extends StyledCellLabelProvider
         }
         StyledString label;
         if (o.isPanel()) {
-        	label = new StyledString(o.getKey().toUpperCase(), new FontStyler(OpenAPIUtils.getBoldFont(defaultFont), null));    
+        	label = new StyledString(o.getKey().toUpperCase(), boldFontStyler);    
         }
         else {
         	label = new StyledString(o.getKey(), null);
         }
         if (o.applyHint()) {
-        	label.append(new StyledString(" [+]", new FontStyler(OpenAPIUtils.getBoldFont(defaultFont), StyledString.COUNTER_STYLER)));
+        	label.append(new StyledString(" [+]", counterBoldFontStyler));
         }        
         return label;
     }
@@ -53,10 +63,10 @@ public class OpenAPITreeLabelProvider extends StyledCellLabelProvider
             return null;
         }
         if (o.isPanel()) {
-        	return OpenAPIImages.PanelNode.createImage();
+        	return panelNodeImage;
         }
         else {
-        	return OpenAPIImages.PropertyNode.createImage();
+        	return propertyNodeImage;
         }
     }
 
