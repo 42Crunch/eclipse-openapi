@@ -210,7 +210,13 @@ public class ASTService implements IASTService, Runnable, Disposable {
 		if (result != null) {
 			return result;
 		} else {
-			Node root = getParser(fileName).parse(text);
+            Node root;
+            try {
+                root = getParser(fileName).parse(text);
+            }
+            catch (Exception e) {
+                root = null;
+            }
 			cache.put(fileName, root);
 			return root;
 		}

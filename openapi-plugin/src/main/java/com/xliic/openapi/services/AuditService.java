@@ -90,6 +90,9 @@ public final class AuditService implements IAuditService, IDisposable {
 				VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
 				if (file != null) {
 					Node root = astService.getRootNode(file);
+                    if (root == null) {
+                        continue;
+                    }
 					ApplicationManager.getApplication().invokeLater(() -> {
 						Document document = FileDocumentManager.getInstance().getDocument(file);
 						if (document != null) {

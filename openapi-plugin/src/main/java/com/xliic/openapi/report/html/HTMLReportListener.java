@@ -51,9 +51,14 @@ public class HTMLReportListener implements LocationListener {
 				VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
 				if (file != null) {
 					ASTService astService = ASTService.getInstance(manager.getProject());
-					Node target = astService.getRootNode(file).find(pointer);
-					new OpenFileDescriptor(manager.getProject(), file, target.getRange().getStartOffset())
-							.navigate(true);
+                    Node root = astService.getRootNode(file);
+                    if (root != null) {
+                        Node target = root.find(pointer);
+                        if (target != null) {
+                            new OpenFileDescriptor(manager.getProject(), file,
+                                    target.getRange().getStartOffset()).navigate(true);
+                        }
+                    }
 				}
 			}
 			event.doit = false;

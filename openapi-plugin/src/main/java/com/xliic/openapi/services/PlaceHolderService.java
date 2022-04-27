@@ -57,7 +57,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
     }
 
     public void register(@NotNull Editor editor, @NotNull FixItem fixItem) {
-
+    	dispose(editor);
         Document document = editor.getDocument();
         VirtualFile file = FileDocumentManager.getInstance().getFile(document);
         if (file != null) {
@@ -65,8 +65,9 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
             ASTService astService = ASTService.getInstance(project);
             astService.resetCacheEntry(fileName);
             Node root = astService.getRootNode(fileName, document.getText());
-            dispose(editor);
-
+            if (root == null) {
+                return;
+            }
             boolean hasSuggestions = false;
             highlighters.put(editor, new HashSet<>());
             Set<RangeHighlighter> editorHighlighters = highlighters.get(editor);

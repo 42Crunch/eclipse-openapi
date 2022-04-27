@@ -72,10 +72,12 @@ public class Issue {
 				if (document != null) {
 					ASTService astService = ASTService.getInstance(project);
 					Node root = astService.getRootNode(file);
-					Node node = root.find(pointer);
-					if (node != null) {
-						range = node.getHighlightRange();
-						rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+					if (root != null) {
+						Node node = root.find(pointer);
+						if (node != null) {
+							range = node.getHighlightRange();
+							rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+						}						
 					}
 				}
 			}
