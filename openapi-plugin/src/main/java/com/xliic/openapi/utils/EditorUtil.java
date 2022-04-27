@@ -180,4 +180,16 @@ public class EditorUtil {
     	}	
     	return null;
     }
+
+    public static IWorkbenchPage findWorkbenchPage(IEditorInput input) {
+    	for (IWorkbenchWindow window : getWorkbench().getWorkbenchWindows()) {
+    		for (IWorkbenchPage page : window.getPages()) {
+    			IEditorPart part = page.findEditor(input);
+				if (part instanceof ITextEditor) {
+					return page;
+				}
+    		}
+    	}
+    	return null;
+    }
 }

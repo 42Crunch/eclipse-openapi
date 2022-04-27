@@ -2,6 +2,8 @@ package com.xliic.openapi;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProduct;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
@@ -25,6 +27,7 @@ import com.xliic.openapi.listeners.OpenAPIPartListener;
 public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartup {
 
 	public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";
+	private static final String PLATFORM_MULE_PRODUCT_NAME = "Anypoint Studio";
 
 	private static OpenAPIAbstractUIPlugin plugin;
 	private static Project project = new Project();
@@ -33,6 +36,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	private OpenAPIBulkFileListener resourceListener;
 	private OpenAPIStartupActivity startupActivity;
 	private HighlightingManager highlightingManager;
+	private boolean isMuleIDE;
 
 	public OpenAPIAbstractUIPlugin() {
 		plugin = this;
@@ -73,6 +77,8 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 				setPreference();
 			}
 		});
+    	IProduct product = Platform.getProduct();
+    	isMuleIDE = isMuleProductName(product) && isMuleProductId(product);
 	}
 
 	@Override
@@ -111,6 +117,10 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 		return plugin;
 	}
 
+	public boolean isMuleIDE() {
+		return isMuleIDE;
+	}
+
 	private void setPreference() {
 		IPreferenceStore idePreferenceStore = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
 		String value = idePreferenceStore.getString(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY);
@@ -118,5 +128,14 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 			idePreferenceStore.setValue(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY,
 					TEXT_EDITOR_STRATEGY_PREFERENCE_KEY);
 		}
+	}
+
+	private static boolean isMuleProductName(IProduct product) {
+    	return PLATFORM_MULE_PRODUCT_NAME.equalsIgnoreCase(product.getName());
+	}
+
+	private static boolean isMuleProductId(IProduct product) {
+		String id = product.getId();
+    	return id != null && id.contains("mule");
 	}
 }
