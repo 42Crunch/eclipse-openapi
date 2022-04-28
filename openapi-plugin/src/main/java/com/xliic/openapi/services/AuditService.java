@@ -194,27 +194,40 @@ public final class AuditService implements IAuditService, IDisposable {
 		Job.create(OpenApiBundle.message("openapi.audit.report.progress.title"), task).schedule();
 	}
 
-	private static Request getSubmitAuditRequest(String token, String fileName, String text) {
+    private static Request getSubmitAuditRequest(String token, String fileName, String text) {
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("specfile", fileName,
+                        RequestBody.create(text, MediaType.parse("application/json")))
+                .build();
+        return new Request.Builder()
+                .url(ASSESS_URL)
+                .method("POST", body)
+                .addHeader("X-API-TOKEN", token)
+                .addHeader("Accept", "application/json")
+                .addHeader("User-Agent", USER_AGENT)
+                .build();
+    }
 
-		RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-				.addFormDataPart("specfile", fileName, RequestBody.create(text, MediaType.parse("application/json")))
-				.build();
+    private static Request getRetryAuditRequest(String token, String apiToken) {
+        return new Request.Builder()
+                .url(ASSESS_URL + "?token=" + token)
+                .addHeader("X-API-TOKEN", apiToken)
+                .addHeader("Accept", "application/json")
+                .addHeader("User-Agent", USER_AGENT)
+                .build();
+    }
 
-		return new Request.Builder().url(ASSESS_URL).method("POST", body).addHeader("X-API-TOKEN", token)
-				.addHeader("Accept", "application/json").addHeader("User-Agent", USER_AGENT).build();
-	}
+    private static Request getGenerateTokenRequest(String email) {
+        RequestBody formBody = new FormBody.Builder()
+                .add("email", email)
+                .build();
 
-	private static Request getRetryAuditRequest(String token, String apiToken) {
-
-		return new Request.Builder().url(ASSESS_URL + "?token=" + token).addHeader("X-API-TOKEN", apiToken)
-				.addHeader("Accept", "application/json").addHeader("User-Agent", USER_AGENT).build();
-	}
-
-	private static Request getGenerateTokenRequest(String email) {
-		RequestBody formBody = new FormBody.Builder().add("email", email).build();
-
-		return new Request.Builder().url(TOKEN_URL).addHeader("User-Agent", USER_AGENT).post(formBody).build();
-	}
+        return new Request.Builder()
+                .url(TOKEN_URL)
+                .addHeader("User-Agent", USER_AGENT)
+                .post(formBody)
+                .build();
+    }
 
 	@Override
 	public void sendGenerateTokenRequest(String email, EmailDialogDoOkActionCallback callback) {
