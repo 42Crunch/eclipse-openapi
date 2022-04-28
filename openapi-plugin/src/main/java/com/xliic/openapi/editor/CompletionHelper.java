@@ -65,6 +65,9 @@ public class CompletionHelper {
 			return EMPTY_ARRAY;
 		}
 		ParserData data = dataService.getParserData(file.getPath());
+        if (!data.isValid()) {
+        	return EMPTY_ARRAY;
+        }
 		Map<Integer, DefaultMutableTreeNode> lineToRefMap = data.getLineToRefMap();
 		if (!lineToRefMap.containsKey(line)) {
 			return EMPTY_ARRAY;
