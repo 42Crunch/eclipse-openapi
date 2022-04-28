@@ -62,14 +62,30 @@ public class AuditActionCallback extends ActionCallback {
 				OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(project, file);
 				FileEditorManager.getInstance(project).openEditor(fileDescriptor, true);
 			});
+
+            // Report issues with unknown location
+            StringBuilder sb = new StringBuilder();
+            for (Issue issue : newAudit.getIssues()) {
+                if (issue.getRangeMarker() == null) {
+                    sb.append(OpenApiBundle.message("openapi.audit.issue.bad.location",
+                            issue.getId(), issue.getPointer())).append(" ");
+                }
+            }
+            if (sb.length() > 0) {
+                SwingUtilities.invokeLater(() -> {
+                    Messages.showMessageDialog(project,
+                            OpenApiBundle.message("openapi.audit.issues.notification", sb.toString()),
+                            OpenApiBundle.message("openapi.warning.title"), Messages.getWarningIcon());
+                });
+            }
 		});
 	}
 
-	@Override
-	public void setRejected() {
-		SwingUtilities.invokeLater(() -> {
-			Messages.showMessageDialog(project, getError(), OpenApiBundle.message("openapi.error.title"),
-					Messages.getErrorIcon());
-		});
-	}
+    @Override
+    public void setRejected() {
+        SwingUtilities.invokeLater(() -> {
+            Messages.showMessageDialog(project, getError(),
+                    OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
+        });
+    }
 }

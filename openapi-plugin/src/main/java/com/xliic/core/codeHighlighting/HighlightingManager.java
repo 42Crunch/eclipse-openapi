@@ -164,11 +164,13 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 		}
 	}
 
-	private boolean isFileEditorActive(IWorkbenchPage page, IFileEditorInput fileInput) {
+	private boolean isFileEditorActive(IWorkbenchPage page, IFileEditorInput input) {
 		IEditorPart editor = page.getActiveEditor();
 		if (editor != null) {
-			IFileEditorInput activeFileInput = (IFileEditorInput) editor.getEditorInput();
-			return fileInput.equals(activeFileInput);
+			IEditorInput editorInput = editor.getEditorInput();
+			if (editorInput instanceof IFileEditorInput) {
+				return input.equals((IFileEditorInput) editorInput);
+			}
 		}
 		return false;
 	}

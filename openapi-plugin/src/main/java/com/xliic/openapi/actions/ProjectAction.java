@@ -53,7 +53,7 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
         }
         Collection<Project> projects = ProjectLocator.getInstance().getProjectsForFile(file);
         if (projects.isEmpty()) {
-            String msg = OpenApiBundle.message("openapi.non.project.file", name, "asd");
+            String msg = OpenApiBundle.message("openapi.non.project.file", name);
             Messages.showMessageDialog(project, msg, OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
             return;
         }
