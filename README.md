@@ -12,6 +12,9 @@ mvn dependency:copy
 cd ..
 ```
 
+If build is failing, make sure to do a clean check out from the source control, to make sure old
+versions of the libraries are not being picked up by the build.
+
 2) Test
 
 ```bash
