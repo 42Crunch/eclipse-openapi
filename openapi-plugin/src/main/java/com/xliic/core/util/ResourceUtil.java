@@ -21,4 +21,16 @@ public class ResourceUtil {
 		}
 		return null;
     }
+
+	public static InputStream getResourceAsStream(ClassLoader classLoader, String basePath, String fileName) {
+		try {
+			URL baseURL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
+			URL url = new URL(baseURL, "resources/" + basePath + "/" + fileName);
+			return classLoader.getResourceAsStream(url.getFile());
+		}
+		catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

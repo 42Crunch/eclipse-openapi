@@ -1,16 +1,23 @@
 package com.xliic.core.project;
 
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.util.messages.MessageBus;
 import com.xliic.openapi.utils.WorkbenchUtils;
 
 public class Project {
 
 	private volatile boolean isDisposed;
+	private MessageBus messageBus;
 
 	public Project() {
 		this.isDisposed = false;
+		this.messageBus = null;
 	}
 
 	@Nullable
@@ -32,5 +39,14 @@ public class Project {
 
 	public void dispose() {
 		isDisposed = true;
+	}
+	
+	@NotNull 
+	public MessageBus getMessageBus() {
+		if (messageBus == null) {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			messageBus = new MessageBus(workbench.getService(IEventBroker.class));			
+		}
+		return messageBus;
 	}
 }

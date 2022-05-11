@@ -3,8 +3,11 @@ package com.xliic.openapi.services;
 import static com.xliic.openapi.utils.OpenAPIUtils.getValue;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,11 +21,11 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.xliic.core.application.ApplicationInfo;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
-import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Logger;
@@ -32,9 +35,8 @@ import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.callback.EmailDialogDoOkActionCallback;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.ResponseStatus;
-import com.xliic.openapi.report.tree.ReportManager;
-import com.xliic.openapi.report.tree.ui.ReportPanel;
 import com.xliic.openapi.services.api.IAuditService;
 import com.xliic.openapi.services.api.IDataService;
 
@@ -52,11 +54,13 @@ public final class AuditService implements IAuditService, IDisposable {
 	private static final String TOKEN_URL = "https://stateless.42crunch.com/api/v1/anon/token";
 	private static final int MAX_RETRY_ATTEMPTS = 20;
 	private static final int ATTEMPT_DELAY = 5000;
-	private static final String USER_AGENT = "Eclipse/4.16.0";
+    private static final String USER_AGENT = "IntelliJ/" + ApplicationInfo.getInstance().getFullVersion();
+    private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
-	private Project project;
-	private boolean requestInProgress;
-	private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
+    private final Project project;
+    private final Map<String, Audit> auditContext = new HashMap<>();
+
+    private boolean requestInProgress;
 
 	public AuditService(@NotNull Project project) {
 		this.project = project;
@@ -68,49 +72,35 @@ public final class AuditService implements IAuditService, IDisposable {
 	}
 
 	public boolean isFileBeingAudited(@NotNull String fileName) {
-		DataService dataService = DataService.getInstance(project);
-		return !dataService.getAuditReportsForAuditParticipantFileName(fileName).isEmpty();
+		return !getAuditReportsForAuditParticipantFileName(fileName).isEmpty();
 	}
 
 	@SuppressWarnings("serial")
-	public void update(@NotNull String fileName) {
-		update(new HashSet<>() {
-			{
-				add(fileName);
-			}
-		});
-	}
+    public void update(@NotNull String fileName) {
+        update(new HashSet<>() {{ add(fileName); }});
+    }
 
-	public void update(@NotNull Set<String> fileNames) {
-		ASTService astService = ASTService.getInstance(project);
-		DataService dataService = DataService.getInstance(project);
-		for (String fileName : fileNames) {
-			List<Audit> reports = dataService.getAuditReportsForAuditParticipantFileName(fileName);
-			if (!reports.isEmpty()) {
-				VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
-				if (file != null) {
-					Node root = astService.getRootNode(file);
+    public void update(@NotNull Set<String> fileNames) {
+        ASTService astService = ASTService.getInstance(project);
+        for (String fileName : fileNames) {
+            List<Audit> reports = getAuditReportsForAuditParticipantFileName(fileName);
+            if (!reports.isEmpty()) {
+                VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
+                if (file != null) {
+                    Node root = astService.getRootNode(file);
                     if (root == null) {
                         continue;
                     }
-					ApplicationManager.getApplication().invokeLater(() -> {
-						Document document = FileDocumentManager.getInstance().getDocument(file);
-						if (document != null) {
-							for (Audit audit : reports) {
-								audit.updateRangeMarkers(fileName, document, root);
-							}
-						}
-					});
-					SwingUtilities.invokeLater(() -> {
-						ReportManager reportManager = ReportPanel.getInstance(project);
-						if (reportManager != null) {
-							reportManager.handleDocumentChanged(file);
-						}
-					});
-				}
-			}
-		}
-	}
+                    Document document = FileDocumentManager.getInstance().getDocument(file);
+                    if (document != null) {
+                        for (Audit audit : reports) {
+                            audit.updateRangeMarkers(fileName, document, root);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 	@Override
 	public void sendAuditRequest(String token, String fileName, AuditActionCallback callback) {
@@ -134,8 +124,6 @@ public final class AuditService implements IAuditService, IDisposable {
 				try {
 					monitor.setTaskName(OpenApiBundle.message("openapi.audit.report.progress.indicator"));
 					Request request = getSubmitAuditRequest(token, fileName, text);
-					IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-
 					Response response = client.newCall(request).execute();
 					String jsonStr = Objects.requireNonNull(response.body()).string();
 					JSONObject json = getJsonResponse(jsonStr);
@@ -157,7 +145,7 @@ public final class AuditService implements IAuditService, IDisposable {
 							if (getStatus(json) == ResponseStatus.PROCESSED) {
 								final JSONObject finalJson = json;
 								ApplicationManager.getApplication().runReadAction(() -> {
-									dataService.setAuditReport(fileName, new Audit(project, fileName, finalJson));
+									setAuditReport(fileName, new Audit(project, fileName, finalJson));
 									callback.setDone();
 								});
 								return;
@@ -170,7 +158,7 @@ public final class AuditService implements IAuditService, IDisposable {
 					} else if (getStatus(json) == ResponseStatus.PROCESSED) {
 						final JSONObject finalJson = json;
 						ApplicationManager.getApplication().runReadAction(() -> {
-							dataService.setAuditReport(fileName, new Audit(project, fileName, finalJson));
+							setAuditReport(fileName, new Audit(project, fileName, finalJson));
 							callback.setDone();
 						});
 					} else if (response.code() == 403) {
@@ -269,6 +257,7 @@ public final class AuditService implements IAuditService, IDisposable {
 
 	@Override
 	public void dispose() {
+		auditContext.clear();
 	}
 
 	public static JSONObject getJsonResponse(String response) {
@@ -287,4 +276,72 @@ public final class AuditService implements IAuditService, IDisposable {
 	public static String getResponseToken(JSONObject json) {
 		return (String) getValue(json.toJsonMap(), "token");
 	}
+	
+    public Audit getAuditReport(String fileName) {
+        return auditContext.get(fileName);
+    }
+
+    public void removeIssues(@NotNull List<Issue> issues) {
+        Map<String, List<Issue>> issuesMap = new HashMap<>();
+        for (Issue issue : issues) {
+            String key = issue.getAuditFileName();
+            if (!issuesMap.containsKey(key)) {
+                issuesMap.put(key, new LinkedList<>());
+            }
+            issuesMap.get(key).add(issue);
+        }
+        for (Map.Entry<String, List<Issue>> entry : issuesMap.entrySet()) {
+            auditContext.get(entry.getKey()).removeIssues(entry.getValue());
+        }
+    }
+
+    public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
+        if (hasAuditReport(oldFileName)) {
+            setAuditReport(newFile.getPath(), removeAuditReport(oldFileName));
+        }
+        if (!auditContext.isEmpty()) {
+            for (Audit audit : auditContext.values()) {
+                audit.handleFileNameChanged(newFile, oldFileName);
+            }
+        }
+    }
+
+    public List<Issue> getIssuesForAuditParticipantFileName(String fileName) {
+        List<Issue> issues = new LinkedList<>();
+        for (Audit audit : auditContext.values()) {
+            issues.addAll(audit.getIssuesForAuditParticipantFileName(fileName));
+        }
+        return issues;
+    }
+
+    public List<Audit> getAuditReportsForAuditParticipantFileName(String fileName) {
+        List<Audit> reports = new LinkedList<>();
+        for (Audit audit : auditContext.values()) {
+            if (audit.hasAuditParticipantFileName(fileName)) {
+                reports.add(audit);
+            }
+        }
+        return reports;
+    }
+
+    public void setAuditReport(String fileName, Audit audit) {
+        auditContext.put(fileName, audit);
+    }
+
+    public Audit removeAuditReport(String fileName) {
+        return auditContext.remove(fileName);
+    }
+
+    public boolean hasAuditReport(String fileName) {
+        return auditContext.containsKey(fileName);
+    }
+
+    public boolean isNotAuditParticipantFile(String fileName) {
+        for (Audit audit : auditContext.values()) {
+            if (audit.hasAuditParticipantFileName(fileName)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

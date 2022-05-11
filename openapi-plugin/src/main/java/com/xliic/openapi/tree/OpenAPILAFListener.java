@@ -7,6 +7,8 @@ import org.eclipse.ui.themes.ITheme;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
+import com.xliic.openapi.tree.ui.OpenAPITreeView;
+
 @SuppressWarnings("restriction")
 public class OpenAPILAFListener implements EventHandler {
 
@@ -14,17 +16,17 @@ public class OpenAPILAFListener implements EventHandler {
   private IWorkbench workbench;
   private org.eclipse.e4.ui.css.swt.theme.ITheme currentCSSTheme;
   private IThemeEngine themeEngine;
-  private PanelManager manager;
+  private OpenAPITreeView view;
   private Composite parent;
   
-  public OpenAPILAFListener(IWorkbench workbench, PanelManager manager, Composite parent) {
+  public OpenAPILAFListener(IWorkbench workbench, OpenAPITreeView view, Composite parent) {
     this.workbench = workbench;
     this.parent = parent;
     themeEngine = workbench.getService(IThemeEngine.class);
-    this.manager = manager;
+    this.view = view;
 	currentTheme = (ITheme) workbench.getThemeManager().getCurrentTheme();
 	currentCSSTheme = getActiveTheme();
-	manager.handleLAFUpdate(isDarkTheme());
+	view.handleLAFUpdate(isDarkTheme());
   }
 
 	@Override
@@ -32,7 +34,7 @@ public class OpenAPILAFListener implements EventHandler {
 		if (isAnyThemeChanged()) {
 			currentTheme = (ITheme) workbench.getThemeManager().getCurrentTheme();
 			currentCSSTheme = getActiveTheme();
-		    manager.handleLAFUpdate(isDarkTheme());
+		    view.handleLAFUpdate(isDarkTheme());
 		}
 	}
 	

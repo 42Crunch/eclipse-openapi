@@ -34,13 +34,8 @@ import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.ParserYamlAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.parser.tree.ParserData;
-import com.xliic.openapi.report.html.HTMLReportManager;
-import com.xliic.openapi.report.html.ui.HTMLReportPanel;
-import com.xliic.openapi.report.tree.ReportManager;
-import com.xliic.openapi.report.tree.ui.ReportPanel;
 import com.xliic.openapi.services.api.IASTService;
-import com.xliic.openapi.tree.PanelManager;
-import com.xliic.openapi.tree.ui.OpenApiTreePanel;
+import com.xliic.openapi.topic.FileListener;
 
 public class ASTService implements IASTService, Runnable, Disposable {
 
@@ -172,14 +167,11 @@ public class ASTService implements IASTService, Runnable, Disposable {
 			if (!data.isValid()) {
 				dataService.getParserData(file.getPath()).invalidate(data.getExceptionMessage());
 			}
-			// Notify UI tree panel
-			SwingUtilities.invokeLater(() -> {
-				PanelManager manager = OpenApiTreePanel.getInstance(project);
-				if (manager != null) {
-					manager.handleDocumentChanged(file);
-				}
-			});
-			AuditService auditService = AuditService.getInstance(project);
+            AuditService auditService = AuditService.getInstance(project);
+            ApplicationManager.getApplication().invokeLater(() -> {
+                auditService.update(file.getPath());
+                project.getMessageBus().syncPublisher(FileListener.TOPIC).handleDocumentChanged(file);
+            });
 			auditService.update(file.getPath());
 		}
 	}
@@ -263,24 +255,14 @@ public class ASTService implements IASTService, Runnable, Disposable {
 
 	private void remove(@NotNull VirtualFile file) {
 		SwingUtilities.invokeLater(() -> {
-			PanelManager manager = OpenApiTreePanel.getInstance(project);
-			if (manager != null) {
-				manager.handleClosedFile(file);
-			}
-			ReportManager reportManager = ReportPanel.getInstance(project);
-			if (reportManager != null) {
-				reportManager.handleClosedFile(file);
-			}
-			HTMLReportManager htmlReportManager = HTMLReportPanel.getInstance(project);
-			if (htmlReportManager != null) {
-				htmlReportManager.handleClosedFile(file);
-			}
-			DataService dataService = DataService.getInstance(project);
-			dataService.removeParserData(file.getPath());
-			dataService.removeAuditReport(file.getPath());
-			dataService.removeFileProperty(file.getPath());
-			QuickFixService quickFixService = QuickFixService.getInstance();
-			quickFixService.handleAuditReportRemoved(file.getPath());
+            project.getMessageBus().syncPublisher(FileListener.TOPIC).handleClosedFile(file);
+            DataService dataService = DataService.getInstance(project);
+            dataService.removeParserData(file.getPath());
+            dataService.removeFileProperty(file.getPath());
+            AuditService auditService = AuditService.getInstance(project);
+            auditService.removeAuditReport(file.getPath());
+            QuickFixService quickFixService = QuickFixService.getInstance();
+            quickFixService.handleAuditReportRemoved(file.getPath());
 			highlightingManager.close(file);
 		});
 	}

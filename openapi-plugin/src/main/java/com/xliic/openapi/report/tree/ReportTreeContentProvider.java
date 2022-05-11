@@ -14,6 +14,7 @@ import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.report.tree.filter.FilterState;
+import com.xliic.openapi.report.tree.ui.ReportPanelView;
 
 public class ReportTreeContentProvider implements ITreeContentProvider {
 
@@ -21,10 +22,10 @@ public class ReportTreeContentProvider implements ITreeContentProvider {
 	private final String projectPath;
 	private final FilterState filterState;
 
-	public ReportTreeContentProvider(ReportManager manager) {
-		this.project = manager.getProject();
+	public ReportTreeContentProvider(ReportPanelView view) {
+		this.project = view.getProject();
 		this.projectPath = project.getBasePath();
-		this.filterState = manager.getFilterState();
+		this.filterState = view.getFilterState();
 	}
 
 	@Override

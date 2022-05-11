@@ -6,6 +6,8 @@ import org.eclipse.ui.themes.ITheme;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
+import com.xliic.openapi.report.html.ui.HTMLReportPanelView;
+
 @SuppressWarnings("restriction")
 public class HTMLReportLAFListener implements EventHandler {
 
@@ -13,15 +15,15 @@ public class HTMLReportLAFListener implements EventHandler {
 	private IWorkbench workbench;
 	private org.eclipse.e4.ui.css.swt.theme.ITheme currentCSSTheme;
 	private IThemeEngine themeEngine;
-	private HTMLReportManager manager;
+	private HTMLReportPanelView view;
   
-	public HTMLReportLAFListener(IWorkbench workbench, HTMLReportManager manager) {
+	public HTMLReportLAFListener(IWorkbench workbench, HTMLReportPanelView view) {
 	    this.workbench = workbench;
 	    themeEngine = workbench.getService(IThemeEngine.class);
-	    this.manager = manager;    
+	    this.view = view;    
 		currentTheme = (ITheme) workbench.getThemeManager().getCurrentTheme();
 		currentCSSTheme = getActiveTheme();
-	    manager.updateCssRules(isDarkTheme());
+	    //view.updateCssRules(isDarkTheme());
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public class HTMLReportLAFListener implements EventHandler {
 		if (isAnyThemeChanged()) {
 			currentTheme = (ITheme) workbench.getThemeManager().getCurrentTheme();
 			currentCSSTheme = getActiveTheme();
-		    manager.updateCssRules(isDarkTheme());
+		    //view.updateCssRules(isDarkTheme());
 		}
 	}
 

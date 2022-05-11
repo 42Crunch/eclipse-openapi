@@ -4,6 +4,8 @@ import org.eclipse.swt.widgets.Display;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.util.Computable;
+import com.xliic.core.util.messages.MessageBus;
+import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 public class ApplicationManager {
 
@@ -11,6 +13,11 @@ public class ApplicationManager {
 
 	public static ApplicationManager getApplication() {
 		return applicationManager;
+	}
+	
+	@NotNull 
+	public MessageBus getMessageBus() {
+		return OpenAPIAbstractUIPlugin.getInstance().getProject().getMessageBus();
 	}
 
 	public void invokeLater(@NotNull Runnable runnable) {

@@ -1,5 +1,7 @@
 package com.xliic.openapi.report;
 
+import com.xliic.openapi.services.HTMLService;
+
 public class Summary {
 
     private final int all;
@@ -34,16 +36,17 @@ public class Summary {
     }
 
     public String getHTMLSummary() {
+        HTMLService htmlService = HTMLService.getInstance();
         if ((all == 0) && invalid) {
-            return "<h1>Failed to perform security audit, the OpenAPI file is invalid or too large.</h1>" +
-                    "<div><small>Please submit your feedback for the security audit " +
-                    "<a href=\"https://support.42crunch.com\">here</a></small></div><hr>";
+            return htmlService.SUMMARY_INVALID;
         }
-        return "<h1>Security audit score: " + all + "</h1>" +
-                "<h3>Security (" + security.getValue() + "/" + security.getMax() + ")</h3>" +
-                "<h3>Data validation (" + data.getValue() + "/" + data.getMax() + ")</h3>" +
-                "<div><small>Please submit your feedback for the security audit " +
-                "<a href=\"https://support.42crunch.com\">here</a>" +
-                "</small></div><hr>";
+        String summary = htmlService.SUMMARY;
+        summary = summary.replace("${summary.all}", String.valueOf(all));
+        summary = summary.replace("${summary.all}", String.valueOf(all));
+        summary = summary.replace("${summary.security.value}", String.valueOf(security.getValue()));
+        summary = summary.replace("${summary.security.max}", String.valueOf(security.getMax()));
+        summary = summary.replace("${summary.datavalidation.value}", String.valueOf(data.getValue()));
+        summary = summary.replace("${summary.datavalidation.max}", String.valueOf(data.getMax()));
+        return summary;
     }
 }

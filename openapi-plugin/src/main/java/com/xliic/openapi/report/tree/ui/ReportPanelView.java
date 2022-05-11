@@ -27,10 +27,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import com.xliic.core.Disposable;
+import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
@@ -38,7 +38,6 @@ import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.tree.ReportFileObject;
 import com.xliic.openapi.report.tree.ReportIssueObject;
-import com.xliic.openapi.report.tree.ReportManager;
 import com.xliic.openapi.report.tree.ReportTreeContentProvider;
 import com.xliic.openapi.report.tree.ReportTreeExpansionListener;
 import com.xliic.openapi.report.tree.ReportTreeLabelProvider;
@@ -51,11 +50,15 @@ import com.xliic.openapi.report.tree.filter.ShowFilterAction;
 import com.xliic.openapi.report.tree.filter.ShowForSelectedFileAction;
 import com.xliic.openapi.report.tree.filter.ShowInfoAction;
 import com.xliic.openapi.report.tree.filter.ShowWarningsAction;
-import com.xliic.openapi.services.api.IDataService;
+import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.topic.AuditListener;
+import com.xliic.openapi.topic.FileListener;
+import com.xliic.openapi.topic.WindowListener;
 import com.xliic.openapi.utils.OpenAPIUtils;
 import com.xliic.openapi.utils.WorkbenchUtils;
 
-public class ReportPanelView extends ViewPart implements ReportManager, Disposable {
+public class ReportPanelView extends ViewPart 
+	implements FileListener, WindowListener, AuditListener, Disposable {
 
 	public static final String ID = "com.xliic.openapi.report.tree.ui.ReportPanelView";
 
@@ -79,8 +82,12 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 	private final Map<String, DefaultMutableTreeNode> fileNameToTreeNodeMap = new HashMap<>();
 	private final Map<Issue, DefaultMutableTreeNode> issueToTreeNodeMap = new HashMap<>();
 	private final Set<VirtualFile> currentFiles = new HashSet<>();
-
+	private final Project project;
 	private FilterState filterState;
+	
+	public ReportPanelView() {
+		project = OpenAPIAbstractUIPlugin.getInstance().getProject();	
+	}
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -101,7 +108,18 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 		getSite().setSelectionProvider(viewer);
 		makeActions();
 		contributeToActionBars();
-		handleToolWindowRegistered();
+		
+	    project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
+	    project.getMessageBus().connect().subscribe(WindowListener.TOPIC, this);
+	    project.getMessageBus().connect().subscribe(AuditListener.TOPIC, this);
+
+	    // Panel may be created lazily
+	    AuditService auditService = AuditService.getInstance(project);
+	    for (VirtualFile file : FileEditorManager.getInstance(project).getOpenFiles()) {
+	      if (auditService.hasAuditReport(file.getPath())) {
+	        handleAuditReportReady(file);
+	      }
+	    }
 	}
 
 	private void contributeToActionBars() {
@@ -137,7 +155,6 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 		filterShowFilterAction = new ShowFilterAction(workbench.getActiveWorkbenchWindow(), this);
 	}
 
-	@Override
 	public Project getProject() {
 		return OpenAPIAbstractUIPlugin.getInstance().getProject();
 	}
@@ -147,12 +164,10 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 		viewer.getControl().setFocus();
 	}
 
-	@Override
 	public FilterState getFilterState() {
 		return filterState;
 	}
 
-	@Override
 	public void cleanSearchTextArea() {
 		filterShowInfoAction.setChecked(filterState.isShowInfo());
 		filterShowWarningsAction.setChecked(filterState.isShowWarning());
@@ -162,10 +177,9 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 		filterShowFilterAction.setChecked(false);
 	}
 
-	@Override
 	public void reloadAndRestoreExpansion() {
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) viewer.getInput();
-		viewer.setInput(root);
+		viewer.setInput(root); // todo: can be disposed already
 		expansionListener.expand(fileNameToTreeNodeMap.values());
 	}
 
@@ -178,11 +192,11 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 
 	@Override
 	public void handleClosedFile(VirtualFile file) {
-		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		if (!dataService.hasAuditReport(file.getPath())) {
+		AuditService auditService = AuditService.getInstance(project);
+		if (!auditService.hasAuditReport(file.getPath())) {
 			return;
 		}
-		Audit auditReport = dataService.getAuditReport(file.getPath());
+		Audit auditReport = auditService.getAuditReport(file.getPath());
 		removeIssues(auditReport.getIssues());
 		currentFiles.remove(file);
 	}
@@ -202,9 +216,9 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 	@Override
 	public void handleAuditReportReady(VirtualFile file) {
 
-		WorkbenchUtils.showView(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
-		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		Audit data = dataService.getAuditReport(file.getPath());
+		//WorkbenchUtils.showView(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
+		AuditService auditService = AuditService.getInstance(project);
+		Audit data = auditService.getAuditReport(file.getPath());
 		addIssues(data.getIssues());
 		currentFiles.add(file);
 
@@ -313,10 +327,10 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 
 	@Override
 	public void handleDocumentChanged(VirtualFile file) {
-		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		if (!dataService.isAuditParticipantFile(file.getPath())) {
-			return;
-		}
+	    AuditService auditService = AuditService.getInstance(project);
+	    if (auditService.isNotAuditParticipantFile(file.getPath())) {
+	      return;
+	    }
 		if (!fileNameToTreeNodeMap.containsKey(file.getPath())) {
 			return;
 		}
@@ -329,12 +343,12 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 	}
 
 	@Override
-	public void handleToolWindowRegistered() {
+	public void handleToolWindowRegistered(String id) {
 		boolean hide = true;
-		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
+		AuditService auditService = AuditService.getInstance(project);
 		for (VirtualFile file : currentFiles) {
-			if (dataService.hasAuditReport(file.getPath())) {
-				Audit data = dataService.getAuditReport(file.getPath());
+			if (auditService.hasAuditReport(file.getPath())) {
+				Audit data = auditService.getAuditReport(file.getPath());
 				addIssues(data.getIssues());
 				hide = false;
 			}
@@ -372,4 +386,10 @@ public class ReportPanelView extends ViewPart implements ReportManager, Disposab
 		viewer.removeSelectionChangedListener(listener);
 		viewer.removeTreeListener(expansionListener);
 	}
+
+	@Override
+	public void handleViewDetails(VirtualFile file, List<Issue> issues) {}
+
+	@Override
+	public void handleToolWindowOpened(String id) {}
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	  <meta charset="UTF-8">
+	  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource}; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'unsafe-inline' ${webview.cspSource};">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>API Contract Security Audit Report</title>
+	  <link rel="stylesheet" href="${bootstrapUrl}">
+	  <link rel="stylesheet" href="${styleUrl}">
+  </head>
+  <body>
+      <script src="${scriptUrl}"></script>
+
+      <div class="c_header">
+      <div class="d-flex justify-content-between">
+        <div>
+          <span class="font-weight-bold">Powered by</span>
+          <span><a class="logo-img-site" href="https://www.42crunch.com" rel="noopener"><img valign="middle" src="${logo}" alt="" /></a></span>
+        </div>
+        <div>
+          <div class="dropdown">
+            <button class="dropbtn">Learn More</button>
+            <div class="dropdown-content">
+              <a href="https://42crunch.com/api-security-audit/">API Contract Security Audit</a>
+              <a href="https://42crunch.com/api-conformance-scan/">API Contract Conformance Scan</a>
+              <a href="https://42crunch.com/micro-api-firewall-protection/">API Protection</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      ${summary || ""}
+      ${issues || ""}
+      ${backToReport}
+
+      <div class="c_footer">
+      <div class="d-flex justify-content-between">
+        <div>
+          <span class="font-weight-bold">Powered by</span>
+          <span><a class="logo-img-site" href="https://www.42crunch.com" rel="noopener"><img valign="middle" src="${logo}" alt="" /></a></span>
+        </div>
+        <div>
+          <div class="dropdown">
+            <button class="dropbtn">Learn More</button>
+            <div class="dropdown-content">
+              <a href="https://42crunch.com/api-security-audit/">API Contract Security Audit</a>
+              <a href="https://42crunch.com/api-conformance-scan/">API Contract Conformance Scan</a>
+              <a href="https://42crunch.com/micro-api-firewall-protection/">API Protection</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  </body>
+</html>

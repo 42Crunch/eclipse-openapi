@@ -1,7 +1,5 @@
 package com.xliic.openapi.tree.ui;
 
-import static com.xliic.openapi.OpenApiUtils.getToolWindowComponent;
-
 import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
@@ -30,19 +28,21 @@ import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.FileProperty;
+import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiFileType;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.services.api.IParserService;
+import com.xliic.openapi.topic.FileListener;
+import com.xliic.openapi.topic.WindowListener;
 import com.xliic.openapi.tree.OpenAPILAFListener;
 import com.xliic.openapi.tree.OpenAPIMouseMotionListener;
 import com.xliic.openapi.tree.OpenAPITreeActionGroup;
@@ -50,12 +50,12 @@ import com.xliic.openapi.tree.OpenAPITreeContentProvider;
 import com.xliic.openapi.tree.OpenAPITreeExpansionListener;
 import com.xliic.openapi.tree.OpenAPITreeLabelProvider;
 import com.xliic.openapi.tree.OpenAPITreeSelectionChangedListener;
-import com.xliic.openapi.tree.PanelManager;
 import com.xliic.openapi.utils.EditorUtil;
 import com.xliic.openapi.utils.OpenAPIUtils;
 
 @SuppressWarnings("restriction")
-public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuListener, Disposable {
+public class OpenAPITreeView extends ViewPart 
+	implements FileListener, WindowListener, IMenuListener, Disposable {
 
 	public static final String ID = "com.xliic.openapi.tree.ui.OpenAPITreeView";
 
@@ -77,7 +77,8 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 	private OpenAPIMouseMotionListener mouseMotionListener;
 	private OpenAPITreeActionGroup fActionSet;
 	private Menu fContextMenu;
-
+	private final Project project;
+	
 	private final ITreeContentProvider contentProvider = new OpenAPITreeContentProvider();
 	private StyledCellLabelProvider labelProvider;
 
@@ -88,10 +89,7 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 	public OpenAPITreeView() {
 		this.listener = new OpenAPITreeSelectionChangedListener();
 		isValid = true;
-	}
-
-	public static PanelManager getInstance(@NotNull Project project) {
-		return (PanelManager) getToolWindowComponent(project, ToolWindowId.OPEN_API);
+		project = OpenAPIAbstractUIPlugin.getInstance().getProject();
 	}
 
 	private DecoratingStyledCellLabelProvider createLabelProvider() {
@@ -117,6 +115,8 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 		eventBroker = workbench.getService(IEventBroker.class);
 		eventBroker.subscribe(WorkbenchThemeManager.Events.THEME_REGISTRY_RESTYLED, lafListener);
 
+		project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
+		
 		fActionSet = new OpenAPITreeActionGroup();
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
@@ -124,7 +124,16 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 		fContextMenu = menuMgr.createContextMenu(viewer.getTree());
 		viewer.getTree().setMenu(fContextMenu);
 
-		handleToolWindowRegistered();
+		//handleToolWindowRegistered(); // ?
+		
+	    project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
+	    project.getMessageBus().connect().subscribe(WindowListener.TOPIC, this);
+
+	    VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+	    if (file != null) {
+	      handleSelectedFile(file);
+	    }
+	    
 	}
 
 	@Override
@@ -182,7 +191,7 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 	}
 
 	@Override
-	public void handleToolWindowRegistered() {
+	public void handleToolWindowRegistered(String id) {
 
 		IWorkbenchPage page = EditorUtil.getActivePage();
 		IEditorReference[] editors = page.getEditorReferences();
@@ -229,6 +238,9 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 		IFile file = fileInput.getFile();
 		handleSelectedFile(new VirtualFile(file));
 	}
+	
+	@Override
+	public void handleToolWindowOpened(String id) {}
 
 	@Override
 	public void handleDocumentChanged(VirtualFile file) {
@@ -254,7 +266,6 @@ public class OpenAPITreeView extends ViewPart implements PanelManager, IMenuList
 		fActionSet.setContext(null);
 	}
 
-	@Override
 	public void handleLAFUpdate(boolean isDarkTheme) {
 		rgbErrorForegraund = isDarkTheme ? RGB_ERROR_FOREGRAUND_DARCULA : RGB_ERROR_FOREGRAUND;
 		rgbErrorBackground = isDarkTheme ? RGB_ERROR_BACKGROUND_DARCULA : RGB_ERROR_BACKGROUND;

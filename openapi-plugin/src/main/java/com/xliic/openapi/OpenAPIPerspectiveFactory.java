@@ -44,6 +44,6 @@ public class OpenAPIPerspectiveFactory implements IPerspectiveFactory {
 		bottomRight.addView(ReportPanelView.ID);
 		
 		IFolderLayout topRight = layout.createFolder("topRight", IPageLayout.RIGHT, (float) 0.70, editorArea);
-		topRight.addView(HTMLReportPanelView.ID);
+		topRight.addView(ToolWindowId.OPEN_API_HTML_REPORT);
 	}
 }

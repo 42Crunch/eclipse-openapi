@@ -5,17 +5,11 @@ import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_REDOC;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_SWAGGERUI;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,12 +25,13 @@ import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.ide.PropertiesComponent;
 import com.xliic.core.util.FileUtil;
-import com.xliic.core.util.ResourceUtil;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.preview.PreviewWebSocket;
 import com.xliic.openapi.preview.PreviewWebSocketHandler;
 import com.xliic.openapi.services.api.IPreviewService;
+
+import static com.xliic.openapi.OpenApiUtils.createTextResource;
 
 public class PreviewService implements IPreviewService, Disposable {
 
@@ -142,26 +137,17 @@ public class PreviewService implements IPreviewService, Disposable {
 	}
 
 	@Override
-	public void initWebResources() throws IOException {
-		if (resourcesPath != null) {
-			return;
-		}
-		String randomString = RandomStringUtils.random(10, true, false).toLowerCase();
-		resourcesPath = FileUtil.createTempDirectory("preview_", randomString, true);
-		create(resourcesPath, RENDERER_SWAGGERUI, ".html");
-		create(resourcesPath, RENDERER_SWAGGERUI, ".js");
-		create(resourcesPath, RENDERER_REDOC, ".html");
-		create(resourcesPath, RENDERER_REDOC, ".js");
-	}
-
-	private void create(File dir, String prefix, String suffix) throws IOException {
-		InputStream inputStream = ResourceUtil.getResourceAsStream(getClass(), "preview", prefix + suffix);
-		Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
-		File tmp = FileUtil.createTempFile(dir, prefix, suffix, true);
-		PrintWriter writer = new PrintWriter(tmp, StandardCharsets.UTF_8);
-		stream.forEach(writer::println);
-		writer.close();
-	}
+    public void initWebResources() throws IOException {
+        if (resourcesPath != null) {
+            return;
+        }
+        String randomString = RandomStringUtils.random(10, true, false).toLowerCase();
+        resourcesPath = FileUtil.createTempDirectory("preview_", randomString, true);
+        createTextResource(resourcesPath, "preview", RENDERER_SWAGGERUI, ".html");
+        createTextResource(resourcesPath, "preview", RENDERER_SWAGGERUI, ".js");
+        createTextResource(resourcesPath, "preview", RENDERER_REDOC, ".html");
+        createTextResource(resourcesPath, "preview", RENDERER_REDOC, ".js");
+    }
 
 	@Override
 	public void dispose() {
