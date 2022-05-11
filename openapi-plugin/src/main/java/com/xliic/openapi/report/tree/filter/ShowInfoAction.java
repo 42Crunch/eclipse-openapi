@@ -5,25 +5,25 @@ import org.eclipse.jface.action.IAction;
 
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.report.tree.ReportManager;
+import com.xliic.openapi.report.tree.ui.ReportPanelView;
 
 public class ShowInfoAction extends Action {
 
-    private final ReportManager manager;
+    private final ReportPanelView view;
     private final FilterState filterState;
 
-    public ShowInfoAction(ReportManager manager) {    	
+    public ShowInfoAction(ReportPanelView view) {    	
         super(OpenApiBundle.message("openapi.action.show.info"), IAction.AS_CHECK_BOX);
 		setToolTipText(OpenApiBundle.message("openapi.action.show.info"));
 		setImageDescriptor(OpenAPIImages.ReportInfo);
-        this.manager = manager;
-        this.filterState = manager.getFilterState();
+        this.view = view;
+        this.filterState = view.getFilterState();
         setChecked(filterState.isShowInfo());
     }
 
     @Override
     public void run() {
         filterState.setShowInfo(isChecked());
-        manager.reloadAndRestoreExpansion();
+        view.reloadAndRestoreExpansion();
     }
 }

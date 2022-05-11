@@ -352,5 +352,5 @@ public class OpenAPIUtils {
 		}
 		page.activate(editor);
 		return editor;
-	}
+	}	
 }

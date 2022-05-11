@@ -12,15 +12,11 @@ import com.xliic.core.vfs.VFilePropertyChangeEvent;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.report.html.HTMLReportManager;
-import com.xliic.openapi.report.html.ui.HTMLReportPanel;
-import com.xliic.openapi.report.tree.ReportManager;
-import com.xliic.openapi.report.tree.ui.ReportPanel;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DataService;
-import com.xliic.openapi.tree.PanelManager;
-import com.xliic.openapi.tree.ui.OpenApiTreePanel;
+import com.xliic.openapi.topic.FileListener;
 
 public class OpenAPIBulkFileListener extends BulkFileListener {
 
@@ -50,28 +46,20 @@ public class OpenAPIBulkFileListener extends BulkFileListener {
 		}
 	}
 
-	private void update(VirtualFile newFile, String oldFileName) {
+    private void update(VirtualFile newFile, String oldFileName) {
 
-		BundleService bundleService = BundleService.getInstance(project);
-		bundleService.handleFileNameChanged(newFile, oldFileName);
+        BundleService bundleService = BundleService.getInstance(project);
+        bundleService.handleFileNameChanged(newFile, oldFileName);
 
-		DataService dataService = DataService.getInstance(project);
-		dataService.handleFileNameChanged(newFile, oldFileName);
+        DataService dataService = DataService.getInstance(project);
+        dataService.handleFileNameChanged(newFile, oldFileName);
 
-		ASTService astService = ASTService.getInstance(project);
-		astService.handleFileNameChanged(newFile, oldFileName);
+        AuditService auditService = AuditService.getInstance(project);
+        auditService.handleFileNameChanged(newFile, oldFileName);
 
-		PanelManager manager = OpenApiTreePanel.getInstance(project);
-		if (manager != null) {
-			manager.handleFileNameChanged(newFile, oldFileName);
-		}
-		ReportManager reportManager = ReportPanel.getInstance(project);
-		if (reportManager != null) {
-			reportManager.handleFileNameChanged(newFile, oldFileName);
-		}
-		HTMLReportManager htmlReportManager = HTMLReportPanel.getInstance(project);
-		if (htmlReportManager != null) {
-			htmlReportManager.handleFileNameChanged(newFile, oldFileName);
-		}
-	}
+        ASTService astService = ASTService.getInstance(project);
+        astService.handleFileNameChanged(newFile, oldFileName);
+
+        project.getMessageBus().syncPublisher(FileListener.TOPIC).handleFileNameChanged(newFile, oldFileName);
+    }
 }

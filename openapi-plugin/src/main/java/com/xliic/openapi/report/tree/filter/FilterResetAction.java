@@ -5,19 +5,19 @@ import org.eclipse.jface.action.IAction;
 
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.report.tree.ReportManager;
+import com.xliic.openapi.report.tree.ui.ReportPanelView;
 
 public class FilterResetAction extends Action {
 
-    private final ReportManager manager;
+    private final ReportPanelView view;
     private final FilterState filterState;
 
-    public FilterResetAction(ReportManager manager) {    	
+    public FilterResetAction(ReportPanelView view) {    	
         super(OpenApiBundle.message("openapi.action.show.reset"), IAction.AS_CHECK_BOX);
 		setToolTipText(OpenApiBundle.message("openapi.action.show.reset"));
 		setImageDescriptor(OpenAPIImages.Reset);
-        this.manager = manager;
-        this.filterState = manager.getFilterState();
+        this.view = view;
+        this.filterState = view.getFilterState();
         setChecked(false);
     }
 
@@ -29,7 +29,7 @@ public class FilterResetAction extends Action {
     @Override
     public void run() {
         filterState.reset();
-        manager.cleanSearchTextArea();
-        manager.reloadAndRestoreExpansion();
+        view.cleanSearchTextArea();
+        view.reloadAndRestoreExpansion();
     }
 }

@@ -1,0 +1,18 @@
+<div class="c_roundedbox_section">
+	<h1>${issue.description}</h1>
+
+	<p>
+	  <small>
+	  Issue ID: <a class="issue-id" data-issue-id="${issue.id}" href="${copyRef}">${issue.id}</a>
+	  </small>
+	</p>
+	<p>
+	  <small>
+		<a class="focus-line" data-line-no="${issue.lineNo}" data-line-pointer="${issue.pointer}" data-uri="${base64Uri}" href="#">${filename}:${lineNo}</a>.
+		Severity: ${criticality}.
+		${scoreImpact}
+	  </small>
+	</p>
+
+	${article}
+</div>

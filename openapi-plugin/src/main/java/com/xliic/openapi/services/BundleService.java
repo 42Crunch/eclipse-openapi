@@ -347,12 +347,15 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 			VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(be.getSourceFileName()));
 			if (file != null) {
 				ASTService astService = ASTService.getInstance(project);
-				Node target = astService.getRootNode(file).find(be.getSourcePointer());
-				if (target == null) {
-					new OpenFileDescriptor(project, file).navigate(true);
-				} else {
-					OpenApiUtils.getOpenFileDescriptor(project, file, target.getRange()).navigate(true);
-				}
+                Node root = astService.getRootNode(file);
+                if (root != null) {
+                    Node target = root.find(be.getSourcePointer());
+                    if (target != null) {
+                        OpenApiUtils.getOpenFileDescriptor(project, file, target.getRange()).navigate(true);
+                        return;
+                    }
+                }
+                new OpenFileDescriptor(project, file).navigate(true);
 			}
 		}
 	}

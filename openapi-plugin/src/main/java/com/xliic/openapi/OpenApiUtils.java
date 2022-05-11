@@ -3,13 +3,19 @@ package com.xliic.openapi;
 import static com.xliic.openapi.OpenApiPanelKeys.OPENAPI_KEY;
 import static com.xliic.openapi.OpenApiPanelKeys.SWAGGER_KEY;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.ui.IViewPart;
@@ -26,8 +32,12 @@ import com.xliic.core.patterns.YamlElementPattern;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiElement;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.util.FileUtil;
+import com.xliic.core.util.ResourceUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.core.wm.ToolWindow;
+import com.xliic.core.wm.ToolWindowManager;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.parser.tree.ParserData;
@@ -54,6 +64,15 @@ public class OpenApiUtils {
 		editor.getScrollingModel().scrollToCaret(ScrollType.CENTER_UP);
 	}
 
+    public static void activateToolWindow(@NotNull Project project, @NotNull String id) {
+        if (!project.isDisposed()) {
+            ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(id);
+            if ((toolWindow != null) && !toolWindow.isActive()) {
+                toolWindow.activate(null);
+            }
+        }
+    }
+    
 	public static VirtualFile getSelectedOpenAPIFile(@NotNull Project project) {
 		return OpenAPIUtils.getSelectedOpenAPIFile();
 	}
@@ -179,4 +198,14 @@ public class OpenApiUtils {
 		}
 		return OpenApiVersion.Unknown;
 	}
+	
+    public static void createTextResource(File dir, String basePath, String prefix, String suffix) throws IOException {
+        ClassLoader loader = OpenApiUtils.class.getClassLoader();
+        InputStream inputStream = ResourceUtil.getResourceAsStream(loader, basePath, prefix + suffix);
+        Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
+        File tmp = FileUtil.createTempFile(dir, prefix, suffix, true);
+        PrintWriter writer = new PrintWriter(tmp, StandardCharsets.UTF_8);
+        stream.forEach(writer::println);
+        writer.close();
+    }
 }

@@ -10,15 +10,14 @@ import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.report.Issue;
-import com.xliic.openapi.report.html.HTMLReportManager;
-import com.xliic.openapi.report.html.ui.HTMLReportPanel;
+import com.xliic.openapi.topic.AuditListener;
 
 public class FixGoToHTMLAction extends FixAction {
 
 	private final List<Issue> issues;
 
 	public FixGoToHTMLAction(List<Issue> issues) {
-		super(0, OpenApiBundle.message("openapi.audit.intention.name"), null);
+		super(3, OpenApiBundle.message("openapi.audit.intention.name"), null);
 		this.issues = issues;
 	}
 
@@ -29,12 +28,8 @@ public class FixGoToHTMLAction extends FixAction {
 
 	@Override
 	public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
-		final HTMLReportManager htmlReportManager = HTMLReportPanel.getInstance(project);
-		if (htmlReportManager == null) {
-			return;
-		}
-		ApplicationManager.getApplication().runWriteAction(() -> {
-			htmlReportManager.handleGoToHTMLIntention(file.getVirtualFile(), issues);
-		});
+        ApplicationManager.getApplication().runWriteAction(() -> {
+            project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleViewDetails(file.getVirtualFile(), issues);
+        });
 	}
 }

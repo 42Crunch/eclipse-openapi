@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.report.tree.ReportManager;
+import com.xliic.openapi.report.tree.ui.ReportPanelView;
 
 @SuppressWarnings("restriction")
 public class FilterDialogWrapper extends StatusDialog {
@@ -29,16 +29,16 @@ public class FilterDialogWrapper extends StatusDialog {
 	private Text filterFindTextField;
 	private Button resetButton;
 	
-	private final ReportManager manager;
+	private final ReportPanelView view;
 	private final ShowFilterAction caller;
 	private final FilterState initFilterState;
 
-	public FilterDialogWrapper(Shell parent, ReportManager manager, ShowFilterAction caller) {
+	public FilterDialogWrapper(Shell parent, ReportPanelView view, ShowFilterAction caller) {
 		super(parent);
 		setTitle(OpenApiBundle.message("Filter Audit Problems"));
-		this.manager = manager;
+		this.view = view;
 		this.caller = caller;
-		this.initFilterState = manager.getFilterState().copy();
+		this.initFilterState = view.getFilterState().copy();
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class FilterDialogWrapper extends StatusDialog {
 		label.setText("Filter:");
 		filterFindTextField = new Text(main, SWT.BORDER);
 		
-		FilterState filterState = manager.getFilterState();
+		FilterState filterState = view.getFilterState();
 		filterFindTextField.setText((filterState.getSearchText() == null) ? "" : filterState.getSearchText());
 		filterFindTextField.addModifyListener(event -> {
 	        filterState.setSearchText(filterFindTextField.getText());
@@ -146,26 +146,26 @@ public class FilterDialogWrapper extends StatusDialog {
 	
     @Override
     public void okPressed() {
-    	manager.reloadAndRestoreExpansion();
+    	view.reloadAndRestoreExpansion();
     	caller.setChecked(true);
         super.okPressed();
     }
     
     @Override
     public void cancelPressed() {
-    	FilterState filterState = manager.getFilterState();
+    	FilterState filterState = view.getFilterState();
     	filterState.set(initFilterState);
     	caller.setChecked(!StringUtils.isEmpty(filterState.getSearchText()));
         super.cancelPressed();
     }
 
     public void resetPressed() {
-    	FilterState filterState = manager.getFilterState();
+    	FilterState filterState = view.getFilterState();
     	filterState.setCaseSensitiveState(false);
     	filterState.setWholeWordsState(false);
     	filterState.setRegexState(false);
     	filterState.setSearchText(null);
-    	manager.reloadAndRestoreExpansion();
+    	view.reloadAndRestoreExpansion();
     	caller.setChecked(false);
     	super.cancelPressed();
     }

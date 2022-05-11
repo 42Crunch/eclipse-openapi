@@ -29,7 +29,7 @@ import com.xliic.openapi.quickfix.actions.FixAction;
 import com.xliic.openapi.quickfix.actions.FixBulkAction;
 import com.xliic.openapi.quickfix.actions.FixCombinedAction;
 import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
-import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.services.QuickFixService;
 
@@ -40,7 +40,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 	private final List<HighlightInfo> highlights;
 	private final Map<String, List<FixAction>> pointerToActions;
 
-    private final DataService dataService;
+	private final AuditService auditService;
     private final QuickFixService quickFixService;
     private final PlaceHolderService placeHolderService;
     
@@ -50,7 +50,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 		psiFile = file;
 		highlights = new LinkedList<>();
 		pointerToActions = new HashMap<>();
-        dataService = DataService.getInstance(myProject);
+		auditService = AuditService.getInstance(myProject);
         quickFixService = QuickFixService.getInstance();
         placeHolderService = PlaceHolderService.getInstance(myProject);
 	}
@@ -59,11 +59,11 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 	public void doCollectInformation(@NotNull final ProgressIndicator progress) {
 		placeHolderService.update(editor);
 		String fileName = psiFile.getVirtualFile().getPath();
-		if (!dataService.isAuditParticipantFile(fileName)) {
+		if (auditService.isNotAuditParticipantFile(fileName)) {
 			highlights.clear();
 			return;
 		}
-		List<Issue> issues = dataService.getIssuesForAuditParticipantFileName(fileName);
+		List<Issue> issues = auditService.getIssuesForAuditParticipantFileName(fileName);
 		if (issues.isEmpty()) {
 			highlights.clear();
 			return;

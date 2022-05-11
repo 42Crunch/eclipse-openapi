@@ -44,9 +44,8 @@ public class FixManagerSingle extends FixManager {
             List<Replacement> replacements = new LinkedList<>();
             for (FixParameter parameter : parameters) {
                 List<Object> values = parameter.getSource().get(issue, quickFix, parameter, version, bundle);
-                if (values.isEmpty()) {
-                    values = parameter.getValues();
-                }
+                values.addAll(parameter.getValues());
+                values = wrap(values);
                 placeHolders.add(new PlaceHolder(parameter.getPath(), parameter.isKeyType(), values));
                 if (!values.isEmpty()) {
                     String value = (String) values.get(0);

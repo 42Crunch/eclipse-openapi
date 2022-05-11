@@ -57,16 +57,17 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
 		Set<BundleError> exceptions = bundleErrorsMap.get(bundleFile);
 		ASTService astService = ASTService.getInstance(myProject);
 		Node root = astService.getRootNode(psiFile.getVirtualFile());
-
-		for (BundleError error : exceptions) {
-			Node target = root.find(error.getSourcePointer());
-			if (target != null) {
-				String msg = error.getMessage();
-				Range nodeRange = target.getKeyRange();
-				TextRange range = new TextRange(nodeRange.getStartOffset(), nodeRange.getEndOffset());
-				HighlightInfoType type = getHighlightInfoType(GENERIC_ERROR, ERROR, getSeverityRegistrar(myProject));
-				HighlightInfo info = newHighlightInfo(type).range(range).descriptionAndTooltip(msg).create();
-				highlights.add(info);
+		if (root != null) {
+			for (BundleError error : exceptions) {
+				Node target = root.find(error.getSourcePointer());
+				if (target != null) {
+					String msg = error.getMessage();
+					Range nodeRange = target.getKeyRange();
+					TextRange range = new TextRange(nodeRange.getStartOffset(), nodeRange.getEndOffset());
+					HighlightInfoType type = getHighlightInfoType(GENERIC_ERROR, ERROR, getSeverityRegistrar(myProject));
+					HighlightInfo info = newHighlightInfo(type).range(range).descriptionAndTooltip(msg).create();
+					highlights.add(info);
+				}
 			}
 		}
 	}

@@ -2,7 +2,6 @@ package com.xliic.openapi.callback;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -14,12 +13,12 @@ import com.xliic.core.ui.Messages;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
-import com.xliic.openapi.report.html.ui.HTMLReportPanel;
-import com.xliic.openapi.report.tree.ReportManager;
-import com.xliic.openapi.report.tree.ui.ReportPanel;
-import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.topic.AuditListener;
 
 public class AuditActionCallback extends ActionCallback {
 
@@ -32,44 +31,62 @@ public class AuditActionCallback extends ActionCallback {
 	}
 
 	public void setBeforeRequest() {
-		DataService dataService = DataService.getInstance(project);
-		if (dataService.hasAuditReport(file.getPath())) {
-			Objects.requireNonNull(ReportPanel.getInstance(project))
-					.handleAuditReportClean(dataService.removeAuditReport(file.getPath()));
-		}
+        AuditService auditService = AuditService.getInstance(project);
+        if (auditService.hasAuditReport(file.getPath())) {
+            Audit report = auditService.removeAuditReport(file.getPath());
+            project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(report);
+        }
 	}
 
 	@Override
 	public void setDone() {
-		DataService dataService = DataService.getInstance(project);
-		SwingUtilities.invokeLater(() -> {
-			List<Issue> issues = new LinkedList<>();
-			Audit newAudit = dataService.getAuditReport(file.getPath());
-			for (String fileName : newAudit.getParticipantFileNames()) {
-				for (Audit audit : dataService.getAuditReportsForAuditParticipantFileName(fileName)) {
-					if (audit != newAudit) {
-						issues.addAll(audit.removeIssuesForFile(fileName));
-					}
-				}
-			}
-			ReportManager reportManager = Objects.requireNonNull(ReportPanel.getInstance(project));
-			reportManager.handleIssuesFixed(issues);
+        AuditService auditService = AuditService.getInstance(project);
+        SwingUtilities.invokeLater(() -> {
 
-			reportManager.handleAuditReportReady(file);
-			Objects.requireNonNull(HTMLReportPanel.getInstance(project)).handleAuditReportReady(file);
+            List<Issue> issues = new LinkedList<>();
+            Audit newAudit = auditService.getAuditReport(file.getPath());
+            for (String fileName : newAudit.getParticipantFileNames()) {
+                for (Audit audit : auditService.getAuditReportsForAuditParticipantFileName(fileName)) {
+                    if (audit != newAudit) {
+                        issues.addAll(audit.removeIssuesForFile(fileName));
+                    }
+                }
+            }
+
+            OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
+            OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
+
+            project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleIssuesFixed(issues);
+            project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
 
 			ApplicationManager.getApplication().invokeLater(() -> {
 				OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(project, file);
 				FileEditorManager.getInstance(project).openEditor(fileDescriptor, true);
 			});
+
+            // Report issues with unknown location
+            StringBuilder sb = new StringBuilder();
+            for (Issue issue : newAudit.getIssues()) {
+                if (issue.getRangeMarker() == null) {
+                    sb.append(OpenApiBundle.message("openapi.audit.issue.bad.location",
+                            issue.getId(), issue.getPointer())).append(" ");
+                }
+            }
+            if (sb.length() > 0) {
+                SwingUtilities.invokeLater(() -> {
+                    Messages.showMessageDialog(project,
+                            OpenApiBundle.message("openapi.audit.issues.notification", sb.toString()),
+                            OpenApiBundle.message("openapi.warning.title"), Messages.getWarningIcon());
+                });
+            }
 		});
 	}
 
-	@Override
-	public void setRejected() {
-		SwingUtilities.invokeLater(() -> {
-			Messages.showMessageDialog(project, getError(), OpenApiBundle.message("openapi.error.title"),
-					Messages.getErrorIcon());
-		});
-	}
+    @Override
+    public void setRejected() {
+        SwingUtilities.invokeLater(() -> {
+            Messages.showMessageDialog(project, getError(),
+                    OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
+        });
+    }
 }

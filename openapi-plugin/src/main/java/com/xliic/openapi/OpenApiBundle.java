@@ -25,7 +25,7 @@ public class OpenApiBundle {
 
     public static String message(String key) {
 		try {
-			return resourceBundle.getString(key);
+			return unescape(resourceBundle.getString(key));
 		} 
 		catch (MissingResourceException e) {
 			return key;
@@ -33,5 +33,24 @@ public class OpenApiBundle {
 		catch (NullPointerException e) {
 			return "!" + key + "!";
 		}	
+    }
+
+    public static String message(String key, String... args) {
+		String value = message(key);
+		if (args.length > 0 && value.contains("{") && value.contains("}")) {
+			int i = 0;
+			for (String arg : args) {
+				value = value.replace("{" + i + "}", arg);
+				i++;
+			}
+		}
+		return unescape(value);
+    }
+
+    private static String unescape(String value) {
+    	if (value.contains("''")) {
+    		value = value.replace("''", "'");
+    	}
+    	return value;
     }
 }

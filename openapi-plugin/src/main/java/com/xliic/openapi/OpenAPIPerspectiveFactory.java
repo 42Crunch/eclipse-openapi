@@ -4,7 +4,6 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-import com.xliic.openapi.report.html.ui.HTMLReportPanelView;
 import com.xliic.openapi.report.tree.ui.ReportPanelView;
 import com.xliic.openapi.tree.ui.OpenAPITreeView;
 
@@ -44,6 +43,6 @@ public class OpenAPIPerspectiveFactory implements IPerspectiveFactory {
 		bottomRight.addView(ReportPanelView.ID);
 		
 		IFolderLayout topRight = layout.createFolder("topRight", IPageLayout.RIGHT, (float) 0.70, editorArea);
-		topRight.addView(HTMLReportPanelView.ID);
+		topRight.addView(ToolWindowId.OPEN_API_HTML_REPORT);
 	}
 }

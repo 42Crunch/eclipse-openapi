@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public class Range implements Comparable<Range> {
 
-    int line;
-    int column;
-    int startOffset;
-    int endOffset;
+    private final int line;
+    private final int column;
+    private final int startOffset;
+    private final int endOffset;
 
     public Range() {
         line = 0;
@@ -21,7 +21,6 @@ public class Range implements Comparable<Range> {
         startOffset = 0;
     }
 
-    // todo: return to private again?
     public Range(int startOffset, int endOffset, int line, int column) {
         this.startOffset = startOffset;
         this.endOffset = endOffset;

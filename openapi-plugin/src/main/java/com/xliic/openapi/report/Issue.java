@@ -22,13 +22,11 @@ import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.bundler.Mapping;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.report.html.HTMLArticlesProvider;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.services.HTMLService;
 
 public class Issue {
-
-	private static final HTMLArticlesProvider articles = new HTMLArticlesProvider();
 
 	private final String id;
 	private final String description;
@@ -72,10 +70,12 @@ public class Issue {
 				if (document != null) {
 					ASTService astService = ASTService.getInstance(project);
 					Node root = astService.getRootNode(file);
-					Node node = root.find(pointer);
-					if (node != null) {
-						range = node.getHighlightRange();
-						rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+					if (root != null) {
+						Node node = root.find(pointer);
+						if (node != null) {
+							range = node.getHighlightRange();
+							rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+						}						
 					}
 				}
 			}
@@ -187,21 +187,29 @@ public class Issue {
 		return " " + getAuditOfString() + " " + rangeToString(range);
 	}
 
-	public String getHTMLIssue() {
+    public String getHTMLIssue() {
 
-		String criticality = getCriticalityName(getCriticality());
-		String scoreImpact = "0".equals(getDisplayScore()) ? "" : "Score impact: " + getDisplayScore();
-		String article = articleById(getId());
+        String lineNo = String.valueOf(range.getLine() + 1);
+        String href = "file://" + fileName + "?pointer=" + pointer;
+        String scoreImpact = "0".equals(getDisplayScore()) ? "" : "Score impact: " + getDisplayScore();
 
-		String href = "file://" + fileName + "?pointer=" + pointer;
-		String shortFileName = Paths.get(fileName).getFileName().toString();
-		String hrefForIssueID = "data-issue-id=" + id;
-
-		return "<h1>" + getDescription() + "</h1>" + "<p>" + "  <small>" + "  Issue ID: <a class=\"issue-id\" href=\""
-				+ hrefForIssueID + "\">" + id + "</a>" + "  </small>" + "</p>" + "<p>" + "  <small>"
-				+ "<a class=\"focus-line\" href=\"" + href + "\">" + shortFileName + ":" + (range.getLine() + 1)
-				+ "</a>.Severity: " + criticality + "." + scoreImpact + "  </small>" + "</p>" + article;
-	}
+        HTMLService htmlService = HTMLService.getInstance();
+        String issueHTML = htmlService.ISSUE;
+        issueHTML = issueHTML.replace("${issue.description}", getDescription());
+        issueHTML = issueHTML.replace("${issue.id}", id);
+        issueHTML = issueHTML.replace("${issue.id}", id);
+        issueHTML = issueHTML.replace("${copyRef}", "data-issue-id=" + id);
+        issueHTML = issueHTML.replace("${issue.lineNo}", lineNo);
+        issueHTML = issueHTML.replace("${issue.pointer}", pointer);
+        issueHTML = issueHTML.replace("${base64Uri}", "");
+        issueHTML = issueHTML.replace("href=\"#\"", "href=\"" + href + "\"");
+        issueHTML = issueHTML.replace("${filename}", Paths.get(fileName).getFileName().toString());
+        issueHTML = issueHTML.replace("${lineNo}", lineNo);
+        issueHTML = issueHTML.replace("${criticality}", getCriticalityName(getCriticality()));
+        issueHTML = issueHTML.replace("${scoreImpact}", scoreImpact);
+        issueHTML = issueHTML.replace("${article}", articleById(getId()));
+        return issueHTML;
+    }
 
 	private String rangeToString(Range range) {
 		return "[" + (range.getLine() + 1) + ", " + (range.getColumn() + 1) + "]";
@@ -222,12 +230,6 @@ public class Issue {
 			return "Info";
 		}
 	}
-
-	private String getFallbackArticleText() {
-		return "<p>Whoops! Looks like there has been an oversight and we are missing a page for this issue.</p>"
-				+ "<p><a href=\"https://apisecurity.io/contact-us/\">Let us know</a> the title of the issue, "
-				+ "and we make sure to add it to the encyclopedia.</p>";
-	};
 
 	@SuppressWarnings("unchecked")
 	private String partToText(Map<String, Object> part) {
@@ -252,29 +254,28 @@ public class Issue {
 		return text.toString();
 	}
 
-	private String articleById(String id) {
+    private String articleById(String id) {
 
-		if (articles.containsArticleId(id)) {
+        HTMLService htmlService = HTMLService.getInstance();
+        if (htmlService.containsArticleId(id)) {
 
-			Map<String, Object> article = articles.getArticle(id);
-			Map<String, Object> description = ((JSONObject) article.get("description")).toJsonMap();
+            Map<String, Object> article = htmlService.getArticle(id);
+            Map<String, Object> description = ((JSONObject) article.get("description")).toJsonMap();
 
-			String text = (String) description.get("text");
-			if (article.containsKey("example")) {
-				text += partToText(((JSONObject) article.get("example")).toJsonMap());
-			}
-			if (article.containsKey("exploit")) {
-				text += partToText(((JSONObject) article.get("exploit")).toJsonMap());
-			}
-			if (article.containsKey("remediation")) {
-				text += partToText(((JSONObject) article.get("remediation")).toJsonMap());
-			}
-
-			return text;
-		}
-
-		return getFallbackArticleText();
-	}
+            String text = (String) description.get("text");
+            if (article.containsKey("example")) {
+                text += partToText(((JSONObject) article.get("example")).toJsonMap());
+            }
+            if (article.containsKey("exploit")) {
+                text += partToText(((JSONObject) article.get("exploit")).toJsonMap());
+            }
+            if (article.containsKey("remediation")) {
+                text += partToText(((JSONObject) article.get("remediation")).toJsonMap());
+            }
+            return text;
+        }
+        return htmlService.FALLBACK_ARTICLE;
+    }
 
 	private void disposeRangeMarker() {
 		if (rangeMarker != null) {

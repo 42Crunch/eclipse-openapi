@@ -34,11 +34,8 @@ import com.xliic.openapi.quickfix.sources.FixSourceMostUsedByName;
 import com.xliic.openapi.quickfix.sources.FixSourceSchemaRefByResponseCode;
 import com.xliic.openapi.quickfix.sources.FixSourceSecuritySchemes;
 import com.xliic.openapi.report.Issue;
-import com.xliic.openapi.report.html.HTMLReportManager;
-import com.xliic.openapi.report.html.ui.HTMLReportPanel;
-import com.xliic.openapi.report.tree.ReportManager;
-import com.xliic.openapi.report.tree.ui.ReportPanel;
 import com.xliic.openapi.services.api.IQuickFixService;
+import com.xliic.openapi.topic.AuditListener;
 
 public final class QuickFixService implements IQuickFixService, Disposable {
 
@@ -62,7 +59,7 @@ public final class QuickFixService implements IQuickFixService, Disposable {
 	@Override
 	public void load() {
 		if (quickfixes.isEmpty()) {
-			InputStream inputStream = getResourceAsStream(getClass(), "", "quickfixes.json");
+			InputStream inputStream = getResourceAsStream(getClass().getClassLoader(), "config", "quickfixes.json");
 			InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 			Stream<String> stream = new BufferedReader(reader).lines();
 			StringBuilder builder = new StringBuilder();
@@ -129,18 +126,11 @@ public final class QuickFixService implements IQuickFixService, Disposable {
 	}
 
 	@Override
-	public void fix(@NotNull Project project, @NotNull List<Issue> issues) {
-		DataService dataService = DataService.getInstance(project);
-		dataService.removeIssues(issues);
-		ReportManager reportManager = ReportPanel.getInstance(project);
-		if (reportManager != null) {
-			reportManager.handleIssuesFixed(issues);
-		}
-		HTMLReportManager htmlReportManager = HTMLReportPanel.getInstance(project);
-		if (htmlReportManager != null) {
-			htmlReportManager.handleIssuesFixed(issues);
-		}
-	}
+    public void fix(@NotNull Project project, @NotNull List<Issue> issues) {
+        AuditService auditService = AuditService.getInstance(project);
+        auditService.removeIssues(issues);
+        project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleIssuesFixed(issues);
+    }
 
 	private void process(Node root) {
 		for (Node node : root.getChild("fixes").getChildren()) {
