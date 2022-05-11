@@ -255,15 +255,17 @@ public class ASTService implements IASTService, Runnable, Disposable {
 
 	private void remove(@NotNull VirtualFile file) {
 		SwingUtilities.invokeLater(() -> {
-            project.getMessageBus().syncPublisher(FileListener.TOPIC).handleClosedFile(file);
-            DataService dataService = DataService.getInstance(project);
-            dataService.removeParserData(file.getPath());
-            dataService.removeFileProperty(file.getPath());
-            AuditService auditService = AuditService.getInstance(project);
-            auditService.removeAuditReport(file.getPath());
-            QuickFixService quickFixService = QuickFixService.getInstance();
-            quickFixService.handleAuditReportRemoved(file.getPath());
-			highlightingManager.close(file);
+			if (!project.isDisposed()) {
+	            project.getMessageBus().syncPublisher(FileListener.TOPIC).handleClosedFile(file);
+	            DataService dataService = DataService.getInstance(project);
+	            dataService.removeParserData(file.getPath());
+	            dataService.removeFileProperty(file.getPath());
+	            AuditService auditService = AuditService.getInstance(project);
+	            auditService.removeAuditReport(file.getPath());
+	            QuickFixService quickFixService = QuickFixService.getInstance();
+	            quickFixService.handleAuditReportRemoved(file.getPath());
+				highlightingManager.close(file);
+			}
 		});
 	}
 
