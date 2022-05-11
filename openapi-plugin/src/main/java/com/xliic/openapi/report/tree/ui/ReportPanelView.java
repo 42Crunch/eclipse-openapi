@@ -179,7 +179,7 @@ public class ReportPanelView extends ViewPart
 
 	public void reloadAndRestoreExpansion() {
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) viewer.getInput();
-		viewer.setInput(root); // todo: can be disposed already
+		viewer.setInput(root);
 		expansionListener.expand(fileNameToTreeNodeMap.values());
 	}
 

@@ -85,7 +85,7 @@
       <view
             allowMultiple="false"
             category="eclipse-openapi"
-            class=" com.xliic.openapi.report.tree.ui.ReportPanelView"
+            class="com.xliic.openapi.report.tree.ui.ReportPanelView"
             icon="icons/icon_api_16.png"
             id="com.xliic.openapi.report.tree.ui.ReportPanelView"
             inject="true"
@@ -94,7 +94,7 @@
       <view
             allowMultiple="false"
             category="eclipse-openapi"
-            class="com.xliic.openapi.report.html.ui.HTMLReportPanelView"
+            class="com.xliic.openapi.report.jcef.ui.JCEFReportPanelView"
             icon="icons/icon_api_16.png"
             id="com.xliic.openapi.report.html.ui.HTMLReportPanelView"
             inject="true"

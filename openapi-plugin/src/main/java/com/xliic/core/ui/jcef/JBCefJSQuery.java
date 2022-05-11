@@ -18,7 +18,7 @@ public final class JBCefJSQuery {
 	}
 	
 	public @NotNull String inject(@Nullable String queryResult) {
-		return ""; // todo
+		return "";
 	}
 	
     public void addHandler(final @NotNull Function<? super String, ? extends Response> handler) {

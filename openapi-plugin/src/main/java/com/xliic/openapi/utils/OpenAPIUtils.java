@@ -39,7 +39,6 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.services.api.IDataService;

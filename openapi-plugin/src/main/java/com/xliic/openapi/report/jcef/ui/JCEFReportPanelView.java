@@ -1,4 +1,4 @@
-package com.xliic.openapi.report.html.ui;
+package com.xliic.openapi.report.jcef.ui;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
@@ -11,7 +11,7 @@ import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.jcef.JCEFReportPanel;
 
-public class HTMLReportPanelView extends ViewPart implements Disposable {
+public class JCEFReportPanelView extends ViewPart implements Disposable {
 
 	private JCEFReportPanel panel;
 
