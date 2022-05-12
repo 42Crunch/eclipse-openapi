@@ -12,10 +12,10 @@ import com.xliic.openapi.OpenAPIImages;
 
 public class OpenAPICompletionProposal implements ICompletionProposal {
 	
+	private final static Image fImage = OpenAPIImages.PropertyNode.createImage();
+	
 	private int fReplacementOffset;
 	private int fCursorPosition;
-
-	private Image fImage = OpenAPIImages.PropertyNode.createImage();
 	private String fReplacementString;
 
 	public OpenAPICompletionProposal(String replacementString, int replacementOffset, int replacementLength, int cursorPosition) {

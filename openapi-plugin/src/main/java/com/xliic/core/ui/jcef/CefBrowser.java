@@ -80,7 +80,7 @@ public class CefBrowser {
                 	if (href.startsWith("about:data-issue-id=")) {
                 		href = href.replace("about:data-issue-id=", "file:///jbcefbrowser/data-issue-id=");
                 	} 
-                	else if ("about:go-full-report".equals(href)) {
+                	else if (href.endsWith("go-full-report")) {
                 		href = "file:///jbcefbrowser/go-full-report";
                 	}
                 	handler.apply(href);

@@ -8,6 +8,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.eclipse.jdt.internal.ui.actions.CompositeActionGroup;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
 
 import com.xliic.core.vfs.VirtualFile;
@@ -24,6 +25,9 @@ import com.xliic.openapi.utils.OpenAPIUtils;
 
 @SuppressWarnings("restriction")
 public class OpenAPITreeActionGroup extends CompositeActionGroup {
+	
+	private final static Image propertyNodeImage = OpenAPIImages.PropertyNode.createImage();
+	private final static Image addSnippetImage = OpenAPIImages.AddSnippet.createImage();
 
 	public OpenAPITreeActionGroup() {
 	}
@@ -109,12 +113,12 @@ public class OpenAPITreeActionGroup extends CompositeActionGroup {
 			Snippet s = snippetService.get(snippetIds.get(0));
 			List<String> choices = s.getChoiceList(1);
 			for (String choice : choices) {
-				menu.add(new AddSnippetAction(choice, s, treeNode, OpenAPIImages.PropertyNode.createImage()));
+				menu.add(new AddSnippetAction(choice, s, treeNode, propertyNodeImage));
 			}
 		} else {
 			for (String snippetId : snippetIds) {
 				Snippet s = snippetService.get(snippetId);
-				menu.add(new AddSnippetAction(s.getName(), s, treeNode, OpenAPIImages.AddSnippet.createImage()));
+				menu.add(new AddSnippetAction(s.getName(), s, treeNode, addSnippetImage));
 			}
 		}
 		super.fillContextMenu(menu);

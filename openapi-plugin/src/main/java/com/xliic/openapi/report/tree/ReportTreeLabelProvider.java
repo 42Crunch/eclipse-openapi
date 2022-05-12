@@ -19,6 +19,11 @@ import com.xliic.openapi.utils.OpenAPIUtils;
 public class ReportTreeLabelProvider extends StyledCellLabelProvider
 		implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvider {
 
+	private final static Image anyTypeImage = OpenAPIImages.Any_type.createImage();
+	private final static Image reportErrorImage = OpenAPIImages.ReportError.createImage();
+	private final static Image reportWarningImage = OpenAPIImages.ReportWarning.createImage();
+	private final static Image reportInfoImage = OpenAPIImages.ReportInfo.createImage();
+
 	private final Font defaultFont;
 	private final String projectPath;
 	private final ReportTreeContentProvider contentProvider;
@@ -67,18 +72,18 @@ public class ReportTreeLabelProvider extends StyledCellLabelProvider
 		}
 
 		if (userObject instanceof ReportFileObject) {
-			return OpenAPIImages.Any_type.createImage();
+			return anyTypeImage;
 		}
 
 		if (userObject instanceof ReportIssueObject) {
 			ReportIssueObject io = (ReportIssueObject) userObject;
 
 			if (io.getSeverity() == Severity.CRITICAL || io.getSeverity() == Severity.HIGH) {
-				return OpenAPIImages.ReportError.createImage();
+				return reportErrorImage;
 			} else if (io.getSeverity() == Severity.MEDIUM) {
-				return OpenAPIImages.ReportWarning.createImage();
+				return reportWarningImage;
 			} else {
-				return OpenAPIImages.ReportInfo.createImage();
+				return reportInfoImage;
 			}
 		}
 

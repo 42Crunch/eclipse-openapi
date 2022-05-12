@@ -25,8 +25,8 @@ import com.xliic.openapi.utils.EditorUtil;
 
 class OpenAPIMarkerResolution implements IMarkerResolutionRelevance, IMarkerResolution2 {
 
-	private static final Image quickFixImage = OpenAPIImages.QuickFix.createImage();
-	private static final Image viewQuickFixImage = OpenAPIImages.ViewQuickFix.createImage();
+	private final static Image quickFixImage = OpenAPIImages.QuickFix.createImage();
+	private final static Image viewQuickFixImage = OpenAPIImages.ViewQuickFix.createImage();
 
 	private final Editor editor;
 	private final PsiFile file;

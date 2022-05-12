@@ -17,20 +17,18 @@ import com.xliic.openapi.utils.OpenAPIUtils;
 public class OpenAPITreeLabelProvider extends StyledCellLabelProvider 
 	implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvider {
 
+	private final static Image panelNodeImage = OpenAPIImages.PanelNode.createImage();
+	private final static Image propertyNodeImage = OpenAPIImages.PropertyNode.createImage();
+
 	private final Font defaultFont;
 	private final FontStyler boldFontStyler;
 	private final FontStyler counterBoldFontStyler;
-	
-	private final Image panelNodeImage;
-	private final Image propertyNodeImage;
 	
 	public OpenAPITreeLabelProvider(IWorkbench workbench) {
 		this.defaultFont = workbench.getDisplay().getSystemFont();
 		Font boldFont = OpenAPIUtils.getBoldFont(defaultFont);
 		this.boldFontStyler = new FontStyler(boldFont, null);
 		this.counterBoldFontStyler = new FontStyler(boldFont, StyledString.COUNTER_STYLER);
-		this.panelNodeImage = OpenAPIImages.PanelNode.createImage();
-		this.propertyNodeImage = OpenAPIImages.PropertyNode.createImage();
 	}
 
     @Override
