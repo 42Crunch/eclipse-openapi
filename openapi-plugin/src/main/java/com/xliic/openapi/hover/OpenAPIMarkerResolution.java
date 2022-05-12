@@ -25,6 +25,9 @@ import com.xliic.openapi.utils.EditorUtil;
 
 class OpenAPIMarkerResolution implements IMarkerResolutionRelevance, IMarkerResolution2 {
 
+	private static final Image quickFixImage = OpenAPIImages.QuickFix.createImage();
+	private static final Image viewQuickFixImage = OpenAPIImages.ViewQuickFix.createImage();
+
 	private final Editor editor;
 	private final PsiFile file;
 	private final Project project;
@@ -64,11 +67,7 @@ class OpenAPIMarkerResolution implements IMarkerResolutionRelevance, IMarkerReso
 
 	@Override
 	public Image getImage() {
-		if (action instanceof FixGoToHTMLAction) {
-			return OpenAPIImages.ViewQuickFix.createImage();
-		} else {
-			return OpenAPIImages.QuickFix.createImage();
-		}
+		return action instanceof FixGoToHTMLAction ? viewQuickFixImage : quickFixImage;
 	}
 
 	@Override
