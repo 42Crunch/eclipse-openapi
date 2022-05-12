@@ -25,6 +25,9 @@ public class ReportTreeLabelProvider extends StyledCellLabelProvider
 	private final static Image reportInfoImage = OpenAPIImages.ReportInfo.createImage();
 
 	private final Font defaultFont;
+	private final FontStyler boldFontStyler;
+	private final FontStyler italicFontStyler;
+
 	private final String projectPath;
 	private final ReportTreeContentProvider contentProvider;
 
@@ -32,6 +35,8 @@ public class ReportTreeLabelProvider extends StyledCellLabelProvider
 		this.contentProvider = contentProvider;
 		projectPath = project.getBasePath();
 		defaultFont = workbench.getDisplay().getSystemFont();
+		boldFontStyler = new FontStyler(OpenAPIUtils.getBoldFont(defaultFont), null);
+		italicFontStyler = new FontStyler(OpenAPIUtils.getItalicFont(defaultFont), StyledString.QUALIFIER_STYLER);
 	}
 
 	@Override
@@ -48,15 +53,13 @@ public class ReportTreeLabelProvider extends StyledCellLabelProvider
 			ReportFileObject fo = (ReportFileObject) userObject;
 			String shortName = fo.getShortFileName(projectPath);
 			String numberOfIssues = " [" + contentProvider.getChildCount(treeNode) + "]";
-			label = new StyledString(shortName + numberOfIssues,
-					new FontStyler(OpenAPIUtils.getBoldFont(defaultFont), null));
+			label = new StyledString(shortName + numberOfIssues, boldFontStyler);
 			return label;
 		}
 		if (userObject instanceof ReportIssueObject) {
 			ReportIssueObject io = (ReportIssueObject) userObject;
 			label = new StyledString(io.getLabel(), null);
-			label.append(new StyledString(io.getLabelLocation(),
-					new FontStyler(OpenAPIUtils.getItalicFont(defaultFont), StyledString.QUALIFIER_STYLER)));
+			label.append(new StyledString(io.getLabelLocation(), italicFontStyler));
 			return label;
 		}
 		return null;
