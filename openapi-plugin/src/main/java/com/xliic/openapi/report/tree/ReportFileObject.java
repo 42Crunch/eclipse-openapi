@@ -1,40 +1,38 @@
 package com.xliic.openapi.report.tree;
 
-import org.eclipse.core.resources.IFile;
-
-import com.xliic.openapi.utils.OpenAPIUtils;
+import com.xliic.openapi.report.Issue;
 
 public class ReportFileObject {
 
-	private String fileName;
+    private final Issue issue;
 
-	public ReportFileObject(String fileName) {
-		this.fileName = fileName;
-	}
+    public ReportFileObject(Issue issue) {
+        this.issue = issue;
+    }
 
-	@Override
-	public String toString() {
-		return fileName;
-	}
+    @Override
+    public String toString() {
+        return issue.getFileName();
+    }
 
-	public String getFileName() {
-		return fileName;
-	}
+    public String getFileName() {
+        return issue.getFileName();
+    }
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+    public String getShortFileName(String projectPath) {
+        if (issue.getUri() == null) {
+            String shortName = issue.getFileName().replace(projectPath, "");
+            if (shortName.startsWith("/")) {
+                shortName = shortName.replaceFirst("/", "");
+            }
+            return  shortName;
+        }
+        else {
+            return issue.getUri().toString();
+        }
+    }
 
-	public void setFileWithFileName(String fileName) {
-		setFileName(fileName);
-	}
-
-	public String getShortFileName(String projectPath) {
-		IFile file = OpenAPIUtils.getIFile(fileName);
-		String shortName = file.getFullPath().toPortableString();
-		if (shortName.startsWith("/")) {
-			shortName = shortName.replaceFirst("/", "");
-		}
-		return shortName;
-	}
+    public boolean isRemote() {
+        return issue.getUri() != null;
+    }
 }

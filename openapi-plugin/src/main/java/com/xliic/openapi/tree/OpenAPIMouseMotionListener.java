@@ -16,8 +16,8 @@ import org.eclipse.ui.PlatformUI;
 
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiPanelKeys;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.services.api.IDataService;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class OpenAPIMouseMotionListener implements MouseMoveListener {
 
@@ -36,8 +36,8 @@ public class OpenAPIMouseMotionListener implements MouseMoveListener {
 		if (tp == null) {
 			return;
 		}
-		VirtualFile file = OpenAPIUtils.getSelectedOpenAPIFile();
-		if (file == null) {
+		VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile();
+		if ((file == null) || OpenApiUtils.isTempFile(file)) {
 			return;
 		}
 		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);

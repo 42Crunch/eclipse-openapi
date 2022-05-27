@@ -1,25 +1,31 @@
 package com.xliic.core.codeHighlighting;
 
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IURIEditorInput;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.codeInsight.HighlightInfo;
+import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.quickfix.actions.FixAction;
+import com.xliic.core.util.EclipseUtil;
 
 public class Marker {
 
 	public static final String JSON_POINTER = "JSON_POINTER";
 
 	private IMarker marker;
-	private List<FixAction> actions;
+	private List<IntentionAction> actions;
 
 	private final PsiFile file;
 	private final Editor editor;
@@ -50,7 +56,7 @@ public class Marker {
 		}
 	}
 
-	public void addAction(FixAction action) {
+	public void addAction(IntentionAction action) {
 		if (actions == null) {
 			actions = new LinkedList<>();
 		}
@@ -58,7 +64,7 @@ public class Marker {
 	}
 
 	@Nullable
-	public List<FixAction> getActions() {
+	public List<IntentionAction> getActions() {
 		return actions;
 	}
 
@@ -138,7 +144,11 @@ public class Marker {
 
 	public void activate(Map<IMarker, Marker> markersBinding) {
 		try {
-			marker = file.getVirtualFile().getIFile().createMarker(IMarker.PROBLEM);
+			IFile ifile = file.getVirtualFile().getIFile();
+			if (ifile == null) {
+				ifile = getFile(editor.getEditorInput());
+			}
+			marker = ifile.createMarker(IMarker.PROBLEM);
 			marker.setAttribute(IMarker.SEVERITY, severity);
 			marker.setAttribute(IMarker.MESSAGE, message);
 			marker.setAttribute(IMarker.TRANSIENT, true);
@@ -161,5 +171,18 @@ public class Marker {
 			}
 		} catch (CoreException e) {
 		}
+	}
+	
+	private static IFile getFile(@NotNull IEditorInput input) {
+	  if (input instanceof IFileEditorInput) {
+	      return ((IFileEditorInput) input).getFile();
+	  } else if (input instanceof IURIEditorInput) {
+	      URI uri = ((IURIEditorInput) input).getURI();
+	      boolean isLocal = uri.getHost() == null || "localhost".equals(uri.getHost());
+	      if ("file".equals(uri.getScheme()) && isLocal) {	    	  
+	    	  return EclipseUtil.getWorkspaceFile(uri);
+	      }
+	  }
+	  return null;
 	}
 }

@@ -2,6 +2,8 @@ package com.xliic.openapi.listeners;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.editor.Document;
+import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.FileEditorManagerEvent;
 import com.xliic.core.fileEditor.FileEditorManagerListener;
@@ -33,6 +35,13 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
 		if (fileType == OpenApiFileType.Unsupported) {
 			return;
 		}
+		
+        if (OpenApiUtils.isTempFile(file)) {
+            Document document = FileDocumentManager.getInstance().getDocument(file);
+            if (document != null) {
+                document.setReadOnly(true);
+            }
+        }
 
 		Project project = source.getProject();
 		if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {

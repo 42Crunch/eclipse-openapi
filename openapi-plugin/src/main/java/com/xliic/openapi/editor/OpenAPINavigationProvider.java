@@ -20,9 +20,13 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.services.ExtRefService;
+
+import static com.xliic.openapi.OpenApiUtils.*;
 
 public class OpenAPINavigationProvider implements DirectNavigationProvider {
 
@@ -40,7 +44,7 @@ public class OpenAPINavigationProvider implements DirectNavigationProvider {
 		}
 
 		String text = getRefTextFromPsiElement(psiElement);
-		String[] parts = text.split("#/");
+		String[] parts = text.split(REF_DELIMITER);
 		if (parts.length == 0) {
 			return null;
 		}
@@ -48,6 +52,11 @@ public class OpenAPINavigationProvider implements DirectNavigationProvider {
 		final String refFileName = parts[0];
 		final Project project = psiElement.getProject();
 
+	    if (ExtRef.isExtRef(refFileName)) {
+	        ExtRefService extRefService = ExtRefService.getInstance(project);
+	        return extRefService.getPsiElement(refFileName, "/" + parts[1]);
+	    }
+	    
 		// Local ref inside this current file
 		if ((parts.length == 2) && StringUtils.isEmpty(refFileName)) {
 			return getPsiElementFromIndex(project, file, "/" + parts[1]);

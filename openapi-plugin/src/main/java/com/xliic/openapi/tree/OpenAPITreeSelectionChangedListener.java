@@ -7,7 +7,7 @@ import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import com.xliic.openapi.utils.EditorUtil;
+import com.xliic.core.util.EclipseUtil;
 
 public class OpenAPITreeSelectionChangedListener implements ISelectionChangedListener {
 
@@ -20,7 +20,7 @@ public class OpenAPITreeSelectionChangedListener implements ISelectionChangedLis
             try {
                 int startOffset = (int) on.getStartOffset();
                 int endOffset = (int) on.getEndOffset();
-                ITextEditor editor = (ITextEditor) EditorUtil.getCurrentEditor();
+                ITextEditor editor = (ITextEditor) EclipseUtil.getCurrentEditor();
                 editor.selectAndReveal(startOffset, endOffset - startOffset);
             }
             finally {

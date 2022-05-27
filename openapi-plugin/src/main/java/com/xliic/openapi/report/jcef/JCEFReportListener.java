@@ -6,8 +6,10 @@ import com.xliic.core.ide.BrowserUtil;
 import com.xliic.core.ide.CopyPasteManager;
 import com.xliic.core.ide.StringSelection;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import org.apache.commons.lang.StringUtils;
@@ -48,8 +50,8 @@ public class JCEFReportListener {
                             Node target = root.find(pointer);
                             if (target != null) {
                                 ApplicationManager.getApplication().invokeLater(() -> {
-                                    int offset = target.getRange().getStartOffset();
-                                    new OpenFileDescriptor(project, file, offset).navigate(true);
+                                    Range range = EclipseUtil.getSelectionRange(target);
+                                    new OpenFileDescriptor(project, file, range.getOffset(), range.getLength()).navigate(true);
                                 });
                             }
                         }

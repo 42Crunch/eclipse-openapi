@@ -1,20 +1,15 @@
 package com.xliic.core.fileEditor;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.editor.Document;
+import com.xliic.core.editor.DocumentImpl;
+import com.xliic.core.editor.ExtDocument;
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.utils.EditorUtil;
 
 public class FileDocumentManager {
 
@@ -24,59 +19,36 @@ public class FileDocumentManager {
 		return fileDocumentManager;
 	}
 
-	public VirtualFile getFile(@NotNull Document inputDocument) {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
-		for (int i = 0; i < windows.length; i++) {
-			IWorkbenchPage[] pages = windows[i].getPages();
-			for (int x = 0; x < pages.length; x++) {
-				IEditorReference[] editors = pages[x].getEditorReferences();
-				for (int z = 0; z < editors.length; z++) {
-					IEditorInput input;
-					try {
-						input = editors[z].getEditorInput();
-					} catch (PartInitException e) {
-						continue;
-					}
-					if (!(input instanceof IFileEditorInput)) {
-						continue;
-					}
-					IFileEditorInput fileInput = (IFileEditorInput) input;
-					IDocument document = EditorUtil.getDocument(fileInput);
-					if (inputDocument.equalsToIDocument(document)) {
-						IFile file = fileInput.getFile();
-						return (file == null) ? null : new VirtualFile(file);
-					}
-				}
-			}
+	@Nullable
+	public VirtualFile getFile(@NotNull Document document) {
+		IEditorInput input = getEditorInput(document);
+		if (input != null) {
+			return EclipseUtil.getVirtualFile(input);
 		}
 		return null;
 	}
 
-	public Document getDocument(@NotNull VirtualFile inputFile) {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
-		for (int i = 0; i < windows.length; i++) {
-			IWorkbenchPage[] pages = windows[i].getPages();
-			for (int x = 0; x < pages.length; x++) {
-				IEditorReference[] editors = pages[x].getEditorReferences();
-				for (int z = 0; z < editors.length; z++) {
-					IEditorInput input;
-					try {
-						input = editors[z].getEditorInput();
-					} catch (PartInitException e) {
-						continue;
-					}
-					if (!(input instanceof IFileEditorInput)) {
-						continue;
-					}
-					IFileEditorInput fileInput = (IFileEditorInput) input;
-					IFile file = fileInput.getFile();
-					if (inputFile.equalsToIFile(file)) {
-						IDocument document = EditorUtil.getDocument(fileInput);
-						return (document == null) ? null : new Document(document);
-					}
+	@Nullable
+	public Document getDocument(@NotNull VirtualFile file) {	
+		for (IEditorInput input : EclipseUtil.getAllSupportedEditorInputs()) {
+			if (file.equals(EclipseUtil.getVirtualFile(input))) {
+				IDocument document = EclipseUtil.getDocument(input);
+				if (document != null) {
+					return new DocumentImpl(document);
 				}
+			}
+		}
+		if (file.isValid()) {
+			return new ExtDocument(file);
+		}
+		return null;
+	}
+
+	@Nullable
+	public IEditorInput getEditorInput(@NotNull Document document) {
+		for (IEditorInput input : EclipseUtil.getAllSupportedEditorInputs()) {
+			if (document.equals(new DocumentImpl(EclipseUtil.getDocument(input)))) {
+				return input;
 			}
 		}
 		return null;

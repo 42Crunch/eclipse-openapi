@@ -15,11 +15,11 @@ import org.eclipse.ui.PlatformUI;
 
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiTargetMapping;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.tree.OpenApiTreeNode;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class CompletionHelper {
 
@@ -56,7 +56,7 @@ public class CompletionHelper {
 			return EMPTY_ARRAY;
 		}
 
-		VirtualFile file = OpenAPIUtils.getSelectedOpenAPIFile();
+		VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile();
 		if (file == null) {
 			return EMPTY_ARRAY;
 		}

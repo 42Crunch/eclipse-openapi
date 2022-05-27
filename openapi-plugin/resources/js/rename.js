@@ -24,9 +24,11 @@
 		var line = els[i];
         var text = line.innerText;
         if (text.indexOf(":") >= 0) {
-            var textParts = text.split(":");
-            if (textParts[0] === oldShortFile) {
-                line.innerText = newShortFile + ":" + textParts[1];
+            var id = text.lastIndexOf(":");
+            var filePart = text.substring(0, id);
+            var linePart = text.substring(id + 1);
+            if (filePart === oldShortFile) {
+                line.innerText = newShortFile + ":" + linePart;
             }
         }
         var href = line.href;

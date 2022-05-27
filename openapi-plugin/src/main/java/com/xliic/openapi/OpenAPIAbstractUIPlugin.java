@@ -1,17 +1,25 @@
 package com.xliic.openapi;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
@@ -20,6 +28,9 @@ import org.osgi.framework.BundleContext;
 
 import com.xliic.core.codeHighlighting.HighlightingManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.util.FileUtil;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.listeners.OpenAPIBulkFileListener;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
 
@@ -75,6 +86,8 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 					}
 				}
 				setPreference();
+				disposeAllExtRefEditors();
+				disposeAllExtRefFiles();
 			}
 		});
     	IProduct product = Platform.getProduct();
@@ -137,5 +150,40 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	private static boolean isMuleProductId(IProduct product) {
 		String id = product.getId();
     	return id != null && id.contains("mule");
+	}
+	
+	private static void disposeAllExtRefFiles() {
+		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		for (IProject project : projects) {
+			if (project.exists()) {
+				Path projPath = Paths.get(new File(project.getLocationURI()).getAbsolutePath());
+				File file = new File(Paths.get(projPath.toString(), OpenApiUtils.PROJECT_TMP_DIR).toUri());
+				if (file.exists()) {
+					FileUtil.delete(file.getAbsolutePath(), false, true); 
+				}
+			}
+		}	
+	}
+	
+	private static void disposeAllExtRefEditors() {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+		for (IWorkbenchWindow window : windows) {
+			for (IWorkbenchPage page : window.getPages()) {
+				for (IEditorReference ref : page.getEditorReferences()) {
+					try {
+						IEditorInput input = ref.getEditorInput();
+						if (EclipseUtil.isSupported(input)) {
+							VirtualFile file = EclipseUtil.getVirtualFile(input);
+							if (EclipseUtil.isExtRefFile(file)) {
+								page.closeEditor(ref.getEditor(false), false);
+							}
+						}
+					} catch (PartInitException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 }

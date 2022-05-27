@@ -19,9 +19,6 @@ public class ProjectLocator {
 
 	@NotNull
 	public Collection<Project> getProjectsForFile(@NotNull VirtualFile file) {
-		if (file.getIFile().getProject() == null) {
-			return Collections.emptyList();
-		}
-		return List.of(OpenAPIAbstractUIPlugin.getInstance().getProject());
+		return file.hasProject() ? List.of(OpenAPIAbstractUIPlugin.getInstance().getProject()) : Collections.emptyList();
 	}
 }

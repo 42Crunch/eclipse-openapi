@@ -1,12 +1,15 @@
 package com.xliic.openapi.hyperlink;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiElement;
-import com.xliic.openapi.utils.OpenAPIUtils;
+import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.parser.ast.Range;
 
 public class OpenAPIHyperlink implements IHyperlink {
 
@@ -37,7 +40,10 @@ public class OpenAPIHyperlink implements IHyperlink {
 
 	@Override
 	public void open() {
-		IFile file = element.getContainingFile().getVirtualFile().getIFile();
-		OpenAPIUtils.gotoFile(file, element.getOffset(), 0);
+		int offset = element.getOffset();
+		Project project = element.getProject();
+		Range range = EclipseUtil.getSelectionRange(element.getNode());
+		VirtualFile file = element.getContainingFile().getVirtualFile();
+		new OpenFileDescriptor(project, file, offset, range == null ? 0 : range.getLength()).navigate(true);
 	}
 }

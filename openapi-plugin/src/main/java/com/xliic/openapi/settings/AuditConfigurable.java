@@ -40,7 +40,9 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
   private JTextField serverPortTextField;
   private JPanel previewPanel;
   private JPanel securityAuditPanel;
+  private JPanel hostsPanel;
   private boolean isTokenCleaned = false;
+  private HostNameTableEditor hostsTableModelEditor;
 
   public AuditConfigurable() {
     super(null, DefaultProjectFactory.getInstance().getDefaultProject());
@@ -53,9 +55,13 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
   @Override
   public void createFieldEditors() {
 	  
-	  Composite root = createComposite(getFieldEditorParent());
-	  
-      previewPanel = new JPanel("Preview", root, SWT.NONE);
+    Composite root = createComposite(getFieldEditorParent());
+
+	hostsPanel = new JPanel("Approved Hostnames", root, SWT.NONE);
+	hostsPanel.setBorder(IdeBorderFactory.createTitledBorder("Approved Hostnames"));
+	hostsTableModelEditor = new HostNameTableEditor(hostsPanel.getComposite());
+		
+    previewPanel = new JPanel("Preview", root, SWT.NONE);
 		
   	String[][] entryNamesAndValues = {{"Swagger UI", "Swagger"}, {"ReDoc", "ReDoc"}};
 	previewComboBox = new JComboBox<>(PreviewKeys.RENDERER, "Default Preview Renderer", entryNamesAndValues, previewPanel.getComposite());
@@ -73,7 +79,6 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
 	Dialog.applyDialogFont(getFieldEditorParent());
 	
 	// Init
-
     previewPanel.setBorder(IdeBorderFactory.createTitledBorder(
             OpenApiBundle.message("openapi.settings.preview.settings")));
     securityAuditPanel.setBorder(IdeBorderFactory.createTitledBorder(
@@ -132,6 +137,10 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     if (isTokenCleaned) {
       return true;
     }
+    
+    if (hostsTableModelEditor.isDirty()) {
+        return true;
+    }
 
     String configuredTokenText = getTokenText();
     String currentTokenText = PropertiesComponent.getInstance().getValue(AuditKeys.TOKEN);
@@ -165,6 +174,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     tokenTextArea.setText(pc.getValue(AuditKeys.TOKEN));
     previewComboBox.setSelectedIndex(pc.getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX));
     serverPortTextField.setText(String.valueOf(pc.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT)));
+    hostsTableModelEditor.reset();
   }
 
   @Override
@@ -197,6 +207,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     }
     catch(NumberFormatException ignored) {
     }
+    hostsTableModelEditor.applyChanges();
   }
 
   @NotNull

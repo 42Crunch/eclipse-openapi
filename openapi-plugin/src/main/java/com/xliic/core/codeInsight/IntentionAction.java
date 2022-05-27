@@ -6,9 +6,15 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.IncorrectOperationException;
+import com.xliic.openapi.quickfix.actions.FixAction;
 
-public abstract class IntentionAction {
+public abstract class IntentionAction implements Comparable<IntentionAction>  {
 
+    @Override
+    public int compareTo(@NotNull IntentionAction o) {
+		return (o instanceof FixAction) ? -1 : 0;
+    }
+    
 	@NotNull
 	public abstract String getText();
 

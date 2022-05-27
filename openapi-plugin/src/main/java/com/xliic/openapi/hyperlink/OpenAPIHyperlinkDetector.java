@@ -9,7 +9,7 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.editor.Document;
+import com.xliic.core.editor.DocumentImpl;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.LeafPsiElement;
@@ -36,7 +36,7 @@ public class OpenAPIHyperlinkDetector extends AbstractHyperlinkDetector implemen
 	@Override
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {
 		IDocument document = textViewer.getDocument();
-		VirtualFile file = FileDocumentManager.getInstance().getFile(new Document(document));
+		VirtualFile file = FileDocumentManager.getInstance().getFile(new DocumentImpl(document));
 		if (file != null) {
 			int offset = region.getOffset();
 			PsiFile psiFile = new PsiFile(project, file);

@@ -1,7 +1,7 @@
 package com.xliic.openapi.report;
 
-import static com.xliic.openapi.utils.OpenAPIUtils.getMap;
-import static com.xliic.openapi.utils.OpenAPIUtils.getValue;
+import static com.xliic.openapi.OpenApiUtils.getMap;
+import static com.xliic.openapi.OpenApiUtils.getValue;
 
 import java.util.HashMap;
 import java.util.LinkedList;

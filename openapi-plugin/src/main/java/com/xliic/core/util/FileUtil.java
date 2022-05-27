@@ -13,6 +13,7 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 public class FileUtil {
@@ -39,24 +40,44 @@ public class FileUtil {
 	      return queue;
 	    }
 	}
+    
+    @NotNull
+    public static @NonNls String toSystemIndependentName(@NotNull String filePath) {
+    	return filePath.replace('\\', '/');
+    }
 
     public static void delete(String filePath) {
+    	delete(filePath, true, false);
+    }
+
+    public static void delete(String filePath, boolean deleteDir, boolean setWritable) {
     	try {
 	        Path path = Paths.get(filePath);
 	        Files.walkFileTree(path, new SimpleFileVisitor<>() {
 	            @Override
 	            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-	                Files.delete(dir);
+	            	if (deleteDir) {
+		            	try {
+		            		Files.delete(dir);
+		            	}
+		            	catch (IOException e) {}
+	            	}
 	                return FileVisitResult.CONTINUE;
 	            }
 	            @Override
 	            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-	                Files.delete(file);
-	                return FileVisitResult.CONTINUE;
+	            	try {
+	            		if (setWritable && !file.toFile().canWrite()) {
+            				file.toFile().setWritable(true);
+	            		}
+	            		Files.delete(file);
+	            	}
+	            	catch (IOException e) {}
+	            	return FileVisitResult.CONTINUE;
 	            }
 	        });
     	}
-    	catch(IOException e) {}
+    	catch (IOException e) {}
     }
     
     @NotNull

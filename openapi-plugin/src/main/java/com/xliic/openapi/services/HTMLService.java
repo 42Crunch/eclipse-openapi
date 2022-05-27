@@ -1,12 +1,10 @@
 package com.xliic.openapi.services;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import com.xliic.core.Disposable;
-import com.xliic.core.util.FileUtil;
 import com.xliic.core.util.ResourceUtil;
 import com.xliic.openapi.services.api.IHTMLService;
 
@@ -15,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static com.xliic.openapi.OpenApiUtils.createPluginTempDirIfMissing;
 import static com.xliic.openapi.OpenApiUtils.createTextResource;
 
 public class HTMLService implements IHTMLService, Disposable {
@@ -39,7 +38,7 @@ public class HTMLService implements IHTMLService, Disposable {
     public final String THEME_DARK_JS;
 
     private final JSONObject articles;
-    private File resourcesPath;
+    private File pluginTempDir;
 
     public HTMLService() {
 
@@ -66,19 +65,13 @@ public class HTMLService implements IHTMLService, Disposable {
 
         // Create tmp images for audit report (images from jar are not rendered in JCEF)
         try {
-            initWebResources();
+            pluginTempDir = createPluginTempDirIfMissing();
+            createTextResource(pluginTempDir, "icons", "42crunch_icon", ".svg");
+            createTextResource(pluginTempDir, "icons", "logo", ".svg");
+            createTextResource(pluginTempDir, "icons", "logoDark", ".svg");
         }
-        catch (IOException ignored) {
-        }
-    }
-
-    private void initWebResources() throws IOException {
-        if (resourcesPath == null) {
-            String randomString = RandomStringUtils.random(10, true, false).toLowerCase();
-            resourcesPath = FileUtil.createTempDirectory("report_", randomString, true);
-            createTextResource(resourcesPath, "icons", "42crunch_icon", ".svg");
-            createTextResource(resourcesPath, "icons", "logo", ".svg");
-            createTextResource(resourcesPath, "icons", "logoDark", ".svg");
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -88,11 +81,11 @@ public class HTMLService implements IHTMLService, Disposable {
 
     public String getLogo(boolean isDarkThemeNow) {
         String logo = isDarkThemeNow ? "logoDark.svg" : "logo.svg";
-        return new File(resourcesPath, logo).toURI().toString();
+        return new File(pluginTempDir, logo).toURI().toString();
     }
 
     public String getCrunch42Icon() {
-        return new File(resourcesPath, "42crunch_icon.svg").toURI().toString();
+        return new File(pluginTempDir, "42crunch_icon.svg").toURI().toString();
     }
 
     private String issueIdToArticleId(String id) {

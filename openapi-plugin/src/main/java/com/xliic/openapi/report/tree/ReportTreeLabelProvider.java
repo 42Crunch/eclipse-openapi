@@ -11,10 +11,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbench;
 
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.openapi.FontStyler;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.report.Severity;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class ReportTreeLabelProvider extends StyledCellLabelProvider
 		implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvider {
@@ -23,6 +23,7 @@ public class ReportTreeLabelProvider extends StyledCellLabelProvider
 	private final static Image reportErrorImage = OpenAPIImages.ReportError.createImage();
 	private final static Image reportWarningImage = OpenAPIImages.ReportWarning.createImage();
 	private final static Image reportInfoImage = OpenAPIImages.ReportInfo.createImage();
+	private final static Image extRefImage = OpenAPIImages.ExtRef.createImage();
 
 	private final Font defaultFont;
 	private final FontStyler boldFontStyler;
@@ -35,8 +36,8 @@ public class ReportTreeLabelProvider extends StyledCellLabelProvider
 		this.contentProvider = contentProvider;
 		projectPath = project.getBasePath();
 		defaultFont = workbench.getDisplay().getSystemFont();
-		boldFontStyler = new FontStyler(OpenAPIUtils.getBoldFont(defaultFont), null);
-		italicFontStyler = new FontStyler(OpenAPIUtils.getItalicFont(defaultFont), StyledString.QUALIFIER_STYLER);
+		boldFontStyler = new FontStyler(EclipseUtil.getBoldFont(defaultFont), null);
+		italicFontStyler = new FontStyler(EclipseUtil.getItalicFont(defaultFont), StyledString.QUALIFIER_STYLER);
 	}
 
 	@Override
@@ -75,7 +76,8 @@ public class ReportTreeLabelProvider extends StyledCellLabelProvider
 		}
 
 		if (userObject instanceof ReportFileObject) {
-			return anyTypeImage;
+			ReportFileObject fo = (ReportFileObject) userObject;
+			return fo.isRemote() ? extRefImage : anyTypeImage;
 		}
 
 		if (userObject instanceof ReportIssueObject) {

@@ -21,7 +21,7 @@
     <annotations.version>13.0</annotations.version>
     <okhttp.version>4.7.2</okhttp.version>
     <okio.version>2.6.0</okio.version>
-    <openapi.bundler.version>1.9</openapi.bundler.version>
+    <openapi.bundler.version>3.2</openapi.bundler.version>
 	<jackson.version>2.10.2</jackson.version>
     <snakeyaml.engine.version>2.3</snakeyaml.engine.version>
     <snakeyaml.version>1.29</snakeyaml.version>

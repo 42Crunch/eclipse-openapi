@@ -13,7 +13,6 @@ import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.quickfix.actions.FixAction;
 
 public class OpenAPIMarkerResolutionGenerator implements IMarkerResolutionGenerator2 {
 
@@ -26,7 +25,7 @@ public class OpenAPIMarkerResolutionGenerator implements IMarkerResolutionGenera
 			Editor editor = hMarker.getEditor();
 			PsiFile file = hMarker.getPsiFile();
 			Project project = file.getProject();
-			List<FixAction> actions = hMarker.getActions();
+			List<IntentionAction> actions = hMarker.getActions();
 			if (actions != null) {
 				List<IMarkerResolution> resolutions = new LinkedList<>();
 				for (IntentionAction action : actions) {

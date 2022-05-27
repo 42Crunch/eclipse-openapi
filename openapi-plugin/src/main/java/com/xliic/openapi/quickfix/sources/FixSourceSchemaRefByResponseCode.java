@@ -1,9 +1,10 @@
 package com.xliic.openapi.quickfix.sources;
 
 import com.xliic.core.util.Pair;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiVersion;
+import com.xliic.openapi.bundler.BundleLocation;
 import com.xliic.openapi.bundler.BundleResult;
-import com.xliic.openapi.bundler.Mapping;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.QuickFix;
@@ -90,22 +91,25 @@ public class FixSourceSchemaRefByResponseCode extends FixSource {
         return new LinkedList<>();
     }
 
-	private List<Object> resolveBundledPointers(List<String> pointers, String fileName, BundleResult bundleResult) {
-		List<Object> resolvedPointers = new LinkedList<>();
-		for (String pointer : pointers) {
-			Mapping.Location location = bundleResult.getBundlePointerLocation(pointer);
-			if (location != null) {
-				if (fileName.equals(location.file)) {
-					resolvedPointers.add(pointer);
-				} else if (StringUtils.isEmpty(location.pointer)) {
-					resolvedPointers.add(getRelativePathFromTo(fileName, location.file));
-				} else {
-					resolvedPointers.add(getRelativePathFromTo(fileName, location.file) + "#" + location.pointer);
-				}
-			}
-		}
-		return resolvedPointers;
-	}
+    private List<Object> resolveBundledPointers(List<String> pointers, String fileName, BundleResult bundleResult) {
+        List<Object> resolvedPointers = new LinkedList<>();
+        for (String pointer : pointers) {
+            BundleLocation location = bundleResult.getBundleLocation(pointer);
+            if (location.isValid()) {
+                VirtualFile file = location.getFile();
+                if (fileName.equals(file.getPath())) {
+                    resolvedPointers.add(pointer);
+                }
+                else if (StringUtils.isEmpty(location.getPointer())) {
+                    resolvedPointers.add(getRelativePathFromTo(fileName, file.getPath()));
+                }
+                else {
+                    resolvedPointers.add(getRelativePathFromTo(fileName, file.getPath()) + "#" + location.getPointer());
+                }
+            }
+        }
+        return  resolvedPointers;
+    }
 
     @Override
     public void dispose(@NotNull String rootFileName) {

@@ -44,6 +44,14 @@ public class Range implements Comparable<Range> {
         return column;
     }
 
+    public int getOffset() {
+        return startOffset;
+    }
+
+    public int getLength() {
+        return endOffset - startOffset;
+    }
+
     @Override
     public int compareTo(@NotNull Range o) {
         return Integer.compare(getStartOffset(), o.getStartOffset());

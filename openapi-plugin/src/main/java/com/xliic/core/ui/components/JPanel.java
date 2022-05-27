@@ -14,7 +14,7 @@ public class JPanel implements JComponent {
 		GridLayout layout = new GridLayout();
 		layout.marginHeight = layout.marginWidth = 5;
 		group.setLayout(layout);
-		group.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
+		group.setLayoutData(new GridData(GridData.FILL_BOTH));
 		group.setText(text);
 	}
 	

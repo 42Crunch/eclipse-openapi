@@ -2,16 +2,28 @@ package com.xliic.core.editor;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Position;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class RangeMarker {
 
-	private final Document document;
+	@Nullable
+	private final DocumentImpl document;
+	
+	@NotNull
 	private final Position position;
-
-	public RangeMarker(Document document, Position position) throws BadLocationException {
-		this.document = document;
+	
+	public RangeMarker(@NotNull Position position) throws BadLocationException {
+		this.document = null;
 		this.position = position;
-		document.getIDocument().addPosition(position);
+	}
+
+	public RangeMarker(@NotNull Document document, @NotNull Position position) throws BadLocationException {
+		this.document = (DocumentImpl) document;
+		this.position = position;
+		if (document != null) {
+			this.document.addPosition(position);
+		}
 	}
 
 	public int getStartOffset() {
@@ -23,7 +35,9 @@ public class RangeMarker {
 	}
 
 	public void dispose() {
-		document.getIDocument().removePosition(position);
+		if (document != null) {
+			document.removePosition(position);
+		}
 		position.delete();
 	}
 
