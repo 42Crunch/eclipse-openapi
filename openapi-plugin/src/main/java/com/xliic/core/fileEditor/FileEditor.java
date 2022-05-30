@@ -1,29 +1,30 @@
 package com.xliic.core.fileEditor;
 
-import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IEditorInput;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 public class FileEditor implements TextEditor {
 
-	private final IFileEditorInput input;
+	private final IEditorInput input;
 	private final Project project;
 	
-	public FileEditor(IFileEditorInput input) {
+	public FileEditor(IEditorInput input) {
 		this.input = input;
 		this.project = OpenAPIAbstractUIPlugin.getInstance().getProject();
 	}
 
 	@Nullable
 	public VirtualFile getFile() {
-		return new VirtualFile(input.getFile());
+		return EclipseUtil.getVirtualFile(input);
 	}
 	
-	public IFileEditorInput getIFileEditorInput() {
+	public IEditorInput getEditorInput() {
 		return input;
 	}
 

@@ -27,7 +27,6 @@ import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.pointer.Location;
 import com.xliic.openapi.parser.pointer.LocationUtils;
 import com.xliic.openapi.tree.OpenApiTreeNode;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public abstract class TreeParser {
 
@@ -167,6 +166,14 @@ public abstract class TreeParser {
         }
         return OpenApiVersion.Unknown;
     }
+    
+    private static boolean detectCrLfEOL(@NotNull String text) {
+		int i = text.indexOf('\n');
+		if (i < 1) {
+			return false;
+		}
+		return text.charAt(i - 1) == '\r';
+	}
 
     public ParserData parse(@NotNull String text) {
         clear();
@@ -178,7 +185,7 @@ public abstract class TreeParser {
         if (version == OpenApiVersion.Unknown) {
             return new ParserData("Not open api format");
         }
-        CRLF_EOL = OpenAPIUtils.detectCrLfEOL(text);
+        CRLF_EOL = detectCrLfEOL(text);
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
         generateHighLevelPanels(rootNode, version);
         dfs(root, rootNode, LocationUtils.EMPTY_POINTER, 0, DEFAULT_INDEX);

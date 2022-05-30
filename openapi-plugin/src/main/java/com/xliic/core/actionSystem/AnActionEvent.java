@@ -4,7 +4,6 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.ISources;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
@@ -56,16 +56,16 @@ public class AnActionEvent {
 			IEditorPart editor = HandlerUtil.getActiveEditor(event);
 			if (editor instanceof IEditorPart) {
 				IEditorInput input = editor.getEditorInput();
-				if (input instanceof IFileEditorInput) {
-					return new Editor(getProject(), (IFileEditorInput) input);
+				if (EclipseUtil.isSupported(input)) {
+					return new Editor(getProject(), input);
 				}
 			}
 		} else if (context != null) {
 			Object editor = context.getVariable(ISources.ACTIVE_EDITOR_NAME);
 			if (editor instanceof IEditorPart) {
 				IEditorInput input = ((IEditorPart) editor).getEditorInput();
-				if (input instanceof IFileEditorInput) {
-					return new Editor(getProject(), (IFileEditorInput) input);
+				if (EclipseUtil.isSupported(input)) {
+					return new Editor(getProject(), input);
 				}
 			}
 		}
@@ -77,16 +77,16 @@ public class AnActionEvent {
 			IEditorPart editor = HandlerUtil.getActiveEditor(event);
 			if (editor instanceof IEditorPart) {
 				IEditorInput input = editor.getEditorInput();
-				if (input instanceof IFileEditorInput) {
-					return new VirtualFile(((IFileEditorInput) input).getFile());
+				if (EclipseUtil.isSupported(input)) {
+					return EclipseUtil.getVirtualFile(input);
 				}
 			}
 		} else if (context != null) {
 			Object editor = context.getVariable(ISources.ACTIVE_EDITOR_NAME);
 			if (editor instanceof IEditorPart) {
 				IEditorInput input = ((IEditorPart) editor).getEditorInput();
-				if (input instanceof IFileEditorInput) {
-					return new VirtualFile(((IFileEditorInput) input).getFile());
+				if (EclipseUtil.isSupported(input)) {
+					return EclipseUtil.getVirtualFile(input);
 				}
 			}
 		}

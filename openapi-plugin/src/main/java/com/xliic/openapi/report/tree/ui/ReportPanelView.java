@@ -32,6 +32,8 @@ import org.eclipse.ui.part.ViewPart;
 import com.xliic.core.Disposable;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.report.Audit;
@@ -54,8 +56,6 @@ import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.WindowListener;
-import com.xliic.openapi.utils.OpenAPIUtils;
-import com.xliic.openapi.utils.WorkbenchUtils;
 
 public class ReportPanelView extends ViewPart 
 	implements FileListener, WindowListener, AuditListener, Disposable {
@@ -178,9 +178,11 @@ public class ReportPanelView extends ViewPart
 	}
 
 	public void reloadAndRestoreExpansion() {
-		DefaultMutableTreeNode root = (DefaultMutableTreeNode) viewer.getInput();
-		viewer.setInput(root);
-		expansionListener.expand(fileNameToTreeNodeMap.values());
+		if (!isDisposed()) {
+			DefaultMutableTreeNode root = (DefaultMutableTreeNode) viewer.getInput();
+			viewer.setInput(root);
+			expansionListener.expand(fileNameToTreeNodeMap.values());
+		}
 	}
 
 	@Override
@@ -238,7 +240,9 @@ public class ReportPanelView extends ViewPart
 	private void cleanTree() {
 		fileNameToTreeNodeMap.clear();
 		issueToTreeNodeMap.clear();
-		viewer.setInput(new DefaultMutableTreeNode());
+		if (!isDisposed()) {
+			viewer.setInput(new DefaultMutableTreeNode());
+		}
 	}
 
 	private void addIssues(List<Issue> issues) {
@@ -261,7 +265,7 @@ public class ReportPanelView extends ViewPart
 				issueToTreeNodeMap.put(issue, child);
 				expansionListener.addNodeExpandedState(node);
 			} else {
-				ReportFileObject fo = new ReportFileObject(fileName);
+				ReportFileObject fo = new ReportFileObject(issue);
 				DefaultMutableTreeNode node = new DefaultMutableTreeNode(fo);
 				node.add(child);
 				root.add(node);
@@ -312,7 +316,7 @@ public class ReportPanelView extends ViewPart
 	}
 
 	private void goToFileTreeNode(TreeNode node) {
-		viewer.setSelection(new TreeSelection(OpenAPIUtils.getTreePathFromTreeNode(node)));
+		viewer.setSelection(new TreeSelection(EclipseUtil.getTreePathFromTreeNode(node)));
 	}
 
 	@Override
@@ -354,7 +358,7 @@ public class ReportPanelView extends ViewPart
 			}
 		}
 		if (hide) {
-			WorkbenchUtils.hideView(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
+			EclipseWorkbenchUtil.hideView(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
 		}
 	}
 
@@ -367,7 +371,6 @@ public class ReportPanelView extends ViewPart
 			expansionListener.replace(newKey, oldKey);
 			fileNameToTreeNodeMap.put(newKey, fileNameToTreeNodeMap.remove(oldKey));
 			DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(newKey);
-			((ReportFileObject) node.getUserObject()).setFileWithFileName(newKey);
 			viewer.refresh(node);
 			expansionListener.expand(fileNameToTreeNodeMap.values());
 		}
@@ -385,6 +388,10 @@ public class ReportPanelView extends ViewPart
 		filterState = null;
 		viewer.removeSelectionChangedListener(listener);
 		viewer.removeTreeListener(expansionListener);
+	}
+	
+	private boolean isDisposed() {
+		return (viewer == null) || viewer.getControl().isDisposed();
 	}
 
 	@Override

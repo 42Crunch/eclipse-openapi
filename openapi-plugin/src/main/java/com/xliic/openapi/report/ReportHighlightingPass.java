@@ -18,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
 import com.xliic.core.codeInsight.HighlightInfo;
 import com.xliic.core.codeInsight.HighlightInfoType;
+import com.xliic.core.codeInsight.IntentionAction;
+import com.xliic.core.codeInsight.QuickFixAction;
 import com.xliic.core.codeInsight.UpdateHighlightersUtil;
 import com.xliic.core.codeInspection.ProblemHighlightType;
 import com.xliic.core.editor.Editor;
@@ -25,7 +27,7 @@ import com.xliic.core.lang.HighlightSeverity;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.TextRange;
-import com.xliic.openapi.quickfix.actions.FixAction;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.quickfix.actions.FixBulkAction;
 import com.xliic.openapi.quickfix.actions.FixCombinedAction;
 import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
@@ -38,7 +40,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 	private final Editor editor;
 	private final PsiFile psiFile;
 	private final List<HighlightInfo> highlights;
-	private final Map<String, List<FixAction>> pointerToActions;
+	private final Map<String, List<IntentionAction>> pointerToActions;
 
 	private final AuditService auditService;
     private final QuickFixService quickFixService;
@@ -85,6 +87,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 				idToIssues.get(id).add(issue);
 			}
 		}
+		boolean isTempFile = OpenApiUtils.isTempFile(psiFile.getVirtualFile());
 		// Create editor highlights per pointer
 		for (Map.Entry<String, List<Issue>> entry : pointerToIssues.entrySet()) {
 			String pointer = entry.getKey();
@@ -92,7 +95,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 			pointerToInfo.put(pointer, new LinkedList<>());
 			List<HighlightInfo> infoList = pointerToInfo.get(pointer);
 			pointerToActions.put(pointer, new LinkedList<>());
-			List<FixAction> actions = pointerToActions.get(pointer);
+			List<IntentionAction> actions = pointerToActions.get(pointer);
 			actions.add(new FixGoToHTMLAction(pointerIssues));
 			// Create single fixes
 			for (Issue issue : pointerIssues) {
@@ -104,31 +107,39 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 				HighlightInfo info = newHighlightInfo(infoType).pointer(issue.getPointer()).range(range)
 						.descriptionAndTooltip(label).create();
 				infoList.add(info);
-				actions.addAll(quickFixService.getSingleFixActions(psiFile, issue));
+                if (!isTempFile) {
+                    actions.addAll(quickFixService.getSingleFixActions(psiFile, issue));
+                }
 			}
 			// Create combined fixes
-			FixCombinedAction ca = quickFixService.getCombinedFixAction(psiFile, pointerIssues);
-			if (ca != null) {
-				actions.add(ca);
-			}
+            if (!isTempFile) {
+                FixCombinedAction ca = quickFixService.getCombinedFixAction(psiFile, pointerIssues);
+                if (ca != null) {
+                    actions.add(ca);
+                }
+            }
 		}
 		// Create bulk fixes
-		for (Map.Entry<String, List<Issue>> idToIssuesEntry : idToIssues.entrySet()) {
-			List<Issue> idIssues = idToIssuesEntry.getValue();
-			Map<Issue, List<FixBulkAction>> issueToActions = quickFixService.getBulkFixActions(psiFile, idIssues);
-			for (Map.Entry<Issue, List<FixBulkAction>> entry : issueToActions.entrySet()) {
-				pointerToActions.get(entry.getKey().getPointer()).addAll(entry.getValue());
-			}
-		}
+        if (!isTempFile) {
+            for (Map.Entry<String, List<Issue>> idToIssuesEntry : idToIssues.entrySet()) {
+                List<Issue> idIssues = idToIssuesEntry.getValue();
+                Map<Issue, List<FixBulkAction>> issueToActions = quickFixService.getBulkFixActions(psiFile, idIssues);
+                for (Map.Entry<Issue, List<FixBulkAction>> entry : issueToActions.entrySet()) {
+                    pointerToActions.get(entry.getKey().getPointer()).addAll(entry.getValue());
+                }
+            }
+        }
 		// Register actions
 		for (Map.Entry<String, List<HighlightInfo>> entry : pointerToInfo.entrySet()) {
 			String pointer = entry.getKey();
 			List<HighlightInfo> infoList = entry.getValue();
-			List<FixAction> actions = pointerToActions.get(pointer);
-			if (!actions.isEmpty()) {
-				Collections.sort(actions);
-				pointerToActions.put(pointer, actions);
-			}
+			List<IntentionAction> actions = pointerToActions.get(pointer);
+            if (actions.size() > 1) {
+                Collections.sort(actions);
+            }
+            if (!actions.isEmpty()) {
+                QuickFixAction.registerQuickFixActions(infoList.get(0), null, actions);
+            }
 			highlights.addAll(infoList);
 		}
 	}
@@ -148,7 +159,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 
 	@Override
 	@Nullable
-	public Map<String, List<FixAction>> getActionsToEditor() {
+	public Map<String, List<IntentionAction>> getActionsToEditor() {
 		return pointerToActions;
 	}
 }

@@ -1,11 +1,13 @@
 package com.xliic.openapi.report.tree;
 
-import org.eclipse.core.resources.IFile;
+import java.io.File;
 
+import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.Severity;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class ReportIssueObject {
 
@@ -45,8 +47,11 @@ public class ReportIssueObject {
 	}
 
 	public void navigate() {
-		IFile refFile = OpenAPIUtils.getIFile(issue.getFileName());
+		Project project = issue.getProject();
+		VirtualFile file = new VirtualFile(new File(issue.getFileName()));
 		Range range = getRange();
-		OpenAPIUtils.gotoFile(refFile, range.getStartOffset(), range.getEndOffset() - range.getStartOffset());
+		int offset = range.getStartOffset();
+		int length = range.getEndOffset() - range.getStartOffset();
+        new OpenFileDescriptor(project, file, offset, length).navigate(true);
 	}
 }

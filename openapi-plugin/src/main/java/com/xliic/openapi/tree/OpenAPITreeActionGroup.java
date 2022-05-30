@@ -15,13 +15,13 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiPanelKeys;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.actions.AddSnippetAction;
 import com.xliic.openapi.services.api.IDataService;
 import com.xliic.openapi.services.api.ISnippetService;
 import com.xliic.openapi.snippets.Snippet;
 import com.xliic.openapi.snippets.SnippetIDs;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 @SuppressWarnings("restriction")
 public class OpenAPITreeActionGroup extends CompositeActionGroup {
@@ -42,8 +42,8 @@ public class OpenAPITreeActionGroup extends CompositeActionGroup {
 		if (treeNode == null) {
 			return;
 		}
-		VirtualFile selectedFile = OpenAPIUtils.getSelectedOpenAPIFile();
-		if (selectedFile == null) {
+		VirtualFile selectedFile = OpenApiUtils.getSelectedOpenAPIFile();
+		if ((selectedFile == null) || OpenApiUtils.isTempFile(selectedFile)) {
 			return;
 		}
 		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);

@@ -1,6 +1,6 @@
 package com.xliic.openapi.services;
 
-import static com.xliic.openapi.utils.OpenAPIUtils.getValue;
+import static com.xliic.openapi.OpenApiUtils.getValue;
 
 import java.io.File;
 import java.util.HashMap;

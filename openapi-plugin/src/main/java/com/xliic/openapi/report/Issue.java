@@ -2,7 +2,7 @@ package com.xliic.openapi.report;
 
 import static com.xliic.openapi.OpenApiUtils.getFileLanguage;
 
-import java.io.File;
+import java.net.URI;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +16,9 @@ import com.xliic.core.editor.RangeMarker;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.TextRange;
-import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.bundler.BundleLocation;
 import com.xliic.openapi.bundler.BundleResult;
-import com.xliic.openapi.bundler.Mapping;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
@@ -39,6 +38,7 @@ public class Issue {
 	private String auditFileName;
 	private String pointer;
 	private String fileName;
+	private URI uri;
 	private Range range;
 	private RangeMarker rangeMarker;
 
@@ -54,32 +54,32 @@ public class Issue {
 		this.auditFileName = auditFileName;
 		this.project = project;
 		fileName = null;
+		uri = null;
 		pointer = bundlePointer;
 
-		BundleService bundleService = BundleService.getInstance(project);
-		BundleResult bundleResult = bundleService.getBundle(auditFileName);
-		Mapping.Location errorLocation = bundleResult.getBundlePointerLocation(bundlePointer);
-		disposeRangeMarker();
+        BundleService bundleService = BundleService.getInstance(project);
+        BundleResult bundleResult = bundleService.getBundle(auditFileName);
+        BundleLocation errorLocation = bundleResult.getBundleLocation(bundlePointer);
+        disposeRangeMarker();
 
-		if (errorLocation != null) {
-			fileName = errorLocation.file;
-			pointer = errorLocation.pointer;
-			VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
-			if (file != null) {
-				Document document = FileDocumentManager.getInstance().getDocument(file);
-				if (document != null) {
-					ASTService astService = ASTService.getInstance(project);
-					Node root = astService.getRootNode(file);
-					if (root != null) {
-						Node node = root.find(pointer);
-						if (node != null) {
-							range = node.getHighlightRange();
-							rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
-						}						
-					}
-				}
-			}
-		}
+        if (errorLocation.isValid()) {
+            VirtualFile file = errorLocation.getFile();
+            fileName = file.getPath();
+            uri = errorLocation.getUri();
+            pointer = errorLocation.getPointer();
+            Document document = FileDocumentManager.getInstance().getDocument(file);
+            if (document != null) {
+                ASTService astService = ASTService.getInstance(project);
+                Node root = astService.getRootNode(file);
+                if (root != null) {
+                    Node node = root.find(pointer);
+                    if (node != null) {
+                        range = node.getHighlightRange();
+                        rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+                    }
+                }
+            }
+        }
 	}
 
 	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
@@ -203,12 +203,20 @@ public class Issue {
         issueHTML = issueHTML.replace("${issue.pointer}", pointer);
         issueHTML = issueHTML.replace("${base64Uri}", "");
         issueHTML = issueHTML.replace("href=\"#\"", "href=\"" + href + "\"");
-        issueHTML = issueHTML.replace("${filename}", Paths.get(fileName).getFileName().toString());
+        issueHTML = issueHTML.replace("${filename}", getHTMLFileName());
         issueHTML = issueHTML.replace("${lineNo}", lineNo);
         issueHTML = issueHTML.replace("${criticality}", getCriticalityName(getCriticality()));
         issueHTML = issueHTML.replace("${scoreImpact}", scoreImpact);
         issueHTML = issueHTML.replace("${article}", articleById(getId()));
         return issueHTML;
+    }
+    
+    public URI getUri() {
+        return uri;
+    }
+
+    private String getHTMLFileName() {
+        return (uri == null) ? Paths.get(fileName).getFileName().toString() : uri.toString();
     }
 
 	private String rangeToString(Range range) {

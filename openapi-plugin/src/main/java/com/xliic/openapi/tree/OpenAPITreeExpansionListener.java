@@ -15,9 +15,9 @@ import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.api.IDataService;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class OpenAPITreeExpansionListener implements ITreeViewerListener {
 
@@ -31,7 +31,7 @@ public class OpenAPITreeExpansionListener implements ITreeViewerListener {
 	@Override
 	public void treeExpanded(TreeExpansionEvent event) {
 
-		VirtualFile file = OpenAPIUtils.getSelectedOpenAPIFile();
+		VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile();
 		if (file == null) {
 			return;
 		}
@@ -46,7 +46,7 @@ public class OpenAPITreeExpansionListener implements ITreeViewerListener {
 	@Override
 	public void treeCollapsed(TreeExpansionEvent event) {
 
-		VirtualFile file = OpenAPIUtils.getSelectedOpenAPIFile();
+		VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile();
 		if (file == null) {
 			return;
 		}
@@ -94,7 +94,7 @@ public class OpenAPITreeExpansionListener implements ITreeViewerListener {
 	}
 
 	private void restoreExpansionState() {
-		VirtualFile file = OpenAPIUtils.getSelectedOpenAPIFile();
+		VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile();
 		if (file == null) {
 			return;
 		}

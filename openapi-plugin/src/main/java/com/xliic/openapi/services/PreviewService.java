@@ -6,12 +6,10 @@ import static com.xliic.openapi.preview.PreviewUtils.RENDERER_REDOC;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_SWAGGERUI;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
@@ -24,27 +22,26 @@ import org.eclipse.ui.PlatformUI;
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.ide.PropertiesComponent;
-import com.xliic.core.util.FileUtil;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.preview.PreviewWebSocket;
 import com.xliic.openapi.preview.PreviewWebSocketHandler;
 import com.xliic.openapi.services.api.IPreviewService;
 
+import static com.xliic.openapi.OpenApiUtils.createPluginTempDirIfMissing;
 import static com.xliic.openapi.OpenApiUtils.createTextResource;
 
 public class PreviewService implements IPreviewService, Disposable {
 
 	private Server server;
 	private PreviewWebSocketHandler socketHandler;
-	private File resourcesPath;
+	private File pluginTempDir;
 	private final Map<String, PreviewWebSocket> sockets;
 
 	public PreviewService() {
 
-		this.server = null;
-		this.resourcesPath = null;
-		this.sockets = new ConcurrentHashMap<>();
+        server = null;
+        sockets = new ConcurrentHashMap<>();
 
 		// Set plugin properties
 		PropertiesComponent pc = PropertiesComponent.getInstance();
@@ -57,8 +54,13 @@ public class PreviewService implements IPreviewService, Disposable {
 
 		// Create web server resources
 		try {
-			initWebResources();
-		} catch (Exception e) {
+            pluginTempDir = createPluginTempDirIfMissing();
+            createTextResource(pluginTempDir, "preview", RENDERER_SWAGGERUI, ".html");
+            createTextResource(pluginTempDir, "preview", RENDERER_SWAGGERUI, ".js");
+            createTextResource(pluginTempDir, "preview", RENDERER_REDOC, ".html");
+            createTextResource(pluginTempDir, "preview", RENDERER_REDOC, ".js");
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			return;
 		}
@@ -127,7 +129,7 @@ public class PreviewService implements IPreviewService, Disposable {
 		resourceHandler.setDirectoriesListed(false);
 		ContextHandler context1 = new ContextHandler();
 		context1.setContextPath("/");
-		Resource resource = new PathResource(Paths.get(resourcesPath.getCanonicalPath()));
+		Resource resource = new PathResource(Paths.get(pluginTempDir.getCanonicalPath()));
 		context1.setBaseResource(resource);
 		context1.setHandler(resourceHandler);
 
@@ -135,19 +137,6 @@ public class PreviewService implements IPreviewService, Disposable {
 		server.start();
 		server.join();
 	}
-
-	@Override
-    public void initWebResources() throws IOException {
-        if (resourcesPath != null) {
-            return;
-        }
-        String randomString = RandomStringUtils.random(10, true, false).toLowerCase();
-        resourcesPath = FileUtil.createTempDirectory("preview_", randomString, true);
-        createTextResource(resourcesPath, "preview", RENDERER_SWAGGERUI, ".html");
-        createTextResource(resourcesPath, "preview", RENDERER_SWAGGERUI, ".js");
-        createTextResource(resourcesPath, "preview", RENDERER_REDOC, ".html");
-        createTextResource(resourcesPath, "preview", RENDERER_REDOC, ".js");
-    }
 
 	@Override
 	public void dispose() {

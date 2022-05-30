@@ -8,7 +8,6 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.editor.actionSystem.EditorActionHandler;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.Ref;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.services.PlaceHolderService;
 
 import org.eclipse.swt.SWT;
@@ -40,7 +39,7 @@ public abstract class EnterHandlerDelegate implements Listener {
 			case SWT.TRAVERSE_RETURN:			
 				StyledText text = (StyledText) event.widget;
 				int offset = text.getSelection().x;
-				PsiFile psiFile = new PsiFile(editor.getProject(), new VirtualFile(editor.getIFile()));
+				PsiFile psiFile = new PsiFile(editor.getProject(), editor.getVirtualFile());
 				Ref<Integer> ref = new Ref<>(offset);
 				Result result = preprocessEnter(psiFile, editor, ref, null, null, null);
 				event.doit = (result == Result.Stop);

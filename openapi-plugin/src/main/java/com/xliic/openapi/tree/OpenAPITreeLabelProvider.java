@@ -10,9 +10,9 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbench;
 
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.openapi.FontStyler;
 import com.xliic.openapi.OpenAPIImages;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class OpenAPITreeLabelProvider extends StyledCellLabelProvider 
 	implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvider {
@@ -26,7 +26,7 @@ public class OpenAPITreeLabelProvider extends StyledCellLabelProvider
 	
 	public OpenAPITreeLabelProvider(IWorkbench workbench) {
 		this.defaultFont = workbench.getDisplay().getSystemFont();
-		Font boldFont = OpenAPIUtils.getBoldFont(defaultFont);
+		Font boldFont = EclipseUtil.getBoldFont(defaultFont);
 		this.boldFontStyler = new FontStyler(boldFont, null);
 		this.counterBoldFontStyler = new FontStyler(boldFont, StyledString.COUNTER_STYLER);
 	}

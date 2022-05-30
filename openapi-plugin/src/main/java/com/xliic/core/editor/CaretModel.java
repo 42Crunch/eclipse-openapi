@@ -2,7 +2,7 @@ package com.xliic.core.editor;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.openapi.utils.OpenAPIUtils;
+import com.xliic.core.fileEditor.OpenFileDescriptor;
 
 public class CaretModel {
 
@@ -28,6 +28,6 @@ public class CaretModel {
 	}
 
 	public void moveToOffset(int offset) {
-		OpenAPIUtils.gotoFile(editor.getIFile(), offset, 0);
+		new OpenFileDescriptor(editor.getProject(), editor.getVirtualFile(), offset, 0).navigate(true);
 	}
 }

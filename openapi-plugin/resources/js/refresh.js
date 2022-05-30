@@ -21,7 +21,7 @@
     var refreshLineNumber = function(line, lineNumber) {
         var text = line.innerText;
         if (text.indexOf(":") >= 0) {
-            line.innerText = text.split(":")[0] + ":" + lineNumber;
+            line.innerText = text.substring(0, text.lastIndexOf(":")) + ":" + lineNumber;
         }
     };
 

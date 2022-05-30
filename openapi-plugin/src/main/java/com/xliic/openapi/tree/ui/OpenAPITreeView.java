@@ -2,7 +2,6 @@ package com.xliic.openapi.tree.ui;
 
 import javax.inject.Inject;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -19,7 +18,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -31,6 +29,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.FileProperty;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
@@ -50,8 +49,6 @@ import com.xliic.openapi.tree.OpenAPITreeContentProvider;
 import com.xliic.openapi.tree.OpenAPITreeExpansionListener;
 import com.xliic.openapi.tree.OpenAPITreeLabelProvider;
 import com.xliic.openapi.tree.OpenAPITreeSelectionChangedListener;
-import com.xliic.openapi.utils.EditorUtil;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 @SuppressWarnings("restriction")
 public class OpenAPITreeView extends ViewPart 
@@ -161,7 +158,9 @@ public class OpenAPITreeView extends ViewPart
 	public void handleAllFilesClosed() {
 		setNoOpenAPITreeBackGround();
 		mouseMotionListener.cleanPaths();
-		viewer.setInput(null);
+		if (!isDisposed()) {
+			viewer.setInput(null);
+		}
 	}
 
 	@Override
@@ -193,50 +192,46 @@ public class OpenAPITreeView extends ViewPart
 	@Override
 	public void handleToolWindowRegistered(String id) {
 
-		IWorkbenchPage page = EditorUtil.getActivePage();
+		IWorkbenchPage page = EclipseUtil.getActivePage();
 		IEditorReference[] editors = page.getEditorReferences();
 
 		for (IEditorReference editor : editors) {
 			try {
 				IEditorInput input = editor.getEditorInput();
-				if (!(input instanceof IFileEditorInput)) {
+				if (!EclipseUtil.isSupported(input)) {
 					continue;
 				}
+				VirtualFile file = EclipseUtil.getVirtualFile(input);
 
-				IFileEditorInput fileInput = (IFileEditorInput) input;
-				IFile file = fileInput.getFile();
-
-				OpenApiFileType fileType = OpenAPIUtils.getFileType(file);
+				OpenApiFileType fileType = OpenApiUtils.getFileType(file);
 				if (fileType == OpenApiFileType.Unsupported) {
 					continue;
 				}
 
 				IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
 				IParserService parserService = PlatformUI.getWorkbench().getService(IParserService.class);
-				ParserData data = parserService.parse(EditorUtil.getDocument(fileInput).get(), fileType);
+				ParserData data = parserService.parse(EclipseUtil.getDocument(input).get(), fileType);
 				OpenApiVersion version = data.getVersion();
 				if (version == OpenApiVersion.Unknown) {
 					continue;
 				}
 
-				dataService.setFileProperty(new VirtualFile(file).getPath(), new FileProperty(fileType, version));
-				dataService.setParserData(new VirtualFile(file).getPath(), data);
+				dataService.setFileProperty(file.getPath(), new FileProperty(fileType, version));
+				dataService.setParserData(file.getPath(), data);
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
 		}
 
-		ITextEditor editor = (ITextEditor) EditorUtil.getCurrentEditor();
+		ITextEditor editor = (ITextEditor) EclipseUtil.getCurrentEditor();
 		if (editor == null) {
 			return;
 		}
 		IEditorInput input = editor.getEditorInput();
-		if (!(input instanceof IFileEditorInput)) {
+		if (!EclipseUtil.isSupported(input)) {
 			return;
 		}
-		IFileEditorInput fileInput = (IFileEditorInput) input;
-		IFile file = fileInput.getFile();
-		handleSelectedFile(new VirtualFile(file));
+		handleSelectedFile(EclipseUtil.getVirtualFile(input));
 	}
 	
 	@Override
@@ -292,5 +287,9 @@ public class OpenAPITreeView extends ViewPart
 			viewer.getTree().setBackground(new Color(getSite().getShell().getDisplay(), rgbErrorBackground));
 			viewer.getTree().setForeground(new Color(getSite().getShell().getDisplay(), rgbErrorForegraund));
 		}
+	}
+
+	private boolean isDisposed() {
+		return (viewer == null) || viewer.getControl().isDisposed();
 	}
 }

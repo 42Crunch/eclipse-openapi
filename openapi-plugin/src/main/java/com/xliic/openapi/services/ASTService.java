@@ -22,7 +22,6 @@ import com.xliic.core.concurrency.JobScheduler;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
-import com.xliic.core.util.Computable;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.FileProperty;
@@ -36,6 +35,8 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.topic.FileListener;
+
+import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
 
 public class ASTService implements IASTService, Runnable, Disposable {
 
@@ -141,7 +142,7 @@ public class ASTService implements IASTService, Runnable, Disposable {
 		DataService dataService = DataService.getInstance(project);
 		fileNames.removeIf(dataService::hasFileProperty);
 		AuditService auditService = AuditService.getInstance(project);
-		auditService.update(fileNames);
+		ApplicationManager.getApplication().invokeLater(() -> auditService.update(fileNames));
 	}
 
 	@Override
@@ -186,9 +187,7 @@ public class ASTService implements IASTService, Runnable, Disposable {
 		if (result != null) {
 			return result;
 		} else {
-			final String text = ApplicationManager.getApplication()
-					.runReadAction((Computable<String>) () -> OpenApiUtils.getTextFromFile(fileName));
-			return getRootNode(fileName, text);
+			return getRootNode(fileName, getTextFromFile(fileName, true));
 		}
 	}
 
@@ -233,10 +232,10 @@ public class ASTService implements IASTService, Runnable, Disposable {
 
 	@Override
 	public void removeASTDocumentListener(@NotNull VirtualFile file) {
-		Document document = FileDocumentManager.getInstance().getDocument(file);
-		if (document != null) {
-			TreeDocumentListener treeListener = astListenersMap.remove(file.getPath());
-			if (treeListener != null) {
+		TreeDocumentListener treeListener = astListenersMap.remove(file.getPath());
+		if (treeListener != null) {
+			Document document = FileDocumentManager.getInstance().getDocument(file);
+			if (document != null) {
 				document.removeDocumentListener(treeListener);
 			}
 		}

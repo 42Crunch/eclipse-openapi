@@ -39,13 +39,15 @@ public class JCEFReportPanel extends JBCefBrowser
   private final JCEFReportLAFListener lafListener;
   private final JBCefJSQuery myJSQueryOpenInBrowser;
   private final JCEFLoadHandlerAdapter loadHandlerAdapter;
+  private Audit lastAuditReport;
 
   public JCEFReportPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
 	  super(parent);
 	  
     this.project = project;
     this.toolWindow = toolWindow;
-
+    lastAuditReport = null;
+    
     myJSQueryOpenInBrowser = JBCefJSQuery.create((JBCefBrowserBase) this);
     reportListener = new JCEFReportListener(project, this);
     handler = link -> {
@@ -70,6 +72,7 @@ public class JCEFReportPanel extends JBCefBrowser
   @Override
   public void dispose() {
     super.dispose();
+    lastAuditReport = null;
     myJSQueryOpenInBrowser.removeHandler(handler);
     getJBCefClient().removeLoadHandler(loadHandlerAdapter, getCefBrowser());
   }
@@ -193,7 +196,11 @@ public class JCEFReportPanel extends JBCefBrowser
   }
 
   @Override
-  public void handleAuditReportClean(Audit auditReport) {}
+  public void handleAuditReportClean(Audit auditReport) {
+	  if (auditReport == lastAuditReport) {
+		  reportNotAvailable();
+	  }
+  }
 
   private String getReport(String summary, List<Issue> issuesList) {
     StringBuilder builder = new StringBuilder();
@@ -231,19 +238,28 @@ public class JCEFReportPanel extends JBCefBrowser
   }
 
   private void update(Audit auditReport) {
+	lastAuditReport = auditReport;
     loadHTML(getReport(auditReport.getHTMLSummary(), auditReport.getIssues()));
   }
 
   @Override
   public void handleBackToLink() {
-    AuditService auditService = AuditService.getInstance(project);
-    VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
-    if (file != null) {
-      update(auditService.getAuditReport(file.getPath()));
-    }
+    if (lastAuditReport != null) {
+	  update(lastAuditReport);
+	}
+	else {
+	  VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+	  if (file != null) {
+	    handleSelectedFile(file);
+	  }
+	  else {
+	    reportNotAvailable();
+	  }
+	}
   }
 
   private void reportNotAvailable() {
+	lastAuditReport = null;
     HTMLService htmlService = HTMLService.getInstance();
     String report = htmlService.NO_REPORT_AVAILABLE;
     report = report.replaceAll("<meta http-equiv=.*?>", "");

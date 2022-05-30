@@ -7,8 +7,8 @@ import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.util.messages.MessageBus;
-import com.xliic.openapi.utils.WorkbenchUtils;
 
 public class Project {
 
@@ -30,7 +30,7 @@ public class Project {
 	}
 
 	public Shell getShell() {
-		return WorkbenchUtils.getIWorkbenchWindow().getShell();
+		return EclipseWorkbenchUtil.getIWorkbenchWindow().getShell();
 	}
 
 	public boolean isDisposed() {

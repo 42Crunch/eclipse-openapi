@@ -43,6 +43,11 @@
         id="com.xliic.openapi.preview.actions.PreviewReDocAction"
         name="ReDoc">
   </command>
+  <command
+        defaultHandler="com.xliic.openapi.actions.ExtRefReloadAction"
+        id="com.xliic.openapi.actions.ExtRefReloadAction"
+        name="ExtRefReloadAction">
+  </command>
 	</extension>
 	
 	<extension point="org.eclipse.ui.handlers">
@@ -138,6 +143,10 @@
 		
   	    <serviceFactory factoryClass="com.xliic.openapi.services.factory.PlaceHolderServiceFactory">
      		<service serviceClass="com.xliic.openapi.services.api.IPlaceHolderService"></service>
+		</serviceFactory>
+		
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ExtRefServiceFactory">
+     		<service serviceClass="com.xliic.openapi.services.api.IExtRefService"></service>
 		</serviceFactory>
 
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.HTMLServiceFactory">
@@ -239,6 +248,11 @@
                      tooltip="Show OpenAPI Preview">
                </command>
             </menu>
+            <command
+                  commandId="com.xliic.openapi.actions.ExtRefReloadAction"
+                  icon="icons/extref.png"
+                  style="push">
+            </command>
          </menu>
       </menuContribution>
       <menuContribution
@@ -255,6 +269,11 @@
             <command
                   commandId="com.xliic.openapi.preview.actions.PreviewAction"
                   icon="icons/preview.png"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.xliic.openapi.actions.ExtRefReloadAction"
+                  icon="icons/extref.png"
                   style="push">
             </command>
          </toolbar>

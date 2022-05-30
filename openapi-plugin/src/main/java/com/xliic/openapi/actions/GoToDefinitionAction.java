@@ -26,18 +26,22 @@ import com.xliic.core.psi.LeafPsiElement;
 import com.xliic.core.psi.PsiDocumentManager;
 import com.xliic.core.psi.PsiElement;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.ExtRef;
+import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.services.ExtRefService;
 import com.xliic.openapi.tree.OpenApiTreeNode;
 
-public class GoToDefinitionAction extends AnAction implements DumbAware {
+import static com.xliic.openapi.OpenApiUtils.*;
 
-	private static final String REF = "#/";
+public class GoToDefinitionAction extends AnAction implements DumbAware {
 
 	@Override
 	public void update(AnActionEvent event) {
@@ -48,16 +52,23 @@ public class GoToDefinitionAction extends AnAction implements DumbAware {
 		if (project == null || editor == null || file == null) {
 			return;
 		}
-	    DataService dataService = DataService.getInstance(project);
-	    ParserData parserData = dataService.getParserData(file.getPath());
-	    if ((parserData == null) || !parserData.isValid()) {
-	      return;
+	    BundleService bundleService = BundleService.getInstance(project);
+	    if (bundleService.isFileBeingBundled(file.getPath())) {
+	      PsiElement psiElement = getDoubleClickedPsiElement(project, editor);
+	      if (psiElement instanceof LeafPsiElement) {
+	        if (JSON_REF_PATTERN.accepts(psiElement) || YAML_REF_PATTERN.accepts(psiElement)) {
+	          event.getPresentation().setEnabled(true);
+	        }
+	        else {
+	          PsiElement element = psiElement.getParent();
+	          element = (element == null) ? null : element.getParent();
+	          element = (element == null) ? null : element.getFirstChild();
+	          if ((element != null) && REF.equals(StringUtils.strip(element.getText(), "'\""))) {
+	            event.getPresentation().setEnabled(true);
+	          }
+	        }
+	      }
 	    }
-		PsiElement psiElement = getDoubleClickedPsiElement(project, editor);
-		if ((psiElement instanceof LeafPsiElement)
-				&& (JSON_REF_PATTERN.accepts(psiElement) || YAML_REF_PATTERN.accepts(psiElement))) {
-			event.getPresentation().setEnabled(true);
-		}
 	}
 
 	@Override
@@ -75,10 +86,25 @@ public class GoToDefinitionAction extends AnAction implements DumbAware {
 		}
 		String text = getRefTextFromPsiElement(psiElement);
 		String title = "No definition found for " + text;
+		
+	    if (ExtRef.isExtRef(text)) {
+	        ExtRefService extRefService = ExtRefService.getInstance(project);
+	        PsiElement result = extRefService.getPsiElement(text);
+	        if (result == null) {
+	          showRefNotFoundPopup(title, editor.getShell());
+	          return;
+	        }
+	        else {
+              Range range = EclipseUtil.getSelectionRange(result.getNode());
+	          new OpenFileDescriptor(project, result.getContainingFile().getVirtualFile(),
+	                  result.getOffset(), range == null ? 0 : range.getLength()).navigate(true);
+	        }
+	        return;
+	      }
 
-	    if (text.contains(REF)) {
+	    if (text.contains(REF_DELIMITER)) {
 
-	    	String [] parts = text.split(REF);
+	    	String [] parts = text.split(REF_DELIMITER);
 	        String key = "/" + parts[1];
 	        String refFileName = parts[0];
 
@@ -95,7 +121,10 @@ public class GoToDefinitionAction extends AnAction implements DumbAware {
 	        	showRefNotFoundPopup(title, editor.getShell());
 	            return;
 	          }
-	          OpenApiUtils.goToNodeInEditor(editor, (OpenApiTreeNode) node.getUserObject());
+	          OpenApiTreeNode tn = (OpenApiTreeNode) node.getUserObject();
+	          int offset = (int) tn.getStartOffset();
+	          int length = (int) (tn.getEndOffset() - offset);
+	          new OpenFileDescriptor(project, file, offset, length).navigate(true);
 	        }
 	        else {
 	          // External ref
@@ -116,7 +145,7 @@ public class GoToDefinitionAction extends AnAction implements DumbAware {
 	        	showRefNotFoundPopup(title, editor.getShell());
 	            return;
 	          }
-	          getOpenFileDescriptor(project, refFile, target.getRange()).navigate(true);
+	          getOpenFileDescriptor(project, refFile, target).navigate(true);
 	        }
 	    } else {
 			// Possible file
@@ -126,7 +155,7 @@ public class GoToDefinitionAction extends AnAction implements DumbAware {
 				showRefNotFoundPopup(title, editor.getShell());
 				return;
 			}
-			new OpenFileDescriptor(project, refFile, 0).navigate(true);
+			new OpenFileDescriptor(project, refFile).navigate(true);
 		}
 	}
 

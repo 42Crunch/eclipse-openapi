@@ -1,7 +1,11 @@
-package com.xliic.openapi.utils;
+package com.xliic.core.util;
+
+import static org.eclipse.ui.PlatformUI.getWorkbench;
 
 import java.util.Optional;
 
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveRegistry;
 import org.eclipse.ui.IViewPart;
@@ -12,15 +16,31 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.texteditor.ITextEditor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.openapi.OpenAPIPerspectiveFactory;
 
 @SuppressWarnings("restriction")
-public final class WorkbenchUtils {
+public final class EclipseWorkbenchUtil {
 
-	private WorkbenchUtils() {
+	private EclipseWorkbenchUtil() {
 	}
 
+	@Nullable
+    public static IWorkbenchPage findWorkbenchPage(@NotNull IEditorInput input) {
+    	for (IWorkbenchWindow window : getWorkbench().getWorkbenchWindows()) {
+    		for (IWorkbenchPage page : window.getPages()) {
+    			IEditorPart part = page.findEditor(input);
+				if (part instanceof ITextEditor) {
+					return page;
+				}
+    		}
+    	}
+    	return null;
+    }
+	
 	@SuppressWarnings("unchecked")
 	public static <T extends IViewPart> T showView(String viewId, String secondaryId, int mode) {
 		IWorkbenchWindow window = getIWorkbenchWindow(Workbench.getInstance());
@@ -71,7 +91,7 @@ public final class WorkbenchUtils {
 		IPerspectiveRegistry registry = WorkbenchPlugin.getDefault().getPerspectiveRegistry();
 		IPerspectiveDescriptor perspective = registry.findPerspectiveWithId(OpenAPIPerspectiveFactory.ID);
 		if (perspective != null) {
-			IWorkbenchPage page = EditorUtil.getActivePage();
+			IWorkbenchPage page = EclipseUtil.getActivePage();
 			page.setPerspective(perspective);
 		}
 	}

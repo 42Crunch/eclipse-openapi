@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.concurrency.JobScheduler;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
@@ -25,6 +26,8 @@ import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.ide.ProjectView;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectLocator;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.psi.PsiManager;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.UIUtil;
@@ -66,6 +69,15 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 		return (BundleService) PlatformUI.getWorkbench().getService(IBundleService.class);
 	}
 
+    public boolean isPartOfBundleWithExtRefs(@NotNull String fileName) {
+        for (BundleResult result : bundleResultMap.values()) {
+            if (result.getBundledFiles().contains(fileName) && !result.getActiveURLs().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 	@Override
 	public boolean isFileBeingBundled(@NotNull String fileName) {
 		if (bundleErrorsMap.containsKey(fileName)) {
@@ -113,7 +125,9 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 		ASTService astService = ASTService.getInstance(project);
 		for (Map.Entry<String, Set<String>> entry : safeFilesToBundle.entrySet()) {
 			try {
-				bundle(entry.getKey());
+                // If files are changed in the editor highlighting is done by default
+                // Otherwise we have to force re-highlighting after bundling is complete
+                bundle(entry.getKey(), entry.getValue().isEmpty());
 			} catch (Exception ignored) {
 			} finally {
 				// Changed file is a part of the bundle and may not have OAS
@@ -124,6 +138,13 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 				}
 			}
 		}
+        // Monitor active URLs to clean unused ones
+        Set<String> activeURLs = new HashSet<>();
+        for (BundleResult result : bundleResultMap.values()) {
+            activeURLs.addAll(result.getActiveURLs());
+        }
+        ExtRefService extRefService = ExtRefService.getInstance(project);
+        extRefService.clear(activeURLs);
 	}
 
 	@Override
@@ -143,8 +164,30 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 		}
 	}
 
-	private void bundle(@NotNull String rootFileName) {
-		BundleResult result = new BundleResult(rootFileName);
+    public void scheduleToBundleByHost(@NotNull String hostname) {
+        for (BundleResult result : bundleResultMap.values()) {
+            if (result.hasBundleHost(hostname)) {
+                scheduleToBundle(result.getFile(), null);
+            }
+        }
+    }
+
+    public void scheduleToBundleByHosts(@NotNull Set<String> hostnames) {
+        Set<String> filesToBundle = new HashSet<>();
+        for (String hostname : hostnames) {
+            for (BundleResult result : bundleResultMap.values()) {
+                if (result.hasBundleHost(hostname)) {
+                    filesToBundle.add(result.getFile());
+                }
+            }
+        }
+        for (String file : filesToBundle) {
+            scheduleToBundle(file, null);
+        }
+    }
+    
+	private void bundle(@NotNull String rootFileName, boolean doHighlighting) {
+		BundleResult result = new BundleResult(project, rootFileName);
 		String text = result.getJsonText();
 		ApplicationManager.getApplication().runReadAction((Computable<Void>) () -> {
 			if (bundleResultMap.containsKey(rootFileName)) {
@@ -171,6 +214,18 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 			});
 			return null;
 		});
+        // Force re-highlighting for a specific file
+        if (doHighlighting) {
+            VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(rootFileName));
+            if (file != null) {
+                ApplicationManager.getApplication().runReadAction(() -> {
+                    PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+                    if (psiFile != null) {
+                        DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
+                    }
+                });
+            }
+        }
 	}
 
 	@Override
@@ -233,9 +288,12 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 		final Map<String, BundleDocumentListener> listeners = bundleListenersMap.get(rootFileName);
 		if (listeners != null) {
 			for (String bundledFile : Set.copyOf(listeners.keySet())) {
-				Document document = getOpenedDocument(bundledFile, false);
-				if (document != null) {
-					document.removeDocumentListener(listeners.remove(bundledFile));
+				BundleDocumentListener listener = listeners.remove(bundledFile);
+				if (listener != null) {
+					Document document = getOpenedDocument(bundledFile, false);
+					if (document != null) {
+						document.removeDocumentListener(listener);
+					}
 				}
 			}
 			bundleListenersMap.remove(rootFileName);
@@ -259,9 +317,12 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 			// Previously bundled file disappeared => remove listener
 			for (String oldBundledFile : Set.copyOf(listeners.keySet())) {
 				if (!newBundledFiles.contains(oldBundledFile)) {
-					Document document = getOpenedDocument(oldBundledFile, true);
-					if (document != null) {
-						document.removeDocumentListener(listeners.remove(oldBundledFile));
+					BundleDocumentListener listener = listeners.remove(oldBundledFile);
+					if (listener != null) {
+						Document document = getOpenedDocument(oldBundledFile, true);
+						if (document != null) {
+							document.removeDocumentListener(listener);
+						}
 					}
 				}
 			}
@@ -300,9 +361,12 @@ public class BundleService implements IBundleService, Runnable, Disposable {
 			if (bundleResultMap.get(rootFile).getBundledFiles().contains(bundledFile)) {
 				final Map<String, BundleDocumentListener> listeners = bundleListenersMap.get(rootFile);
 				if ((listeners != null) && listeners.containsKey(bundledFile)) {
-					Document document = getOpenedDocument(bundledFile, false);
-					if (document != null) {
-						document.removeDocumentListener(listeners.remove(bundledFile));
+					BundleDocumentListener listener = listeners.remove(bundledFile);
+					if (listener != null) {
+						Document document = getOpenedDocument(bundledFile, false);
+						if (document != null) {
+							document.removeDocumentListener(listener);
+						}
 					}
 				}
 			}
@@ -351,7 +415,7 @@ public class BundleService implements IBundleService, Runnable, Disposable {
                 if (root != null) {
                     Node target = root.find(be.getSourcePointer());
                     if (target != null) {
-                        OpenApiUtils.getOpenFileDescriptor(project, file, target.getRange()).navigate(true);
+                        OpenApiUtils.getOpenFileDescriptor(project, file, target).navigate(true);
                         return;
                     }
                 }

@@ -15,7 +15,7 @@ import com.xliic.openapi.quickfix.managers.FixManager;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.QuickFixService;
 
-public abstract class FixAction extends IntentionAction implements IMarkerResolutionRelevance, Comparable<FixAction> {
+public abstract class FixAction extends IntentionAction implements IMarkerResolutionRelevance {
 
 	private final int priority;
 	private final String title;
@@ -67,13 +67,17 @@ public abstract class FixAction extends IntentionAction implements IMarkerResolu
 		return title;
 	}
 
-	@Override
-	public int compareTo(@NotNull FixAction o) {
-		if (priority == o.getPriority()) {
-			return title.compareTo(o.getTitle());
-		}
-		return Integer.compare(o.getPriority(), priority);
-	}
+    @Override
+    public int compareTo(@NotNull IntentionAction o) {
+        if (o instanceof FixAction) {
+            FixAction fa = (FixAction) o;
+            if (priority == fa.getPriority()) {
+                return title.compareTo(fa.getTitle());
+            }
+            return Integer.compare(fa.getPriority(), priority);
+        }
+        return 1;
+    }
 
 	@Override
 	public boolean startInWriteAction() {

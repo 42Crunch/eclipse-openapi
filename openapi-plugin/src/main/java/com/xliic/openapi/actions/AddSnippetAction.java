@@ -6,28 +6,27 @@ import static com.xliic.openapi.OpenApiPanelKeys.HOST_POINTER;
 import static com.xliic.openapi.OpenApiPanelKeys.INFO_POINTER;
 import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
 import static com.xliic.openapi.OpenApiPanelKeys.getMainPathKey;
-import static com.xliic.openapi.utils.OpenAPIUtils.getFirstNotEmptyPanel;
-import static com.xliic.openapi.utils.OpenAPIUtils.getPadding;
+import static com.xliic.openapi.OpenApiUtils.getPadding;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.OpenApiFileType;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.tree.ParserData;
 import com.xliic.openapi.services.api.IDataService;
@@ -35,8 +34,6 @@ import com.xliic.openapi.snippets.Snippet;
 import com.xliic.openapi.snippets.SnippetIDs;
 import com.xliic.openapi.snippets.SnippetLayout;
 import com.xliic.openapi.tree.OpenApiTreeNode;
-import com.xliic.openapi.utils.EditorUtil;
-import com.xliic.openapi.utils.OpenAPIUtils;
 
 public class AddSnippetAction extends Action {
 
@@ -74,7 +71,7 @@ public class AddSnippetAction extends Action {
 
 		if (o.isPanel() && o.is(GENERAL)) {
 
-			VirtualFile file = OpenAPIUtils.getSelectedOpenAPIFile();
+			VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile();
 			if (file == null) {
 				return false;
 			}
@@ -102,25 +99,23 @@ public class AddSnippetAction extends Action {
 	@SuppressWarnings("serial")
 	public void run() {
 
-		ITextEditor editor = (ITextEditor) EditorUtil.getCurrentEditor();
+		ITextEditor editor = (ITextEditor) EclipseUtil.getCurrentEditor();
 		if (editor == null) {
 			return;
 		}
 		IEditorInput input = editor.getEditorInput();
-		if (!(input instanceof IFileEditorInput)) {
+		if (!EclipseUtil.isSupported(input)) {
 			return;
 		}
-		IFileEditorInput fileInput = (IFileEditorInput) input;
-		IFile file = fileInput.getFile();
-
+		VirtualFile file = EclipseUtil.getVirtualFile(input);
 		OpenApiTreeNode o = (OpenApiTreeNode) node.getUserObject();
 		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		ParserData parserData = dataService.getParserData(new VirtualFile(file).getPath());
+		ParserData parserData = dataService.getParserData(file.getPath());
 		if (!parserData.isValid()) {
 			return;
 		}
 
-		OpenApiFileType fileType = dataService.getFileProperty(new VirtualFile(file).getPath()).getType();
+		OpenApiFileType fileType = dataService.getFileProperty(file.getPath()).getType();
 		boolean isJson = (fileType == OpenApiFileType.Json);
 
 		int innerPadding = getPadding(node, fileType);
@@ -156,9 +151,9 @@ public class AddSnippetAction extends Action {
 		} else {
 
 			if (o.isPanel() && o.is(GENERAL)) {
-				OpenApiVersion version = dataService.getFileProperty(new VirtualFile(file).getPath()).getVersion();
+				OpenApiVersion version = dataService.getFileProperty(file.getPath()).getVersion();
 				Map<String, DefaultMutableTreeNode> pointerToNodesMap = dataService
-						.getParserData(new VirtualFile(file).getPath()).getPointerToNodesMap();
+						.getParserData(file.getPath()).getPointerToNodesMap();
 				DefaultMutableTreeNode p = pointerToNodesMap.get(getMainPathKey(version));
 
 				layout.setPanel(null);
@@ -167,7 +162,7 @@ public class AddSnippetAction extends Action {
 				layout.setPadding(isJson ? innerPadding : 0);
 				line = (int) ((OpenApiTreeNode) p.getUserObject()).getLine();
 			} else {
-				DefaultMutableTreeNode nextPanel = getFirstNotEmptyPanel(node);
+				DefaultMutableTreeNode nextPanel = OpenApiUtils.getFirstNotEmptyPanel(node);
 				String container = snippet.getContainer();
 				layout.setContainerExists(container == null);
 				layout.setPadding(isJson ? innerPadding : 0);
@@ -188,7 +183,7 @@ public class AddSnippetAction extends Action {
 			});
 		}
 
-		IDocument doc = EditorUtil.getDocument(fileInput);
+		IDocument doc = EclipseUtil.getDocument(input);
 		try {
 			IRegion reg = doc.getLineInformation(line + 1);
 			String text = snippet.getText(layout);

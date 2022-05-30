@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.editor.CaretModel;
 import com.xliic.core.editor.Document;
+import com.xliic.core.editor.DocumentImpl;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.editor.EditorFactory;
 import com.xliic.core.project.Project;
@@ -23,7 +24,7 @@ public class DocumentEvent {
 
     @NotNull
     public Document getDocument() {
-    	return new Document(document);
+    	return new DocumentImpl(document);
     }
 
     public int getOffset() {

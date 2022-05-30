@@ -2,39 +2,33 @@ package com.xliic.core.editor;
 
 import java.util.Objects;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.editor.event.EditorMouseListener;
 import com.xliic.core.project.Project;
-import com.xliic.openapi.utils.EditorUtil;
+import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.vfs.VirtualFile;
 
 public class Editor {
 
 	private final Project project;
-	private final IFileEditorInput input;
+	private final IEditorInput input;
 
-	public Editor(@NotNull Project project, IFileEditorInput input) {
+	public Editor(@NotNull Project project, IEditorInput input) {
 		this.project = project;
 		this.input = input;
 	}
 
-	public IFile getIFile() {
-		return input.getFile();
+	public VirtualFile getVirtualFile() {
+		return EclipseUtil.getVirtualFile(input);
 	}
 
 	public Project getProject() {
@@ -42,10 +36,10 @@ public class Editor {
 	}
 
 	public Document getDocument() {
-		return new Document(EditorUtil.getDocument(input));
+		return new DocumentImpl(EclipseUtil.getDocument(input));
 	}
 
-	public IFileEditorInput getIFileEditorInput() {
+	public IEditorInput getEditorInput() {
 		return input;
 	}
 	
@@ -54,7 +48,7 @@ public class Editor {
         if (this == o) return true;
         if ((o == null) || (getClass() != o.getClass())) return false;
         Editor editor = (Editor) o;
-        return Objects.equals(input, editor.getIFileEditorInput());
+        return Objects.equals(input, editor.input);
     }
 
     @Override
@@ -88,16 +82,7 @@ public class Editor {
 	}
 
 	public ITextEditor getTextEditor() {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
-			for (IWorkbenchPage page : window.getPages()) {
-				IEditorPart part = page.findEditor(input);
-				if (part instanceof ITextEditor) {
-					return (ITextEditor) part;
-				}
-			}
-		}
-		return null;
+		return EclipseUtil.getTextEditor(input);
 	}
 
 	public LogicalPosition offsetToLogicalPosition(int offset) {
@@ -116,11 +101,7 @@ public class Editor {
 	}
 	
 	public ISourceViewer getSourceViewer() {
-		IEditorPart editorPart = getTextEditor();
-		if (editorPart instanceof IEditorPart) {
-			return (ISourceViewer) editorPart.getAdapter(ITextOperationTarget.class);
-		}
-		return null;
+		return EclipseUtil.getSourceViewer(input);
 	}
 
 	public StyledText getStyledText() {

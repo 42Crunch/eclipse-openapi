@@ -1,5 +1,7 @@
 package com.xliic.core.psi;
 
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
@@ -39,5 +41,26 @@ public class PsiElement {
 
 	public PsiFile getContainingFile() {
 		return file;
+	}
+	
+	public PsiElement getParent() {
+		Node parent = node.getParent();
+		if (parent == null) {
+			return null;
+		}
+		return new PsiElement(parent.getRange().getStartOffset(), parent, file);
+	}
+	
+	public PsiElement getFirstChild() {
+		List<Node> children = node.getChildren();
+		if (children == null || children.isEmpty()) {
+			return null;
+		}
+		Node child = children.get(0);
+		return new PsiElement(child.getRange().getStartOffset(), child, file);
+	}
+	
+	public int getTextOffset() {
+		return offset;
 	}
 }

@@ -15,24 +15,17 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.MarkerAnnotation;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.codeInsight.HighlightInfo;
+import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleHighlightingPassFactory;
-import com.xliic.openapi.quickfix.actions.FixAction;
 import com.xliic.openapi.report.ReportHighlightingPassFactory;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
@@ -101,43 +94,27 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 
 	private void safeRun() {
 		synchronized (this) {
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
-				for (IWorkbenchPage page : window.getPages()) {
-					for (IEditorReference editor : page.getEditorReferences()) {
-						try {
-							IEditorInput input = editor.getEditorInput();
-							if (input instanceof IFileEditorInput) {
-								IFileEditorInput fileInput = (IFileEditorInput) input;
-								if (isFileEditorActive(page, fileInput)) {
-									Set<Marker> newMarkers = new HashSet<>();
-									Map<String, List<FixAction>> newFixActions = new HashMap<>();
-									PsiFile psiFile = new PsiFile(project, new VirtualFile(fileInput.getFile()));
-									Editor textEditor = new Editor(project, fileInput);
-									for (TextEditorHighlightingPassFactory factory : factories) {
-										TextEditorHighlightingPass hp = factory.createHighlightingPass(psiFile,
-												textEditor);
-										if (hp != null) {
-											hp.doCollectInformation(null);
-											List<HighlightInfo> infos = hp.getInformationToEditor();
-											if ((infos != null) && !infos.isEmpty()) {
-												newMarkers.addAll(convertToMarkers(textEditor, psiFile, infos));
-												Map<String, List<FixAction>> actions = hp.getActionsToEditor();
-												if ((actions != null) && !actions.isEmpty()) {
-													mergeActions(actions, newFixActions);
-												}
-											}
-										}
-									}
-									updateMarkers(textEditor, psiFile.getVirtualFile(), newMarkers, newFixActions);
-								}
+			for (IEditorInput input : EclipseUtil.getAllSupportedActiveEditorInputs()) {
+				Set<Marker> newMarkers = new HashSet<>();
+				Map<String, List<IntentionAction>> newFixActions = new HashMap<>();
+				PsiFile psiFile = new PsiFile(project, EclipseUtil.getVirtualFile(input));
+				Editor editor = new Editor(project, input);
+				for (TextEditorHighlightingPassFactory factory : factories) {
+					TextEditorHighlightingPass hp = factory.createHighlightingPass(psiFile, editor);
+					if (hp != null) {
+						hp.doCollectInformation(null);
+						List<HighlightInfo> infos = hp.getInformationToEditor();
+						if ((infos != null) && !infos.isEmpty()) {
+							newMarkers.addAll(convertToMarkers(editor, psiFile, infos));
+							Map<String, List<IntentionAction>> actions = hp.getActionsToEditor();
+							if ((actions != null) && !actions.isEmpty()) {
+								mergeActions(actions, newFixActions);
 							}
-						} catch (PartInitException e) {
-							e.printStackTrace();
 						}
 					}
 				}
-			}
+				updateMarkers(editor, psiFile.getVirtualFile(), newMarkers, newFixActions);
+			}		
 			for (Map.Entry<VirtualFile, Set<Marker>> entry : markers.entrySet()) {
 				String fileName = entry.getKey().getPath();
 				if (!auditService.isFileBeingAudited(fileName) && !bundleService.isFileBeingBundled(fileName)) {
@@ -164,17 +141,6 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 		}
 	}
 
-	private boolean isFileEditorActive(IWorkbenchPage page, IFileEditorInput input) {
-		IEditorPart editor = page.getActiveEditor();
-		if (editor != null) {
-			IEditorInput editorInput = editor.getEditorInput();
-			if (editorInput instanceof IFileEditorInput) {
-				return input.equals((IFileEditorInput) editorInput);
-			}
-		}
-		return false;
-	}
-
 	private Set<Marker> convertToMarkers(Editor editor, PsiFile psiFile, List<HighlightInfo> highlights) {
 		Set<Marker> markers = new HashSet<>();
 		for (HighlightInfo info : highlights) {
@@ -183,8 +149,8 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 		return markers;
 	}
 
-	private static void mergeActions(Map<String, List<FixAction>> from, Map<String, List<FixAction>> to) {
-		for (Map.Entry<String, List<FixAction>> entry : from.entrySet()) {
+	private static void mergeActions(Map<String, List<IntentionAction>> from, Map<String, List<IntentionAction>> to) {
+		for (Map.Entry<String, List<IntentionAction>> entry : from.entrySet()) {
 			String key = entry.getKey();
 			if (to.containsKey(key)) {
 				to.get(key).addAll(entry.getValue());
@@ -195,7 +161,7 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 	}
 
 	private void updateMarkers(Editor editor, VirtualFile file, Set<Marker> newMarkers,
-			Map<String, List<FixAction>> actions) {
+			Map<String, List<IntentionAction>> actions) {
 		Set<Marker> myMarkers = markers.get(file);
 		if (myMarkers == null) {
 			markers.put(file, new HashSet<>());
@@ -234,7 +200,7 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 		}
 	}
 
-	private void updateIntentionActions(Editor editor, Set<Marker> markers, Map<String, List<FixAction>> actions) {
+	private void updateIntentionActions(Editor editor, Set<Marker> markers, Map<String, List<IntentionAction>> actions) {
 		for (Marker marker : markers) {
 			marker.clearActions();
 		}
@@ -244,11 +210,11 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 				if (annotation instanceof MarkerAnnotation) {
 					Marker marker = markersBinding.get(((MarkerAnnotation) annotation).getMarker());
 					if (marker != null) {
-						List<FixAction> markerActionsList = actions.get(marker.getPointer());
+						List<IntentionAction> markerActionsList = actions.get(marker.getPointer());
 						if (markerActionsList != null) {
-							ListIterator<FixAction> iter = markerActionsList.listIterator();
+							ListIterator<IntentionAction> iter = markerActionsList.listIterator();
 							while (iter.hasNext()) {
-								FixAction action = iter.next();
+								IntentionAction action = iter.next();
 								if (action.isResponsibleFor(marker.getPointer(), marker.getMessage())) {
 									marker.addAction(action);
 									iter.remove();
