@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.core.resources.IFile;
@@ -25,8 +26,6 @@ public class VirtualFile {
 	private final IFile ifile;
 	private final String path;
 
-	private volatile int hashCode;
-
 	public VirtualFile(@NotNull IFile ifile) {
 		this.file = getUnderlyingFile(ifile);
 		this.ifile = ifile;
@@ -41,14 +40,7 @@ public class VirtualFile {
 
 	@Override
 	public int hashCode() {
-		int result = hashCode;
-		if (result == 0) {
-			final int prime = 31;
-			result = 1;
-			result = prime * result + path.hashCode();
-			hashCode = result;
-		}
-		return result;
+		return path.hashCode();
 	}
 
 	@Override
@@ -59,14 +51,7 @@ public class VirtualFile {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		VirtualFile other = (VirtualFile) obj;
-		String otherPath = other.getPath();
-		if (path == null) {
-			if (otherPath != null)
-				return false;
-		} else if (!path.equals(otherPath))
-			return false;
-		return true;
+		return Objects.equals(path, ((VirtualFile) obj).getPath());
 	}
 	
 	public boolean hasProject() {
