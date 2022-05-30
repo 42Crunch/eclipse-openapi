@@ -41,16 +41,25 @@ public class PropertiesComponent {
 			return false;
 		} else if (value instanceof String) {
 			return !StringUtils.isEmpty((String) value);
+		} else if (value instanceof Integer) {
+			return (Integer) value != 0;
 		}
 		return true;
 	}
 
-	// Integer
+	// Integer (max positive value is not supported)
 	public int getInt(@NotNull String name, int defaultValue) {
-		return cache.containsKey(name) ? (int) cache.get(name) : store.getInt(name);
+		int value = cache.containsKey(name) ? (int) cache.get(name) : store.getInt(name);
+		if (value >= 0) {
+			value -= 1;
+		}
+		return value;
 	}
 
 	public void setValue(@NotNull String name, int value, int defaultValue) {
+		if (value >= 0) {
+			value += 1;
+		}
 		store.setValue(name, value);
 		cache.put(name, value);	
 	}
