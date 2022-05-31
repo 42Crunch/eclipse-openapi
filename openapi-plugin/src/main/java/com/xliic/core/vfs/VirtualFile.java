@@ -8,11 +8,11 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.util.Util;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -88,8 +88,6 @@ public class VirtualFile {
 	public String getExtension() {
 		return isDirectory() ? null : FilenameUtils.getExtension(path);
 	}
-	
-
 
 	private static File getUnderlyingFile(IFile ifile) {
 		String fileName = ifile.getFullPath().toString();
@@ -127,17 +125,22 @@ public class VirtualFile {
 	}
 
 	public static String filePathToIdeaFormat(@NotNull String fileName) {
-		if (fileName.contains("\\")) {
-			fileName = fileName.replace("\\", "/");
-		}
-		if (Util.isWindows() && fileName.startsWith("/")) {
+		fileName = FileUtil.toSystemIndependentName(fileName);
+		if (SystemUtils.IS_OS_WINDOWS && fileName.startsWith("/")) {
 			fileName = fileName.substring(1);
 		}
 		return fileName;
 	}
 
 	public void delete(Object requestor) throws IOException {
-		FileUtil.delete(path);
+		if (isDirectory()) {
+			FileUtil.delete(path);
+		} else {
+    		if (!file.canWrite()) {
+    			setReadOnly(false);
+    		}
+			file.delete();
+		}
 	}
 	
 	public @NotNull LocalFileSystem getFileSystem() {

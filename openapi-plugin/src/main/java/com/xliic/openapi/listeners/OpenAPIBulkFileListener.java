@@ -28,10 +28,8 @@ import com.xliic.openapi.topic.FileListener;
 
 public class OpenAPIBulkFileListener extends BulkFileListener {
 
-	private final Project project;
-
 	public OpenAPIBulkFileListener(@NotNull Project project) {
-		this.project = project;
+		super(project);
 	}
 
 	@Override

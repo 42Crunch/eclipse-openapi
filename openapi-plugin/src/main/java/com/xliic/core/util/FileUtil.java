@@ -47,39 +47,39 @@ public class FileUtil {
     }
 
     public static void delete(String filePath) {
-    	delete(filePath, true, false);
-    }
-
-    public static void delete(String filePath, boolean deleteDir, boolean setWritable) {
     	try {
 	        Path path = Paths.get(filePath);
 	        Files.walkFileTree(path, new SimpleFileVisitor<>() {
 	            @Override
 	            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-	            	if (deleteDir) {
-		            	try {
-		            		Files.delete(dir);
-		            	}
-		            	catch (IOException e) {}
+	            	try {
+	            		Files.delete(dir);
+	            	}
+	            	catch (IOException e) {
+	            		e.printStackTrace();
 	            	}
 	                return FileVisitResult.CONTINUE;
 	            }
 	            @Override
 	            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 	            	try {
-	            		if (setWritable && !file.toFile().canWrite()) {
+	            		if (!file.toFile().canWrite()) {
             				file.toFile().setWritable(true);
 	            		}
 	            		Files.delete(file);
 	            	}
-	            	catch (IOException e) {}
+	            	catch (IOException e) {
+	            		e.printStackTrace();
+	            	}
 	            	return FileVisitResult.CONTINUE;
 	            }
 	        });
     	}
-    	catch (IOException e) {}
+    	catch (IOException e) {
+    		e.printStackTrace();
+    	}
     }
-    
+
     @NotNull
     public static File createTempFile(@NotNull File dir, @NotNull String prefix, String suffix, boolean create) throws IOException {
         return createTempFile(dir, prefix, suffix, create, true);

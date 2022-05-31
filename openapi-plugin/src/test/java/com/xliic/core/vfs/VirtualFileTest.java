@@ -23,14 +23,14 @@ public class VirtualFileTest extends TestCase {
     public void testBasic() throws IOException {
     	file.mkdir();
     	VirtualFile x = new VirtualFile(file);
-    	assertEquals(x.isValid(), true);
-    	assertEquals(x.isDirectory(), true);
-    	assertEquals(x.getExtension(), null);
-    	assertEquals(x.getPath().endsWith(name), true);
-    	assertEquals(x.getIFile(), null);
-    	assertEquals(x.findChild("hsgdjagjd")  , null);
+    	assertEquals(true, x.isValid());
+    	assertEquals(true, x.isDirectory());
+    	assertEquals(null, x.getExtension());
+    	assertEquals(true, x.getPath().endsWith(name));
+    	assertEquals(null, x.getIFile());
+    	assertEquals(null, x.findChild("hsgdjagjd"));
     	x.delete(null);
-		assertEquals(x.isValid(), false);
+		assertEquals(false, x.isValid());
     }
 
     public void testCreateFolders() throws IOException {
@@ -38,29 +38,29 @@ public class VirtualFileTest extends TestCase {
     	VirtualFile x = new VirtualFile(file);
     	x.createChildDirectory(null, "aaa");
     	VirtualFile y = x.findChild("aaa");
-    	assertEquals(y.isValid(), true);
-    	assertEquals(y.isDirectory(), true);
-    	assertEquals(y.getPath().endsWith("aaa"), true);
+    	assertEquals(true, y.isValid());
+    	assertEquals(true, y.isDirectory());
+    	assertEquals(true, y.getPath().endsWith("aaa"));
     	x.delete(null);
-    	assertEquals(x.isValid(), false);
-    	assertEquals(y.isValid(), false);
+    	assertEquals(false, x.isValid());
+    	assertEquals(false, y.isValid());
     }
 
     public void testCreateFiles() throws IOException {
     	file.mkdir();
     	VirtualFile x = new VirtualFile(file);
-    	x.createChildData(x, "aaa.txt");   	
+    	x.createChildData(x, "aaa.txt");
     	VirtualFile y = x.findChild("aaa.txt");
-    	assertEquals(y.isValid(), true);
-    	assertEquals(y.isDirectory(), false);
-    	assertEquals(y.getPath().endsWith("aaa.txt"), true);
-    	assertEquals(y.getExtension(), "txt");   	
+    	assertEquals(true, y.isValid());
+    	assertEquals(false, y.isDirectory());
+    	assertEquals(true, y.getPath().endsWith("aaa.txt"));
+    	assertEquals("txt", y.getExtension());
     	y.delete(null);
-    	assertEquals(x.isValid(), true);
-    	assertEquals(y.isValid(), false);
+    	assertEquals(true, x.isValid());
+    	assertEquals(false, y.isValid());
     	x.delete(null);
-    	assertEquals(x.isValid(), false);
-    	assertEquals(y.isValid(), false);
+    	assertEquals(false, x.isValid());
+    	assertEquals(false, y.isValid());
     }
 
     public void tearDown() {

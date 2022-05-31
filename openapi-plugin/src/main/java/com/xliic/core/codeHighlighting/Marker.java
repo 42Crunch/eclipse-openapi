@@ -173,6 +173,15 @@ public class Marker {
 		}
 	}
 	
+	public static boolean isPluginMarker(@NotNull IMarker marker) {
+		try {
+			Object attr = marker.getAttribute(JSON_POINTER);
+			return attr != null && attr instanceof String;
+		} catch (CoreException e) {
+			return false;
+		}
+	}
+
 	private static IFile getFile(@NotNull IEditorInput input) {
 	  if (input instanceof IFileEditorInput) {
 	      return ((IFileEditorInput) input).getFile();

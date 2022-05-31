@@ -15,11 +15,19 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.widgets.Display;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.codeHighlighting.HighlightingManager;
+import com.xliic.core.project.Project;
+
 public abstract class BulkFileListener implements IResourceChangeListener {
 
 	private IFile fromFile;
 	private IFile toFile;
 	private Set<IFile> removedFiles = new HashSet<>();
+	protected final Project project;
+	
+	public BulkFileListener(@NotNull Project project) {
+		this.project = project;
+	}
 
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
@@ -84,6 +92,7 @@ public abstract class BulkFileListener implements IResourceChangeListener {
 
 	private void update(IFile newFile, IFile oldFile) {
 		after(List.of(new VFilePropertyChangeEvent(new VirtualFile(newFile), new VirtualFile(oldFile))));
+		HighlightingManager.getInstance(project).update(newFile, oldFile);
 	}
 
 	protected abstract void after(@NotNull List<? extends VFileEvent> events);

@@ -1,6 +1,8 @@
 package com.xliic.openapi;
 
 import okhttp3.*;
+
+import org.eclipse.core.resources.IProject;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.common.ContentType;
@@ -9,6 +11,7 @@ import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.command.WriteCommandAction;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.Computable;
+import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
@@ -108,12 +111,15 @@ public class ExtRef {
     public void dispose() {
         if ((file != null) && !project.isDisposed()) {
             WriteCommandAction.writeCommandAction(project).run(() -> {
+    			IProject project = EclipseUtil.getProject(file.getPath());
                 try {
-                	file.setReadOnly(false);
                     file.delete(this);
                 }
                 catch (IOException ignored) {}
                 file = null;
+    			if (project != null) {
+    				EclipseUtil.refreshProject(project);
+    			}
             });
         }
     }

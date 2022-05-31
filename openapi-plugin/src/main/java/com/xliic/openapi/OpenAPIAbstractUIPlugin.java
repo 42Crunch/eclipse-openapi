@@ -1,8 +1,13 @@
 package com.xliic.openapi;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -29,7 +34,6 @@ import org.osgi.framework.BundleContext;
 import com.xliic.core.codeHighlighting.HighlightingManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseUtil;
-import com.xliic.core.util.FileUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.listeners.OpenAPIBulkFileListener;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
@@ -156,15 +160,43 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject project : projects) {
 			if (project.exists()) {
-				Path projPath = Paths.get(new File(project.getLocationURI()).getAbsolutePath());
+				Boolean[] projToUpdate = { false };
+				Path projPath = new File(project.getLocationURI()).toPath();
 				File file = new File(Paths.get(projPath.toString(), OpenApiUtils.PROJECT_TMP_DIR).toUri());
 				if (file.exists()) {
-					FileUtil.delete(file.getAbsolutePath(), false, true); 
+			    	try {
+				        Files.walkFileTree(file.toPath(), new SimpleFileVisitor<>() {
+				            @Override
+				            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+				                return FileVisitResult.CONTINUE;
+				            }
+				            @Override
+				            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+								if (EclipseUtil.isExtRefFile(new VirtualFile(file.toFile()))) {
+					            	try {
+			            				file.toFile().setWritable(true);
+					            		Files.delete(file);
+					            		projToUpdate[0] = true;
+					            	}
+					            	catch (IOException e) {
+					            		e.printStackTrace();
+					            	}
+								}
+				            	return FileVisitResult.CONTINUE;
+				            }
+				        });
+			    	}
+			    	catch (IOException e) {
+			    		e.printStackTrace();
+			    	}
+				}
+				if (projToUpdate[0]) {
+					EclipseUtil.refreshProject(project);
 				}
 			}
 		}	
 	}
-	
+
 	private static void disposeAllExtRefEditors() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();

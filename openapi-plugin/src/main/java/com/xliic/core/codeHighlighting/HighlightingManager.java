@@ -12,7 +12,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.texteditor.MarkerAnnotation;
@@ -89,6 +92,26 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
 			safeRun();
 		} catch (Throwable t) {
 			t.printStackTrace();
+		}
+	}
+	
+	public void update(IFile newFile, IFile oldFile) {
+		synchronized (this) {
+			IMarker[] markers = null;
+			try {
+				markers = newFile.findMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO);
+			} catch (CoreException e) {
+			}
+			if (markers != null && markers.length > 0) {
+				for (IMarker marker : markers) {
+					try {
+						if (Marker.isPluginMarker(marker)) {
+							marker.delete();
+						}
+					} catch (CoreException e) {
+					}
+				}
+			}
 		}
 	}
 
