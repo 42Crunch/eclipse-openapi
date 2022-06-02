@@ -7,7 +7,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ExtRefService;
@@ -22,10 +21,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.xliic.openapi.ExtRef.isExtRef;
+import static com.xliic.openapi.OpenApiBundle.message;
 import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
 
 public class BundleResult {
@@ -40,6 +42,7 @@ public class BundleResult {
     private final Project project;
 
     private static final ParserJsonAST parser = new ParserJsonAST();
+    private static final Set<String> schemas = new HashSet<>(Arrays.asList("http://", "https://", "file:/"));
 
     public BundleResult(@NotNull Project project, @NotNull String rootFileName) {
 
@@ -74,7 +77,10 @@ public class BundleResult {
 
             @Override
             public WorkspaceContent read(URI uri) throws IOException, WorkspaceException {
-                if (ExtRef.isExtRef(uri)) {
+                if (isUnsupportedSchema(uri)) {
+                    throw new WorkspaceException(message("openapi.ref.unable.resolve", uri.toString()));
+                }
+                if (isExtRef(uri)) {
                     externalURIs.add(uri);
                     ExtRefService extRefService = ExtRefService.getInstance(project);
                     if (extRefService.isSafe(uri)) {
@@ -86,14 +92,14 @@ public class BundleResult {
                         }
                     }
                     else {
-                        throw new WorkspaceException(OpenApiBundle.message("openapi.quickfix.reference", uri.getAuthority()));
+                    	throw new WorkspaceException(message("openapi.ref.not.approved", uri.getAuthority()));
                     }
                 }
                 else {
                     final String fileName = uri.getPath();
                     VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
                     if (file == null) {
-                        throw new WorkspaceException("Failed to find local file " + fileName);
+                    	throw new WorkspaceException(message("openapi.ref.unable.resolve", fileName));
                     }
                     bundleFiles.add(file.getPath());
                     return new WorkspaceContent(getTextFromFile(fileName, true), ExtRef.getContentType(file));
@@ -207,5 +213,18 @@ public class BundleResult {
             return bundleNode;
         }
         return null;
+    }
+
+    private boolean isUnsupportedSchema(URI uri) {
+        try {
+            String ref = uri.toURL().toString();
+            for (String schema : schemas) {
+                if (ref.startsWith(schema)) {
+                    return false;
+                }
+            }
+        }
+        catch (MalformedURLException ignored) {}
+        return true;
     }
 }
