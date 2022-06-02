@@ -46,7 +46,7 @@
   <command
         defaultHandler="com.xliic.openapi.actions.ExtRefReloadAction"
         id="com.xliic.openapi.actions.ExtRefReloadAction"
-        name="ExtRefReloadAction">
+        name="Reload Remote References">
   </command>
 	</extension>
 	

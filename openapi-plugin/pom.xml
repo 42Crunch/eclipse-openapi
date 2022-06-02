@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.xliic.openapi</groupId>
     <artifactId>openapi-parent</artifactId>
-    <version>1.0.29</version>
+    <version>1.0.30</version>
   </parent>
   
   <artifactId>openapi-plugin</artifactId>
@@ -21,7 +21,7 @@
     <annotations.version>13.0</annotations.version>
     <okhttp.version>4.7.2</okhttp.version>
     <okio.version>2.6.0</okio.version>
-    <openapi.bundler.version>3.2</openapi.bundler.version>
+    <openapi.bundler.version>3.4</openapi.bundler.version>
 	<jackson.version>2.10.2</jackson.version>
     <snakeyaml.engine.version>2.3</snakeyaml.engine.version>
     <snakeyaml.version>1.29</snakeyaml.version>
