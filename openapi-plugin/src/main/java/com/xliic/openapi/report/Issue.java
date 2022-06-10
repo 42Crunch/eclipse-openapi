@@ -4,12 +4,9 @@ import static com.xliic.openapi.OpenApiUtils.getFileLanguage;
 
 import java.net.URI;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 
 import com.xliic.core.editor.Document;
 import com.xliic.core.editor.RangeMarker;
@@ -239,47 +236,35 @@ public class Issue {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private String partToText(Map<String, Object> part) {
-
-		if (part == null || !part.containsKey("sections")) {
-			return "";
-		}
-
-		StringBuilder text = new StringBuilder();
-		List<Object> sections = ((JSONArray) part.get("sections")).toList();
-
-		for (Object section : sections) {
-			Map<String, Object> s = (Map<String, Object>) section;
-			if (s.containsKey("text")) {
-				text.append((String) s.get("text"));
-			} else if (s.containsKey("code")) {
-				text.append("<pre><code>");
-				text.append(((Map<String, String>) s.get("code")).get(getFileLanguage(fileName)));
-				text.append("</code></pre>");
-			}
-		}
-		return text.toString();
-	}
+    private String partToText(Node part) {
+        if ((part == null) || (part.getChild("sections") == null)) {
+            return StringUtils.EMPTY;
+        }
+        StringBuilder text = new StringBuilder();
+        for (Node section : part.getChild("sections").getChildren()) {
+            String value = section.getChildValue("text");
+            if (value != null) {
+                text.append(value);
+            }
+            Node code = section.getChild("code");
+            if (code != null) {
+                text.append("<pre><code>");
+                text.append(code.getChildValue(getFileLanguage(fileName)));
+                text.append("</code></pre>");
+            }
+        }
+        return text.toString();
+    }
 
     private String articleById(String id) {
-
         HTMLService htmlService = HTMLService.getInstance();
-        if (htmlService.containsArticleId(id)) {
-
-            Map<String, Object> article = htmlService.getArticle(id);
-            Map<String, Object> description = ((JSONObject) article.get("description")).toJsonMap();
-
-            String text = (String) description.get("text");
-            if (article.containsKey("example")) {
-                text += partToText(((JSONObject) article.get("example")).toJsonMap());
-            }
-            if (article.containsKey("exploit")) {
-                text += partToText(((JSONObject) article.get("exploit")).toJsonMap());
-            }
-            if (article.containsKey("remediation")) {
-                text += partToText(((JSONObject) article.get("remediation")).toJsonMap());
-            }
+        Node article = htmlService.getArticle(id);
+        if (article != null) {
+            Node description = article.getChild("description");
+            String text = description.getChildValue("text");
+            text += partToText(article.getChild("example"));
+            text += partToText(article.getChild("exploit"));
+            text += partToText(article.getChild("remediation"));
             return text;
         }
         return htmlService.FALLBACK_ARTICLE;

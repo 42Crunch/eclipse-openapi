@@ -17,11 +17,11 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.ui.PlatformUI;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.project.Project;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.preview.PreviewWebSocket;
@@ -81,7 +81,7 @@ public class PreviewService implements IPreviewService, Disposable {
 	}
 
 	public static PreviewService getInstance() {
-		return (PreviewService) PlatformUI.getWorkbench().getService(IPreviewService.class);
+		return ApplicationManager.getApplication().getService(PreviewService.class);
 	}
 
 	@Override
@@ -140,6 +140,7 @@ public class PreviewService implements IPreviewService, Disposable {
 
 	@Override
 	public void dispose() {
+		Project.getInstance().dispose();
 		try {
 			if (server != null) {
 				server.stop();

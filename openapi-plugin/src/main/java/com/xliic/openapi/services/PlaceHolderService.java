@@ -31,7 +31,6 @@ import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.services.api.IPlaceHolderService;
 
-import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -104,7 +103,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
     }
 
     public static PlaceHolderService getInstance(@NotNull Project project) {
-        return (PlaceHolderService) PlatformUI.getWorkbench().getService(IPlaceHolderService.class);
+        return project.getService(PlaceHolderService.class);
     }
 
     public List<Object> getValues(Editor editor, RangeHighlighter highlighter) {
@@ -281,6 +280,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
 
     @Override
     public void dispose() {
+		Project.getInstance().dispose();
         for (Editor editor : new HashSet<>(highlighters.keySet())) {
             dispose(editor);
         }

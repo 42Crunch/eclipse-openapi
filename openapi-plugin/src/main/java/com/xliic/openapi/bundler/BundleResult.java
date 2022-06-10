@@ -7,6 +7,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
+import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ExtRefService;
@@ -28,6 +29,7 @@ import java.util.Set;
 
 import static com.xliic.openapi.ExtRef.isExtRef;
 import static com.xliic.openapi.OpenApiBundle.message;
+import static com.xliic.openapi.OpenApiUtils.getOpenAPIVersion;
 import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
 
 public class BundleResult {
@@ -40,7 +42,8 @@ public class BundleResult {
     private final Set<URI> externalURIs = new HashSet<>();
     private Node bundleNode;
     private final Project project;
-
+    private OpenApiVersion version;
+    
     private static final ParserJsonAST parser = new ParserJsonAST();
     private static final Set<String> schemas = new HashSet<>(Arrays.asList("http://", "https://", "file:/"));
 
@@ -123,12 +126,21 @@ public class BundleResult {
             document = parser.parse(workspace.resolve(rootFileName));
             mapping = bundler.bundle(document);
             json = serializer.serialize(document);
+            version = OpenApiVersion.Unknown;
+            if (getAST() != null) {
+                version = getOpenAPIVersion(bundleNode);
+                bundleNode = null;
+            }
         }
         catch (IOException | URISyntaxException | InterruptedException | BundlingException | WorkspaceException e) {
             exception = e;
         }
     }
 
+    public boolean isOpenAPIBundle() {
+        return (version == OpenApiVersion.V2) || (version == OpenApiVersion.V3);
+    }
+    
     public String getFile() {
         return rootFileName;
     }

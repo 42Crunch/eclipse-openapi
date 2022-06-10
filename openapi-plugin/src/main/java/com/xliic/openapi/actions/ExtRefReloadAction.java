@@ -91,26 +91,31 @@ public class ExtRefReloadAction extends AnAction implements DumbAware {
     ASTService astService = ASTService.getInstance(project);
     Node root = astService.getRootNode(file);
     collectExternalRefs(root, refs, false);
-    Set<String> urls = refs.stream().map(ExtRef::refToURL).collect(Collectors.toSet());
-
     if (!refs.isEmpty()) {
       refreshInProgress = true;
+      Set<String> urls = refs.stream().map(ExtRef::refToURL).collect(Collectors.toSet());
       ExtRefService extRefService = ExtRefService.getInstance(project);
+      BundleService bundleService = BundleService.getInstance(project);
       final Task.Backgroundable task = new Task.Backgroundable(project,
               OpenApiBundle.message("openapi.ref.reload.progress.title"), false) {
-
         @Override
         public void run(@NotNull final ProgressIndicator indicator) {
           try {
+        	Set<String> hostnames = new HashSet<>();
             for (String url : urls) {
               ExtRef extRef = extRefService.get(url);
               if (extRef != null) {
                 indicator.setText("Reloading " + url);
                 extRef.refresh();
+                String hostname = extRef.getHostName();
+                if (hostname != null) {
+                	hostnames.add(hostname);	
+                }
               }
             }
-    		BundleService bundleService = BundleService.getInstance(project);
-   			bundleService.scheduleToBundle(file.getPath(), null);
+            if (!hostnames.isEmpty()) {
+            	bundleService.scheduleToBundleByHosts(hostnames);	
+            }
           }
           catch (IOException | WorkspaceException e) {
             e.printStackTrace();

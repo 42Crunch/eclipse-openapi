@@ -13,10 +13,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
@@ -70,7 +70,7 @@ public final class QuickFixService implements IQuickFixService, Disposable {
 	}
 
 	public static QuickFixService getInstance() {
-		return (QuickFixService) PlatformUI.getWorkbench().getService(IQuickFixService.class);
+		return ApplicationManager.getApplication().getService(QuickFixService.class);
 	}
 
 	@Override
@@ -162,6 +162,7 @@ public final class QuickFixService implements IQuickFixService, Disposable {
 
 	@Override
 	public void dispose() {
+		Project.getInstance().dispose();
 		quickfixes.clear();
 		for (FixSource source : fixSources.values()) {
 			source.dispose();

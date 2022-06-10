@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseUtil;
 
 public class Messages {
 
@@ -13,11 +14,11 @@ public class Messages {
 										 @NotNull String title,
 										 @Nullable Icon icon) {
 		if (icon == Icon.ERROR) {
-			MessageDialog.openError(project.getShell(), title, message);	
+			MessageDialog.openError(EclipseUtil.getShell(), title, message);	
 		} else if (icon == Icon.WARNING) {
-			MessageDialog.openWarning(project.getShell(), title, message);
+			MessageDialog.openWarning(EclipseUtil.getShell(), title, message);
 		} else if (icon == Icon.INFO) {
-			MessageDialog.openInformation(project.getShell(), title, message);
+			MessageDialog.openInformation(EclipseUtil.getShell(), title, message);
 		}
 	}
 

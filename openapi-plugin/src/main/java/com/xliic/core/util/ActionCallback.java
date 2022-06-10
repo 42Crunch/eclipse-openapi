@@ -1,4 +1,4 @@
-package com.xliic.openapi.callback;
+package com.xliic.core.util;
 
 public abstract class ActionCallback {
 

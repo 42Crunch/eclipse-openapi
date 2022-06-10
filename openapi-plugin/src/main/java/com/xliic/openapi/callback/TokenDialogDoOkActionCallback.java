@@ -3,6 +3,7 @@ package com.xliic.openapi.callback;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
+import com.xliic.core.util.ActionCallback;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.services.AuditService;
 

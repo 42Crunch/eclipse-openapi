@@ -41,23 +41,42 @@ public class OpenAPICompletionProposal implements ICompletionProposal {
 			int length = document.getLineLength(line);
 			String selectedString = document.get(lineOffset, length);
 
-			int p0, p1;			
-			if (selectedString.charAt(innerOffset - 1) == '"') {
+			int p0, p1, ix;
+			boolean doubleQuotationMarks = true;
+			char ch = selectedString.charAt(innerOffset - 1);
+			if (ch == '"' || ch == '\'') {
 				p0 = innerOffset;
 			}
 			else {
-				p0 = selectedString.lastIndexOf('"', innerOffset - 1) + 1;
+				ix = selectedString.lastIndexOf('"', innerOffset - 1);
+				if (ix == -1) {
+					ix = selectedString.lastIndexOf('\'', innerOffset - 1);
+					if (ix == -1) {
+						return;
+					}
+					doubleQuotationMarks = false;
+				}
+				p0 = ix + 1;
 			}
 			
-			if (selectedString.charAt(innerOffset) == '"') {
+			ch = selectedString.charAt(innerOffset);
+			if (ch == '"' || ch == '\'') {
 				p1 = innerOffset;
 			}
 			else {
-				p1 = selectedString.indexOf('"', innerOffset);
+				ix = selectedString.indexOf('"', innerOffset);
+				if (ix == -1) {
+					ix = selectedString.indexOf('\'', innerOffset);
+					if (ix == -1) {
+						return;
+					}
+					doubleQuotationMarks = false;
+				}
+				p1 = ix;
 			}
 			
 			if (p1 == -1) {
-				document.replace(lineOffset + p0, selectedString.length() - p0 - 1, fReplacementString + "\"");
+				document.replace(lineOffset + p0, selectedString.length() - p0 - 1, fReplacementString + (doubleQuotationMarks ? "\"" : "'"));
 			}
 			else {
 				document.replace(lineOffset + p0, p1 - p0, fReplacementString);

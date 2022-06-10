@@ -109,14 +109,6 @@
 
 	<extension point="org.eclipse.ui.services">
 	
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.DataServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IDataService"></service>
-		</serviceFactory>
-			
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ParserServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IParserService"></service>
-		</serviceFactory>
-		
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.SnippetServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.api.ISnippetService"></service>
 		</serviceFactory>

@@ -1,7 +1,5 @@
 package com.xliic.openapi.editor;
 
-import static com.xliic.openapi.OpenApiUtils.JSON_REF_PATTERN;
-import static com.xliic.openapi.OpenApiUtils.YAML_REF_PATTERN;
 import static com.xliic.openapi.OpenApiUtils.getFileType;
 import static com.xliic.openapi.OpenApiUtils.getRefTextFromPsiElement;
 
@@ -14,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.navigation.DirectNavigationProvider;
 import com.xliic.core.project.Project;
-import com.xliic.core.psi.LeafPsiElement;
 import com.xliic.core.psi.PsiElement;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
@@ -22,6 +19,7 @@ import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.ExtRefService;
@@ -38,10 +36,9 @@ public class OpenAPINavigationProvider implements DirectNavigationProvider {
 			return null;
 		}
 
-		if (!((psiElement instanceof LeafPsiElement)
-				&& (JSON_REF_PATTERN.accepts(psiElement) || YAML_REF_PATTERN.accepts(psiElement)))) {
-			return null;
-		}
+	    if (!OpenApiUtils.isPsiRef(psiElement)) {
+	        return null;
+	    }
 
 		String text = getRefTextFromPsiElement(psiElement);
 		String[] parts = text.split(REF_DELIMITER);

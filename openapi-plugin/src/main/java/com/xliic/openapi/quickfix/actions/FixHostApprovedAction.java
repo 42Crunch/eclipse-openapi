@@ -9,7 +9,8 @@ import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleHighlightingPass;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.settings.AuditKeys;
+import com.xliic.openapi.settings.SettingsKeys;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -44,7 +45,7 @@ public class FixHostApprovedAction extends IntentionAction {
         Set<String> hostnames = OpenApiUtils.getApprovedHostnames();
         if (!hostnames.contains(hostname)) {
             hostnames.add(hostname);
-            PropertiesComponent.getInstance().setValues(AuditKeys.HOSTS, ArrayUtilRt.toStringArray(hostnames));
+            PropertiesComponent.getInstance().setValues(SettingsKeys.HOSTS, ArrayUtilRt.toStringArray(hostnames));
             BundleService bundleService = BundleService.getInstance(project);
             bundleService.scheduleToBundleByHost(hostname);
         }

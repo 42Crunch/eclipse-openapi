@@ -4,9 +4,6 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-import com.xliic.openapi.report.tree.ui.ReportPanelView;
-import com.xliic.openapi.tree.ui.OpenAPITreeView;
-
 public class OpenAPIPerspectiveFactory implements IPerspectiveFactory {
 	
 	public static final String ID = "com.xliic.openapi.OpenAPIPerspectiveFactory";
@@ -37,10 +34,10 @@ public class OpenAPIPerspectiveFactory implements IPerspectiveFactory {
 		topLeft.addPlaceholder("org.eclipse.ui.views.ResourceNavigator");
 
 		IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, (float) 0.50, "topLeft");
-		bottomLeft.addView(OpenAPITreeView.ID);
+		bottomLeft.addView(ToolWindowId.OPEN_API);
 
 		IFolderLayout bottomRight = layout.createFolder("bottomRight", IPageLayout.BOTTOM, (float) 0.70, editorArea);
-		bottomRight.addView(ReportPanelView.ID);
+		bottomRight.addView(ToolWindowId.OPEN_API_REPORT);
 		
 		IFolderLayout topRight = layout.createFolder("topRight", IPageLayout.RIGHT, (float) 0.70, editorArea);
 		topRight.addView(ToolWindowId.OPEN_API_HTML_REPORT);

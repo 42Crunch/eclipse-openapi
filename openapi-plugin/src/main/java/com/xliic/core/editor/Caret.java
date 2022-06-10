@@ -33,4 +33,6 @@ public class Caret {
 	public Editor getEditor() {
 		return editor;
 	}
+	
+	public void removeSelection() {}
 }

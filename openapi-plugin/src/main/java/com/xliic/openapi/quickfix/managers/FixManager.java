@@ -11,8 +11,8 @@ import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixType;
+import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.DataService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,8 +43,7 @@ public abstract class FixManager {
     }
 
     protected OpenApiVersion getOpenApiVersion(String auditFileName, Project project) {
-        DataService dataService = DataService.getInstance(project);
-        return dataService.getFileProperty(auditFileName).getVersion();
+        return ASTService.getOpenAPIVersion(project, auditFileName);
     }
 
     protected boolean isJson(PsiFile file) {

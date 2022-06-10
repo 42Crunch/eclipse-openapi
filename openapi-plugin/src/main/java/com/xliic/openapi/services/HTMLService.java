@@ -1,16 +1,17 @@
 package com.xliic.openapi.services;
 
-import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
 import com.xliic.core.Disposable;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.project.Project;
 import com.xliic.core.util.ResourceUtil;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.api.IHTMLService;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import static com.xliic.openapi.OpenApiUtils.createPluginTempDirIfMissing;
@@ -37,7 +38,7 @@ public class HTMLService implements IHTMLService, Disposable {
     public final String THEME_LIGHT_JS;
     public final String THEME_DARK_JS;
 
-    private final JSONObject articles;
+    private final Node articles;
     private File pluginTempDir;
 
     public HTMLService() {
@@ -61,7 +62,7 @@ public class HTMLService implements IHTMLService, Disposable {
         THEME_LIGHT_JS = getResourceAsString("js", "theme_light.js");
         THEME_DARK_JS = getResourceAsString("js", "theme_dark.js");
 
-        articles = new JSONObject(removeBlankTarget(getResourceAsString("config", "articles.json")));
+        articles = OpenApiUtils.getJsonAST(removeBlankTarget(getResourceAsString("config", "articles.json")));
 
         // Create tmp images for audit report (images from jar are not rendered in JCEF)
         try {
@@ -76,7 +77,7 @@ public class HTMLService implements IHTMLService, Disposable {
     }
 
     public static HTMLService getInstance() {
-    	return (HTMLService) PlatformUI.getWorkbench().getService(IHTMLService.class);
+    	return ApplicationManager.getApplication().getService(HTMLService.class);
     }
 
     public String getLogo(boolean isDarkThemeNow) {
@@ -92,12 +93,8 @@ public class HTMLService implements IHTMLService, Disposable {
         return id.replace(".", "-").toLowerCase();
     }
 
-    public boolean containsArticleId(String id) {
-        return (id != null) && articles.toJsonMap().containsKey(issueIdToArticleId(id));
-    }
-
-    public Map<String, Object> getArticle(String id) {
-        return ((JSONObject) articles.toJsonMap().get(issueIdToArticleId(id))).toJsonMap();
+    public Node getArticle(@NotNull String id) {
+        return articles.getChild(issueIdToArticleId(id));
     }
 
     private String getResourceAsString(String basePath, String fileName) {
@@ -125,7 +122,9 @@ public class HTMLService implements IHTMLService, Disposable {
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+		Project.getInstance().dispose();
+    }
     
     private String removeBlankTarget(String text) {
     	return text.replace("target=\\\"_blank\\\"", "");

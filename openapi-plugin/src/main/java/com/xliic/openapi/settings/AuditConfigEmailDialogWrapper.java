@@ -56,7 +56,7 @@ public class AuditConfigEmailDialogWrapper extends DialogWrapper {
 		label.setText("Email:");
 		emailTextField = new Text(main, SWT.BORDER);
 		IPreferenceStore store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
-		String previousEmail = store.getString(AuditKeys.EMAIL);
+		String previousEmail = store.getString(SettingsKeys.EMAIL);
 		if (previousEmail != null && !previousEmail.isEmpty() && emailTextField != null) {
 			emailTextField.setText(previousEmail);
 			setOKActionEnabled(EMAIL_REGEX.matcher(previousEmail).find());
@@ -104,10 +104,10 @@ public class AuditConfigEmailDialogWrapper extends DialogWrapper {
 
 	private void doOKAction() {
 		IPreferenceStore store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
-		store.setValue(AuditKeys.EMAIL, emailTextField.getText());
+		store.setValue(SettingsKeys.EMAIL, emailTextField.getText());
 		EventQueue.invokeLater(() -> {
 			IAuditService auditService = PlatformUI.getWorkbench().getService(IAuditService.class);
-			auditService.sendGenerateTokenRequest(store.getString(AuditKeys.EMAIL),
+			auditService.sendGenerateTokenRequest(store.getString(SettingsKeys.EMAIL),
 					new EmailDialogDoOkActionCallback(project, file));
 		});
 	}

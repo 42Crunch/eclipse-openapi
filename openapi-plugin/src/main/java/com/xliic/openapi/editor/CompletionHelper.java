@@ -1,116 +1,80 @@
 package com.xliic.openapi.editor;
 
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.ui.PlatformUI;
-
+import com.xliic.core.codeInsight.completion.CompletionResultSet;
+import com.xliic.core.codeInsight.lookup.LookupElementBuilder;
+import com.xliic.core.editor.Editor;
+import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiTargetMapping;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.parser.tree.ParserData;
-import com.xliic.openapi.services.api.IDataService;
-import com.xliic.openapi.tree.OpenApiTreeNode;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.ASTService;
+import icons.OpenApiIcons;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 public class CompletionHelper {
 
-	private final static String NUMBER_SIGN = "#";
-	private final static String PREFIX = NUMBER_SIGN + "/";
+    private final static String NUMBER_SIGN = "#";
 
-	private static final String REF_KEY = "$ref";
-	private static final Pattern KEY_VALUE_REGEX = Pattern.compile("(.*):(.*)");
+    public static void updateResultSet(Editor editor, @NotNull CompletionResultSet resultSet) {
 
-	private static final ICompletionProposal[] EMPTY_ARRAY = new ICompletionProposal[0];
-
-	public static ICompletionProposal[] updateResultSet(ITextViewer viewer, int offset) {
-
-		IDocument doc = viewer.getDocument();
-		int line, lineOffset;
-		try {
-			line = doc.getLineOfOffset(offset);
-			lineOffset = doc.getLineOffset(line);
-			int length = doc.getLineLength(line);
-
-			String selectedString = doc.get(lineOffset, length);
-			Matcher matcher = KEY_VALUE_REGEX.matcher(selectedString);
-			boolean isKeyValuePattern = matcher.find();
-
-			if (isKeyValuePattern) {
-				String key = StringUtils.strip(matcher.group(1), "\"' ");
-				if (!REF_KEY.equals(key)) {
-					return null;
-				}
-			} else {
-				return null;
-			}
-		} catch (BadLocationException e) {
-			return EMPTY_ARRAY;
-		}
-
-		VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile();
-		if (file == null) {
-			return EMPTY_ARRAY;
-		}
-		IDataService dataService = PlatformUI.getWorkbench().getService(IDataService.class);
-		if (!dataService.hasFileProperty(file.getPath())) {
-			return EMPTY_ARRAY;
-		}
-		ParserData data = dataService.getParserData(file.getPath());
-        if (!data.isValid()) {
-        	return EMPTY_ARRAY;
+        Project project = editor.getProject();
+        if (project == null) {
+            return;
         }
-		Map<Integer, DefaultMutableTreeNode> lineToRefMap = data.getLineToRefMap();
-		if (!lineToRefMap.containsKey(line)) {
-			return EMPTY_ARRAY;
-		}
+        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        if (file == null) {
+            return;
+        }
+        ASTService astService = ASTService.getInstance(project);
+        if (!astService.isKnownOpenAPIFile(file.getPath())) {
+            return;
+        }
+        Node root = astService.getRootNode(file);
+        if (root == null) {
+            return;
+        }
+        int offset = resultSet.geOffset();
+        Node node = root.findNodeAtOffset(offset);
+        if ((node == null) || !OpenApiUtils.REF.equals(node.getKey())) {
+            return;
+        }
+        OpenApiVersion version = ASTService.getOpenAPIVersion(project, file);
+        Map<String, String> mapping = OpenApiTargetMapping.getTargetMapping(version);
+        String target = null;
+        Node parent = node.getParent();
+        while (parent != null) {
+            String key = parent.getKey();
+            target = mapping.get(key);
+            parent = parent.getParent();
+            if (target != null) {
+                break;
+            }
+        }
+        if (target == null) {
+            return;
+        }
+        Node targetNode = root.find(target);
+        if ((targetNode == null) || targetNode.getChildren().isEmpty()) {
+            return;
+        }
+        OpenApiFileType type = OpenApiUtils.getFileType(file);
+        Map<String, String> typeTextMapping = OpenApiTargetMapping.getTargetTypeTextMapping(version);
+        String typeText = typeTextMapping.get(target);
 
-		OpenApiVersion version = dataService.getFileProperty(file.getPath()).getVersion();
-		DefaultMutableTreeNode node = lineToRefMap.get(line);
-		Map<String, String> mapping = OpenApiTargetMapping.getTargetMapping(version);
-
-		String target = null;
-		DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
-		while (parent != null && target == null) {
-			OpenApiTreeNode o = (OpenApiTreeNode) parent.getUserObject();
-			if (o.isPanel()) {
-				break;
-			}
-			String key = o.getKey();
-			parent = (DefaultMutableTreeNode) parent.getParent();
-			if (mapping.containsKey(key)) {
-				target = mapping.get(key);
-			}
-		}
-		if (target == null) {
-			return EMPTY_ARRAY;
-		}
-		Map<String, DefaultMutableTreeNode> pointerToNodesMap = data.getPointerToNodesMap();
-		if (!pointerToNodesMap.containsKey(target)) {
-			return EMPTY_ARRAY;
-		}
-		node = pointerToNodesMap.get(target);
-		int count = node.getChildCount();
-		if (count == 0) {
-			return EMPTY_ARRAY;
-		}
-		ICompletionProposal[] completionProposals = new ICompletionProposal[count];
-		for (int i = 0; i < count; i++) {
-			DefaultMutableTreeNode p = (DefaultMutableTreeNode) node.getChildAt(i);
-			OpenApiTreeNode o = (OpenApiTreeNode) p.getUserObject();
-			String element = NUMBER_SIGN + o.getPointer();
-			if (element.toLowerCase().startsWith(PREFIX)) {
-				completionProposals[i] = new OpenAPICompletionProposal(element, offset, 0, element.length());
-			}
-		}
-		return completionProposals;
-	}
+        String prefix = resultSet.getPrefixMatcher().getPrefix().toLowerCase();
+        for (Node child : targetNode.getChildren()) {
+            String element = NUMBER_SIGN + child.getJsonPointer();
+            if (element.toLowerCase().startsWith(prefix)) {
+                resultSet.addElement(LookupElementBuilder.create(element).
+                        withIcon(OpenApiIcons.PropertyNode).withTypeText(typeText).
+                        withInsertHandler((type == OpenApiFileType.Json) ?
+                                new JsonInsertHandler() : new YamlInsertHandler()));
+            }
+        }
+    }
 }

@@ -26,6 +26,7 @@ public class OpenAPIImages {
 	public static final ImageDescriptor ViewQuickFix;
 	public static final ImageDescriptor ExtRef;
 	public static final ImageDescriptor Host;
+	public static final ImageDescriptor Sort;
 
 	private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
 
@@ -49,6 +50,7 @@ public class OpenAPIImages {
 		ViewQuickFix = createImageDescriptor("icons/view_quickfix.png");
 		ExtRef = createImageDescriptor("icons/extref.png");
 		Host = createImageDescriptor("icons/host.png");
+		Sort = createImageDescriptor("icons/sorted.png");
 	}
 
 	private static ImageDescriptor createImageDescriptor(String path) {

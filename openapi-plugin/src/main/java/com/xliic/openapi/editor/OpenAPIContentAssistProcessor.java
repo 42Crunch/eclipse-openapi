@@ -5,16 +5,31 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.contentassist.IContextInformationValidator;
+import org.eclipse.ui.IEditorInput;
+
+import com.xliic.core.codeInsight.completion.CompletionResultSet;
+import com.xliic.core.editor.Document;
+import com.xliic.core.editor.DocumentImpl;
+import com.xliic.core.editor.Editor;
+import com.xliic.core.fileEditor.FileDocumentManager;
+import com.xliic.core.project.Project;
 
 public class OpenAPIContentAssistProcessor implements IContentAssistProcessor {
 	
+	private final Project project;
 	private final static char [] activationCharacters = "\"#".toCharArray();
 
-	public OpenAPIContentAssistProcessor() {}
+	public OpenAPIContentAssistProcessor() {
+		project = Project.getInstance();
+	}
 
 	@Override
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {		
-		return CompletionHelper.updateResultSet(viewer, offset);
+		CompletionResultSet resultSet = new CompletionResultSet(offset);
+		Document document = new DocumentImpl(viewer.getDocument());
+		IEditorInput input = FileDocumentManager.getInstance().getEditorInput(document);
+		CompletionHelper.updateResultSet(new Editor(project, input), resultSet);		
+		return resultSet.getCompletionProposals();
 	}
 
 	@Override

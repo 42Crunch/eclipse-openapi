@@ -8,86 +8,49 @@ import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.FileEditorManagerEvent;
 import com.xliic.core.fileEditor.FileEditorManagerListener;
 import com.xliic.core.project.Project;
-import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.async.AsyncTaskType;
+import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.PlaceHolderService;
-import com.xliic.openapi.topic.FileListener;
 
-// This class is responsible to handle selection file system events and update panels accordingly
-// Do not subscribe to the events anywhere outside the class as it may lead to execution inconsistency
+import static com.xliic.openapi.OpenApiUtils.isOpenAPIFileType;
+import static com.xliic.openapi.OpenApiUtils.isTempFile;
+
 public class OpenApiFileEditorManagerListener implements FileEditorManagerListener {
 
-	private final Project project;
+    private final Project project;
+    private final PlaceHolderService placeHolderService;
+    private final ASTService astService;
 
-	public OpenApiFileEditorManagerListener(@NotNull Project project) {
-		this.project = project;
-	}
+    public OpenApiFileEditorManagerListener(@NotNull Project project) {
+        this.project = project;
+        placeHolderService = PlaceHolderService.getInstance(project);
+        astService = ASTService.getInstance(project);
+    }
 
-	// Use only to handle document listeners and bundling
-	@Override
-	public void fileOpened(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
-
-		OpenApiFileType fileType = OpenApiUtils.getFileType(file);
-		if (fileType == OpenApiFileType.Unsupported) {
-			return;
-		}
-		
-        if (OpenApiUtils.isTempFile(file)) {
-            Document document = FileDocumentManager.getInstance().getDocument(file);
-            if (document != null) {
-                document.setReadOnly(true);
+    @Override
+    public void fileOpened(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
+        if (isOpenAPIFileType(file)) {
+            if (isTempFile(file)) {
+                Document document = FileDocumentManager.getInstance().getDocument(file);
+                if (document != null) {
+                    document.setReadOnly(true);
+                }
             }
         }
-
-		Project project = source.getProject();
-		if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {
-			// File already opened in another editor(s)
-			return;
-		}
-
-		BundleService bundleService = BundleService.getInstance(project);
-		bundleService.addBundleDocumentListener(file);
-
-		// Bundle for OpenAPI file
-		DataService dataService = DataService.getInstance(project);
-		if (dataService.hasFileProperty(file.getPath())) {
-			bundleService.scheduleToBundle(file.getPath(), null);
-		}
-	}
+    }
 
     @Override
     public void selectionChanged(@NotNull FileEditorManagerEvent event) {
-        PlaceHolderService placeHolderService = PlaceHolderService.getInstance(project);
         placeHolderService.closePopup();
         if (event.getNewFile() == null) {
-            project.getMessageBus().syncPublisher(FileListener.TOPIC).handleAllFilesClosed();
-            return;
+            astService.runAsyncTask(project, AsyncTaskType.ALL_FILES_CLOSED, event.getOldFile());
         }
-        SwingUtilities.invokeLater(() -> {
-            project.getMessageBus().syncPublisher(FileListener.TOPIC).handleSelectedFile(event.getNewFile());
-        });
+        else {
+            astService.runAsyncTask(project, AsyncTaskType.SELECTION_CHANGED, event.getNewFile());
+        }
     }
 
-	// Use only to handle document listeners and bundling
-	@Override
-	public void fileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
-
-		OpenApiFileType fileType = OpenApiUtils.getFileType(file);
-		if (fileType == OpenApiFileType.Unsupported) {
-			return;
-		}
-
-		Project project = source.getProject();
-		if (FileEditorManager.getInstance(project).getAllEditors(file).length > 0) {
-			// File also opened in another editor(s)
-			return;
-		}
-
-		BundleService bundleService = BundleService.getInstance(project);
-		bundleService.removeBundleDocumentListener(file);
-	}
+    @Override
+    public void fileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {}
 }

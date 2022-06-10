@@ -13,6 +13,9 @@ import org.eclipse.ui.IWorkbench;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.openapi.FontStyler;
 import com.xliic.openapi.OpenAPIImages;
+import com.xliic.openapi.tree.node.BaseNode;
+import com.xliic.openapi.tree.node.PanelNode;
+import com.xliic.openapi.tree.node.RootNode;
 
 public class OpenAPITreeLabelProvider extends StyledCellLabelProvider 
 	implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvider {
@@ -35,18 +38,19 @@ public class OpenAPITreeLabelProvider extends StyledCellLabelProvider
     public StyledString getStyledText(Object element) {
     	
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) element;
-        OpenApiTreeNode o = (OpenApiTreeNode) node.getUserObject();
-        if (o == null) {
+        Object obj = node.getUserObject();
+        if (obj instanceof RootNode) {
             return null;
         }
+        BaseNode o = (BaseNode) obj;
         StyledString label;
-        if (o.isPanel()) {
-        	label = new StyledString(o.getKey().toUpperCase(), boldFontStyler);    
+        if (o instanceof PanelNode) {
+        	label = new StyledString(o.getName().toUpperCase(), boldFontStyler);    
         }
         else {
-        	label = new StyledString(o.getKey(), null);
+        	label = new StyledString(o.getName(), null);
         }
-        if (o.applyHint()) {
+        if (o.hasHint()) {
         	label.append(new StyledString(" [+]", counterBoldFontStyler));
         }        
         return label;
@@ -56,11 +60,11 @@ public class OpenAPITreeLabelProvider extends StyledCellLabelProvider
     public Image getImage(Object element) {
     	
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) element;
-        OpenApiTreeNode o = (OpenApiTreeNode) node.getUserObject();
-        if (o == null) {
+        Object obj = node.getUserObject();
+        if (obj instanceof RootNode) {
             return null;
         }
-        if (o.isPanel()) {
+        if (obj instanceof PanelNode) {
         	return panelNodeImage;
         }
         else {

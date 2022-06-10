@@ -16,6 +16,8 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +42,7 @@ public class JCEFReportListener {
             if (href.startsWith("file://") && href.contains("?pointer=")) {
                 Matcher matcher = FILE_WITH_LINE_URI.matcher(href);
                 if (matcher.find()) {
-                    String fileName = matcher.group(1);
+                	String fileName = URLDecoder.decode(matcher.group(1), StandardCharsets.UTF_8);
                     String pointer = matcher.group(2);
                     VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
                     if (file != null) {

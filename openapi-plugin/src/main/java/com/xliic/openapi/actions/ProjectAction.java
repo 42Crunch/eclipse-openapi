@@ -11,7 +11,8 @@ import com.xliic.core.ui.Messages;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.services.DataService;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.ASTService;
 
 import java.util.Collection;
 
@@ -34,8 +35,9 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
         if (file == null) {
             return;
         }
-        DataService dataService = DataService.getInstance(project);
-        if (!dataService.getParserData(file.getPath()).isValid()) {
+        ASTService astService = ASTService.getInstance(project);
+        Node root = astService.getRootNode(file);
+        if (root == null) {
             return;
         }
         event.getPresentation().setEnabled(update(project, file));

@@ -21,7 +21,6 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -63,16 +62,8 @@ public class HostNameTableEditor {
 	private final ColumnLayoutData[] fTableColumnLayouts = { new ColumnWeightData(33) };
 	
 	public HostNameTableEditor(Composite parent) {
-		Composite top = new Composite(parent, SWT.NONE);
-		top.setFont(parent.getFont());
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		layout.marginHeight = 2;
-		layout.marginWidth = 2;
-		top.setLayout(layout);
-		top.setLayoutData(new GridData(GridData.FILL_BOTH));
-		createTable(top);
-		createButtonGroup(top);
+		createTable(parent);
+		createButtonGroup(parent);
 		initialize();
 	}
 
@@ -163,7 +154,7 @@ public class HostNameTableEditor {
 		  final Set<HostName> changedHosts = new HashSet<>(addedHosts);
 		  changedHosts.addAll(removedHosts);
 		
-		  PropertiesComponent.getInstance().setValues(AuditKeys.HOSTS, ArrayUtilRt.toStringArray(getNames(newHosts)));
+		  PropertiesComponent.getInstance().setValues(SettingsKeys.HOSTS, ArrayUtilRt.toStringArray(getNames(newHosts)));
 		
 		  // We have app level settings, must propagate the settings to all available opened projects
 		  ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
@@ -199,17 +190,20 @@ public class HostNameTableEditor {
 		button.setText(buttonText);
 		button.setData(Integer.valueOf(buttonId));
 		button.addSelectionListener(selectionAdapter);
+		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		return button;
 	}
 
 	private void createButtonGroup(Composite top) {
 		Composite buttonGroup = new Composite(top, SWT.NONE);
-	    FillLayout layout = new FillLayout();
+	    GridLayout layout = new GridLayout();
+	    layout.numColumns = 1;
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
-		layout.type = SWT.VERTICAL;
-		buttonGroup.setLayout(layout);
-		buttonGroup.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+		buttonGroup.setLayout(layout);	
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+		gridData.widthHint = 70;
+		buttonGroup.setLayoutData(gridData);
 		buttonGroup.setFont(top.getFont());
 		createPushButton(buttonGroup, "Add Host...", ADD_BUTTON);
 		editButton = createPushButton(buttonGroup, "Edit Host...", EDIT_BUTTON);
@@ -219,20 +213,17 @@ public class HostNameTableEditor {
 	private void createTable(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER);
 		GridData data = new GridData(GridData.FILL_BOTH);
-		data.widthHint = 425;
-		data.heightHint = table.getItemHeight();
-		data.horizontalSpan = 1;
+		// Height space for 5 items and the header
+		data.heightHint = (1 + 5) * table.getItemHeight();
+		data.verticalSpan = 3;
 		table.setLayoutData(data);
 		table.setFont(parent.getFont());
-
 		TableLayout tableLayout = new TableLayout();
 		table.setLayout(tableLayout);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-
 		tableViewer = new TableViewer(table);
 		contentProvider = new HostNameContentProvider(tableViewer);
-
 		tableViewer.setContentProvider(contentProvider);
 		tableViewer.setLabelProvider(this.labelProvider);
 		tableViewer.addSelectionChangedListener(event -> tableSelectionChanged((IStructuredSelection) event.getSelection()));

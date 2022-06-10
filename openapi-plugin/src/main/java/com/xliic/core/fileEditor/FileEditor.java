@@ -7,7 +7,6 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 public class FileEditor implements TextEditor {
 
@@ -16,7 +15,7 @@ public class FileEditor implements TextEditor {
 	
 	public FileEditor(IEditorInput input) {
 		this.input = input;
-		this.project = OpenAPIAbstractUIPlugin.getInstance().getProject();
+		this.project = Project.getInstance();
 	}
 
 	@Nullable

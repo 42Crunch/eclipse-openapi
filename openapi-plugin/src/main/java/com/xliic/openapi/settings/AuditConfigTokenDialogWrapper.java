@@ -48,7 +48,7 @@ public class AuditConfigTokenDialogWrapper extends DialogWrapper {
 		setOKActionEnabled(false);
 
 		Group main = getGroup(outer);
-		tokenTextArea = new StringFieldEditor(AuditKeys.TOKEN, "Security Audit Token", WEIGTH_IN_CHARS, HEIGTH_IN_CHARS,
+		tokenTextArea = new StringFieldEditor(SettingsKeys.TOKEN, "Security Audit Token", WEIGTH_IN_CHARS, HEIGTH_IN_CHARS,
 				StringFieldEditor.VALIDATE_ON_KEY_STROKE, main) {
 			@Override
 			public void fireValueChanged(String property, Object oldValue, Object newValue) {
@@ -85,7 +85,7 @@ public class AuditConfigTokenDialogWrapper extends DialogWrapper {
 
 	private void doOKAction() {
 		IPreferenceStore store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
-		store.setValue(AuditKeys.TOKEN, getTokenText());
+		store.setValue(SettingsKeys.TOKEN, getTokenText());
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {

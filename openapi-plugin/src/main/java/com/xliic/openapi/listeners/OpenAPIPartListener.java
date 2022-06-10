@@ -22,7 +22,6 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.editor.OpenAPIEnterTypedHandler;
 import com.xliic.openapi.services.PlaceHolderService;
-import com.xliic.openapi.settings.AuditKeys;
 
 public class OpenAPIPartListener implements IPartListener {
 
@@ -34,7 +33,7 @@ public class OpenAPIPartListener implements IPartListener {
 	private final OpenApiFileEditorManagerListener listener;
 	private final OpenAPIFileEditorManagerBeforeListener beforeListener;
 	private final Map<Editor, OpenAPIEnterTypedHandler> enterTypedHandlers;
-	
+
 	public OpenAPIPartListener(@NotNull Project project) {
 		this.project = project;
 		store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
@@ -52,7 +51,7 @@ public class OpenAPIPartListener implements IPartListener {
 				Editor editor = new Editor(project, input);
 				if (!enterTypedHandlers.containsKey(editor)) {
 					enterTypedHandlers.put(editor, new OpenAPIEnterTypedHandler(editor));
-					editor.addTraverseListener(enterTypedHandlers.get(editor));									
+					editor.addTraverseListener(enterTypedHandlers.get(editor));
 				}
 				beforeListener.beforeFileOpened(FileEditorManager.getInstance(project), file);
 				listener.fileOpened(FileEditorManager.getInstance(project), file);
@@ -63,10 +62,10 @@ public class OpenAPIPartListener implements IPartListener {
 				// that's ok, we have the guard against it
 				if (forceActivation) {
 					forceActivation = false;
-					if (store.getBoolean(AuditKeys.IGNORE_SHOW_PERSPECTIVE_ONCE)) {
+					if (store.getBoolean(OpenAPIAbstractUIPlugin.IGNORE_SHOW_PERSPECTIVE_ONCE)) {
 						partActivated(part);
 					} else {
-						store.setValue(AuditKeys.IGNORE_SHOW_PERSPECTIVE_ONCE, true);
+						store.setValue(OpenAPIAbstractUIPlugin.IGNORE_SHOW_PERSPECTIVE_ONCE, true);
 						Display.getDefault().asyncExec(new Runnable() {
 							@Override
 							public void run() {
@@ -88,9 +87,10 @@ public class OpenAPIPartListener implements IPartListener {
 			prevInput = input;
 			VirtualFile file = EclipseUtil.getVirtualFile(input);
 			if (file != null) {
-				listener.selectionChanged(new FileEditorManagerEvent(file));
+				VirtualFile oldFile = EclipseUtil.getVirtualFile(prevInput);
+				listener.selectionChanged(new FileEditorManagerEvent(file, oldFile));
 			}
-		}		
+		}
 	}
 
 	@Override
@@ -99,18 +99,18 @@ public class OpenAPIPartListener implements IPartListener {
 		if (input != null) {
 			VirtualFile file = EclipseUtil.getVirtualFile(input);
 			if (file != null) {
-				Editor editor = new Editor(project, input);					
+				Editor editor = new Editor(project, input);
 		        PlaceHolderService placeHolderService = PlaceHolderService.getInstance(project);
 		        placeHolderService.dispose(editor);
 				if (enterTypedHandlers.containsKey(editor)) {
-					editor.removeTraverseListener(enterTypedHandlers.remove(editor));									
+					editor.removeTraverseListener(enterTypedHandlers.remove(editor));
 				}
 				beforeListener.beforeFileClosed(FileEditorManager.getInstance(project), file);
 				listener.fileClosed(FileEditorManager.getInstance(project), file);
 			}
 			if (EclipseUtil.getCurrentEditor() == null) {
 				prevInput = null;
-				listener.selectionChanged(new FileEditorManagerEvent(null));
+				listener.selectionChanged(new FileEditorManagerEvent(null, file));
 			}
 		}
 	}
@@ -126,13 +126,13 @@ public class OpenAPIPartListener implements IPartListener {
 		if (input != null) {
 			VirtualFile file = EclipseUtil.getVirtualFile(input);
 			if (file != null) {
-				Editor editor = new Editor(project, input);					
+				Editor editor = new Editor(project, input);
 		        PlaceHolderService placeHolderService = PlaceHolderService.getInstance(project);
 		        placeHolderService.dispose(editor);
-			}			
+			}
 		}
 	}
-	
+
 	private static IEditorInput getFileEditorInput(IWorkbenchPart part) {
 		if (part instanceof TextEditor) {
 			IEditorInput input = ((TextEditor) part).getEditorInput();

@@ -5,12 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 public class PsiDocumentManager {
 
 	private final static PsiDocumentManager psiDocumentManager = new PsiDocumentManager();
-	private final static Project project = OpenAPIAbstractUIPlugin.getInstance().getProject();
+	private final static Project project = Project.getInstance();
 
 	public static PsiDocumentManager getInstance(@NotNull Project project) {
 		return psiDocumentManager;

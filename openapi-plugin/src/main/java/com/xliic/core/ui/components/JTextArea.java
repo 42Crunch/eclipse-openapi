@@ -1,93 +1,103 @@
 package com.xliic.core.ui.components;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.Element;
 
-import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 
-import com.xliic.core.editor.event.DocumentAdapter;
-
-public class JTextArea extends StringFieldEditor {
+public class JTextArea {
 	
-	private final Composite parent;
-	private final Document document;
+	private static int UNLIMITED = -1;
 	
-	public JTextArea(String name, String labelText, int widthInChars, int heigthInChars, int strategy, Composite parent) {
-		super(name, labelText, widthInChars, heigthInChars, strategy, parent);
-		this.parent = parent;
-		document = new Document();
+	private Text textWidget;
+	
+	public JTextArea(int widthInChars, int heigthInChars, JPanel parent) {
+		Composite composite = parent.getComposite();
+		textWidget = new Text(composite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		textWidget.setFont(composite.getFont());
+		setLayout(widthInChars, heigthInChars);
+		textWidget.addDisposeListener(event -> textWidget = null);
 	}
 	
-	@Override
-	public void doLoadDefault() {
-		//reset();
-	}
-	
-	@Override
-	public void fireValueChanged(String property, Object oldValue, Object newValue) {
-		for (DocumentAdapter adapter : document.getDocumentListeners()) {
-			adapter.changedUpdate(new SimpleDocumentEvent());
-		}
-	}
+    public void setText(String t) {
+    	textWidget.setText(t);
+    }
 	
 	public String getText() {
-		return super.getStringValue();
-	}
-
-	public void setText(String text) {
-		super.setStringValue(text);
+		return textWidget.getText();
 	}
 	
     public void setEnabled(boolean enabled) {
-    	super.setEnabled(enabled, parent);
-    }
-    
-    public class Document {
-    	
-    	private final List<DocumentAdapter> adapters = new LinkedList<>();
-    	
-    	public List<DocumentAdapter> getDocumentListeners() {
-    		return adapters;
-    	}
-
-    	public void addDocumentListener(DocumentAdapter adapter) {
-    		adapters.add(adapter);
-    	}    	
+    	textWidget.setEnabled(enabled);
     }
     
     public Document getDocument() {
-    	return document;
+    	return new Document();
     }
     
-    public class SimpleDocumentEvent implements DocumentEvent {
-
-		@Override
-		public int getOffset() {
-			return 0;
+	public class Document {
+	    public void addDocumentListener(DocumentListener listener) {
+	    	textWidget.addModifyListener(new ModifyListener() {
+				@Override
+				public void modifyText(ModifyEvent e) {
+					listener.changedUpdate(new DocumentEvent() {
+						@Override
+						public int getOffset() {
+							return 0;
+						}
+						@Override
+						public int getLength() {
+							return 0;
+						}
+						@Override
+						public javax.swing.text.Document getDocument() {
+							return null;
+						}
+						@Override
+						public EventType getType() {
+							return null;
+						}
+						@Override
+						public ElementChange getChange(Element elem) {
+							return null;
+						}
+					});
+				}
+	    	});
+	    } 	
+	}
+	
+	private void setLayout(int widthInChars, int heigthInChars) {
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		if (widthInChars != UNLIMITED || heigthInChars > 1) {
+			GC gc = new GC(textWidget);
+			try {
+				if (widthInChars != UNLIMITED) {
+					Point extent = gc.textExtent("X");
+					gd.widthHint = widthInChars * extent.x;
+				} else {
+					gd.horizontalAlignment = GridData.FILL;
+					gd.grabExcessHorizontalSpace = true;
+				}
+				if (heigthInChars > 1) {
+					gd.heightHint = heigthInChars * gc.getFontMetrics().getHeight();
+				}
+			} finally {
+				gc.dispose();
+			}
+		} else {
+			gd.horizontalAlignment = GridData.FILL;
+			gd.grabExcessHorizontalSpace = true;
 		}
-
-		@Override
-		public int getLength() {
-			return 0;
-		}
-
-		@Override
-		public javax.swing.text.Document getDocument() {
-			return null;
-		}
-
-		@Override
-		public EventType getType() {
-			return null;
-		}
-
-		@Override
-		public ElementChange getChange(Element elem) {
-			return null;
-		}    	
-    }
+		gd.horizontalIndent = 10;
+		textWidget.setLayoutData(gd);
+	}
 }
