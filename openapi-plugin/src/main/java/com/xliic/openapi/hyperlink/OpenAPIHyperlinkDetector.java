@@ -16,7 +16,6 @@ import com.xliic.core.psi.LeafPsiElement;
 import com.xliic.core.psi.PsiElement;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.editor.OpenAPINavigationProvider;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
@@ -28,7 +27,7 @@ public class OpenAPIHyperlinkDetector extends AbstractHyperlinkDetector implemen
 	private final OpenAPINavigationProvider provider;
 
 	public OpenAPIHyperlinkDetector() {
-		project = OpenAPIAbstractUIPlugin.getInstance().getProject();
+		project = Project.getInstance();
 		astService = ASTService.getInstance(project);
 		provider = new OpenAPINavigationProvider();
 	}

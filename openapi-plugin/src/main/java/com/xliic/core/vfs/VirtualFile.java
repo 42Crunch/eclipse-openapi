@@ -53,7 +53,7 @@ public class VirtualFile {
 			return false;
 		return Objects.equals(path, ((VirtualFile) obj).getPath());
 	}
-	
+
 	public boolean hasProject() {
 		if (ifile != null) {
 			return true;

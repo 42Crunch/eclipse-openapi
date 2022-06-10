@@ -4,14 +4,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.internal.Workbench;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 
+@SuppressWarnings("restriction")
 public class FileEditorManager {
 
 	private final Project project;
@@ -36,7 +40,8 @@ public class FileEditorManager {
 
 	@NotNull
 	public VirtualFile[] getSelectedFiles() {
-		VirtualFile file = OpenApiUtils.getSelectedFile();
+		FileEditor editor = getSelectedEditor();
+		VirtualFile file = editor.getFile();
 		if (file == null) {
 			return new VirtualFile[0];
 		}
@@ -68,12 +73,37 @@ public class FileEditorManager {
 
 	@Nullable
 	public FileEditor getSelectedEditor() {
-		VirtualFile[] files = this.getSelectedFiles();
-		if (files.length > 0) {
-			FileEditor[] editors = getAllEditors(files[0]);
-			if (editors.length > 0) {
-				return editors[0];
+		IEditorInput input = getSelectedEditorInput();
+		if (input != null) {
+			return new FileEditor(input); 
+		}
+		return null;
+	}
+
+	@Nullable
+	public FileEditor getSelectedEditor(@NotNull VirtualFile file) {
+		FileEditor editor = getSelectedEditor();
+		if (editor.getFile().equals(file)) {
+			return editor;
+		}
+		return null;
+	}
+
+	private static IEditorInput getSelectedEditorInput() {
+		IEditorPart part = EclipseUtil.getCurrentEditor();
+		if (part == null) {
+			for (IWorkbenchWindow window : Workbench.getInstance().getWorkbenchWindows()) {
+				IWorkbenchPage page = window.getActivePage();
+				if (page != null) {
+					part = page.getActiveEditor();
+					if (part != null) {
+						break;
+					}
+				}
 			}
+		}
+		if (part != null) {
+			return part.getEditorInput();
 		}
 		return null;
 	}

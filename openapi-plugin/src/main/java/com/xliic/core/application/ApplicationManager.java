@@ -1,11 +1,12 @@
 package com.xliic.core.application;
 
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.project.Project;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.messages.MessageBus;
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 public class ApplicationManager {
 
@@ -17,7 +18,7 @@ public class ApplicationManager {
 	
 	@NotNull 
 	public MessageBus getMessageBus() {
-		return OpenAPIAbstractUIPlugin.getInstance().getProject().getMessageBus();
+		return Project.getInstance().getMessageBus();
 	}
 
 	public void invokeLater(@NotNull Runnable runnable) {
@@ -39,5 +40,16 @@ public class ApplicationManager {
 	public void executeOnPooledThread(@NotNull Runnable runnable) {
 		Thread thread = new Thread(runnable);
 		thread.start();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getService(@NotNull Class<T> serviceClass) {
+		for (Class<?> serviceInterface : serviceClass.getInterfaces()) {
+			String name = serviceInterface.getSimpleName();
+			if (name.startsWith("I") && name.endsWith("Service")) {
+				return (T) PlatformUI.getWorkbench().getService(serviceInterface);
+			}
+		}
+		return null;
 	}
 }

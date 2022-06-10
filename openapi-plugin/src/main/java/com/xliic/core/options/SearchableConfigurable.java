@@ -1,7 +1,6 @@
 package com.xliic.core.options;
 
-import org.eclipse.jface.preference.FieldEditorPreferencePage;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -10,20 +9,14 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.core.module.Module;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.components.JButton;
 import com.xliic.core.ui.components.JComponent;
 
-public abstract class SearchableConfigurable extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
-
-	protected final static int HEIGTH_IN_CHARS = 8;
-	protected final static int WEIGTH_IN_CHARS = 50;
+public abstract class SearchableConfigurable extends PreferencePage implements IWorkbenchPreferencePage {
 	
 	public SearchableConfigurable(@Nullable Module module, @NotNull Project project) {
-		super(GRID);
-		setPreferenceStore(OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore());
+		super();
 	}
 	
 	@Override
@@ -45,24 +38,11 @@ public abstract class SearchableConfigurable extends FieldEditorPreferencePage i
 	}
 	
 	protected Composite createComposite(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
-		layout.marginWidth = 0;
-		layout.marginHeight = 0;
-		composite.setLayout(layout);
-		composite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
-		return composite;
-	}
-	
-	protected static JButton createClearButton(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(4, false);
-		layout.marginHeight = layout.marginWidth = 0;
-		composite.setLayout(layout);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
-		data.horizontalSpan = 2;
-		composite.setLayoutData(data);
-		return new JButton("Clear", composite, SWT.PUSH);
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 1;
+        parent.setLayout(gridLayout);
+        parent.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+        return parent;
 	}
 	
 	public abstract String getDisplayName();

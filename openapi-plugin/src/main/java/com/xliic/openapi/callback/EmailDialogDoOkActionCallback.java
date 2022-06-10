@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
+import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;

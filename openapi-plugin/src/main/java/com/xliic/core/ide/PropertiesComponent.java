@@ -4,13 +4,14 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.util.ArrayUtilRt;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.preview.PreviewKeys;
-import com.xliic.openapi.settings.AuditKeys;
+import com.xliic.openapi.settings.SettingsKeys;
 
 public class PropertiesComponent {
 
@@ -28,40 +29,45 @@ public class PropertiesComponent {
 	public PropertiesComponent() {
 		store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
 		cache = new Hashtable<>();
-		cache.put(AuditKeys.EMAIL, store.getString(AuditKeys.EMAIL));
-		cache.put(AuditKeys.TOKEN, store.getString(AuditKeys.TOKEN));
-		cache.put(AuditKeys.HOSTS, store.getString(AuditKeys.HOSTS));
-		cache.put(PreviewKeys.PORT, store.getInt(PreviewKeys.PORT));
-		cache.put(PreviewKeys.RENDERER, store.getInt(PreviewKeys.RENDERER));
+		cache.put(SettingsKeys.EMAIL, store.getString(SettingsKeys.EMAIL));
+		cache.put(SettingsKeys.TOKEN, store.getString(SettingsKeys.TOKEN));
+		cache.put(SettingsKeys.HOSTS, store.getString(SettingsKeys.HOSTS));
+		cache.put(PreviewKeys.PORT, store.getString(PreviewKeys.PORT));
+		cache.put(PreviewKeys.RENDERER, store.getString(PreviewKeys.RENDERER));
+		cache.put(SettingsKeys.ABC_SORT, store.getString(SettingsKeys.ABC_SORT));
 	}
 	
+	// We store everything as strings to know if a property is set or not
 	public boolean isValueSet(@NotNull String name) {
 		Object value = cache.get(name);
 		if (value == null) {
 			return false;
 		} else if (value instanceof String) {
 			return !StringUtils.isEmpty((String) value);
-		} else if (value instanceof Integer) {
-			return (Integer) value != 0;
-		}
-		return true;
+		} 
+		return false;
+	}
+	
+	// Boolean
+	public boolean getBoolean(@NotNull String name) {
+		String value = getValue(name);
+		Assert.isTrue(!StringUtils.isEmpty(value));
+		return Boolean.valueOf(value);
 	}
 
-	// Integer (max positive value is not supported)
+	public void setValue(@NotNull String name, boolean value) {
+		setValue(name, Boolean.toString(value));
+	}
+
+	// Integer
 	public int getInt(@NotNull String name, int defaultValue) {
-		int value = cache.containsKey(name) ? (int) cache.get(name) : store.getInt(name);
-		if (value >= 0) {
-			value -= 1;
-		}
-		return value;
+		String value = getValue(name);
+		Assert.isTrue(!StringUtils.isEmpty(value));
+		return Integer.valueOf(value);
 	}
 
 	public void setValue(@NotNull String name, int value, int defaultValue) {
-		if (value >= 0) {
-			value += 1;
-		}
-		store.setValue(name, value);
-		cache.put(name, value);	
+		setValue(name, Integer.toString(value));
 	}
 
 	// String
@@ -79,8 +85,7 @@ public class PropertiesComponent {
 	}
 
 	public void unsetValue(@NotNull String name) {
-		store.setValue(name, StringUtils.EMPTY);
-		cache.put(name, StringUtils.EMPTY);
+		setValue(name, StringUtils.EMPTY);
 	}
 
 	// Array

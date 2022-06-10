@@ -42,10 +42,11 @@ import com.xliic.openapi.listeners.OpenAPIPartListener;
 public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartup {
 
 	public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";
+	public static final String IGNORE_SHOW_PERSPECTIVE_ONCE = "openapi.ignore.show.perspective.once1";
 	private static final String PLATFORM_MULE_PRODUCT_NAME = "Anypoint Studio";
-
+	
 	private static OpenAPIAbstractUIPlugin plugin;
-	private static Project project = new Project();
+	private static Project project = Project.getInstance();
 
 	private IPartListener partListener;
 	private OpenAPIBulkFileListener resourceListener;
@@ -101,7 +102,8 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		try {
-			dispose();
+			project.dispose();
+			highlightingManager.dispose();
 			removeListeners();
 			partListener = null;
 			resourceListener = null;
@@ -113,21 +115,12 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 		}
 	}
 
-	private void dispose() {
-		project.dispose();
-		highlightingManager.dispose();
-	}
-
 	private void removeListeners() {
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (window != null) {
 			window.getPartService().removePartListener(partListener);
 		}
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceListener);
-	}
-
-	public Project getProject() {
-		return project;
 	}
 
 	public static OpenAPIAbstractUIPlugin getInstance() {

@@ -1,7 +1,9 @@
 package com.xliic.openapi.listeners;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
@@ -17,11 +19,12 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.async.AsyncService;
+import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.DataService;
 import com.xliic.openapi.services.ExtRefService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.FileListener;
@@ -53,13 +56,22 @@ public class OpenAPIBulkFileListener extends BulkFileListener {
 
     @Override
     public void delete(@NotNull Set<VirtualFile> files) {
+    	if (project.isDisposed()) {
+    		return;
+    	}
     	Set<String> rootFileNames = new HashSet<>();
     	ExtRefService extRefService = ExtRefService.getInstance(project);
+    	Set<String> hostnames = new HashSet<>();
     	for (VirtualFile file : files) {
     		if (EclipseUtil.isExtRefFile(file)) {
             	ExtRef extRef = extRefService.getExtRef(file);
             	if (extRef != null) {
             		rootFileNames.add(extRef.getrRootFileName());
+                    String hostname = extRef.getHostName();
+                    if (hostname != null) {
+                    	hostnames.add(hostname);	
+                    }
+
             	}
     		}
     	}
@@ -73,24 +85,25 @@ public class OpenAPIBulkFileListener extends BulkFileListener {
         				project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(report);
         			});
         		}
-        		bundleService.scheduleToBundle(rootFileName, null);
+                if (!hostnames.isEmpty()) {
+                	bundleService.scheduleToBundleByHosts(hostnames);
+                }
         	}
     	}
 	}
 
     private void update(VirtualFile newFile, String oldFileName) {
 
+        Map<String, Object> asyncTaskData = new HashMap<>();
+        asyncTaskData.put(AsyncService.OLD_FILE_NAME_KEY, oldFileName);
         BundleService bundleService = BundleService.getInstance(project);
-        bundleService.handleFileNameChanged(newFile, oldFileName);
-
-        DataService dataService = DataService.getInstance(project);
-        dataService.handleFileNameChanged(newFile, oldFileName);
+        bundleService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
 
         AuditService auditService = AuditService.getInstance(project);
         auditService.handleFileNameChanged(newFile, oldFileName);
 
         ASTService astService = ASTService.getInstance(project);
-        astService.handleFileNameChanged(newFile, oldFileName);
+        astService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
 
         project.getMessageBus().syncPublisher(FileListener.TOPIC).handleFileNameChanged(newFile, oldFileName);
     }

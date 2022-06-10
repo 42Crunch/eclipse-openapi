@@ -7,7 +7,6 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 public class ProjectLocator {
 
@@ -19,6 +18,6 @@ public class ProjectLocator {
 
 	@NotNull
 	public Collection<Project> getProjectsForFile(@NotNull VirtualFile file) {
-		return file.hasProject() ? List.of(OpenAPIAbstractUIPlugin.getInstance().getProject()) : Collections.emptyList();
+		return file.hasProject() ? List.of(Project.getInstance()) : Collections.emptyList();
 	}
 }

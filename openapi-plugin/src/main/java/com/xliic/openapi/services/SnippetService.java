@@ -1,33 +1,26 @@
 package com.xliic.openapi.services;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.services.IDisposable;
-
+import com.xliic.core.Disposable;
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiPanelKeys;
 import com.xliic.openapi.services.api.ISnippetService;
 import com.xliic.openapi.snippets.Snippet;
 import com.xliic.openapi.snippets.SnippetIDs;
+import org.jetbrains.annotations.NotNull;
 
-public final class SnippetService  implements ISnippetService, IDisposable {
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-    private List<Snippet> snippets;
-    private Map<String, Snippet> snippetsMap;
-    
-    public static ISnippetService getInstance(Project project) {
-    	return (ISnippetService) PlatformUI.getWorkbench().getService(ISnippetService.class);  
-    }
+public final class SnippetService  implements ISnippetService, Disposable {
 
-    @Override
+    private final List<Snippet> snippets = new LinkedList<>();;
+    private final Map<String, Snippet> snippetsMap = new HashMap<>();
+
     public void load() {
-
-        snippets = new LinkedList<>();
 
         // Version 3
         snippets.add(new Snippet(SnippetIDs.PATH, OpenApiBundle.message("openapi.path.add")));
@@ -97,20 +90,23 @@ public final class SnippetService  implements ISnippetService, IDisposable {
         snippets.add(new Snippet(SnippetIDs.SECURITY_OAUTH2_IMPLICIT, OpenApiBundle.message("openapi.security.oauth2.add")));
         snippets.add(new Snippet(SnippetIDs.SECURITY_OAUTH2_IMPLICIT_YAML, OpenApiBundle.message("openapi.security.oauth2.add")));
 
-        snippetsMap = new HashMap<>();
         for (Snippet s : snippets) {
             snippetsMap.put(s.getId(), s);
         }
     }
-    
-    @Override
-    public Snippet get(String id) {
+
+    public Snippet get(@NotNull String id) {
         return snippetsMap.get(id);
+    }
+
+    public static SnippetService getInstance() {
+        return ApplicationManager.getApplication().getService(SnippetService.class);
     }
 
     @Override
     public void dispose() {
-        snippets = null;
-        snippetsMap = null;
+    	Project.getInstance().dispose();
+    	snippets.clear();
+        snippetsMap.clear();
     }
 }

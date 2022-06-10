@@ -1,4 +1,4 @@
-package com.xliic.core.editor.event;
+package com.xliic.core.ui;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -9,17 +9,20 @@ public abstract class DocumentAdapter implements DocumentListener {
     public DocumentAdapter() {
     }
 
+    @Override
     public void insertUpdate(@NotNull DocumentEvent e) {
-        this.textChanged(e);
+        textChanged(e);
     }
-
+    
+    @Override
     public void removeUpdate(@NotNull DocumentEvent e) {
-        this.textChanged(e);
+        textChanged(e);
     }
-
+    
+    @Override
     public void changedUpdate(@NotNull DocumentEvent e) {
-        this.textChanged(e);
+        textChanged(e);
     }
 
-    protected abstract void textChanged(@NotNull DocumentEvent var1);
+    protected abstract void textChanged(@NotNull DocumentEvent e);
 }

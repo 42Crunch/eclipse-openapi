@@ -1,14 +1,16 @@
 package com.xliic.openapi.settings;
 
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.core.editor.event.DocumentAdapter;
 import com.xliic.core.ide.PropertiesComponent;
 import com.xliic.core.module.Module;
 import com.xliic.core.options.Configurable;
 import com.xliic.core.options.SearchableConfigurable;
 import com.xliic.core.project.DefaultProjectFactory;
-import com.xliic.core.ui.IdeBorderFactory;
+import com.xliic.core.project.Project;
+import com.xliic.core.project.ProjectManager;
+import com.xliic.core.ui.DocumentAdapter;
 import com.xliic.core.ui.components.JButton;
+import com.xliic.core.ui.components.JCheckBox;
 import com.xliic.core.ui.components.JComboBox;
 import com.xliic.core.ui.components.JComponent;
 import com.xliic.core.ui.components.JPanel;
@@ -16,16 +18,23 @@ import com.xliic.core.ui.components.JTextArea;
 import com.xliic.core.ui.components.JTextField;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.services.PreviewService;
+import com.xliic.openapi.topic.SettingsListener;
+
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.event.DocumentEvent;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
+
+import javax.swing.event.DocumentEvent;
 
 import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
 import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
@@ -41,9 +50,12 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
   private JPanel previewPanel;
   private JPanel securityAuditPanel;
   private JPanel hostsPanel;
+  private JPanel sortPanel;
+  private JCheckBox sortABC;
   private boolean isTokenCleaned = false;
   private HostNameTableEditor hostsTableModelEditor;
-
+  private final List<String> keysToNotify = new LinkedList<>();;
+  
   public AuditConfigurable() {
     super(null, DefaultProjectFactory.getInstance().getDefaultProject());
   }
@@ -53,62 +65,62 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
   }
   
   @Override
-  public void createFieldEditors() {
+  protected Control createContents(Composite parent) {
 	  
-    Composite root = createComposite(getFieldEditorParent());
+	  GridLayout gridLayout = new GridLayout();
+      gridLayout.numColumns = 1;
+      parent.setLayout(gridLayout);
+      parent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-	hostsPanel = new JPanel("Approved Hostnames", root, SWT.NONE);
-	hostsPanel.setBorder(IdeBorderFactory.createTitledBorder("Approved Hostnames"));
-	hostsTableModelEditor = new HostNameTableEditor(hostsPanel.getComposite());
-		
-    previewPanel = new JPanel("Preview", root, SWT.NONE);
-		
-  	String[][] entryNamesAndValues = {{"Swagger UI", "Swagger"}, {"ReDoc", "ReDoc"}};
-	previewComboBox = new JComboBox<>(PreviewKeys.RENDERER, "Default Preview Renderer", entryNamesAndValues, previewPanel.getComposite());
-	addField(previewComboBox);
-		
-	serverPortTextField = new JTextField(PreviewKeys.PORT, "Server Port", 50, 1, StringFieldEditor.VALIDATE_ON_KEY_STROKE, previewPanel.getComposite());
-	addField(serverPortTextField);
-
-	securityAuditPanel = new JPanel("Security Audit", root, SWT.NONE);
-	tokenTextArea = new JTextArea(AuditKeys.TOKEN, "Security Audit Token", 50, 8, StringFieldEditor.VALIDATE_ON_KEY_STROKE, securityAuditPanel.getComposite());
-	addField(tokenTextArea);
+      hostsPanel = new JPanel("Approved Hostnames", parent, SWT.NONE, 2);
+      hostsTableModelEditor = new HostNameTableEditor(hostsPanel.getComposite());
 	
-	cleanButton = createClearButton(securityAuditPanel.getComposite());
+      sortPanel = new JPanel("Sort Outlines", parent, SWT.NONE, 1);
+      sortABC = new JCheckBox("Alphabetically sort contents of OpenAPI explorer outlines", sortPanel);
 
-	Dialog.applyDialogFont(getFieldEditorParent());
+      previewPanel = new JPanel("Preview", parent, SWT.NONE, 2);
+      new Label(previewPanel.getComposite(), SWT.NULL).setText("Default Preview Renderer");
+  	  previewComboBox = new JComboBox<>(previewPanel);     
+      new Label(previewPanel.getComposite(), SWT.NULL).setText("Server Port");
+      serverPortTextField = new JTextField(previewPanel);
+      
+      securityAuditPanel = new JPanel("Security Audit", parent, SWT.NONE, 3);
+      new Label(securityAuditPanel.getComposite(), SWT.NULL).setText("Security Audit Token");
+      tokenTextArea = new JTextArea(50, 8, securityAuditPanel);
+      
+      cleanButton = new JButton("Clear", SWT.PUSH, securityAuditPanel);
+      GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_BEGINNING);
+      gd.widthHint = 70;
+      cleanButton.setLayoutData(gd);
 	
-	// Init
-    previewPanel.setBorder(IdeBorderFactory.createTitledBorder(
-            OpenApiBundle.message("openapi.settings.preview.settings")));
-    securityAuditPanel.setBorder(IdeBorderFactory.createTitledBorder(
-            OpenApiBundle.message("openapi.settings.security.audit.settings")));
+      String tokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
+      tokenTextArea.setText(StringUtils.isEmpty(tokenText) ? StringUtils.EMPTY : tokenText);
+      tokenTextArea.setEnabled(true);
+      tokenTextArea.getDocument().addDocumentListener(new DocumentAdapter() {
+    	  @Override
+    	  protected void textChanged(@NotNull DocumentEvent e) {
+    		  cleanButton.setEnabled(!StringUtils.isEmpty(getTokenText()));
+    		  isTokenCleaned = false;
+    	  }
+      });
+      cleanButton.setEnabled(!StringUtils.isEmpty(tokenText));
+      cleanButton.addActionListener(e -> {
+    	  tokenTextArea.setText(StringUtils.EMPTY);
+    	  cleanButton.setEnabled(false);
+    	  isTokenCleaned = true;
+      });
 
-    String tokenText = PropertiesComponent.getInstance().getValue(AuditKeys.TOKEN);
-    tokenTextArea.setText(StringUtils.isEmpty(tokenText) ? StringUtils.EMPTY : tokenText);
-    tokenTextArea.setEnabled(true);
-    tokenTextArea.getDocument().addDocumentListener(new DocumentAdapter() {
-      @Override
-      protected void textChanged(@NotNull DocumentEvent e) {
-        cleanButton.setEnabled(!StringUtils.isEmpty(getTokenText()));
-        isTokenCleaned = false;
-      }
-    });
-    cleanButton.setEnabled(!StringUtils.isEmpty(tokenText));
-    cleanButton.addActionListener(e -> {
-      tokenTextArea.setText(StringUtils.EMPTY);
-      cleanButton.setEnabled(false);
-      isTokenCleaned = true;
-    });
+      previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.0.settings"), 0);
+      previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.1.settings"), 1);
 
-    previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.0.settings"), 0);
-    previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.1.settings"), 1);
+      int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
+      previewComboBox.setSelectedIndex(rendererIndex);
 
-    int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
-    previewComboBox.setSelectedIndex(rendererIndex);
-
-    int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
-    serverPortTextField.setText(String.valueOf(port));
+      int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
+      serverPortTextField.setText(String.valueOf(port));
+    
+      sortABC.setSelected(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
+      return parent;
   }
 
   private String getTokenText() {
@@ -137,13 +149,15 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     if (isTokenCleaned) {
       return true;
     }
-    
     if (hostsTableModelEditor.isDirty()) {
         return true;
     }
-
+    if (isSortABCModified()) {
+        return true;
+    }
+    
     String configuredTokenText = getTokenText();
-    String currentTokenText = PropertiesComponent.getInstance().getValue(AuditKeys.TOKEN);
+    String currentTokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
     if (!Objects.equals(configuredTokenText, currentTokenText)) {
       return true;
     }
@@ -171,23 +185,24 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
   @Override
   public void reset() {
     PropertiesComponent pc = PropertiesComponent.getInstance();
-    tokenTextArea.setText(pc.getValue(AuditKeys.TOKEN));
+    tokenTextArea.setText(pc.getValue(SettingsKeys.TOKEN));
     previewComboBox.setSelectedIndex(pc.getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX));
     serverPortTextField.setText(String.valueOf(pc.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT)));
     hostsTableModelEditor.reset();
+    sortABC.setSelected(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
   }
 
   @Override
   public void apply() {
 
     if (isTokenCleaned) {
-      PropertiesComponent.getInstance().unsetValue(AuditKeys.TOKEN);
+      PropertiesComponent.getInstance().unsetValue(SettingsKeys.TOKEN);
     }
     else {
       String configuredTokenText = getTokenText();
-      String tokenText = PropertiesComponent.getInstance().getValue(AuditKeys.TOKEN);
+      String tokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
       if (!Objects.equals(configuredTokenText, tokenText)) {
-        PropertiesComponent.getInstance().setValue(AuditKeys.TOKEN, configuredTokenText);
+        PropertiesComponent.getInstance().setValue(SettingsKeys.TOKEN, configuredTokenText);
       }
     }
 
@@ -208,6 +223,35 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     catch(NumberFormatException ignored) {
     }
     hostsTableModelEditor.applyChanges();
+    if (isSortABCModified()) {
+        PropertiesComponent.getInstance().setValue(SettingsKeys.ABC_SORT, sortABC.isSelected());
+        notify(SettingsKeys.ABC_SORT);
+    }
+    sendPropertiesUpdatedEvent();
+  }
+  
+  private boolean isSortABCModified() {
+      boolean configuredSortABC = PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT);
+      return configuredSortABC != sortABC.isSelected();
+  }
+  
+  private void notify(String key) {
+      keysToNotify.add(key);
+  }
+  
+  private void sendPropertiesUpdatedEvent() {
+      ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
+      if (projectManager != null) {
+          Project[] projects = projectManager.getOpenProjects();
+          for (String key : keysToNotify) {
+              for (Project project : projects) {
+                  if (!project.isDisposed()) {
+                      project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(key);
+                  }
+              }
+          }
+          keysToNotify.clear();
+      }
   }
 
   @NotNull

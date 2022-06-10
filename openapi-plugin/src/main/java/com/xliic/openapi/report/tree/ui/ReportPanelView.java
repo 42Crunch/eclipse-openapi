@@ -35,7 +35,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
+import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.tree.ReportFileObject;
@@ -59,8 +59,6 @@ import com.xliic.openapi.topic.WindowListener;
 
 public class ReportPanelView extends ViewPart 
 	implements FileListener, WindowListener, AuditListener, Disposable {
-
-	public static final String ID = "com.xliic.openapi.report.tree.ui.ReportPanelView";
 
 	@Inject
 	IWorkbench workbench;
@@ -86,7 +84,7 @@ public class ReportPanelView extends ViewPart
 	private FilterState filterState;
 	
 	public ReportPanelView() {
-		project = OpenAPIAbstractUIPlugin.getInstance().getProject();	
+		project = Project.getInstance();	
 	}
 
 	@Override
@@ -96,7 +94,6 @@ public class ReportPanelView extends ViewPart
 		contentProvider = new ReportTreeContentProvider(this);
 		viewer.setContentProvider(contentProvider);
 		viewer.setInput(new DefaultMutableTreeNode());
-		Project project = OpenAPIAbstractUIPlugin.getInstance().getProject();
 		labelProvider = new DecoratingStyledCellLabelProvider(
 				new ReportTreeLabelProvider(project, workbench, contentProvider),
 				workbench.getDecoratorManager().getLabelDecorator(), DecorationContext.DEFAULT_CONTEXT);
@@ -116,7 +113,7 @@ public class ReportPanelView extends ViewPart
 	    // Panel may be created lazily
 	    AuditService auditService = AuditService.getInstance(project);
 	    for (VirtualFile file : FileEditorManager.getInstance(project).getOpenFiles()) {
-	      if (auditService.hasAuditReport(file.getPath())) {
+	      if (auditService.getAuditReport(file.getPath()) != null) {
 	        handleAuditReportReady(file);
 	      }
 	    }
@@ -156,7 +153,7 @@ public class ReportPanelView extends ViewPart
 	}
 
 	public Project getProject() {
-		return OpenAPIAbstractUIPlugin.getInstance().getProject();
+		return project;
 	}
 
 	@Override
@@ -194,12 +191,11 @@ public class ReportPanelView extends ViewPart
 
 	@Override
 	public void handleClosedFile(VirtualFile file) {
-		AuditService auditService = AuditService.getInstance(project);
-		if (!auditService.hasAuditReport(file.getPath())) {
-			return;
-		}
-		Audit auditReport = auditService.getAuditReport(file.getPath());
-		removeIssues(auditReport.getIssues());
+	    AuditService auditService = AuditService.getInstance(project);
+	    Audit auditReport = auditService.getAuditReport(file.getPath());
+	    if (auditReport != null) {
+	      removeIssues(auditReport.getIssues());
+	    }
 		currentFiles.remove(file);
 	}
 
@@ -351,14 +347,14 @@ public class ReportPanelView extends ViewPart
 		boolean hide = true;
 		AuditService auditService = AuditService.getInstance(project);
 		for (VirtualFile file : currentFiles) {
-			if (auditService.hasAuditReport(file.getPath())) {
+			if (auditService.getAuditReport(file.getPath()) != null) {
 				Audit data = auditService.getAuditReport(file.getPath());
 				addIssues(data.getIssues());
 				hide = false;
 			}
 		}
 		if (hide) {
-			EclipseWorkbenchUtil.hideView(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
+			EclipseWorkbenchUtil.hideView(ToolWindowId.OPEN_API_REPORT, null, IWorkbenchPage.VIEW_ACTIVATE);
 		}
 	}
 

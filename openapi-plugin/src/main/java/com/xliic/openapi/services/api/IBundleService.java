@@ -5,29 +5,24 @@ import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleError;
 import com.xliic.openapi.bundler.BundleResult;
 
 public interface IBundleService {
 
-	public boolean isFileBeingBundled(@NotNull String fileName);
+    public boolean isPartOfBundleWithExtRefs(@NotNull String fileName);
 
-	public void scheduleToBundle(@NotNull String rootFileName, String changedFileName);
+    public boolean isFileBeingBundled(@NotNull String fileName);
 
-	public boolean hasBundles();
+    public void scheduleToBundleByHost(@NotNull String hostname);
 
-	public void scheduleToRemoveBundle(@NotNull String rootFileName);
+    public void scheduleToBundleByHosts(@NotNull Set<String> hostnames);
 
-	public BundleResult getBundle(@NotNull String rootFileName);
+    public boolean hasBundles();
 
-	public Map<String, Set<BundleError>> getBundleErrorsMap();
+    public BundleResult getBundle(@NotNull String rootFileName);
 
-	public void addBundleDocumentListener(@NotNull VirtualFile file);
+    public Map<String, Set<BundleError>> getBundleErrorsMap();
 
-	public void removeBundleDocumentListener(@NotNull VirtualFile file);
-
-	public void notifyOfErrors(@NotNull String rootFileName);
-
-	public void handleFileNameChanged(VirtualFile newFile, String oldFileName);
+    public void notifyOfErrors(@NotNull String rootFileName);
 }

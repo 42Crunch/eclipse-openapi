@@ -21,7 +21,7 @@ public class EditorMouseListener implements MouseListener {
     public void mouseDown(MouseEvent e) {
 		Editor myEditor = null;
 		StyledText text = (StyledText) e.widget;
-        Editor[] editors = EditorFactory.getInstance().getEditors(new Project());
+        Editor[] editors = EditorFactory.getInstance().getEditors(Project.getInstance());
         for (Editor editor : editors) {
             if (Objects.equals(editor.getStyledText(), text)) {
             	myEditor = editor;

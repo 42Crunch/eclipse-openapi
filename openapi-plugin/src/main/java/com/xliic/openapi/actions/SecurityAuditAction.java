@@ -14,7 +14,7 @@ import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.AuditConfigEmailDialogWrapper;
-import com.xliic.openapi.settings.AuditKeys;
+import com.xliic.openapi.settings.SettingsKeys;
 
 public class SecurityAuditAction extends ProjectAction {
 
@@ -40,7 +40,7 @@ public class SecurityAuditAction extends ProjectAction {
             bundleService.notifyOfErrors(rootFileName);
             return;
         }
-        String token = PropertiesComponent.getInstance().getValue(AuditKeys.TOKEN);
+        String token = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
         if (StringUtils.isEmpty(token)) {
             new AuditConfigEmailDialogWrapper(project, file).showAndGet();
         }

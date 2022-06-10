@@ -1,25 +1,27 @@
 package com.xliic.core.project;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.core.util.EclipseWorkbenchUtil;
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.util.messages.MessageBus;
 
 public class Project {
+	
+	private static final Project INSTANCE = new Project();
 
-	private volatile boolean isDisposed;
-	private MessageBus messageBus;
+	private volatile boolean disposed = false;
+	private MessageBus messageBus = null;
 
-	public Project() {
-		this.isDisposed = false;
-		this.messageBus = null;
+	private Project() {}
+
+	public static synchronized Project getInstance() {
+		return INSTANCE;
 	}
-
+		
 	@Nullable
 	public String getBasePath() {
 		return "";
@@ -29,16 +31,14 @@ public class Project {
 		return String.valueOf(this.hashCode());
 	}
 
-	public Shell getShell() {
-		return EclipseWorkbenchUtil.getIWorkbenchWindow().getShell();
-	}
-
 	public boolean isDisposed() {
-		return isDisposed;
+		return disposed;
 	}
 
 	public void dispose() {
-		isDisposed = true;
+		if (!disposed) {
+			disposed = true;	
+		}
 	}
 	
 	@NotNull 
@@ -48,5 +48,9 @@ public class Project {
 			messageBus = new MessageBus(workbench.getService(IEventBroker.class));			
 		}
 		return messageBus;
+	}
+	
+	public <T> T getService(@NotNull Class<T> serviceClass) {
+		return ApplicationManager.getApplication().getService(serviceClass);
 	}
 }

@@ -26,11 +26,11 @@ public class WriteCommandAction {
         }
     }
 
-	public static void runWriteCommandAction(Project project, @NotNull Runnable runnable) {
+	public static void runWriteCommandAction(@NotNull Project project, @NotNull Runnable runnable) {
 		Display.getDefault().asyncExec(runnable);
 	}
 	
-	public static <T> T runWriteCommandAction(Project project, @NotNull final Computable<T> computable) {
+	public static <T> T runWriteCommandAction(@NotNull Project project, @NotNull final Computable<T> computable) {
 		return computable.get();
 	}
 	

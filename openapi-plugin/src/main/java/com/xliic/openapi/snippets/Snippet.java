@@ -1,10 +1,11 @@
 package com.xliic.openapi.snippets;
 
+import com.xliic.core.util.ResourceUtil;
+import com.xliic.openapi.OpenApiPanelKeys;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -14,14 +15,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
-import com.xliic.openapi.OpenApiPanelKeys;
-
 public class Snippet {
 
     private static final String PADDING_CHAR = " ";
-    private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
-    
+    private static final String BASE_PATH = "snippets";
+
     private final static Pattern ARGUMENT = Pattern.compile("\\$\\{\\d+}");
     private final static Pattern ARGUMENT_PLACEHOLDER = Pattern.compile("\\$\\{\\d+:([^}]*)}");
     private final static Pattern ARGUMENT_LIST = Pattern.compile("\\$\\{(\\d+)\\|(.*)\\|}");
@@ -54,22 +52,16 @@ public class Snippet {
         defaultArgumentToIndexMap = new LinkedHashMap<>();
         lineToArgumentMap = new LinkedHashMap<>();
         startsWithTab = false;
-        
-		try {
-			URL url = new URL(BASE_URL, "resources/snippets/" + id);		
-	        InputStream inputStream = getClass().getResourceAsStream(url.getFile());
-	        Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
-	        stream.forEach(this::process);
 
-	        int index = 0;
-	        for (Map.Entry<String, String> entry : defaultArgumentToValueMap.entrySet()) {
-	            defaultArgumentToIndexMap.put(entry.getKey(), index);
-	            index++;
-	        }
-		} 
-		catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+        InputStream inputStream = ResourceUtil.getResourceAsStream(getClass().getClassLoader(), BASE_PATH, id);
+        Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
+        stream.forEach(this::process);
+
+        int index = 0;
+        for (Map.Entry<String, String> entry : defaultArgumentToValueMap.entrySet()) {
+            defaultArgumentToIndexMap.put(entry.getKey(), index);
+            index++;
+        }
     }
 
     public String getId() {
@@ -142,14 +134,10 @@ public class Snippet {
             }
             if (layout.isComma()) {
                 int index = strCode.length() - 1;
-                strCode.replace(index, index + 1, ",\n");
+                strCode.replace(index, index + 1,",\n");
             }
         }
-        String result = strCode.toString();
-        if (layout.isCrLfEol()) {
-        	result = result.replaceAll("\n", "\r\n");
-        }
-        return result;
+        return strCode.toString();
     }
 
     private List<String> getCodeWithFinalValues(Map<Integer, String> indexToValueMap) {

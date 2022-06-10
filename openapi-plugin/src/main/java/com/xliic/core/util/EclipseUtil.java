@@ -24,6 +24,7 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -51,8 +52,13 @@ public class EclipseUtil {
 	
 	private EclipseUtil() {}
 	
+	public static Shell getShell() {
+		return EclipseWorkbenchUtil.getIWorkbenchWindow().getShell();
+	}
+	
 	public static Range getSelectionRange(@NotNull Node target) {
-        return target.isObject() ? target.getKeyRange() : target.getRange();
+		Range range = target.getKeyRange();
+		return range != null ? range : target.getRange();
 	}
 
 	public static boolean isExtRefFile(@NotNull VirtualFile file) {

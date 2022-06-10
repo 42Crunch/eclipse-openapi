@@ -144,8 +144,11 @@ public class JCEFReportPanel extends JBCefBrowser
   public void handleClosedFile(VirtualFile file) {
     AuditService auditService = AuditService.getInstance(project);
     VirtualFile selectedFile = OpenApiUtils.getSelectedOpenAPIFile(project);
-    if (selectedFile != null && auditService.hasAuditReport(selectedFile.getPath())) {
-      update(auditService.getAuditReport(selectedFile.getPath()));
+    if (selectedFile != null) {
+      Audit audit = auditService.getAuditReport(selectedFile.getPath());
+      if (audit != null) {
+        update(audit);
+      }
     }
     else {
       reportNotAvailable();
@@ -186,11 +189,11 @@ public class JCEFReportPanel extends JBCefBrowser
   @Override
   public void handleSelectedFile(VirtualFile file) {
     AuditService auditService = AuditService.getInstance(project);
-    if (auditService.hasAuditReport(file.getPath())) {
-      update(auditService.getAuditReport(file.getPath()));
-      return;
+    Audit audit = auditService.getAuditReport(file.getPath());
+    if (audit != null) {
+      update(audit);
     }
-    if (auditService.isNotAuditParticipantFile(file.getPath())) {
+    else if (auditService.isNotAuditParticipantFile(file.getPath())) {
       reportNotAvailable();
     }
   }

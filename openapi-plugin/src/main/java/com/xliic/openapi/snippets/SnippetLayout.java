@@ -10,17 +10,15 @@ public class SnippetLayout {
     private String panel;
     private boolean comma;
     private Map<Integer, String> indexToValueMap;
-    private boolean crLfEol;
 
     public SnippetLayout(int padding, int paddingFromParent, boolean containerExists,
-                         String panel, boolean comma, Map<Integer, String> indexToValueMap, boolean crLfEol) {
+                         String panel, boolean comma, Map<Integer, String> indexToValueMap) {
         this.padding = padding;
         this.paddingFromParent = paddingFromParent;
         this.containerExists = containerExists;
         this.panel = panel;
         this.comma = comma;
         this.indexToValueMap = indexToValueMap;
-        this.crLfEol = crLfEol;
     }
 
     public int getPadding() {
@@ -69,9 +67,5 @@ public class SnippetLayout {
 
     public void setIndexToValueMap(Map<Integer, String> indexToValueMap) {
         this.indexToValueMap = indexToValueMap;
-    }
-    
-    public boolean isCrLfEol() {
-        return crLfEol;
     }
 }

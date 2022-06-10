@@ -1,50 +1,33 @@
 package com.xliic.core.ui.components;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.jface.preference.ComboFieldEditor;
-import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 
-public class JComboBox<T> extends ComboFieldEditor {
+public class JComboBox<T> {
 	
-	private String value;
-	private final Map<String, Integer> indexes = new HashMap<>();
-	private final JComboBoxPreferenceStore store = new JComboBoxPreferenceStore();
+	private Combo comboWidget;
 	
-	public JComboBox(String name, String labelText, String[][] entryNamesAndValues, Composite parent) {
-		super(name, labelText, entryNamesAndValues, parent);
-		indexes.put("Swagger", 0);
-		indexes.put("ReDoc", 1);
-	}
-	
-	@Override
-	public void valueChanged(String oldValue, String newValue) {
-		super.valueChanged(oldValue, newValue);
-		value = newValue;
+	public JComboBox(JPanel parent) {
+		Composite composite = parent.getComposite();
+		comboWidget = new Combo(composite, SWT.READ_ONLY);
+		comboWidget.setFont(composite.getFont());
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalIndent = 10;
+		comboWidget.setLayoutData(gd);
+		comboWidget.addDisposeListener(event -> comboWidget = null);
 	}
 
     public int getSelectedIndex() {
-    	return indexes.get(value);
+    	return comboWidget.getSelectionIndex();
     }
-    
-    public void setSelectedIndex(int index) {
-    	for (Map.Entry<String, Integer> entry : indexes.entrySet()) {
-    		if (entry.getValue().equals(index)) {
-            	store.setSelectedComboBoxValue(entry.getKey());
-        		doLoad();
-        		doLoadDefault();
-        		break;
-    		}
-    	}
-    }  
-    
-    public void insertItemAt(T item, int index) {}
-    
-    @Override
-	public IPreferenceStore getPreferenceStore() {
-		return store;
-	}
 
+    public void setSelectedIndex(int index) {
+    	comboWidget.select(index);
+    }  
+
+    public void insertItemAt(T item, int index) {
+    	comboWidget.add((String) item, index);
+    }
 }

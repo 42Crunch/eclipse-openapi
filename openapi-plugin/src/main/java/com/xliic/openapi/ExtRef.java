@@ -4,6 +4,7 @@ import okhttp3.*;
 
 import org.eclipse.core.resources.IProject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.common.ContentType;
 import com.xliic.common.WorkspaceException;
@@ -21,8 +22,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +65,16 @@ public class ExtRef {
         this.rootFileName = rootFileName;
         file = null;
         refresh();
+    }
+    
+    @Nullable
+    public String getHostName() {
+        try {
+        	return url.toURI().getAuthority();
+        }
+        catch (URISyntaxException e) {
+        }
+        return null;
     }
 
     public static boolean isExtRef(URI uri) {
@@ -109,7 +122,7 @@ public class ExtRef {
     }
 
     public void dispose() {
-        if ((file != null) && !project.isDisposed()) {
+        if (file != null) {
             WriteCommandAction.writeCommandAction(project).run(() -> {
     			IProject project = EclipseUtil.getProject(file.getPath());
                 try {
@@ -196,5 +209,17 @@ public class ExtRef {
             return ref.split(REF_DELIMITER)[0];
         }
         return ref;
+    }
+    
+    private static File createProjectTempDirIfMissing(String path) throws IOException {
+    	IProject project = EclipseUtil.getProject(path);
+    	if (project != null) {
+    		String projectPath = new File(project.getLocationURI()).getAbsolutePath();
+    		String tempProjectPath = new File(Paths.get(projectPath, PROJECT_TMP_DIR).toUri()).getAbsolutePath();
+    		File file = VfsUtil.createDirectoryIfMissing(tempProjectPath).getFile();
+    		EclipseUtil.refreshProject(project);
+    		return file;
+    	}
+    	return null;
     }
 }

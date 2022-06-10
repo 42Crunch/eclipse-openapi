@@ -11,9 +11,9 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.api.IExtRefService;
-import com.xliic.openapi.settings.AuditKeys;
+import com.xliic.openapi.settings.SettingsKeys;
+
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,7 +39,7 @@ public class ExtRefService implements IExtRefService, Disposable {
     }
 
     public static ExtRefService getInstance(@NotNull Project project) {
-        return (ExtRefService) PlatformUI.getWorkbench().getService(IExtRefService.class);
+        return project.getService(ExtRefService.class);
     }
 
     @Nullable
@@ -111,7 +111,7 @@ public class ExtRefService implements IExtRefService, Disposable {
     }
 
     public boolean isSafe(String hostname) {
-        String [] hosts = PropertiesComponent.getInstance().getValues(AuditKeys.HOSTS);
+        String [] hosts = PropertiesComponent.getInstance().getValues(SettingsKeys.HOSTS);
         if (hosts == null) {
             return false;
         }
@@ -125,6 +125,7 @@ public class ExtRefService implements IExtRefService, Disposable {
 
     @Override
     public void dispose() {
+    	project.dispose();
         for (ExtRef extRef : cache.values()) {
             extRef.dispose();
         }

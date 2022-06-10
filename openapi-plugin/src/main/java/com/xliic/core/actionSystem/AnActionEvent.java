@@ -13,7 +13,6 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 public class AnActionEvent {
 
@@ -28,7 +27,7 @@ public class AnActionEvent {
 	}
 
 	public Project getProject() {
-		return OpenAPIAbstractUIPlugin.getInstance().getProject();
+		return Project.getInstance();
 	}
 
 	public AnActionEvent getPresentation() {

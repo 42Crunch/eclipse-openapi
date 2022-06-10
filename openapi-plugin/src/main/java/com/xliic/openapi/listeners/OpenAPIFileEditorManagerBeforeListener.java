@@ -2,24 +2,20 @@ package com.xliic.openapi.listeners;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.editor.Document;
-import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.FileEditorManagerListener;
 import com.xliic.core.fileEditor.TextEditor;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.FileProperty;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.OpenApiVersion;
+import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.DataService;
 import com.xliic.openapi.services.PlaceHolderService;
 
 import static com.xliic.core.util.ObjectUtils.tryCast;
+import static com.xliic.openapi.OpenApiUtils.getFileType;
 
 // This class is responsible to handle open/close file system events, update data service and panels
 // Do not subscribe to the events anywhere outside the class as it may lead to execution inconsistency
@@ -29,58 +25,38 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
 	// so we have to use before events as they always come first
 	@Override
 	public void beforeFileOpened(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
+        if (getFileType(file) == OpenApiFileType.Unsupported) {
+            return;
+        }
+        final Project project = source.getProject();
+        if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {
+            // File already opened in another editor(s)
+            return;
+        }
+        ASTService astService = ASTService.getInstance(project);
+        astService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_OPENED, file);
 
-		OpenApiFileType fileType = OpenApiUtils.getFileType(file);
-		if (fileType == OpenApiFileType.Unsupported) {
-			return;
-		}
-
-		Project project = source.getProject();
-		if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {
-			// File already opened in another editor(s)
-			return;
-		}
-
-		OpenApiVersion version = OpenApiUtils.getOpenAPIVersion(project, file);
-		if (version == OpenApiVersion.Unknown) {
-			return;
-		}
-		Document document = FileDocumentManager.getInstance().getDocument(file);
-		if (document != null) {
-			DataService dataService = DataService.getInstance(project);
-			dataService.setFileProperty(file.getPath(), new FileProperty(fileType, version));
-			ASTService astService = ASTService.getInstance(project);
-			astService.addASTDocumentListener(file);
-			astService.parse(document);
-		}
+        BundleService bundleService = BundleService.getInstance(project);
+        bundleService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_OPENED, file);
 	}
 
 	@Override
 	public void beforeFileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
+        if (getFileType(file) == OpenApiFileType.Unsupported) {
+            return;
+        }
+        final Project project = source.getProject();
+        if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {
+            // File also opened in another editor(s)
+            return;
+        }
 
-		OpenApiFileType fileType = OpenApiUtils.getFileType(file);
-		if (fileType == OpenApiFileType.Unsupported) {
-			return;
-		}
+        ASTService astService = ASTService.getInstance(project);
+        astService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_CLOSED, file);
 
-		Project project = source.getProject();
-		if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {
-			// File also opened in another editor(s)
-			return;
-		}
+        BundleService bundleService = BundleService.getInstance(project);
+        bundleService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_CLOSED, file);
 
-		DataService dataService = DataService.getInstance(project);
-		if (!dataService.hasFileProperty(file.getPath())) {
-			return;
-		}
-
-		ASTService astService = ASTService.getInstance(project);
-		astService.removeASTDocumentListener(file);
-		astService.scheduleToRemove(file);
-
-		BundleService bundleService = BundleService.getInstance(project);
-		bundleService.scheduleToRemoveBundle(file.getPath());
-		
         FileEditor[] fileEditors = FileEditorManager.getInstance(project).getAllEditors(file);
         if (fileEditors.length > 0) {
             TextEditor textEditor = tryCast(fileEditors[0], TextEditor.class);
@@ -89,5 +65,5 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
                 placeHolderService.dispose(textEditor.getEditor());
             }
         }
-	}
+    }
 }

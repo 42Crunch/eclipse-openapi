@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.xliic.openapi</groupId>
     <artifactId>openapi-parent</artifactId>
-    <version>1.0.30</version>
+    <version>1.0.31</version>
   </parent>
   
   <artifactId>openapi-plugin</artifactId>
@@ -16,7 +16,7 @@
     <maven.compiler.target>11</maven.compiler.target>
     <javax.validation.version>2.0.1.Final</javax.validation.version>
     <commons.lang.version>2.6</commons.lang.version>
-    <json.java.version>1.1</json.java.version>
+    <commons.io.version>2.11.0</commons.io.version>
     <kotlin.stdlib.version>1.4.0</kotlin.stdlib.version>
     <annotations.version>13.0</annotations.version>
     <okhttp.version>4.7.2</okhttp.version>
@@ -109,9 +109,9 @@
             </artifactItem>
             
             <artifactItem>
-		      <groupId>com.xliic</groupId>
-		      <artifactId>json-java</artifactId>
-		      <version>${json.java.version}</version>
+		      <groupId>commons-io</groupId>
+		      <artifactId>commons-io</artifactId>
+		      <version>${commons.io.version}</version>
               <type>jar</type>
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>

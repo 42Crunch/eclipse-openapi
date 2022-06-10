@@ -1,7 +1,5 @@
 package com.xliic.openapi;
 
-import static com.xliic.openapi.parser.pointer.LocationUtils.pointer;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +15,7 @@ public class OpenApiPanelKeys {
     public final static String RESPONSES = "responses";
     public final static String DEFINITIONS = "definitions";
     public final static String SECURITY_DEFINITIONS = "securityDefinitions";
+    public final static String OPERATION_ID = "operation id";
 
     // Keys
     public final static String INFO = "info";
@@ -31,20 +30,21 @@ public class OpenApiPanelKeys {
     public final static String NAME_KEY = "name";
     public final static String OPENAPI_KEY = "openapi";
     public final static String SWAGGER_KEY = "swagger";
+    public final static String OPERATION_ID_KEY = "operationId";
 
     // Pointers
-    public final static String INFO_POINTER = pointer(INFO);
-    public final static String HOST_POINTER = pointer(HOST);
-    public final static String BASE_PATH_POINTER = pointer(BASE_PATH);
-    public final static String GENERAL_POINTER = pointer(GENERAL);
+    public final static String INFO_POINTER = OpenApiUtils.pointer(INFO);
+    public final static String HOST_POINTER = OpenApiUtils.pointer(HOST);
+    public final static String BASE_PATH_POINTER = OpenApiUtils.pointer(BASE_PATH);
 
-    public final static String OPENAPI_POINTER = pointer("openapi");
-    public final static String SWAGGER_POINTER = pointer("swagger");
+    public final static String OPENAPI_POINTER = OpenApiUtils.pointer("openapi");
+    public final static String SWAGGER_POINTER = OpenApiUtils.pointer("swagger");
 
     public final static List<String> V3_PANEL_KEYS =
             Arrays.asList(
                     GENERAL,
                     PATHS,
+                    OPERATION_ID,
                     SERVERS,
                     COMPONENTS,
                     SECURITY
@@ -54,6 +54,7 @@ public class OpenApiPanelKeys {
             Arrays.asList(
                     GENERAL,
                     PATHS,
+                    OPERATION_ID,
                     PARAMETERS,
                     RESPONSES,
                     DEFINITIONS,

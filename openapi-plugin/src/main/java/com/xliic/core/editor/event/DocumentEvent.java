@@ -8,7 +8,6 @@ import com.xliic.core.editor.DocumentImpl;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.editor.EditorFactory;
 import com.xliic.core.project.Project;
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 import org.eclipse.jface.text.IDocument;
 
@@ -19,7 +18,7 @@ public class DocumentEvent {
 
 	public DocumentEvent(IDocument document) {
 		this.document = document;
-		this.project = OpenAPIAbstractUIPlugin.getInstance().getProject();
+		this.project = Project.getInstance();
 	}
 
     @NotNull

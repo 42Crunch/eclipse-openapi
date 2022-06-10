@@ -9,12 +9,14 @@ public class JPanel implements JComponent {
 	
 	private final Group group;
 
-	public JPanel(String text, Composite parent, int style) {
+	public JPanel(String text, Composite parent, int style, int numColumns) {
 		group = new Group(parent, style);
 		GridLayout layout = new GridLayout();
-		layout.marginHeight = layout.marginWidth = 5;
+		layout.numColumns = numColumns;
+		layout.marginHeight = 5;
+		layout.marginWidth = 5;
 		group.setLayout(layout);
-		group.setLayoutData(new GridData(GridData.FILL_BOTH));
+		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		group.setText(text);
 	}
 	
@@ -22,7 +24,5 @@ public class JPanel implements JComponent {
 		return group;
 	}
 	
-	public void setBorder(Object border) {
-		
-	}
+	public void setBorder(Object border) {}
 }
