@@ -1,7 +1,7 @@
 package com.xliic.openapi.quickfix.actions;
 
 import com.xliic.core.editor.Editor;
-import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.ArrayUtilRt;

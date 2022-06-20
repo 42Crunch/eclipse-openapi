@@ -1,6 +1,6 @@
 package com.xliic.openapi.tree;
 
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -10,24 +10,22 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.DefaultActionGroup;
 import com.xliic.core.project.Project;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.psi.PsiManager;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiPanelKeys;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.actions.AddSnippetAction;
-import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
-import com.xliic.openapi.services.SnippetService;
-import com.xliic.openapi.snippets.Snippet;
+import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.PanelNode;
 import com.xliic.openapi.tree.node.SimpleNode;
 
 import icons.OpenApiIcons;
 
-import static com.xliic.openapi.snippets.SnippetIDs.*;
+import static com.xliic.openapi.OpenApiPanelKeys.*;
 
 @SuppressWarnings("restriction")
 public class OpenAPITreeActionGroup extends CompositeActionGroup {
@@ -40,101 +38,72 @@ public class OpenAPITreeActionGroup extends CompositeActionGroup {
 
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
-
+		
+        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
 		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
 		Object element = selection.getFirstElement();
-
 		DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) element;
-		if (treeNode == null) {
-			return;
-		}
-		VirtualFile selectedFile = OpenApiUtils.getSelectedOpenAPIFile(project);
-		if ((selectedFile == null) || OpenApiUtils.isTempFile(selectedFile)) {
-			return;
-		}
-        ASTService astService = ASTService.getInstance(project);
-        Node root = astService.getRootNode(selectedFile);
-        if (root == null) {
+        if ((treeNode == null) || (file == null) || OpenApiUtils.isTempFile(file)) {
+            return;
+        }
+        PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+        if (psiFile == null) {
             return;
         }
 
-        OpenApiFileType type = OpenApiUtils.getFileType(selectedFile);
-        boolean isJson = (type == OpenApiFileType.Json);
-        OpenApiVersion version = ASTService.getOpenAPIVersion(project, selectedFile);
-        List<String> snippetIds = new LinkedList<>();
+        DefaultActionGroup actions = DefaultActionGroup.createPopupGroup(menu);
+        OpenApiVersion version = ASTService.getOpenAPIVersion(project, file);
         BaseNode node = (BaseNode) treeNode.getUserObject();
+        QuickFixService quickFixService = QuickFixService.getInstance();
 
-		// Define what snippets to show
+        // Define what snippets to show
         if (node instanceof PanelNode) {
-            if (OpenApiPanelKeys.GENERAL.equals(node.getName()) && (version == OpenApiVersion.V3)) {
-                snippetIds.add(isJson ? INFO : INFO_YAML);
+            if (GENERAL.equals(node.getName()) && (version == OpenApiVersion.V3)) {
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, "info", treeNode));
             }
-            else if (OpenApiPanelKeys.PATHS.equals(node.getName())) {
-                snippetIds.add(isJson ? PATH : PATH_YAML);
+            else if (PATHS.equals(node.getName())) {
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, "path", treeNode));
             }
-            else if (OpenApiPanelKeys.SERVERS.equals(node.getName())) {
-                snippetIds.add(isJson ? SERVER : SERVER_YAML);
+            else if (SERVERS.equals(node.getName())) {
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, "server", treeNode));
             }
-            else if (OpenApiPanelKeys.SECURITY.equals(node.getName())) {
-                snippetIds.add(isJson ? SECURITY : SECURITY_YAML);
+            else if (SECURITY.equals(node.getName())) {
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, "security", treeNode));
             }
-            else if (OpenApiPanelKeys.COMPONENTS.equals(node.getName())) {
-                snippetIds.add(isJson ? COMPONENTS_SCHEMA : COMPONENTS_SCHEMA_YAML);
-                snippetIds.add(isJson ? COMPONENTS_PARAMETER : COMPONENTS_PARAMETER_YAML);
-                snippetIds.add(isJson ? COMPONENTS_RESPONSE : COMPONENTS_RESPONSE_YAML);
-                snippetIds.add(isJson ? COMPONENTS_SECURITY_API_KEY : COMPONENTS_SECURITY_API_KEY_YAML);
-                snippetIds.add(isJson ? COMPONENTS_SECURITY_BASIC : COMPONENTS_SECURITY_BASIC_YAML);
-                snippetIds.add(isJson ? COMPONENTS_SECURITY_JWT : COMPONENTS_SECURITY_JWT_YAML);
-                snippetIds.add(isJson ? COMPONENTS_SECURITY_OAUTH2_IMPLICIT : COMPONENTS_SECURITY_OAUTH2_IMPLICIT_YAML);
+            else if (COMPONENTS.equals(node.getName())) {
+                List<String> ids = Arrays.asList(
+                        "componentsSchema", "componentsParameter", "componentsResponse",
+                        "componentsSecurityApiKey", "componentsSecurityBasic",
+                        "componentsSecurityJwt", "componentsSecurityOauth2Implicit");
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, ids, treeNode));
             }
-            else if (OpenApiPanelKeys.GENERAL.equals(node.getName()) && (version == OpenApiVersion.V2)) {
-                snippetIds.add(isJson ? BASE_PATH : BASE_PATH_YAML);
-                snippetIds.add(isJson ? HOST : HOST_YAML);
-                snippetIds.add(isJson ? INFO : INFO_YAML);
+            else if (GENERAL.equals(node.getName()) && (version == OpenApiVersion.V2)) {
+                List<String> ids = Arrays.asList("basePath", "host", "info");
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, ids, treeNode));
             }
-            else if (OpenApiPanelKeys.PARAMETERS.equals(node.getName())) {
-                snippetIds.add(isJson ? PARAMETER_BODY : PARAMETER_BODY_YAML);
-                snippetIds.add(isJson ? PARAMETER_PATH : PARAMETER_PATH_YAML);
-                snippetIds.add(isJson ? PARAMETER_OTHER : PARAMETER_OTHER_YAML);
+            else if (PARAMETERS.equals(node.getName())) {
+                List<String> ids = Arrays.asList("parameterBody", "parameterPath", "parameterOther");
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, ids, treeNode));
             }
-            else if (OpenApiPanelKeys.RESPONSES.equals(node.getName())) {
-                snippetIds.add(isJson ? RESPONSE : RESPONSE_YAML);
+            else if (RESPONSES.equals(node.getName())) {
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, "response", treeNode));
             }
-            else if (OpenApiPanelKeys.DEFINITIONS.equals(node.getName())) {
-                snippetIds.add(isJson ? DEFINITION_OBJECT : DEFINITION_OBJECT_YAML);
+            else if (DEFINITIONS.equals(node.getName())) {
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, "definitionObject", treeNode));
             }
-            else if (OpenApiPanelKeys.SECURITY_DEFINITIONS.equals(node.getName())) {
-                snippetIds.add(isJson ? SECURITY_API : SECURITY_API_YAML);
-                snippetIds.add(isJson ? SECURITY_BASIC : SECURITY_BASIC_YAML);
-                snippetIds.add(isJson ? SECURITY_OAUTH2_IMPLICIT : SECURITY_OAUTH2_IMPLICIT_YAML);
+            else if (SECURITY_DEFINITIONS.equals(node.getName())) {
+                List<String> ids = Arrays.asList("securityApiKey", "securityBasic", "securityOauth2Implicit");
+                actions.addAll(quickFixService.getSnippetFixActions(psiFile, ids, treeNode));
             }
         }
         else {
-            if (OpenApiPanelKeys.PATHS.equals(((SimpleNode) node).getParentName())) {
-                snippetIds.add(isJson ? OPERATION : OPERATION_YAML);
+            if ((node instanceof SimpleNode) && PATHS.equals(((SimpleNode) node).getParentName())) {
+                DefaultActionGroup diffGroup = DefaultActionGroup.createPopupGroup();
+                diffGroup.getTemplatePresentation().setIcon(OpenApiIcons.AddSnippet);
+                diffGroup.addAll(quickFixService.getSnippetFixActions(psiFile, "operation", treeNode));
+                actions.add(diffGroup);
             }
         }
-
-        if (snippetIds.size() == 0) {
-            return;
-        }
-
-        SnippetService snippetService = SnippetService.getInstance();
-
-        if (snippetIds.size() == 1 &&
-                (OPERATION.equals(snippetIds.get(0)) || OPERATION_YAML.equals(snippetIds.get(0)))) {
-
-			Snippet s = snippetService.get(snippetIds.get(0));
-			List<String> choices = s.getChoiceList(1);
-			for (String choice : choices) {
-				menu.add(new AddSnippetAction(choice, s, treeNode, OpenApiIcons.PropertyNode));
-			}
-		} else {
-			for (String snippetId : snippetIds) {
-				Snippet s = snippetService.get(snippetId);
-				menu.add(new AddSnippetAction(s.getName(), s, treeNode, OpenApiIcons.AddSnippet));
-			}
-		}
 		super.fillContextMenu(menu);
 	}
 }

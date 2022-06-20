@@ -71,6 +71,11 @@ public class QuickFix {
 		return (type == FixType.Insert) && StringUtils.isEmpty(pointer) && (fixTextType == FixTextType.Object);
 	}
 
+    @NotNull
+    public String getFixText() {
+        return fixText;
+    }
+    
 	@NotNull
 	public String getFixText(boolean asJson) {
 		return formatFixText(fixText, asJson);

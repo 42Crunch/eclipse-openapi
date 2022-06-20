@@ -2,18 +2,13 @@ package com.xliic.openapi.services;
 
 import com.xliic.common.WorkspaceException;
 import com.xliic.core.Disposable;
-import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
-import com.xliic.core.psi.PsiElement;
-import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.api.IExtRefService;
 import com.xliic.openapi.settings.SettingsKeys;
 
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,8 +20,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import static com.xliic.openapi.OpenApiUtils.REF_DELIMITER;
 
 public class ExtRefService implements IExtRefService, Disposable {
 
@@ -80,30 +73,6 @@ public class ExtRefService implements IExtRefService, Disposable {
                 extRef.dispose();
             }
         }
-    }
-
-    public PsiElement getPsiElement(String ref) {
-        if (ref.contains(REF_DELIMITER)) {
-            String [] parts = ref.split(REF_DELIMITER);
-            return getPsiElement(parts[0], "/" + parts[1]);
-        }
-        return getPsiElement(ref, StringUtils.EMPTY);
-    }
-
-    public PsiElement getPsiElement(String url, String pointer) {
-        if (cache.containsKey(url)) {
-            ExtRef extRef = cache.get(url);
-            VirtualFile extRefFile = extRef.getVirtualFile();
-            Node root = ASTService.getInstance(project).getRootNode(extRefFile);
-            Node target = root.find(pointer);
-            if (target != null) {
-                PsiFile psiFile = PsiManager.getInstance(project).findFile(extRefFile);
-                if (psiFile != null) {
-                    return psiFile.findElementAt(target.getRange().getStartOffset());
-                }
-            }
-        }
-        return null;
     }
 
     public boolean isSafe(URI uri) {

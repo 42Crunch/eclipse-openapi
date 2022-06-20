@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ReadAction;
-import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectManager;
 import com.xliic.core.util.ArrayUtilRt;

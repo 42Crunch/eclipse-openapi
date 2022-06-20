@@ -1,22 +1,22 @@
 package com.xliic.openapi.services;
 
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
-import com.xliic.core.ide.ProjectView;
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.ide.projectView.ProjectView;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectLocator;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.Computable;
+import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
-import com.xliic.core.util.UIUtil;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.async.AsyncService;

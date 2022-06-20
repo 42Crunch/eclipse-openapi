@@ -9,6 +9,11 @@ import java.util.Optional;
 
 public class Range implements Comparable<Range> {
 
+	// LF  (NL line feed, new line)
+	public static final int ASCII_LF = 10;
+	// CR  (carriage return)  
+	public static final int ASCII_CR = 13;
+
     private final int line;
     private final int column;
     private final int startOffset;
@@ -138,7 +143,7 @@ public class Range implements Comparable<Range> {
             int startOffset = startMark.get().getIndex();
             int endOffset = endMark.get().getIndex();
             if (excludeNewLine && (endMark.get().getColumn() == 0)) {
-                endOffset -= 1;
+                endOffset -= (hasCRLF(startMark.get()) ? 2 : 1);
             }
             return new Range(startOffset, endOffset, line, column);
         }
@@ -154,10 +159,27 @@ public class Range implements Comparable<Range> {
             int startOffset = startMark.get().getIndex();
             int endOffset = endMark.get().getIndex();
             if (endMark.get().getColumn() == 0) {
-                endOffset -= 1;
+                endOffset -= (hasCRLF(startMark.get()) ? 2 : 1);
             }
             return new Range(startOffset, endOffset, line, column);
         }
         return null;
+    }
+
+    private static boolean hasCRLF(Mark mark) {
+    	int ch;
+    	int[] buffer = mark.getBuffer();
+        for(int i = 0 ; i < buffer.length ; i++) {
+        	ch = buffer[i];
+            if (ch == ASCII_LF) {
+            	return false;
+            } else if (ch == ASCII_CR) {
+            	int j = i + 1;
+            	if (j < buffer.length && buffer[j] == ASCII_LF) {
+            		return true;
+           		}
+            }
+        }
+        return false;
     }
 }

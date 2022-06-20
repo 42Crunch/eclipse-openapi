@@ -1,5 +1,6 @@
 package com.xliic.openapi.parser.ast;
 
+import com.xliic.openapi.TestUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.parser.ast.node.YamlNode;
 import junit.framework.TestCase;
@@ -254,5 +255,30 @@ public class YamlNodeTest extends TestCase {
         assertEquals("a", root.findNodeAtOffset(2).getKey());
         assertEquals("a", root.findNodeAtOffset(1).getKey());
         assertEquals("a", root.findNodeAtOffset(0).getKey());
+    }
+    public void testYamlEndingLF() throws FileNotFoundException {
+        final String text = loadFile("test/testData/crlf.yaml", EOL_LF);
+        assertFalse(text.contains(EOL_CRLF));
+        final YamlNode root = parseYaml(text);
+        assertTrue(isValidTextRangeEnding(root, text, "/paths/~1v2/get/responses/203/content" +
+                "/application~1json/examples/bar/value/version/xxx"));
+        assertTrue(isValidTextRangeEnding(root, text, "/paths/~1v2/get/responses/203/content"));
+        assertTrue(isValidTextRangeEnding(root, text, "/paths/~1v2/get/responses/203"));
+        assertTrue(isValidTextRangeEnding(root, text, "/paths/~1v2/get/responses"));
+        assertTrue(isValidTextRangeEnding(root, text, "/info"));
+        assertTrue(isValidTextRangeEnding(root, text, "/paths"));
+    }
+
+    public void testYamlEndingCRLF() throws FileNotFoundException {
+        final String text = loadFile("test/testData/crlf.yaml", EOL_CRLF);
+        assertTrue(text.contains(EOL_CRLF));
+        final YamlNode root = parseYaml(text);
+        assertTrue(isValidTextRangeEnding(root, text, "/paths/~1v2/get/responses/203/content/" +
+                "application~1json/examples/bar/value/version/xxx"));
+        assertTrue(isValidTextRangeEnding(root, text, "/paths/~1v2/get/responses/203/content"));
+        assertTrue(isValidTextRangeEnding(root, text, "/paths/~1v2/get/responses/203"));
+        assertTrue(isValidTextRangeEnding(root, text, "/paths/~1v2/get/responses"));
+        assertTrue(isValidTextRangeEnding(root, text, "/info"));
+        assertTrue(isValidTextRangeEnding(root, text, "/paths"));
     }
 }

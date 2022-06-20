@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  title: Simple API overview
+  version: 3.0.0
+paths:
+  "/v2":
+    get:
+      responses:
+        '203':
+          description: 203 response
+          content:
+            application/json:
+              examples:
+                bar:
+                  value:
+                    version:
+                      status: CURRENT
+                      updated:
+                      xxx:
+                        base: application/xml
+                        type: application/vnd.openstack.compute+xml;version=2

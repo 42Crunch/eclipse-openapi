@@ -74,7 +74,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
 
             for (PlaceHolder placeHolder : fixItem.getPlaceHolders()) {
                 List<RangeHighlighter> output = new LinkedList<>();
-                Node node = root.find(mergePointers(fixItem.getAbsPointer(), placeHolder.getPointer()));
+                Node node = root.find(placeHolder.getPointer(), placeHolder.getOffset());
                 if (node != null) {
                     Range range = placeHolder.isForKey() ? node.getKeyRange() : node.getValueRange();
                     highlightManager.addRangeHighlight(editor, range.getStartOffset(), range.getEndOffset(),
@@ -269,13 +269,6 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         else {
             return text;
         }
-    }
-
-    private static String mergePointers(String basePointer, String pointer) {
-        if (basePointer.endsWith("/")) {
-            basePointer = basePointer.substring(0, basePointer.length() - 1);
-        }
-        return basePointer + pointer;
     }
 
     @Override

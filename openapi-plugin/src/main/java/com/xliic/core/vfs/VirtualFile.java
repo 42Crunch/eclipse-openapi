@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.util.EclipseUtil;
-import com.xliic.core.util.FileUtil;
+import com.xliic.core.util.io.FileUtil;
 
 public class VirtualFile {
 

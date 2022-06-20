@@ -29,7 +29,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.actionSystem.AnJAction;
-import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.DefaultTreeContentProvider;
 import com.xliic.core.util.SwingUtilities;

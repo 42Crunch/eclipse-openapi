@@ -14,7 +14,7 @@ public class JsonElementPattern<T> implements ElementPattern<T> {
 			PsiElement pe = (LeafPsiElement) element;
 			if (OpenApiFileType.Json.equals(OpenApiUtils.getFileType(pe.getFile().getVirtualFile()))) {
 				Node node = pe.getNode();
-				return "$ref".equals(node.getKey());
+				return "$ref".equals(node.getKey()) && node.isScalar();
 			}
 		}
 		return false;

@@ -9,11 +9,11 @@ import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
-import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.EclipseUtil;
-import com.xliic.core.util.FileUtil;
+import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
@@ -26,11 +26,13 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
 import com.xliic.core.psi.LeafPsiElement;
 import com.xliic.core.util.ResourceUtil;
+import com.xliic.core.util.io.FileUtil;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.services.ExtRefService;
 import com.xliic.openapi.settings.SettingsKeys;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.PanelNode;
@@ -44,6 +46,7 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -396,13 +399,85 @@ public class OpenApiUtils {
             if (JSON_REF_PATTERN.accepts(psiElement) || YAML_REF_PATTERN.accepts(psiElement)) {
                 return true;
             }
-            else {
-                PsiElement element = psiElement.getParent();
-                element = (element == null) ? null : element.getParent();
-                element = (element == null) ? null : element.getFirstChild();
-                return (element != null) && REF.equals(StringUtils.strip(element.getText(), "'\""));
-            }
         }
         return false;
+    }
+
+    public static Pair<VirtualFile, Node> resolveRef(@NotNull PsiFile psiFile, @NotNull String ref) {
+
+        Project project = psiFile.getProject();
+        VirtualFile file = psiFile.getVirtualFile();
+
+        // HTTP reference
+        if (ExtRef.isExtRef(ref)) {
+            String url, pointer;
+            if (ref.contains(REF_DELIMITER)) {
+                String [] parts = ref.split(REF_DELIMITER);
+                url = parts[0];
+                pointer = "/" + parts[1];
+            }
+            else {
+                url = ref;
+                pointer = "";
+            }
+            ExtRef extRef = ExtRefService.getInstance(project).get(url);
+            if (extRef != null) {
+                VirtualFile extRefFile = extRef.getVirtualFile();
+                if (extRefFile != null) {
+                    Node root = ASTService.getInstance(project).getRootNode(extRefFile);
+                    if (root != null) {
+                        return createPair(extRefFile, root.find(pointer), !"".equals(pointer));
+                    }
+                }
+            }
+        }
+        // Usual file pointer reference
+        else if (ref.contains(REF_DELIMITER)) {
+            String [] parts = ref.split(REF_DELIMITER);
+            String refFileName = parts[0];
+            String pointer = "/" + parts[1];
+            // Internal file reference
+            if (StringUtils.isEmpty(refFileName)) {
+                Node root = ASTService.getInstance(project).getRootNode(file);
+                if (root != null) {
+                    return createPair(file, root.find(pointer), true);
+                }
+            }
+            // External file reference
+            else {
+                VirtualFile refFile = getRefVirtualFile(file, refFileName);
+                if (refFile != null) {
+                    Node root = ASTService.getInstance(project).getRootNode(refFile);
+                    if (root != null) {
+                        return createPair(refFile, root.find(pointer), true);
+                    }
+                }
+            }
+        }
+        // Pure file reference
+        else {
+            VirtualFile refFile = getRefVirtualFile(file, ref);
+            return createPair(refFile, null, false);
+        }
+        return null;
+    }
+
+    private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {
+        if (file == null) {
+            return null;
+        }
+        else {
+            if (strict) {
+                return (node == null) ? null : new Pair<>(file, node);
+            }
+            else {
+                return new Pair<>(file, node);
+            }
+        }
+    }
+
+    private static VirtualFile getRefVirtualFile(VirtualFile file, String refFileName) {
+        File rootFile = new File(Paths.get(file.getPath()).getParent().toString());
+        return LocalFileSystem.getInstance().findFileByIoFile(new File(rootFile, refFileName));
     }
 }

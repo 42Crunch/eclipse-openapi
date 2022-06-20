@@ -12,24 +12,38 @@ public class FixItem {
     private final String absPointer;
     private final String text;
     private final List<PlaceHolder> placeHolders;
+    private final String insertAfterPointer;
+
+    public FixItem(String absPointer, String text, List<PlaceHolder> placeHolders, String insertAfterPointer) {
+        this(Collections.emptyList(), absPointer, text, placeHolders, insertAfterPointer);
+    }
 
     public FixItem(Issue issue, String absPointer, String text) {
-        this(List.of(issue), absPointer, text, Collections.emptyList());
+        this(List.of(issue), absPointer, text, Collections.emptyList(), null);
     }
 
     public FixItem(Issue issue, String absPointer, String text, List<PlaceHolder> placeHolders) {
-        this(List.of(issue), absPointer, text, placeHolders);
+        this(List.of(issue), absPointer, text, placeHolders, null);
     }
 
     public FixItem(List<Issue> issues, String absPointer, String text) {
-        this(issues, absPointer, text, Collections.emptyList());
+        this(issues, absPointer, text, Collections.emptyList(), null);
     }
 
     public FixItem(List<Issue> issues, String absPointer, String text, List<PlaceHolder> placeHolders) {
+        this(issues, absPointer, text, placeHolders, null);
+    }
+
+    public FixItem(List<Issue> issues,
+                   String absPointer,
+                   String text,
+                   List<PlaceHolder> placeHolders,
+                   String insertAfterPointer) {
         this.issues = issues;
         this.absPointer = absPointer;
         this.text = text;
         this.placeHolders = placeHolders;
+        this.insertAfterPointer = insertAfterPointer;
     }
 
     public List<Issue> getIssues() {
@@ -47,5 +61,14 @@ public class FixItem {
     public List<PlaceHolder> getPlaceHolders() {
         return placeHolders;
     }
-}
 
+    public String getInsertAfterPointer() {
+        return insertAfterPointer;
+    }
+
+    public void setPlaceHolderOffset(int offset) {
+        for (PlaceHolder placeHolder : placeHolders) {
+            placeHolder.setOffset(offset);
+        }
+    }
+}
