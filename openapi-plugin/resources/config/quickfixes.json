@@ -391,6 +391,41 @@
     },
     {
       "problem": [
+        "v3-response-406"
+      ],
+      "title": "Add '406' response",
+      "type": "insert",
+      "fix": {
+        "406": {
+          "description": "Not Acceptable",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "description",
+          "path": "/406/description"
+        },
+        {
+          "name": "contentType",
+          "path": "/406/content/application~1json",
+          "type": "key"
+        },
+        {
+          "name": "schema",
+          "path": "/406/content/application~1json/schema/$ref",
+          "source": "schemaRefByResponseCode"
+        }
+      ]
+    },
+    {
+      "problem": [
         "v3-response-429"
       ],
       "title": "Add '429' response",
@@ -661,6 +696,25 @@
       "title": "Remove response body definition",
       "type": "delete",
       "pointer": "/schema"
+    },
+    {
+      "problem": [
+        "v3-mediatype-schema-undefined"
+      ],
+      "title": "Create response schema",
+      "type": "insert",
+      "fix": {
+        "schema": {
+          "$ref": "#/components/schemas/"
+        }
+      },
+      "parameters": [
+        {
+          "name": "schema",
+          "path": "/schema/$ref",
+          "source": "schemaRefByResponseCode"
+        }
+      ]
     },
     {
       "problem": [

@@ -6,12 +6,11 @@ import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
 import org.apache.commons.lang.RandomStringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.startup.StartupActivity;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.services.QuickFixService;
-import com.xliic.openapi.services.SnippetService;
 import com.xliic.openapi.settings.SettingsKeys;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
@@ -20,18 +19,12 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 
 	@Override
 	public void runActivity(@NotNull Project project) {
-
-        // Load snippets from disk
-        SnippetService.getInstance().load();
-
         // Load quickfix configuration
         QuickFixService.getInstance().load();
-
         // Set default properties values
         if (!PropertiesComponent.getInstance().isValueSet(SettingsKeys.ABC_SORT)) {
             PropertiesComponent.getInstance().setValue(SettingsKeys.ABC_SORT, true);
         }
-        
 		// Set preview properties
 		PropertiesComponent pc = PropertiesComponent.getInstance();
 		if (!pc.isValueSet(PreviewKeys.PORT)) {

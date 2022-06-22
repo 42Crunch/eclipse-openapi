@@ -20,7 +20,7 @@ import org.eclipse.jetty.util.resource.Resource;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;

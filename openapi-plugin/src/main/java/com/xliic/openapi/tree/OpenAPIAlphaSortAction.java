@@ -1,8 +1,8 @@
 package com.xliic.openapi.tree;
 
-import com.xliic.core.ide.PropertiesComponent;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.actionSystem.ToggleAction;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.Icon;

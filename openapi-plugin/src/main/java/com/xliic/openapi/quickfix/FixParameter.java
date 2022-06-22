@@ -36,6 +36,10 @@ public class FixParameter {
 				quickFixService.getFixSourceInstance(node.getChildValue("source")), values);
 	}
 
+    public String getName() {
+        return name;
+    }
+    
 	public String getPath() {
 		return path;
 	}

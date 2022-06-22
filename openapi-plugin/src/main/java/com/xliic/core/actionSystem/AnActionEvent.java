@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
+import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 
@@ -45,6 +46,8 @@ public class AnActionEvent {
 			return (T) getEditor();
 		} else if (key.equals(CommonDataKeys.VIRTUAL_FILE)) {
 			return (T) getVirtualFile();
+		} else if (key.equals(CommonDataKeys.PSI_FILE)) {
+			return (T) getPsiFile();	
 		} else {
 			return null;
 		}
@@ -90,5 +93,10 @@ public class AnActionEvent {
 			}
 		}
 		return null;
+	}
+	
+	private PsiFile getPsiFile() {
+		VirtualFile file = getVirtualFile();		
+		return file == null ? null : new PsiFile(getProject(), file);
 	}
 }

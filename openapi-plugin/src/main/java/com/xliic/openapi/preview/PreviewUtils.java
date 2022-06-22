@@ -3,7 +3,7 @@ package com.xliic.openapi.preview;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 

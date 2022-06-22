@@ -1,7 +1,7 @@
 package com.xliic.openapi.settings;
 
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.core.ide.PropertiesComponent;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.module.Module;
 import com.xliic.core.options.Configurable;
 import com.xliic.core.options.SearchableConfigurable;
@@ -86,7 +86,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
       
       securityAuditPanel = new JPanel("Security Audit", parent, SWT.NONE, 3);
       new Label(securityAuditPanel.getComposite(), SWT.NULL).setText("Security Audit Token");
-      tokenTextArea = new JTextArea(50, 8, securityAuditPanel);
+      tokenTextArea = new JTextArea(securityAuditPanel);
       
       cleanButton = new JButton("Clear", SWT.PUSH, securityAuditPanel);
       GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_BEGINNING);

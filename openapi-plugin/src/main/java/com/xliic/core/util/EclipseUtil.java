@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jetty.util.StringUtil;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -58,7 +59,12 @@ public class EclipseUtil {
 	
 	public static Range getSelectionRange(@NotNull Node target) {
 		Range range = target.getKeyRange();
-		return range != null ? range : target.getRange();
+		range = (range != null) ? range : target.getRange();
+		if (StringUtil.isEmpty(target.getJsonPointer())) {
+			int startOffset = range.getStartOffset();
+			return new Range(startOffset, startOffset, range.getLine(), range.getColumn());
+		}
+		return range;
 	}
 
 	public static boolean isExtRefFile(@NotNull VirtualFile file) {

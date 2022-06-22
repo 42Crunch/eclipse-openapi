@@ -1,0 +1,65 @@
+{
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "integer"
+		},
+		"name": {
+			"type": "string"
+		},
+		"price": {
+			"type": "number"
+		},
+		"tags": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"dimensions": {
+			"type": "object",
+			"properties": {
+				"length": {
+					"type": "integer"
+				},
+				"width": {
+					"type": "integer"
+				},
+				"height": {
+					"type": "number"
+				}
+			},
+			"required": [
+				"length",
+				"width",
+				"height"
+			],
+			"additionalProperties": false
+		},
+		"warehouseLocation": {
+			"type": "object",
+			"properties": {
+				"latitude": {
+					"type": "number"
+				},
+				"longitude": {
+					"type": "number"
+				}
+			},
+			"required": [
+				"latitude",
+				"longitude"
+			],
+			"additionalProperties": false
+		}
+	},
+	"required": [
+		"id",
+		"name",
+		"price",
+		"tags",
+		"dimensions",
+		"warehouseLocation"
+	],
+	"additionalProperties": false
+}

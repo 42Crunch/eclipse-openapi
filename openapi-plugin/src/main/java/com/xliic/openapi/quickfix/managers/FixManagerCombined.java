@@ -64,7 +64,7 @@ public class FixManagerCombined extends FixManager {
                 List<Object> values = parameter.getSource().get(issue, quickFix, parameter, version, bundle);
                 values.addAll(parameter.getValues());
                 values = wrap(values);
-                placeHolders.add(new PlaceHolder(parameter.getPath(), parameter.isKeyType(), values));
+                placeHolders.add(getPlaceHolder(parameter, values, pointer, quickFix));
                 if (!values.isEmpty()) {
                     String value = (String) values.get(0);
                     replacements.add(new Replacement(parameter.getPath(), value, parameter.isKeyType()));

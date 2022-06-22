@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.ui.IMarkerResolutionRelevance;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.core.command.WriteCommandAction;
 import com.xliic.core.editor.Editor;
@@ -47,11 +48,28 @@ public abstract class FixAction extends IntentionAction implements IMarkerResolu
 	@Override
 	public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
 		QuickFixService quickFixService = QuickFixService.getInstance();
-		DocumentUpdater documentUpdater = DocumentUpdater.getInstance(editor, file, provider);
-		WriteCommandAction.runWriteCommandAction(project, () -> {
-			List<Issue> fixedIssues = documentUpdater.process();
-			quickFixService.fix(project, fixedIssues);
-		});
+        // Ask the manager if a dialog must be shown
+        if (provider.showDialog()) {
+            ApplicationManager.getApplication().invokeLater(() -> {
+                // Continue only if a user presses OK button
+                if (provider.openDialog()) {
+                    DocumentUpdater documentUpdater = DocumentUpdater.getInstance(editor, file, provider);
+                    WriteCommandAction.runWriteCommandAction(project, () -> {
+                            List<Issue> fixedIssues = documentUpdater.process();
+                            quickFixService.fix(project, fixedIssues);
+                        }
+                    );
+                }
+            });
+        }
+        else {
+            DocumentUpdater documentUpdater = DocumentUpdater.getInstance(editor, file, provider);
+            WriteCommandAction.runWriteCommandAction(project, () -> {
+                    List<Issue> fixedIssues = documentUpdater.process();
+                    quickFixService.fix(project, fixedIssues);
+                }
+            );
+        }
 	}
 
 	@Override

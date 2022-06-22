@@ -3,6 +3,7 @@ package com.xliic.openapi.quickfix.editor;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.editor.Document;
@@ -39,7 +40,8 @@ public abstract class DocumentUpdater {
 	protected final ParserAST parser;
 	protected final Document document;
 	protected final Node root;
-
+	private int moveToOffset;
+	
 	private static final ParserJsonAST parserJsonAST = new ParserJsonAST();
 	private static final ParserYamlAST parserYamlAST = new ParserYamlAST();
 
@@ -49,7 +51,17 @@ public abstract class DocumentUpdater {
 		this.fixItems = fixItems;
 		document = editor.getDocument();
 		root = (parser == null) ? null : parser.parse(document.getText());
+		moveToOffset = 0;
 	}
+
+    public int getMoveToOffset() {
+        if (fixItems.size() != 1) {
+            return 0;
+        }
+        else {
+            return moveToOffset;
+        }
+    }
 
 	public List<Issue> process() {
 		List<Issue> fixedIssues = new LinkedList<>();
@@ -59,13 +71,19 @@ public abstract class DocumentUpdater {
 			DocumentUpdate update = process(item);
 			if (update != null) {
 				updates.add(update);
+                moveToOffset = update.getMarker().getStartOffset();
+                item.setPlaceHolderOffset(moveToOffset);
 			}
 		}
 		// Apply changes one by one, markers offsets will be recalculated automatically
+        ISourceViewer viewer = editor.getSourceViewer();
 		for (DocumentUpdate update : updates) {
 			try {
 				apply(update);
 				fixedIssues.addAll(update.getItem().getIssues());
+                if (viewer != null) {
+                	viewer.resetVisibleRegion();
+                }
 			} catch (Exception ignored) {
 			}
             finally {
