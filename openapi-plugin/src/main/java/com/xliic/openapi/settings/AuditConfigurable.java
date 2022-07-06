@@ -90,7 +90,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
       
       cleanButton = new JButton("Clear", SWT.PUSH, securityAuditPanel);
       GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_BEGINNING);
-      gd.widthHint = 70;
+      gd.widthHint = 90;
       cleanButton.setLayoutData(gd);
 	
       String tokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);

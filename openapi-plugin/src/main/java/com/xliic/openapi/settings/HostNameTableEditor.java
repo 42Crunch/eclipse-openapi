@@ -202,7 +202,7 @@ public class HostNameTableEditor {
 		layout.marginWidth = 0;
 		buttonGroup.setLayout(layout);	
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
-		gridData.widthHint = 70;
+		gridData.widthHint = 90;
 		buttonGroup.setLayoutData(gridData);
 		buttonGroup.setFont(top.getFont());
 		createPushButton(buttonGroup, "Add Host...", ADD_BUTTON);
