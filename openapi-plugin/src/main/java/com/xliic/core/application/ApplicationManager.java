@@ -24,6 +24,14 @@ public class ApplicationManager {
 	public void invokeLater(@NotNull Runnable runnable) {
 		Display.getDefault().asyncExec(runnable);
 	}
+	
+	public void invokeAndWait(@NotNull Runnable runnable, @NotNull ModalityState state) {
+		Display.getDefault().asyncExec(runnable);
+	}
+
+	public void invokeLaterOnWriteThread(@NotNull Runnable runnable) {
+		Display.getDefault().asyncExec(runnable);
+	}
 
 	public void runReadAction(@NotNull Runnable runnable) {
 		Display.getDefault().asyncExec(runnable);

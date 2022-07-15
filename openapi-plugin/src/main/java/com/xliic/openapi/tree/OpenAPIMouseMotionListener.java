@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.tree.node.BaseNode;
@@ -41,7 +42,7 @@ public class OpenAPIMouseMotionListener implements MouseMoveListener {
 			return;
 		}
 		VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
-		if ((file == null) || OpenApiUtils.isTempFile(file)) {
+		if ((file == null) || TempFileUtils.isExtRefFile(file)) {
 			return;
 		}
         ASTService astService = ASTService.getInstance(project);

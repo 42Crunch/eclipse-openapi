@@ -72,7 +72,10 @@ public abstract class BulkFileListener implements IResourceChangeListener {
 					} else if (from != null && to == null) {
 						toFile = (IFile) delta.getResource();
 					} else if (delta.getKind() == IResourceDelta.REMOVED && from == null && to == null) {
-	                	removedFiles.add((IFile) delta.getResource());
+						IFile file = (IFile) delta.getResource();
+						if (file.getProject().getLocation() != null) {
+							removedFiles.add((IFile) delta.getResource());
+						}
 					}
 				}
 				return !refactored();

@@ -27,7 +27,7 @@ import com.xliic.core.lang.HighlightSeverity;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.TextRange;
-import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.quickfix.actions.FixBulkAction;
 import com.xliic.openapi.quickfix.actions.FixCombinedAction;
 import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
@@ -87,7 +87,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 				idToIssues.get(id).add(issue);
 			}
 		}
-		boolean isTempFile = OpenApiUtils.isTempFile(psiFile.getVirtualFile());
+		boolean isTempFile = TempFileUtils.isExtRefFile(psiFile.getVirtualFile());
 		// Create editor highlights per pointer
 		for (Map.Entry<String, List<Issue>> entry : pointerToIssues.entrySet()) {
 			String pointer = entry.getKey();

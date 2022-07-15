@@ -28,8 +28,8 @@ import com.xliic.openapi.preview.PreviewWebSocket;
 import com.xliic.openapi.preview.PreviewWebSocketHandler;
 import com.xliic.openapi.services.api.IPreviewService;
 
-import static com.xliic.openapi.OpenApiUtils.createPluginTempDirIfMissing;
-import static com.xliic.openapi.OpenApiUtils.createTextResource;
+import static com.xliic.openapi.TempFileUtils.createPluginTempDirIfMissing;
+import static com.xliic.openapi.TempFileUtils.createTextResource;
 
 public class PreviewService implements IPreviewService, Disposable {
 

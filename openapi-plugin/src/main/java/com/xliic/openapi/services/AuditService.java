@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 public final class AuditService implements IAuditService, Disposable {
+	
+	private static final int MAX_PLATFORM_AUDIT_LIMIT = 10;
 
     private final Project project;
     private final Map<String, Audit> cache = new HashMap<>();
@@ -153,6 +155,19 @@ public final class AuditService implements IAuditService, Disposable {
     }
 
     public void setAuditReport(@NotNull String fileName, @NotNull Audit audit) {
+        if (audit.isPlatform() && audit.isShowAsHTML()) {
+            List<String> keys = new LinkedList<>();
+            for (Map.Entry<String, Audit> entry : cache.entrySet()) {
+                String key = entry.getKey();
+                Audit report = entry.getValue();
+                if (report.isPlatform() && report.isShowAsHTML()) {
+                    keys.add(key);
+                }
+            }
+            if (keys.size() >= MAX_PLATFORM_AUDIT_LIMIT) {
+                cache.remove(keys.get((int) Math.round((keys.size() - 1) * Math.random())));
+            }
+        }
         cache.put(fileName, audit);
     }
 

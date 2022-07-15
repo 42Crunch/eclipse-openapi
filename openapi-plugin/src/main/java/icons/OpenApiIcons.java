@@ -38,4 +38,16 @@ public interface OpenApiIcons {
     /** 16x16 */ @NotNull Icon Reset = IconLoader.findIcon("/icons/reset.svg");
     /** 16x16 */ @NotNull Icon Preview = IconLoader.findIcon("/icons/preview.svg");
     /** 16x16 */ @NotNull Icon Refresh = IconLoader.findIcon("/icons/refresh.svg");
+    
+    /** 16x16 */ @NotNull Icon Platform = IconLoader.findIcon("/icons/icon_42crunch_platform.svg");   
+    /** 16x16 */ @NotNull Icon PlatformAll = IconLoader.findIcon("/icons/platform-all.png");
+    /** 16x16 */ @NotNull Icon PlatformFavorite = IconLoader.findIcon("/icons/platform-favorite.png");
+    /** 16x16 */ @NotNull Icon PlatformFolder = IconLoader.findIcon("/icons/platform-folder.svg");
+    /** 16x16 */ @NotNull Icon PlatformFolderLocked = IconLoader.findIcon("/icons/platform-folder-locked.svg");
+    /** 16x16 */ @NotNull Icon PlatformAPI = IconLoader.findIcon("/icons/platform-api.svg");
+    /** 16x16 */ @NotNull Icon PlatformSave = IconLoader.findIcon("/icons/platform-save.png");
+
+    /** 16x16 */ @NotNull Icon PlatformOAS = IconLoader.findIcon("/icons/platform-oas.svg");
+    /** 16x16 */ @NotNull Icon PlatformAuditVerified = IconLoader.findIcon("/icons/platform-audit-verified.svg");
+    /** 16x16 */ @NotNull Icon PlatformAuditUnverified = IconLoader.findIcon("/icons/platform-audit-unverified.svg");
 }

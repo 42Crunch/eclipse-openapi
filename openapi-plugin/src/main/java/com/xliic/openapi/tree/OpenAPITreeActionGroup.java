@@ -17,6 +17,7 @@ import com.xliic.core.psi.PsiManager;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
+import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.tree.node.BaseNode;
@@ -43,7 +44,7 @@ public class OpenAPITreeActionGroup extends CompositeActionGroup {
 		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
 		Object element = selection.getFirstElement();
 		DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) element;
-        if ((treeNode == null) || (file == null) || OpenApiUtils.isTempFile(file)) {
+        if ((treeNode == null) || (file == null) || TempFileUtils.isExtRefFile(file)) {
             return;
         }
         PsiFile psiFile = PsiManager.getInstance(project).findFile(file);

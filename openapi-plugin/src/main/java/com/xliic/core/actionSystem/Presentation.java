@@ -1,12 +1,13 @@
 package com.xliic.core.actionSystem;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.util.Icon;
 
-public class Presentation {
+public interface Presentation {
 
-    public void setIcon(@Nullable Icon icon) {
-    	
-    }
+    void setIcon(@Nullable Icon icon);
+    
+    void setDescription(@NotNull String description);
 }

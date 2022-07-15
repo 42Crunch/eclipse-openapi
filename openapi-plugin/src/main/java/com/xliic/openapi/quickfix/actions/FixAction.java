@@ -57,6 +57,7 @@ public abstract class FixAction extends IntentionAction implements IMarkerResolu
                     WriteCommandAction.runWriteCommandAction(project, () -> {
                             List<Issue> fixedIssues = documentUpdater.process();
                             quickFixService.fix(project, fixedIssues);
+                            editor.getCaretModel().moveToOffset(documentUpdater.getMoveToOffset());
                         }
                     );
                 }
@@ -67,6 +68,7 @@ public abstract class FixAction extends IntentionAction implements IMarkerResolu
             WriteCommandAction.runWriteCommandAction(project, () -> {
                     List<Issue> fixedIssues = documentUpdater.process();
                     quickFixService.fix(project, fixedIssues);
+                    editor.getCaretModel().moveToOffset(documentUpdater.getMoveToOffset());
                 }
             );
         }

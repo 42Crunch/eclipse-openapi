@@ -28,7 +28,12 @@ public class JCEFReportPanelView extends ViewPart implements Disposable {
 	@Override
 	public void dispose() {
 		if (panel != null) {
-			panel.dispose();	
+			Project project = Project.getInstance();
+			project.getMessageBus().connect().unsubscribe(panel);
+			panel.dispose();
+			// Eclipse Development Note 
+			// Help to avoid multiple dispose calls 
+			panel = null;
 		}
 	}
 }

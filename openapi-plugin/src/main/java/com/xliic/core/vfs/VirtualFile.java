@@ -21,6 +21,8 @@ import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.io.FileUtil;
 
 public class VirtualFile {
+	
+	public static final VirtualFile[] EMPTY_ARRAY = new VirtualFile[0];
 
 	private final File file;
 	private final IFile ifile;
@@ -52,6 +54,11 @@ public class VirtualFile {
 		if (getClass() != obj.getClass())
 			return false;
 		return Objects.equals(path, ((VirtualFile) obj).getPath());
+	}
+	
+	@NotNull
+	public String getName() {
+		return file.getName();
 	}
 
 	public boolean hasProject() {
@@ -198,9 +205,7 @@ public class VirtualFile {
 	    if (!getFileSystem().isValidName(name)) {
 	      throw new IOException("Create child data invalid name error " + name);
 	    }
-	    if (findChild(name) != null) {
-	      throw new IOException("Create child data already exists error " + path + " name " + name);
-	    }
-		return getFileSystem().createChildFile(requestor, this, name);
+	    VirtualFile child = findChild(name);
+		return child != null ? child : getFileSystem().createChildFile(requestor, this, name);
 	}
 }

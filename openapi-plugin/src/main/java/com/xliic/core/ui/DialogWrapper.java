@@ -20,9 +20,11 @@ import com.xliic.core.util.EclipseUtil;
 public class DialogWrapper extends StatusDialog {
 	
 	private final int numColumns;
+	protected final Project project;
 
 	protected DialogWrapper(@Nullable Project project, int numColumns) {
 		super(EclipseUtil.getShell());
+		this.project = project;
 		this.numColumns = numColumns;
 	}
 
@@ -40,6 +42,10 @@ public class DialogWrapper extends StatusDialog {
 	    parent.setLayout(layout);
 	    create(parent);
 		return parent;
+	}
+	
+	protected final void setOKButtonText(@NotNull String text) {
+		// Ignore as it is impossible for StatusDialog
 	}
 	
 	protected void create(Composite parent) {}

@@ -9,6 +9,8 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.topic.AuditListener;
 
@@ -29,6 +31,9 @@ public class FixGoToHTMLAction extends FixAction {
 	@Override
 	public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
         ApplicationManager.getApplication().runWriteAction(() -> {
+        	// Eclipse Development Note 
+        	// Activate as the view may be not visible now
+        	OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
             project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleViewDetails(file.getVirtualFile(), issues);
         });
 	}

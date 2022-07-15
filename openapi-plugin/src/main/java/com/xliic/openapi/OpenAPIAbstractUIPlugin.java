@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
@@ -15,7 +14,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPartListener;
@@ -31,12 +29,18 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.xliic.core.actionSystem.AnActionUpdater;
 import com.xliic.core.codeHighlighting.HighlightingManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.project.ProjectManagerListener;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.listeners.OpenAPIBulkFileListener;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
+import com.xliic.openapi.listeners.OpenAPIProjectManagerListener;
+import com.xliic.openapi.services.PlatformService;
+import com.xliic.openapi.topic.FileListener;
+import com.xliic.openapi.topic.SettingsListener;
 
 @SuppressWarnings("restriction")
 public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartup {
@@ -52,7 +56,10 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	private OpenAPIBulkFileListener resourceListener;
 	private OpenAPIStartupActivity startupActivity;
 	private HighlightingManager highlightingManager;
+	private ProjectManagerListener projectManagerListener;
+	private AnActionUpdater actionUpdater;
 	private boolean isMuleIDE;
+	private String pluginId;
 
 	public OpenAPIAbstractUIPlugin() {
 		plugin = this;
@@ -60,12 +67,17 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 		highlightingManager = HighlightingManager.getInstance(project);
 		partListener = new OpenAPIPartListener(project);
 		resourceListener = new OpenAPIBulkFileListener(project);
+		projectManagerListener = new OpenAPIProjectManagerListener();
+		actionUpdater = new AnActionUpdater();
 	}
 
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		pluginId = (context == null) ? "unknown" : context.getBundle().getSymbolicName();
 		startupActivity.runActivity(project);
+		project.getMessageBus().connect().subscribe(FileListener.TOPIC, actionUpdater);
+		project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, actionUpdater);
 	}
 
 	@Override
@@ -76,6 +88,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 			public void run() {
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 				if (window != null) {
+					window.getPartService().addPartListener(projectManagerListener);
 					window.getPartService().addPartListener(partListener);
 					ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceListener,
 							IResourceChangeEvent.POST_CHANGE);
@@ -91,8 +104,8 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 					}
 				}
 				setPreference();
-				disposeAllExtRefEditors();
-				disposeAllExtRefFiles();
+				handleEditorsAtStartup();
+				handleTempFilesAtStartup();
 			}
 		});
     	IProduct product = Platform.getProduct();
@@ -109,6 +122,8 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 			resourceListener = null;
 			startupActivity = null;
 			highlightingManager = null;
+			projectManagerListener = null;
+			actionUpdater = null;
 			plugin = null;
 		} finally {
 			super.stop(context);
@@ -130,6 +145,10 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	public boolean isMuleIDE() {
 		return isMuleIDE;
 	}
+	
+	public String getPluginId() {
+		return pluginId;
+	}
 
 	private void setPreference() {
 		IPreferenceStore idePreferenceStore = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
@@ -149,14 +168,13 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
     	return id != null && id.contains("mule");
 	}
 	
-	private static void disposeAllExtRefFiles() {
+	private static void handleTempFilesAtStartup() {
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject project : projects) {
 			if (project.exists()) {
 				Boolean[] projToUpdate = { false };
-				Path projPath = new File(project.getLocationURI()).toPath();
-				File file = new File(Paths.get(projPath.toString(), OpenApiUtils.PROJECT_TMP_DIR).toUri());
-				if (file.exists()) {
+				File file = TempFileUtils.getProjectExtRefTempDir(project);
+				if (file != null && file.exists()) {
 			    	try {
 				        Files.walkFileTree(file.toPath(), new SimpleFileVisitor<>() {
 				            @Override
@@ -165,7 +183,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 				            }
 				            @Override
 				            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-								if (EclipseUtil.isExtRefFile(new VirtualFile(file.toFile()))) {
+								if (TempFileUtils.isExtRefFile(new VirtualFile(file.toFile()))) {
 					            	try {
 			            				file.toFile().setWritable(true);
 					            		Files.delete(file);
@@ -190,23 +208,20 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 		}	
 	}
 
-	private static void disposeAllExtRefEditors() {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
-		for (IWorkbenchWindow window : windows) {
-			for (IWorkbenchPage page : window.getPages()) {
-				for (IEditorReference ref : page.getEditorReferences()) {
-					try {
-						IEditorInput input = ref.getEditorInput();
-						if (EclipseUtil.isSupported(input)) {
-							VirtualFile file = EclipseUtil.getVirtualFile(input);
-							if (EclipseUtil.isExtRefFile(file)) {
-								page.closeEditor(ref.getEditor(false), false);
-							}
-						}
-					} catch (PartInitException e) {
-						e.printStackTrace();
+	private static void handleEditorsAtStartup() {
+		for (IWorkbenchPage page : EclipseUtil.getAllSupportedPages()) {
+			for (IEditorReference ref : page.getEditorReferences()) {
+				try {
+					VirtualFile file = EclipseUtil.getVirtualFile(ref.getEditorInput());
+					if (TempFileUtils.isExtRefFile(file)) {
+						page.closeEditor(ref.getEditor(true), false);
+					} else if (TempFileUtils.isPlatformFile(file)) {
+						page.closeEditor(ref.getEditor(true), false);
+						PlatformService platformService = PlatformService.getInstance(project);
+						platformService.reopenPlatformFile(file);
 					}
+				} catch (PartInitException e) {
+					e.printStackTrace();
 				}
 			}
 		}

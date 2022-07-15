@@ -14,18 +14,12 @@ import com.xliic.core.project.Project;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +30,7 @@ import static org.apache.commons.lang.RandomStringUtils.random;
 
 public class ExtRef {
 
+	public static final String EXT_FILE_PREFIX = "ext_ref_";
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     @SuppressWarnings("serial")
@@ -97,26 +92,10 @@ public class ExtRef {
             throw new WorkspaceException("Failed to get response body for " + url);
         }
         String text = formatFixText(body.string(), contentType == ContentType.JSON);
-        File pluginTempDir = createProjectTempDirIfMissing(rootFileName);
-        file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () -> {
-            try {
-                VirtualFile tmpFile = file;
-                final VirtualFile parentDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
-                if (parentDir != null) {
-                    if (tmpFile == null) {
-                        tmpFile = parentDir.createChildData(this, getFileName());
-                    }
-                    tmpFile.setReadOnly(false);
-                    Charset charset = tmpFile.getCharset();
-                    try (OutputStream stream = new FileOutputStream(tmpFile.getPath(), false)) {
-                        stream.write(text.getBytes(charset));
-                        return tmpFile;
-                    }
-                }
-            }
-            catch (IOException ignored) {}
-            return null;
-        });
+        IProject requestor = EclipseUtil.getProject(rootFileName);       
+        String fileName = (file == null) ? getFileName() : file.getName();
+        file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () ->
+                TempFileUtils.createExtRefFile(requestor, fileName, text));
         file.setReadOnly(true);
         LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
     }
@@ -156,7 +135,7 @@ public class ExtRef {
 
     private String getFileName() {
         String ext = (contentType == ContentType.JSON) ? "json" : "yaml";
-        return "ext_ref_" + random(15, true, false).toLowerCase() + "." + ext;
+        return EXT_FILE_PREFIX + random(15, true, false).toLowerCase() + "." + ext;
     }
 
     public ContentType getContentType() {
@@ -209,17 +188,5 @@ public class ExtRef {
             return ref.split(REF_DELIMITER)[0];
         }
         return ref;
-    }
-    
-    private static File createProjectTempDirIfMissing(String path) throws IOException {
-    	IProject project = EclipseUtil.getProject(path);
-    	if (project != null) {
-    		String projectPath = new File(project.getLocationURI()).getAbsolutePath();
-    		String tempProjectPath = new File(Paths.get(projectPath, PROJECT_TMP_DIR).toUri()).getAbsolutePath();
-    		File file = VfsUtil.createDirectoryIfMissing(tempProjectPath).getFile();
-    		EclipseUtil.refreshProject(project);
-    		return file;
-    	}
-    	return null;
     }
 }

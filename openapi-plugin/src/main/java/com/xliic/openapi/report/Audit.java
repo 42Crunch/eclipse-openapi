@@ -17,11 +17,18 @@ public class Audit {
     private final Map<String, List<Issue>> fileNameToIssuesMap;
     private String auditFileName;
     private final Project project;
-
-    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response) {
+    private final boolean platform;
+    private boolean showAsHTML;
+    private boolean showAsProblems;
+    
+    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response, 
+    		boolean platform, boolean showAsHTML, boolean showAsProblems) {
 
         this.project = project;
         this.auditFileName = auditFileName;
+        this.platform = platform;
+        this.showAsHTML = showAsHTML;
+        this.showAsProblems = showAsProblems;
         read(response);
         fileNameToIssuesMap = new HashMap<>();
         for (Issue issue : issues) {
@@ -34,6 +41,30 @@ public class Audit {
         }
     }
 
+    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response) {
+        this(project, auditFileName, response, false, true, true);
+    }
+
+    public boolean isPlatform() {
+        return platform;
+    }
+
+    public boolean isShowAsHTML() {
+        return showAsHTML;
+    }
+
+    public boolean isShowAsProblems() {
+        return showAsProblems;
+    }
+
+    public void setShowAsProblems(boolean showAsProblems) {
+        this.showAsProblems = showAsProblems;
+    }
+
+    public void setShowAsHTML(boolean showAsHTML) {
+        this.showAsHTML = showAsHTML;
+    }
+    
     public void removeIssues(@NotNull List<Issue> issuesToRemove) {
         issues.removeAll(issuesToRemove);
         for (Issue issue : issuesToRemove) {
@@ -103,7 +134,7 @@ public class Audit {
         Grade securityGrade = new Grade(0, 30);
         issues = new LinkedList<>();
 
-        Node report = response.getChild("report");
+        Node report = platform ? response : response.getChild("report");
         if (report == null) {
             summary = new Summary(false, true, dataGrade, securityGrade);
             return;
@@ -182,7 +213,7 @@ public class Audit {
                     String criticalityStr = subIssueItem.getChildValue("criticality");
                     int criticality = isEmpty(criticalityStr) ? defaultCriticality : Integer.parseInt(criticalityStr);
 
-                    result.add(new Issue(project, auditFileName, id, description, pointer, score, criticality));
+                    result.add(new Issue(project, auditFileName, id, description, pointer, score, criticality, platform));
                 }
             }
         }

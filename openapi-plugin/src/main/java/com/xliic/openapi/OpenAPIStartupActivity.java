@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.startup.StartupActivity;
+import com.xliic.core.util.EclipseUtil;
+import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.settings.SettingsKeys;
@@ -17,6 +19,9 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 	
 	public static final String PluginTempDir = getPluginTempDir();
 
+    private static final String PREFIX = "xliic";
+    private static final int LENGTH = 10;
+    
 	@Override
 	public void runActivity(@NotNull Project project) {
         // Load quickfix configuration
@@ -33,9 +38,28 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 		if (!pc.isValueSet(PreviewKeys.RENDERER)) {
 			pc.setValue(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX, DEFAULT_RENDERER_INDEX);
 		}
+        // Platform
+        PlatformConnection.setDefaultPlatformURL();
+        if (!PlatformConnection.isEmpty()) {
+        	// Eclipse Development Note 
+        	// The project may have been deleted occasionally
+        	EclipseUtil.createTempProject();
+        }
 	}
 	
+    public static boolean isMyPluginTempDir(@NotNull String dirName) {
+        return PluginTempDir.equals(dirName);
+    }
+
+    public static boolean isPluginTempDirTemplate(@NotNull String dirName) {
+        if (dirName.contains("_")) {
+            String[] items = dirName.split("_");
+            return (items.length == 2) && PREFIX.equals(items[0]) && (items[1].length() == LENGTH);
+        }
+        return false;
+    }
+
     private static String getPluginTempDir() {
-        return "xliic_" + RandomStringUtils.random(10, true, false).toLowerCase();
+        return PREFIX + "_" + RandomStringUtils.random(LENGTH, true, false).toLowerCase();
     }
 }

@@ -2,9 +2,6 @@ package com.xliic.openapi;
 
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
-import com.xliic.core.editor.Editor;
-import com.xliic.core.editor.LogicalPosition;
-import com.xliic.core.editor.ScrollType;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
@@ -13,6 +10,7 @@ import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
@@ -24,9 +22,9 @@ import com.xliic.core.patterns.YamlElementPattern;
 import com.xliic.core.psi.PsiElement;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
+import com.xliic.core.ui.Messages;
 import com.xliic.core.psi.LeafPsiElement;
-import com.xliic.core.util.ResourceUtil;
-import com.xliic.core.util.io.FileUtil;
+import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -37,12 +35,19 @@ import com.xliic.openapi.settings.SettingsKeys;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.PanelNode;
 import com.xliic.openapi.tree.node.SimpleNode;
+
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.ui.IWorkbenchPage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -51,7 +56,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import static com.xliic.openapi.OpenApiPanelKeys.OPENAPI_KEY;
 import static com.xliic.openapi.OpenApiPanelKeys.SWAGGER_KEY;
@@ -61,13 +65,11 @@ public class OpenApiUtils {
     public static final String REF = "$ref";
     public static final String REF_DELIMITER = "#/";
     public static final String POINTER_SEPARATOR = "/";
-	public static final String PROJECT_TMP_DIR = "tmp-xliic";
 
 	public final static ElementPattern<PsiElement> JSON_REF_PATTERN = new JsonElementPattern<>();
 	public final static ElementPattern<PsiElement> YAML_REF_PATTERN = new YamlElementPattern<>();
 
 	public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
-	private final static int DEFAULT_PADDING = 2;
 
     public static String pointer(String key) {
         return pointer(StringUtils.EMPTY, key);
@@ -140,17 +142,15 @@ public class OpenApiUtils {
         }
     }
 
-    public static void goToNodeInEditor(@NotNull Editor editor, @NotNull Node node) {
-        Range range = node.getRange();
-        int offset = editor.logicalPositionToOffset(new LogicalPosition(range.getLine(), range.getColumn()));
-        editor.getCaretModel().moveToOffset(offset);
-        editor.getScrollingModel().scrollToCaret(ScrollType.CENTER_UP);
-    }
-
     public static void activateToolWindow(@NotNull Project project, @NotNull String id) {
         if (!project.isDisposed()) {
+        	EclipseWorkbenchUtil.openPerspective();
             ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(id);
-            if ((toolWindow != null) && !toolWindow.isActive()) {
+            if (toolWindow == null) {
+            	// Eclipse Development Note 
+            	// View is always registered, but may not be available in any page
+        		EclipseWorkbenchUtil.showView(id, null, IWorkbenchPage.VIEW_ACTIVATE);
+            } else if ((toolWindow != null) && !toolWindow.isActive()) {
                 toolWindow.activate(null);
             }
         }
@@ -224,38 +224,6 @@ public class OpenApiUtils {
         return nextPanel;
     }
 
-    public static int getPadding(DefaultMutableTreeNode root, OpenApiFileType fileType) {
-
-        while (root.getParent() != null) {
-            root = (DefaultMutableTreeNode) root.getParent();
-        }
-
-        int count = root.getChildCount();
-        for (int i = 0 ; i < count ; i++) {
-
-            DefaultMutableTreeNode p = (DefaultMutableTreeNode) root.getChildAt(i);
-            int count2 = p.getChildCount();
-            for (int j = 0 ; j < count2 ; j++) {
-
-                DefaultMutableTreeNode p2 = (DefaultMutableTreeNode) p.getChildAt(j);
-                SimpleNode o2 = (SimpleNode) p2.getUserObject();
-
-                if (fileType == OpenApiFileType.Json) {
-                    if (OPENAPI_KEY.equals(o2.getName()) || SWAGGER_KEY.equals(o2.getName()))  {
-                        return o2.getRange().getColumn();
-                    }
-                } else {
-                    Node node = o2.getParent().getNode();
-                    if ((node != null) && node.isObject() && (o2.getRange().getColumn() > 0)) {
-                        return o2.getRange().getColumn();
-                    }
-                }
-            }
-        }
-
-        return DEFAULT_PADDING;
-    }
-
     public static OpenApiFileType getFileType(PsiFile file) {
         if (file == null) {
             return OpenApiFileType.Unsupported;
@@ -317,41 +285,6 @@ public class OpenApiUtils {
             result.append("../");
         }
         return result.toString();
-    }
-
-    public static File createPluginTempDirIfMissing() throws IOException {
-        String tempDir = OpenAPIStartupActivity.PluginTempDir;
-        File dir = new File(FileUtil.getTempDirectory(), tempDir);
-        if (dir.exists()) {
-            return dir;
-        }
-        else {
-            return FileUtil.createTempDirectory(tempDir, "", true);
-        }
-    }
-
-    public static boolean isTempFile(@NotNull VirtualFile file) {
-        try {
-            File dir = new File(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir);
-            VirtualFile vDir = LocalFileSystem.getInstance().findFileByIoFile(dir);
-            if (vDir != null) {
-                if (file.getPath().contains(vDir.getPath())) {
-                	return true;
-                }
-            }
-        }
-        catch (Exception ignored) {}
-        return EclipseUtil.isExtRefFile(file);
-    }
-
-    public static void createTextResource(File dir, String basePath, String prefix, String suffix) throws IOException {
-        ClassLoader loader = OpenApiUtils.class.getClassLoader();
-        InputStream inputStream = ResourceUtil.getResourceAsStream(loader, basePath, prefix + suffix);
-        Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
-        File tmp = FileUtil.createTempFile(dir, prefix, suffix, true);
-        PrintWriter writer = new PrintWriter(tmp, StandardCharsets.UTF_8);
-        stream.forEach(writer::println);
-        writer.close();
     }
 
     public static Set<String> getApprovedHostnames() {
@@ -460,6 +393,28 @@ public class OpenApiUtils {
             return createPair(refFile, null, false);
         }
         return null;
+    }
+    
+    public static String getDomainName(String url) throws URISyntaxException {
+        URI uri = new URI(url);
+        String domain = uri.getHost();
+        return domain != null && domain.startsWith("www.") ? domain.substring(4) : domain;
+    }
+
+    public static String getFileNameFromURL(@NotNull String href, @NotNull String defaultName) {
+        try {
+            URL url = new URL(href);
+            return FilenameUtils.getBaseName(url.getPath());
+        }
+        catch (MalformedURLException ignored) {}
+        return defaultName;
+    }
+
+    public static void showErrorMessageDialog(@NotNull Project project, @NotNull String message) {
+        SwingUtilities.invokeLater(() -> {
+            Messages.showMessageDialog(project, message,
+                    OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
+        });
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {
