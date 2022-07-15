@@ -36,4 +36,8 @@ public class DocumentEvent {
         }
         return -1;
     }
+    
+    public boolean isWholeTextReplaced() {
+        return false;
+    }
 }

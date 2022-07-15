@@ -48,6 +48,11 @@
         id="com.xliic.openapi.actions.ExtRefReloadAction"
         name="Reload Remote References">
   </command>
+  <command
+        defaultHandler="com.xliic.openapi.actions.PlatformUploadAction"
+        id="com.xliic.openapi.actions.PlatformUploadAction"
+        name="Save To Platform">
+  </command>
 	</extension>
 	
 	<extension point="org.eclipse.ui.handlers">
@@ -101,10 +106,20 @@
             category="eclipse-openapi"
             class="com.xliic.openapi.report.jcef.ui.JCEFReportPanelView"
             icon="icons/icon_api_16.png"
-            id="com.xliic.openapi.report.html.ui.HTMLReportPanelView"
+            id="com.xliic.openapi.report.jcef.ui.JCEFReportPanelView"
             inject="true"
             name="API Security Audit">
       </view>
+      <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
+            icon="icons/icon_42crunch_platform.png"
+            id="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
+            inject="true"
+            name="42Crunch">
+      </view>
+      
    </extension>
 
 	<extension point="org.eclipse.ui.services">
@@ -139,6 +154,10 @@
 
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.HTMLServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.api.IHTMLService"></service>
+		</serviceFactory>
+		
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.PlatformServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IPlatformService"></service>
 		</serviceFactory>
 		
 	</extension>
@@ -241,6 +260,11 @@
                   icon="icons/extref.png"
                   style="push">
             </command>
+            <command
+                  commandId="com.xliic.openapi.actions.PlatformUploadAction"
+                  icon="icons/platform-save.png"
+                  style="push">
+            </command>
          </menu>
       </menuContribution>
       <menuContribution
@@ -262,6 +286,11 @@
             <command
                   commandId="com.xliic.openapi.actions.ExtRefReloadAction"
                   icon="icons/extref.png"
+                  style="push">
+            </command>
+            <command
+                  commandId="com.xliic.openapi.actions.PlatformUploadAction"
+                  icon="icons/platform-save.png"
                   style="push">
             </command>
          </toolbar>

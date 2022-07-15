@@ -125,7 +125,7 @@ public class OpenAPITreeView extends ViewPart
 	@Override
 	public void createPartControl(Composite parent) {
 
-		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		viewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
 
 		labelProvider = createLabelProvider();
 		viewer.setLabelProvider(labelProvider);
@@ -166,18 +166,24 @@ public class OpenAPITreeView extends ViewPart
 
 	@Override
 	public void dispose() {
-		super.dispose();
-		if (fActionSet != null) {
-			fActionSet.dispose();
+		if (viewer != null) {
+			super.dispose();
+			project.getMessageBus().connect().unsubscribe(this);
+			if (fActionSet != null) {
+				fActionSet.dispose();
+				fActionSet = null;
+			}
+			if (labelProvider != null) {
+				labelProvider.dispose();
+				labelProvider = null;
+			}
+			expansionListener.clean();
+			mouseMotionListener.cleanPaths();
+			viewer.removeSelectionChangedListener(listener);
+			viewer.removeTreeListener(expansionListener);
+			eventBroker.unsubscribe(lafListener);
+			viewer =  null;
 		}
-		if (labelProvider != null) {
-			labelProvider.dispose();
-		}
-		expansionListener.clean();
-		mouseMotionListener.cleanPaths();
-		viewer.removeSelectionChangedListener(listener);
-		viewer.removeTreeListener(expansionListener);
-		eventBroker.unsubscribe(lafListener);
 	}
 
 	@Override

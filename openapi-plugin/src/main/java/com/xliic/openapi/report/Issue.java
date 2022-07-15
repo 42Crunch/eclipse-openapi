@@ -38,9 +38,11 @@ public class Issue {
 	private URI uri;
 	private Range range;
 	private RangeMarker rangeMarker;
+	@SuppressWarnings("unused")
+	private boolean platform;
 
 	public Issue(Project project, String auditFileName, String id, String description, String bundlePointer,
-			float score, int criticality) {
+			float score, int criticality, boolean platform) {
 
 		this.id = id;
 		this.description = description;
@@ -53,10 +55,17 @@ public class Issue {
 		fileName = null;
 		uri = null;
 		pointer = bundlePointer;
-
-        BundleService bundleService = BundleService.getInstance(project);
-        BundleResult bundleResult = bundleService.getBundle(auditFileName);
-        BundleLocation errorLocation = bundleResult.getBundleLocation(bundlePointer);
+		this.platform = platform;
+		
+        BundleLocation errorLocation;
+        if (platform) {
+            errorLocation = new BundleLocation(auditFileName, bundlePointer);
+        }
+        else {
+            BundleService bundleService = BundleService.getInstance(project);
+            BundleResult bundleResult = bundleService.getBundle(auditFileName);
+            errorLocation = bundleResult.getBundleLocation(bundlePointer);
+        }
         disposeRangeMarker();
 
         if (errorLocation.isValid()) {
@@ -108,7 +117,7 @@ public class Issue {
 		return project;
 	}
 
-	private String transformScore(float score) {
+	public static String transformScore(float score) {
 		int rounded = Math.abs(Math.round(score));
 		if (score == 0) {
 			return "0";

@@ -7,6 +7,7 @@ import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseWorkbenchUtil;
 
 public class ToolWindowManager {
 	
@@ -34,5 +35,10 @@ public class ToolWindowManager {
 			}
 		}
 		return null;
+	}
+	
+	public ToolWindow registerToolWindow(@NotNull RegisterToolWindowTask task) {
+		EclipseWorkbenchUtil.showView(task.getId(), null, IWorkbenchPage.STATE_MAXIMIZED);
+		return getToolWindow(task.getId());
 	}
 }

@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.internal.Workbench;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +29,8 @@ public class FileEditorManager {
 	@NotNull
 	public List<FileEditor> openEditor(@NotNull OpenFileDescriptor descriptor, boolean focusEditor) {
 		descriptor.navigate(focusEditor);
-		return null; // TODO: return smth here
+		// Simply null as it is not used anywhere
+		return null;
 	}
 
 	public static FileEditorManager getInstance(Project project) {
@@ -36,6 +39,20 @@ public class FileEditorManager {
 
 	public Project getProject() {
 		return project;
+	}
+	
+	public void closeFile(@NotNull VirtualFile file) {
+		for (IWorkbenchPage page : EclipseUtil.getAllSupportedPages()) {
+			for (IEditorReference ref : page.getEditorReferences()) {
+				try {
+					VirtualFile tmp = EclipseUtil.getVirtualFile(ref.getEditorInput());
+					if (tmp.equals(file)) {
+						page.closeEditor(ref.getEditor(true), false);
+					}
+				} catch (PartInitException e) {
+				}
+			}
+		}
 	}
 
 	@NotNull

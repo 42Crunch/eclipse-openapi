@@ -14,8 +14,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Stream;
 
-import static com.xliic.openapi.OpenApiUtils.createPluginTempDirIfMissing;
-import static com.xliic.openapi.OpenApiUtils.createTextResource;
+import static com.xliic.openapi.TempFileUtils.createPluginTempDirIfMissing;
+import static com.xliic.openapi.TempFileUtils.createTextResource;
 
 public class HTMLService implements IHTMLService, Disposable {
 

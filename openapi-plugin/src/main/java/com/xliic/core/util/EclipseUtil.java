@@ -10,9 +10,12 @@ import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -21,6 +24,7 @@ import org.eclipse.jetty.util.StringUtil;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
@@ -45,11 +49,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 
 public class EclipseUtil {
+	
+	public static final String TEMP_PROJECT_NAME = "tmp-xliic-project";
 	
 	private EclipseUtil() {}
 	
@@ -65,13 +70,6 @@ public class EclipseUtil {
 			return new Range(startOffset, startOffset, range.getLine(), range.getColumn());
 		}
 		return range;
-	}
-
-	public static boolean isExtRefFile(@NotNull VirtualFile file) {
-		if (file.getPath().contains("/" + OpenApiUtils.PROJECT_TMP_DIR + "/ext_ref_")) {
-			return true;
-		}
-		return false;
 	}
 
 	@Nullable
@@ -102,6 +100,16 @@ public class EclipseUtil {
         IWorkbenchPage page = getActivePage();
         return page == null ? null : page.getActiveEditor();
     }
+	
+	@NotNull
+	public static ILabelDecorator getLabelDecorator() {
+		return getWorkbench().getDecoratorManager().getLabelDecorator();
+	}
+
+	@NotNull
+	public static Font getBoldFont() {
+		return getBoldFont(getWorkbench().getDisplay().getSystemFont());
+	}
 
 	@NotNull
 	public static Font getBoldFont(@NotNull Font font) {
@@ -218,6 +226,26 @@ public class EclipseUtil {
 		return inputs;
 	}
 	
+	@NotNull
+	public static List<IWorkbenchPage> getAllSupportedPages() {
+		List<IWorkbenchPage> pages = new LinkedList<>();
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+		for (IWorkbenchWindow window : windows) {
+			for (IWorkbenchPage page : window.getPages()) {
+				for (IEditorReference ref : page.getEditorReferences()) {
+					try {
+						if (isSupported(ref.getEditorInput())) {
+							pages.add(page);
+						}
+					} catch (PartInitException e) {
+					}
+				}
+			}
+		}
+		return pages;
+	}
+	
 	@Nullable
 	public static IProject getProject(@NotNull String path) {
 		return getProject(new File(path));
@@ -285,4 +313,49 @@ public class EclipseUtil {
         }
         return editorId;
     }
+	
+	@NotNull
+	public static void createTempProject() {		
+        try {
+    		IProject project = getTempProject();
+    		if (project != null) {
+    			if (!project.isOpen()) {
+    				project.open(IResource.BACKGROUND_REFRESH, null);
+    			}
+    		 } else {
+    			 IWorkspace workspace = ResourcesPlugin.getWorkspace();
+    			 IProjectDescription projectDescription = workspace.newProjectDescription(TEMP_PROJECT_NAME);
+    	         projectDescription.setLocation(null);
+    	         project = workspace.getRoot().getProject(TEMP_PROJECT_NAME);
+    	         project.create(projectDescription, null);
+    	         project.open(IResource.NONE, null);
+    		 }
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+	 }
+	
+	@Nullable
+	public static IProject getTempProject() throws CoreException {
+         IWorkspace workspace = ResourcesPlugin.getWorkspace();
+         IProject [] projects = workspace.getRoot().getProjects(IContainer.INCLUDE_HIDDEN);
+         for (IProject project : projects) {
+        	 if (TEMP_PROJECT_NAME.equalsIgnoreCase(project.getDescription().getName())) {
+        		 return project;
+        	 }
+         }
+         return null;
+	 }
+	
+	@NotNull
+	public static void removeTempProject() {
+		try {
+			IProject project = getTempProject();
+			if (project != null) {
+				project.delete(true, true, null);
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+	 }
 }

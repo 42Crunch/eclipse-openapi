@@ -3,29 +3,23 @@ package com.xliic.core.actionSystem;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.expressions.IEvaluationContext;
 
 public abstract class AnAction extends AbstractHandler {
 
-	public void setEnabled(boolean enabled) {
-		setBaseEnabled(enabled);
-	}
-
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		actionPerformed(new AnActionEvent(this, event, null));
+		actionPerformed(new AnActionEvent(event));
 		return null;
 	}
-
+	
 	@Override
 	public void setEnabled(Object evaluationContext) {
-		if (evaluationContext instanceof IEvaluationContext) {
-			update(new AnActionEvent(this, null, (IEvaluationContext) evaluationContext));
+		AnActionEvent event = new AnActionEvent(evaluationContext); 
+		update(event);
+		boolean state = event.getPresentation().isEnabled();
+		if (state != super.isEnabled()) {
+			setBaseEnabled(state);
 		}
-	}
-
-	@Override
-	public void dispose() {
 	}
 
 	public abstract void update(AnActionEvent event);

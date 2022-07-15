@@ -16,6 +16,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 
@@ -44,7 +45,16 @@ public class OpenAPINavigationProvider implements DirectNavigationProvider {
 	          }
 	        }
 	        else {
-	          return getPsiElementFromIndex(project, refFile, target.getJsonPointer());
+	          // Platform files are temp files which never indexed
+	          if (TempFileUtils.isPlatformFile(refFile)) {
+	            PsiFile psiFile = PsiManager.getInstance(project).findFile(refFile);
+	            if (psiFile != null) {
+	              return psiFile.findElementAt(target.getRange().getStartOffset());
+	            }
+	          }
+	          else {
+	            return getPsiElementFromIndex(project, refFile, target.getJsonPointer());
+	          }
 	        }
 	      }
 	    }

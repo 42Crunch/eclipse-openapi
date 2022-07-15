@@ -7,12 +7,15 @@ import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.FileEditorManagerListener;
 import com.xliic.core.fileEditor.TextEditor;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
+import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.PlaceHolderService;
+import com.xliic.openapi.services.PlatformService;
 
 import static com.xliic.core.util.ObjectUtils.tryCast;
 import static com.xliic.openapi.OpenApiUtils.getFileType;
@@ -29,6 +32,14 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
             return;
         }
         final Project project = source.getProject();
+        if (TempFileUtils.isPluginTempDeadFile(file)) {
+            source.closeFile(file);
+            if (TempFileUtils.isPluginPlatformTempDeadFile(file)) {
+                PlatformService platformService = PlatformService.getInstance(project);
+                platformService.reopenPlatformFile(file);
+            }
+            return;
+        }
         if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {
             // File already opened in another editor(s)
             return;
@@ -36,6 +47,10 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
         ASTService astService = ASTService.getInstance(project);
         astService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_OPENED, file);
 
+        if (TempFileUtils.isPlatformFile(file)) {
+            PlatformService platformService = PlatformService.getInstance(project);
+            platformService.addListener(file);
+        }
         BundleService bundleService = BundleService.getInstance(project);
         bundleService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_OPENED, file);
 	}
@@ -43,6 +58,9 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
 	@Override
 	public void beforeFileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
         if (getFileType(file) == OpenApiFileType.Unsupported) {
+            return;
+        }
+        if (TempFileUtils.isPluginTempDeadFile(file)) {
             return;
         }
         final Project project = source.getProject();
@@ -64,6 +82,16 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
                 PlaceHolderService placeHolderService = PlaceHolderService.getInstance(project);
                 placeHolderService.dispose(textEditor.getEditor());
             }
+        }
+        
+        if (TempFileUtils.isPlatformFile(file)) {
+            SwingUtilities.invokeLater(() -> {
+                PlatformService platformService = PlatformService.getInstance(project);
+                if (platformService.isPlatformFileModified(file)) {
+                    platformService.saveToPlatform(file, false);
+                }
+                platformService.removeListener(file);
+            });
         }
     }
 }

@@ -9,7 +9,6 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
-import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.BulkFileListener;
 import com.xliic.core.vfs.VFileEvent;
@@ -19,6 +18,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.async.AsyncService;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.report.Audit;
@@ -63,7 +63,7 @@ public class OpenAPIBulkFileListener extends BulkFileListener {
     	ExtRefService extRefService = ExtRefService.getInstance(project);
     	Set<String> hostnames = new HashSet<>();
     	for (VirtualFile file : files) {
-    		if (EclipseUtil.isExtRefFile(file)) {
+    		if (TempFileUtils.isExtRefFile(file)) {
             	ExtRef extRef = extRefService.getExtRef(file);
             	if (extRef != null) {
             		rootFileNames.add(extRef.getrRootFileName());

@@ -89,7 +89,7 @@ public class ReportPanelView extends ViewPart
 
 	@Override
 	public void createPartControl(Composite parent) {
-		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		viewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
 		filterState = new FilterState();
 		contentProvider = new ReportTreeContentProvider(this);
 		viewer.setContentProvider(contentProvider);
@@ -201,6 +201,7 @@ public class ReportPanelView extends ViewPart
 
 	@Override
 	public void handleSelectedFile(VirtualFile file) {
+		refreshProblems(file);
 		if (filterState.isShowSelectedFileOnly()) {
 			reloadAndRestoreExpansion();
 		}
@@ -213,24 +214,24 @@ public class ReportPanelView extends ViewPart
 
 	@Override
 	public void handleAuditReportReady(VirtualFile file) {
-
-		//WorkbenchUtils.showView(ID, null, IWorkbenchPage.VIEW_ACTIVATE);
-		AuditService auditService = AuditService.getInstance(project);
-		Audit data = auditService.getAuditReport(file.getPath());
-		addIssues(data.getIssues());
-		currentFiles.add(file);
-
-		// Navigate to the report tree node
-		if (fileNameToTreeNodeMap.containsKey(data.getAuditFileName())) {
-			goToFileTreeNode(fileNameToTreeNodeMap.get(data.getAuditFileName()));
-		} else {
-			for (String fileName : data.getParticipantFileNames()) {
-				if (fileNameToTreeNodeMap.containsKey(fileName)) {
-					goToFileTreeNode(fileNameToTreeNodeMap.get(fileName));
-					break;
-				}
-			}
-		}
+	  AuditService auditService = AuditService.getInstance(project);
+	  Audit data = auditService.getAuditReport(file.getPath());
+	  if (!data.isPlatform() || data.isShowAsProblems()) {
+	    addIssues(data.getIssues());
+	    // toolWindow.show(null);
+	    // Navigate to the report tree node
+	    if (fileNameToTreeNodeMap.containsKey(data.getAuditFileName())) {
+	      goToFileTreeNode(fileNameToTreeNodeMap.get(data.getAuditFileName()));
+	    }
+	    else {
+	      for (String fileName : data.getParticipantFileNames()) {
+	        if (fileNameToTreeNodeMap.containsKey(fileName)) {
+	          goToFileTreeNode(fileNameToTreeNodeMap.get(fileName));
+	          break;
+	        }
+	      }
+	    }
+	  }
 	}
 
 	private void cleanTree() {
@@ -374,16 +375,21 @@ public class ReportPanelView extends ViewPart
 
 	@Override
 	public void dispose() {
-		super.dispose();
-		if (labelProvider != null) {
-			labelProvider.dispose();
+		if (viewer != null) {
+			super.dispose();
+			project.getMessageBus().connect().unsubscribe(this);
+			if (labelProvider != null) {
+				labelProvider.dispose();
+				labelProvider = null;
+			}
+			fileNameToTreeNodeMap.clear();
+			issueToTreeNodeMap.clear();
+			currentFiles.clear();
+			filterState = null;
+			viewer.removeSelectionChangedListener(listener);
+			viewer.removeTreeListener(expansionListener);
+			viewer = null;
 		}
-		fileNameToTreeNodeMap.clear();
-		issueToTreeNodeMap.clear();
-		currentFiles.clear();
-		filterState = null;
-		viewer.removeSelectionChangedListener(listener);
-		viewer.removeTreeListener(expansionListener);
 	}
 	
 	private boolean isDisposed() {
@@ -395,4 +401,15 @@ public class ReportPanelView extends ViewPart
 
 	@Override
 	public void handleToolWindowOpened(String id) {}
+	
+    private void refreshProblems(VirtualFile file) {
+	  if (file != null) {
+	    AuditService auditService = AuditService.getInstance(project);
+		Audit report = auditService.getAuditReport(file.getPath());
+		if (report != null && !fileNameToTreeNodeMap.containsKey(report.getAuditFileName())) {
+		  report.setShowAsProblems(true);
+		  handleAuditReportReady(file);
+	    }
+	  }
+	}
 }

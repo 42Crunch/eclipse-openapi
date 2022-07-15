@@ -16,6 +16,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -87,17 +88,27 @@ public final class EclipseWorkbenchUtil {
 		return Optional.ofNullable(result);
 	}
 
-	public static void openPerspective() {
-		IPerspectiveRegistry registry = WorkbenchPlugin.getDefault().getPerspectiveRegistry();
-		IPerspectiveDescriptor perspective = registry.findPerspectiveWithId(OpenAPIPerspectiveFactory.ID);
-		if (perspective != null) {
-			IWorkbenchPage page = EclipseUtil.getActivePage();
-			page.setPerspective(perspective);
+	public static boolean openPerspective() {
+		IWorkbenchPage page = EclipseUtil.getActivePage();
+		if (!OpenAPIPerspectiveFactory.ID.equals(page.getPerspective().getId())) {
+			IPerspectiveRegistry registry = WorkbenchPlugin.getDefault().getPerspectiveRegistry();
+			IPerspectiveDescriptor perspective = registry.findPerspectiveWithId(OpenAPIPerspectiveFactory.ID);
+			if (perspective != null) {
+				page.setPerspective(perspective);
+				return true;
+			}
 		}
+		return false;
 	}
 
 	public static IWorkbenchWindow getIWorkbenchWindow() {
 		return getIWorkbenchWindow(Workbench.getInstance());
+	}
+
+	public static void updateActionBars() {
+		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
+			((WorkbenchWindow) window).updateActionBars();
+		}
 	}
 
 	private static IWorkbenchWindow getIWorkbenchWindow(Workbench workbench) {

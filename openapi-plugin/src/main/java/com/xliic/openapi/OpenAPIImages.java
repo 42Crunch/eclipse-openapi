@@ -27,6 +27,21 @@ public class OpenAPIImages {
 	public static final ImageDescriptor ExtRef;
 	public static final ImageDescriptor Host;
 	public static final ImageDescriptor Sort;
+	
+    public static final ImageDescriptor Platform;   
+    public static final ImageDescriptor PlatformAll;
+    public static final ImageDescriptor PlatformFavorite;
+    public static final ImageDescriptor PlatformFolder;
+    public static final ImageDescriptor PlatformFolderLocked;
+    public static final ImageDescriptor PlatformAPI;
+    public static final ImageDescriptor PlatformSave;
+
+    public static final ImageDescriptor PlatformOAS;
+    public static final ImageDescriptor PlatformAuditVerified;
+    public static final ImageDescriptor PlatformAuditUnverified;
+    
+    public static final ImageDescriptor UpdateRunningApplication;
+    public static final ImageDescriptor Refresh;
 
 	private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
 
@@ -51,6 +66,21 @@ public class OpenAPIImages {
 		ExtRef = createImageDescriptor("icons/extref.png");
 		Host = createImageDescriptor("icons/host.png");
 		Sort = createImageDescriptor("icons/sorted.png");
+		
+		Platform = createImageDescriptor("/icons/icon_42crunch_platform.png");
+		PlatformAll = createImageDescriptor("/icons/platform-all.png");
+		PlatformFavorite = createImageDescriptor("/icons/platform-favorite.png");
+		PlatformFolder = createImageDescriptor("/icons/platform-folder.png");
+		PlatformFolderLocked = createImageDescriptor("/icons/platform-folder-locked.png");
+		PlatformAPI = createImageDescriptor("/icons/platform-api.png");
+		PlatformSave = createImageDescriptor("/icons/platform-save.png");
+		
+		PlatformOAS = createImageDescriptor("/icons/platform-oas.png");
+		PlatformAuditVerified = createImageDescriptor("/icons/platform-audit-verified.png");
+		PlatformAuditUnverified = createImageDescriptor("/icons/platform-audit-unverified.png");
+		
+		UpdateRunningApplication = createImageDescriptor("/icons/progress.png");
+		Refresh = createImageDescriptor("/icons/refresh.png");
 	}
 
 	private static ImageDescriptor createImageDescriptor(String path) {

@@ -16,13 +16,11 @@ public class JTextField implements Validator {
 	private Text textWidget;
 	private String text;
 	private ModifyListener validator;
-	private Color bkgColor;
 	
 	public JTextField(@NotNull JPanel parent) {
 		this(parent.getComposite(), null);
 		text = null;
 		validator = null;
-		bkgColor = null;
 	}
 	
 	public JTextField(Composite parent, @Nullable GridData gridData) {
@@ -40,6 +38,10 @@ public class JTextField implements Validator {
 			}
 			textWidget = null;
 		});
+	}
+	
+	public void setEchoChar() {
+		textWidget.setEchoChar('*');	
 	}
 	
     public void setText(String t) {
@@ -64,7 +66,7 @@ public class JTextField implements Validator {
 
 	@Override
 	public void setValid() {
-		textWidget.setBackground(bkgColor);
+		textWidget.setBackground(null);
 		textWidget.setToolTipText(null);
 	}
 
@@ -84,7 +86,6 @@ public class JTextField implements Validator {
 			}
 		};
 		addModifyListener(validator);
-		bkgColor = textWidget.getBackground();
 	}
 
 	@Override
@@ -92,6 +93,5 @@ public class JTextField implements Validator {
 		Assert.isNotNull(validator);
 		removeModifyListener(validator);
 		validator = null;
-		bkgColor = null;
 	}
 }

@@ -2,6 +2,9 @@ package com.xliic.core.fileEditor;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,6 +20,20 @@ public class FileDocumentManager {
 
 	public static FileDocumentManager getInstance() {
 		return fileDocumentManager;
+	}
+	
+	public void saveDocument(@NotNull Document document) {
+		for (IWorkbenchPage page : EclipseUtil.getAllSupportedPages()) {
+			for (IEditorReference ref : page.getEditorReferences()) {
+				try {
+					IEditorInput input = ref.getEditorInput();
+					if (document.equals(new DocumentImpl(EclipseUtil.getDocument(input)))) {
+						page.saveEditor(ref.getEditor(false), false);
+					}
+				} catch (PartInitException e) {
+				}
+			}
+		}
 	}
 
 	@Nullable

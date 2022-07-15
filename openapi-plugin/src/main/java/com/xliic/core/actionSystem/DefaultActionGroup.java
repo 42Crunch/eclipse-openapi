@@ -6,8 +6,11 @@ import java.util.List;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class DefaultActionGroup {
+import com.xliic.core.util.Icon;
+
+public class DefaultActionGroup implements Presentation {
 
 	private final IMenuManager menu;
 	private final List<AnJAction> actions = new LinkedList<>();
@@ -32,6 +35,14 @@ public class DefaultActionGroup {
 		return new DefaultActionGroup(menu);
 	}
 
+	public final void add(@NotNull AnJAction action) {
+		if (menu != null) {
+			menu.add(action);
+			action.update();
+		}
+		actions.add(action);
+	}
+	
 	public final void addAll(@NotNull Collection<? extends AnJAction> actionList) {
 		if (menu != null) {
 			for (AnJAction action : actionList) {
@@ -47,6 +58,12 @@ public class DefaultActionGroup {
 	}
 
     public final @NotNull Presentation getTemplatePresentation() {
-    	return new Presentation();
+    	return this;
     }
+    
+	@Override
+	public void setIcon(@Nullable Icon icon) {}
+    
+	@Override
+	public void setDescription(@NotNull String description) {}
 }

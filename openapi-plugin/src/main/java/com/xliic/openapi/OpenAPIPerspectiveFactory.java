@@ -24,22 +24,27 @@ public class OpenAPIPerspectiveFactory implements IPerspectiveFactory {
 	public void defineLayout(IPageLayout layout) {
 		// Editors are placed for free.
 		String editorArea = layout.getEditorArea();
-
-		// Top left.
-		IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT, (float) 0.20, editorArea);
-		topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
-		topLeft.addPlaceholder(IPageLayout.ID_BOOKMARKS);
+		// Layout
+		// A * E
+		// B * E
+		// C D E
+		IFolderLayout abc = layout.createFolder("abc", IPageLayout.LEFT, (float) 0.20, editorArea);
+		abc.addView(IPageLayout.ID_PROJECT_EXPLORER);
+		abc.addPlaceholder(IPageLayout.ID_BOOKMARKS);
 
 		// Add a placeholder for the old navigator to maintain compatibility
-		topLeft.addPlaceholder("org.eclipse.ui.views.ResourceNavigator");
+		abc.addPlaceholder("org.eclipse.ui.views.ResourceNavigator");
 
-		IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, (float) 0.50, "topLeft");
-		bottomLeft.addView(ToolWindowId.OPEN_API);
+		IFolderLayout b = layout.createFolder("b", IPageLayout.BOTTOM, (float) 0.34, "abc");
+		b.addView(ToolWindowId.OPEN_API_PLATFORM);
 
-		IFolderLayout bottomRight = layout.createFolder("bottomRight", IPageLayout.BOTTOM, (float) 0.70, editorArea);
-		bottomRight.addView(ToolWindowId.OPEN_API_REPORT);
-		
-		IFolderLayout topRight = layout.createFolder("topRight", IPageLayout.RIGHT, (float) 0.70, editorArea);
-		topRight.addView(ToolWindowId.OPEN_API_HTML_REPORT);
+		IFolderLayout c = layout.createFolder("c", IPageLayout.BOTTOM, (float) 0.50, "b");
+		c.addView(ToolWindowId.OPEN_API);
+
+		IFolderLayout e = layout.createFolder("e", IPageLayout.RIGHT, (float) 0.70, editorArea);
+		e.addView(ToolWindowId.OPEN_API_HTML_REPORT);
+
+		IFolderLayout d = layout.createFolder("d", IPageLayout.BOTTOM, (float) 0.675, editorArea);
+		d.addView(ToolWindowId.OPEN_API_REPORT);
 	}
 }

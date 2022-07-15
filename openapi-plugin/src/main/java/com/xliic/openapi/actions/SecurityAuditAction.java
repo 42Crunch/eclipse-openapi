@@ -1,14 +1,11 @@
 package com.xliic.openapi.actions;
 
-import static com.xliic.openapi.OpenApiUtils.isToolWindowRegistered;
-
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.services.AuditService;
@@ -24,8 +21,7 @@ public class SecurityAuditAction extends ProjectAction {
 
     @Override
     public boolean update(@NotNull Project project, @NotNull VirtualFile file) {
-        return isToolWindowRegistered(project, ToolWindowId.OPEN_API_REPORT) &&
-                isToolWindowRegistered(project, ToolWindowId.OPEN_API_HTML_REPORT);
+        return true;
     }
 
     @Override

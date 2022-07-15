@@ -165,8 +165,11 @@ public class JCEFReportPanel extends JBCefBrowser
   @Override
   public void handleAuditReportReady(VirtualFile file) {
     AuditService auditService = AuditService.getInstance(project);
-    update(auditService.getAuditReport(file.getPath()));
-    toolWindow.show(null);
+    Audit report = auditService.getAuditReport(file.getPath());
+    if (!report.isPlatform() || report.isShowAsHTML()) {
+      update(report);
+      toolWindow.show(null);
+    }
   }
 
   @Override
@@ -191,8 +194,18 @@ public class JCEFReportPanel extends JBCefBrowser
     AuditService auditService = AuditService.getInstance(project);
     Audit audit = auditService.getAuditReport(file.getPath());
     if (audit != null) {
-      update(audit);
-    }
+	  if (audit.isPlatform()) {
+	    if (audit.isShowAsHTML()) {
+	      update(audit);
+	    }
+	    else {
+	      reportNotAvailable();
+	    }
+	  }
+	  else {
+	    update(audit);
+	  }
+	}
     else if (auditService.isNotAuditParticipantFile(file.getPath())) {
       reportNotAvailable();
     }

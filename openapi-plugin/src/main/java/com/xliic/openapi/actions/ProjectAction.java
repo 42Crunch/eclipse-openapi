@@ -11,6 +11,7 @@ import com.xliic.core.ui.Messages;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 
@@ -58,7 +59,7 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
             String msg = OpenApiBundle.message("openapi.non.project.file", name);
             Messages.showMessageDialog(project, msg, OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
             return;
-        } else if (OpenApiUtils.isTempFile(file)) {
+        } else if (TempFileUtils.isExtRefFile(file)) {
             String msg = OpenApiBundle.message("openapi.temp.file", name);
             Messages.showMessageDialog(project, msg, OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
             return;

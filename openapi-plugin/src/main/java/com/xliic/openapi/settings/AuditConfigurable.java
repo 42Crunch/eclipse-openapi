@@ -1,6 +1,8 @@
 package com.xliic.openapi.settings;
 
 import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.module.Module;
 import com.xliic.core.options.Configurable;
@@ -30,9 +32,12 @@ import org.eclipse.swt.widgets.Label;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.swing.event.DocumentEvent;
 
@@ -52,9 +57,14 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
   private JPanel hostsPanel;
   private JPanel sortPanel;
   private JCheckBox sortABC;
+  
+  private JTextField platformURLField;
+  private JTextField apiKeyField;
+  private JPanel platformPanel;
+  
   private boolean isTokenCleaned = false;
   private HostNameTableEditor hostsTableModelEditor;
-  private final List<String> keysToNotify = new LinkedList<>();;
+  private final List<String> keysToNotify = new LinkedList<>();
   
   public AuditConfigurable() {
     super(null, DefaultProjectFactory.getInstance().getDefaultProject());
@@ -71,6 +81,18 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
       gridLayout.numColumns = 1;
       parent.setLayout(gridLayout);
       parent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+      
+      platformPanel =  new JPanel("42Crunch Platform Credentials", parent, SWT.NONE, 2);
+
+      new Label(platformPanel.getComposite(), SWT.NULL).setText("Platform URL");
+      platformURLField = new JTextField(platformPanel);
+      String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+      platformURLField.setText(StringUtils.isEmpty(platformURL) ? StringUtils.EMPTY : platformURL);
+      
+      new Label(platformPanel.getComposite(), SWT.NULL).setText("API Key");
+      apiKeyField = new JTextField(platformPanel);
+      apiKeyField.setEchoChar();
+      apiKeyField.setText(getPlatformAPIKey());
 
       hostsPanel = new JPanel("Approved Hostnames", parent, SWT.NONE, 2);
       hostsTableModelEditor = new HostNameTableEditor(hostsPanel.getComposite());
@@ -178,6 +200,37 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     catch(NumberFormatException ignored) {
       return false;
     }
+    
+    if (isAllPlatformSettingsEmpty()) {
+        return true;
+      }
+
+      String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+      try {
+        String configuredPlatformURL = platformURLField.getText();
+        if (StringUtils.isEmpty(configuredPlatformURL)) {
+          return false;
+        }
+        else {
+          OpenApiUtils.getDomainName(configuredPlatformURL);
+        }
+        if (!Objects.equals(platformURL, configuredPlatformURL)) {
+          return true;
+        }
+      }
+      catch (URISyntaxException ignored) {
+        return false;
+      }
+
+      String platformAPIKey = getPlatformAPIKey();
+      String configuredPlatformAPIKey = apiKeyField.getText();
+      if (StringUtils.isEmpty(configuredPlatformAPIKey)) {
+        return false;
+      }
+      else if (PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
+              !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
+        return true;
+      }
 
     return false;
   }
@@ -190,6 +243,8 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     serverPortTextField.setText(String.valueOf(pc.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT)));
     hostsTableModelEditor.reset();
     sortABC.setSelected(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
+    platformURLField.setText(PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM));
+    apiKeyField.setText(getPlatformAPIKey());
   }
 
   @Override
@@ -227,7 +282,38 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         PropertiesComponent.getInstance().setValue(SettingsKeys.ABC_SORT, sortABC.isSelected());
         notify(SettingsKeys.ABC_SORT);
     }
-    sendPropertiesUpdatedEvent();
+    
+    if (isAllPlatformSettingsEmpty()) {
+        PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, "");
+        notify(SettingsKeys.PLATFORM);
+        PlatformConnection.setPlatformAPIKey(null);
+        notify(SettingsKeys.API_KEY);
+      }
+      else {
+        String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+        try {
+          String configuredPlatformURL = platformURLField.getText();
+          if (!StringUtils.isEmpty(configuredPlatformURL)) {
+            OpenApiUtils.getDomainName(configuredPlatformURL);
+            if (!Objects.equals(platformURL, configuredPlatformURL)) {
+              PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, platformURLField.getText());
+              notify(SettingsKeys.PLATFORM);
+            }
+          }
+        }
+        catch (URISyntaxException ignored) {}
+
+        String platformAPIKey = getPlatformAPIKey();
+        String configuredPlatformAPIKey = apiKeyField.getText();
+        if (!StringUtils.isEmpty(configuredPlatformAPIKey) &&
+                PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
+                !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
+          PlatformConnection.setPlatformAPIKey(configuredPlatformAPIKey);
+          notify(SettingsKeys.API_KEY);
+        }
+      }
+
+      sendPropertiesUpdatedEvent();
   }
   
   private boolean isSortABCModified() {
@@ -240,18 +326,38 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
   }
   
   private void sendPropertiesUpdatedEvent() {
-      ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
-      if (projectManager != null) {
-          Project[] projects = projectManager.getOpenProjects();
-          for (String key : keysToNotify) {
-              for (Project project : projects) {
-                  if (!project.isDisposed()) {
-                      project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(key);
-                  }
-              }
-          }
-          keysToNotify.clear();
+    ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
+    if (projectManager != null) {
+      Project [] projects = projectManager.getOpenProjects();
+      Set<String> keysSet = new HashSet<>(keysToNotify);
+      if (keysSet.contains(SettingsKeys.PLATFORM) && keysSet.contains(SettingsKeys.API_KEY)) {
+        keysToNotify.remove(SettingsKeys.API_KEY);
+        keysToNotify.remove(SettingsKeys.PLATFORM);
+        keysToNotify.add(SettingsKeys.PLATFORM_ALL);
       }
+      for (String key : keysToNotify) {
+        for (Project project : projects) {
+          if (!project.isDisposed()) {
+            project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(key);
+          }
+        }
+      }
+      keysToNotify.clear();
+    }
+  }
+  
+  private boolean isAllPlatformSettingsEmpty() {
+    String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+    String platformAPIKey = getPlatformAPIKey();
+    String configuredPlatformURL = platformURLField.getText();
+    String configuredPlatformAPIKey = apiKeyField.getText();
+    return StringUtils.isEmpty(configuredPlatformURL) && StringUtils.isEmpty(configuredPlatformAPIKey) &&
+            !StringUtils.isEmpty(platformURL) && !StringUtils.isEmpty(platformAPIKey);
+  }
+
+  private String getPlatformAPIKey() {
+    String password = PlatformConnection.getPlatformAPIKey();
+    return StringUtils.isEmpty(password) ? StringUtils.EMPTY : password;
   }
 
   @NotNull
