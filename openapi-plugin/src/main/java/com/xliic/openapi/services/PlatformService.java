@@ -9,6 +9,7 @@ import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
@@ -214,6 +215,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                             public void onCode200Response() {
                                 if (updateFileIsModified) {
                                     setFileIsModified(file, false);
+                                    EclipseWorkbenchUtil.updateActionBarsInSWTThread();
                                 }
                                 waitForPlatformAudit(apiId, file);
                             }

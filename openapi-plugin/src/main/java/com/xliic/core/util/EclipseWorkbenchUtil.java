@@ -105,6 +105,10 @@ public final class EclipseWorkbenchUtil {
 		return getIWorkbenchWindow(Workbench.getInstance());
 	}
 
+	public static void updateActionBarsInSWTThread() {
+		SwingUtilities.invokeLater(() -> updateActionBars());
+	}
+
 	public static void updateActionBars() {
 		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
 			((WorkbenchWindow) window).updateActionBars();
