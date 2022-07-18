@@ -15,10 +15,14 @@ public class DocumentEvent {
 
 	private final IDocument document;
 	private final Project project;
+	private final int offset;
+	private final int length;
 
-	public DocumentEvent(IDocument document) {
+	public DocumentEvent(IDocument document, int offset, int length) {
 		this.document = document;
 		this.project = Project.getInstance();
+		this.offset = offset;
+		this.length = length;
 	}
 
     @NotNull
@@ -38,6 +42,6 @@ public class DocumentEvent {
     }
     
     public boolean isWholeTextReplaced() {
-        return false;
+        return (offset == 0) && (document.getLength() == length);
     }
 }
