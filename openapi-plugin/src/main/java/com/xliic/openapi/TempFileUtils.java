@@ -36,7 +36,14 @@ public class TempFileUtils {
         try {
         	IProject project = EclipseUtil.getTempProject();
         	if (project == null) {
-        		return null;
+        		// Eclipse Development Note 
+        		// The project creation might have been failed due to an unexpected reason
+        		// Try to recreate it here on demand to not prevent platform file management
+        		EclipseUtil.createTempProject();
+        		project = EclipseUtil.getTempProject();
+        		if (project == null) {
+        			return null;
+        		}
         	}
             File pluginTempDir = createProjectTempDirIfMissing(project, true);
             final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());

@@ -9,9 +9,9 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.startup.StartupActivity;
-import com.xliic.core.util.EclipseUtil;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.preview.PreviewKeys;
+import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.settings.SettingsKeys;
 
@@ -39,11 +39,14 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 			pc.setValue(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX, DEFAULT_RENDERER_INDEX);
 		}
         // Platform
+    	// Eclipse Development Note 
+    	// Call getInstance to initialize the service to subscribe for events
+		PlatformService platformService = PlatformService.getInstance(project);
         PlatformConnection.setDefaultPlatformURL();
         if (!PlatformConnection.isEmpty()) {
         	// Eclipse Development Note 
         	// The project may have been deleted occasionally
-        	EclipseUtil.createTempProject();
+        	platformService.invokeAndWaitToCreatePlatformWindow(false);
         }
 	}
 	

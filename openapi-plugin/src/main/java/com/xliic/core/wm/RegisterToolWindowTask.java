@@ -7,7 +7,9 @@ import com.xliic.core.util.Icon;
 public class RegisterToolWindowTask {
 	
 	private final String id;
+	@SuppressWarnings("unused")
 	private final Icon icon;
+	@SuppressWarnings("unused")
 	private final ToolWindowAnchor anchor;
 	
 	public RegisterToolWindowTask(@NotNull String id, @NotNull Icon icon, @NotNull ToolWindowAnchor anchor) {

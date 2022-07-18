@@ -143,16 +143,18 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 }
             	// Eclipse Development Note 
             	// The view is always registered, open it in its perspective scope
-                invokeAndWaitToCreatePlatformWindow();
+                invokeAndWaitToCreatePlatformWindow(true);
             }
         }
     }
 
-    public void invokeAndWaitToCreatePlatformWindow() {
-        ApplicationManager.getApplication().invokeAndWait(() -> {
-        	OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
-            project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
-        }, ModalityState.NON_MODAL);
+    public void invokeAndWaitToCreatePlatformWindow(boolean doViewActivation) {
+    	if (doViewActivation) {
+            ApplicationManager.getApplication().invokeAndWait(() -> {
+            	OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
+                project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
+            }, ModalityState.NON_MODAL);
+    	}
         EclipseUtil.createTempProject();
     }
 
