@@ -2,6 +2,8 @@ package com.xliic.core.application;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.openapi.OpenAPIAbstractUIPlugin;
+
 public class ApplicationInfo {
 	
 	private static ApplicationInfo info;
@@ -15,6 +17,6 @@ public class ApplicationInfo {
 	
 	@NotNull
 	public String getFullVersion() {
-		return "Eclipse/4.16.0";
+		return OpenAPIAbstractUIPlugin.getInstance().getVersion().toString();
 	}
 }

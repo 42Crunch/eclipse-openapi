@@ -25,7 +25,7 @@ public class AuditTask extends Task.Backgroundable {
     private static final int ATTEMPT_DELAY = 5000;
     private static final int MAX_RETRY_ATTEMPTS = 20;
     private static final String ASSESS_URL = "https://stateless.42crunch.com/api/v1/anon/assess/vscode";
-    private static final String USER_AGENT = "IntelliJ/" + ApplicationInfo.getInstance().getFullVersion();
+    private static final String USER_AGENT = "Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     private final Project project;

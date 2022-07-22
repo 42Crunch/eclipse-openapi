@@ -19,6 +19,7 @@ import com.xliic.core.ui.components.JPanel;
 import com.xliic.core.ui.components.JTextArea;
 import com.xliic.core.ui.components.JTextField;
 import com.xliic.openapi.preview.PreviewKeys;
+import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.services.PreviewService;
 import com.xliic.openapi.topic.SettingsListener;
 
@@ -43,7 +44,6 @@ import javax.swing.event.DocumentEvent;
 
 import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
 import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
-import static com.xliic.openapi.preview.PreviewUtils.isPortInRange;
 
 public class AuditConfigurable extends SearchableConfigurable implements Configurable.NoScroll {
 
@@ -88,11 +88,37 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
       platformURLField = new JTextField(platformPanel);
       String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
       platformURLField.setText(StringUtils.isEmpty(platformURL) ? StringUtils.EMPTY : platformURL);
-      
-      new Label(platformPanel.getComposite(), SWT.NULL).setText("API Key");
+      platformURLField.addValidationListener(() -> {
+		if (isPlatformSettingsEmpty()) {
+			apiKeyField.setValid();
+			platformURLField.setValid();
+			setValid(true);
+		} else if (PlatformConnection.isURLValid(platformURLField.getText())) {
+			platformURLField.setValid();
+			setValid(true);
+		} else {
+			setValid(false);
+			platformURLField.setInvalid("Must be a valid URL");
+		}
+      });
+
+      new Label(platformPanel.getComposite(), SWT.NULL).setText("API Token");
       apiKeyField = new JTextField(platformPanel);
       apiKeyField.setEchoChar();
       apiKeyField.setText(getPlatformAPIKey());
+      apiKeyField.addValidationListener(() -> {
+    	if (isPlatformSettingsEmpty()) {
+  			apiKeyField.setValid();
+  			platformURLField.setValid();
+  			setValid(true);
+  		} else if (PlatformConnection.isAPIKeyValid(apiKeyField.getText())) {
+			apiKeyField.setValid();
+			setValid(true);
+		} else {
+			setValid(false);
+			apiKeyField.setInvalid("Must be a valid API Token");
+		}
+      });
 
       hostsPanel = new JPanel("Approved Hostnames", parent, SWT.NONE, 2);
       hostsTableModelEditor = new HostNameTableEditor(hostsPanel.getComposite());
@@ -105,6 +131,15 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
   	  previewComboBox = new JComboBox<>(previewPanel);     
       new Label(previewPanel.getComposite(), SWT.NULL).setText("Server Port");
       serverPortTextField = new JTextField(previewPanel);
+      serverPortTextField.addValidationListener(() -> {
+    	if (PreviewUtils.isPortValid(serverPortTextField.getText())) {
+    		serverPortTextField.setValid();
+			setValid(true);
+		} else {
+			setValid(false);
+			serverPortTextField.setInvalid("Must be a valid port number");
+		}
+      });
       
       securityAuditPanel = new JPanel("Security Audit", parent, SWT.NONE, 3);
       new Label(securityAuditPanel.getComposite(), SWT.NULL).setText("Security Audit Token");
@@ -157,7 +192,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
 
   @Override
   public String getHelpTopic() {
-    return "audit_token";
+    return null;
   }
 
   @Override
@@ -193,7 +228,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
     try {
       int configuredPort = Integer.parseInt(serverPortTextField.getText());
-      if (isPortInRange(configuredPort) && (port != configuredPort)) {
+      if (PreviewUtils.isPortValid(configuredPort) && (port != configuredPort)) {
         return true;
       }
     }
@@ -201,7 +236,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
       return false;
     }
     
-    if (isAllPlatformSettingsEmpty()) {
+    if (isPlatformSettingsReset()) {
         return true;
       }
 
@@ -283,7 +318,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         notify(SettingsKeys.ABC_SORT);
     }
     
-    if (isAllPlatformSettingsEmpty()) {
+    if (isPlatformSettingsReset()) {
         PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, "");
         notify(SettingsKeys.PLATFORM);
         PlatformConnection.setPlatformAPIKey(null);
@@ -345,25 +380,22 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
       keysToNotify.clear();
     }
   }
-  
-  private boolean isAllPlatformSettingsEmpty() {
-    String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
-    String platformAPIKey = getPlatformAPIKey();
-    String configuredPlatformURL = platformURLField.getText();
-    String configuredPlatformAPIKey = apiKeyField.getText();
-    return StringUtils.isEmpty(configuredPlatformURL) && StringUtils.isEmpty(configuredPlatformAPIKey) &&
-            !StringUtils.isEmpty(platformURL) && !StringUtils.isEmpty(platformAPIKey);
+
+  private boolean isPlatformSettingsEmpty() {
+    return StringUtils.isEmpty(platformURLField.getText()) && StringUtils.isEmpty(apiKeyField.getText());
+  }
+
+  private boolean isPlatformSettingsReset() {
+	if (isPlatformSettingsEmpty()) {
+	    String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+	    return StringUtils.isNotEmpty(platformURL) && StringUtils.isNotEmpty(getPlatformAPIKey());	  
+	}
+	return false;
   }
 
   private String getPlatformAPIKey() {
     String password = PlatformConnection.getPlatformAPIKey();
     return StringUtils.isEmpty(password) ? StringUtils.EMPTY : password;
-  }
-
-  @NotNull
-  @Override
-  public String getId() {
-    return "AuditToken";
   }
 }
 

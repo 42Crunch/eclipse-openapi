@@ -3,6 +3,8 @@ package com.xliic.openapi.preview;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
@@ -27,8 +29,17 @@ public class PreviewUtils {
 		return query.split("&")[1].split("=")[1];
 	}
 
-	public static boolean isPortInRange(int port) {
-		return (port >= 0) && (port <= 65535);
+	public static boolean isPortValid(int port) {
+		return (0 < port) && (port <= 65535);
+	}
+	
+	public static boolean isPortValid(@NotNull String port) {
+		try {
+			return isPortValid(Integer.parseInt(port));
+		}
+		catch(NumberFormatException ignored) {
+			return false;
+		}
 	}
 
 	public static URL getURL(Project project, VirtualFile file, int rendererIndex) throws MalformedURLException {

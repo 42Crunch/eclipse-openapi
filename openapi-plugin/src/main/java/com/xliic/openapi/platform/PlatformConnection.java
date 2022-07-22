@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
 
 public class PlatformConnection {
 
-    private static final String USER_AGENT = "IntelliJ/" + ApplicationInfo.getInstance().getFullVersion();
+    private static final String USER_AGENT = "Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
     private static final Pattern UUID_REGEX =
-            Pattern.compile("^(ide_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
+            Pattern.compile("^((ide_)|(api_))?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
 
     private static final CredentialAttributes credentialAttributes = createCredentialAttributes();
 
@@ -42,6 +42,14 @@ public class PlatformConnection {
 
     public static boolean isAPIKeyValid(@NotNull String apiKey) {
         return UUID_REGEX.matcher(apiKey).matches();
+    }
+
+    public static boolean isURLValid(@NotNull String url) {
+        try {
+            return StringUtils.isNotEmpty(OpenApiUtils.getDomainName(url));
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 
     public static PlatformConnection getOptions() {

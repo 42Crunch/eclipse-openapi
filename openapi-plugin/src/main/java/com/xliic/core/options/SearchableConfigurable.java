@@ -51,5 +51,4 @@ public abstract class SearchableConfigurable extends PreferencePage implements I
 	public abstract boolean isModified();
 	public abstract void reset();
 	public abstract void apply();
-	public abstract String getId();
 }

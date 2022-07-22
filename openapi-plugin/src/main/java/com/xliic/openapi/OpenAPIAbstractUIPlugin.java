@@ -17,7 +17,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -27,7 +26,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Version;
 
 import com.xliic.core.actionSystem.AnActionUpdater;
 import com.xliic.core.codeHighlighting.HighlightingManager;
@@ -43,7 +44,7 @@ import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 
 @SuppressWarnings("restriction")
-public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartup {
+public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
 
 	public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";
 	public static final String IGNORE_SHOW_PERSPECTIVE_ONCE = "openapi.ignore.show.perspective.once1";
@@ -59,6 +60,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	private ProjectManagerListener projectManagerListener;
 	private AnActionUpdater actionUpdater;
 	private boolean isMuleIDE;
+	private Version version;
 	private String pluginId;
 
 	public OpenAPIAbstractUIPlugin() {
@@ -75,13 +77,13 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		pluginId = (context == null) ? "unknown" : context.getBundle().getSymbolicName();
+		version = (context == null) ? Version.emptyVersion : context.getBundle().getVersion();
 		startupActivity.runActivity(project);
 		project.getMessageBus().connect().subscribe(FileListener.TOPIC, actionUpdater);
 		project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, actionUpdater);
 	}
 
-	@Override
-	public void earlyStartup() {
+	public void runAsEarlyStartup() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		workbench.getDisplay().asyncExec(new Runnable() {
 			@Override
@@ -124,6 +126,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 			highlightingManager = null;
 			projectManagerListener = null;
 			actionUpdater = null;
+			version = null;
 			plugin = null;
 		} finally {
 			super.stop(context);
@@ -146,8 +149,14 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin implements IStartu
 		return isMuleIDE;
 	}
 	
+	@NotNull
 	public String getPluginId() {
 		return pluginId;
+	}
+	
+	@NotNull
+	public Version getVersion() {
+		return version;
 	}
 
 	private void setPreference() {
