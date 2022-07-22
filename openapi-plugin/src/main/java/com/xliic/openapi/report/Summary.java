@@ -1,6 +1,9 @@
 package com.xliic.openapi.report;
 
-import com.xliic.openapi.services.HTMLService;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.xliic.core.util.ImmutableMap;
 
 public class Summary {
 
@@ -19,34 +22,14 @@ public class Summary {
         all = data.getValue() + security.getValue();
     }
 
-    public int getAll() {
-        return all;
-    }
-
-    public boolean isErrors() {
-        return errors;
-    }
-
-    public Grade getData() {
-        return data;
-    }
-
-    public Grade getSecurity() {
-        return security;
-    }
-
-    public String getHTMLSummary() {
-        HTMLService htmlService = HTMLService.getInstance();
-        if ((all == 0) && invalid) {
-            return htmlService.SUMMARY_INVALID;
-        }
-        String summary = htmlService.SUMMARY;
-        summary = summary.replace("${summary.all}", String.valueOf(all));
-        summary = summary.replace("${summary.all}", String.valueOf(all));
-        summary = summary.replace("${summary.security.value}", String.valueOf(security.getValue()));
-        summary = summary.replace("${summary.security.max}", String.valueOf(security.getMax()));
-        summary = summary.replace("${summary.datavalidation.value}", String.valueOf(data.getValue()));
-        summary = summary.replace("${summary.datavalidation.max}", String.valueOf(data.getMax()));
-        return summary;
+    public Map<String, Object> getProperties() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("datavalidation", ImmutableMap.of("value", data.getValue(), "max", data.getMax()));
+        result.put("security", ImmutableMap.of("value", security.getValue(), "max", security.getMax()));
+        result.put("oasconformance", ImmutableMap.of("value", 0, "max", 0));
+        result.put("all", all);
+        result.put("errors", errors);
+        result.put("invalid", invalid);
+        return result;
     }
 }

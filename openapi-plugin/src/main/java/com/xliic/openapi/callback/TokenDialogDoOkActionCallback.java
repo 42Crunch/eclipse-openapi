@@ -2,6 +2,7 @@ package com.xliic.openapi.callback;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.vfs.VirtualFile;
@@ -21,7 +22,9 @@ public class TokenDialogDoOkActionCallback extends ActionCallback {
 
 	@Override
 	public void setDone() {
-		AuditService auditService = AuditService.getInstance(project);
-		auditService.sendAuditRequest(token, file.getPath(), new AuditActionCallback(project, file));
+		ApplicationManager.getApplication().invokeLater(() -> {
+			AuditService auditService = AuditService.getInstance(project);
+			auditService.sendAuditRequest(token, file.getPath(), new AuditActionCallback(project, file));
+		});
 	}
 }

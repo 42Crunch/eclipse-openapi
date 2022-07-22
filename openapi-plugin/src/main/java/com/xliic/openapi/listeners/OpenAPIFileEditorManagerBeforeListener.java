@@ -33,11 +33,6 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
         }
         final Project project = source.getProject();
         if (TempFileUtils.isPluginTempDeadFile(file)) {
-            source.closeFile(file);
-            if (TempFileUtils.isPluginPlatformTempDeadFile(file)) {
-                PlatformService platformService = PlatformService.getInstance(project);
-                platformService.reopenPlatformFile(file);
-            }
             return;
         }
         if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {
@@ -83,7 +78,7 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
                 placeHolderService.dispose(textEditor.getEditor());
             }
         }
-        
+
         if (TempFileUtils.isPlatformFile(file)) {
             SwingUtilities.invokeLater(() -> {
                 PlatformService platformService = PlatformService.getInstance(project);

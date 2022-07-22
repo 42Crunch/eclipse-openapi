@@ -1,12 +1,11 @@
 package com.xliic.core.ui.jcef;
 
-import java.util.function.Function;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class JBCefJSQuery {
 	
+	@SuppressWarnings("unused")
 	private final JBCefBrowserBase browser;
 	
 	public JBCefJSQuery(@NotNull JBCefBrowserBase browser) {
@@ -20,15 +19,7 @@ public final class JBCefJSQuery {
 	public @NotNull String inject(@Nullable String queryResult) {
 		return "";
 	}
-	
-    public void addHandler(final @NotNull Function<? super String, ? extends Response> handler) {
-    	browser.addLocationListener(handler);
-    }
-    
-    public void removeHandler(@NotNull Function<? super String, ? extends Response> function) {
-    	browser.removeLocationListener();
-    }
-	
+
     public static class Response {
     	
         public static final int ERR_CODE_SUCCESS = 0;

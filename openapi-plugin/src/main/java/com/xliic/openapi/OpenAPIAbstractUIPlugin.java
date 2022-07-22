@@ -35,6 +35,7 @@ import com.xliic.core.codeHighlighting.HighlightingManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectManagerListener;
 import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.listeners.OpenAPIBulkFileListener;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
@@ -108,6 +109,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
 				setPreference();
 				handleEditorsAtStartup();
 				handleTempFilesAtStartup();
+				EclipseWorkbenchUtil.updateActionBars();
 			}
 		});
     	IProduct product = Platform.getProduct();
@@ -225,9 +227,12 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
 					if (TempFileUtils.isExtRefFile(file)) {
 						page.closeEditor(ref.getEditor(true), false);
 					} else if (TempFileUtils.isPlatformFile(file)) {
-						page.closeEditor(ref.getEditor(true), false);
 						PlatformService platformService = PlatformService.getInstance(project);
-						platformService.reopenPlatformFile(file);
+						// Eclipse Development Note 
+						// Closing editor will schedule file closing routine in AST thread
+						// Only when it is finished we can continue with reopening, so here only schedule it
+						platformService.sheduleToReopenPlatformFile(file);
+						page.closeEditor(ref.getEditor(true), false);
 					}
 				} catch (PartInitException e) {
 					e.printStackTrace();

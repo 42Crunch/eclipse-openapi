@@ -123,10 +123,10 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
             }
             ApplicationManager.getApplication().invokeLater(() -> {
                 if (!project.isDisposed()) {
-                    project.getMessageBus().syncPublisher(FileListener.TOPIC).handleClosedFile(file);
                     auditService.removeAuditReport(file.getPath());
                     quickFixService.handleAuditReportRemoved(file.getPath());
                     knownOpenAPIFiles.remove(file.getPath());
+                    project.getMessageBus().syncPublisher(FileListener.TOPIC).handleClosedFile(file);
                 }
             });
         }

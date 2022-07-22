@@ -6,5 +6,11 @@
    <feature id="com.xliic.openapi">
       <category name="openapi-edit"/>
    </feature>
+   <feature id="com.equo.chromium.cef.feature">
+      <category name="openapi-edit"/>
+   </feature>
+   <feature id="com.equo.chromium.feature">
+      <category name="openapi-edit"/>
+   </feature>
    <category-def name="openapi-edit" label="OpenAPI (Swagger) Editor"/>
 </site>
