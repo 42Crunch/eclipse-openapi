@@ -2,6 +2,7 @@ package com.xliic.openapi.callback;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.ActionCallback;
@@ -22,7 +23,7 @@ public class EmailDialogDoOkActionCallback extends ActionCallback {
 
 	@Override
 	public void setDone() {
-		SwingUtilities.invokeLater(() -> {
+		ApplicationManager.getApplication().invokeLater(() -> {
 			new AuditConfigTokenDialogWrapper(project, file).showAndGet();
 		});
 	}

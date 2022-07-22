@@ -24,7 +24,7 @@ import com.xliic.openapi.platform.PlatformAuditWaiter;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.PlatformListener;
-import com.xliic.openapi.platform.callback.PlatformOASCallback;
+import com.xliic.openapi.platform.PlatformReopener;
 import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.PlatformFavoriteState;
 import com.xliic.openapi.platform.tree.ui.PlatformPanelView;
@@ -52,6 +52,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     private final Map<String, Boolean> modificationsMap;
     private final Map<String, PlatformDocumentListener> listenersMap;
     private final Map<DefaultMutableTreeNode, Callback> treeAsyncCallbacksMap;
+    private final PlatformReopener reopener;
     private PlatformFavoriteState favoriteState = new PlatformFavoriteState();
 
     public PlatformService(@NotNull Project project) {
@@ -60,6 +61,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
         modificationsMap = new ConcurrentHashMap<>();
         listenersMap = new HashMap<>();
         treeAsyncCallbacksMap = new ConcurrentHashMap<>();
+        reopener = new PlatformReopener(project);
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
@@ -226,11 +228,8 @@ public final class PlatformService implements IPlatformService, SettingsListener
         }
     }
 
-    public void reopenPlatformFile(@NotNull VirtualFile deadFile) {
-        String apiId = PlatformUtils.getApiId(deadFile);
-        PlatformAPIs.readApi(apiId, true,
-                new PlatformOASCallback(project, null, null,
-                        false, true, false));
+    public void sheduleToReopenPlatformFile(@NotNull VirtualFile deadFile) {
+        reopener.sheduleToReopenPlatformFile(deadFile);
     }
 
     @Override
@@ -239,5 +238,6 @@ public final class PlatformService implements IPlatformService, SettingsListener
         listenersMap.clear();
         auditWaiters.clear();
         treeAsyncCallbacksMap.clear();
+        reopener.dispose();
     }
 }

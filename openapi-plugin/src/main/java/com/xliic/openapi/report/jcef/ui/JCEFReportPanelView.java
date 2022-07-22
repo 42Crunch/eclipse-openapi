@@ -1,6 +1,8 @@
 package com.xliic.openapi.report.jcef.ui;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
 import com.xliic.core.Disposable;
@@ -18,12 +20,22 @@ public class JCEFReportPanelView extends ViewPart implements Disposable {
 	public void createPartControl(Composite parent) {
 		Project project = Project.getInstance();
 		ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(ToolWindowId.OPEN_API_HTML_REPORT);
-		panel = new JCEFReportPanel(project, toolWindow, parent);
+	    try {
+	    	panel = new JCEFReportPanel(project, toolWindow, parent);
+	      }
+	      catch (Throwable e) {
+	        setNotAvailableInfo(parent, e.getMessage());
+	      }
+	}
+	
+	private void setNotAvailableInfo(Composite parent, String msg) {
+		panel = null;
+	    Label label = new Label(parent, SWT.NULL);
+	    label.setText("Unable to create an instance of JCEF browser: " + msg);
 	}
 
 	@Override
-	public void setFocus() {
-	}
+	public void setFocus() {}
 	
 	@Override
 	public void dispose() {

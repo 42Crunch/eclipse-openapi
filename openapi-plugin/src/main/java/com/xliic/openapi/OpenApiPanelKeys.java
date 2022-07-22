@@ -19,8 +19,6 @@ public class OpenApiPanelKeys {
 
     // Keys
     public final static String INFO = "info";
-    public final static String HOST = "host";
-    public final static String BASE_PATH = "basePath";
     public final static String COMPONENTS_SCHEMAS = "schemas";
     public final static String COMPONENTS_SECURITY_SCHEMAS = "securitySchemes";
     public final static String REF_KEY = "$ref";
@@ -31,14 +29,6 @@ public class OpenApiPanelKeys {
     public final static String OPENAPI_KEY = "openapi";
     public final static String SWAGGER_KEY = "swagger";
     public final static String OPERATION_ID_KEY = "operationId";
-
-    // Pointers
-    public final static String INFO_POINTER = OpenApiUtils.pointer(INFO);
-    public final static String HOST_POINTER = OpenApiUtils.pointer(HOST);
-    public final static String BASE_PATH_POINTER = OpenApiUtils.pointer(BASE_PATH);
-
-    public final static String OPENAPI_POINTER = OpenApiUtils.pointer("openapi");
-    public final static String SWAGGER_POINTER = OpenApiUtils.pointer("swagger");
 
     public final static List<String> V3_PANEL_KEYS =
             Arrays.asList(
@@ -61,12 +51,4 @@ public class OpenApiPanelKeys {
                     SECURITY,
                     SECURITY_DEFINITIONS
             );
-
-    public static boolean isPanelMap(String panelKey) {
-        return !(SERVERS.equals(panelKey) || SECURITY.equals(panelKey));
-    }
-
-    public static String getMainPathKey(OpenApiVersion version) {
-        return (version == OpenApiVersion.V3) ? OPENAPI_POINTER : SWAGGER_POINTER;
-    }
 }

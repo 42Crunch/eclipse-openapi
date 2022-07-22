@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse-openapi
 Bundle-SymbolicName: openapi-plugin;singleton:=true
-Bundle-Version: 1.0.35
+Bundle-Version: 1.0.36
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.13.700",
@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.e4.ui.css.swt.theme;bundle-version="0.12.700",
  org.eclipse.e4.core.services;bundle-version="2.2.300",
  org.eclipse.ui.browser;bundle-version="3.6.1000",
- org.eclipse.ui.workbench.texteditor;bundle-version="3.15.100"
+ org.eclipse.ui.workbench.texteditor;bundle-version="3.15.100",
+ com.equo.chromium
 Automatic-Module-Name: eclipse.openapi
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: javax.inject

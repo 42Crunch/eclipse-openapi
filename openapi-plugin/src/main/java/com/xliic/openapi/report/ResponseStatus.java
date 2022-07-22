@@ -4,8 +4,7 @@ public enum ResponseStatus {
 
     SUCCESS,
     IN_PROGRESS,
-    PROCESSED,
-    FILE_INVALID;
+    PROCESSED;
 
     public static ResponseStatus getStatus(String name) {
 

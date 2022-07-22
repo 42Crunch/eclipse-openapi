@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Security-Policy"  content="default-src 'none';  img-src ${cspSource} https: data:; script-src ${cspSource} 'unsafe-inline'; style-src ${cspSource}  'unsafe-inline'; connect-src http: https:">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>${style}</style>
+		<style>
+			:root {
+			  --audit-foreground: var(
+				--audit-custom-foreground,
+				var(--vscode-editor-foreground)
+			  );
+			  --audit-background: var(
+				--audit-custom-background,
+				var(--vscode-editor-background)
+			  );
+			}
+			body {
+				font-family: sans-serif;
+				margin: 0;
+				padding: 0 20px;
+			}
+			.vscode-dark a {
+				color: #00a1ff;
+			}
+      	</style>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="application/json" id="kdb">${JSON.stringify(kdb)}</script>
+		<script src="${script}"></script>
+		<script>
+			window.initWebJS = function(kdb) {
+				window.dispatchMessage = function(message) {
+					switch (message.command) {
+						case 'showFullReport':
+							window.postMessage({ command: "showFullReport", report: JSON.parse(message.report) })
+							break;
+						case 'showPartialReport':
+							window.postMessage({ command: "showPartialReport", report: JSON.parse(message.report), uri: message.uri, ids: message.ids });
+							break;
+						case 'showNoReport':
+							window.postMessage({ command: "showNoReport" });
+							break;
+						case 'changeTheme':
+							window.postMessage({ command: "changeTheme", kind: message.kind, foreground: message.foreground, background: message.background });
+							break;
+					}
+				};
+				const host = { postMessage: (message) => window.__EclipseJTools.postMessage(JSON.stringify(message)) };
+				window.renderAuditReport(host, kdb, { kind: "${themeKind}", foreground: "${foreground}", background: "${background}" });
+			};
+		</script>
+	</body>
+</html>

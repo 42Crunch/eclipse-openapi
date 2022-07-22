@@ -11,6 +11,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.startup.StartupActivity;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.preview.PreviewKeys;
+import com.xliic.openapi.services.HTMLService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.settings.SettingsKeys;
@@ -48,6 +49,8 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         	// The project may have been deleted occasionally
         	platformService.invokeAndWaitToCreatePlatformWindow(false);
         }
+        // Web UI
+        HTMLService.getInstance().init();
 	}
 	
     public static boolean isMyPluginTempDir(@NotNull String dirName) {

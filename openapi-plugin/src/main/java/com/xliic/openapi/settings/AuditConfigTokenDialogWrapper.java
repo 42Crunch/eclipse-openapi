@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.DialogWrapper;
@@ -64,8 +63,6 @@ public class AuditConfigTokenDialogWrapper extends DialogWrapper {
 	public void doOKAction() {
 	    super.doOKAction();
 	    PropertiesComponent.getInstance().setValue(SettingsKeys.TOKEN, tokenTextArea.getStripText());
-	    ApplicationManager.getApplication().invokeLater(() -> {
-	      new TokenDialogDoOkActionCallback(project, file, tokenTextArea.getStripText()).setDone();
-	    });
+	    new TokenDialogDoOkActionCallback(project, file, tokenTextArea.getStripText()).setDone();
 	}
 }

@@ -3,9 +3,11 @@ package com.xliic.openapi.report;
 import com.xliic.core.editor.Document;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.file.Paths;
 import java.util.*;
 
 import static org.apache.commons.lang.StringUtils.isEmpty;
@@ -18,7 +20,7 @@ public class Audit {
     private String auditFileName;
     private final Project project;
     private final boolean platform;
-    private boolean showAsHTML;
+    private final boolean showAsHTML;
     private boolean showAsProblems;
     
     public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response, 
@@ -59,10 +61,6 @@ public class Audit {
 
     public void setShowAsProblems(boolean showAsProblems) {
         this.showAsProblems = showAsProblems;
-    }
-
-    public void setShowAsHTML(boolean showAsHTML) {
-        this.showAsHTML = showAsHTML;
     }
     
     public void removeIssues(@NotNull List<Issue> issuesToRemove) {
@@ -124,8 +122,53 @@ public class Audit {
         return issues;
     }
 
-    public String getHTMLSummary() {
-        return summary.getHTMLSummary();
+    public Map<String, Object> getSummaryProperties() {
+        Map<String, Object> result = getSummary().getProperties();
+        result.put("documentUri", OpenApiUtils.getURI(auditFileName));
+        return result;
+    }
+
+    public Map<String, Map<String, Object>> getFilesProperties() {
+        String from = OpenApiUtils.getURI(auditFileName);
+        Map<String, Map<String, Object>> result = new HashMap<>();
+        for (String fileName : fileNameToIssuesMap.keySet()) {
+            String to = OpenApiUtils.getURI(fileName);
+            String relative;
+            if (from.equals(to)) {
+                relative = Paths.get(auditFileName).getFileName().toString();
+            }
+            else {
+                relative = OpenApiUtils.getRelativePathFromTo(from, to);
+            }
+            Map<String, Object> props = new HashMap<>();
+            props.put("relative", relative);
+            result.put(to, props);
+        }
+        return result;
+    }
+
+    public Map<String, List<Map<String, Object>>> getIssuesProperties() {
+        Map<String, List<Map<String, Object>>> result = new HashMap<>();
+        for (Map.Entry<String, List<Issue>> entry : fileNameToIssuesMap.entrySet()) {
+            List<Map<String, Object>> issues = new LinkedList<>();
+            for (Issue issue : entry.getValue()) {
+                issues.add(issue.getProperties());
+            }
+            result.put(OpenApiUtils.getURI(entry.getKey()), issues);
+        }
+        return result;
+    }
+
+    public List<Integer> getIssueIds(VirtualFile file, List<Issue> issues) {
+        List<Integer> ids = new LinkedList<>();
+        List<Issue> fileIssues = fileNameToIssuesMap.get(file.getPath());
+        for (Issue issue : issues) {
+            int index = fileIssues.indexOf(issue);
+            if (index >= 0) {
+                ids.add(index);
+            }
+        }
+        return ids;
     }
 
     private void read(Node response) {
