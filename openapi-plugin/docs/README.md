@@ -164,9 +164,11 @@ If your OpenAPI file contains multiple similar issues - for example, a parameter
 
 ## Integration with 42Crunch Platform
 
-This extension features optional integration with [42Crunch Platform](https://platform.42crunch.com/). To enable it please configure your credentials in the settings wizard.
+This extension features optional integration with [42Crunch Platform](https://platform.42crunch.com/). To enable it please configure your [credentials](https://docs.42crunch.com/latest/content/concepts/api_tokens.htm) in the settings wizard.
 
 ![Platform credentials in Eclipse](images/Img_platform_credentials.jpg)
+
+Note: Platform token is stored encrypted, a user should keep all workspace data safe and secure to avoid the risk of decryption.
 
 Then you can work with the platform using the tree view
 
@@ -174,11 +176,10 @@ Then you can work with the platform using the tree view
 
 ## Known issues
 
-- No schema validation
+- No schema validation of OpenAPI files
 - Reference completion is unavailable for external references
 - Generic Text Editor must be a default editor for json / yaml files to use QuickFixes
 - Sometimes Eclipse doesn't show the QuickFix popup, in this case use right click context menu or press **Ctrl+1** shortcut.
-- Platform token is stored encrypted, but can be decrypted using brute force, it is up to a user to keep all workspace data safe and secure.
 
 ## Feedback
 
