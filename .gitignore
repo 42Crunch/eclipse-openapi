@@ -71,3 +71,5 @@ bin/
 openapi-plugin/js/build
 openapi-plugin/js/src/*/*.js
 openapi-plugin/js/node_modules
+
+.DS_Store
