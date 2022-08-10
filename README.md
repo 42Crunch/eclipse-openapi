@@ -168,8 +168,6 @@ This extension features optional integration with [42Crunch Platform](https://pl
 
 ![Platform credentials in Eclipse](docs/images/Img_platform_credentials.jpg)
 
-Note: Platform token is stored encrypted, a user should keep all workspace data safe and secure to avoid the risk of decryption.
-
 Then you can work with the platform using the tree view
 
 ![Platform structure in Eclipse](docs/images/Img_platform_structure.jpg)
