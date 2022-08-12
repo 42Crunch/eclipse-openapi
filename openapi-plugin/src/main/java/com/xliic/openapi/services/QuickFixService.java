@@ -98,30 +98,32 @@ public final class QuickFixService implements IQuickFixService, Disposable {
         if (quickfixes.containsKey(issue.getId())) {
             Project project = psiFile.getProject();
             ASTService astService = ASTService.getInstance(project);
+            Node root = astService.getRootNode(psiFile.getVirtualFile());
+            // Parsing may be in progress, return without waiting
+            if (root == null) {
+                return actions;
+            }
             for (QuickFix quickFix : quickfixes.get(issue.getId())) {
                 if (quickFix.getType() != FixType.Insert) {
                     continue;
                 }
-                Node root = astService.getRootNode(psiFile.getVirtualFile());
-                if (root != null) {
-                    Node genFrom;
-                    OpenApiVersion version = ASTService.getOpenAPIVersion(project, psiFile.getVirtualFile());
-                    if (version == OpenApiVersion.V2) {
-                        genFrom = SchemaUtils.getSchemaV2Examples(issue.getPointer(), quickFix.getProblems(), root);
-                        if (genFrom == null) {
-                            genFrom = SchemaUtils.getSchemaV2Example(issue.getPointer(), quickFix.getProblems(), root);
-                        }
+                Node genFrom;
+                OpenApiVersion version = ASTService.getOpenAPIVersion(project, psiFile.getVirtualFile());
+                if (version == OpenApiVersion.V2) {
+                    genFrom = SchemaUtils.getSchemaV2Examples(issue.getPointer(), quickFix.getProblems(), root);
+                    if (genFrom == null) {
+                        genFrom = SchemaUtils.getSchemaV2Example(issue.getPointer(), quickFix.getProblems(), root);
                     }
-                    else {
-                        genFrom = SchemaUtils.getSchemaV3Examples(issue.getPointer(), quickFix.getProblems(), root);
-                        if (genFrom == null) {
-                            genFrom = SchemaUtils.getSchemaV3Example(issue.getPointer(), quickFix.getProblems(), root);
-                        }
+                }
+                else {
+                    genFrom = SchemaUtils.getSchemaV3Examples(issue.getPointer(), quickFix.getProblems(), root);
+                    if (genFrom == null) {
+                        genFrom = SchemaUtils.getSchemaV3Example(issue.getPointer(), quickFix.getProblems(), root);
                     }
-                    if (genFrom != null) {
-                        actions.add(new FixSingleAction(new FixManagerSchemaInline(psiFile, quickFix, issue, genFrom)));
-                        actions.add(new FixSingleAction(new FixManagerSchema(psiFile, quickFix, issue, genFrom)));
-                    }
+                }
+                if (genFrom != null) {
+                    actions.add(new FixSingleAction(new FixManagerSchemaInline(psiFile, quickFix, issue, genFrom)));
+                    actions.add(new FixSingleAction(new FixManagerSchema(psiFile, quickFix, issue, genFrom)));
                 }
             }
         }

@@ -123,7 +123,7 @@ public class FixManagerSnippet extends FixManager {
                 for (FixParameter parameter : parameters) {
                     if ("description".equals(parameter.getName())) {
                         String path = parameter.getPath().replace("get", title);
-                        placeHolders.add(getPlaceHolder(path, parameter.isKeyType(), values, fixPointer, quickFix));
+                        placeHolders.add(getPlaceHolder(parameter.getName(), path, parameter.isKeyType(), values, fixPointer, quickFix));
                     }
                 }
             }

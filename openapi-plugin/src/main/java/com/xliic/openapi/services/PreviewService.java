@@ -6,6 +6,7 @@ import static com.xliic.openapi.preview.PreviewUtils.RENDERER_REDOC;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_SWAGGERUI;
 
 import java.io.File;
+import java.net.BindException;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,12 +38,14 @@ public class PreviewService implements IPreviewService, Disposable {
 	private PreviewWebSocketHandler socketHandler;
 	private File pluginTempDir;
 	private final Map<String, PreviewWebSocket> sockets;
+	private Exception error;
 
 	public PreviewService() {
 
         server = null;
         sockets = new ConcurrentHashMap<>();
-
+        error = null;
+        
 		// Set plugin properties
 		PropertiesComponent pc = PropertiesComponent.getInstance();
 		if (!pc.isValueSet(PreviewKeys.PORT)) {
@@ -70,14 +73,10 @@ public class PreviewService implements IPreviewService, Disposable {
 			try {
 				startServer();
 			} catch (Exception e) {
+				error = e;
 				e.printStackTrace();
 			}
 		});
-	}
-
-	@Override
-	public boolean isRunning() {
-		return (server != null) && server.isRunning();
 	}
 
 	public static PreviewService getInstance() {
@@ -95,25 +94,24 @@ public class PreviewService implements IPreviewService, Disposable {
 	}
 
 	@Override
-	public void restartServer() {
-		try {
-			// Run jetty web socket server in a thread
-			ApplicationManager.getApplication().executeOnPooledThread(() -> {
-				try {
-					server.stop();
-					startServer();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public void restartServer() {
+        // Restart jetty web socket server in a thread
+        ApplicationManager.getApplication().executeOnPooledThread(() -> {
+            try {
+                server.stop();
+                startServer();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                error = e;
+            }
+        });
+    }
 
 	@Override
 	public void startServer() throws Exception {
 
+		error = null;
 		int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
 		server = new Server(port);
 		server.setStopAtShutdown(true);
@@ -137,6 +135,36 @@ public class PreviewService implements IPreviewService, Disposable {
 		server.start();
 		server.join();
 	}
+	
+    public boolean isServerStateInProgress() {
+        return (server == null) || server.isStarting() || server.isStopping();
+    }
+
+    public boolean isServerStarted() {
+        return server.isStarted();
+    }
+
+    public String getErrorMessage() {
+        String msg = "Current server state is " + server.getState() + ".";
+        if (error != null) {
+            if (isAddressAlreadyInUseException(error)) {
+                String port = PropertiesComponent.getInstance().getValue(PreviewKeys.PORT);
+                msg += " Failed to bind to port " + port + ".";
+            }
+            else {
+                msg += (" " + StringUtils.stripEnd(error.getMessage(), ".") + ".");
+            }
+        }
+        return msg + " Please go to File > Settings > Tools > OpenAPI (Swagger) Editor and change the server port." +
+                " The server will be restarted automatically after the settings get applied.";
+    }
+
+    private boolean isAddressAlreadyInUseException(Exception e) {
+        if (e.getCause() instanceof BindException) {
+            return e.getCause().getMessage().contains("Address already in use");
+        }
+        return false;
+    }
 
 	@Override
 	public void dispose() {

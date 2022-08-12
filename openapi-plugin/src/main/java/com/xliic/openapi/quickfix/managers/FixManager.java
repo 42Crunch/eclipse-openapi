@@ -82,7 +82,7 @@ public abstract class FixManager {
     }
     
     @NotNull
-    protected PlaceHolder getPlaceHolder(String path, boolean isKeyType,
+    protected PlaceHolder getPlaceHolder(String name, String path, boolean isKeyType,
                                          List<Object> values, String fixPointer, QuickFix fix) {
         fixPointer = trimPointer(fixPointer);
         String pointer = fixPointer + path;
@@ -96,12 +96,12 @@ public abstract class FixManager {
                 }
             }
         }
-        return new PlaceHolder(pointer, isKeyType, values);
+        return new PlaceHolder(fix + "/" + name, pointer, isKeyType, values);
     }
 
     @NotNull
     protected PlaceHolder getPlaceHolder(FixParameter parameter, List<Object> values, String fixPointer, QuickFix fix) {
-        return getPlaceHolder(parameter.getPath(), parameter.isKeyType(), values, fixPointer, fix);
+        return getPlaceHolder(parameter.getName(), parameter.getPath(), parameter.isKeyType(), values, fixPointer, fix);
     }
 
     private static String trimPointer(String pointer) {
