@@ -321,31 +321,29 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
     }
 
     private void update(Editor editor, String text, List<RangeHighlighter> highlighters, boolean dispose) {
-        ApplicationManager.getApplication().invokeLater(() -> {
-            WriteCommandAction.runWriteCommandAction(project, () -> {
-                PlaceHolderDocumentListener listener = documentListeners.get(editor);
-                    try {
-                        listener.setMute(true);
-                        final String pureText = StringUtils.strip(text, "'\"");
-                        for (RangeHighlighter h : highlighters) {
-                            int start = h.getStartOffset();
-                            int end = h.getEndOffset();
-                            if (isWrapped(getText(editor, h))) {
-                                start += 1;
-                                end -= 1;
-                            }
-                            editor.getDocument().replaceString(start, end, pureText);
-                            if (dispose) {
-                                dispose(editor, h);
-                            }
+        ApplicationManager.getApplication().invokeLater(() -> WriteCommandAction.runWriteCommandAction(project, () -> {
+            PlaceHolderDocumentListener listener = documentListeners.get(editor);
+                try {
+                    listener.setMute(true);
+                    final String pureText = StringUtils.strip(text, "'\"");
+                    for (RangeHighlighter h : highlighters) {
+                        int start = h.getStartOffset();
+                        int end = h.getEndOffset();
+                        if (isWrapped(getText(editor, h))) {
+                            start += 1;
+                            end -= 1;
+                        }
+                        editor.getDocument().replaceString(start, end, pureText);
+                        if (dispose) {
+                            dispose(editor, h);
                         }
                     }
-                    finally {
-                        listener.setMute(false);
-                    }
                 }
-            );
-        });
+                finally {
+                    listener.setMute(false);
+                }
+            }
+        ));
     }
 
     @Override

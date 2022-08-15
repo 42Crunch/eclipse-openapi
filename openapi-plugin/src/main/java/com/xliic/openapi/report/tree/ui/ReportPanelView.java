@@ -193,9 +193,9 @@ public class ReportPanelView extends ViewPart
 	@Override
 	public void handleClosedFile(@NotNull VirtualFile file) {
 	    AuditService auditService = AuditService.getInstance(project);
-	    Audit auditReport = auditService.getAuditReport(file.getPath());
-	    if (auditReport != null) {
-	      removeIssues(auditReport.getIssues());
+	    Audit report = auditService.getAuditReport(file.getPath());
+	    if (report != null) {
+	      removeIssues(report.getIssues());
 	    }
 		currentFiles.remove(file);
 	}
@@ -323,8 +323,8 @@ public class ReportPanelView extends ViewPart
 	}
 
 	@Override
-	public void handleAuditReportClean(@NotNull Audit auditReport) {
-		removeIssues(auditReport.getIssues());
+	public void handleAuditReportClean(@NotNull Audit report) {
+		removeIssues(report.getIssues());
 	}
 
 	@Override

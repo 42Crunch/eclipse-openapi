@@ -9,11 +9,11 @@ import com.xliic.openapi.services.QuickFixService;
 
 public class FixParameter {
 
-	String name;
-	String path;
-	String type;
-	FixSource source;
-	List<Object> values;
+	private final String name;
+	private final String path;
+	private final String type;
+	private final FixSource source;
+	private final List<Object> values;
 
 	private FixParameter(String name, String path, String type, FixSource source, List<Object> values) {
 		this.name = name;

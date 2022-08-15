@@ -94,18 +94,16 @@ public class AuditActionCallback extends ActionCallback {
                 }
             }
             if (sb.length() > 0) {
-                SwingUtilities.invokeLater(() -> {
-                    Messages.showMessageDialog(project, message("openapi.audit.issues.notification", sb.toString()),
-                            message("openapi.warning.title"), Messages.getWarningIcon());
-                });
+                SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project,
+                        message("openapi.audit.issues.notification", sb.toString()),
+                        message("openapi.warning.title"), Messages.getWarningIcon()));
             }
         });
     }
 
     @Override
     public void setRejected() {
-        SwingUtilities.invokeLater(() -> {
-            Messages.showMessageDialog(project, getError(), message("openapi.error.title"), Messages.getErrorIcon());
-        });
+        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, getError(),
+                message("openapi.error.title"), Messages.getErrorIcon()));
     }
 }

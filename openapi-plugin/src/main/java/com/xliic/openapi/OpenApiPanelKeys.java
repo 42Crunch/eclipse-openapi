@@ -18,9 +18,6 @@ public class OpenApiPanelKeys {
     public final static String OPERATION_ID = "operation id";
 
     // Keys
-    public final static String INFO = "info";
-    public final static String COMPONENTS_SCHEMAS = "schemas";
-    public final static String COMPONENTS_SECURITY_SCHEMAS = "securitySchemes";
     public final static String REF_KEY = "$ref";
     public final static String URL_KEY = "url";
     public final static String PARAMETERS_KEY = "parameters";
