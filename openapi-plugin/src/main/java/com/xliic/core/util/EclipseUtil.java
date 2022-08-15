@@ -340,8 +340,14 @@ public class EclipseUtil {
          IWorkspace workspace = ResourcesPlugin.getWorkspace();
          IProject [] projects = workspace.getRoot().getProjects(IContainer.INCLUDE_HIDDEN);
          for (IProject project : projects) {
-        	 if (TEMP_PROJECT_NAME.equalsIgnoreCase(project.getDescription().getName())) {
-        		 return project;
+        	 try {
+            	 if (TEMP_PROJECT_NAME.equalsIgnoreCase(project.getDescription().getName())) {
+            		 return project;
+            	 }
+        	 } catch (Exception re) {
+        		 if (re.getMessage().contains("Project '" + TEMP_PROJECT_NAME + "' is not open")) {
+        			 return project;
+        		 }
         	 }
          }
          return null;
