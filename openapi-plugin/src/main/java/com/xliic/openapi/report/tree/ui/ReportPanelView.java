@@ -28,6 +28,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.part.ViewPart;
+import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.fileEditor.FileEditorManager;
@@ -190,7 +191,7 @@ public class ReportPanelView extends ViewPart
 	}
 
 	@Override
-	public void handleClosedFile(VirtualFile file) {
+	public void handleClosedFile(@NotNull VirtualFile file) {
 	    AuditService auditService = AuditService.getInstance(project);
 	    Audit auditReport = auditService.getAuditReport(file.getPath());
 	    if (auditReport != null) {
@@ -200,7 +201,7 @@ public class ReportPanelView extends ViewPart
 	}
 
 	@Override
-	public void handleSelectedFile(VirtualFile file) {
+	public void handleSelectedFile(@NotNull VirtualFile file) {
 		refreshProblems(file);
 		if (filterState.isShowSelectedFileOnly()) {
 			reloadAndRestoreExpansion();
@@ -213,7 +214,7 @@ public class ReportPanelView extends ViewPart
 	}
 
 	@Override
-	public void handleAuditReportReady(VirtualFile file) {
+	public void handleAuditReportReady(@NotNull VirtualFile file) {
 	  AuditService auditService = AuditService.getInstance(project);
 	  Audit data = auditService.getAuditReport(file.getPath());
 	  if (!data.isPlatform() || data.isShowAsProblems()) {
@@ -317,17 +318,17 @@ public class ReportPanelView extends ViewPart
 	}
 
 	@Override
-	public void handleIssuesFixed(List<Issue> issues) {
+	public void handleIssuesFixed(@NotNull List<Issue> issues) {
 		removeIssues(issues);
 	}
 
 	@Override
-	public void handleAuditReportClean(Audit auditReport) {
+	public void handleAuditReportClean(@NotNull Audit auditReport) {
 		removeIssues(auditReport.getIssues());
 	}
 
 	@Override
-	public void handleDocumentChanged(VirtualFile file) {
+	public void handleDocumentChanged(@NotNull VirtualFile file) {
 	    AuditService auditService = AuditService.getInstance(project);
 	    if (auditService.isNotAuditParticipantFile(file.getPath())) {
 	      return;
@@ -344,7 +345,7 @@ public class ReportPanelView extends ViewPart
 	}
 
 	@Override
-	public void handleToolWindowRegistered(String id) {
+	public void handleToolWindowRegistered(@NotNull String id) {
 		boolean hide = true;
 		AuditService auditService = AuditService.getInstance(project);
 		for (VirtualFile file : currentFiles) {
@@ -360,7 +361,7 @@ public class ReportPanelView extends ViewPart
 	}
 
 	@Override
-	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
+	public void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName) {
 
 		String oldKey = oldFileName;
 		if (fileNameToTreeNodeMap.containsKey(oldKey)) {
@@ -397,10 +398,10 @@ public class ReportPanelView extends ViewPart
 	}
 
 	@Override
-	public void handleViewDetails(VirtualFile file, List<Issue> issues) {}
+	public void handleViewDetails(@NotNull VirtualFile file, @NotNull List<Issue> issues) {}
 
 	@Override
-	public void handleToolWindowOpened(String id) {}
+	public void handleToolWindowOpened(@NotNull String id) {}
 	
     private void refreshProblems(VirtualFile file) {
 	  if (file != null) {

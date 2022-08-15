@@ -304,7 +304,12 @@ public class OpenApiUtils {
     }
 
     public static Node getJsonAST(@NotNull String text) {
-        return new ParserJsonAST().parse(text);
+        try {
+            return new ParserJsonAST().parse(text);
+        }
+        catch (Throwable t) {
+            return null;
+        }
     }
 
     public static ResponseStatus getStatus(@NotNull Node node) {

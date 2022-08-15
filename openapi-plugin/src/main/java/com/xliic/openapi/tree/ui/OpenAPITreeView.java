@@ -26,6 +26,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.internal.themes.WorkbenchThemeManager;
 import org.eclipse.ui.part.ViewPart;
+import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.actionSystem.AnJAction;
@@ -202,12 +203,12 @@ public class OpenAPITreeView extends ViewPart
 	}
 
 	@Override
-	public void handleClosedFile(VirtualFile file) {
+	public void handleClosedFile(@NotNull VirtualFile file) {
 		expansionListener.clean(file);
 	}
 
 	@Override
-	public void handleSelectedFile(VirtualFile file) {
+	public void handleSelectedFile(@NotNull VirtualFile file) {
 	    ASTService astService = ASTService.getInstance(project);
 	    if (astService.isKnownOpenAPIFile(file.getPath())) {
 	      try {
@@ -231,7 +232,7 @@ public class OpenAPITreeView extends ViewPart
 	}
 
 	@Override
-	public void handleToolWindowRegistered(String id) {
+	public void handleToolWindowRegistered(@NotNull String id) {
 	    if (ToolWindowId.OPEN_API.equals(id)) {
 	        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
 	        if (file == null) {
@@ -242,10 +243,10 @@ public class OpenAPITreeView extends ViewPart
 	}
 	
 	@Override
-	public void handleToolWindowOpened(String id) {}
+	public void handleToolWindowOpened(@NotNull String id) {}
 
 	@Override
-	public void handleDocumentChanged(VirtualFile file) {
+	public void handleDocumentChanged(@NotNull VirtualFile file) {
 	    ASTService astService = ASTService.getInstance(project);
 	    if (astService.isKnownOpenAPIFile(file.getPath())) {
 	      try {
@@ -263,7 +264,7 @@ public class OpenAPITreeView extends ViewPart
 	}
 
 	@Override
-	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
+	public void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName) {
 		expansionListener.replace(newFile.getPath(), oldFileName);
 	}
 
@@ -275,7 +276,7 @@ public class OpenAPITreeView extends ViewPart
 	}
 	
 	@Override
-	public void propertiesUpdated(String key) {
+	public void propertiesUpdated(@NotNull String key) {
 	  if (SettingsKeys.ABC_SORT.equals(key)) {
 		  boolean sort = PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT);
 		  checkAlphaSortAction(sort);

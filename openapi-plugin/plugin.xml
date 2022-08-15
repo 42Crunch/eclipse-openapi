@@ -23,6 +23,11 @@
 		<command
 			id="com.xliic.openapi.gotoCommand"
 			name="Go to Definition" />
+		
+		<command
+			id="com.xliic.openapi.actions.LoadAuditReportAction"
+			name="Load Security Audit Report from File" />
+			
   <command
         defaultHandler="com.xliic.openapi.actions.SecurityAuditAction"
         id="com.xliic.openapi.actions.SecurityAuditAction"
@@ -59,11 +64,25 @@
 		<handler
 			commandId="com.xliic.openapi.gotoCommand"
 			class="com.xliic.openapi.actions.GoToDefinitionAction" />
+		<handler
+			commandId="com.xliic.openapi.actions.LoadAuditReportAction"
+			class="com.xliic.openapi.actions.LoadAuditReportAction" />
 	</extension>    
 	
    <extension
          point="org.eclipse.ui.menus">
-         
+
+     <menuContribution
+                locationURI="popup:org.eclipse.ui.popup.any?before=undo">
+                <command
+                        commandId="com.xliic.openapi.actions.LoadAuditReportAction"
+                        id="com.xliic.openapi.actions.LoadAuditReportActionId"
+                        label="Load Security Audit Report from File"
+                        icon="icons/42crunch_icon.png"
+                        style="push">
+                </command>
+     </menuContribution>
+              
      <menuContribution
                 locationURI="popup:org.eclipse.ui.popup.any?before=undo">
                 <command
