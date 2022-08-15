@@ -32,7 +32,7 @@ public class Tree {
         return viewer.getStructuredSelection().getFirstElement();
     }
 	
-	public void setModel(TreeModel newModel) {
+	public void setModel(@NotNull TreeModel newModel) {
 		contentProvider = (ITreeContentProvider) newModel;
 		viewer.setContentProvider(contentProvider);
 		viewer.setInput(getModel().getRoot());
@@ -44,11 +44,11 @@ public class Tree {
     
     public void setOpaque(boolean isOpaque) {}
     
-    public void setBackground(Color bg) {}
+    public void setBackground(@NotNull Color bg) {}
     
     public void setRootVisible(boolean rootVisible) {}
     
-    public void setCellRenderer(ColoredTreeCellRenderer renderer) {
+    public void setCellRenderer(@NotNull ColoredTreeCellRenderer renderer) {
     	viewer.setLabelProvider(new DecoratingStyledCellLabelProvider(
     			renderer, EclipseUtil.getLabelDecorator(), DecorationContext.DEFAULT_CONTEXT));
     }
@@ -65,15 +65,19 @@ public class Tree {
     	setSelectionPath(path);
     }
     
-    public void setSelectionPath(TreePath path) {
+    public void setSelectionPath(@NotNull TreePath path) {
        viewer.setSelection(new StructuredSelection(path.getLastSegment()));
     }
     
-    public void expandPath(TreePath path) {
+    public void expandPath(@NotNull TreePath path) {
     	viewer.expandToLevel(path, 1);
     }
     
-    public void addMouseListener(MouseAdapter adapter) {
+    public void collapseToLevel(@NotNull TreePath path) {
+    	viewer.collapseToLevel(path, 1);
+    }
+
+    public void addMouseListener(@NotNull MouseAdapter adapter) {
     	((org.eclipse.swt.widgets.Tree) viewer.getControl()).addMouseListener(adapter);
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
@@ -82,7 +86,11 @@ public class Tree {
 		viewer.getTree().setMenu(menuMgr.createContextMenu(viewer.getTree()));
     }
     
-    public void addDoubleClickListener(DoubleClickListener listener) {
+    public void addKeyListener(@NotNull KeyAdapter adapter) {
+    	((org.eclipse.swt.widgets.Tree) viewer.getControl()).addKeyListener(adapter);
+    }
+    
+    public void addDoubleClickListener(@NotNull DoubleClickListener listener) {
     	viewer.addDoubleClickListener(listener);
     }
     
