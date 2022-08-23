@@ -1,29 +1,32 @@
 package com.xliic.openapi.report.tree.filter;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-
-import com.xliic.openapi.OpenAPIImages;
+import com.xliic.core.actionSystem.AnJActionEvent;
+import com.xliic.core.actionSystem.ToggleAction;
+import com.xliic.core.project.DumbAware;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.report.tree.ui.ReportPanelView;
+import com.xliic.openapi.report.tree.ui.ReportPanel;
+import icons.OpenApiIcons;
+import org.jetbrains.annotations.NotNull;
 
-public class ShowErrorAction extends Action {
+public class ShowErrorAction extends ToggleAction implements DumbAware {
 
-    private final ReportPanelView view;
+    private final ReportPanel panel;
     private final FilterState filterState;
 
-    public ShowErrorAction(ReportPanelView view) {    	
-        super(OpenApiBundle.message("openapi.action.show.errors"), IAction.AS_CHECK_BOX);
-		setToolTipText(OpenApiBundle.message("openapi.action.show.errors"));
-		setImageDescriptor(OpenAPIImages.ReportError);
-        this.view = view;
-        this.filterState = view.getFilterState();
-        setChecked(filterState.isShowError());
+    public ShowErrorAction(ReportPanel panel) {
+        super(OpenApiBundle.message("openapi.action.show.errors"), "", OpenApiIcons.ReportError);
+        this.panel = panel;
+        this.filterState = panel.getFilterState();
     }
 
     @Override
-    public void run() {
-        filterState.setShowError(isChecked());
-        view.reloadAndRestoreExpansion();
+    public boolean isSelected(@NotNull AnJActionEvent event) {
+        return filterState != null && filterState.isShowError();
+    }
+
+    @Override
+    public void setSelected(@NotNull AnJActionEvent event, boolean showError) {
+        filterState.setShowError(showError);
+        panel.reloadAndRestoreExpansion();
     }
 }

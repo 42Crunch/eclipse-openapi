@@ -25,9 +25,8 @@ public class ReportFileObject {
             if (shortName.startsWith("/")) {
                 shortName = shortName.replaceFirst("/", "");
             }
-            return  shortName;
-        }
-        else {
+            return shortName;
+        } else {
             return issue.getUri().toString();
         }
     }

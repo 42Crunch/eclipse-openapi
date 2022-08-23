@@ -8,14 +8,23 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class DefaultTreeModel implements ITreeContentProvider, TreeModel {
+public class DefaultTreeModel implements ITreeContentProvider, TreeModel {
 
-	private final TreeViewer viewer;
+	protected final TreeViewer viewer;
+	protected TreeNode root;
 	protected boolean asksAllowsChildren;
 
-    public DefaultTreeModel(@NotNull TreeViewer viewer, boolean asksAllowsChildren) {
+    public DefaultTreeModel(@NotNull TreeViewer viewer, @NotNull TreeNode root, boolean asksAllowsChildren) {
     	this.viewer = viewer;
+    	this.root = root;
     	this.asksAllowsChildren = asksAllowsChildren;
+    }
+    
+    public void setRoot(TreeNode root) {
+    	if (!isDisposed()) {
+        	this.root = (DefaultMutableTreeNode) root;
+        	viewer.setInput(root);
+    	}
     }
 
     public void reload() {
@@ -23,7 +32,9 @@ public abstract class DefaultTreeModel implements ITreeContentProvider, TreeMode
     }
 
     public void reload(TreeNode node) {
-    	viewer.refresh(node);
+    	if (!isDisposed()) {
+    		viewer.refresh(node);
+    	}
     }
 
 	@Override
@@ -51,9 +62,39 @@ public abstract class DefaultTreeModel implements ITreeContentProvider, TreeMode
 		return !isLeaf(element);
 	}
 	
-	public void valueForPathChanged(TreePath path, Object newValue) {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastSegment();
-		node.setUserObject(newValue);
-		viewer.refresh(node);
+	@Override
+	public Object getRoot() {
+		return root;
 	}
+
+	@Override
+    public Object getChild(Object parent, int index) {
+        return ((TreeNode) parent).getChildAt(index);
+    }
+
+	@Override
+    public int getChildCount(Object parent) {
+        return ((TreeNode) parent).getChildCount();
+    }
+
+	@Override
+    public boolean isLeaf(Object node) {
+        if (asksAllowsChildren) {
+        	return !((TreeNode) node).getAllowsChildren();
+        }
+        return ((TreeNode) node).isLeaf();
+    }
+	
+	@Override
+	public void valueForPathChanged(TreePath path, Object newValue) {
+		if (!isDisposed()) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastSegment();
+			node.setUserObject(newValue);
+			viewer.refresh(node, true);
+		}
+	}
+	
+    private boolean isDisposed() {
+    	return viewer == null || viewer.getControl().isDisposed();
+    }
 }

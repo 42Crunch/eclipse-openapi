@@ -10,6 +10,14 @@ public abstract class ToggleAction extends AnJAction {
 		super(text, description, icon);
 		setChecked(isSelected(new AnJActionEvent(this)));
 	}
+	
+	@Override
+	public void update() {
+		super.update();
+		if (isEnabled()) {
+			setChecked(isSelected(new AnJActionEvent(this)));
+		}
+	}
 
 	@Override
 	public void actionPerformed(AnJActionEvent anActionEvent) {

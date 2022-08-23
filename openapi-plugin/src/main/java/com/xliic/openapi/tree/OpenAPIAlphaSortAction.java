@@ -1,27 +1,32 @@
 package com.xliic.openapi.tree;
 
+import com.xliic.core.icons.AllIcons;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.actionSystem.ToggleAction;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
-import com.xliic.core.util.Icon;
-import com.xliic.openapi.OpenAPIImages;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.SettingsKeys;
-import com.xliic.openapi.tree.ui.OpenAPITreeView;
-
 import org.jetbrains.annotations.NotNull;
 
 public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 
+	@NotNull
     private final Project project;
-    private final OpenAPITreeView view;
+	@NotNull
+    private final SortCallback callback;
+    
+    public static interface SortCallback {
+    	void sort(boolean sort);
+    }
 
-    public OpenAPIAlphaSortAction(@NotNull Project project, @NotNull OpenAPITreeView view) {
-        super("Sort Alphabetically", "Sort alphabetically", new Icon(OpenAPIImages.Sort));
+    public OpenAPIAlphaSortAction(@NotNull Project project, @NotNull SortCallback callback) {
+        super("Sort Alphabetically", "Sort alphabetically", AllIcons.ObjectBrowser.Sorted);
         this.project = project;
-        this.view = view;
+        this.callback = callback;
     }
 
     @Override
@@ -31,11 +36,17 @@ public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 
     @Override
     public final void setSelected(@NotNull AnJActionEvent event, boolean flag) {
-        view.sort(flag);
+    	callback.sort(flag);
     }
 
     @Override
     public void update(AnJActionEvent event) {
-        event.getPresentation().setEnabled(OpenApiUtils.getSelectedOpenAPIFile(project) != null);
+    	VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+    	if (file != null) {
+    		ASTService astService = ASTService.getInstance(project);
+    		event.getPresentation().setEnabled(astService.getRootNode(file) != null);
+    	} else {
+    		event.getPresentation().setEnabled(false);
+    	}
     }
 }

@@ -15,7 +15,10 @@ public interface OpenApiIcons {
     /** 16x16 */ @NotNull Icon PropertyNode = IconLoader.findIcon("/icons/property.svg");
     /** 16x16 */ @NotNull Icon AddSnippet = IconLoader.findIcon("/icons/add.svg");
     /** 16x16 */ @NotNull Icon ExtRef = IconLoader.findIcon("/icons/extref.svg");
-
+    
+    /** 16x16 */ @NotNull Icon CollapseAll = IconLoader.findIcon("/icons/collapseall.png");
+    /** 16x16 */ @NotNull Icon ExpandAll = IconLoader.findIcon("/icons/expandall.png");
+    
     /** 16x16 */ @NotNull Icon Json = IconLoader.findIcon("/icons/json.svg");
     /** 16x16 */ @NotNull Icon Yaml = IconLoader.findIcon("/icons/yaml.svg");
 

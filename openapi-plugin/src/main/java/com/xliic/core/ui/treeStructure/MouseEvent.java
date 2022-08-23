@@ -12,22 +12,44 @@ public class MouseEvent {
 	private final boolean doubleClick;
 	private final IMenuManager menu;
 	
+	private final int x;
+	private final int y;
+	private final Object source;
+	
 	public MouseEvent() {
 		this.button = BUTTON1;
 		this.doubleClick = true;
 		this.menu = null;
+		this.x = 0;
+		this.y = 0;
+		this.source = null;
 	}
 	
 	public MouseEvent(int button) {
 		this.button = button;
 		this.doubleClick = false;
 		this.menu = null;
+		this.x = 0;
+		this.y = 0;
+		this.source = null;
 	}
 
 	public MouseEvent(@NotNull IMenuManager menu) {
 		this.button = BUTTON3;
 		this.doubleClick = false;
 		this.menu = menu;
+		this.x = 0;
+		this.y = 0;
+		this.source = null;
+	}
+	
+	public MouseEvent(@NotNull Object source, int x, int y) {
+		this.button = 0;
+		this.doubleClick = false;
+		this.menu = null;
+		this.x = x;
+		this.y = y;
+		this.source = source;
 	}
 
 	public boolean isLeftMouseButton() {
@@ -45,4 +67,16 @@ public class MouseEvent {
 	public IMenuManager getMenu() {
 		return menu;
 	}
+	
+    public Object getSource() {
+        return source;
+    }
+    
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

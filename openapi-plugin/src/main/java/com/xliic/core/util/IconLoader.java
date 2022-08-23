@@ -41,6 +41,26 @@ public class IconLoader {
 			return new Icon(OpenAPIImages.Filter);
 		} else if (path.startsWith("/icons/reportError")) {
 			return new Icon(OpenAPIImages.ReportError);
+		} else if (path.startsWith("/icons/sorted")) {
+			return new Icon(OpenAPIImages.Sort);
+		} else if (path.startsWith("/icons/listFiles")) {
+			return new Icon(OpenAPIImages.PanelNode);
+		} else if (path.startsWith("/icons/collapseall")) {
+			return new Icon(OpenAPIImages.CollapseAll);
+		} else if (path.startsWith("/icons/expandall")) {
+			return new Icon(OpenAPIImages.ExpandAll);
+		} else if (path.startsWith("/icons/any_type")) {
+			return new Icon(OpenAPIImages.Any_type);
+		} else if (path.startsWith("/icons/reportError")) {
+			return new Icon(OpenAPIImages.ReportError);
+		} else if (path.startsWith("/icons/reportWarning")) {
+			return new Icon(OpenAPIImages.ReportWarning);
+		} else if (path.startsWith("/icons/reportInfo")) {
+			return new Icon(OpenAPIImages.ReportInfo);
+		} else if (path.startsWith("/icons/reset")) {
+			return new Icon(OpenAPIImages.Reset);
+		} else if (path.startsWith("/icons/text")) {
+			return new Icon(OpenAPIImages.File);
 		}
 		return new Icon(ImageDescriptor.getMissingImageDescriptor());
 	}

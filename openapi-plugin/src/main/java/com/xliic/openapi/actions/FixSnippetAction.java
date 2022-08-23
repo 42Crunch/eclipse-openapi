@@ -17,6 +17,8 @@ import com.xliic.core.util.Icon;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.quickfix.managers.FixManager;
+import com.xliic.openapi.services.ASTService;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -32,7 +34,13 @@ public class FixSnippetAction extends AnJAction implements DumbAware {
 
   @Override
   public void update(@NotNull AnJActionEvent event) {
-    event.getPresentation().setEnabled((getOpenAPIPsiFile(event) != null) && provider.isAvailable());
+	PsiFile psiFile = getOpenAPIPsiFile(event);
+	if (psiFile != null && provider.isAvailable()) {
+		ASTService astService = ASTService.getInstance(event.getProject());
+		event.getPresentation().setEnabled(astService.getRootNode(psiFile.getVirtualFile()) != null);
+	} else {
+		event.getPresentation().setEnabled(false);
+	}
   }
 
   @Override

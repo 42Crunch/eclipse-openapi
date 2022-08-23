@@ -26,9 +26,6 @@ import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
@@ -104,29 +101,6 @@ public class EclipseUtil {
 	@NotNull
 	public static ILabelDecorator getLabelDecorator() {
 		return getWorkbench().getDecoratorManager().getLabelDecorator();
-	}
-
-	@NotNull
-	public static Font getBoldFont() {
-		return getBoldFont(getWorkbench().getDisplay().getSystemFont());
-	}
-
-	@NotNull
-	public static Font getBoldFont(@NotNull Font font) {
-		FontData[] data = font.getFontData();
-		for (int i = 0; i < data.length; i++) {
-			data[i].setStyle(SWT.BOLD);
-		}
-		return new Font(font.getDevice(), data);
-	}
-
-	@NotNull
-	public static Font getItalicFont(@NotNull Font font) {
-		FontData[] data = font.getFontData();
-		for (int i = 0; i < data.length; i++) {
-			data[i].setStyle(SWT.ITALIC);
-		}
-		return new Font(font.getDevice(), data);
 	}
 	
 	@NotNull

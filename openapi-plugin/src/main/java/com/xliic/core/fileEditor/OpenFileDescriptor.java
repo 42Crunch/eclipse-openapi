@@ -11,11 +11,12 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.pom.Navigatable;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 
-public class OpenFileDescriptor {
+public class OpenFileDescriptor implements Navigatable {
 
 	private final VirtualFile file;
 	private final int offset;
@@ -37,10 +38,11 @@ public class OpenFileDescriptor {
 		return file;
 	}
 
+	@Override
 	public void navigate(boolean requestFocus) {
 		IFile ifile = file.getIFile();
 		if (ifile != null) {
-			gotoFile(ifile, (offset >= 0) ? offset : 0, length);
+			gotoFile(ifile, (offset >= 0) ? offset : 0, length, requestFocus);
 		} else {
 			IEditorPart part = EclipseUtil.openInInternalEditor(file.getFile(), requestFocus);
 			if (part instanceof ITextEditor) {
@@ -52,7 +54,7 @@ public class OpenFileDescriptor {
 		}
 	}
 	
-	private static ITextEditor gotoFile(IFile file, int offset, int length) {
+	private static ITextEditor gotoFile(IFile file, int offset, int length, boolean requestFocus) {
 		IWorkbenchPage page = EclipseUtil.getActivePage();
 		IEditorInput input = new FileEditorInput(file);
 		IEditorPart part = page.findEditor(input);
@@ -62,9 +64,9 @@ public class OpenFileDescriptor {
 		} else {
 			try {
 				IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
-				IEditorPart editorPart = page.openEditor(input, desc.getId());
+				IEditorPart editorPart = page.openEditor(input, desc.getId(), requestFocus);
 				if (editorPart instanceof ITextEditor) {
-					editor = (ITextEditor) page.openEditor(input, desc.getId());
+					editor = (ITextEditor) page.openEditor(input, desc.getId(), requestFocus);
 				} else {
 					editor = null;
 				}
@@ -76,7 +78,9 @@ public class OpenFileDescriptor {
 		if (offset >= 0) {
 			editor.selectAndReveal(offset, length);
 		}
-		page.activate(editor);
+		if (requestFocus) {
+			page.activate(editor);
+		}
 		return editor;
 	}	
 }

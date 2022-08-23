@@ -31,7 +31,7 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
     private final DefaultMutableTreeNode favoriteCollections;
 
     public PlatformAsyncTreeModel(@NotNull Project project, @NotNull Tree tree, @NotNull DefaultMutableTreeNode root) {
-        super(tree.getViewer(), false);
+        super(tree.getViewer(), root, false);
         this.project = project;
         this.tree = tree;
         this.root = root;

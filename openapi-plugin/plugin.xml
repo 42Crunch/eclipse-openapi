@@ -105,7 +105,7 @@
       <view
             allowMultiple="false"
             category="eclipse-openapi"
-            class="com.xliic.openapi.tree.ui.OpenAPITreeView"
+            class="com.xliic.openapi.tree.ui.OpenAPIFileTreePanelView"
             icon="icons/icon_api_16.png"
             id="com.xliic.openapi.tree.ui.OpenAPITreeView"
             inject="true"

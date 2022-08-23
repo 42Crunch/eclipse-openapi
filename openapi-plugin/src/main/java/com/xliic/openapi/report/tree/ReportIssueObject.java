@@ -1,57 +1,64 @@
 package com.xliic.openapi.report.tree;
 
-import java.io.File;
-
-import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.ide.errorTreeView.NavigatableErrorTreeElement;
 import com.xliic.core.project.Project;
+import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.core.pom.Navigatable;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.Severity;
+import org.jetbrains.annotations.NotNull;
 
-public class ReportIssueObject {
+import java.io.File;
 
-	private final Issue issue;
+import static com.xliic.openapi.OpenApiUtils.getOpenFileDescriptor;
 
-	public ReportIssueObject(Issue issue) {
-		this.issue = issue;
-	}
+public class ReportIssueObject implements NavigatableErrorTreeElement {
 
-	@Override
-	public String toString() {
-		return issue.toString();
-	}
+    private final Issue issue;
+    private Navigatable navigatable = null;
 
-	public Issue getIssue() {
-		return issue;
-	}
+    public ReportIssueObject(Project project, Issue issue) {
+        this.issue = issue;
+        VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(issue.getFileName()));
+        if (file != null) {
+            navigatable = getOpenFileDescriptor(project, file, issue.getRange());
+        }
+    }
 
-	public Severity getSeverity() {
-		return issue.getSeverity();
-	}
+    @Override
+    public String toString() {
+        return issue.toString();
+    }
 
-	public String getLabel() {
-		return issue.getLabel();
-	}
+    public Issue getIssue() {
+        return issue;
+    }
 
-	public String getLabelLocation() {
-		return issue.getLabelLocation();
-	}
+    public Severity getSeverity() {
+        return issue.getSeverity();
+    }
 
-	public Range getRange() {
-		return issue.getRange();
-	}
+    public String getLabel() {
+        return issue.getLabel();
+    }
 
-	public boolean isRangeDetected() {
-		return getRange() != null;
-	}
+    public String getLabelLocation() {
+        return issue.getLabelLocation();
+    }
 
-	public void navigate() {
-		Project project = issue.getProject();
-		VirtualFile file = new VirtualFile(new File(issue.getFileName()));
-		Range range = getRange();
-		int offset = range.getStartOffset();
-		int length = range.getEndOffset() - range.getStartOffset();
-        new OpenFileDescriptor(project, file, offset, length).navigate(true);
-	}
+    public Range getRange() {
+        return issue.getRange();
+    }
+
+    public boolean isRangeDetected() {
+        return getRange() != null;
+    }
+
+    @NotNull
+    @Override
+    public Navigatable getNavigatable() {
+        return navigatable;
+    }
 }

@@ -84,12 +84,15 @@ public class OpenApiUtils {
 		if (target == null) {
 			return new OpenFileDescriptor(project, file);
 		} else {
-			Range range = EclipseUtil.getSelectionRange(target);
-			if (range == null) {
-				return new OpenFileDescriptor(project, file);
-			}
-	        return new OpenFileDescriptor(project, file, range.getOffset(), range.getLength());
+	        return getOpenFileDescriptor(project, file, EclipseUtil.getSelectionRange(target));
 		}
+	}
+	
+	public static OpenFileDescriptor getOpenFileDescriptor(@NotNull Project project, @NotNull VirtualFile file, Range range) {
+		if (range == null) {
+			return new OpenFileDescriptor(project, file);
+		}
+        return new OpenFileDescriptor(project, file, range.getOffset(), range.getLength());
 	}
 
     public static String getTextFromFile(@NotNull VirtualFile file) {
