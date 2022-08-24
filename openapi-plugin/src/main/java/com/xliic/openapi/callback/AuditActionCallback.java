@@ -87,11 +87,9 @@ public class AuditActionCallback extends ActionCallback {
 
             // Report issues with unknown location
             StringBuilder sb = new StringBuilder();
-            for (Issue issue : newAudit.getIssues()) {
-                if (issue.getRangeMarker() == null) {
-                    sb.append(message("openapi.audit.issue.bad.location", issue.getId(), issue.getPointer()));
-                    sb.append(" ");
-                }
+            for (Issue issue : newAudit.getHiddenIssues()) {
+                sb.append(message("openapi.audit.issue.bad.location", issue.getId(), issue.getPointer()));
+                sb.append(" ");
             }
             if (sb.length() > 0) {
                 SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project,

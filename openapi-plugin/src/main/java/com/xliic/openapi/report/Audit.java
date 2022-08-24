@@ -15,7 +15,8 @@ import static org.apache.commons.lang.StringUtils.isEmpty;
 public class Audit {
 
     private Summary summary;
-    private List<Issue> issues;
+    private final List<Issue> issues;
+    private final List<Issue> hiddenIssues;
     private final Map<String, List<Issue>> fileNameToIssuesMap;
     private String auditFileName;
     private final Project project;
@@ -31,6 +32,8 @@ public class Audit {
         this.platform = platform;
         this.showAsHTML = showAsHTML;
         this.showAsProblems = showAsProblems;
+        issues = new LinkedList<>();
+        hiddenIssues = new LinkedList<>();
         read(response);
         fileNameToIssuesMap = new HashMap<>();
         for (Issue issue : issues) {
@@ -130,6 +133,10 @@ public class Audit {
         return issues;
     }
 
+    public List<Issue> getHiddenIssues() {
+        return hiddenIssues;
+    }
+
     public Map<String, Object> getSummaryProperties() {
         Map<String, Object> result = getSummary().getProperties();
         result.put("documentUri", OpenApiUtils.getURI(auditFileName));
@@ -183,7 +190,6 @@ public class Audit {
 
         Grade dataGrade = new Grade(0, 70);
         Grade securityGrade = new Grade(0, 30);
-        issues = new LinkedList<>();
 
         Node report = platform ? response : response.getChild("report");
         if (report == null) {
@@ -264,7 +270,12 @@ public class Audit {
                     String criticalityStr = subIssueItem.getChildValue("criticality");
                     int criticality = isEmpty(criticalityStr) ? defaultCriticality : Integer.parseInt(criticalityStr);
 
-                    result.add(new Issue(project, auditFileName, id, description, pointer, score, criticality, platform));
+                    Issue issue = new Issue(project, auditFileName, id, description, pointer, score, criticality, platform);
+                    if (issue.getRangeMarker() == null) {
+                        hiddenIssues.add(issue);
+                    } else {
+                        result.add(issue);
+                    }
                 }
             }
         }

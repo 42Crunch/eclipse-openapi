@@ -56,8 +56,7 @@ public class FixSnippetAction extends AnJAction implements DumbAware {
             documentUpdater.process();
             editor.getCaretModel().moveToOffset(documentUpdater.getMoveToOffset());
             editor.getScrollingModel().scrollToCaret(ScrollType.CENTER_UP);
-        }
-                );
+        });
     }
 
     private PsiFile getOpenAPIPsiFile(@NotNull AnJActionEvent event) {

@@ -69,12 +69,7 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
         converter = new DMTNConverter(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
 
         List<AnJAction> titleActions = new ArrayList<>();
-        titleActions.add(new OpenAPIAlphaSortAction(project, new OpenAPIAlphaSortAction.SortCallback() {
-            @Override
-            public void sort(boolean sort) {
-                sortTree(sort);
-            }
-        }));
+        titleActions.add(new OpenAPIAlphaSortAction(project, this::sortTree));
         titleActions.add(Separator.create());
 
         CommonActionsManager actionsManager = CommonActionsManager.getInstance();

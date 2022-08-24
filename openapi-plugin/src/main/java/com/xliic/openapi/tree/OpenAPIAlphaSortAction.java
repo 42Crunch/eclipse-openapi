@@ -19,7 +19,7 @@ public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
     @NotNull
     private final SortCallback callback;
 
-    public static interface SortCallback {
+    public interface SortCallback {
         void sort(boolean sort);
     }
 

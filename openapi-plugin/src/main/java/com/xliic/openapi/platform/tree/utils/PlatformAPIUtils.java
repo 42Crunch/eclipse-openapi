@@ -130,17 +130,19 @@ public class PlatformAPIUtils {
                 DefaultMutableTreeNode collectionDMTN = (DefaultMutableTreeNode) subRoot.getChildAt(i);
                 for (int j = 0; j < collectionDMTN.getChildCount(); j++) {
                     DefaultMutableTreeNode apiDMTN = (DefaultMutableTreeNode) collectionDMTN.getChildAt(j);
-                    PlatformAPI apiObj = (PlatformAPI) apiDMTN.getUserObject();
-                    if (Objects.equals(apiId, apiObj.getId())) {
-                        apiObj.setGrade(grade);
-                        apiObj.setValid(isValid);
-                        DefaultMutableTreeNode childDMTN = (DefaultMutableTreeNode) apiDMTN.getChildAt(0);
-                        PlatformAudit pao = (PlatformAudit) childDMTN.getUserObject();
-                        pao.setGrade(grade);
-                        pao.setValid(isValid);
-                        model.valueForPathChanged(new TreePath(childDMTN.getPath()), pao);
-                        PlatformUtils.goToTreeNode(tree, apiDMTN);
-                        break;
+                    if (apiDMTN.getUserObject() instanceof PlatformAPI) {
+                        PlatformAPI apiObj = (PlatformAPI) apiDMTN.getUserObject();
+                        if (Objects.equals(apiId, apiObj.getId())) {
+                            apiObj.setGrade(grade);
+                            apiObj.setValid(isValid);
+                            DefaultMutableTreeNode childDMTN = (DefaultMutableTreeNode) apiDMTN.getChildAt(0);
+                            PlatformAudit pao = (PlatformAudit) childDMTN.getUserObject();
+                            pao.setGrade(grade);
+                            pao.setValid(isValid);
+                            model.valueForPathChanged(new TreePath(childDMTN.getPath()), pao);
+                            PlatformUtils.goToTreeNode(tree, apiDMTN);
+                            break;
+                        }
                     }
                 }
             }
