@@ -7,11 +7,11 @@ import com.xliic.core.ui.Color;
 
 public class UIUtil {
 
-	public static void invokeLaterIfNeeded(@NotNull Runnable runnable) {
-		Display.getDefault().asyncExec(runnable);
-	}
-	
-	public static Color getTreeBackground() {
-		return null;
-	}
+    public static void invokeLaterIfNeeded(@NotNull Runnable runnable) {
+        Display.getDefault().asyncExec(runnable);
+    }
+
+    public static Color getTreeBackground() {
+        return null;
+    }
 }

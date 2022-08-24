@@ -7,7 +7,7 @@ import com.xliic.core.util.messages.TopicSettingsListener;
 
 public interface SettingsListener {
 
-  Topic<SettingsListener> TOPIC = new TopicSettingsListener<>(SettingsListener.class, Topic.BroadcastDirection.NONE);
+    Topic<SettingsListener> TOPIC = new TopicSettingsListener<>(SettingsListener.class, Topic.BroadcastDirection.NONE);
 
-  void propertiesUpdated(@NotNull String key);
+    void propertiesUpdated(@NotNull String key);
 }

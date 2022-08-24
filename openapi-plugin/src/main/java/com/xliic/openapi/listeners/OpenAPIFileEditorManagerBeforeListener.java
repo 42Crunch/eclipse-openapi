@@ -24,10 +24,10 @@ import static com.xliic.openapi.OpenApiUtils.getFileType;
 // Do not subscribe to the events anywhere outside the class as it may lead to execution inconsistency
 public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManagerListener.Before {
 
-	// Idea can't guarantee the order of Open/Close/Selection events,
-	// so we have to use before events as they always come first
-	@Override
-	public void beforeFileOpened(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
+    // Idea can't guarantee the order of Open/Close/Selection events,
+    // so we have to use before events as they always come first
+    @Override
+    public void beforeFileOpened(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
         if (getFileType(file) == OpenApiFileType.Unsupported) {
             return;
         }
@@ -48,10 +48,10 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
         }
         BundleService bundleService = BundleService.getInstance(project);
         bundleService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_OPENED, file);
-	}
+    }
 
-	@Override
-	public void beforeFileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
+    @Override
+    public void beforeFileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
         if (getFileType(file) == OpenApiFileType.Unsupported) {
             return;
         }

@@ -11,14 +11,14 @@ import java.util.Map;
 public class AsyncTask {
 
     @SuppressWarnings("unused")
-	private final Project project;
+    private final Project project;
     private final VirtualFile file;
     private final AsyncTaskType type;
     private final Map<String, Object> data;
 
     public AsyncTask(@NotNull Project project,
-                     @NotNull AsyncTaskType type,
-                     @NotNull VirtualFile file) {
+            @NotNull AsyncTaskType type,
+            @NotNull VirtualFile file) {
         this.project = project;
         this.file = file;
         this.type = type;
@@ -26,9 +26,9 @@ public class AsyncTask {
     }
 
     public AsyncTask(@NotNull Project project,
-                     @NotNull AsyncTaskType type,
-                     @NotNull VirtualFile file,
-                     @NotNull Map<String, Object> data) {
+            @NotNull AsyncTaskType type,
+            @NotNull VirtualFile file,
+            @NotNull Map<String, Object> data) {
         this.project = project;
         this.file = file;
         this.type = type;

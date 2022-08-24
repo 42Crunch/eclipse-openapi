@@ -8,8 +8,8 @@ import com.xliic.openapi.OpenApiVersion;
 
 public class OpenAPICreationWizardJson3 extends OpenAPICreationWizard {
 
-	@Override
-	protected OpenAPICreationPage getPage(IWorkbench workbench, IStructuredSelection selection) {
-		return new OpenAPICreationPage(workbench, selection, OpenApiVersion.V3, OpenApiFileType.Json);
-	}
+    @Override
+    protected OpenAPICreationPage getPage(IWorkbench workbench, IStructuredSelection selection) {
+        return new OpenAPICreationPage(workbench, selection, OpenApiVersion.V3, OpenApiFileType.Json);
+    }
 }

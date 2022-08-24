@@ -22,45 +22,45 @@ import com.xliic.openapi.services.ASTService;
 
 public class OpenAPIHyperlinkDetector extends AbstractHyperlinkDetector implements IHyperlinkDetector {
 
-	private final Project project;
-	private final ASTService astService;
-	private final OpenAPINavigationProvider provider;
+    private final Project project;
+    private final ASTService astService;
+    private final OpenAPINavigationProvider provider;
 
-	public OpenAPIHyperlinkDetector() {
-		project = Project.getInstance();
-		astService = ASTService.getInstance(project);
-		provider = new OpenAPINavigationProvider();
-	}
+    public OpenAPIHyperlinkDetector() {
+        project = Project.getInstance();
+        astService = ASTService.getInstance(project);
+        provider = new OpenAPINavigationProvider();
+    }
 
-	@Override
-	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {
-		IDocument document = textViewer.getDocument();
-		VirtualFile file = FileDocumentManager.getInstance().getFile(new DocumentImpl(document));
-		if (file != null) {
-			int offset = region.getOffset();
-			PsiFile psiFile = new PsiFile(project, file);
-			Node root = astService.getRootNode(file);
-			if (root != null) {
-				Node node = root.findNodeAtOffset(offset);
-				if (node != null) {
-					PsiElement element = provider.getNavigationElement(new LeafPsiElement(offset, node, psiFile));
-					if (element != null) {
-						return new IHyperlink[] {
-								new OpenAPIHyperlink(getRegion(node), element, isExternal(file, element)) };
-					}
-				}
-			}
-		}
-		return null;
-	}
+    @Override
+    public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {
+        IDocument document = textViewer.getDocument();
+        VirtualFile file = FileDocumentManager.getInstance().getFile(new DocumentImpl(document));
+        if (file != null) {
+            int offset = region.getOffset();
+            PsiFile psiFile = new PsiFile(project, file);
+            Node root = astService.getRootNode(file);
+            if (root != null) {
+                Node node = root.findNodeAtOffset(offset);
+                if (node != null) {
+                    PsiElement element = provider.getNavigationElement(new LeafPsiElement(offset, node, psiFile));
+                    if (element != null) {
+                        return new IHyperlink[] {
+                                new OpenAPIHyperlink(getRegion(node), element, isExternal(file, element)) };
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
-	private IRegion getRegion(@NotNull Node node) {
-		int offset = node.getValueRange().getStartOffset();
-		int length = node.getValueRange().getEndOffset() - offset;
-		return new Region(offset, length);
-	}
+    private IRegion getRegion(@NotNull Node node) {
+        int offset = node.getValueRange().getStartOffset();
+        int length = node.getValueRange().getEndOffset() - offset;
+        return new Region(offset, length);
+    }
 
-	private boolean isExternal(@NotNull VirtualFile file, @NotNull PsiElement element) {
-		return !file.equals(element.getContainingFile().getVirtualFile());
-	}
+    private boolean isExternal(@NotNull VirtualFile file, @NotNull PsiElement element) {
+        return !file.equals(element.getContainingFile().getVirtualFile());
+    }
 }

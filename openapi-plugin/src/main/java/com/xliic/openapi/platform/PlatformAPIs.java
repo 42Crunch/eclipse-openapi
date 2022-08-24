@@ -47,7 +47,7 @@ public class PlatformAPIs {
     }
 
     @SuppressWarnings("serial")
-	public static void updateCollection(String collectionId, String name, Callback callback) {
+    public static void updateCollection(String collectionId, String name, Callback callback) {
         RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("name", name);
         }}));
@@ -56,7 +56,7 @@ public class PlatformAPIs {
     }
 
     @SuppressWarnings("serial")
-	public static void updateAPIContent(String apiId, String text, Callback callback) {
+    public static void updateAPIContent(String apiId, String text, Callback callback) {
         RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
         }}));
@@ -65,7 +65,7 @@ public class PlatformAPIs {
     }
 
     @SuppressWarnings("serial")
-	public static void updateAPI(String apiId, String name, Callback callback) {
+    public static void updateAPI(String apiId, String name, Callback callback) {
         RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("name", name);
         }}));
@@ -84,7 +84,7 @@ public class PlatformAPIs {
     }
 
     @SuppressWarnings("serial")
-	public static void createCollection(String name, Callback callback) {
+    public static void createCollection(String name, Callback callback) {
         RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("name", name);
         }}));
@@ -93,7 +93,7 @@ public class PlatformAPIs {
     }
 
     @SuppressWarnings("serial")
-	public static void createAPI(String collectionId, String name, String text, Callback callback) {
+    public static void createAPI(String collectionId, String name, String text, Callback callback) {
         RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("cid", collectionId);
             put("name", name);

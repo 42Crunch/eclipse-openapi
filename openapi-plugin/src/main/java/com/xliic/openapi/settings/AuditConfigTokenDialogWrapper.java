@@ -17,52 +17,52 @@ import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.callback.TokenDialogDoOkActionCallback;
 
 public class AuditConfigTokenDialogWrapper extends DialogWrapper {
-	
-	private final Project project;
-	private final VirtualFile file;
-	private JTextArea tokenTextArea;
 
-	public AuditConfigTokenDialogWrapper(@NotNull Project project, @NotNull VirtualFile file) {
-		super(project, 2);
-		setTitle(OpenApiBundle.message("Security Audit Settings"));
-		this.file = file;
-		this.project = project;
-	}
+    private final Project project;
+    private final VirtualFile file;
+    private JTextArea tokenTextArea;
 
-	@Override
-	protected void create(Composite parent) {
-	    setOKActionEnabled(false);
-		new Label(parent, SWT.LEFT).setText("Security Audit Token");
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.horizontalIndent = 10;
-		gridData.widthHint = 350;
-		tokenTextArea = new JTextArea(parent);
+    public AuditConfigTokenDialogWrapper(@NotNull Project project, @NotNull VirtualFile file) {
+        super(project, 2);
+        setTitle(OpenApiBundle.message("Security Audit Settings"));
+        this.file = file;
+        this.project = project;
+    }
 
-		GridData infoGridData = new GridData(GridData.FILL_BOTH);
-		infoGridData.horizontalSpan = 2;
-		infoGridData.verticalIndent = 5;
-		infoGridData.widthHint = 350;
-		Label info = new Label(parent, SWT.WRAP);
-		info.setLayoutData(infoGridData);
-	    info.setText("API token has been sent. If you don't get the mail within a couple minutes, " +
-	    		" check your spam folder and that the address is correct. Paste the token above.");
+    @Override
+    protected void create(Composite parent) {
+        setOKActionEnabled(false);
+        new Label(parent, SWT.LEFT).setText("Security Audit Token");
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+        gridData.horizontalIndent = 10;
+        gridData.widthHint = 350;
+        tokenTextArea = new JTextArea(parent);
 
-	    registerForValidation(tokenTextArea);
-	    init();
-	}
+        GridData infoGridData = new GridData(GridData.FILL_BOTH);
+        infoGridData.horizontalSpan = 2;
+        infoGridData.verticalIndent = 5;
+        infoGridData.widthHint = 350;
+        Label info = new Label(parent, SWT.WRAP);
+        info.setLayoutData(infoGridData);
+        info.setText("API token has been sent. If you don't get the mail within a couple minutes, " +
+                " check your spam folder and that the address is correct. Paste the token above.");
 
-	@Override
-	protected ValidationInfo doValidate() {
-		if (StringUtils.isEmpty(tokenTextArea.getStripText())) {
-			return new ValidationInfo("Invalid token format");
-	    }
-	    return super.doValidate();
-	}
+        registerForValidation(tokenTextArea);
+        init();
+    }
 
-	@Override
-	public void doOKAction() {
-	    super.doOKAction();
-	    PropertiesComponent.getInstance().setValue(SettingsKeys.TOKEN, tokenTextArea.getStripText());
-	    new TokenDialogDoOkActionCallback(project, file, tokenTextArea.getStripText()).setDone();
-	}
+    @Override
+    protected ValidationInfo doValidate() {
+        if (StringUtils.isEmpty(tokenTextArea.getStripText())) {
+            return new ValidationInfo("Invalid token format");
+        }
+        return super.doValidate();
+    }
+
+    @Override
+    public void doOKAction() {
+        super.doOKAction();
+        PropertiesComponent.getInstance().setValue(SettingsKeys.TOKEN, tokenTextArea.getStripText());
+        new TokenDialogDoOkActionCallback(project, file, tokenTextArea.getStripText()).setDone();
+    }
 }

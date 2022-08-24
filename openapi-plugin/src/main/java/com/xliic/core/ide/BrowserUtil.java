@@ -11,23 +11,23 @@ import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 public class BrowserUtil {
-	
+
     public static void browse(@NonNls @NotNull String url) {
-    	try {
-			browse(new URL(url));
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+        try {
+            browse(new URL(url));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
-	
-	public static void browse(@NotNull URL url) {	
+
+    public static void browse(@NotNull URL url) {
         IWorkbenchBrowserSupport browserSupport = PlatformUI.getWorkbench().getBrowserSupport();
         try {
-        	IWebBrowser browser = browserSupport.createBrowser(IWorkbenchBrowserSupport.AS_EXTERNAL, "testId", null, null);
-        	browser.openURL(url);
-        } 
-        catch (Exception e) {
-        	e.printStackTrace();
+            IWebBrowser browser = browserSupport.createBrowser(IWorkbenchBrowserSupport.AS_EXTERNAL, "testId", null, null);
+            browser.openURL(url);
         }
-	}
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

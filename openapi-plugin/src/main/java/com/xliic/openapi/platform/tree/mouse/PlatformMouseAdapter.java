@@ -16,6 +16,7 @@ public class PlatformMouseAdapter extends MouseAdapter {
         rightMouseClickHandler = new PlatformRightMouseClickHandler(panel);
     }
 
+    @Override
     public void mouseClicked(MouseEvent event) {
         if (isLeftMouseButton(event)) {
             leftMouseClickHandler.handle(event);

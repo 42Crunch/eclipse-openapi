@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PlatformTreeFilter extends DialogWrapper {
 
-	protected JTextField myValueEditor;
+    protected JTextField myValueEditor;
     private boolean updated;
 
     public PlatformTreeFilter(@NotNull Project project, @NotNull String title) {
@@ -21,15 +21,15 @@ public class PlatformTreeFilter extends DialogWrapper {
         setOKButtonText("Apply");
         init();
     }
-    
-	@Override
-	public void create(Composite parent) {
-		new Label(parent, SWT.NULL).setText("Name");
-	    GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-	    myValueEditor = new JTextField(parent, gridData);
+
+    @Override
+    public void create(Composite parent) {
+        new Label(parent, SWT.NULL).setText("Name");
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+        myValueEditor = new JTextField(parent, gridData);
         myValueEditor.setEnabled(true);
-	    registerForValidation(myValueEditor);
-	}
+        registerForValidation(myValueEditor);
+    }
 
 
     @Override

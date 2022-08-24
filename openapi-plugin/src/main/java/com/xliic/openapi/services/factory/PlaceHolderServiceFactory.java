@@ -9,14 +9,14 @@ import com.xliic.openapi.services.api.IPlaceHolderService;
 
 public class PlaceHolderServiceFactory extends AbstractServiceFactory {
 
-	private static final PlaceHolderService service = new PlaceHolderService(Project.getInstance());
+    private static final PlaceHolderService service = new PlaceHolderService(Project.getInstance());
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
-		if (IPlaceHolderService.class.equals(serviceInterface)) {
-			return service;
-		}
-		return null;
-	}
+    @Override
+    @SuppressWarnings("rawtypes")
+    public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
+        if (IPlaceHolderService.class.equals(serviceInterface)) {
+            return service;
+        }
+        return null;
+    }
 }

@@ -2,7 +2,7 @@ package com.xliic.openapi;
 
 public enum OpenApiVersion {
 
-        V2,
-        V3,
-        Unknown
+    V2,
+    V3,
+    Unknown
 }

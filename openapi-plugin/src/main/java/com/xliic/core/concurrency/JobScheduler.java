@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class JobScheduler {
 
-	@NotNull
-	public static ScheduledExecutorService getScheduler() {
-		return Executors.newScheduledThreadPool(1);
-	}
+    @NotNull
+    public static ScheduledExecutorService getScheduler() {
+        return Executors.newScheduledThreadPool(1);
+    }
 }

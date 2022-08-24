@@ -13,53 +13,53 @@ import com.xliic.openapi.services.ASTService;
 
 public class CommonActionsManager {
 
-	private static CommonActionsManager manager;
+    private static CommonActionsManager manager;
 
-	public static CommonActionsManager getInstance() {
-		if (manager == null) {
-			manager = new CommonActionsManager();
-		}
-		return manager;
-	}
-	
-	public AnJAction createExpandAllHeaderAction(@NotNull TreeExpander expander, @NotNull Tree tree) {
-		return new AnJAction("Expand All", "Expand All", AllIcons.Actions.ExpandAll) {
-			
-		    @Override
-		    public void update(AnJActionEvent event) {
-		    	updatePresentation(event);
-		    }
-		    
-			@Override
-			public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {
-				tree.expandAll();
-			}
-		};
-	}
-	
-	public AnJAction createCollapseAllHeaderAction(@NotNull TreeExpander expander, @NotNull Tree tree) {
-		return new AnJAction("Collapse All", "Collapse All", AllIcons.Actions.CollapseAll) {
+    public static CommonActionsManager getInstance() {
+        if (manager == null) {
+            manager = new CommonActionsManager();
+        }
+        return manager;
+    }
 
-		    @Override
-		    public void update(AnJActionEvent event) {
-		    	updatePresentation(event);
-		    }
-		    
-			@Override
-			public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {
-				tree.collapseAll();
-			}
-		};
-	}
-	
-	private void updatePresentation(AnJActionEvent event) {
-		Project project = event.getProject();
-    	VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
-    	if (file != null) {
-    		ASTService astService = ASTService.getInstance(project);
-    		event.getPresentation().setEnabled(astService.getRootNode(file) != null);
-    	} else {
-    		event.getPresentation().setEnabled(false);
-    	}	
-	}
+    public AnJAction createExpandAllHeaderAction(@NotNull TreeExpander expander, @NotNull Tree tree) {
+        return new AnJAction("Expand All", "Expand All", AllIcons.Actions.ExpandAll) {
+
+            @Override
+            public void update(AnJActionEvent event) {
+                updatePresentation(event);
+            }
+
+            @Override
+            public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {
+                tree.expandAll();
+            }
+        };
+    }
+
+    public AnJAction createCollapseAllHeaderAction(@NotNull TreeExpander expander, @NotNull Tree tree) {
+        return new AnJAction("Collapse All", "Collapse All", AllIcons.Actions.CollapseAll) {
+
+            @Override
+            public void update(AnJActionEvent event) {
+                updatePresentation(event);
+            }
+
+            @Override
+            public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {
+                tree.collapseAll();
+            }
+        };
+    }
+
+    private void updatePresentation(AnJActionEvent event) {
+        Project project = event.getProject();
+        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        if (file != null) {
+            ASTService astService = ASTService.getInstance(project);
+            event.getPresentation().setEnabled(astService.getRootNode(file) != null);
+        } else {
+            event.getPresentation().setEnabled(false);
+        }
+    }
 }

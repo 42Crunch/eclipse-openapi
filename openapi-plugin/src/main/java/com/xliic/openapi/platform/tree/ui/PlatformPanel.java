@@ -32,7 +32,7 @@ public class PlatformPanel implements PlatformListener, Disposable {
 
     public PlatformPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
 
-    	tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
+        tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
 
         this.project = project;
 

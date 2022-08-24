@@ -16,31 +16,31 @@ import com.xliic.core.psi.PsiFile;
 
 public class OpenAPIMarkerResolutionGenerator implements IMarkerResolutionGenerator2 {
 
-	private static final IMarkerResolution[] NO_RESOLUTIONS = new IMarkerResolution[0];
+    private static final IMarkerResolution[] NO_RESOLUTIONS = new IMarkerResolution[0];
 
-	@Override
-	public IMarkerResolution[] getResolutions(IMarker marker) {
-		if (hasResolutions(marker)) {
-			Marker hMarker = HighlightingManager.getInstance(null).getMarker(marker);
-			Editor editor = hMarker.getEditor();
-			PsiFile file = hMarker.getPsiFile();
-			Project project = file.getProject();
-			List<IntentionAction> actions = hMarker.getActions();
-			if (actions != null) {
-				List<IMarkerResolution> resolutions = new LinkedList<>();
-				for (IntentionAction action : actions) {
-					if (action.isAvailable(project, editor, file)) {
-						resolutions.add(new OpenAPIMarkerResolution(project, editor, file, action));
-					}
-				}
-				return resolutions.toArray((new IMarkerResolution[0]));
-			}
-		}
-		return NO_RESOLUTIONS;
-	}
+    @Override
+    public IMarkerResolution[] getResolutions(IMarker marker) {
+        if (hasResolutions(marker)) {
+            Marker hMarker = HighlightingManager.getInstance(null).getMarker(marker);
+            Editor editor = hMarker.getEditor();
+            PsiFile file = hMarker.getPsiFile();
+            Project project = file.getProject();
+            List<IntentionAction> actions = hMarker.getActions();
+            if (actions != null) {
+                List<IMarkerResolution> resolutions = new LinkedList<>();
+                for (IntentionAction action : actions) {
+                    if (action.isAvailable(project, editor, file)) {
+                        resolutions.add(new OpenAPIMarkerResolution(project, editor, file, action));
+                    }
+                }
+                return resolutions.toArray((new IMarkerResolution[0]));
+            }
+        }
+        return NO_RESOLUTIONS;
+    }
 
-	@Override
-	public boolean hasResolutions(IMarker marker) {
-		return HighlightingManager.getInstance(null).getMarker(marker) != null;
-	}
+    @Override
+    public boolean hasResolutions(IMarker marker) {
+        return HighlightingManager.getInstance(null).getMarker(marker) != null;
+    }
 }

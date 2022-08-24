@@ -52,8 +52,8 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
 
     public OpenApiFileTreePanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
 
-    	tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
-    	this.project = project;
+        tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
+        this.project = project;
         this.toolWindow = toolWindow;
         tree.setRootVisible(false);
         tree.setModel(new DefaultTreeModel(tree.getViewer(), new DefaultMutableTreeNode(), false));
@@ -70,11 +70,11 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
 
         List<AnJAction> titleActions = new ArrayList<>();
         titleActions.add(new OpenAPIAlphaSortAction(project, new OpenAPIAlphaSortAction.SortCallback() {
-			@Override
-			public void sort(boolean sort) {
-				sortTree(sort);
-			}
-		}));
+            @Override
+            public void sort(boolean sort) {
+                sortTree(sort);
+            }
+        }));
         titleActions.add(Separator.create());
 
         CommonActionsManager actionsManager = CommonActionsManager.getInstance();
@@ -108,7 +108,7 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
             try {
                 DefaultMutableTreeNode root = converter.convert(astService.getOpenAPIRootNode(file.getPath()));
                 setTreeBackGround(true, null);
-                DefaultTreeModel model = (DefaultTreeModel) getTree().getModel();
+                DefaultTreeModel model = getTree().getModel();
                 model.setRoot(root);
                 expansionListener.expand(file);
             } catch (Exception e) {
@@ -139,7 +139,7 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
     @Override
     public void handleAllFilesClosed() {
         setNoOpenAPITreeBackGround();
-        DefaultTreeModel model = (DefaultTreeModel) getTree().getModel();
+        DefaultTreeModel model = getTree().getModel();
         model.setRoot(null);
     }
 
@@ -160,17 +160,17 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
             try {
                 DefaultMutableTreeNode root = converter.convert(astService.getOpenAPIRootNode(file.getPath()));
                 setTreeBackGround(true, null);
-                DefaultTreeModel model = (DefaultTreeModel) getTree().getModel();
+                DefaultTreeModel model = getTree().getModel();
                 model.setRoot(root);
                 expansionListener.expand(file);
             } catch (Exception e) {
                 setTreeBackGround(false, e.getMessage());
-                DefaultTreeModel model = (DefaultTreeModel) getTree().getModel();
+                DefaultTreeModel model = getTree().getModel();
                 model.setRoot(null);
             }
         } else {
             setNoOpenAPITreeBackGround();
-            DefaultTreeModel model = (DefaultTreeModel) getTree().getModel();
+            DefaultTreeModel model = getTree().getModel();
             model.setRoot(null);
         }
     }
@@ -202,17 +202,17 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
 
     @Override
     public void propertiesUpdated(@NotNull String key) {
-  	  if (SettingsKeys.ABC_SORT.equals(key)) {
-		  boolean sort = PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT);
-		  sortTree(sort);
-	  }
+        if (SettingsKeys.ABC_SORT.equals(key)) {
+            boolean sort = PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT);
+            sortTree(sort);
+        }
     }
-    
-	public void sortTree(boolean sort) {
-		  converter.setSortABC(sort);
-		  VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
-		  if (file != null) {
-			  SwingUtilities.invokeLater(() -> handleSelectedFile(file));
-		  }
-	}
+
+    public void sortTree(boolean sort) {
+        converter.setSortABC(sort);
+        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        if (file != null) {
+            SwingUtilities.invokeLater(() -> handleSelectedFile(file));
+        }
+    }
 }

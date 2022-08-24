@@ -20,108 +20,108 @@ import com.xliic.core.vfs.VirtualFile;
 @SuppressWarnings("restriction")
 public class FileEditorManager {
 
-	private final Project project;
+    private final Project project;
 
-	public FileEditorManager(Project project) {
-		this.project = project;
-	}
+    public FileEditorManager(Project project) {
+        this.project = project;
+    }
 
-	@NotNull
-	public List<FileEditor> openEditor(@NotNull OpenFileDescriptor descriptor, boolean focusEditor) {
-		descriptor.navigate(focusEditor);
-		// Simply null as it is not used anywhere
-		return null;
-	}
+    @NotNull
+    public List<FileEditor> openEditor(@NotNull OpenFileDescriptor descriptor, boolean focusEditor) {
+        descriptor.navigate(focusEditor);
+        // Simply null as it is not used anywhere
+        return null;
+    }
 
-	public static FileEditorManager getInstance(Project project) {
-		return new FileEditorManager(project);
-	}
+    public static FileEditorManager getInstance(Project project) {
+        return new FileEditorManager(project);
+    }
 
-	public Project getProject() {
-		return project;
-	}
-	
-	public void closeFile(@NotNull VirtualFile file) {
-		for (IWorkbenchPage page : EclipseUtil.getAllSupportedPages()) {
-			for (IEditorReference ref : page.getEditorReferences()) {
-				try {
-					VirtualFile tmp = EclipseUtil.getVirtualFile(ref.getEditorInput());
-					if (tmp.equals(file)) {
-						page.closeEditor(ref.getEditor(true), false);
-					}
-				} catch (PartInitException e) {
-				}
-			}
-		}
-	}
+    public Project getProject() {
+        return project;
+    }
 
-	@NotNull
-	public VirtualFile[] getSelectedFiles() {
-		FileEditor editor = getSelectedEditor();
-		VirtualFile file = editor.getFile();
-		if (file == null) {
-			return new VirtualFile[0];
-		}
-		return List.of(file).toArray(new VirtualFile[0]);
-	}
+    public void closeFile(@NotNull VirtualFile file) {
+        for (IWorkbenchPage page : EclipseUtil.getAllSupportedPages()) {
+            for (IEditorReference ref : page.getEditorReferences()) {
+                try {
+                    VirtualFile tmp = EclipseUtil.getVirtualFile(ref.getEditorInput());
+                    if (tmp.equals(file)) {
+                        page.closeEditor(ref.getEditor(true), false);
+                    }
+                } catch (PartInitException e) {
+                }
+            }
+        }
+    }
 
-	@NotNull
-	public FileEditor[] getAllEditors(@NotNull VirtualFile file) {
-		List<FileEditor> fileEditors = new LinkedList<>();
-		for (IEditorInput input : EclipseUtil.getAllSupportedEditorInputs()) {
-			if (file.equals(EclipseUtil.getVirtualFile(input))) {
-				fileEditors.add(new FileEditor(input));
-			}		
-		}
-		return fileEditors.toArray(new FileEditor[0]);
-	}
+    @NotNull
+    public VirtualFile[] getSelectedFiles() {
+        FileEditor editor = getSelectedEditor();
+        VirtualFile file = editor.getFile();
+        if (file == null) {
+            return new VirtualFile[0];
+        }
+        return List.of(file).toArray(new VirtualFile[0]);
+    }
 
-	@NotNull
-	public VirtualFile[] getOpenFiles() {
-		List<VirtualFile> files = new LinkedList<>();
-		for (IEditorInput input : EclipseUtil.getAllSupportedEditorInputs()) {
-			VirtualFile file = EclipseUtil.getVirtualFile(input);
-			if (file != null) {
-				files.add(file);
-			}	
-		}
-		return files.toArray(new VirtualFile[0]);
-	}
+    @NotNull
+    public FileEditor[] getAllEditors(@NotNull VirtualFile file) {
+        List<FileEditor> fileEditors = new LinkedList<>();
+        for (IEditorInput input : EclipseUtil.getAllSupportedEditorInputs()) {
+            if (file.equals(EclipseUtil.getVirtualFile(input))) {
+                fileEditors.add(new FileEditor(input));
+            }
+        }
+        return fileEditors.toArray(new FileEditor[0]);
+    }
 
-	@Nullable
-	public FileEditor getSelectedEditor() {
-		IEditorInput input = getSelectedEditorInput();
-		if (input != null) {
-			return new FileEditor(input); 
-		}
-		return null;
-	}
+    @NotNull
+    public VirtualFile[] getOpenFiles() {
+        List<VirtualFile> files = new LinkedList<>();
+        for (IEditorInput input : EclipseUtil.getAllSupportedEditorInputs()) {
+            VirtualFile file = EclipseUtil.getVirtualFile(input);
+            if (file != null) {
+                files.add(file);
+            }
+        }
+        return files.toArray(new VirtualFile[0]);
+    }
 
-	@Nullable
-	public FileEditor getSelectedEditor(@NotNull VirtualFile file) {
-		FileEditor editor = getSelectedEditor();
-		if (editor.getFile().equals(file)) {
-			return editor;
-		}
-		return null;
-	}
+    @Nullable
+    public FileEditor getSelectedEditor() {
+        IEditorInput input = getSelectedEditorInput();
+        if (input != null) {
+            return new FileEditor(input);
+        }
+        return null;
+    }
 
-	private static IEditorInput getSelectedEditorInput() {
-		IEditorPart part = EclipseUtil.getCurrentEditor();
-		if (part == null) {
-			for (IWorkbenchWindow window : Workbench.getInstance().getWorkbenchWindows()) {
-				IWorkbenchPage page = window.getActivePage();
-				if (page != null) {
-					part = page.getActiveEditor();
-					if (part != null) {
-						break;
-					}
-				}
-			}
-		}
-		if (part != null) {
-			return part.getEditorInput();
-		}
-		return null;
-	}
+    @Nullable
+    public FileEditor getSelectedEditor(@NotNull VirtualFile file) {
+        FileEditor editor = getSelectedEditor();
+        if (editor.getFile().equals(file)) {
+            return editor;
+        }
+        return null;
+    }
+
+    private static IEditorInput getSelectedEditorInput() {
+        IEditorPart part = EclipseUtil.getCurrentEditor();
+        if (part == null) {
+            for (IWorkbenchWindow window : Workbench.getInstance().getWorkbenchWindows()) {
+                IWorkbenchPage page = window.getActivePage();
+                if (page != null) {
+                    part = page.getActiveEditor();
+                    if (part != null) {
+                        break;
+                    }
+                }
+            }
+        }
+        if (part != null) {
+            return part.getEditorInput();
+        }
+        return null;
+    }
 }

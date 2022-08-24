@@ -12,21 +12,21 @@ public abstract class IntentionAction implements Comparable<IntentionAction>  {
 
     @Override
     public int compareTo(@NotNull IntentionAction o) {
-		return (o instanceof FixAction) ? -1 : 0;
+        return (o instanceof FixAction) ? -1 : 0;
     }
-    
-	@NotNull
-	public abstract String getText();
 
-	@NotNull
-	public abstract String getFamilyName();
+    @NotNull
+    public abstract String getText();
 
-	public abstract boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file);
+    @NotNull
+    public abstract String getFamilyName();
 
-	public abstract void invoke(@NotNull Project project, Editor editor, PsiFile file, int offset)
-			throws IncorrectOperationException;
+    public abstract boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file);
 
-	public abstract boolean startInWriteAction();
+    public abstract void invoke(@NotNull Project project, Editor editor, PsiFile file, int offset)
+            throws IncorrectOperationException;
 
-	public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);
+    public abstract boolean startInWriteAction();
+
+    public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);
 }

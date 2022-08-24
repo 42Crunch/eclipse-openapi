@@ -91,16 +91,16 @@ public class FixManagerCombined extends FixManager {
         quickFixes.stream().map(QuickFix::getTitle).sorted().forEach(title::update);
         return title.toString();
     }
-    
-	@Override
-	public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
-		for (Issue issue : fixToIssueMap.values()) {
-			if (pointer.equals(issue.getPointer()) && label.equals(issue.getHighlightInfoLabel())) {
-				return true;
-			}
-		}
-		return false;
-	}
+
+    @Override
+    public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
+        for (Issue issue : fixToIssueMap.values()) {
+            if (pointer.equals(issue.getPointer()) && label.equals(issue.getHighlightInfoLabel())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private String getAuditFileName() {
         for (Map.Entry<QuickFix, Issue> entry : fixToIssueMap.entrySet()) {

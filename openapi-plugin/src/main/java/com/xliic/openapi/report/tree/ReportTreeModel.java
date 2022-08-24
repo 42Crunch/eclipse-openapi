@@ -120,24 +120,24 @@ public class ReportTreeModel extends DefaultTreeModel {
             return false;
         }
         switch (o.getSeverity()) {
-            case LOW:
-                if (!filterState.isShowInfo()) {
-                    return false;
-                }
-                break;
-            case MEDIUM:
-                if (!filterState.isShowWarning()) {
-                    return false;
-                }
-                break;
-            case HIGH:
-            case CRITICAL:
-                if (!filterState.isShowError()) {
-                    return false;
-                }
-                break;
-            default:
-                break;
+        case LOW:
+            if (!filterState.isShowInfo()) {
+                return false;
+            }
+            break;
+        case MEDIUM:
+            if (!filterState.isShowWarning()) {
+                return false;
+            }
+            break;
+        case HIGH:
+        case CRITICAL:
+            if (!filterState.isShowError()) {
+                return false;
+            }
+            break;
+        default:
+            break;
         }
         if (doSearchTextFilter && filterState.search()) {
             return match(o.getLabel() + o.getLabelLocation(), filterState.getSearchText());

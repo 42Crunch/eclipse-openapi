@@ -11,12 +11,12 @@ import com.xliic.openapi.ToolWindowId;
 
 public class ReportPanelView extends PanelViewPart {
 
-	public ReportPanelView() {
-		super(ToolWindowId.OPEN_API_REPORT);
-	}
+    public ReportPanelView() {
+        super(ToolWindowId.OPEN_API_REPORT);
+    }
 
-	@Override
-	protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
-		return new ReportPanel(project, window, parent);
-	}
+    @Override
+    protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
+        return new ReportPanel(project, window, parent);
+    }
 }

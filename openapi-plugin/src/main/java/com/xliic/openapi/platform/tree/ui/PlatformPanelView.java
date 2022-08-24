@@ -20,43 +20,44 @@ import com.xliic.openapi.services.PlatformService;
 
 public class PlatformPanelView extends PanelViewPart {
 
-	private static final String MEMENTO_DELIMETER = ",";
-	private static final String FAVORITE_STATE_PATH = "com.xliic.openapi.platform.tree.PlatformFavoriteState";
+    private static final String MEMENTO_DELIMETER = ",";
+    private static final String FAVORITE_STATE_PATH = "com.xliic.openapi.platform.tree.PlatformFavoriteState";
 
-	public PlatformPanelView() {
-		super(ToolWindowId.OPEN_API_PLATFORM);
-	}
+    public PlatformPanelView() {
+        super(ToolWindowId.OPEN_API_PLATFORM);
+    }
 
-	@Override
-	protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
-		return new PlatformPanel(project, window, parent);
-	}
-	
-	@Override
-	protected void saveState(@NotNull Project project, @NotNull IMemento memento) {
+    @Override
+    protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
+        return new PlatformPanel(project, window, parent);
+    }
+
+    @Override
+    protected void saveState(@NotNull Project project, @NotNull IMemento memento) {
         PlatformService platformService = PlatformService.getInstance(project);
         if (!platformService.getState().collectionIds.isEmpty()) {
-        	memento.putString(FAVORITE_STATE_PATH, String.join(MEMENTO_DELIMETER, platformService.getState().collectionIds));		
+            memento.putString(FAVORITE_STATE_PATH, String.join(MEMENTO_DELIMETER, platformService.getState().collectionIds));
         }
-	}
-	
-	@Override
-	protected void restoreState(@NotNull Project project, @NotNull IMemento memento) {
-		String collectionIds = memento.getString(FAVORITE_STATE_PATH);
-		if (collectionIds != null) {
-			PlatformFavoriteState state = new PlatformFavoriteState();
-			state.collectionIds = new HashSet<String>(Arrays.asList(collectionIds.split(MEMENTO_DELIMETER)));
-	        PlatformService platformService = PlatformService.getInstance(project);
-			platformService.loadState(state);
-		}
-	}
-	
-	@Override
-	protected void createEmptyControl(Composite parent) {
-	    new Label(parent, SWT.NULL).setText("42Crunch Platform Credentials are not defined");
-	}
-	
-	protected boolean initControl(@NotNull Project project) {
-		return !PlatformConnection.isEmpty();
-	}
+    }
+
+    @Override
+    protected void restoreState(@NotNull Project project, @NotNull IMemento memento) {
+        String collectionIds = memento.getString(FAVORITE_STATE_PATH);
+        if (collectionIds != null) {
+            PlatformFavoriteState state = new PlatformFavoriteState();
+            state.collectionIds = new HashSet<String>(Arrays.asList(collectionIds.split(MEMENTO_DELIMETER)));
+            PlatformService platformService = PlatformService.getInstance(project);
+            platformService.loadState(state);
+        }
+    }
+
+    @Override
+    protected void createEmptyControl(Composite parent) {
+        new Label(parent, SWT.NULL).setText("42Crunch Platform Credentials are not defined");
+    }
+
+    @Override
+    protected boolean initControl(@NotNull Project project) {
+        return !PlatformConnection.isEmpty();
+    }
 }

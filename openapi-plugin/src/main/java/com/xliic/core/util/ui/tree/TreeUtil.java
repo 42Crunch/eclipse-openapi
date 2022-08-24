@@ -10,16 +10,16 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.ui.treeStructure.Tree;
 
 public final class TreeUtil {
-	
-	public static void expandAll(@NotNull Tree tree) {
-		tree.getViewer().expandAll();
-	}
 
-	public static void restoreExpandedPaths(@NotNull Tree tree, @NotNull List<TreePath> paths) {
-		tree.getViewer().setExpandedTreePaths(paths.toArray(new TreePath[0]));
-	}
-	
-	public static @NotNull List<TreePath> collectExpandedPaths(@NotNull Tree tree) {
-		return new LinkedList<>(Arrays.asList(tree.getViewer().getExpandedTreePaths()));
-	}
+    public static void expandAll(@NotNull Tree tree) {
+        tree.getViewer().expandAll();
+    }
+
+    public static void restoreExpandedPaths(@NotNull Tree tree, @NotNull List<TreePath> paths) {
+        tree.getViewer().setExpandedTreePaths(paths.toArray(new TreePath[0]));
+    }
+
+    public static @NotNull List<TreePath> collectExpandedPaths(@NotNull Tree tree) {
+        return new LinkedList<>(Arrays.asList(tree.getViewer().getExpandedTreePaths()));
+    }
 }

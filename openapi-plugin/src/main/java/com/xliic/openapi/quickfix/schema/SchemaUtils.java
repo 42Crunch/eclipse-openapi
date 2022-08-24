@@ -37,8 +37,8 @@ public class SchemaUtils {
     }
 
     public static void updateRequiredList(@NotNull JsonObject properties,
-                                          @NotNull Node value,
-                                          @NotNull JsonArray required) {
+            @NotNull Node value,
+            @NotNull JsonArray required) {
         for (Node child : value.getChildren()) {
             String key = child.getKey();
             int index = getIndex(required, key);
@@ -267,8 +267,8 @@ public class SchemaUtils {
     }
 
     public static JsonObject getSchemaFromAST(@NotNull PsiFile psiFile,
-                                              @NotNull Node genFrom,
-                                              @NotNull OpenApiVersion version) {
+            @NotNull Node genFrom,
+            @NotNull OpenApiVersion version) {
         try {
             if (version == OpenApiVersion.V2) {
                 return getAndResolveSchemaFromAST(psiFile, genFrom);

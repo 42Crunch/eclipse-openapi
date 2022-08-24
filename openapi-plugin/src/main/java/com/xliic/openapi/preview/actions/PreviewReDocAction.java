@@ -9,8 +9,8 @@ import com.xliic.openapi.preview.PreviewUtils;
 
 public class PreviewReDocAction extends PreviewAbstractAction {
 
-	@Override
-	public void browse(Project project, VirtualFile file) throws MalformedURLException {
-		BrowserUtil.browse(PreviewUtils.getURL(project, file, 1));
-	}
+    @Override
+    public void browse(Project project, VirtualFile file) throws MalformedURLException {
+        BrowserUtil.browse(PreviewUtils.getURL(project, file, 1));
+    }
 }

@@ -28,9 +28,9 @@ public class PlatformRenameAPIAction extends AnJAction implements DumbAware {
     private String newName;
 
     public PlatformRenameAPIAction(@NotNull Project project,
-                                   @NotNull Tree tree,
-                                   @NotNull String apiId,
-                                   @NotNull String name) {
+            @NotNull Tree tree,
+            @NotNull String apiId,
+            @NotNull String name) {
         super("Rename", "Rename API", null);
         this.project = project;
         this.tree = tree;

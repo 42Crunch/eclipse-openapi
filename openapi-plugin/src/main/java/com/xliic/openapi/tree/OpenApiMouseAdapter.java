@@ -12,14 +12,15 @@ public class OpenApiMouseAdapter extends MouseAdapter {
     private final OpenApiRightMouseClickHandler rightMouseClickHandler;
 
     public OpenApiMouseAdapter(@NotNull OpenApiFileTreePanel panel) {
-        // Eclipse Development Note 
+        // Eclipse Development Note
         // Set false as not interested in double clicks
-    	// It will speed up single click handling process
-    	super(false);
+        // It will speed up single click handling process
+        super(false);
         leftMouseClickHandler = new OpenApiLeftMouseClickHandler(panel);
         rightMouseClickHandler = new OpenApiRightMouseClickHandler(panel);
     }
 
+    @Override
     public void mouseClicked(MouseEvent event) {
         if (isLeftMouseButton(event)) {
             leftMouseClickHandler.handle(event);

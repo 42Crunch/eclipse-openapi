@@ -10,21 +10,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class DefaultTreeModel implements ITreeContentProvider, TreeModel {
 
-	protected final TreeViewer viewer;
-	protected TreeNode root;
-	protected boolean asksAllowsChildren;
+    protected final TreeViewer viewer;
+    protected TreeNode root;
+    protected boolean asksAllowsChildren;
 
     public DefaultTreeModel(@NotNull TreeViewer viewer, @NotNull TreeNode root, boolean asksAllowsChildren) {
-    	this.viewer = viewer;
-    	this.root = root;
-    	this.asksAllowsChildren = asksAllowsChildren;
+        this.viewer = viewer;
+        this.root = root;
+        this.asksAllowsChildren = asksAllowsChildren;
     }
-    
+
     public void setRoot(TreeNode root) {
-    	if (!isDisposed()) {
-        	this.root = (DefaultMutableTreeNode) root;
-        	viewer.setInput(root);
-    	}
+        if (!isDisposed()) {
+            this.root = root;
+            viewer.setInput(root);
+        }
     }
 
     public void reload() {
@@ -32,69 +32,69 @@ public class DefaultTreeModel implements ITreeContentProvider, TreeModel {
     }
 
     public void reload(TreeNode node) {
-    	if (!isDisposed()) {
-    		viewer.refresh(node);
-    	}
+        if (!isDisposed()) {
+            viewer.refresh(node);
+        }
     }
 
-	@Override
-	public Object[] getElements(Object inputElement) {
-		return getChildren(inputElement);
-	}
+    @Override
+    public Object[] getElements(Object inputElement) {
+        return getChildren(inputElement);
+    }
 
-	@Override
-	public Object[] getChildren(Object parentElement) {
-		int count = getChildCount(parentElement);
-		Object[] children = new Object[count];
-		for (int i = 0 ; i < count ; i++) {
-			children[i] = getChild(parentElement, i);
-		}
-		return children;
-	}
+    @Override
+    public Object[] getChildren(Object parentElement) {
+        int count = getChildCount(parentElement);
+        Object[] children = new Object[count];
+        for (int i = 0 ; i < count ; i++) {
+            children[i] = getChild(parentElement, i);
+        }
+        return children;
+    }
 
-	@Override
-	public Object getParent(Object element) {
-		return element instanceof DefaultMutableTreeNode ? ((DefaultMutableTreeNode) element).getParent() : null;
-	}
+    @Override
+    public Object getParent(Object element) {
+        return element instanceof DefaultMutableTreeNode ? ((DefaultMutableTreeNode) element).getParent() : null;
+    }
 
-	@Override
-	public boolean hasChildren(Object element) {
-		return !isLeaf(element);
-	}
-	
-	@Override
-	public Object getRoot() {
-		return root;
-	}
+    @Override
+    public boolean hasChildren(Object element) {
+        return !isLeaf(element);
+    }
 
-	@Override
+    @Override
+    public Object getRoot() {
+        return root;
+    }
+
+    @Override
     public Object getChild(Object parent, int index) {
         return ((TreeNode) parent).getChildAt(index);
     }
 
-	@Override
+    @Override
     public int getChildCount(Object parent) {
         return ((TreeNode) parent).getChildCount();
     }
 
-	@Override
+    @Override
     public boolean isLeaf(Object node) {
         if (asksAllowsChildren) {
-        	return !((TreeNode) node).getAllowsChildren();
+            return !((TreeNode) node).getAllowsChildren();
         }
         return ((TreeNode) node).isLeaf();
     }
-	
-	@Override
-	public void valueForPathChanged(TreePath path, Object newValue) {
-		if (!isDisposed()) {
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastSegment();
-			node.setUserObject(newValue);
-			viewer.refresh(node, true);
-		}
-	}
-	
+
+    @Override
+    public void valueForPathChanged(TreePath path, Object newValue) {
+        if (!isDisposed()) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastSegment();
+            node.setUserObject(newValue);
+            viewer.refresh(node, true);
+        }
+    }
+
     private boolean isDisposed() {
-    	return viewer == null || viewer.getControl().isDisposed();
+        return viewer == null || viewer.getControl().isDisposed();
     }
 }

@@ -14,10 +14,10 @@ public class FixSourceEmpty extends FixSource {
 
     @Override
     protected List<Object> getValues(Issue issue,
-                                     QuickFix fix,
-                                     FixParameter parameter,
-                                     OpenApiVersion version,
-                                     BundleResult bundle) {
+            QuickFix fix,
+            FixParameter parameter,
+            OpenApiVersion version,
+            BundleResult bundle) {
         return new LinkedList<>();
     }
 

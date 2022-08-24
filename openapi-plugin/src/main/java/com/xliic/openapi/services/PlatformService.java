@@ -91,9 +91,9 @@ public final class PlatformService implements IPlatformService, SettingsListener
     }
 
     public void platformAuditReady(@NotNull String apiId,
-                                   @Nullable VirtualFile file,
-                                   @Nullable Node node,
-                                   @NotNull PlatformAuditWaiter waiter) {
+            @Nullable VirtualFile file,
+            @Nullable Node node,
+            @NotNull PlatformAuditWaiter waiter) {
         auditWaiters.remove(waiter);
         if (node != null) {
             Node assessment = node.find("/attr/data");
@@ -133,31 +133,31 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 if (platformWindow != null && !platformWindow.isDisposed()) {
                     platformWindow.remove();
                 }
-				EclipseUtil.removeTempProject();
+                EclipseUtil.removeTempProject();
             } else {
                 ToolWindow platformWindow = windowManager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
                 if (platformWindow != null && !platformWindow.isDisposed()) {
-                	PlatformPanelView view = (PlatformPanelView) platformWindow.getView();
-                	if (view != null && !view.isReady()) {
-                		// Eclipse Development Note 
-                		// Removing will trigger view recreation
-                		platformWindow.remove();
-                	}
+                    PlatformPanelView view = (PlatformPanelView) platformWindow.getView();
+                    if (view != null && !view.isReady()) {
+                        // Eclipse Development Note
+                        // Removing will trigger view recreation
+                        platformWindow.remove();
+                    }
                 }
-            	// Eclipse Development Note 
-            	// The view is always registered, open it in its perspective scope
+                // Eclipse Development Note
+                // The view is always registered, open it in its perspective scope
                 invokeAndWaitToCreatePlatformWindow(true);
             }
         }
     }
 
     public void invokeAndWaitToCreatePlatformWindow(boolean doViewActivation) {
-    	if (doViewActivation) {
+        if (doViewActivation) {
             ApplicationManager.getApplication().invokeAndWait(() -> {
-            	OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
+                OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
             }, ModalityState.NON_MODAL);
-    	}
+        }
         EclipseUtil.createTempProject();
     }
 

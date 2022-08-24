@@ -46,10 +46,10 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
 
     public ReportPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
 
-    	tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
-    	this.project = project;
+        tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
+        this.project = project;
         this.toolWindow = toolWindow;
-        
+
         List<AnJAction> titleActions = new ArrayList<>();
         titleActions.add(new ShowInfoAction(this));
         titleActions.add(new ShowWarningsAction(this));
@@ -103,9 +103,9 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
         model.reload();
         expansionListener.expand(fileNameToTreeNodeMap.values());
     }
-    
+
     public void updateTitleActions() {
-    	toolWindow.updateTitleActions();
+        toolWindow.updateTitleActions();
     }
 
     public FilterState getFilterState() {

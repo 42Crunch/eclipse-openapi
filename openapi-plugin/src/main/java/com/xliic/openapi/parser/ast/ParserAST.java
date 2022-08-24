@@ -17,6 +17,7 @@ public abstract class ParserAST {
     public com.xliic.openapi.parser.ast.node.Node parse(String text) {
         LoadSettings settings = LoadSettings.builder().setDefaultMap(initSize -> new LinkedHashMap<>()).build();
         Load load = new Load(settings, new BaseConstructor(settings) {
+            @Override
             public Object constructSingleDocument(Optional<org.snakeyaml.engine.v2.nodes.Node> optionalNode) {
                 return optionalNode.orElse(null);
             }

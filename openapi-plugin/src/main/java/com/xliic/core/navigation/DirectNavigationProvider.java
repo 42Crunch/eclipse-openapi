@@ -7,6 +7,6 @@ import com.xliic.core.psi.PsiElement;
 
 public interface DirectNavigationProvider {
 
-	@Nullable
-	public PsiElement getNavigationElement(@NotNull PsiElement psiElement);
+    @Nullable
+    public PsiElement getNavigationElement(@NotNull PsiElement psiElement);
 }

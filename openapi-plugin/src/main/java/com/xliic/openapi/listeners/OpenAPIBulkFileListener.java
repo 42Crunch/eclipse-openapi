@@ -31,84 +31,84 @@ import com.xliic.openapi.topic.FileListener;
 
 public class OpenAPIBulkFileListener extends BulkFileListener {
 
-	public OpenAPIBulkFileListener(@NotNull Project project) {
-		super(project);
-	}
+    public OpenAPIBulkFileListener(@NotNull Project project) {
+        super(project);
+    }
 
-	@Override
-	public void after(@NotNull List<? extends VFileEvent> events) {
-		for (VFileEvent event : events) {
-			if (event instanceof VFileMoveEvent) {
-				VirtualFile file = ((VFileMoveEvent) event).getFile();
-				OpenApiFileType fileType = OpenApiUtils.getFileType(file);
-				if (fileType != OpenApiFileType.Unsupported) {
-					update(file, ((VFileMoveEvent) event).getOldPath());
-				}
-			} else if (event instanceof VFilePropertyChangeEvent) {
-				VirtualFile file = ((VFilePropertyChangeEvent) event).getFile();
-				OpenApiFileType fileType = OpenApiUtils.getFileType(file);
-				if (fileType != OpenApiFileType.Unsupported) {
-					update(file, ((VFilePropertyChangeEvent) event).getOldPath());
-				}
-			}
-		}
-	}
+    @Override
+    public void after(@NotNull List<? extends VFileEvent> events) {
+        for (VFileEvent event : events) {
+            if (event instanceof VFileMoveEvent) {
+                VirtualFile file = ((VFileMoveEvent) event).getFile();
+                OpenApiFileType fileType = OpenApiUtils.getFileType(file);
+                if (fileType != OpenApiFileType.Unsupported) {
+                    update(file, ((VFileMoveEvent) event).getOldPath());
+                }
+            } else if (event instanceof VFilePropertyChangeEvent) {
+                VirtualFile file = ((VFilePropertyChangeEvent) event).getFile();
+                OpenApiFileType fileType = OpenApiUtils.getFileType(file);
+                if (fileType != OpenApiFileType.Unsupported) {
+                    update(file, ((VFilePropertyChangeEvent) event).getOldPath());
+                }
+            }
+        }
+    }
 
     @Override
     public void delete(@NotNull Set<VirtualFile> files) {
-    	if (project.isDisposed()) {
-    		return;
-    	}
-    	Set<String> rootFileNames = new HashSet<>();
-    	ExtRefService extRefService = ExtRefService.getInstance(project);
-    	Set<String> hostnames = new HashSet<>();
-    	for (VirtualFile file : files) {
-    		if (TempFileUtils.isExtRefFile(file)) {
-            	ExtRef extRef = extRefService.getExtRef(file);
-            	if (extRef != null) {
-            		rootFileNames.add(extRef.getrRootFileName());
+        if (project.isDisposed()) {
+            return;
+        }
+        Set<String> rootFileNames = new HashSet<>();
+        ExtRefService extRefService = ExtRefService.getInstance(project);
+        Set<String> hostnames = new HashSet<>();
+        for (VirtualFile file : files) {
+            if (TempFileUtils.isExtRefFile(file)) {
+                ExtRef extRef = extRefService.getExtRef(file);
+                if (extRef != null) {
+                    rootFileNames.add(extRef.getrRootFileName());
                     String hostname = extRef.getHostName();
                     if (hostname != null) {
-                    	hostnames.add(hostname);	
+                        hostnames.add(hostname);
                     }
 
-            	}
-    		}
-    	}
-    	if (!rootFileNames.isEmpty()) {
-        	BundleService bundleService = BundleService.getInstance(project);
-        	AuditService auditService = AuditService.getInstance(project); 
-        	for (String rootFileName : rootFileNames) {
-        		Audit report = auditService.removeAuditReport(rootFileName);
-        		if (report != null) {
-        			SwingUtilities.invokeLater(() -> {
-        				project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(report);
-        			});
-        		}
-                if (!hostnames.isEmpty()) {
-                	bundleService.scheduleToBundleByHosts(hostnames);
                 }
-        	}
-    	}
-	}
+            }
+        }
+        if (!rootFileNames.isEmpty()) {
+            BundleService bundleService = BundleService.getInstance(project);
+            AuditService auditService = AuditService.getInstance(project);
+            for (String rootFileName : rootFileNames) {
+                Audit report = auditService.removeAuditReport(rootFileName);
+                if (report != null) {
+                    SwingUtilities.invokeLater(() -> {
+                        project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(report);
+                    });
+                }
+                if (!hostnames.isEmpty()) {
+                    bundleService.scheduleToBundleByHosts(hostnames);
+                }
+            }
+        }
+    }
 
     private void update(VirtualFile newFile, String oldFileName) {
-    	if (isFileNameUpdated(newFile, oldFileName) ) {
-	        Map<String, Object> asyncTaskData = new HashMap<>();
-	        asyncTaskData.put(AsyncService.OLD_FILE_NAME_KEY, oldFileName);
-	        BundleService bundleService = BundleService.getInstance(project);
-	        bundleService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
-	
-	        AuditService auditService = AuditService.getInstance(project);
-	        auditService.handleFileNameChanged(newFile, oldFileName);
-	
-	        ASTService astService = ASTService.getInstance(project);
-	        astService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
-	
-	        project.getMessageBus().syncPublisher(FileListener.TOPIC).handleFileNameChanged(newFile, oldFileName);
-    	}
+        if (isFileNameUpdated(newFile, oldFileName) ) {
+            Map<String, Object> asyncTaskData = new HashMap<>();
+            asyncTaskData.put(AsyncService.OLD_FILE_NAME_KEY, oldFileName);
+            BundleService bundleService = BundleService.getInstance(project);
+            bundleService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
+
+            AuditService auditService = AuditService.getInstance(project);
+            auditService.handleFileNameChanged(newFile, oldFileName);
+
+            ASTService astService = ASTService.getInstance(project);
+            astService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
+
+            project.getMessageBus().syncPublisher(FileListener.TOPIC).handleFileNameChanged(newFile, oldFileName);
+        }
     }
-    
+
     private static boolean isFileNameUpdated(VirtualFile newFile, String oldFileName) {
         return (newFile != null) && (oldFileName != null) && !oldFileName.equals(newFile.getPath());
     }

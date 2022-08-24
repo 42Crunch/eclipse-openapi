@@ -65,7 +65,7 @@ public class PlatformRightMouseClickHandler {
 
             actions.add(new PlatformOpenCollectionInWebUIAction(collectionId));
             actions.add(new PlatformRenameCollectionAction(project, tree, collectionId, collectionName));
-        } 
+        }
         else if (clickedObj instanceof PlatformAPI) {
             String apiId = ((PlatformAPI) clickedObj).getId();
             String apiName = ((PlatformAPI) clickedObj).getName();

@@ -10,25 +10,25 @@ import com.xliic.core.vfs.VirtualFile;
 
 public class FileEditor implements TextEditor {
 
-	private final IEditorInput input;
-	private final Project project;
-	
-	public FileEditor(IEditorInput input) {
-		this.input = input;
-		this.project = Project.getInstance();
-	}
+    private final IEditorInput input;
+    private final Project project;
 
-	@Nullable
-	public VirtualFile getFile() {
-		return EclipseUtil.getVirtualFile(input);
-	}
-	
-	public IEditorInput getEditorInput() {
-		return input;
-	}
+    public FileEditor(IEditorInput input) {
+        this.input = input;
+        this.project = Project.getInstance();
+    }
 
-	@Override
-	public Editor getEditor() {
-		return new Editor(project, input);
-	}
+    @Nullable
+    public VirtualFile getFile() {
+        return EclipseUtil.getVirtualFile(input);
+    }
+
+    public IEditorInput getEditorInput() {
+        return input;
+    }
+
+    @Override
+    public Editor getEditor() {
+        return new Editor(project, input);
+    }
 }

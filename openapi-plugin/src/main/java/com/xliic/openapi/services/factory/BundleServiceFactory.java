@@ -9,14 +9,14 @@ import com.xliic.openapi.services.api.IBundleService;
 
 public class BundleServiceFactory extends AbstractServiceFactory {
 
-	private static final BundleService service = new BundleService(Project.getInstance());
+    private static final BundleService service = new BundleService(Project.getInstance());
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
-		if (IBundleService.class.equals(serviceInterface)) {
-			return service;
-		}
-		return null;
-	}
+    @Override
+    @SuppressWarnings("rawtypes")
+    public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
+        if (IBundleService.class.equals(serviceInterface)) {
+            return service;
+        }
+        return null;
+    }
 }

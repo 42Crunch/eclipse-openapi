@@ -14,24 +14,24 @@ import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;
 
 public class ReportHighlightingPassFactory
-		implements TextEditorHighlightingPassFactory, TextEditorHighlightingPassFactoryRegistrar {
+implements TextEditorHighlightingPassFactory, TextEditorHighlightingPassFactoryRegistrar {
 
-	@Override
-	public void registerHighlightingPassFactory(@NotNull TextEditorHighlightingPassRegistrar registrar,
-			@NotNull Project project) {
+    @Override
+    public void registerHighlightingPassFactory(@NotNull TextEditorHighlightingPassRegistrar registrar,
+            @NotNull Project project) {
 
-		registrar.registerTextEditorHighlightingPass(this, new int[] { Pass.UPDATE_ALL }, null, true, -1);
-	}
+        registrar.registerTextEditorHighlightingPass(this, new int[] { Pass.UPDATE_ALL }, null, true, -1);
+    }
 
-	@Override
-	public TextEditorHighlightingPass createHighlightingPass(@NotNull final PsiFile file,
-			@NotNull final Editor editor) {
-		if (editor.getProject() == null) {
-			return null;
-		}
-		if (OpenApiUtils.getFileType(file.getVirtualFile()) != OpenApiFileType.Unsupported) {
-			return new ReportHighlightingPass(file, editor);
-		}
-		return null;
-	}
+    @Override
+    public TextEditorHighlightingPass createHighlightingPass(@NotNull final PsiFile file,
+            @NotNull final Editor editor) {
+        if (editor.getProject() == null) {
+            return null;
+        }
+        if (OpenApiUtils.getFileType(file.getVirtualFile()) != OpenApiFileType.Unsupported) {
+            return new ReportHighlightingPass(file, editor);
+        }
+        return null;
+    }
 }

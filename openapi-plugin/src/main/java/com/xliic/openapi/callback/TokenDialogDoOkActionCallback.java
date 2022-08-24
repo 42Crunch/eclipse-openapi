@@ -10,21 +10,21 @@ import com.xliic.openapi.services.AuditService;
 
 public class TokenDialogDoOkActionCallback extends ActionCallback {
 
-	private final Project project;
-	private final String token;
-	private final VirtualFile file;
+    private final Project project;
+    private final String token;
+    private final VirtualFile file;
 
-	public TokenDialogDoOkActionCallback(@NotNull Project project, @NotNull VirtualFile file, @NotNull String token) {
-		this.project = project;
-		this.token = token;
-		this.file = file;
-	}
+    public TokenDialogDoOkActionCallback(@NotNull Project project, @NotNull VirtualFile file, @NotNull String token) {
+        this.project = project;
+        this.token = token;
+        this.file = file;
+    }
 
-	@Override
-	public void setDone() {
-		ApplicationManager.getApplication().invokeLater(() -> {
-			AuditService auditService = AuditService.getInstance(project);
-			auditService.sendAuditRequest(token, file.getPath(), new AuditActionCallback(project, file));
-		});
-	}
+    @Override
+    public void setDone() {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            AuditService auditService = AuditService.getInstance(project);
+            auditService.sendAuditRequest(token, file.getPath(), new AuditActionCallback(project, file));
+        });
+    }
 }

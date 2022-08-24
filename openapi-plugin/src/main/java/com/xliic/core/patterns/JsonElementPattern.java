@@ -8,15 +8,15 @@ import com.xliic.openapi.parser.ast.node.Node;
 
 public class JsonElementPattern<T> implements ElementPattern<T> {
 
-	@Override
-	public boolean accepts(Object element) {
-		if (element instanceof LeafPsiElement) {
-			PsiElement pe = (LeafPsiElement) element;
-			if (OpenApiFileType.Json.equals(OpenApiUtils.getFileType(pe.getFile().getVirtualFile()))) {
-				Node node = pe.getNode();
-				return "$ref".equals(node.getKey()) && node.isScalar();
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean accepts(Object element) {
+        if (element instanceof LeafPsiElement) {
+            PsiElement pe = (LeafPsiElement) element;
+            if (OpenApiFileType.Json.equals(OpenApiUtils.getFileType(pe.getFile().getVirtualFile()))) {
+                Node node = pe.getNode();
+                return "$ref".equals(node.getKey()) && node.isScalar();
+            }
+        }
+        return false;
+    }
 }

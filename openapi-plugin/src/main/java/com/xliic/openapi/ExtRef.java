@@ -30,18 +30,18 @@ import static org.apache.commons.lang.RandomStringUtils.random;
 
 public class ExtRef {
 
-	public static final String EXT_FILE_PREFIX = "ext_ref_";
+    public static final String EXT_FILE_PREFIX = "ext_ref_";
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     @SuppressWarnings("serial")
-	private static final Map<String, ContentType> CONTENT_TYPES = new HashMap<>() {{
+    private static final Map<String, ContentType> CONTENT_TYPES = new HashMap<>() {{
         put("application/json", ContentType.JSON);
         put("application/x-yaml", ContentType.YAML);
         put("text/yaml", ContentType.YAML);
     }};
 
     @SuppressWarnings("serial")
-	private static final Map<String, ContentType> EXTENSIONS  = new HashMap<>() {{
+    private static final Map<String, ContentType> EXTENSIONS  = new HashMap<>() {{
         put(".json", ContentType.JSON);
         put(".yaml", ContentType.YAML);
         put(".yml", ContentType.YAML);
@@ -61,11 +61,11 @@ public class ExtRef {
         file = null;
         refresh();
     }
-    
+
     @Nullable
     public String getHostName() {
         try {
-        	return url.toURI().getAuthority();
+            return url.toURI().getAuthority();
         }
         catch (URISyntaxException e) {
         }
@@ -92,10 +92,10 @@ public class ExtRef {
             throw new WorkspaceException("Failed to get response body for " + url);
         }
         String text = formatFixText(body.string(), contentType == ContentType.JSON);
-        IProject requestor = EclipseUtil.getProject(rootFileName);       
+        IProject requestor = EclipseUtil.getProject(rootFileName);
         String fileName = (file == null) ? getFileName() : file.getName();
         file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () ->
-                TempFileUtils.createExtRefFile(requestor, fileName, text));
+        TempFileUtils.createExtRefFile(requestor, fileName, text));
         file.setReadOnly(true);
         LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
     }
@@ -103,15 +103,15 @@ public class ExtRef {
     public void dispose() {
         if (file != null) {
             WriteCommandAction.writeCommandAction(project).run(() -> {
-    			IProject project = EclipseUtil.getProject(file.getPath());
+                IProject project = EclipseUtil.getProject(file.getPath());
                 try {
                     file.delete(this);
                 }
                 catch (IOException ignored) {}
                 file = null;
-    			if (project != null) {
-    				EclipseUtil.refreshProject(project);
-    			}
+                if (project != null) {
+                    EclipseUtil.refreshProject(project);
+                }
             });
         }
     }
@@ -130,7 +130,7 @@ public class ExtRef {
     }
 
     public String getrRootFileName() {
-    	return rootFileName;
+        return rootFileName;
     }
 
     private String getFileName() {

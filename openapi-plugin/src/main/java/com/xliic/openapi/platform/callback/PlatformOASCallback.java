@@ -28,19 +28,19 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
     private final boolean openInEditor;
 
     public PlatformOASCallback(@NotNull Project project,
-                               @Nullable Tree tree,
-                               @Nullable DefaultMutableTreeNode progressDMTN,
-                               boolean showAsHTML,
-                               boolean openInEditor) {
+            @Nullable Tree tree,
+            @Nullable DefaultMutableTreeNode progressDMTN,
+            boolean showAsHTML,
+            boolean openInEditor) {
         this(project, tree, progressDMTN, showAsHTML, openInEditor, true);
     }
 
     public PlatformOASCallback(@NotNull Project project,
-                               @Nullable Tree tree,
-                               @Nullable DefaultMutableTreeNode progressDMTN,
-                               boolean showAsHTML,
-                               boolean openInEditor,
-                               boolean showDialogOnFailure) {
+            @Nullable Tree tree,
+            @Nullable DefaultMutableTreeNode progressDMTN,
+            boolean showAsHTML,
+            boolean openInEditor,
+            boolean showDialogOnFailure) {
         super(project, showDialogOnFailure);
         this.tree = tree;
         this.progressDMTN = progressDMTN;

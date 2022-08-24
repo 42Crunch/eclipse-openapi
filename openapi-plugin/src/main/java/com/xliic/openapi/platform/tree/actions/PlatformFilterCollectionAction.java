@@ -24,8 +24,8 @@ public class PlatformFilterCollectionAction extends AnJAction implements DumbAwa
     private final DefaultMutableTreeNode filterDMTN;
 
     public PlatformFilterCollectionAction(@NotNull Project project,
-                                          @NotNull Tree tree,
-                                          @NotNull DefaultMutableTreeNode filterDMTN) {
+            @NotNull Tree tree,
+            @NotNull DefaultMutableTreeNode filterDMTN) {
         super("Filter", "Filter collections", null);
         this.project = project;
         this.tree = tree;

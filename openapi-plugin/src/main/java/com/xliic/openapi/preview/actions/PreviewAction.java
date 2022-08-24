@@ -13,9 +13,9 @@ import com.xliic.openapi.preview.PreviewUtils;
 
 public class PreviewAction extends PreviewAbstractAction {
 
-	@Override
-	public void browse(Project project, VirtualFile file) throws MalformedURLException {
-		int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
-		BrowserUtil.browse(PreviewUtils.getURL(project, file, rendererIndex));
-	}
+    @Override
+    public void browse(Project project, VirtualFile file) throws MalformedURLException {
+        int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
+        BrowserUtil.browse(PreviewUtils.getURL(project, file, rendererIndex));
+    }
 }

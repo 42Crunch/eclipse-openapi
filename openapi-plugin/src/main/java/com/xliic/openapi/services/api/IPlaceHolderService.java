@@ -21,9 +21,9 @@ public interface IPlaceHolderService {
     public void show(Editor editor, RangeHighlighter highlighter, List<Object> values);
 
     public EnterHandlerDelegate.Result preprocessEnter(@NotNull Editor editor, int offset);
-    
+
     public void update(@NotNull Editor editor);
-    
+
     public void documentChanged(@NotNull Editor editor, int offset);
 
     public RangeHighlighter getTriggeredRangeHighlighter(Editor editor, int offset);

@@ -37,12 +37,12 @@ public class ExtRefService implements IExtRefService, Disposable {
 
     @Nullable
     public ExtRef getExtRef(@NotNull VirtualFile file) {
-    	for (ExtRef extRef : cache.values()) {
-    		if (file.equals(extRef.getVirtualFile())) {
-    			return extRef;
-    		}
-    	}
-    	return null;
+        for (ExtRef extRef : cache.values()) {
+            if (file.equals(extRef.getVirtualFile())) {
+                return extRef;
+            }
+        }
+        return null;
     }
 
     public @NotNull ExtRef getOrCreate(URI uri, String rootFileName) throws WorkspaceException, IOException {
@@ -94,7 +94,7 @@ public class ExtRefService implements IExtRefService, Disposable {
 
     @Override
     public void dispose() {
-    	project.dispose();
+        project.dispose();
         for (ExtRef extRef : cache.values()) {
             extRef.dispose();
         }

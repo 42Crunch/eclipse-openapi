@@ -25,9 +25,9 @@ public class PlatformDeleteCollectionAction extends AnJAction implements DumbAwa
     private final boolean isEmpty;
 
     public PlatformDeleteCollectionAction(@NotNull Project project,
-                                          @NotNull Tree tree,
-                                          @NotNull String collectionId,
-                                          boolean isEmpty) {
+            @NotNull Tree tree,
+            @NotNull String collectionId,
+            boolean isEmpty) {
         super("Delete", "Delete collection", null);
         this.project = project;
         this.tree = tree;

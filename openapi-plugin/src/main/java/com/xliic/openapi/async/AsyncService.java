@@ -76,17 +76,17 @@ public abstract class AsyncService implements Runnable {
     }
 
     public void runAsyncTask(@NotNull Project project,
-                             @NotNull AsyncTaskType type,
-                             @NotNull VirtualFile file) {
+            @NotNull AsyncTaskType type,
+            @NotNull VirtualFile file) {
         synchronized (queue) {
             queue.add(new AsyncTask(project, type, file));
         }
     }
 
     public void runAsyncTask(@NotNull Project project,
-                             @NotNull AsyncTaskType type,
-                             @NotNull VirtualFile file,
-                             @NotNull Map<String, Object> data) {
+            @NotNull AsyncTaskType type,
+            @NotNull VirtualFile file,
+            @NotNull Map<String, Object> data) {
         synchronized (queue) {
             queue.add(new AsyncTask(project, type, file, data));
         }
@@ -105,7 +105,7 @@ public abstract class AsyncService implements Runnable {
     }
 
     protected void dispose() {
-    	project.dispose();
+        project.dispose();
         active = false;
         queue.clear();
         scheduledFuture.cancel(true);

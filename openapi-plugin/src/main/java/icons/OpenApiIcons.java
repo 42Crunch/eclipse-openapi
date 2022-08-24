@@ -15,10 +15,10 @@ public interface OpenApiIcons {
     /** 16x16 */ @NotNull Icon PropertyNode = IconLoader.findIcon("/icons/property.svg");
     /** 16x16 */ @NotNull Icon AddSnippet = IconLoader.findIcon("/icons/add.svg");
     /** 16x16 */ @NotNull Icon ExtRef = IconLoader.findIcon("/icons/extref.svg");
-    
+
     /** 16x16 */ @NotNull Icon CollapseAll = IconLoader.findIcon("/icons/collapseall.png");
     /** 16x16 */ @NotNull Icon ExpandAll = IconLoader.findIcon("/icons/expandall.png");
-    
+
     /** 16x16 */ @NotNull Icon Json = IconLoader.findIcon("/icons/json.svg");
     /** 16x16 */ @NotNull Icon Yaml = IconLoader.findIcon("/icons/yaml.svg");
 
@@ -41,8 +41,8 @@ public interface OpenApiIcons {
     /** 16x16 */ @NotNull Icon Reset = IconLoader.findIcon("/icons/reset.svg");
     /** 16x16 */ @NotNull Icon Preview = IconLoader.findIcon("/icons/preview.svg");
     /** 16x16 */ @NotNull Icon Refresh = IconLoader.findIcon("/icons/refresh.svg");
-    
-    /** 16x16 */ @NotNull Icon Platform = IconLoader.findIcon("/icons/icon_42crunch_platform.svg");   
+
+    /** 16x16 */ @NotNull Icon Platform = IconLoader.findIcon("/icons/icon_42crunch_platform.svg");
     /** 16x16 */ @NotNull Icon PlatformAll = IconLoader.findIcon("/icons/platform-all.png");
     /** 16x16 */ @NotNull Icon PlatformFavorite = IconLoader.findIcon("/icons/platform-favorite.png");
     /** 16x16 */ @NotNull Icon PlatformFolder = IconLoader.findIcon("/icons/platform-folder.svg");

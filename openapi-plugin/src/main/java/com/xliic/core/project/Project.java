@@ -10,47 +10,47 @@ import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.util.messages.MessageBus;
 
 public class Project {
-	
-	private static final Project INSTANCE = new Project();
 
-	private volatile boolean disposed = false;
-	private MessageBus messageBus = null;
+    private static final Project INSTANCE = new Project();
 
-	private Project() {}
+    private volatile boolean disposed = false;
+    private MessageBus messageBus = null;
 
-	public static synchronized Project getInstance() {
-		return INSTANCE;
-	}
-		
-	@Nullable
-	public String getBasePath() {
-		return "";
-	}
+    private Project() {}
 
-	public String getLocationHash() {
-		return String.valueOf(this.hashCode());
-	}
+    public static synchronized Project getInstance() {
+        return INSTANCE;
+    }
 
-	public boolean isDisposed() {
-		return disposed;
-	}
+    @Nullable
+    public String getBasePath() {
+        return "";
+    }
 
-	public void dispose() {
-		if (!disposed) {
-			disposed = true;	
-		}
-	}
-	
-	@NotNull 
-	public MessageBus getMessageBus() {
-		if (messageBus == null) {
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			messageBus = new MessageBus(workbench.getService(IEventBroker.class));			
-		}
-		return messageBus;
-	}
-	
-	public <T> T getService(@NotNull Class<T> serviceClass) {
-		return ApplicationManager.getApplication().getService(serviceClass);
-	}
+    public String getLocationHash() {
+        return String.valueOf(this.hashCode());
+    }
+
+    public boolean isDisposed() {
+        return disposed;
+    }
+
+    public void dispose() {
+        if (!disposed) {
+            disposed = true;
+        }
+    }
+
+    @NotNull
+    public MessageBus getMessageBus() {
+        if (messageBus == null) {
+            IWorkbench workbench = PlatformUI.getWorkbench();
+            messageBus = new MessageBus(workbench.getService(IEventBroker.class));
+        }
+        return messageBus;
+    }
+
+    public <T> T getService(@NotNull Class<T> serviceClass) {
+        return ApplicationManager.getApplication().getService(serviceClass);
+    }
 }

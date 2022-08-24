@@ -28,9 +28,9 @@ public class PlatformRenameCollectionAction extends AnJAction implements DumbAwa
     private String newName;
 
     public PlatformRenameCollectionAction(@NotNull Project project,
-                                          @NotNull Tree tree,
-                                          @NotNull String collectionId,
-                                          @NotNull String name) {
+            @NotNull Tree tree,
+            @NotNull String collectionId,
+            @NotNull String name) {
         super("Rename", "Rename collection", null);
         this.project = project;
         this.tree = tree;

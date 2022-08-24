@@ -43,7 +43,7 @@ public class BundleResult {
     private Node bundleNode;
     private final Project project;
     private OpenApiVersion version;
-    
+
     private static final ParserJsonAST parser = new ParserJsonAST();
     private static final Set<String> schemas = new HashSet<>(Arrays.asList("http://", "https://", "file:/"));
 
@@ -89,20 +89,20 @@ public class BundleResult {
                     if (extRefService.isSafe(uri)) {
                         ExtRef extRef = extRefService.getOrCreate(uri, rootFileName);
                         if (extRef.getVirtualFile().isValid()) {
-                        	return new WorkspaceContent(extRef.getText(true), extRef.getContentType());
+                            return new WorkspaceContent(extRef.getText(true), extRef.getContentType());
                         } else {
-                        	throw new WorkspaceException("Downloaded file " + uri + " not found, please reload remote references");
+                            throw new WorkspaceException("Downloaded file " + uri + " not found, please reload remote references");
                         }
                     }
                     else {
-                    	throw new WorkspaceException(message("openapi.ref.not.approved", uri.getAuthority()));
+                        throw new WorkspaceException(message("openapi.ref.not.approved", uri.getAuthority()));
                     }
                 }
                 else {
                     final String fileName = uri.getPath();
                     VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
                     if (file == null) {
-                    	throw new WorkspaceException(message("openapi.ref.unable.resolve", fileName));
+                        throw new WorkspaceException(message("openapi.ref.unable.resolve", fileName));
                     }
                     bundleFiles.add(file.getPath());
                     return new WorkspaceContent(getTextFromFile(fileName, true), ExtRef.getContentType(file));
@@ -140,7 +140,7 @@ public class BundleResult {
     public boolean isOpenAPIBundle() {
         return (version == OpenApiVersion.V2) || (version == OpenApiVersion.V3);
     }
-    
+
     public String getFile() {
         return rootFileName;
     }

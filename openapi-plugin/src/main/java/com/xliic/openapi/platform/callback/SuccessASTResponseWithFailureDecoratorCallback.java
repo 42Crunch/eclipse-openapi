@@ -24,8 +24,8 @@ public abstract class SuccessASTResponseWithFailureDecoratorCallback extends Suc
     protected final DefaultMutableTreeNode parentDMTN;
 
     public SuccessASTResponseWithFailureDecoratorCallback(@NotNull Project project,
-                                                          @NotNull Tree tree,
-                                                          @NotNull DefaultMutableTreeNode parentDMTN) {
+            @NotNull Tree tree,
+            @NotNull DefaultMutableTreeNode parentDMTN) {
         super(project);
         this.tree = tree;
         this.parentDMTN = parentDMTN;

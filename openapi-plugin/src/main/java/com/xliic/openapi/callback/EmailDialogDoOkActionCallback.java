@@ -13,23 +13,23 @@ import com.xliic.openapi.settings.AuditConfigTokenDialogWrapper;
 
 public class EmailDialogDoOkActionCallback extends ActionCallback {
 
-	private final Project project;
-	private final VirtualFile file;
+    private final Project project;
+    private final VirtualFile file;
 
-	public EmailDialogDoOkActionCallback(@NotNull Project project, @NotNull VirtualFile file) {
-		this.project = project;
-		this.file = file;
-	}
+    public EmailDialogDoOkActionCallback(@NotNull Project project, @NotNull VirtualFile file) {
+        this.project = project;
+        this.file = file;
+    }
 
-	@Override
-	public void setDone() {
+    @Override
+    public void setDone() {
         ApplicationManager.getApplication().invokeLater(() ->
-        	new AuditConfigTokenDialogWrapper(project, file).showAndGet());
-	}
+        new AuditConfigTokenDialogWrapper(project, file).showAndGet());
+    }
 
-	@Override
-	public void setRejected() {
+    @Override
+    public void setRejected() {
         SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, getError(),
                 OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
-	}
+    }
 }

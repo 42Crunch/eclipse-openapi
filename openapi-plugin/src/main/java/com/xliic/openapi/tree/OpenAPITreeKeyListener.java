@@ -24,19 +24,19 @@ public class OpenAPITreeKeyListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            // Eclipse Development Note 
+            // Eclipse Development Note
             // In Eclipse we have to expand or collapse the node from code
-        	tree.toggle();
-        	DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-        	if (dmtn != null) {
-        		Object obj = dmtn.getUserObject();
-        		if (obj instanceof BaseNode) {
-        			Node node = ((BaseNode) obj).getNode();
-        			if (node != null) {
-        				OpenApiLeftMouseClickHandler.moveToSelectedNodeInEditor(project, tree);
-        			}
-        		}
-        	}
+            tree.toggle();
+            DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+            if (dmtn != null) {
+                Object obj = dmtn.getUserObject();
+                if (obj instanceof BaseNode) {
+                    Node node = ((BaseNode) obj).getNode();
+                    if (node != null) {
+                        OpenApiLeftMouseClickHandler.moveToSelectedNodeInEditor(project, tree);
+                    }
+                }
+            }
         }
     }
 }

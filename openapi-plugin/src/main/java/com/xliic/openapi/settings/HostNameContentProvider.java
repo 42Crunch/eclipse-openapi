@@ -12,75 +12,75 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 
 public class HostNameContentProvider implements IStructuredContentProvider {
-	
-	protected List<Object> elements = new ArrayList<>();
-	protected TableViewer tableViewer;
-	private ViewerComparator fComparator = null;
-	private boolean defaultcomparator = true;
 
-	public HostNameContentProvider(Viewer viewer) {
-		tableViewer = (TableViewer) viewer;
-	}
+    protected List<Object> elements = new ArrayList<>();
+    protected TableViewer tableViewer;
+    private ViewerComparator fComparator = null;
+    private boolean defaultcomparator = true;
 
-	public HostNameContentProvider(boolean defaultcomparator) {
-		this.defaultcomparator = defaultcomparator;
-	}
+    public HostNameContentProvider(Viewer viewer) {
+        tableViewer = (TableViewer) viewer;
+    }
 
-	public void add(Object o) {
-		if (elements.contains(o)) {
-			return;
-		}
-		elements.add(o);
-		tableViewer.add(o);
-		tableViewer.setSelection(new StructuredSelection(o), true);
-	}
+    public HostNameContentProvider(boolean defaultcomparator) {
+        this.defaultcomparator = defaultcomparator;
+    }
 
-	@Override
-	public void dispose() {}
+    public void add(Object o) {
+        if (elements.contains(o)) {
+            return;
+        }
+        elements.add(o);
+        tableViewer.add(o);
+        tableViewer.setSelection(new StructuredSelection(o), true);
+    }
 
-	@Override
-	public Object[] getElements(Object inputElement) {
-		return elements.toArray();
-	}
+    @Override
+    public void dispose() {}
 
-	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		tableViewer = (TableViewer) viewer;
-		elements.clear();
-		if (newInput != null) {
-			if (defaultcomparator) {
-				tableViewer.setComparator(getComparator());
-			}
-			List<?> list;
-			if (newInput instanceof List) {
-				list = ((List<?>) newInput);
-			} else {
-				list = Arrays.asList((Object[]) newInput);
-			}
-			elements.addAll(list);
-		}
-	}
+    @Override
+    public Object[] getElements(Object inputElement) {
+        return elements.toArray();
+    }
 
-	public void remove(Object o) {
-		elements.remove(o);
-		tableViewer.remove(o);
-	}
+    @Override
+    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+        tableViewer = (TableViewer) viewer;
+        elements.clear();
+        if (newInput != null) {
+            if (defaultcomparator) {
+                tableViewer.setComparator(getComparator());
+            }
+            List<?> list;
+            if (newInput instanceof List) {
+                list = ((List<?>) newInput);
+            } else {
+                list = Arrays.asList((Object[]) newInput);
+            }
+            elements.addAll(list);
+        }
+    }
 
-	public void remove(IStructuredSelection selection) {
-		Object[] array = selection.toArray();
-		elements.removeAll(Arrays.asList(array));
-		tableViewer.remove(array);
-	}
+    public void remove(Object o) {
+        elements.remove(o);
+        tableViewer.remove(o);
+    }
 
-	protected ViewerComparator getComparator() {
-		if (fComparator == null) {
-			fComparator = new ViewerComparator() {
-				@Override
-				public int compare(Viewer viewer, Object e1, Object e2) {
-					return e1.toString().compareToIgnoreCase(e2.toString());
-				}
-			};
-		}
-		return fComparator;
-	}
+    public void remove(IStructuredSelection selection) {
+        Object[] array = selection.toArray();
+        elements.removeAll(Arrays.asList(array));
+        tableViewer.remove(array);
+    }
+
+    protected ViewerComparator getComparator() {
+        if (fComparator == null) {
+            fComparator = new ViewerComparator() {
+                @Override
+                public int compare(Viewer viewer, Object e1, Object e2) {
+                    return e1.toString().compareToIgnoreCase(e2.toString());
+                }
+            };
+        }
+        return fComparator;
+    }
 }

@@ -54,44 +54,44 @@ public final class QuickFixService implements IQuickFixService, Disposable {
 
     private final Map<String, List<QuickFix>> snippets = new HashMap<>();
     private final Map<String, List<QuickFix>> quickfixes = new HashMap<>();
-	private final Map<String, FixSource> fixSources = new HashMap<>();
+    private final Map<String, FixSource> fixSources = new HashMap<>();
 
-	public QuickFixService() {
-		fixSources.put("default", new FixSourceEmpty());
-		fixSources.put("mostUsedByName", new FixSourceMostUsedByName());
-		fixSources.put("securitySchemes", new FixSourceSecuritySchemes());
-		fixSources.put("schemaRefByResponseCode", new FixSourceSchemaRefByResponseCode());
-	}
+    public QuickFixService() {
+        fixSources.put("default", new FixSourceEmpty());
+        fixSources.put("mostUsedByName", new FixSourceMostUsedByName());
+        fixSources.put("securitySchemes", new FixSourceSecuritySchemes());
+        fixSources.put("schemaRefByResponseCode", new FixSourceSchemaRefByResponseCode());
+    }
 
-	@Override
-	public FixSource getFixSourceInstance(String sourceName) {
-		String key = fixSources.containsKey(sourceName) ? sourceName : "default";
-		return fixSources.get(key);
-	}
+    @Override
+    public FixSource getFixSourceInstance(String sourceName) {
+        String key = fixSources.containsKey(sourceName) ? sourceName : "default";
+        return fixSources.get(key);
+    }
 
-	@Override
-	public void load() {
+    @Override
+    public void load() {
         loadJsonConfig("snippets.json", snippets);
         loadJsonConfig("quickfixes.json", quickfixes);
-	}
+    }
 
-	public static QuickFixService getInstance() {
-		return ApplicationManager.getApplication().getService(QuickFixService.class);
-	}
+    public static QuickFixService getInstance() {
+        return ApplicationManager.getApplication().getService(QuickFixService.class);
+    }
 
-	@Override
-	@NotNull
-	public List<FixSingleAction> getSingleFixActions(PsiFile psiFile, Issue issue) {
-		List<FixSingleAction> actions = new LinkedList<>();
-		if (quickfixes.containsKey(issue.getId())) {
-			for (QuickFix quickFix : quickfixes.get(issue.getId())) {
-				actions.add(new FixSingleAction(new FixManagerSingle(psiFile, quickFix, issue)));
-			}
-		}
-		actions.addAll(getGenerateSchemaSingleFixActions(psiFile, issue));
-		return actions;
-	}
-	
+    @Override
+    @NotNull
+    public List<FixSingleAction> getSingleFixActions(PsiFile psiFile, Issue issue) {
+        List<FixSingleAction> actions = new LinkedList<>();
+        if (quickfixes.containsKey(issue.getId())) {
+            for (QuickFix quickFix : quickfixes.get(issue.getId())) {
+                actions.add(new FixSingleAction(new FixManagerSingle(psiFile, quickFix, issue)));
+            }
+        }
+        actions.addAll(getGenerateSchemaSingleFixActions(psiFile, issue));
+        return actions;
+    }
+
     @NotNull
     public List<FixSingleAction> getGenerateSchemaSingleFixActions(PsiFile psiFile, Issue issue) {
         List<FixSingleAction> actions = new LinkedList<>();
@@ -130,47 +130,47 @@ public final class QuickFixService implements IQuickFixService, Disposable {
         return actions;
     }
 
-	public FixCombinedAction getCombinedFixAction(PsiFile psiFile, List<Issue> issues) {
-		Map<QuickFix, Issue> combinableFixToIssueMap = new HashMap<>();
-		List<QuickFix> combinableFixes = new LinkedList<>();
-		for (Issue issue : issues) {
-			if (quickfixes.containsKey(issue.getId())) {
-				List<QuickFix> fixes = quickfixes.get(issue.getId());
-				fixes = fixes.stream().filter(QuickFix::isCombinable).collect(Collectors.toList());
-				if (!fixes.isEmpty()) {
-					// Get the first one, in future better to get one with the largest fixText
-					QuickFix fix = fixes.get(0);
-					combinableFixes.add(fix);
-					combinableFixToIssueMap.put(fix, issue);
-				}
-			}
-		}
-		if (combinableFixes.size() > 1) {
-			return new FixCombinedAction(new FixManagerCombined(psiFile, combinableFixes, combinableFixToIssueMap));
-		}
-		return null;
-	}
+    public FixCombinedAction getCombinedFixAction(PsiFile psiFile, List<Issue> issues) {
+        Map<QuickFix, Issue> combinableFixToIssueMap = new HashMap<>();
+        List<QuickFix> combinableFixes = new LinkedList<>();
+        for (Issue issue : issues) {
+            if (quickfixes.containsKey(issue.getId())) {
+                List<QuickFix> fixes = quickfixes.get(issue.getId());
+                fixes = fixes.stream().filter(QuickFix::isCombinable).collect(Collectors.toList());
+                if (!fixes.isEmpty()) {
+                    // Get the first one, in future better to get one with the largest fixText
+                    QuickFix fix = fixes.get(0);
+                    combinableFixes.add(fix);
+                    combinableFixToIssueMap.put(fix, issue);
+                }
+            }
+        }
+        if (combinableFixes.size() > 1) {
+            return new FixCombinedAction(new FixManagerCombined(psiFile, combinableFixes, combinableFixToIssueMap));
+        }
+        return null;
+    }
 
-	@Override
-	@NotNull
-	public Map<Issue, List<FixBulkAction>> getBulkFixActions(PsiFile psiFile, List<Issue> issues) {
-		Map<Issue, List<FixBulkAction>> issueToActions = new HashMap<>();
-		if (issues.size() > 1) {
-			String id = issues.get(0).getId();
-			if (quickfixes.containsKey(id)) {
-				for (Issue issue : issues) {
-					List<FixBulkAction> actions = new LinkedList<>();
-					for (QuickFix quickFix : quickfixes.get(id)) {
-						actions.add(new FixBulkAction(new FixManagerBulk(psiFile, quickFix, issue, issues)));
-					}
-					issueToActions.put(issue, actions);
-				}
-			}
-		}
-		return issueToActions;
-	}
+    @Override
+    @NotNull
+    public Map<Issue, List<FixBulkAction>> getBulkFixActions(PsiFile psiFile, List<Issue> issues) {
+        Map<Issue, List<FixBulkAction>> issueToActions = new HashMap<>();
+        if (issues.size() > 1) {
+            String id = issues.get(0).getId();
+            if (quickfixes.containsKey(id)) {
+                for (Issue issue : issues) {
+                    List<FixBulkAction> actions = new LinkedList<>();
+                    for (QuickFix quickFix : quickfixes.get(id)) {
+                        actions.add(new FixBulkAction(new FixManagerBulk(psiFile, quickFix, issue, issues)));
+                    }
+                    issueToActions.put(issue, actions);
+                }
+            }
+        }
+        return issueToActions;
+    }
 
-	@Override
+    @Override
     public void fix(@NotNull Project project, @NotNull List<Issue> issues) {
         AuditService auditService = AuditService.getInstance(project);
         auditService.removeIssues(issues);
@@ -189,26 +189,26 @@ public final class QuickFixService implements IQuickFixService, Disposable {
         }
     }
 
-	@Override
-	public List<QuickFix> getAllQuickFixes() {
-		List<QuickFix> result = new LinkedList<>();
-		for (List<QuickFix> fixes : quickfixes.values()) {
-			result.addAll(fixes);
-		}
-		return result;
-	}
+    @Override
+    public List<QuickFix> getAllQuickFixes() {
+        List<QuickFix> result = new LinkedList<>();
+        for (List<QuickFix> fixes : quickfixes.values()) {
+            result.addAll(fixes);
+        }
+        return result;
+    }
 
-	@Override
-	public void handleAuditReportRemoved(@NotNull String rootFileName) {
-		for (FixSource source : fixSources.values()) {
-			source.dispose(rootFileName);
-		}
-	}
+    @Override
+    public void handleAuditReportRemoved(@NotNull String rootFileName) {
+        for (FixSource source : fixSources.values()) {
+            source.dispose(rootFileName);
+        }
+    }
 
     @NotNull
     public List<FixSnippetAction> getSnippetFixActions(@NotNull PsiFile psiFile,
-                                                       @NotNull String id,
-                                                       @NotNull DefaultMutableTreeNode node) {
+            @NotNull String id,
+            @NotNull DefaultMutableTreeNode node) {
         List<FixSnippetAction> result = new LinkedList<>();
         QuickFix quickFix = snippets.get(id).get(0);
 
@@ -227,8 +227,8 @@ public final class QuickFixService implements IQuickFixService, Disposable {
 
     @NotNull
     public List<FixSnippetAction> getSnippetFixActions(@NotNull PsiFile psiFile,
-                                                       @NotNull List<String> ids,
-                                                       @NotNull DefaultMutableTreeNode node) {
+            @NotNull List<String> ids,
+            @NotNull DefaultMutableTreeNode node) {
         List<FixSnippetAction> result = new LinkedList<>();
         for (String id : ids) {
             result.addAll(getSnippetFixActions(psiFile, id, node));
@@ -256,14 +256,14 @@ public final class QuickFixService implements IQuickFixService, Disposable {
         }
         return Collections.emptyList();
     }
-    
-	@Override
-	public void dispose() {
-		Project.getInstance().dispose();
-		quickfixes.clear();
-		for (FixSource source : fixSources.values()) {
-			source.dispose();
-		}
-		fixSources.clear();
-	}
+
+    @Override
+    public void dispose() {
+        Project.getInstance().dispose();
+        quickfixes.clear();
+        for (FixSource source : fixSources.values()) {
+            source.dispose();
+        }
+        fixSources.clear();
+    }
 }

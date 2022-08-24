@@ -48,7 +48,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     private int counter;
 
     @SuppressWarnings("serial")
-	public ASTService(@NotNull Project project) {
+    public ASTService(@NotNull Project project) {
         super(project, DELAY, INIT_DELAY);
         this.cache = Collections.synchronizedMap(
                 new LinkedHashMap<>(CACHE_CAPACITY + 1, 1.0f, true) {
@@ -56,7 +56,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
                     public boolean removeEldestEntry(Map.Entry<String, Node> entry) {
                         return size() > CACHE_CAPACITY;
                     }
-        });
+                });
         versionCache = new HashMap<>();
         astListenersMap = new HashMap<>();
         knownOpenAPIFiles = new HashSet<>();

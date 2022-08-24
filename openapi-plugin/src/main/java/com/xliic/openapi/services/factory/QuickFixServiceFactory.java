@@ -8,14 +8,14 @@ import com.xliic.openapi.services.api.IQuickFixService;
 
 public class QuickFixServiceFactory extends AbstractServiceFactory {
 
-	private static final QuickFixService service = new QuickFixService();
+    private static final QuickFixService service = new QuickFixService();
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
-		if (IQuickFixService.class.equals(serviceInterface)) {
-			return service;
-		}
-		return null;
-	}
+    @Override
+    @SuppressWarnings("rawtypes")
+    public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
+        if (IQuickFixService.class.equals(serviceInterface)) {
+            return service;
+        }
+        return null;
+    }
 }

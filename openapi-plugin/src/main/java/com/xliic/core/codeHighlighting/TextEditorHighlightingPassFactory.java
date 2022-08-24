@@ -7,5 +7,5 @@ import com.xliic.core.psi.PsiFile;
 
 public interface TextEditorHighlightingPassFactory {
 
-	public TextEditorHighlightingPass createHighlightingPass(@NotNull final PsiFile file, @NotNull final Editor editor);
+    public TextEditorHighlightingPass createHighlightingPass(@NotNull final PsiFile file, @NotNull final Editor editor);
 }

@@ -40,8 +40,8 @@ public class FixHostApprovedAction extends IntentionAction {
         return true;
     }
 
-	@Override
-	public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
+    @Override
+    public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
         Set<String> hostnames = OpenApiUtils.getApprovedHostnames();
         if (!hostnames.contains(hostname)) {
             hostnames.add(hostname);
@@ -56,10 +56,10 @@ public class FixHostApprovedAction extends IntentionAction {
         return false;
     }
 
-	@Override
-	public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
-		return label.startsWith(BundleHighlightingPass.EXT_REF_STARTS_WITH) && 
-				label.endsWith(BundleHighlightingPass.EXT_REF_ENDS_WITH) && 
-				label.contains(hostname);
-	}
+    @Override
+    public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
+        return label.startsWith(BundleHighlightingPass.EXT_REF_STARTS_WITH) &&
+                label.endsWith(BundleHighlightingPass.EXT_REF_ENDS_WITH) &&
+                label.contains(hostname);
+    }
 }

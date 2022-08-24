@@ -7,21 +7,21 @@ import com.xliic.core.ui.components.JComponent;
 
 public class JBPopupFactory {
 
-	private static JBPopupFactory factory;
+    private static JBPopupFactory factory;
 
-	public JBPopupFactory() {
+    public JBPopupFactory() {
     }
 
-	public static JBPopupFactory getInstance() {
-		if (factory == null) {
-			factory = new JBPopupFactory();
-		}
-		return factory;
-	}
-	
-	@NotNull
-	public ComponentPopupBuilder createComponentPopupBuilder(@NotNull JComponent content, @Nullable JComponent preferableFocusComponent) {
-		return new ComponentPopupBuilder(content, preferableFocusComponent);
-		
-	}
+    public static JBPopupFactory getInstance() {
+        if (factory == null) {
+            factory = new JBPopupFactory();
+        }
+        return factory;
+    }
+
+    @NotNull
+    public ComponentPopupBuilder createComponentPopupBuilder(@NotNull JComponent content, @Nullable JComponent preferableFocusComponent) {
+        return new ComponentPopupBuilder(content, preferableFocusComponent);
+
+    }
 }

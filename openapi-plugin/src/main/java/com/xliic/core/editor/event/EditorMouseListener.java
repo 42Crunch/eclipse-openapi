@@ -16,39 +16,39 @@ public class EditorMouseListener implements MouseListener {
     @Override
     public void mouseUp(MouseEvent e) {
     }
-    
+
     @Override
     public void mouseDown(MouseEvent e) {
-		Editor myEditor = null;
-		StyledText text = (StyledText) e.widget;
+        Editor myEditor = null;
+        StyledText text = (StyledText) e.widget;
         Editor[] editors = EditorFactory.getInstance().getEditors(Project.getInstance());
         for (Editor editor : editors) {
             if (Objects.equals(editor.getStyledText(), text)) {
-            	myEditor = editor;
+                myEditor = editor;
             }
         }
         if (myEditor != null) {
-        	int offset = text.getSelection().x;
-        	mouseClicked(new EditorMouseEvent(myEditor, offset));	
+            int offset = text.getSelection().x;
+            mouseClicked(new EditorMouseEvent(myEditor, offset));
         }
     }
-    
+
     @Override
     public void mouseDoubleClick(MouseEvent e) {
     }
-	
-	public void mousePressed(@NotNull EditorMouseEvent event) {
-	}
-	
-	public void mouseClicked(@NotNull EditorMouseEvent event) {
-	}
-	
-	public void mouseReleased(@NotNull EditorMouseEvent event) {
-	}
-	
-	public void mouseEntered(@NotNull EditorMouseEvent event) {
-	}
-	
-	public void mouseExited(@NotNull EditorMouseEvent event) {
-	}
+
+    public void mousePressed(@NotNull EditorMouseEvent event) {
+    }
+
+    public void mouseClicked(@NotNull EditorMouseEvent event) {
+    }
+
+    public void mouseReleased(@NotNull EditorMouseEvent event) {
+    }
+
+    public void mouseEntered(@NotNull EditorMouseEvent event) {
+    }
+
+    public void mouseExited(@NotNull EditorMouseEvent event) {
+    }
 }

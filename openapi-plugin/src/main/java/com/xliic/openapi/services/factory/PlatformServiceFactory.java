@@ -9,14 +9,14 @@ import com.xliic.openapi.services.api.IPlatformService;
 
 public class PlatformServiceFactory extends AbstractServiceFactory {
 
-	private static final PlatformService service = new PlatformService(Project.getInstance());
+    private static final PlatformService service = new PlatformService(Project.getInstance());
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
-		if (IPlatformService.class.equals(serviceInterface)) {
-			return service;
-		}
-		return null;
-	}
+    @Override
+    @SuppressWarnings("rawtypes")
+    public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
+        if (IPlatformService.class.equals(serviceInterface)) {
+            return service;
+        }
+        return null;
+    }
 }

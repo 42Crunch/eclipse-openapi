@@ -15,9 +15,9 @@ public class PlatformImportAPICallback extends SuccessBodyResponseCallback {
     private final String name;
 
     public PlatformImportAPICallback(@NotNull Project project,
-                                     @NotNull Tree tree,
-                                     @NotNull String collectionId,
-                                     @NotNull String name) {
+            @NotNull Tree tree,
+            @NotNull String collectionId,
+            @NotNull String name) {
         super(project);
         this.tree = tree;
         this.collectionId = collectionId;
@@ -41,6 +41,6 @@ public class PlatformImportAPICallback extends SuccessBodyResponseCallback {
             isValid = Boolean.parseBoolean(assessment.getChild("isValid").getValue());
         }
         SwingUtilities.invokeLater(() ->
-                PlatformAPIUtils.create(project, tree, collectionId, id, name, grade, isValid, isJson));
+        PlatformAPIUtils.create(project, tree, collectionId, id, name, grade, isValid, isJson));
     }
 }

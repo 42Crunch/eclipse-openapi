@@ -31,7 +31,7 @@ public class PlatformDoubleClickListener extends DoubleClickListener {
     }
 
     public static boolean onDoubleClick(@NotNull Project project, @NotNull Tree tree) {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();      
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
         if (node == null) {
             return true;
         }

@@ -14,10 +14,10 @@ public class PlatformCollectionNameChooser extends PlatformNameChooser {
     public PlatformCollectionNameChooser(@NotNull Project project, @NotNull String title, @NotNull String currentName) {
         super(project, title, currentName);
     }
-    
-	@Override
-	public void create(Composite parent) {
-		super.create(parent);
+
+    @Override
+    public void create(Composite parent) {
+        super.create(parent);
         disable();
         PlatformAPIs.getCollectionNamingConvention(new SuccessASTResponseCallback(project, false) {
             @Override
@@ -31,10 +31,10 @@ public class PlatformCollectionNameChooser extends PlatformNameChooser {
 
             @Override
             public void onFailure(@NotNull String reason) {
-            	SwingUtilities.invokeLater(() -> enable());
+                SwingUtilities.invokeLater(() -> enable());
             }
-        });		
-	}
+        });
+    }
 
     @Override
     protected String getDefaultPattern() {

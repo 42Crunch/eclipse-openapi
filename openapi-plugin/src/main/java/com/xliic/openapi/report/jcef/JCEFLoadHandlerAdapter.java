@@ -14,11 +14,11 @@ import java.util.function.Function;
 public class JCEFLoadHandlerAdapter extends CefLoadHandlerAdapter {
 
     @SuppressWarnings("unused")
-	private final Function<? super String, ? extends JBCefJSQuery.Response> handler;
+    private final Function<? super String, ? extends JBCefJSQuery.Response> handler;
     private final JCEFReportPanel panel;
 
     public JCEFLoadHandlerAdapter(@NotNull Project project, @NotNull JCEFReportPanel panel) {
-    	JBCefBrowserBase bBase = (JBCefBrowserBase) panel;
+        JBCefBrowserBase bBase = panel;
         handler = new JCEFPostMessageListener(project, bBase.getCefBrowser().getBrowser());
         this.panel = panel;
     }
@@ -28,7 +28,7 @@ public class JCEFLoadHandlerAdapter extends CefLoadHandlerAdapter {
     @Override
     public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
         if (!isLoading) {
-        	HTMLService.getInstance().initWebJS(browser);
+            HTMLService.getInstance().initWebJS(browser);
             panel.updateLastReport();
         }
     }

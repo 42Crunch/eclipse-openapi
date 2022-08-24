@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class JBCefBrowser extends JBCefBrowserBase {
 
-	public JBCefBrowser(@NotNull Composite parent) {
-		super(parent);
-	}
+    public JBCefBrowser(@NotNull Composite parent) {
+        super(parent);
+    }
 }

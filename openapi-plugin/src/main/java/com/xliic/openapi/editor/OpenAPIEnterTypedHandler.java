@@ -14,24 +14,24 @@ import org.jetbrains.annotations.Nullable;
 public class OpenAPIEnterTypedHandler extends EnterHandlerDelegate {
 
     public OpenAPIEnterTypedHandler(@NotNull Editor editor) {
-		super(editor);
-	}
+        super(editor);
+    }
 
-	@Override
+    @Override
     public Result preprocessEnter(@NotNull PsiFile psiFile,
-                                  @NotNull Editor editor,
-                                  @NotNull Ref<Integer> ref,
-                                  @NotNull Ref<Integer> ref1,
-                                  @NotNull DataContext dataContext,
-                                  @Nullable EditorActionHandler editorActionHandler) {
+            @NotNull Editor editor,
+            @NotNull Ref<Integer> ref,
+            @NotNull Ref<Integer> ref1,
+            @NotNull DataContext dataContext,
+            @Nullable EditorActionHandler editorActionHandler) {
         PlaceHolderService placeHolderService = PlaceHolderService.getInstance(psiFile.getProject());
         return placeHolderService.preprocessEnter(editor, ref.get());
     }
 
     @Override
     public Result postProcessEnter(@NotNull PsiFile psiFile,
-                                   @NotNull Editor editor,
-                                   @NotNull DataContext dataContext) {
+            @NotNull Editor editor,
+            @NotNull DataContext dataContext) {
         return Result.Continue;
     }
 }

@@ -9,48 +9,48 @@ import java.util.ResourceBundle;
 
 public class OpenApiBundle {
 
-	private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
-	private static ResourceBundle resourceBundle = null;
+    private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
+    private static ResourceBundle resourceBundle = null;
 
     static {
-		try {
-			URL url = new URL(BASE_URL, "resources/messages/OpenApiBundle.properties");
-			InputStream inputStream = OpenApiBundle.class.getResourceAsStream(url.getFile());
-			resourceBundle = new PropertyResourceBundle(inputStream);
-		} 
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+        try {
+            URL url = new URL(BASE_URL, "resources/messages/OpenApiBundle.properties");
+            InputStream inputStream = OpenApiBundle.class.getResourceAsStream(url.getFile());
+            resourceBundle = new PropertyResourceBundle(inputStream);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String message(String key) {
-		try {
-			return unescape(resourceBundle.getString(key));
-		} 
-		catch (MissingResourceException e) {
-			return key;
-		} 
-		catch (NullPointerException e) {
-			return "!" + key + "!";
-		}	
+        try {
+            return unescape(resourceBundle.getString(key));
+        }
+        catch (MissingResourceException e) {
+            return key;
+        }
+        catch (NullPointerException e) {
+            return "!" + key + "!";
+        }
     }
 
     public static String message(String key, String... args) {
-		String value = message(key);
-		if (args.length > 0 && value.contains("{") && value.contains("}")) {
-			int i = 0;
-			for (String arg : args) {
-				value = value.replace("{" + i + "}", arg);
-				i++;
-			}
-		}
-		return unescape(value);
+        String value = message(key);
+        if (args.length > 0 && value.contains("{") && value.contains("}")) {
+            int i = 0;
+            for (String arg : args) {
+                value = value.replace("{" + i + "}", arg);
+                i++;
+            }
+        }
+        return unescape(value);
     }
 
     private static String unescape(String value) {
-    	if (value.contains("''")) {
-    		value = value.replace("''", "'");
-    	}
-    	return value;
+        if (value.contains("''")) {
+            value = value.replace("''", "'");
+        }
+        return value;
     }
 }

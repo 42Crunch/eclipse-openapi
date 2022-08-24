@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class PlatformTreeKeyListener extends KeyAdapter  {
 
     private final Tree tree;
-	private final Project project;
+    private final Project project;
 
     public PlatformTreeKeyListener(@NotNull Project project, @NotNull Tree tree) {
         this.project = project;
@@ -21,10 +21,10 @@ public class PlatformTreeKeyListener extends KeyAdapter  {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            // Eclipse Development Note 
+            // Eclipse Development Note
             // In Eclipse we have to expand or collapse the node from code
-        	tree.toggle();
-        	PlatformDoubleClickListener.onDoubleClick(project, tree);
+            tree.toggle();
+            PlatformDoubleClickListener.onDoubleClick(project, tree);
         }
     }
 }

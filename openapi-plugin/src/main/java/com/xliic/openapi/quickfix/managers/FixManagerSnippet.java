@@ -200,8 +200,8 @@ public class FixManagerSnippet extends FixManager {
         return isArray(pointer.substring(pointer.lastIndexOf("/") + 1));
     }
 
-	@Override
-	public boolean isResponsibleFor(String pointer, String label) {
-		return false;
-	}
+    @Override
+    public boolean isResponsibleFor(String pointer, String label) {
+        return false;
+    }
 }

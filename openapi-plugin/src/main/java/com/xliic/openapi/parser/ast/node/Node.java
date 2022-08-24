@@ -90,7 +90,7 @@ public abstract class Node implements Comparable<Node> {
 
     public String getValue() {
         if (node instanceof NodeTuple) {
-        	org.snakeyaml.engine.v2.nodes.Node target = ((NodeTuple) (node)).getValueNode();
+            org.snakeyaml.engine.v2.nodes.Node target = ((NodeTuple) (node)).getValueNode();
             return target instanceof ScalarNode ? ((ScalarNode) target).getValue() : null;
         }
         else if (node instanceof ScalarNode) {

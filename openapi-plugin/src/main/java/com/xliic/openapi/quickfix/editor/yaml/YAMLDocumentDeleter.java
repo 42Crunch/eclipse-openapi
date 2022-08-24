@@ -14,37 +14,37 @@ import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 
 public class YAMLDocumentDeleter extends DocumentUpdater {
 
-	public YAMLDocumentDeleter(Editor editor, ParserAST parser, List<FixItem> fixItems) {
-		super(editor, parser, fixItems);
-	}
+    public YAMLDocumentDeleter(Editor editor, ParserAST parser, List<FixItem> fixItems) {
+        super(editor, parser, fixItems);
+    }
 
-	@Override
-	public DocumentUpdate process(FixItem item) {
+    @Override
+    public DocumentUpdate process(FixItem item) {
 
-		Document document = editor.getDocument();
-		Node root = parser.parse(document.getText());
-		Node target = root.find(item.getAbsPointer());
+        Document document = editor.getDocument();
+        Node root = parser.parse(document.getText());
+        Node target = root.find(item.getAbsPointer());
 
-		Range range = target.getRange();
-		int start = range.getStartOffset();
-		int end = range.getEndOffset();
+        Range range = target.getRange();
+        int start = range.getStartOffset();
+        int end = range.getEndOffset();
 
-		if (target.next() != null) {
-			end = target.next().getRange().getStartOffset();
-		} else if (target.prev() != null) {
-			start = getSafeEndOffset(target.prev().getRange().getEndOffset());
-			end = getSafeEndOffset(end);
-		} else {
-			if (hasNoAlphabeticCharBeforeOffset(start)) {
-				start = DocumentUtil.getLineStartOffset(start, document);
-			}
-			end = includeEOL(getSafeEndOffset(end));
-		}
-		return new DocumentUpdate(item, createMarker(start, end), null);
-	}
+        if (target.next() != null) {
+            end = target.next().getRange().getStartOffset();
+        } else if (target.prev() != null) {
+            start = getSafeEndOffset(target.prev().getRange().getEndOffset());
+            end = getSafeEndOffset(end);
+        } else {
+            if (hasNoAlphabeticCharBeforeOffset(start)) {
+                start = DocumentUtil.getLineStartOffset(start, document);
+            }
+            end = includeEOL(getSafeEndOffset(end));
+        }
+        return new DocumentUpdate(item, createMarker(start, end), null);
+    }
 
-	@Override
-	public void apply(DocumentUpdate update) {
-		document.deleteString(update.getMarker().getStartOffset(), update.getMarker().getEndOffset());
-	}
+    @Override
+    public void apply(DocumentUpdate update) {
+        document.deleteString(update.getMarker().getStartOffset(), update.getMarker().getEndOffset());
+    }
 }

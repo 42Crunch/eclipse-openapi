@@ -22,9 +22,9 @@ import java.util.Set;
 public class PlatformCollectionUtils {
 
     public static void addAll(@NotNull Project project,
-                              @NotNull Tree tree,
-                              @NotNull DefaultMutableTreeNode parentDMTN,
-                              @NotNull List<PlatformCollection> collections) {
+            @NotNull Tree tree,
+            @NotNull DefaultMutableTreeNode parentDMTN,
+            @NotNull List<PlatformCollection> collections) {
 
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
         DefaultMutableTreeNode favoriteCollections = model.getFavoriteCollections();
@@ -44,10 +44,10 @@ public class PlatformCollectionUtils {
         rco.setChildrenUnavailable(false);
         platformService.getTreeAsyncCallbacks().remove(parentDMTN);
         List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
-        // Eclipse Development Note 
-        // Expansion state is ignored if node has no children, restore it here 
+        // Eclipse Development Note
+        // Expansion state is ignored if node has no children, restore it here
         if (favoriteCollections.getChildCount() > 0) {
-        	expandedPaths.add(TreePathUtil.pathToTreeNode(favoriteCollections));
+            expandedPaths.add(TreePathUtil.pathToTreeNode(favoriteCollections));
         }
         model.reload();
         TreeUtil.restoreExpandedPaths(tree, expandedPaths);
@@ -97,9 +97,9 @@ public class PlatformCollectionUtils {
     }
 
     public static void create(@NotNull Tree tree,
-                              @NotNull String collectionId,
-                              @NotNull String name,
-                              boolean locked) {
+            @NotNull String collectionId,
+            @NotNull String name,
+            boolean locked) {
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(new PlatformCollection(collectionId, name, locked));
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
         DefaultMutableTreeNode cloudCollections = model.getCloudCollections();

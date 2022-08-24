@@ -13,37 +13,37 @@ import com.xliic.openapi.parser.ast.Range;
 
 public class OpenAPIHyperlink implements IHyperlink {
 
-	private final IRegion region;
-	private final PsiElement element;
-	private final boolean external;
+    private final IRegion region;
+    private final PsiElement element;
+    private final boolean external;
 
-	public OpenAPIHyperlink(@NotNull IRegion region, @NotNull PsiElement element, boolean external) {
-		this.region = region;
-		this.element = element;
-		this.external = external;
-	}
+    public OpenAPIHyperlink(@NotNull IRegion region, @NotNull PsiElement element, boolean external) {
+        this.region = region;
+        this.element = element;
+        this.external = external;
+    }
 
-	@Override
-	public IRegion getHyperlinkRegion() {
-		return region;
-	}
+    @Override
+    public IRegion getHyperlinkRegion() {
+        return region;
+    }
 
-	@Override
-	public String getTypeLabel() {
-		return null;
-	}
+    @Override
+    public String getTypeLabel() {
+        return null;
+    }
 
-	@Override
-	public String getHyperlinkText() {
-		return "OpenAPI: Go To" + (external ? " External " : " ") + "Reference";
-	}
+    @Override
+    public String getHyperlinkText() {
+        return "OpenAPI: Go To" + (external ? " External " : " ") + "Reference";
+    }
 
-	@Override
-	public void open() {
-		int offset = element.getOffset();
-		Project project = element.getProject();
-		Range range = EclipseUtil.getSelectionRange(element.getNode());
-		VirtualFile file = element.getContainingFile().getVirtualFile();
-		new OpenFileDescriptor(project, file, offset, range == null ? 0 : range.getLength()).navigate(true);
-	}
+    @Override
+    public void open() {
+        int offset = element.getOffset();
+        Project project = element.getProject();
+        Range range = EclipseUtil.getSelectionRange(element.getNode());
+        VirtualFile file = element.getContainingFile().getVirtualFile();
+        new OpenFileDescriptor(project, file, offset, range == null ? 0 : range.getLength()).navigate(true);
+    }
 }

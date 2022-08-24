@@ -38,7 +38,7 @@ public abstract class FixManager {
     public boolean isAvailable() {
         return true;
     }
-    
+
     public boolean showDialog() {
         return false;
     }
@@ -46,7 +46,7 @@ public abstract class FixManager {
     public boolean openDialog() {
         return false;
     }
-    
+
     public static String getAbsolutePointer(String issuePointer, String fixPointer) {
         return StringUtils.isEmpty(fixPointer) ? issuePointer : issuePointer + fixPointer;
     }
@@ -63,9 +63,9 @@ public abstract class FixManager {
     protected boolean isJson(PsiFile file) {
         return OpenApiUtils.getFileType(file) == OpenApiFileType.Json;
     }
-    
+
     public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);
-    
+
     @NotNull
     protected static List<Object> wrap(List<Object> values) {
         List<Object> result = new LinkedList<>();
@@ -80,10 +80,10 @@ public abstract class FixManager {
         }
         return result;
     }
-    
+
     @NotNull
     protected PlaceHolder getPlaceHolder(String name, String path, boolean isKeyType,
-                                         List<Object> values, String fixPointer, QuickFix fix) {
+            List<Object> values, String fixPointer, QuickFix fix) {
         fixPointer = trimPointer(fixPointer);
         String pointer = fixPointer + path;
         if (fix.getType() == FixType.Insert) {

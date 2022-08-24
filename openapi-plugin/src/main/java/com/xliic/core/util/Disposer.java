@@ -7,7 +7,7 @@ import com.xliic.core.ui.popup.JBPopup;
 
 public class Disposer {
 
-	public static void register(@NotNull JBPopup parent, @NotNull Disposable child) {
-		parent.registerDisposable(child);
-	}
+    public static void register(@NotNull JBPopup parent, @NotNull Disposable child) {
+        parent.registerDisposable(child);
+    }
 }

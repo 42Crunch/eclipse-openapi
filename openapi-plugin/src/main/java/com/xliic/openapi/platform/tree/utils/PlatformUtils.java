@@ -33,19 +33,19 @@ import java.util.Map;
 public class PlatformUtils {
 
     public static void setInProgress(@Nullable Tree tree,
-                                     @Nullable DefaultMutableTreeNode targetDMTN,
-                                     boolean isInProgress) {
+            @Nullable DefaultMutableTreeNode targetDMTN,
+            boolean isInProgress) {
         if (tree != null && targetDMTN != null) {
             Object o = targetDMTN.getUserObject();
             if (o instanceof ProgressAware) {
-                // Eclipse Development Note 
+                // Eclipse Development Note
                 // Avoid invalid thread access exception
-            	SwingUtilities.invokeLater(() -> {
-	                ProgressAware progressAware = (ProgressAware) o;
-	                progressAware.setInProgress(isInProgress);
-	                PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
-	                model.valueForPathChanged(TreePathUtil.pathToTreeNode(targetDMTN), progressAware);
-            	});
+                SwingUtilities.invokeLater(() -> {
+                    ProgressAware progressAware = (ProgressAware) o;
+                    progressAware.setInProgress(isInProgress);
+                    PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
+                    model.valueForPathChanged(TreePathUtil.pathToTreeNode(targetDMTN), progressAware);
+                });
             }
         }
     }
@@ -133,7 +133,7 @@ public class PlatformUtils {
         PlatformService platformService = PlatformService.getInstance(project);
         Map<DefaultMutableTreeNode, Callback> callbacks = platformService.getTreeAsyncCallbacks();
         callbacks.clear();
-        // Eclipse Development Note 
+        // Eclipse Development Note
         // If node in collapsed state its children will be ignored by the model
         // Set it before reload to ask model to take care of non leaf children
         tree.expandPath(TreePathUtil.pathToTreeNode(favoriteCollections));
@@ -151,8 +151,8 @@ public class PlatformUtils {
 
     public static void goToTreeNode(@NotNull Tree tree, @NotNull TreeNode node) {
         TreePath path = TreePathUtil.pathToTreeNode(node);
-    	// Eclipse Development Note 
-    	// Use only selection as it triggers scrolling under the hood 
+        // Eclipse Development Note
+        // Use only selection as it triggers scrolling under the hood
         // tree.scrollPathToVisible(path);
         tree.setSelectionPath(path);
     }

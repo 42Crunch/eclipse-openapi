@@ -25,8 +25,8 @@ public class PlatformFilterAPIAction extends AnJAction implements DumbAware {
     private final DefaultMutableTreeNode filterDMTN;
 
     public PlatformFilterAPIAction(@NotNull Project project,
-                                   @NotNull Tree tree,
-                                   @NotNull DefaultMutableTreeNode filterDMTN) {
+            @NotNull Tree tree,
+            @NotNull DefaultMutableTreeNode filterDMTN) {
         super("Filter", "Filter APIs", null);
         getTemplatePresentation().setDescription(getDescription(filterDMTN));
         this.project = project;

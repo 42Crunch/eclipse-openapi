@@ -6,8 +6,8 @@ import com.xliic.core.project.Project;
 
 public interface StartupActivity {
 
-	public interface DumbAware {
+    public interface DumbAware {
 
-		public void runActivity(@NotNull Project project);
-	}
+        public void runActivity(@NotNull Project project);
+    }
 }

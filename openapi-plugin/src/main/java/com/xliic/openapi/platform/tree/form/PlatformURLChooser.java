@@ -16,7 +16,7 @@ public class PlatformURLChooser extends DialogWrapper {
 
     private JTextField myValueEditor;
     protected final String currentURL;
-    
+
     public PlatformURLChooser(@NotNull Project project, @NotNull String title, @NotNull String currentURL) {
         super(project, 1);
         setTitle(title);
@@ -24,15 +24,15 @@ public class PlatformURLChooser extends DialogWrapper {
         init();
     }
 
-	@Override
-	public void create(Composite parent) {
-	    GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-	    myValueEditor = new JTextField(parent, gridData);
+    @Override
+    public void create(Composite parent) {
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+        myValueEditor = new JTextField(parent, gridData);
         myValueEditor.setEnabled(true);
         myValueEditor.setText(currentURL);
-	    registerForValidation(myValueEditor);
-	}
-	
+        registerForValidation(myValueEditor);
+    }
+
     @Override
     protected ValidationInfo doValidate() {
         try {

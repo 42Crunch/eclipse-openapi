@@ -22,9 +22,9 @@ public class Audit {
     private final boolean platform;
     private boolean showAsHTML;
     private boolean showAsProblems;
-    
-    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response, 
-    		boolean platform, boolean showAsHTML, boolean showAsProblems) {
+
+    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response,
+            boolean platform, boolean showAsHTML, boolean showAsProblems) {
 
         this.project = project;
         this.auditFileName = auditFileName;
@@ -46,7 +46,7 @@ public class Audit {
     public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response) {
         this(project, auditFileName, response, false, true, true);
     }
-    
+
     public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response, boolean platform) {
         this(project, auditFileName, response, platform, true, true);
     }
@@ -66,11 +66,11 @@ public class Audit {
     public void setShowAsProblems(boolean showAsProblems) {
         this.showAsProblems = showAsProblems;
     }
-    
+
     public void setShowAsHTML(boolean showAsHTML) {
         this.showAsHTML = showAsHTML;
     }
-    
+
     public void removeIssues(@NotNull List<Issue> issuesToRemove) {
         issues.removeAll(issuesToRemove);
         for (Issue issue : issuesToRemove) {

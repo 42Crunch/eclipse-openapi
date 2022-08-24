@@ -13,10 +13,10 @@ import java.util.List;
 public abstract class FixSource {
 
     public List<Object> get(Issue issue,
-                            QuickFix fix,
-                            FixParameter parameter,
-                            OpenApiVersion version,
-                            BundleResult bundle) {
+            QuickFix fix,
+            FixParameter parameter,
+            OpenApiVersion version,
+            BundleResult bundle) {
         if ((bundle != null) && bundle.isBundleComplete()) {
             return getValues(issue, fix, parameter, version, bundle);
         } else {
@@ -29,8 +29,8 @@ public abstract class FixSource {
     public abstract void dispose(@NotNull String rootFileName);
 
     protected abstract List<Object> getValues(Issue issue,
-                                              QuickFix fix,
-                                              FixParameter parameter,
-                                              OpenApiVersion version,
-                                              BundleResult bundle);
+            QuickFix fix,
+            FixParameter parameter,
+            OpenApiVersion version,
+            BundleResult bundle);
 }

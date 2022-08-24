@@ -17,40 +17,41 @@ import com.xliic.core.ide.ui.LafManagerListener;
 
 @SuppressWarnings("restriction")
 public class TopicLafListener<L> extends Topic<L> {
-    
-	public TopicLafListener(@NotNull Class<L> listenerClass, @NotNull BroadcastDirection broadcastDirection) {
-    	super(listenerClass, broadcastDirection);
-    	final IWorkbench workbench = PlatformUI.getWorkbench();
-    	final IEventBroker eventBroker = workbench.getService(IEventBroker.class);
-    	final IThemeEngine themeEngine = workbench.getService(IThemeEngine.class);
-    	eventBroker.subscribe(WorkbenchThemeManager.Events.THEME_REGISTRY_RESTYLED, new EventHandler() {
-			@Override
-			public void handleEvent(Event event) {
-				ITheme theme = themeEngine.getActiveTheme();			
-				LafManagerListener listener = syncPublisher(eventBroker);
-				listener.lookAndFeelChanged(new LafManager(theme));
-			}
-    	});
+
+    public TopicLafListener(@NotNull Class<L> listenerClass, @NotNull BroadcastDirection broadcastDirection) {
+        super(listenerClass, broadcastDirection);
+        final IWorkbench workbench = PlatformUI.getWorkbench();
+        final IEventBroker eventBroker = workbench.getService(IEventBroker.class);
+        final IThemeEngine themeEngine = workbench.getService(IThemeEngine.class);
+        eventBroker.subscribe(WorkbenchThemeManager.Events.THEME_REGISTRY_RESTYLED, new EventHandler() {
+            @Override
+            public void handleEvent(Event event) {
+                ITheme theme = themeEngine.getActiveTheme();
+                LafManagerListener listener = syncPublisher(eventBroker);
+                listener.lookAndFeelChanged(new LafManager(theme));
+            }
+        });
     }
 
-	@Override
+    @Override
     @SuppressWarnings("unchecked")
-	public <T> void dispatch(int funcId, @NotNull Object data, @NotNull T handler) {
-		LafManagerListener listener = (LafManagerListener) handler;
-    	List<Object> args = (List<Object>) data;
-    	if (funcId == 0) {
-    		listener.lookAndFeelChanged((LafManager) args.get(0));
-    	}
-    } 
+    public <T> void dispatch(int funcId, @NotNull Object data, @NotNull T handler) {
+        LafManagerListener listener = (LafManagerListener) handler;
+        List<Object> args = (List<Object>) data;
+        if (funcId == 0) {
+            listener.lookAndFeelChanged((LafManager) args.get(0));
+        }
+    }
 
-	@NotNull
+    @Override
+    @NotNull
     @SuppressWarnings("unchecked")
     public <T> T syncPublisher(@NotNull IEventBroker eventBroker) {
-    	return (T) new LafManagerListener() {
-    		@Override
-    	    public void lookAndFeelChanged(@NotNull LafManager manager) {
-    	    	eventBroker.send(getTopic(), getArgs(0, List.of(manager)));	
-    		}
-    	};
+        return (T) new LafManagerListener() {
+            @Override
+            public void lookAndFeelChanged(@NotNull LafManager manager) {
+                eventBroker.send(getTopic(), getArgs(0, List.of(manager)));
+            }
+        };
     }
 }

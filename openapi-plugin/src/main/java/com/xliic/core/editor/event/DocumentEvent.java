@@ -13,21 +13,21 @@ import org.eclipse.jface.text.IDocument;
 
 public class DocumentEvent {
 
-	private final IDocument document;
-	private final Project project;
-	private final int offset;
-	private final int length;
+    private final IDocument document;
+    private final Project project;
+    private final int offset;
+    private final int length;
 
-	public DocumentEvent(IDocument document, int offset, int length) {
-		this.document = document;
-		this.project = Project.getInstance();
-		this.offset = offset;
-		this.length = length;
-	}
+    public DocumentEvent(IDocument document, int offset, int length) {
+        this.document = document;
+        this.project = Project.getInstance();
+        this.offset = offset;
+        this.length = length;
+    }
 
     @NotNull
     public Document getDocument() {
-    	return new DocumentImpl(document);
+        return new DocumentImpl(document);
     }
 
     public int getOffset() {
@@ -35,12 +35,12 @@ public class DocumentEvent {
         for (Editor editor : editors) {
             CaretModel model = editor.getCaretModel();
             if (model != null) {
-            	return model.getCurrentCaret().getOffset();
+                return model.getCurrentCaret().getOffset();
             }
         }
         return -1;
     }
-    
+
     public boolean isWholeTextReplaced() {
         return (offset == 0) && (document.getLength() == length);
     }

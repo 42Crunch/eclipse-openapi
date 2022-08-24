@@ -4,24 +4,24 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class JBCefJSQuery {
-	
-	@SuppressWarnings("unused")
-	private final JBCefBrowserBase browser;
-	
-	public JBCefJSQuery(@NotNull JBCefBrowserBase browser) {
-		this.browser = browser;
-	}
 
-	public static @NotNull JBCefJSQuery create(@NotNull JBCefBrowserBase browser) {
-		return new JBCefJSQuery(browser);
-	}
-	
-	public @NotNull String inject(@Nullable String queryResult) {
-		return "";
-	}
+    @SuppressWarnings("unused")
+    private final JBCefBrowserBase browser;
+
+    public JBCefJSQuery(@NotNull JBCefBrowserBase browser) {
+        this.browser = browser;
+    }
+
+    public static @NotNull JBCefJSQuery create(@NotNull JBCefBrowserBase browser) {
+        return new JBCefJSQuery(browser);
+    }
+
+    public @NotNull String inject(@Nullable String queryResult) {
+        return "";
+    }
 
     public static class Response {
-    	
+
         public static final int ERR_CODE_SUCCESS = 0;
         private final @Nullable String myResponse;
         private final int myErrCode;

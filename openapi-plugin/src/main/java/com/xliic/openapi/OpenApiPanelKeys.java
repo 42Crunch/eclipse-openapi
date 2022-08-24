@@ -35,7 +35,7 @@ public class OpenApiPanelKeys {
                     SERVERS,
                     COMPONENTS,
                     SECURITY
-            );
+                    );
 
     public final static List<String> V2_PANEL_KEYS =
             Arrays.asList(
@@ -47,5 +47,5 @@ public class OpenApiPanelKeys {
                     DEFINITIONS,
                     SECURITY,
                     SECURITY_DEFINITIONS
-            );
+                    );
 }

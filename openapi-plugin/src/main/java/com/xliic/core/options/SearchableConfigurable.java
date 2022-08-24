@@ -14,41 +14,41 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.components.JComponent;
 
 public abstract class SearchableConfigurable extends PreferencePage implements IWorkbenchPreferencePage {
-	
-	public SearchableConfigurable(@Nullable Module module, @NotNull Project project) {
-		super();
-	}
-	
-	@Override
-	public void init(IWorkbench workbench) {}
 
-	@Override
-	protected void performDefaults() {
-		super.performDefaults();
-		reset();
-	}
+    public SearchableConfigurable(@Nullable Module module, @NotNull Project project) {
+        super();
+    }
 
-	
-	@Override
-	public boolean performOk() {
-		if (isModified()) {
-			apply();
-		}
-		return super.performOk();
-	}
-	
-	protected Composite createComposite(Composite parent) {
+    @Override
+    public void init(IWorkbench workbench) {}
+
+    @Override
+    protected void performDefaults() {
+        super.performDefaults();
+        reset();
+    }
+
+
+    @Override
+    public boolean performOk() {
+        if (isModified()) {
+            apply();
+        }
+        return super.performOk();
+    }
+
+    protected Composite createComposite(Composite parent) {
         GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 1;
         parent.setLayout(gridLayout);
         parent.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
         return parent;
-	}
-	
-	public abstract String getDisplayName();
-	public abstract String getHelpTopic();
-	public abstract JComponent createComponent();
-	public abstract boolean isModified();
-	public abstract void reset();
-	public abstract void apply();
+    }
+
+    public abstract String getDisplayName();
+    public abstract String getHelpTopic();
+    public abstract JComponent createComponent();
+    public abstract boolean isModified();
+    public abstract void reset();
+    public abstract void apply();
 }

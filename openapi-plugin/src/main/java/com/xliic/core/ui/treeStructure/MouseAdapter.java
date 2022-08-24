@@ -12,68 +12,69 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("restriction")
 public abstract class MouseAdapter implements MouseListener, IMenuListener {
-    
-	private boolean doubleClick;
-	private final boolean monitorDoubleClick;
 
-	private TreeViewer viewer;
-	private final CompositeActionGroup fActionSet = new CompositeActionGroup();
+    private boolean doubleClick;
+    private final boolean monitorDoubleClick;
 
-	public MouseAdapter() {
-		this(true);
-	}
+    private TreeViewer viewer;
+    private final CompositeActionGroup fActionSet = new CompositeActionGroup();
 
-	public MouseAdapter(boolean monitorDoubleClick) {
-		this.monitorDoubleClick = monitorDoubleClick;
-	}
+    public MouseAdapter() {
+        this(true);
+    }
 
-	@Override
-	public void mouseDoubleClick(MouseEvent e) {
-		doubleClick = true;
-	}
-	
-	@Override
-	public void mouseDown(MouseEvent e) {
-		doubleClick = false;
-		if (e.count == 1 && e.button == com.xliic.core.ui.treeStructure.MouseEvent.BUTTON1) {
-			if (monitorDoubleClick) {
-		        Display.getDefault().timerExec(Display.getDefault().getDoubleClickTime(), new Runnable() {
-		            public void run() {
-		                if (!doubleClick) {
-		                    mouseClicked(new com.xliic.core.ui.treeStructure.MouseEvent(e.button));
-		                }
-		            }
-		        });
-			} else {
-				mouseClicked(new com.xliic.core.ui.treeStructure.MouseEvent(e.button));
-			}
-		}
-	}
+    public MouseAdapter(boolean monitorDoubleClick) {
+        this.monitorDoubleClick = monitorDoubleClick;
+    }
 
-	@Override
-	public void mouseUp(MouseEvent e) {}
-	
-	protected void mouseClicked(com.xliic.core.ui.treeStructure.MouseEvent event) {}
-	
-	protected boolean isLeftMouseButton(com.xliic.core.ui.treeStructure.MouseEvent event) {
-		return !event.isDoubleClick() && event.isLeftMouseButton();
-	}
+    @Override
+    public void mouseDoubleClick(MouseEvent e) {
+        doubleClick = true;
+    }
 
-	protected boolean isRightMouseButton(com.xliic.core.ui.treeStructure.MouseEvent event) {
-		return !event.isDoubleClick() && event.isRightMouseButton();
-	}
-	
-	public void setTreeViewer(@NotNull TreeViewer viewer) {
-		this.viewer = viewer;
-	}
-	
-	@Override
-	public void menuAboutToShow(IMenuManager menu) {
-		if (viewer != null) {
-			fActionSet.setContext(new ActionContext(viewer.getSelection()));
-			mouseClicked(new com.xliic.core.ui.treeStructure.MouseEvent(menu));
-			fActionSet.fillContextMenu(menu);
-			fActionSet.setContext(null);			
-		}
-	}
+    @Override
+    public void mouseDown(MouseEvent e) {
+        doubleClick = false;
+        if (e.count == 1 && e.button == com.xliic.core.ui.treeStructure.MouseEvent.BUTTON1) {
+            if (monitorDoubleClick) {
+                Display.getDefault().timerExec(Display.getDefault().getDoubleClickTime(), new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!doubleClick) {
+                            mouseClicked(new com.xliic.core.ui.treeStructure.MouseEvent(e.button));
+                        }
+                    }
+                });
+            } else {
+                mouseClicked(new com.xliic.core.ui.treeStructure.MouseEvent(e.button));
+            }
+        }
+    }
+
+    @Override
+    public void mouseUp(MouseEvent e) {}
+
+    protected void mouseClicked(com.xliic.core.ui.treeStructure.MouseEvent event) {}
+
+    protected boolean isLeftMouseButton(com.xliic.core.ui.treeStructure.MouseEvent event) {
+        return !event.isDoubleClick() && event.isLeftMouseButton();
+    }
+
+    protected boolean isRightMouseButton(com.xliic.core.ui.treeStructure.MouseEvent event) {
+        return !event.isDoubleClick() && event.isRightMouseButton();
+    }
+
+    public void setTreeViewer(@NotNull TreeViewer viewer) {
+        this.viewer = viewer;
+    }
+
+    @Override
+    public void menuAboutToShow(IMenuManager menu) {
+        if (viewer != null) {
+            fActionSet.setContext(new ActionContext(viewer.getSelection()));
+            mouseClicked(new com.xliic.core.ui.treeStructure.MouseEvent(menu));
+            fActionSet.fillContextMenu(menu);
+            fActionSet.setContext(null);
+        }
+    }
 }

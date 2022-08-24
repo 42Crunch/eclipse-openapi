@@ -14,13 +14,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 
-	@NotNull
+    @NotNull
     private final Project project;
-	@NotNull
+    @NotNull
     private final SortCallback callback;
-    
+
     public static interface SortCallback {
-    	void sort(boolean sort);
+        void sort(boolean sort);
     }
 
     public OpenAPIAlphaSortAction(@NotNull Project project, @NotNull SortCallback callback) {
@@ -36,17 +36,17 @@ public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 
     @Override
     public final void setSelected(@NotNull AnJActionEvent event, boolean flag) {
-    	callback.sort(flag);
+        callback.sort(flag);
     }
 
     @Override
     public void update(AnJActionEvent event) {
-    	VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
-    	if (file != null) {
-    		ASTService astService = ASTService.getInstance(project);
-    		event.getPresentation().setEnabled(astService.getRootNode(file) != null);
-    	} else {
-    		event.getPresentation().setEnabled(false);
-    	}
+        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        if (file != null) {
+            ASTService astService = ASTService.getInstance(project);
+            event.getPresentation().setEnabled(astService.getRootNode(file) != null);
+        } else {
+            event.getPresentation().setEnabled(false);
+        }
     }
 }

@@ -19,8 +19,8 @@ public class AuditSerializer extends StdSerializer<Audit> {
 
     @Override
     public void serialize(Audit audit,
-                          JsonGenerator jsonGenerator,
-                          SerializerProvider serializerProvider) throws IOException {
+            JsonGenerator jsonGenerator,
+            SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeObjectField("summary", audit.getSummaryProperties());
         jsonGenerator.writeObjectField("files", audit.getFilesProperties());

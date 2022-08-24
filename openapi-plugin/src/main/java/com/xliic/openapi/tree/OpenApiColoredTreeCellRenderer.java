@@ -16,7 +16,7 @@ public class OpenApiColoredTreeCellRenderer extends ColoredTreeCellRenderer {
 
     @Override
     public void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected,
-                                      boolean expanded, boolean leaf, int row, boolean hasFocus) {
+            boolean expanded, boolean leaf, int row, boolean hasFocus) {
 
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
         Object obj = node.getUserObject();

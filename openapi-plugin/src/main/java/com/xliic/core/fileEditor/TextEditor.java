@@ -6,6 +6,6 @@ import com.xliic.core.editor.Editor;
 
 public interface TextEditor {
 
-    @NotNull 
+    @NotNull
     Editor getEditor();
 }

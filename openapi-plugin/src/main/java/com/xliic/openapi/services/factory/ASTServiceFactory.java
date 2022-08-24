@@ -9,14 +9,14 @@ import com.xliic.openapi.services.api.IASTService;
 
 public class ASTServiceFactory extends AbstractServiceFactory {
 
-	private static final ASTService service = new ASTService(Project.getInstance());
+    private static final ASTService service = new ASTService(Project.getInstance());
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
-		if (IASTService.class.equals(serviceInterface)) {
-			return service;
-		}
-		return null;
-	}
+    @Override
+    @SuppressWarnings("rawtypes")
+    public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
+        if (IASTService.class.equals(serviceInterface)) {
+            return service;
+        }
+        return null;
+    }
 }

@@ -6,7 +6,7 @@ import com.xliic.core.util.messages.TopicLafListener;
 
 public interface LafManagerListener {
 
-	  Topic<LafManagerListener> TOPIC = new TopicLafListener<>(LafManagerListener.class, Topic.BroadcastDirection.NONE);
+    Topic<LafManagerListener> TOPIC = new TopicLafListener<>(LafManagerListener.class, Topic.BroadcastDirection.NONE);
 
-	  void lookAndFeelChanged(@NotNull LafManager manager);
+    void lookAndFeelChanged(@NotNull LafManager manager);
 }

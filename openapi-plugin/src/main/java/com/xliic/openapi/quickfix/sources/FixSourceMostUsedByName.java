@@ -29,10 +29,10 @@ public class FixSourceMostUsedByName extends FixSource {
 
     @Override
     protected List<Object> getValues(Issue issue,
-                                     QuickFix fix,
-                                     FixParameter parameter,
-                                     OpenApiVersion version,
-                                     BundleResult bundle) {
+            QuickFix fix,
+            FixParameter parameter,
+            OpenApiVersion version,
+            BundleResult bundle) {
         Node root = bundle.getAST();
         String rootFileName = bundle.getFile();
         Map<String, Map<String, Map<Object, Integer>>> hints = null;

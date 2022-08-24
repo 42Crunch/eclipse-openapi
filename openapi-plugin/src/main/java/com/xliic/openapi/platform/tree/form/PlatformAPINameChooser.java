@@ -15,9 +15,9 @@ public class PlatformAPINameChooser extends PlatformNameChooser {
         super(project, title, currentName);
     }
 
-	@Override
-	public void create(Composite parent) {
-		super.create(parent);
+    @Override
+    public void create(Composite parent) {
+        super.create(parent);
         disable();
         PlatformAPIs.getApiNamingConvention(new SuccessASTResponseCallback(project, false) {
             @Override
@@ -31,11 +31,11 @@ public class PlatformAPINameChooser extends PlatformNameChooser {
 
             @Override
             public void onFailure(@NotNull String reason) {
-            	SwingUtilities.invokeLater(() -> enable());
+                SwingUtilities.invokeLater(() -> enable());
             }
         });
-	}
-	
+    }
+
     @Override
     protected String getDefaultPattern() {
         return "^[\\w _.-]{1,64}$";

@@ -21,7 +21,7 @@ public abstract class PreviewAbstractAction extends ProjectAction {
 
     @Override
     public boolean update(@NotNull Project project, @NotNull VirtualFile file) {
-    	return !PreviewService.getInstance().isServerStateInProgress();
+        return !PreviewService.getInstance().isServerStateInProgress();
     }
 
     @Override

@@ -20,9 +20,9 @@ import java.util.Objects;
 public class PlatformAPIUtils {
 
     public static void addAll(@NotNull Project project,
-                              @NotNull Tree tree,
-                              @NotNull DefaultMutableTreeNode parentDMTN,
-                              @NotNull List<PlatformAPI> apis) {
+            @NotNull Tree tree,
+            @NotNull DefaultMutableTreeNode parentDMTN,
+            @NotNull List<PlatformAPI> apis) {
         parentDMTN.removeAllChildren();
         for (PlatformAPI pao : apis) {
             DefaultMutableTreeNode childDMTN = new DefaultMutableTreeNode(pao);
@@ -44,13 +44,13 @@ public class PlatformAPIUtils {
     }
 
     public static void create(@NotNull Project project,
-                              @NotNull Tree tree,
-                              @NotNull String collectionId,
-                              @NotNull String apiId,
-                              @NotNull String name,
-                              float grade,
-                              boolean isValid,
-                              boolean isJson) {
+            @NotNull Tree tree,
+            @NotNull String collectionId,
+            @NotNull String apiId,
+            @NotNull String name,
+            float grade,
+            boolean isValid,
+            boolean isJson) {
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
         DefaultMutableTreeNode cloudCollections = model.getCloudCollections();
         DefaultMutableTreeNode favoriteCollections = model.getFavoriteCollections();

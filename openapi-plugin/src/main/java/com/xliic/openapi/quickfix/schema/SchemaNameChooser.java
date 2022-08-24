@@ -15,49 +15,49 @@ import java.util.Set;
 
 public class SchemaNameChooser extends DialogWrapper {
 
-  private JTextField myValueEditor;
-  private JPanel myWholePanel;
-  private final String defaultSchemaName;
-  private final Set<String> existingSchemaNames;
+    private JTextField myValueEditor;
+    private JPanel myWholePanel;
+    private final String defaultSchemaName;
+    private final Set<String> existingSchemaNames;
 
-  public SchemaNameChooser(@NotNull Project project,
-                           @NotNull String defaultSchemaName,
-                           @NotNull Set<String> existingSchemaNames) {
-    super(project, 1);
-    setTitle("Enter New Schema Name");
-    this.defaultSchemaName = defaultSchemaName;
-    this.existingSchemaNames = existingSchemaNames;
-    init();
-  }
-
-	@Override
-	public void create(Composite parent) {
-	    GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-	    myValueEditor = new JTextField(parent, gridData);
-	    myValueEditor.setEnabled(true);
-	    myValueEditor.setText(defaultSchemaName);
-	    registerForValidation(myValueEditor);
-	}
-
-  @Override
-  protected ValidationInfo doValidate() {
-    if (StringUtils.isEmpty(getValue()) || existingSchemaNames.contains(getValue())) {
-      return new ValidationInfo("Please enter unique schema name");
+    public SchemaNameChooser(@NotNull Project project,
+            @NotNull String defaultSchemaName,
+            @NotNull Set<String> existingSchemaNames) {
+        super(project, 1);
+        setTitle("Enter New Schema Name");
+        this.defaultSchemaName = defaultSchemaName;
+        this.existingSchemaNames = existingSchemaNames;
+        init();
     }
-    return super.doValidate();
-  }
 
-  public String getValue() {
-    return myValueEditor.getText();
-  }
+    @Override
+    public void create(Composite parent) {
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+        myValueEditor = new JTextField(parent, gridData);
+        myValueEditor.setEnabled(true);
+        myValueEditor.setText(defaultSchemaName);
+        registerForValidation(myValueEditor);
+    }
 
-  @Override
-  protected boolean postponeValidation() {
-    return false;
-  }
+    @Override
+    protected ValidationInfo doValidate() {
+        if (StringUtils.isEmpty(getValue()) || existingSchemaNames.contains(getValue())) {
+            return new ValidationInfo("Please enter unique schema name");
+        }
+        return super.doValidate();
+    }
 
-  @Override
-  protected JComponent createCenterPanel() {
-    return myWholePanel;
-  }
+    public String getValue() {
+        return myValueEditor.getText();
+    }
+
+    @Override
+    protected boolean postponeValidation() {
+        return false;
+    }
+
+    @Override
+    protected JComponent createCenterPanel() {
+        return myWholePanel;
+    }
 }

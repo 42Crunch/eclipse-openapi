@@ -22,44 +22,44 @@ import com.xliic.core.ui.components.JComponent;
 
 public class JBList<E> implements JComponent, JBPopupMember {
 
-	private TableViewer list;
-	private final List<E> input;
-	private DoubleClickListener doubleClickListener;
-	public int selectionMode;
-	
-	public JBList(List<E> input) {
-		this.input = new LinkedList<>(input);
-	}
+    private TableViewer list;
+    private final List<E> input;
+    private DoubleClickListener doubleClickListener;
+    public int selectionMode;
+
+    public JBList(List<E> input) {
+        this.input = new LinkedList<>(input);
+    }
 
 
-	@Override
-	public Control getControl() {
-		return list.getControl();
-	}
-	
+    @Override
+    public Control getControl() {
+        return list.getControl();
+    }
+
     public void setSelectionMode(int selectionMode) {
         if (selectionMode == ListSelectionModel.SINGLE_SELECTION) {
-        	selectionMode = SWT.SINGLE;
+            selectionMode = SWT.SINGLE;
         }
     }
 
     @SuppressWarnings("unchecked")
-	public int getSelectedIndex() {
-    	E item = (E) list.getStructuredSelection().getFirstElement();
-    	return input.indexOf(item);
-    }
-    
-    @Override
-    public void addDoubleClickListener(DoubleClickListener listener) {
-    	this.doubleClickListener = listener;
+    public int getSelectedIndex() {
+        E item = (E) list.getStructuredSelection().getFirstElement();
+        return input.indexOf(item);
     }
 
-	@Override
-	public JBPopupMember create(Composite parent) {
+    @Override
+    public void addDoubleClickListener(DoubleClickListener listener) {
+        this.doubleClickListener = listener;
+    }
+
+    @Override
+    public JBPopupMember create(Composite parent) {
         list = new TableViewer(parent, SWT.NO_TRIM | selectionMode | SWT.FULL_SELECTION);
         list.getTable().setHeaderVisible(false);
         list.setContentProvider(ArrayContentProvider.getInstance());
-        list.getTable().addListener(SWT.MouseDoubleClick, doubleClickListener);       
+        list.getTable().addListener(SWT.MouseDoubleClick, doubleClickListener);
         list.getTable().addListener(SWT.MouseMove, new Listener() {
             @Override
             public void handleEvent(Event event) {
@@ -75,5 +75,5 @@ public class JBList<E> implements JComponent, JBPopupMember {
             list.setSelection(new StructuredSelection(input.get(0)));
         }
         return this;
-	}
+    }
 }

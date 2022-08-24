@@ -8,14 +8,14 @@ import com.xliic.openapi.services.api.IPreviewService;
 
 public class PreviewServiceFactory extends AbstractServiceFactory {
 
-	private static final PreviewService service = new PreviewService();
+    private static final PreviewService service = new PreviewService();
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
-		if (IPreviewService.class.equals(serviceInterface)) {
-			return service;
-		}
-		return null;
-	}
+    @Override
+    @SuppressWarnings("rawtypes")
+    public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
+        if (IPreviewService.class.equals(serviceInterface)) {
+            return service;
+        }
+        return null;
+    }
 }

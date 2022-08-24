@@ -4,14 +4,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class Separator extends AnJAction {
 
-	public Separator() {
-		super(null, null, null);
-	}
+    public Separator() {
+        super(null, null, null);
+    }
 
-	@Override
-	public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {}
+    @Override
+    public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {}
 
-	@NotNull
+    @NotNull
     public static Separator create() {
         return new Separator();
     }

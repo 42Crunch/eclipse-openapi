@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 public final class AuditService implements IAuditService, Disposable {
-	
-	private static final int MAX_PLATFORM_AUDIT_LIMIT = 10;
+
+    private static final int MAX_PLATFORM_AUDIT_LIMIT = 10;
 
     private final Project project;
     private final Map<String, Audit> cache = new HashMap<>();
@@ -63,6 +63,7 @@ public final class AuditService implements IAuditService, Disposable {
         }
     }
 
+    @Override
     public void sendAuditRequest(@NotNull String token, @NotNull String fileName, @NotNull AuditActionCallback callback) {
         if (taskInProgress) {
             callback.reject("Generating audit report for " + fileName + " in progress");
@@ -87,6 +88,7 @@ public final class AuditService implements IAuditService, Disposable {
         }
     }
 
+    @Override
     public void sendGenerateTokenRequest(@NotNull String email, @NotNull EmailDialogDoOkActionCallback callback) {
         if (taskInProgress) {
             callback.reject("Generating token for " + email + " in progress");
@@ -103,7 +105,7 @@ public final class AuditService implements IAuditService, Disposable {
 
     @Override
     public void dispose() {
-    	project.dispose();
+        project.dispose();
         cache.clear();
     }
 

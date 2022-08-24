@@ -21,7 +21,7 @@ public class ReportColoredTreeCellRenderer extends ColoredTreeCellRenderer {
 
     @Override
     public void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected,
-                                      boolean expanded, boolean leaf, int row, boolean hasFocus) {
+            boolean expanded, boolean leaf, int row, boolean hasFocus) {
 
         final DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) value;
 

@@ -4,5 +4,5 @@ import com.xliic.core.pom.Navigatable;
 
 public interface NavigatableErrorTreeElement {
 
-	Navigatable getNavigatable();
+    Navigatable getNavigatable();
 }

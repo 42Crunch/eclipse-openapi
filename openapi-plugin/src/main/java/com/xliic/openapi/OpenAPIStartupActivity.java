@@ -17,42 +17,42 @@ import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.settings.SettingsKeys;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
-	
-	public static final String PluginTempDir = getPluginTempDir();
+
+    public static final String PluginTempDir = getPluginTempDir();
 
     private static final String PREFIX = "xliic";
     private static final int LENGTH = 10;
-    
-	@Override
-	public void runActivity(@NotNull Project project) {
+
+    @Override
+    public void runActivity(@NotNull Project project) {
         // Load quickfix configuration
         QuickFixService.getInstance().load();
         // Set default properties values
         if (!PropertiesComponent.getInstance().isValueSet(SettingsKeys.ABC_SORT)) {
             PropertiesComponent.getInstance().setValue(SettingsKeys.ABC_SORT, true);
         }
-		// Set preview properties
-		PropertiesComponent pc = PropertiesComponent.getInstance();
-		if (!pc.isValueSet(PreviewKeys.PORT)) {
-			pc.setValue(PreviewKeys.PORT, DEFAULT_SERVER_PORT, DEFAULT_SERVER_PORT);
-		}
-		if (!pc.isValueSet(PreviewKeys.RENDERER)) {
-			pc.setValue(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX, DEFAULT_RENDERER_INDEX);
-		}
+        // Set preview properties
+        PropertiesComponent pc = PropertiesComponent.getInstance();
+        if (!pc.isValueSet(PreviewKeys.PORT)) {
+            pc.setValue(PreviewKeys.PORT, DEFAULT_SERVER_PORT, DEFAULT_SERVER_PORT);
+        }
+        if (!pc.isValueSet(PreviewKeys.RENDERER)) {
+            pc.setValue(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX, DEFAULT_RENDERER_INDEX);
+        }
         // Platform
-    	// Eclipse Development Note 
-    	// Call getInstance to initialize the service to subscribe for events
-		PlatformService platformService = PlatformService.getInstance(project);
+        // Eclipse Development Note
+        // Call getInstance to initialize the service to subscribe for events
+        PlatformService platformService = PlatformService.getInstance(project);
         PlatformConnection.setDefaultPlatformURL();
         if (!PlatformConnection.isEmpty()) {
-        	// Eclipse Development Note 
-        	// The project may have been deleted occasionally
-        	platformService.invokeAndWaitToCreatePlatformWindow(false);
+            // Eclipse Development Note
+            // The project may have been deleted occasionally
+            platformService.invokeAndWaitToCreatePlatformWindow(false);
         }
         // Web UI
         HTMLService.getInstance().init();
-	}
-	
+    }
+
     public static boolean isMyPluginTempDir(@NotNull String dirName) {
         return PluginTempDir.equals(dirName);
     }

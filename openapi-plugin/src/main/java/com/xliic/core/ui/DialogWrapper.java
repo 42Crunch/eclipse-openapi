@@ -18,86 +18,86 @@ import com.xliic.core.util.EclipseUtil;
 
 @SuppressWarnings("restriction")
 public class DialogWrapper extends StatusDialog {
-	
-	private final int numColumns;
-	protected final Project project;
 
-	protected DialogWrapper(@Nullable Project project, int numColumns) {
-		super(EclipseUtil.getShell());
-		this.project = project;
-		this.numColumns = numColumns;
-	}
+    private final int numColumns;
+    protected final Project project;
 
-	public boolean showAndGet() {
-		return open() == Window.OK;
-	}
+    protected DialogWrapper(@Nullable Project project, int numColumns) {
+        super(EclipseUtil.getShell());
+        this.project = project;
+        this.numColumns = numColumns;
+    }
 
-	@Override
-	protected Control createDialogArea(Composite parent) {	
-		parent = (Composite) super.createDialogArea(parent);
-		GridLayout layout = new GridLayout();
-	    layout.numColumns = numColumns;
-	    layout.marginHeight = 10;
-	    layout.marginWidth = 10;
-	    parent.setLayout(layout);
-	    create(parent);
-		return parent;
-	}
-	
-	protected final void setOKButtonText(@NotNull String text) {
-		// Ignore as it is impossible for StatusDialog
-	}
-	
-	protected void create(Composite parent) {}
-	
-	protected void registerForValidation(@NotNull Object widget) {
-		if (widget instanceof Validator) {
-			Validator validator = (Validator) widget;
-			validator.addValidationListener(() -> {
-				ValidationInfo info = doValidate();
-				if (info == null) {
-					validator.setValid();
-					setOKActionEnabled(true);
-				} else {
-					setOKActionEnabled(false);
-					validator.setInvalid(info.getMessage());
-				}
-			});
-		}
-	}
-	
-	protected ValidationInfo doValidate() {
-		return null;
-	}
-	
-	protected void setOKActionEnabled(boolean enabled) {
-		updateStatus(new StatusInfo(enabled ? IStatus.OK : IStatus.ERROR, null));
-	}
-	
-	protected void init() {}
-	
-	protected boolean postponeValidation() {
-		return false;
-	}
-
-	protected JComponent getPreferredFocusedComponent() {
-		return null;
-	}
-
-    protected JComponent createCenterPanel() {
-    	return null;
+    public boolean showAndGet() {
+        return open() == Window.OK;
     }
 
     @Override
-	public boolean isHelpAvailable() {
-		return false;
-	}
+    protected Control createDialogArea(Composite parent) {
+        parent = (Composite) super.createDialogArea(parent);
+        GridLayout layout = new GridLayout();
+        layout.numColumns = numColumns;
+        layout.marginHeight = 10;
+        layout.marginWidth = 10;
+        parent.setLayout(layout);
+        create(parent);
+        return parent;
+    }
 
-	@Override
-	protected void okPressed() {
-		doOKAction();
-		super.okPressed();
-	}
-	
-	protected void doOKAction() {}
+    protected final void setOKButtonText(@NotNull String text) {
+        // Ignore as it is impossible for StatusDialog
+    }
+
+    protected void create(Composite parent) {}
+
+    protected void registerForValidation(@NotNull Object widget) {
+        if (widget instanceof Validator) {
+            Validator validator = (Validator) widget;
+            validator.addValidationListener(() -> {
+                ValidationInfo info = doValidate();
+                if (info == null) {
+                    validator.setValid();
+                    setOKActionEnabled(true);
+                } else {
+                    setOKActionEnabled(false);
+                    validator.setInvalid(info.getMessage());
+                }
+            });
+        }
+    }
+
+    protected ValidationInfo doValidate() {
+        return null;
+    }
+
+    protected void setOKActionEnabled(boolean enabled) {
+        updateStatus(new StatusInfo(enabled ? IStatus.OK : IStatus.ERROR, null));
+    }
+
+    protected void init() {}
+
+    protected boolean postponeValidation() {
+        return false;
+    }
+
+    protected JComponent getPreferredFocusedComponent() {
+        return null;
+    }
+
+    protected JComponent createCenterPanel() {
+        return null;
+    }
+
+    @Override
+    public boolean isHelpAvailable() {
+        return false;
+    }
+
+    @Override
+    protected void okPressed() {
+        doOKAction();
+        super.okPressed();
+    }
+
+    protected void doOKAction() {}
 }

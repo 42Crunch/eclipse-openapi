@@ -15,8 +15,8 @@ import java.util.List;
 public class PlatformAPICallback extends SuccessASTResponseWithFailureDecoratorCallback {
 
     public PlatformAPICallback(@NotNull Project project,
-                               @NotNull Tree tree,
-                               @NotNull DefaultMutableTreeNode parentDMTN) {
+            @NotNull Tree tree,
+            @NotNull DefaultMutableTreeNode parentDMTN) {
         super(project, tree, parentDMTN);
     }
 

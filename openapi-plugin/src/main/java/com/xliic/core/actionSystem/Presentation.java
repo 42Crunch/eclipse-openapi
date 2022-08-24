@@ -8,6 +8,6 @@ import com.xliic.core.util.Icon;
 public interface Presentation {
 
     void setIcon(@Nullable Icon icon);
-    
+
     void setDescription(@NotNull String description);
 }

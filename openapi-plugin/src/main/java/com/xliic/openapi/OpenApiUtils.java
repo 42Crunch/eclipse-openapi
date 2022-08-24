@@ -62,10 +62,10 @@ public class OpenApiUtils {
     public static final String REF_DELIMITER = "#/";
     public static final String POINTER_SEPARATOR = "/";
 
-	public final static ElementPattern<PsiElement> JSON_REF_PATTERN = new JsonElementPattern<>();
-	public final static ElementPattern<PsiElement> YAML_REF_PATTERN = new YamlElementPattern<>();
+    public final static ElementPattern<PsiElement> JSON_REF_PATTERN = new JsonElementPattern<>();
+    public final static ElementPattern<PsiElement> YAML_REF_PATTERN = new YamlElementPattern<>();
 
-	public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
+    public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
 
     public static String pointer(String parentPointer, String key) {
         return parentPointer + POINTER_SEPARATOR + escape(key);
@@ -80,20 +80,20 @@ public class OpenApiUtils {
         return URLDecoder.decode(StringUtils.strip(psiElement.getText(), "\"'"), StandardCharsets.UTF_8);
     }
 
-	public static OpenFileDescriptor getOpenFileDescriptor(@NotNull Project project, @NotNull VirtualFile file, Node target) {
-		if (target == null) {
-			return new OpenFileDescriptor(project, file);
-		} else {
-	        return getOpenFileDescriptor(project, file, EclipseUtil.getSelectionRange(target));
-		}
-	}
-	
-	public static OpenFileDescriptor getOpenFileDescriptor(@NotNull Project project, @NotNull VirtualFile file, Range range) {
-		if (range == null) {
-			return new OpenFileDescriptor(project, file);
-		}
+    public static OpenFileDescriptor getOpenFileDescriptor(@NotNull Project project, @NotNull VirtualFile file, Node target) {
+        if (target == null) {
+            return new OpenFileDescriptor(project, file);
+        } else {
+            return getOpenFileDescriptor(project, file, EclipseUtil.getSelectionRange(target));
+        }
+    }
+
+    public static OpenFileDescriptor getOpenFileDescriptor(@NotNull Project project, @NotNull VirtualFile file, Range range) {
+        if (range == null) {
+            return new OpenFileDescriptor(project, file);
+        }
         return new OpenFileDescriptor(project, file, range.getOffset(), range.getLength());
-	}
+    }
 
     public static String getTextFromFile(@NotNull VirtualFile file) {
         Document document = FileDocumentManager.getInstance().getDocument(file);
@@ -105,7 +105,7 @@ public class OpenApiUtils {
             }
         }
         else {
-           return document.getText();
+            return document.getText();
         }
         return null;
     }
@@ -130,12 +130,12 @@ public class OpenApiUtils {
 
     public static void activateToolWindow(@NotNull Project project, @NotNull String id) {
         if (!project.isDisposed()) {
-        	EclipseWorkbenchUtil.openPerspective();
+            EclipseWorkbenchUtil.openPerspective();
             ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(id);
             if (toolWindow == null) {
-            	// Eclipse Development Note 
-            	// View is always registered, but may not be available in any page
-        		EclipseWorkbenchUtil.showView(id, null, IWorkbenchPage.VIEW_ACTIVATE);
+                // Eclipse Development Note
+                // View is always registered, but may not be available in any page
+                EclipseWorkbenchUtil.showView(id, null, IWorkbenchPage.VIEW_ACTIVATE);
             } else if ((toolWindow != null) && !toolWindow.isActive()) {
                 toolWindow.activate(null);
             }
@@ -351,7 +351,7 @@ public class OpenApiUtils {
         }
         return null;
     }
-    
+
     public static String getDomainName(String url) throws URISyntaxException {
         URI uri = new URI(url);
         String domain = uri.getHost();
@@ -379,7 +379,7 @@ public class OpenApiUtils {
     public static String getURI(VirtualFile file) {
         return getURI(file.getPath());
     }
-    
+
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {
         if (file == null) {
             return null;

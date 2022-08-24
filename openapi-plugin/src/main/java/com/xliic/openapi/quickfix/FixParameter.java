@@ -9,49 +9,49 @@ import com.xliic.openapi.services.QuickFixService;
 
 public class FixParameter {
 
-	private final String name;
-	private final String path;
-	private final String type;
-	private final FixSource source;
-	private final List<Object> values;
+    private final String name;
+    private final String path;
+    private final String type;
+    private final FixSource source;
+    private final List<Object> values;
 
-	private FixParameter(String name, String path, String type, FixSource source, List<Object> values) {
-		this.name = name;
-		this.path = path;
-		this.type = type;
-		this.source = source;
-		this.values = values;
-	}
+    private FixParameter(String name, String path, String type, FixSource source, List<Object> values) {
+        this.name = name;
+        this.path = path;
+        this.type = type;
+        this.source = source;
+        this.values = values;
+    }
 
-	public static FixParameter getInstance(Node node) {
-		List<Object> values = new LinkedList<>();
-		Node valuesRootNode = node.getChild("values");
-		if (valuesRootNode != null) {
-			for (Node valueNode : valuesRootNode.getChildren()) {
-				values.add(valueNode.getValue());
-			}
-		}
-		QuickFixService quickFixService = QuickFixService.getInstance();
-		return new FixParameter(node.getChildValue("name"), node.getChildValue("path"), node.getChildValue("type"),
-				quickFixService.getFixSourceInstance(node.getChildValue("source")), values);
-	}
+    public static FixParameter getInstance(Node node) {
+        List<Object> values = new LinkedList<>();
+        Node valuesRootNode = node.getChild("values");
+        if (valuesRootNode != null) {
+            for (Node valueNode : valuesRootNode.getChildren()) {
+                values.add(valueNode.getValue());
+            }
+        }
+        QuickFixService quickFixService = QuickFixService.getInstance();
+        return new FixParameter(node.getChildValue("name"), node.getChildValue("path"), node.getChildValue("type"),
+                quickFixService.getFixSourceInstance(node.getChildValue("source")), values);
+    }
 
     public String getName() {
         return name;
     }
-    
-	public String getPath() {
-		return path;
-	}
 
-	public FixSource getSource() {
-		return source;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public boolean isKeyType() {
-		return "key".equalsIgnoreCase(type);
-	}
-	
+    public FixSource getSource() {
+        return source;
+    }
+
+    public boolean isKeyType() {
+        return "key".equalsIgnoreCase(type);
+    }
+
     public List<Object> getValues() {
         return values;
     }

@@ -15,10 +15,10 @@ public class FixSourceSecuritySchemes extends FixSource {
 
     @Override
     protected List<Object> getValues(Issue issue,
-                                     QuickFix fix,
-                                     FixParameter parameter,
-                                     OpenApiVersion version,
-                                     BundleResult bundle) {
+            QuickFix fix,
+            FixParameter parameter,
+            OpenApiVersion version,
+            BundleResult bundle) {
         Node root = bundle.getAST();
         if (version == OpenApiVersion.V2) {
             return extractKeys(root.find("/securityDefinitions"));

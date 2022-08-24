@@ -7,8 +7,8 @@ import com.xliic.core.project.Project;
 
 public final class SeverityRegistrar {
 
-	@NotNull
-	public static SeverityRegistrar getSeverityRegistrar(@Nullable Project project) {
-		return new SeverityRegistrar();
-	}
+    @NotNull
+    public static SeverityRegistrar getSeverityRegistrar(@Nullable Project project) {
+        return new SeverityRegistrar();
+    }
 }

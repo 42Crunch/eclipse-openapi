@@ -7,28 +7,28 @@ import com.xliic.core.project.Project;
 
 public class AnJActionEvent {
 
-	@SuppressWarnings("unused")
-	private final Action action;
-	private volatile boolean enabled;
+    @SuppressWarnings("unused")
+    private final Action action;
+    private volatile boolean enabled;
 
-	public AnJActionEvent(@NotNull AnJAction action) {
-		this.action = action;
-		enabled = true;
-	}
+    public AnJActionEvent(@NotNull AnJAction action) {
+        this.action = action;
+        enabled = true;
+    }
 
-	public Project getProject() {
-		return Project.getInstance();
-	}
+    public Project getProject() {
+        return Project.getInstance();
+    }
 
-	public AnJActionEvent getPresentation() {
-		return this;
-	}
+    public AnJActionEvent getPresentation() {
+        return this;
+    }
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-	
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

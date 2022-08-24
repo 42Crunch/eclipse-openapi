@@ -47,355 +47,355 @@ import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
 
 public class AuditConfigurable extends SearchableConfigurable implements Configurable.NoScroll {
 
-  private JPanel tokenPanel;
-  private JTextArea tokenTextArea;
-  private JButton cleanButton;
-  private JComboBox<String> previewComboBox;
-  private JTextField serverPortTextField;
-  private JPanel previewPanel;
-  private JPanel securityAuditPanel;
-  private JPanel hostsPanel;
-  private JPanel sortPanel;
-  private JCheckBox sortABC;
-  
-  private JTextField platformURLField;
-  private JTextField apiKeyField;
-  private JPanel platformPanel;
-  
-  private boolean isTokenCleaned = false;
-  private HostNameTableEditor hostsTableModelEditor;
-  private final List<String> keysToNotify = new LinkedList<>();
-  
-  public AuditConfigurable() {
-    super(null, DefaultProjectFactory.getInstance().getDefaultProject());
-  }
+    private JPanel tokenPanel;
+    private JTextArea tokenTextArea;
+    private JButton cleanButton;
+    private JComboBox<String> previewComboBox;
+    private JTextField serverPortTextField;
+    private JPanel previewPanel;
+    private JPanel securityAuditPanel;
+    private JPanel hostsPanel;
+    private JPanel sortPanel;
+    private JCheckBox sortABC;
 
-  public AuditConfigurable(@NotNull Module module) {
-    super(module, module.getProject());
-  }
-  
-  @Override
-  protected Control createContents(Composite parent) {
-	  
-	  GridLayout gridLayout = new GridLayout();
-      gridLayout.numColumns = 1;
-      parent.setLayout(gridLayout);
-      parent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      
-      platformPanel =  new JPanel("42Crunch Platform Credentials", parent, SWT.NONE, 2);
+    private JTextField platformURLField;
+    private JTextField apiKeyField;
+    private JPanel platformPanel;
 
-      new Label(platformPanel.getComposite(), SWT.NULL).setText("Platform URL");
-      platformURLField = new JTextField(platformPanel);
-      String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
-      platformURLField.setText(StringUtils.isEmpty(platformURL) ? StringUtils.EMPTY : platformURL);
-      platformURLField.addValidationListener(() -> {
-		if (isPlatformSettingsEmpty()) {
-			apiKeyField.setValid();
-			platformURLField.setValid();
-			setValid(true);
-		} else if (PlatformConnection.isURLValid(platformURLField.getText())) {
-			platformURLField.setValid();
-			setValid(true);
-		} else {
-			setValid(false);
-			platformURLField.setInvalid("Must be a valid URL");
-		}
-      });
+    private boolean isTokenCleaned = false;
+    private HostNameTableEditor hostsTableModelEditor;
+    private final List<String> keysToNotify = new LinkedList<>();
 
-      new Label(platformPanel.getComposite(), SWT.NULL).setText("API Token");
-      apiKeyField = new JTextField(platformPanel);
-      apiKeyField.setEchoChar();
-      apiKeyField.setText(getPlatformAPIKey());
-      apiKeyField.addValidationListener(() -> {
-    	if (isPlatformSettingsEmpty()) {
-  			apiKeyField.setValid();
-  			platformURLField.setValid();
-  			setValid(true);
-  		} else if (PlatformConnection.isAPIKeyValid(apiKeyField.getText())) {
-			apiKeyField.setValid();
-			setValid(true);
-		} else {
-			setValid(false);
-			apiKeyField.setInvalid("Must be a valid API Token");
-		}
-      });
-
-      hostsPanel = new JPanel("Approved Hostnames", parent, SWT.NONE, 2);
-      hostsTableModelEditor = new HostNameTableEditor(hostsPanel.getComposite());
-	
-      sortPanel = new JPanel("Sort Outlines", parent, SWT.NONE, 1);
-      sortABC = new JCheckBox("Alphabetically sort contents of OpenAPI explorer outlines", sortPanel);
-
-      previewPanel = new JPanel("Preview", parent, SWT.NONE, 2);
-      new Label(previewPanel.getComposite(), SWT.NULL).setText("Default Preview Renderer");
-  	  previewComboBox = new JComboBox<>(previewPanel);     
-      new Label(previewPanel.getComposite(), SWT.NULL).setText("Server Port");
-      serverPortTextField = new JTextField(previewPanel);
-      serverPortTextField.addValidationListener(() -> {
-    	if (PreviewUtils.isPortValid(serverPortTextField.getText())) {
-    		serverPortTextField.setValid();
-			setValid(true);
-		} else {
-			setValid(false);
-			serverPortTextField.setInvalid("Must be a valid port number");
-		}
-      });
-      
-      securityAuditPanel = new JPanel("Security Audit", parent, SWT.NONE, 3);
-      new Label(securityAuditPanel.getComposite(), SWT.NULL).setText("Security Audit Token");
-      tokenTextArea = new JTextArea(securityAuditPanel);
-      
-      cleanButton = new JButton("Clear", SWT.PUSH, securityAuditPanel);
-      GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_BEGINNING);
-      gd.widthHint = 90;
-      cleanButton.setLayoutData(gd);
-	
-      String tokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
-      tokenTextArea.setText(StringUtils.isEmpty(tokenText) ? StringUtils.EMPTY : tokenText);
-      tokenTextArea.setEnabled(true);
-      tokenTextArea.getDocument().addDocumentListener(new DocumentAdapter() {
-    	  @Override
-    	  protected void textChanged(@NotNull DocumentEvent e) {
-    		  cleanButton.setEnabled(!StringUtils.isEmpty(getTokenText()));
-    		  isTokenCleaned = false;
-    	  }
-      });
-      cleanButton.setEnabled(!StringUtils.isEmpty(tokenText));
-      cleanButton.addActionListener(e -> {
-    	  tokenTextArea.setText(StringUtils.EMPTY);
-    	  cleanButton.setEnabled(false);
-    	  isTokenCleaned = true;
-      });
-
-      previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.0.settings"), 0);
-      previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.1.settings"), 1);
-
-      int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
-      previewComboBox.setSelectedIndex(rendererIndex);
-
-      int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
-      serverPortTextField.setText(String.valueOf(port));
-    
-      sortABC.setSelected(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
-      return parent;
-  }
-
-  private String getTokenText() {
-    return StringUtils.strip(tokenTextArea.getText(), " \n");
-  }
-
-  @Nls
-  @Override
-  public String getDisplayName() {
-    return OpenApiBundle.message("openapi.config.display.name");
-  }
-
-  @Override
-  public String getHelpTopic() {
-    return null;
-  }
-
-  @Override
-  public JComponent createComponent() {
-    return tokenPanel;
-  }
-
-  @Override
-  public boolean isModified() {
-
-    if (isTokenCleaned) {
-      return true;
-    }
-    if (hostsTableModelEditor.isDirty()) {
-        return true;
-    }
-    if (isSortABCModified()) {
-        return true;
-    }
-    
-    String configuredTokenText = getTokenText();
-    String currentTokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
-    if (!Objects.equals(configuredTokenText, currentTokenText)) {
-      return true;
+    public AuditConfigurable() {
+        super(null, DefaultProjectFactory.getInstance().getDefaultProject());
     }
 
-    int configuredIndex = previewComboBox.getSelectedIndex();
-    int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
-    if (rendererIndex != configuredIndex) {
-      return true;
+    public AuditConfigurable(@NotNull Module module) {
+        super(module, module.getProject());
     }
 
-    int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
-    try {
-      int configuredPort = Integer.parseInt(serverPortTextField.getText());
-      if (PreviewUtils.isPortValid(configuredPort) && (port != configuredPort)) {
-        return true;
-      }
-    }
-    catch(NumberFormatException ignored) {
-      return false;
-    }
-    
-    if (isPlatformSettingsReset()) {
-        return true;
-      }
+    @Override
+    protected Control createContents(Composite parent) {
 
-      String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
-      try {
-        String configuredPlatformURL = platformURLField.getText();
-        if (StringUtils.isEmpty(configuredPlatformURL)) {
-          return false;
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 1;
+        parent.setLayout(gridLayout);
+        parent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+        platformPanel =  new JPanel("42Crunch Platform Credentials", parent, SWT.NONE, 2);
+
+        new Label(platformPanel.getComposite(), SWT.NULL).setText("Platform URL");
+        platformURLField = new JTextField(platformPanel);
+        String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+        platformURLField.setText(StringUtils.isEmpty(platformURL) ? StringUtils.EMPTY : platformURL);
+        platformURLField.addValidationListener(() -> {
+            if (isPlatformSettingsEmpty()) {
+                apiKeyField.setValid();
+                platformURLField.setValid();
+                setValid(true);
+            } else if (PlatformConnection.isURLValid(platformURLField.getText())) {
+                platformURLField.setValid();
+                setValid(true);
+            } else {
+                setValid(false);
+                platformURLField.setInvalid("Must be a valid URL");
+            }
+        });
+
+        new Label(platformPanel.getComposite(), SWT.NULL).setText("API Token");
+        apiKeyField = new JTextField(platformPanel);
+        apiKeyField.setEchoChar();
+        apiKeyField.setText(getPlatformAPIKey());
+        apiKeyField.addValidationListener(() -> {
+            if (isPlatformSettingsEmpty()) {
+                apiKeyField.setValid();
+                platformURLField.setValid();
+                setValid(true);
+            } else if (PlatformConnection.isAPIKeyValid(apiKeyField.getText())) {
+                apiKeyField.setValid();
+                setValid(true);
+            } else {
+                setValid(false);
+                apiKeyField.setInvalid("Must be a valid API Token");
+            }
+        });
+
+        hostsPanel = new JPanel("Approved Hostnames", parent, SWT.NONE, 2);
+        hostsTableModelEditor = new HostNameTableEditor(hostsPanel.getComposite());
+
+        sortPanel = new JPanel("Sort Outlines", parent, SWT.NONE, 1);
+        sortABC = new JCheckBox("Alphabetically sort contents of OpenAPI explorer outlines", sortPanel);
+
+        previewPanel = new JPanel("Preview", parent, SWT.NONE, 2);
+        new Label(previewPanel.getComposite(), SWT.NULL).setText("Default Preview Renderer");
+        previewComboBox = new JComboBox<>(previewPanel);
+        new Label(previewPanel.getComposite(), SWT.NULL).setText("Server Port");
+        serverPortTextField = new JTextField(previewPanel);
+        serverPortTextField.addValidationListener(() -> {
+            if (PreviewUtils.isPortValid(serverPortTextField.getText())) {
+                serverPortTextField.setValid();
+                setValid(true);
+            } else {
+                setValid(false);
+                serverPortTextField.setInvalid("Must be a valid port number");
+            }
+        });
+
+        securityAuditPanel = new JPanel("Security Audit", parent, SWT.NONE, 3);
+        new Label(securityAuditPanel.getComposite(), SWT.NULL).setText("Security Audit Token");
+        tokenTextArea = new JTextArea(securityAuditPanel);
+
+        cleanButton = new JButton("Clear", SWT.PUSH, securityAuditPanel);
+        GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_BEGINNING);
+        gd.widthHint = 90;
+        cleanButton.setLayoutData(gd);
+
+        String tokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
+        tokenTextArea.setText(StringUtils.isEmpty(tokenText) ? StringUtils.EMPTY : tokenText);
+        tokenTextArea.setEnabled(true);
+        tokenTextArea.getDocument().addDocumentListener(new DocumentAdapter() {
+            @Override
+            protected void textChanged(@NotNull DocumentEvent e) {
+                cleanButton.setEnabled(!StringUtils.isEmpty(getTokenText()));
+                isTokenCleaned = false;
+            }
+        });
+        cleanButton.setEnabled(!StringUtils.isEmpty(tokenText));
+        cleanButton.addActionListener(e -> {
+            tokenTextArea.setText(StringUtils.EMPTY);
+            cleanButton.setEnabled(false);
+            isTokenCleaned = true;
+        });
+
+        previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.0.settings"), 0);
+        previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.1.settings"), 1);
+
+        int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
+        previewComboBox.setSelectedIndex(rendererIndex);
+
+        int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
+        serverPortTextField.setText(String.valueOf(port));
+
+        sortABC.setSelected(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
+        return parent;
+    }
+
+    private String getTokenText() {
+        return StringUtils.strip(tokenTextArea.getText(), " \n");
+    }
+
+    @Nls
+    @Override
+    public String getDisplayName() {
+        return OpenApiBundle.message("openapi.config.display.name");
+    }
+
+    @Override
+    public String getHelpTopic() {
+        return null;
+    }
+
+    @Override
+    public JComponent createComponent() {
+        return tokenPanel;
+    }
+
+    @Override
+    public boolean isModified() {
+
+        if (isTokenCleaned) {
+            return true;
         }
-        else {
-          OpenApiUtils.getDomainName(configuredPlatformURL);
+        if (hostsTableModelEditor.isDirty()) {
+            return true;
         }
-        if (!Objects.equals(platformURL, configuredPlatformURL)) {
-          return true;
+        if (isSortABCModified()) {
+            return true;
         }
-      }
-      catch (URISyntaxException ignored) {
-        return false;
-      }
 
-      String platformAPIKey = getPlatformAPIKey();
-      String configuredPlatformAPIKey = apiKeyField.getText();
-      if (StringUtils.isEmpty(configuredPlatformAPIKey)) {
-        return false;
-      }
-      else if (PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
-              !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
-        return true;
-      }
+        String configuredTokenText = getTokenText();
+        String currentTokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
+        if (!Objects.equals(configuredTokenText, currentTokenText)) {
+            return true;
+        }
 
-    return false;
-  }
+        int configuredIndex = previewComboBox.getSelectedIndex();
+        int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
+        if (rendererIndex != configuredIndex) {
+            return true;
+        }
 
-  @Override
-  public void reset() {
-    PropertiesComponent pc = PropertiesComponent.getInstance();
-    tokenTextArea.setText(pc.getValue(SettingsKeys.TOKEN));
-    previewComboBox.setSelectedIndex(pc.getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX));
-    serverPortTextField.setText(String.valueOf(pc.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT)));
-    hostsTableModelEditor.reset();
-    sortABC.setSelected(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
-    platformURLField.setText(PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM));
-    apiKeyField.setText(getPlatformAPIKey());
-  }
+        int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
+        try {
+            int configuredPort = Integer.parseInt(serverPortTextField.getText());
+            if (PreviewUtils.isPortValid(configuredPort) && (port != configuredPort)) {
+                return true;
+            }
+        }
+        catch(NumberFormatException ignored) {
+            return false;
+        }
 
-  @Override
-  public void apply() {
+        if (isPlatformSettingsReset()) {
+            return true;
+        }
 
-    if (isTokenCleaned) {
-      PropertiesComponent.getInstance().unsetValue(SettingsKeys.TOKEN);
-    }
-    else {
-      String configuredTokenText = getTokenText();
-      String tokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
-      if (!Objects.equals(configuredTokenText, tokenText)) {
-        PropertiesComponent.getInstance().setValue(SettingsKeys.TOKEN, configuredTokenText);
-      }
-    }
-
-    int configuredIndex = previewComboBox.getSelectedIndex();
-    int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
-    if (rendererIndex != configuredIndex) {
-      PropertiesComponent.getInstance().setValue(PreviewKeys.RENDERER, configuredIndex, DEFAULT_RENDERER_INDEX);
-    }
-
-    int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
-    try {
-      int configuredPort = Integer.parseInt(serverPortTextField.getText());
-      if (port != configuredPort) {
-        PropertiesComponent.getInstance().setValue(PreviewKeys.PORT, configuredPort, DEFAULT_SERVER_PORT);
-        PreviewService.getInstance().restartServer();
-      }
-    }
-    catch(NumberFormatException ignored) {
-    }
-    hostsTableModelEditor.applyChanges();
-    if (isSortABCModified()) {
-        PropertiesComponent.getInstance().setValue(SettingsKeys.ABC_SORT, sortABC.isSelected());
-        notify(SettingsKeys.ABC_SORT);
-    }
-    
-    if (isPlatformSettingsReset()) {
-        PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, "");
-        notify(SettingsKeys.PLATFORM);
-        PlatformConnection.setPlatformAPIKey(null);
-        notify(SettingsKeys.API_KEY);
-      }
-      else {
         String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
         try {
-          String configuredPlatformURL = platformURLField.getText();
-          if (!StringUtils.isEmpty(configuredPlatformURL)) {
-            OpenApiUtils.getDomainName(configuredPlatformURL);
-            if (!Objects.equals(platformURL, configuredPlatformURL)) {
-              PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, platformURLField.getText());
-              notify(SettingsKeys.PLATFORM);
+            String configuredPlatformURL = platformURLField.getText();
+            if (StringUtils.isEmpty(configuredPlatformURL)) {
+                return false;
             }
-          }
+            else {
+                OpenApiUtils.getDomainName(configuredPlatformURL);
+            }
+            if (!Objects.equals(platformURL, configuredPlatformURL)) {
+                return true;
+            }
         }
-        catch (URISyntaxException ignored) {}
+        catch (URISyntaxException ignored) {
+            return false;
+        }
 
         String platformAPIKey = getPlatformAPIKey();
         String configuredPlatformAPIKey = apiKeyField.getText();
-        if (!StringUtils.isEmpty(configuredPlatformAPIKey) &&
-                PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
+        if (StringUtils.isEmpty(configuredPlatformAPIKey)) {
+            return false;
+        }
+        else if (PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
                 !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
-          PlatformConnection.setPlatformAPIKey(configuredPlatformAPIKey);
-          notify(SettingsKeys.API_KEY);
+            return true;
         }
-      }
 
-      sendPropertiesUpdatedEvent();
-  }
-  
-  private boolean isSortABCModified() {
-      boolean configuredSortABC = PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT);
-      return configuredSortABC != sortABC.isSelected();
-  }
-  
-  private void notify(String key) {
-      keysToNotify.add(key);
-  }
-  
-  private void sendPropertiesUpdatedEvent() {
-    ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
-    if (projectManager != null) {
-      Project [] projects = projectManager.getOpenProjects();
-      Set<String> keysSet = new HashSet<>(keysToNotify);
-      if (keysSet.contains(SettingsKeys.PLATFORM) && keysSet.contains(SettingsKeys.API_KEY)) {
-        keysToNotify.remove(SettingsKeys.API_KEY);
-        keysToNotify.remove(SettingsKeys.PLATFORM);
-        keysToNotify.add(SettingsKeys.PLATFORM_ALL);
-      }
-      for (String key : keysToNotify) {
-        for (Project project : projects) {
-          if (!project.isDisposed()) {
-            project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(key);
-          }
-        }
-      }
-      keysToNotify.clear();
+        return false;
     }
-  }
 
-  private boolean isPlatformSettingsEmpty() {
-    return StringUtils.isEmpty(platformURLField.getText()) && StringUtils.isEmpty(apiKeyField.getText());
-  }
+    @Override
+    public void reset() {
+        PropertiesComponent pc = PropertiesComponent.getInstance();
+        tokenTextArea.setText(pc.getValue(SettingsKeys.TOKEN));
+        previewComboBox.setSelectedIndex(pc.getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX));
+        serverPortTextField.setText(String.valueOf(pc.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT)));
+        hostsTableModelEditor.reset();
+        sortABC.setSelected(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
+        platformURLField.setText(PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM));
+        apiKeyField.setText(getPlatformAPIKey());
+    }
 
-  private boolean isPlatformSettingsReset() {
-	if (isPlatformSettingsEmpty()) {
-	    String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
-	    return StringUtils.isNotEmpty(platformURL) && StringUtils.isNotEmpty(getPlatformAPIKey());	  
-	}
-	return false;
-  }
+    @Override
+    public void apply() {
 
-  private String getPlatformAPIKey() {
-    String password = PlatformConnection.getPlatformAPIKey();
-    return StringUtils.isEmpty(password) ? StringUtils.EMPTY : password;
-  }
+        if (isTokenCleaned) {
+            PropertiesComponent.getInstance().unsetValue(SettingsKeys.TOKEN);
+        }
+        else {
+            String configuredTokenText = getTokenText();
+            String tokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
+            if (!Objects.equals(configuredTokenText, tokenText)) {
+                PropertiesComponent.getInstance().setValue(SettingsKeys.TOKEN, configuredTokenText);
+            }
+        }
+
+        int configuredIndex = previewComboBox.getSelectedIndex();
+        int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
+        if (rendererIndex != configuredIndex) {
+            PropertiesComponent.getInstance().setValue(PreviewKeys.RENDERER, configuredIndex, DEFAULT_RENDERER_INDEX);
+        }
+
+        int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
+        try {
+            int configuredPort = Integer.parseInt(serverPortTextField.getText());
+            if (port != configuredPort) {
+                PropertiesComponent.getInstance().setValue(PreviewKeys.PORT, configuredPort, DEFAULT_SERVER_PORT);
+                PreviewService.getInstance().restartServer();
+            }
+        }
+        catch(NumberFormatException ignored) {
+        }
+        hostsTableModelEditor.applyChanges();
+        if (isSortABCModified()) {
+            PropertiesComponent.getInstance().setValue(SettingsKeys.ABC_SORT, sortABC.isSelected());
+            notify(SettingsKeys.ABC_SORT);
+        }
+
+        if (isPlatformSettingsReset()) {
+            PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, "");
+            notify(SettingsKeys.PLATFORM);
+            PlatformConnection.setPlatformAPIKey(null);
+            notify(SettingsKeys.API_KEY);
+        }
+        else {
+            String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+            try {
+                String configuredPlatformURL = platformURLField.getText();
+                if (!StringUtils.isEmpty(configuredPlatformURL)) {
+                    OpenApiUtils.getDomainName(configuredPlatformURL);
+                    if (!Objects.equals(platformURL, configuredPlatformURL)) {
+                        PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, platformURLField.getText());
+                        notify(SettingsKeys.PLATFORM);
+                    }
+                }
+            }
+            catch (URISyntaxException ignored) {}
+
+            String platformAPIKey = getPlatformAPIKey();
+            String configuredPlatformAPIKey = apiKeyField.getText();
+            if (!StringUtils.isEmpty(configuredPlatformAPIKey) &&
+                    PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
+                    !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
+                PlatformConnection.setPlatformAPIKey(configuredPlatformAPIKey);
+                notify(SettingsKeys.API_KEY);
+            }
+        }
+
+        sendPropertiesUpdatedEvent();
+    }
+
+    private boolean isSortABCModified() {
+        boolean configuredSortABC = PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT);
+        return configuredSortABC != sortABC.isSelected();
+    }
+
+    private void notify(String key) {
+        keysToNotify.add(key);
+    }
+
+    private void sendPropertiesUpdatedEvent() {
+        ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
+        if (projectManager != null) {
+            Project [] projects = projectManager.getOpenProjects();
+            Set<String> keysSet = new HashSet<>(keysToNotify);
+            if (keysSet.contains(SettingsKeys.PLATFORM) && keysSet.contains(SettingsKeys.API_KEY)) {
+                keysToNotify.remove(SettingsKeys.API_KEY);
+                keysToNotify.remove(SettingsKeys.PLATFORM);
+                keysToNotify.add(SettingsKeys.PLATFORM_ALL);
+            }
+            for (String key : keysToNotify) {
+                for (Project project : projects) {
+                    if (!project.isDisposed()) {
+                        project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(key);
+                    }
+                }
+            }
+            keysToNotify.clear();
+        }
+    }
+
+    private boolean isPlatformSettingsEmpty() {
+        return StringUtils.isEmpty(platformURLField.getText()) && StringUtils.isEmpty(apiKeyField.getText());
+    }
+
+    private boolean isPlatformSettingsReset() {
+        if (isPlatformSettingsEmpty()) {
+            String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+            return StringUtils.isNotEmpty(platformURL) && StringUtils.isNotEmpty(getPlatformAPIKey());
+        }
+        return false;
+    }
+
+    private String getPlatformAPIKey() {
+        String password = PlatformConnection.getPlatformAPIKey();
+        return StringUtils.isEmpty(password) ? StringUtils.EMPTY : password;
+    }
 }
 

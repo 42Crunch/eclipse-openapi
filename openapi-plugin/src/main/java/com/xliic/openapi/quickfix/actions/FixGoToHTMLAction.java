@@ -16,25 +16,25 @@ import com.xliic.openapi.topic.AuditListener;
 
 public class FixGoToHTMLAction extends FixAction {
 
-	private final List<Issue> issues;
+    private final List<Issue> issues;
 
-	public FixGoToHTMLAction(List<Issue> issues) {
-		super(3, OpenApiBundle.message("openapi.audit.intention.name"), null);
-		this.issues = issues;
-	}
+    public FixGoToHTMLAction(List<Issue> issues) {
+        super(3, OpenApiBundle.message("openapi.audit.intention.name"), null);
+        this.issues = issues;
+    }
 
-	@Override
-	public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
-		return true;
-	}
+    @Override
+    public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+        return true;
+    }
 
-	@Override
-	public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
-		SwingUtilities.invokeLater(() -> {
-        	// Eclipse Development Note 
-        	// Activate as the view may be not visible now
-        	OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
+    @Override
+    public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
+        SwingUtilities.invokeLater(() -> {
+            // Eclipse Development Note
+            // Activate as the view may be not visible now
+            OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
             project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleViewDetails(file.getVirtualFile(), issues);
         });
-	}
+    }
 }

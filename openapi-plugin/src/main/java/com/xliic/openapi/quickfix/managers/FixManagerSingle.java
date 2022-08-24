@@ -70,9 +70,9 @@ public class FixManagerSingle extends FixManager {
     public String getTitle() {
         return quickFix.getTitle();
     }
-    
-	@Override
-	public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
-		return pointer.equals(issue.getPointer()) && label.equals(issue.getHighlightInfoLabel());
-	}
+
+    @Override
+    public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
+        return pointer.equals(issue.getPointer()) && label.equals(issue.getHighlightInfoLabel());
+    }
 }

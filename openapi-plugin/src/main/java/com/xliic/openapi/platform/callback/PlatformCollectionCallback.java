@@ -15,8 +15,8 @@ import java.util.List;
 public class PlatformCollectionCallback extends SuccessASTResponseWithFailureDecoratorCallback {
 
     public PlatformCollectionCallback(@NotNull Project project,
-                                      @NotNull Tree tree,
-                                      @NotNull DefaultMutableTreeNode parentDMTN) {
+            @NotNull Tree tree,
+            @NotNull DefaultMutableTreeNode parentDMTN) {
         super(project, tree, parentDMTN);
     }
 

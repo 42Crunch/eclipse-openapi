@@ -57,6 +57,7 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         return project.getService(BundleService.class);
     }
 
+    @Override
     public boolean isPartOfBundleWithExtRefs(@NotNull String fileName) {
         for (BundleResult result : bundleResultMap.values()) {
             if (result.getBundledFiles().contains(fileName) && !result.getActiveURLs().isEmpty()) {
@@ -66,6 +67,7 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         return false;
     }
 
+    @Override
     public boolean isFileBeingBundled(@NotNull String fileName) {
         if (bundleErrorsMap.containsKey(fileName)) {
             return true;
@@ -154,6 +156,7 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         }
     }
 
+    @Override
     public void scheduleToBundleByHost(@NotNull String hostname) {
         for (BundleResult result : bundleResultMap.values()) {
             if (result.hasBundleHost(hostname)) {
@@ -168,6 +171,7 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         }
     }
 
+    @Override
     public void scheduleToBundleByHosts(@NotNull Set<String> hostnames) {
         Set<String> filesToBundle = new HashSet<>();
         for (String hostname : hostnames) {
@@ -239,6 +243,7 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         });
     }
 
+    @Override
     public boolean hasBundles() {
         return bundleResultMap.size() > 0;
     }
@@ -264,9 +269,9 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         }
         clearBundleErrorsMap(bundledFile);
         UIUtil.invokeLaterIfNeeded(() -> {
-        	if (!project.isDisposed()) {
-        		ProjectView.getInstance(project).refresh();
-        	}
+            if (!project.isDisposed()) {
+                ProjectView.getInstance(project).refresh();
+            }
         });
     }
 
@@ -277,10 +282,12 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         bundleErrorsMap.entrySet().removeIf(entry -> entry.getValue().isEmpty());
     }
 
+    @Override
     public BundleResult getBundle(@NotNull String rootFileName) {
         return bundleResultMap.get(rootFileName);
     }
 
+    @Override
     public Map<String, Set<BundleError>> getBundleErrorsMap() {
         return bundleErrorsMap;
     }
@@ -369,6 +376,7 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         return false;
     }
 
+    @Override
     public void notifyOfErrors(@NotNull String rootFileName) {
         BundleResult br = bundleResultMap.get(rootFileName);
         Set<BundleError> bundleErrors = br.getBundleErrors();

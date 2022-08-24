@@ -10,47 +10,47 @@ import com.xliic.core.credentialStore.CredentialAttributes;
 import com.xliic.core.credentialStore.Credentials;
 
 public class PasswordSafe {
-	
-	private static final String NODE_ID = "token";
-	
-	private static PasswordSafe manager;
-	private final ISecurePreferences root;
 
-	private PasswordSafe() {
-		root = SecurePreferencesFactory.getDefault();
-	}
+    private static final String NODE_ID = "token";
 
-	public static PasswordSafe getInstance() {
-		if (manager == null) {
-			manager = new PasswordSafe();
-		}
-		return manager;
-	}
+    private static PasswordSafe manager;
+    private final ISecurePreferences root;
 
-	public void set(@NotNull CredentialAttributes credentialAttributes, @NotNull Credentials credentials) {
-		String value = credentials.getPassword();
-		String name = credentialAttributes.getServiceName();
-	    ISecurePreferences node = root.node(name);
-		if (value == null) {
-			node.remove(NODE_ID);
-		} else {
-		    try {
-		    	node.put(NODE_ID, value, true);
-		    } catch (StorageException e) {
-		        e.printStackTrace();
-		    }
-		}
-	}
+    private PasswordSafe() {
+        root = SecurePreferencesFactory.getDefault();
+    }
 
-	@Nullable
-	public String getPassword(@NotNull CredentialAttributes credentialAttributes) {
-		String name = credentialAttributes.getServiceName();
-	    ISecurePreferences node = root.node(name);
-		try { 
-			return node.get(NODE_ID, null);
-		} catch (StorageException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    public static PasswordSafe getInstance() {
+        if (manager == null) {
+            manager = new PasswordSafe();
+        }
+        return manager;
+    }
+
+    public void set(@NotNull CredentialAttributes credentialAttributes, @NotNull Credentials credentials) {
+        String value = credentials.getPassword();
+        String name = credentialAttributes.getServiceName();
+        ISecurePreferences node = root.node(name);
+        if (value == null) {
+            node.remove(NODE_ID);
+        } else {
+            try {
+                node.put(NODE_ID, value, true);
+            } catch (StorageException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Nullable
+    public String getPassword(@NotNull CredentialAttributes credentialAttributes) {
+        String name = credentialAttributes.getServiceName();
+        ISecurePreferences node = root.node(name);
+        try {
+            return node.get(NODE_ID, null);
+        } catch (StorageException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

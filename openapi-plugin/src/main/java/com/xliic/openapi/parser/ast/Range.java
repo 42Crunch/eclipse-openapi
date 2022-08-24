@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public class Range implements Comparable<Range> {
 
-	// LF  (NL line feed, new line)
-	public static final int ASCII_LF = 10;
-	// CR  (carriage return)  
-	public static final int ASCII_CR = 13;
+    // LF  (NL line feed, new line)
+    public static final int ASCII_LF = 10;
+    // CR  (carriage return)
+    public static final int ASCII_CR = 13;
 
     private final int line;
     private final int column;
@@ -167,17 +167,17 @@ public class Range implements Comparable<Range> {
     }
 
     private static boolean hasCRLF(Mark mark) {
-    	int ch;
-    	int[] buffer = mark.getBuffer();
+        int ch;
+        int[] buffer = mark.getBuffer();
         for(int i = 0 ; i < buffer.length ; i++) {
-        	ch = buffer[i];
+            ch = buffer[i];
             if (ch == ASCII_LF) {
-            	return false;
+                return false;
             } else if (ch == ASCII_CR) {
-            	int j = i + 1;
-            	if (j < buffer.length && buffer[j] == ASCII_LF) {
-            		return true;
-           		}
+                int j = i + 1;
+                if (j < buffer.length && buffer[j] == ASCII_LF) {
+                    return true;
+                }
             }
         }
         return false;

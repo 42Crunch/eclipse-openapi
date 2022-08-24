@@ -47,197 +47,197 @@ import com.xliic.openapi.topic.SettingsListener;
 @SuppressWarnings("restriction")
 public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
 
-	public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";
-	public static final String IGNORE_SHOW_PERSPECTIVE_ONCE = "openapi.ignore.show.perspective.once1";
-	private static final String PLATFORM_MULE_PRODUCT_NAME = "Anypoint Studio";
-	
-	private static OpenAPIAbstractUIPlugin plugin;
-	private static Project project = Project.getInstance();
+    public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";
+    public static final String IGNORE_SHOW_PERSPECTIVE_ONCE = "openapi.ignore.show.perspective.once1";
+    private static final String PLATFORM_MULE_PRODUCT_NAME = "Anypoint Studio";
 
-	private IPartListener partListener;
-	private OpenAPIBulkFileListener resourceListener;
-	private OpenAPIStartupActivity startupActivity;
-	private HighlightingManager highlightingManager;
-	private ProjectManagerListener projectManagerListener;
-	private AnActionUpdater actionUpdater;
-	private boolean isMuleIDE;
-	private Version version;
-	private String pluginId;
+    private static OpenAPIAbstractUIPlugin plugin;
+    private static Project project = Project.getInstance();
 
-	public OpenAPIAbstractUIPlugin() {
-		plugin = this;
-		startupActivity = new OpenAPIStartupActivity();
-		highlightingManager = HighlightingManager.getInstance(project);
-		partListener = new OpenAPIPartListener(project);
-		resourceListener = new OpenAPIBulkFileListener(project);
-		projectManagerListener = new OpenAPIProjectManagerListener();
-		actionUpdater = new AnActionUpdater();
-	}
+    private IPartListener partListener;
+    private OpenAPIBulkFileListener resourceListener;
+    private OpenAPIStartupActivity startupActivity;
+    private HighlightingManager highlightingManager;
+    private ProjectManagerListener projectManagerListener;
+    private AnActionUpdater actionUpdater;
+    private boolean isMuleIDE;
+    private Version version;
+    private String pluginId;
 
-	@Override
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-		pluginId = (context == null) ? "unknown" : context.getBundle().getSymbolicName();
-		version = (context == null) ? Version.emptyVersion : context.getBundle().getVersion();
-		startupActivity.runActivity(project);
-		project.getMessageBus().connect().subscribe(FileListener.TOPIC, actionUpdater);
-		project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, actionUpdater);
-	}
+    public OpenAPIAbstractUIPlugin() {
+        plugin = this;
+        startupActivity = new OpenAPIStartupActivity();
+        highlightingManager = HighlightingManager.getInstance(project);
+        partListener = new OpenAPIPartListener(project);
+        resourceListener = new OpenAPIBulkFileListener(project);
+        projectManagerListener = new OpenAPIProjectManagerListener();
+        actionUpdater = new AnActionUpdater();
+    }
 
-	public void runAsEarlyStartup() {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		workbench.getDisplay().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-				if (window != null) {
-					window.getPartService().addPartListener(projectManagerListener);
-					window.getPartService().addPartListener(partListener);
-					ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceListener,
-							IResourceChangeEvent.POST_CHANGE);
-					IWorkbenchPage page = window.getActivePage();
-					if (page != null) {
-						IEditorPart editor = page.getActiveEditor();
-						if (editor != null) {
-							IWorkbenchPart part = editor.getEditorSite().getPart();
-							if (part != null) {
-								partListener.partOpened(part);
-							}
-						}
-					}
-				}
-				setPreference();
-				handleEditorsAtStartup();
-				handleTempFilesAtStartup();
-				EclipseWorkbenchUtil.updateActionBars();
-			}
-		});
-    	IProduct product = Platform.getProduct();
-    	isMuleIDE = isMuleProductName(product) && isMuleProductId(product);
-	}
+    @Override
+    public void start(BundleContext context) throws Exception {
+        super.start(context);
+        pluginId = (context == null) ? "unknown" : context.getBundle().getSymbolicName();
+        version = (context == null) ? Version.emptyVersion : context.getBundle().getVersion();
+        startupActivity.runActivity(project);
+        project.getMessageBus().connect().subscribe(FileListener.TOPIC, actionUpdater);
+        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, actionUpdater);
+    }
 
-	@Override
-	public void stop(BundleContext context) throws Exception {
-		try {
-			project.dispose();
-			highlightingManager.dispose();
-			removeListeners();
-			partListener = null;
-			resourceListener = null;
-			startupActivity = null;
-			highlightingManager = null;
-			projectManagerListener = null;
-			actionUpdater = null;
-			version = null;
-			plugin = null;
-		} finally {
-			super.stop(context);
-		}
-	}
+    public void runAsEarlyStartup() {
+        IWorkbench workbench = PlatformUI.getWorkbench();
+        workbench.getDisplay().asyncExec(new Runnable() {
+            @Override
+            public void run() {
+                IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+                if (window != null) {
+                    window.getPartService().addPartListener(projectManagerListener);
+                    window.getPartService().addPartListener(partListener);
+                    ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceListener,
+                            IResourceChangeEvent.POST_CHANGE);
+                    IWorkbenchPage page = window.getActivePage();
+                    if (page != null) {
+                        IEditorPart editor = page.getActiveEditor();
+                        if (editor != null) {
+                            IWorkbenchPart part = editor.getEditorSite().getPart();
+                            if (part != null) {
+                                partListener.partOpened(part);
+                            }
+                        }
+                    }
+                }
+                setPreference();
+                handleEditorsAtStartup();
+                handleTempFilesAtStartup();
+                EclipseWorkbenchUtil.updateActionBars();
+            }
+        });
+        IProduct product = Platform.getProduct();
+        isMuleIDE = isMuleProductName(product) && isMuleProductId(product);
+    }
 
-	private void removeListeners() {
-		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		if (window != null) {
-			window.getPartService().removePartListener(partListener);
-		}
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceListener);
-	}
+    @Override
+    public void stop(BundleContext context) throws Exception {
+        try {
+            project.dispose();
+            highlightingManager.dispose();
+            removeListeners();
+            partListener = null;
+            resourceListener = null;
+            startupActivity = null;
+            highlightingManager = null;
+            projectManagerListener = null;
+            actionUpdater = null;
+            version = null;
+            plugin = null;
+        } finally {
+            super.stop(context);
+        }
+    }
 
-	public static OpenAPIAbstractUIPlugin getInstance() {
-		return plugin;
-	}
+    private void removeListeners() {
+        IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+        if (window != null) {
+            window.getPartService().removePartListener(partListener);
+        }
+        ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceListener);
+    }
 
-	public boolean isMuleIDE() {
-		return isMuleIDE;
-	}
-	
-	@NotNull
-	public String getPluginId() {
-		return pluginId;
-	}
-	
-	@NotNull
-	public Version getVersion() {
-		return version;
-	}
+    public static OpenAPIAbstractUIPlugin getInstance() {
+        return plugin;
+    }
 
-	private void setPreference() {
-		IPreferenceStore idePreferenceStore = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
-		String value = idePreferenceStore.getString(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY);
-		if (!TEXT_EDITOR_STRATEGY_PREFERENCE_KEY.equals(value)) {
-			idePreferenceStore.setValue(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY,
-					TEXT_EDITOR_STRATEGY_PREFERENCE_KEY);
-		}
-	}
+    public boolean isMuleIDE() {
+        return isMuleIDE;
+    }
 
-	private static boolean isMuleProductName(IProduct product) {
-    	return PLATFORM_MULE_PRODUCT_NAME.equalsIgnoreCase(product.getName());
-	}
+    @NotNull
+    public String getPluginId() {
+        return pluginId;
+    }
 
-	private static boolean isMuleProductId(IProduct product) {
-		String id = product.getId();
-    	return id != null && id.contains("mule");
-	}
-	
-	private static void handleTempFilesAtStartup() {
-		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (IProject project : projects) {
-			if (project.exists()) {
-				Boolean[] projToUpdate = { false };
-				File file = TempFileUtils.getProjectExtRefTempDir(project);
-				if (file != null && file.exists()) {
-			    	try {
-				        Files.walkFileTree(file.toPath(), new SimpleFileVisitor<>() {
-				            @Override
-				            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-				                return FileVisitResult.CONTINUE;
-				            }
-				            @Override
-				            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-								if (TempFileUtils.isExtRefFile(new VirtualFile(file.toFile()))) {
-					            	try {
-			            				file.toFile().setWritable(true);
-					            		Files.delete(file);
-					            		projToUpdate[0] = true;
-					            	}
-					            	catch (IOException e) {
-					            		e.printStackTrace();
-					            	}
-								}
-				            	return FileVisitResult.CONTINUE;
-				            }
-				        });
-			    	}
-			    	catch (IOException e) {
-			    		e.printStackTrace();
-			    	}
-				}
-				if (projToUpdate[0]) {
-					EclipseUtil.refreshProject(project);
-				}
-			}
-		}	
-	}
+    @NotNull
+    public Version getVersion() {
+        return version;
+    }
 
-	private static void handleEditorsAtStartup() {
-		for (IWorkbenchPage page : EclipseUtil.getAllSupportedPages()) {
-			for (IEditorReference ref : page.getEditorReferences()) {
-				try {
-					VirtualFile file = EclipseUtil.getVirtualFile(ref.getEditorInput());
-					if (TempFileUtils.isExtRefFile(file)) {
-						page.closeEditor(ref.getEditor(true), false);
-					} else if (TempFileUtils.isPlatformFile(file)) {
-						PlatformService platformService = PlatformService.getInstance(project);
-						// Eclipse Development Note 
-						// Closing editor will schedule file closing routine in AST thread
-						// Only when it is finished we can continue with reopening, so here only schedule it
-						platformService.sheduleToReopenPlatformFile(file);
-						page.closeEditor(ref.getEditor(true), false);
-					}
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+    private void setPreference() {
+        IPreferenceStore idePreferenceStore = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
+        String value = idePreferenceStore.getString(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY);
+        if (!TEXT_EDITOR_STRATEGY_PREFERENCE_KEY.equals(value)) {
+            idePreferenceStore.setValue(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY,
+                    TEXT_EDITOR_STRATEGY_PREFERENCE_KEY);
+        }
+    }
+
+    private static boolean isMuleProductName(IProduct product) {
+        return PLATFORM_MULE_PRODUCT_NAME.equalsIgnoreCase(product.getName());
+    }
+
+    private static boolean isMuleProductId(IProduct product) {
+        String id = product.getId();
+        return id != null && id.contains("mule");
+    }
+
+    private static void handleTempFilesAtStartup() {
+        IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+        for (IProject project : projects) {
+            if (project.exists()) {
+                Boolean[] projToUpdate = { false };
+                File file = TempFileUtils.getProjectExtRefTempDir(project);
+                if (file != null && file.exists()) {
+                    try {
+                        Files.walkFileTree(file.toPath(), new SimpleFileVisitor<>() {
+                            @Override
+                            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                                return FileVisitResult.CONTINUE;
+                            }
+                            @Override
+                            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                                if (TempFileUtils.isExtRefFile(new VirtualFile(file.toFile()))) {
+                                    try {
+                                        file.toFile().setWritable(true);
+                                        Files.delete(file);
+                                        projToUpdate[0] = true;
+                                    }
+                                    catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                return FileVisitResult.CONTINUE;
+                            }
+                        });
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (projToUpdate[0]) {
+                    EclipseUtil.refreshProject(project);
+                }
+            }
+        }
+    }
+
+    private static void handleEditorsAtStartup() {
+        for (IWorkbenchPage page : EclipseUtil.getAllSupportedPages()) {
+            for (IEditorReference ref : page.getEditorReferences()) {
+                try {
+                    VirtualFile file = EclipseUtil.getVirtualFile(ref.getEditorInput());
+                    if (TempFileUtils.isExtRefFile(file)) {
+                        page.closeEditor(ref.getEditor(true), false);
+                    } else if (TempFileUtils.isPlatformFile(file)) {
+                        PlatformService platformService = PlatformService.getInstance(project);
+                        // Eclipse Development Note
+                        // Closing editor will schedule file closing routine in AST thread
+                        // Only when it is finished we can continue with reopening, so here only schedule it
+                        platformService.sheduleToReopenPlatformFile(file);
+                        page.closeEditor(ref.getEditor(true), false);
+                    }
+                } catch (PartInitException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

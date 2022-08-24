@@ -4,20 +4,20 @@ import org.jetbrains.annotations.NotNull;
 
 public class VFileEvent {
 
-	private final VirtualFile newFile;
-	private final VirtualFile oldFile;
+    private final VirtualFile newFile;
+    private final VirtualFile oldFile;
 
-	public VFileEvent(VirtualFile newFile, VirtualFile oldFile) {
-		this.newFile = newFile;
-		this.oldFile = oldFile;
-	}
+    public VFileEvent(VirtualFile newFile, VirtualFile oldFile) {
+        this.newFile = newFile;
+        this.oldFile = oldFile;
+    }
 
-	public VirtualFile getFile() {
-		return newFile;
-	}
+    public VirtualFile getFile() {
+        return newFile;
+    }
 
-	@NotNull
-	public String getOldPath() {
-		return oldFile.getPath();
-	}
+    @NotNull
+    public String getOldPath() {
+        return oldFile.getPath();
+    }
 }

@@ -4,51 +4,51 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Ref<T> {
-	
-	  private T myValue;
 
-	  public Ref() { }
+    private T myValue;
 
-	  public Ref(@Nullable T value) {
-	    myValue = value;
-	  }
+    public Ref() { }
 
-	  public final boolean isNull() {
-	    return myValue == null;
-	  }
+    public Ref(@Nullable T value) {
+        myValue = value;
+    }
 
-	  public final T get() {
-	    return myValue;
-	  }
+    public final boolean isNull() {
+        return myValue == null;
+    }
 
-	  public final void set(@Nullable T value) {
-	    myValue = value;
-	  }
+    public final T get() {
+        return myValue;
+    }
 
-	  public final boolean setIfNull(@Nullable T value) {
-	    boolean result = myValue == null && value != null;
-	    if (result) {
-	      myValue = value;
-	    }
-	    return result;
-	  }
+    public final void set(@Nullable T value) {
+        myValue = value;
+    }
 
-	  @NotNull
-	  public static <T> Ref<T> create() {
-	    return new Ref<T>();
-	  }
+    public final boolean setIfNull(@Nullable T value) {
+        boolean result = myValue == null && value != null;
+        if (result) {
+            myValue = value;
+        }
+        return result;
+    }
 
-	  public static <T> Ref<T> create(@Nullable T value) {
-	    return new Ref<T>(value);
-	  }
+    @NotNull
+    public static <T> Ref<T> create() {
+        return new Ref<T>();
+    }
 
-	  @Nullable
-	  public static <T> T deref(@Nullable Ref<T> ref) {
-	    return ref == null ? null : ref.get();
-	  }
+    public static <T> Ref<T> create(@Nullable T value) {
+        return new Ref<T>(value);
+    }
 
-	  @Override
-	  public String toString() {
-	    return String.valueOf(myValue);
-	  }
-	}
+    @Nullable
+    public static <T> T deref(@Nullable Ref<T> ref) {
+        return ref == null ? null : ref.get();
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(myValue);
+    }
+}

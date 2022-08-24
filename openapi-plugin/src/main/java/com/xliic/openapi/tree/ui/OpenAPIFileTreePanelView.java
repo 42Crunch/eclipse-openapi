@@ -11,12 +11,12 @@ import com.xliic.openapi.ToolWindowId;
 
 public class OpenAPIFileTreePanelView extends PanelViewPart {
 
-	public OpenAPIFileTreePanelView() {
-		super(ToolWindowId.OPEN_API);
-	}
+    public OpenAPIFileTreePanelView() {
+        super(ToolWindowId.OPEN_API);
+    }
 
-	@Override
-	protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
-		return new OpenApiFileTreePanel(project, window, parent);
-	}
+    @Override
+    protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
+        return new OpenApiFileTreePanel(project, window, parent);
+    }
 }

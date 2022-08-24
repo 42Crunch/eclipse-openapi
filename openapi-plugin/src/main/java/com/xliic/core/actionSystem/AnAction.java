@@ -6,23 +6,23 @@ import org.eclipse.core.commands.ExecutionException;
 
 public abstract class AnAction extends AbstractHandler {
 
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		actionPerformed(new AnActionEvent(event));
-		return null;
-	}
-	
-	@Override
-	public void setEnabled(Object evaluationContext) {
-		AnActionEvent event = new AnActionEvent(evaluationContext); 
-		update(event);
-		boolean state = event.getPresentation().isEnabled();
-		if (state != super.isEnabled()) {
-			setBaseEnabled(state);
-		}
-	}
+    @Override
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+        actionPerformed(new AnActionEvent(event));
+        return null;
+    }
 
-	public abstract void update(AnActionEvent event);
+    @Override
+    public void setEnabled(Object evaluationContext) {
+        AnActionEvent event = new AnActionEvent(evaluationContext);
+        update(event);
+        boolean state = event.getPresentation().isEnabled();
+        if (state != super.isEnabled()) {
+            setBaseEnabled(state);
+        }
+    }
 
-	public abstract void actionPerformed(AnActionEvent event);
+    public abstract void update(AnActionEvent event);
+
+    public abstract void actionPerformed(AnActionEvent event);
 }

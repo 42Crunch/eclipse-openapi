@@ -4,7 +4,7 @@ import com.xliic.openapi.quickfix.managers.FixManager;
 
 public class FixCombinedAction extends FixAction {
 
-	public FixCombinedAction(FixManager provider) {
-		super(1, provider.getTitle(), provider);
-	}
+    public FixCombinedAction(FixManager provider) {
+        super(1, provider.getTitle(), provider);
+    }
 }

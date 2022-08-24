@@ -5,16 +5,16 @@ import com.xliic.openapi.quickfix.FixItem;
 
 public class DefaultDocumentUpdater extends DocumentUpdater {
 
-	public DefaultDocumentUpdater(Editor editor) {
-		super(editor, null, null);
-	}
+    public DefaultDocumentUpdater(Editor editor) {
+        super(editor, null, null);
+    }
 
-	@Override
-	public DocumentUpdate process(FixItem item) {
-		return null;
-	}
+    @Override
+    public DocumentUpdate process(FixItem item) {
+        return null;
+    }
 
-	@Override
-	public void apply(DocumentUpdate update) {
-	}
+    @Override
+    public void apply(DocumentUpdate update) {
+    }
 }

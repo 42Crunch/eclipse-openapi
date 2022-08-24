@@ -65,8 +65,8 @@ public class FixManagerSchemaInline extends FixManager {
         return TITLE;
     }
 
-	@Override
-	public boolean isResponsibleFor(String pointer, String label) {
-		return pointer.equals(issue.getPointer()) && label.startsWith(issue.getDescription());
-	}
+    @Override
+    public boolean isResponsibleFor(String pointer, String label) {
+        return pointer.equals(issue.getPointer()) && label.startsWith(issue.getDescription());
+    }
 }

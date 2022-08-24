@@ -25,26 +25,26 @@ import java.util.stream.Stream;
 
 public class TempFileUtils {
 
-	private static final String PROJECT_TMP_DIR = "tmp-xliic";
+    private static final String PROJECT_TMP_DIR = "tmp-xliic";
     private static final String PLATFORM_SUB_DIR = "platform";
     private static final String EXT_REF_SUB_DIR = "refs";
     private static final String AUDIT_SUB_DIR = "audit";
 
     public static VirtualFile createPlatformFile(@NotNull Object requestor,
-                                                 @NotNull String fileName,
-                                                 @NotNull String text) {
+            @NotNull String fileName,
+            @NotNull String text) {
         try {
-        	IProject project = EclipseUtil.getTempProject();
-        	if (project == null) {
-        		// Eclipse Development Note 
-        		// The project creation might have been failed due to an unexpected reason
-        		// Try to recreate it here on demand to not prevent platform file management
-        		EclipseUtil.createTempProject();
-        		project = EclipseUtil.getTempProject();
-        		if (project == null) {
-        			return null;
-        		}
-        	}
+            IProject project = EclipseUtil.getTempProject();
+            if (project == null) {
+                // Eclipse Development Note
+                // The project creation might have been failed due to an unexpected reason
+                // Try to recreate it here on demand to not prevent platform file management
+                EclipseUtil.createTempProject();
+                project = EclipseUtil.getTempProject();
+                if (project == null) {
+                    return null;
+                }
+            }
             File pluginTempDir = createProjectTempDirIfMissing(project, true);
             final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
             if (rootDir != null) {
@@ -70,8 +70,8 @@ public class TempFileUtils {
     }
 
     public static VirtualFile createExtRefFile(@NotNull Object requestor,
-                                               @NotNull String fileName,
-                                               @NotNull String text) {
+            @NotNull String fileName,
+            @NotNull String text) {
         try {
             File pluginTempDir = createProjectTempDirIfMissing((IProject) requestor, false);
             final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
@@ -111,7 +111,7 @@ public class TempFileUtils {
         return isTempFileInSubDir(file, PLATFORM_SUB_DIR);
     }
 
-    // Eclipse Development Note 
+    // Eclipse Development Note
     // No dead files exist, thus always return false
     // Handle all actions with temporary files at startup time
     public static boolean isPluginTempDeadFile(@NotNull VirtualFile file) {
@@ -121,11 +121,11 @@ public class TempFileUtils {
     public static boolean isPluginPlatformTempDeadFile(@NotNull VirtualFile file) {
         return false;
     }
-    
+
     public static void createTextResource(@NotNull File dir,
-                                          @NotNull String basePath,
-                                          @NotNull String prefix,
-                                          @NotNull String suffix) throws IOException {
+            @NotNull String basePath,
+            @NotNull String prefix,
+            @NotNull String suffix) throws IOException {
         ClassLoader loader = OpenApiUtils.class.getClassLoader();
         InputStream inputStream = ResourceUtil.getResourceAsStream(loader, basePath, prefix + suffix);
         Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
@@ -170,58 +170,58 @@ public class TempFileUtils {
     }
 
     private static boolean isTempFileInSubDir(@NotNull VirtualFile file, @NotNull String subDir) {
-    	if (PLATFORM_SUB_DIR.equals(subDir)) {
+        if (PLATFORM_SUB_DIR.equals(subDir)) {
             try {
-            	IProject project = EclipseUtil.getTempProject();
-            	if (project != null) {
+                IProject project = EclipseUtil.getTempProject();
+                if (project != null) {
                     String tempDir = getProjectTempDir(project, true);
                     tempDir = Paths.get(tempDir, PLATFORM_SUB_DIR).toString();
                     tempDir = VirtualFile.filePathToIdeaFormat(tempDir);
                     return file.getPath().startsWith(tempDir);
-            	}
+                }
             } catch (IOException | CoreException e) {
             }
-    	} else if (EXT_REF_SUB_DIR.equals(subDir)) {
+        } else if (EXT_REF_SUB_DIR.equals(subDir)) {
             IWorkspace workspace = ResourcesPlugin.getWorkspace();
             IProject [] projects = workspace.getRoot().getProjects(IContainer.INCLUDE_HIDDEN);
             try {
                 for (IProject project : projects) {
-                	String tempDir = getProjectTempDir(project, false);
+                    String tempDir = getProjectTempDir(project, false);
                     tempDir = Paths.get(tempDir, EXT_REF_SUB_DIR).toString();
                     tempDir = VirtualFile.filePathToIdeaFormat(tempDir);
                     if (file.getPath().startsWith(tempDir)) {
-                    	return true;
+                        return true;
                     }
                 }
             } catch (IOException e) {
             }
-    	}
+        }
         return false;
     }
 
     private static String getProjectTempDir(IProject project, boolean skipTmpSubDir) throws IOException {
-    	String tempProjectPath;
-		if (skipTmpSubDir) {
-			tempProjectPath = new File(project.getLocationURI()).getAbsolutePath();
-		} else {
-			String projectPath = new File(project.getLocationURI()).getAbsolutePath();
-			tempProjectPath = new File(Paths.get(projectPath, PROJECT_TMP_DIR).toUri()).getAbsolutePath();	
-		}
-		return tempProjectPath;
+        String tempProjectPath;
+        if (skipTmpSubDir) {
+            tempProjectPath = new File(project.getLocationURI()).getAbsolutePath();
+        } else {
+            String projectPath = new File(project.getLocationURI()).getAbsolutePath();
+            tempProjectPath = new File(Paths.get(projectPath, PROJECT_TMP_DIR).toUri()).getAbsolutePath();
+        }
+        return tempProjectPath;
     }
 
     private static File createProjectTempDirIfMissing(IProject project, boolean skipTmpSubDir) throws IOException {
-    	String tempProjectPath = getProjectTempDir(project, skipTmpSubDir);
-		File file = VfsUtil.createDirectoryIfMissing(tempProjectPath).getFile();
-		EclipseUtil.refreshProject(project);
-		return file;
+        String tempProjectPath = getProjectTempDir(project, skipTmpSubDir);
+        File file = VfsUtil.createDirectoryIfMissing(tempProjectPath).getFile();
+        EclipseUtil.refreshProject(project);
+        return file;
     }
 
     public static File getProjectExtRefTempDir(IProject project) {
-		try {
-			return new File(Paths.get(getProjectTempDir(project, false), EXT_REF_SUB_DIR).toUri());
-		} catch (IOException e) {
-		}
-		return null;
+        try {
+            return new File(Paths.get(getProjectTempDir(project, false), EXT_REF_SUB_DIR).toUri());
+        } catch (IOException e) {
+        }
+        return null;
     }
 }

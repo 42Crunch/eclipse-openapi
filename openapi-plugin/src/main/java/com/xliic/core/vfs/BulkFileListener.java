@@ -20,85 +20,85 @@ import com.xliic.core.project.Project;
 
 public abstract class BulkFileListener implements IResourceChangeListener {
 
-	private IFile fromFile;
-	private IFile toFile;
-	private Set<IFile> removedFiles = new HashSet<>();
-	protected final Project project;
-	
-	public BulkFileListener(@NotNull Project project) {
-		this.project = project;
-	}
+    private IFile fromFile;
+    private IFile toFile;
+    private Set<IFile> removedFiles = new HashSet<>();
+    protected final Project project;
 
-	@Override
-	public void resourceChanged(IResourceChangeEvent event) {
-		IResourceDelta delta = event.getDelta();
-		if (delta.getKind() != IResourceDelta.CHANGED) {
-			return;
-		}
-		clear();
-		try {
-			visitDelta(delta);
-			if (refactored()) {
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						update(toFile, fromFile);
-						clear();
-					}
-				});
-			} else if (!removedFiles.isEmpty()) {
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						delete(removedFiles.stream().map((file) -> new VirtualFile(file)).collect(Collectors.toSet()));
-						clear();
-					}
-				});
-			}
-		} catch (CoreException e) {
-			clear();
-		}
-	}
+    public BulkFileListener(@NotNull Project project) {
+        this.project = project;
+    }
 
-	private void visitDelta(IResourceDelta delta) throws CoreException {
-		delta.accept(new IResourceDeltaVisitor() {
-			@Override
-			public boolean visit(IResourceDelta delta) throws CoreException {
-				if (delta.getResource() instanceof IFile) {
-					IPath from = delta.getMovedFromPath();
-					IPath to = delta.getMovedToPath();
-					if (from == null && to != null) {
-						fromFile = (IFile) delta.getResource();
-					} else if (from != null && to == null) {
-						toFile = (IFile) delta.getResource();
-					} else if (delta.getKind() == IResourceDelta.REMOVED && from == null && to == null) {
-						IFile file = (IFile) delta.getResource();
-						if (file.getProject().getLocation() != null) {
-							removedFiles.add((IFile) delta.getResource());
-						}
-					}
-				}
-				return !refactored();
-			}
-		});
-	}
+    @Override
+    public void resourceChanged(IResourceChangeEvent event) {
+        IResourceDelta delta = event.getDelta();
+        if (delta.getKind() != IResourceDelta.CHANGED) {
+            return;
+        }
+        clear();
+        try {
+            visitDelta(delta);
+            if (refactored()) {
+                Display.getDefault().asyncExec(new Runnable() {
+                    @Override
+                    public void run() {
+                        update(toFile, fromFile);
+                        clear();
+                    }
+                });
+            } else if (!removedFiles.isEmpty()) {
+                Display.getDefault().asyncExec(new Runnable() {
+                    @Override
+                    public void run() {
+                        delete(removedFiles.stream().map((file) -> new VirtualFile(file)).collect(Collectors.toSet()));
+                        clear();
+                    }
+                });
+            }
+        } catch (CoreException e) {
+            clear();
+        }
+    }
 
-	private void clear() {
-		fromFile = null;
-		toFile = null;
-		removedFiles.clear();
-	}
+    private void visitDelta(IResourceDelta delta) throws CoreException {
+        delta.accept(new IResourceDeltaVisitor() {
+            @Override
+            public boolean visit(IResourceDelta delta) throws CoreException {
+                if (delta.getResource() instanceof IFile) {
+                    IPath from = delta.getMovedFromPath();
+                    IPath to = delta.getMovedToPath();
+                    if (from == null && to != null) {
+                        fromFile = (IFile) delta.getResource();
+                    } else if (from != null && to == null) {
+                        toFile = (IFile) delta.getResource();
+                    } else if (delta.getKind() == IResourceDelta.REMOVED && from == null && to == null) {
+                        IFile file = (IFile) delta.getResource();
+                        if (file.getProject().getLocation() != null) {
+                            removedFiles.add((IFile) delta.getResource());
+                        }
+                    }
+                }
+                return !refactored();
+            }
+        });
+    }
 
-	private boolean refactored() {
-		return (fromFile != null) && (toFile != null);
-	}
+    private void clear() {
+        fromFile = null;
+        toFile = null;
+        removedFiles.clear();
+    }
 
-	private void update(IFile newFile, IFile oldFile) {
-		after(List.of(new VFilePropertyChangeEvent(new VirtualFile(newFile), new VirtualFile(oldFile))));
-		HighlightingManager.getInstance(project).update(newFile, oldFile);
-	}
+    private boolean refactored() {
+        return (fromFile != null) && (toFile != null);
+    }
 
-	protected abstract void after(@NotNull List<? extends VFileEvent> events);
-	
-	protected abstract void delete(@NotNull Set<VirtualFile> files);
+    private void update(IFile newFile, IFile oldFile) {
+        after(List.of(new VFilePropertyChangeEvent(new VirtualFile(newFile), new VirtualFile(oldFile))));
+        HighlightingManager.getInstance(project).update(newFile, oldFile);
+    }
+
+    protected abstract void after(@NotNull List<? extends VFileEvent> events);
+
+    protected abstract void delete(@NotNull Set<VirtualFile> files);
 }

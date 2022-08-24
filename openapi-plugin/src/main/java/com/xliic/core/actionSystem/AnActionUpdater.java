@@ -7,33 +7,33 @@ import com.xliic.openapi.topic.SettingsListener;
 
 public class AnActionUpdater implements FileListener, SettingsListener {
 
-	@Override
-	public void propertiesUpdated(String key) {
-		EclipseWorkbenchUtil.updateActionBars();
-	}
+    @Override
+    public void propertiesUpdated(String key) {
+        EclipseWorkbenchUtil.updateActionBars();
+    }
 
-	@Override
-	public void handleAllFilesClosed() {
-		EclipseWorkbenchUtil.updateActionBars();
-	}
+    @Override
+    public void handleAllFilesClosed() {
+        EclipseWorkbenchUtil.updateActionBars();
+    }
 
-	@Override
-	public void handleSelectedFile(VirtualFile file) {
-		EclipseWorkbenchUtil.updateActionBars();
-	}
+    @Override
+    public void handleSelectedFile(VirtualFile file) {
+        EclipseWorkbenchUtil.updateActionBars();
+    }
 
-	@Override
-	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
-		EclipseWorkbenchUtil.updateActionBars();
-	}
+    @Override
+    public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
+        EclipseWorkbenchUtil.updateActionBars();
+    }
 
-	@Override
-	public void handleClosedFile(VirtualFile file) {
-		EclipseWorkbenchUtil.updateActionBars();
-	}
+    @Override
+    public void handleClosedFile(VirtualFile file) {
+        EclipseWorkbenchUtil.updateActionBars();
+    }
 
-	@Override
-	public void handleDocumentChanged(VirtualFile file) {
-		EclipseWorkbenchUtil.updateActionBars();
-	}
+    @Override
+    public void handleDocumentChanged(VirtualFile file) {
+        EclipseWorkbenchUtil.updateActionBars();
+    }
 }

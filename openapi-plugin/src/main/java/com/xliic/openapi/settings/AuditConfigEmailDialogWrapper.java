@@ -21,62 +21,62 @@ import com.xliic.openapi.services.AuditService;
 
 public class AuditConfigEmailDialogWrapper extends DialogWrapper {
 
-	// Week, but compact regexp to avoid dummy emails
-	private final static Pattern EMAIL_REGEX = Pattern.compile("^(.+)@(.+)$");
+    // Week, but compact regexp to avoid dummy emails
+    private final static Pattern EMAIL_REGEX = Pattern.compile("^(.+)@(.+)$");
 
-	private final Project project;
-	private final VirtualFile file;
-	private JTextField emailTextField;
+    private final Project project;
+    private final VirtualFile file;
+    private JTextField emailTextField;
 
-	public AuditConfigEmailDialogWrapper(@NotNull Project project, @NotNull VirtualFile file) {
-		super(project, 2);
-		setTitle(OpenApiBundle.message("Remote Audit Settings"));
-		this.file = file;
-		this.project = project;
-	}
+    public AuditConfigEmailDialogWrapper(@NotNull Project project, @NotNull VirtualFile file) {
+        super(project, 2);
+        setTitle(OpenApiBundle.message("Remote Audit Settings"));
+        this.file = file;
+        this.project = project;
+    }
 
-	@Override
-	public void create(Composite parent) {
-	    setOKActionEnabled(false);
-		new Label(parent, SWT.LEFT).setText("Email");
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.horizontalIndent = 10;
-		gridData.widthHint = 350;
-		emailTextField = new JTextField(parent, gridData);
+    @Override
+    public void create(Composite parent) {
+        setOKActionEnabled(false);
+        new Label(parent, SWT.LEFT).setText("Email");
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+        gridData.horizontalIndent = 10;
+        gridData.widthHint = 350;
+        emailTextField = new JTextField(parent, gridData);
 
-		GridData infoGridData = new GridData(GridData.FILL_BOTH);
-		infoGridData.horizontalSpan = 2;
-		infoGridData.verticalIndent = 5;
-		infoGridData.widthHint = 350;
-		Label info = new Label(parent, SWT.WRAP);
-		info.setLayoutData(infoGridData);
-	    info.setText("Security Audit from 42Crunch runs ~200 checks for security best practices in your API. " +
-	            "Eclipse needs an API key to use the service. Enter your email to receive the token.");
+        GridData infoGridData = new GridData(GridData.FILL_BOTH);
+        infoGridData.horizontalSpan = 2;
+        infoGridData.verticalIndent = 5;
+        infoGridData.widthHint = 350;
+        Label info = new Label(parent, SWT.WRAP);
+        info.setLayoutData(infoGridData);
+        info.setText("Security Audit from 42Crunch runs ~200 checks for security best practices in your API. " +
+                "Eclipse needs an API key to use the service. Enter your email to receive the token.");
 
-	    String previousEmail = PropertiesComponent.getInstance().getValue(SettingsKeys.EMAIL);
-	    if (previousEmail != null && !previousEmail.isEmpty()) {
-	      emailTextField.setText(previousEmail);
-	      setOKActionEnabled(EMAIL_REGEX.matcher(previousEmail).find());
-	    }
-	    registerForValidation(emailTextField);
-	    init();
-	}
+        String previousEmail = PropertiesComponent.getInstance().getValue(SettingsKeys.EMAIL);
+        if (previousEmail != null && !previousEmail.isEmpty()) {
+            emailTextField.setText(previousEmail);
+            setOKActionEnabled(EMAIL_REGEX.matcher(previousEmail).find());
+        }
+        registerForValidation(emailTextField);
+        init();
+    }
 
-	@Override
-	protected ValidationInfo doValidate() {
-		if (!EMAIL_REGEX.matcher(emailTextField.getText()).find()) {
-			return new ValidationInfo("Invalid email format");
-	    }
-	    return super.doValidate();
-	}
-	  
-	@Override
-	public void doOKAction() {
-	    super.doOKAction();
-	    PropertiesComponent.getInstance().setValue(SettingsKeys.EMAIL, emailTextField.getText());
-	    ApplicationManager.getApplication().invokeLater(() -> {
-	      AuditService auditService = AuditService.getInstance(project);
-	      auditService.sendGenerateTokenRequest(emailTextField.getText(), new EmailDialogDoOkActionCallback(project, file));
-	    });
-	}
+    @Override
+    protected ValidationInfo doValidate() {
+        if (!EMAIL_REGEX.matcher(emailTextField.getText()).find()) {
+            return new ValidationInfo("Invalid email format");
+        }
+        return super.doValidate();
+    }
+
+    @Override
+    public void doOKAction() {
+        super.doOKAction();
+        PropertiesComponent.getInstance().setValue(SettingsKeys.EMAIL, emailTextField.getText());
+        ApplicationManager.getApplication().invokeLater(() -> {
+            AuditService auditService = AuditService.getInstance(project);
+            auditService.sendGenerateTokenRequest(emailTextField.getText(), new EmailDialogDoOkActionCallback(project, file));
+        });
+    }
 }

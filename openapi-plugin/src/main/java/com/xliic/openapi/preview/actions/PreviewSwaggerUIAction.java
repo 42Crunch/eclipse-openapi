@@ -9,8 +9,8 @@ import com.xliic.openapi.preview.PreviewUtils;
 
 public class PreviewSwaggerUIAction extends PreviewAbstractAction {
 
-	@Override
-	public void browse(Project project, VirtualFile file) throws MalformedURLException {
-		BrowserUtil.browse(PreviewUtils.getURL(project, file, 0));
-	}
+    @Override
+    public void browse(Project project, VirtualFile file) throws MalformedURLException {
+        BrowserUtil.browse(PreviewUtils.getURL(project, file, 0));
+    }
 }

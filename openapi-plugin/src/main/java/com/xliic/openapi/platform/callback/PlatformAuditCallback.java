@@ -30,21 +30,21 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
     private final boolean openInEditor;
 
     public PlatformAuditCallback(@NotNull Project project,
-                                 @NotNull VirtualFile file,
-                                 @Nullable Tree tree,
-                                 @Nullable DefaultMutableTreeNode progressDMTN,
-                                 boolean showAsHTML,
-                                 boolean openInEditor) {
+            @NotNull VirtualFile file,
+            @Nullable Tree tree,
+            @Nullable DefaultMutableTreeNode progressDMTN,
+            boolean showAsHTML,
+            boolean openInEditor) {
         this(project, file, tree, progressDMTN, showAsHTML, openInEditor, true);
     }
 
     public PlatformAuditCallback(@NotNull Project project,
-                                 @NotNull VirtualFile file,
-                                 @Nullable Tree tree,
-                                 @Nullable DefaultMutableTreeNode progressDMTN,
-                                 boolean showAsHTML,
-                                 boolean openInEditor,
-                                 boolean showDialogOnFailure) {
+            @NotNull VirtualFile file,
+            @Nullable Tree tree,
+            @Nullable DefaultMutableTreeNode progressDMTN,
+            boolean showAsHTML,
+            boolean openInEditor,
+            boolean showDialogOnFailure) {
         super(project, showDialogOnFailure);
         this.file = file;
         this.tree = tree;
@@ -78,8 +78,8 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
                     boolean newShowAsHTML;
                     boolean newShowAsProblems;
                     if (prevReport != null) {
-                    	newShowAsHTML = showAsHTML || prevReport.isShowAsHTML();
-                    	newShowAsProblems = prevReport.isShowAsProblems();
+                        newShowAsHTML = showAsHTML || prevReport.isShowAsHTML();
+                        newShowAsProblems = prevReport.isShowAsProblems();
                     } else {
                         newShowAsHTML = showAsHTML;
                         newShowAsProblems = false;
@@ -103,7 +103,7 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
             });
             if (openInEditor) {
                 ApplicationManager.getApplication().invokeLater(() ->
-                        new OpenFileDescriptor(project, file).navigate(true));
+                new OpenFileDescriptor(project, file).navigate(true));
             }
         } finally {
             PlatformUtils.setInProgress(tree, progressDMTN, false);

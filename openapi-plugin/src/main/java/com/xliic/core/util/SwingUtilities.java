@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SwingUtilities {
 
-	public static void invokeLater(@NotNull Runnable runnable) {
-		Display.getDefault().asyncExec(runnable);
-	}
+    public static void invokeLater(@NotNull Runnable runnable) {
+        Display.getDefault().asyncExec(runnable);
+    }
 }

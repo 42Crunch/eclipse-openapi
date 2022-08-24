@@ -40,42 +40,42 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
 
     public final static String EXT_REF_STARTS_WITH = "Failed to resolve external reference";
     public final static String EXT_REF_ENDS_WITH = "is not in the list of approved hosts";
-    
-	private final PsiFile psiFile;
-	private final List<HighlightInfo> highlights = new LinkedList<>();
-	private final Map<String, List<IntentionAction>> pointerToActions;
-	
-	public BundleHighlightingPass(final PsiFile file, final Editor editor) {
-		super(file.getProject(), editor.getDocument(), true);
-		psiFile = file;
-		pointerToActions = new HashMap<>();
-	}
 
-	@Override
-	public void doCollectInformation(@NotNull final ProgressIndicator progress) {
+    private final PsiFile psiFile;
+    private final List<HighlightInfo> highlights = new LinkedList<>();
+    private final Map<String, List<IntentionAction>> pointerToActions;
 
-		BundleService bundleService = BundleService.getInstance(myProject);
-		if (!bundleService.hasBundles()) {
-			highlights.clear();
-			return;
-		}
+    public BundleHighlightingPass(final PsiFile file, final Editor editor) {
+        super(file.getProject(), editor.getDocument(), true);
+        psiFile = file;
+        pointerToActions = new HashMap<>();
+    }
 
-		String bundleFile = psiFile.getVirtualFile().getPath();
-		Map<String, Set<BundleError>> bundleErrorsMap = bundleService.getBundleErrorsMap();
-		if (!bundleErrorsMap.containsKey(bundleFile)) {
-			highlights.clear();
-			return;
-		}
+    @Override
+    public void doCollectInformation(@NotNull final ProgressIndicator progress) {
 
-		Set<BundleError> exceptions = bundleErrorsMap.get(bundleFile);
-		ASTService astService = ASTService.getInstance(myProject);
-		Node root = astService.getRootNode(psiFile.getVirtualFile());
-		if (root != null) {
-			ExtRefService extRefService = ExtRefService.getInstance(myProject);
-			for (BundleError error : exceptions) {
-				String pointer = error.getSourcePointer();
-				Node target = root.find(pointer);
-				if (target != null) {
+        BundleService bundleService = BundleService.getInstance(myProject);
+        if (!bundleService.hasBundles()) {
+            highlights.clear();
+            return;
+        }
+
+        String bundleFile = psiFile.getVirtualFile().getPath();
+        Map<String, Set<BundleError>> bundleErrorsMap = bundleService.getBundleErrorsMap();
+        if (!bundleErrorsMap.containsKey(bundleFile)) {
+            highlights.clear();
+            return;
+        }
+
+        Set<BundleError> exceptions = bundleErrorsMap.get(bundleFile);
+        ASTService astService = ASTService.getInstance(myProject);
+        Node root = astService.getRootNode(psiFile.getVirtualFile());
+        if (root != null) {
+            ExtRefService extRefService = ExtRefService.getInstance(myProject);
+            for (BundleError error : exceptions) {
+                String pointer = error.getSourcePointer();
+                Node target = root.find(pointer);
+                if (target != null) {
                     String msg = error.getMessage();
                     Range nodeRange = target.getKeyRange();
                     TextRange range = new TextRange(nodeRange.getStartOffset(), nodeRange.getEndOffset());
@@ -88,16 +88,16 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
                         actions.add(new FixHostApprovedAction(hostname));
                         QuickFixAction.registerQuickFixActions(info, null, actions);
                         if (!pointerToActions.containsKey(pointer)) {
-                        	pointerToActions.put(pointer, new LinkedList<>());
+                            pointerToActions.put(pointer, new LinkedList<>());
                         }
                         pointerToActions.get(pointer).addAll(actions);
                     }
                     highlights.add(info);
-				}
-			}
-		}
-	}
-	
+                }
+            }
+        }
+    }
+
     private static String getExtRefHostName(String msg, Node target) {
         if (REF.equals(target.getKey())) {
             final String url = target.getValue();
@@ -119,20 +119,20 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
         return authority.startsWith("www.") ? authority.substring(4) : authority;
     }
 
-	@Override
-	public void doApplyInformationToEditor() {
-		setHighlightersToEditor(myProject, myDocument, 0, psiFile.getTextLength(), highlights, getColorsScheme(),
-				getId());
-	}
+    @Override
+    public void doApplyInformationToEditor() {
+        setHighlightersToEditor(myProject, myDocument, 0, psiFile.getTextLength(), highlights, getColorsScheme(),
+                getId());
+    }
 
-	@Override
-	public List<HighlightInfo> getInformationToEditor() {
-		return highlights;
-	}
+    @Override
+    public List<HighlightInfo> getInformationToEditor() {
+        return highlights;
+    }
 
-	@Override
-	@Nullable
-	public Map<String, List<IntentionAction>> getActionsToEditor() {
-		return pointerToActions;
-	}
+    @Override
+    @Nullable
+    public Map<String, List<IntentionAction>> getActionsToEditor() {
+        return pointerToActions;
+    }
 }

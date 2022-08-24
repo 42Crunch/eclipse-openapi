@@ -22,54 +22,54 @@ import com.xliic.openapi.services.ASTService;
 
 public class OpenAPINavigationProvider implements DirectNavigationProvider {
 
-	@Override
-	public @Nullable PsiElement getNavigationElement(@NotNull PsiElement psiElement) {
-	    VirtualFile file = psiElement.getContainingFile().getVirtualFile();
-	    if ((getFileType(file) == OpenApiFileType.Unsupported) || !OpenApiUtils.isPsiRef(psiElement)) {
-	      return null;
-	    }
-	    Project project = psiElement.getProject();
-	    String ref = getRefTextFromPsiElement(psiElement);
-	    Pair<VirtualFile, Node> result = OpenApiUtils.resolveRef(psiElement.getContainingFile(), ref);
-	    if (result != null) {
-	      Node target = result.getSecond();
-	      VirtualFile refFile = result.getFirst();
-	      if (target == null) {
-	        return PsiManager.getInstance(project).findFile(refFile).toPsiElement();
-	      }
-	      else {
-	        if (ExtRef.isExtRef(ref)) {
-	          PsiFile psiFile = PsiManager.getInstance(project).findFile(refFile);
-	          if (psiFile != null) {
-	              return psiFile.findElementAt(target.getRange().getStartOffset());
-	          }
-	        }
-	        else {
-	          // Platform files are temp files which never indexed
-	          if (TempFileUtils.isPlatformFile(refFile)) {
-	            PsiFile psiFile = PsiManager.getInstance(project).findFile(refFile);
-	            if (psiFile != null) {
-	              return psiFile.findElementAt(target.getRange().getStartOffset());
-	            }
-	          }
-	          else {
-	            return getPsiElementFromIndex(project, refFile, target.getJsonPointer());
-	          }
-	        }
-	      }
-	    }
-	    return null;
-	}
+    @Override
+    public @Nullable PsiElement getNavigationElement(@NotNull PsiElement psiElement) {
+        VirtualFile file = psiElement.getContainingFile().getVirtualFile();
+        if ((getFileType(file) == OpenApiFileType.Unsupported) || !OpenApiUtils.isPsiRef(psiElement)) {
+            return null;
+        }
+        Project project = psiElement.getProject();
+        String ref = getRefTextFromPsiElement(psiElement);
+        Pair<VirtualFile, Node> result = OpenApiUtils.resolveRef(psiElement.getContainingFile(), ref);
+        if (result != null) {
+            Node target = result.getSecond();
+            VirtualFile refFile = result.getFirst();
+            if (target == null) {
+                return PsiManager.getInstance(project).findFile(refFile).toPsiElement();
+            }
+            else {
+                if (ExtRef.isExtRef(ref)) {
+                    PsiFile psiFile = PsiManager.getInstance(project).findFile(refFile);
+                    if (psiFile != null) {
+                        return psiFile.findElementAt(target.getRange().getStartOffset());
+                    }
+                }
+                else {
+                    // Platform files are temp files which never indexed
+                    if (TempFileUtils.isPlatformFile(refFile)) {
+                        PsiFile psiFile = PsiManager.getInstance(project).findFile(refFile);
+                        if (psiFile != null) {
+                            return psiFile.findElementAt(target.getRange().getStartOffset());
+                        }
+                    }
+                    else {
+                        return getPsiElementFromIndex(project, refFile, target.getJsonPointer());
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
-	private PsiElement getPsiElementFromIndex(Project project, VirtualFile refFile, String pointer) {
-		ASTService astService = ASTService.getInstance(project);
-		Node root = astService.getRootNode(refFile);
-		if (root != null) {
-			Node target = root.find(pointer);
-			if (target != null) {
-				return new PsiElement(target.getRange().getStartOffset(), target, new PsiFile(project, refFile));
-			}
-		}
-		return null;
-	}
+    private PsiElement getPsiElementFromIndex(Project project, VirtualFile refFile, String pointer) {
+        ASTService astService = ASTService.getInstance(project);
+        Node root = astService.getRootNode(refFile);
+        if (root != null) {
+            Node target = root.find(pointer);
+            if (target != null) {
+                return new PsiElement(target.getRange().getStartOffset(), target, new PsiFile(project, refFile));
+            }
+        }
+        return null;
+    }
 }

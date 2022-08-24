@@ -23,7 +23,7 @@ public class PlatformColoredTreeCellRenderer extends ColoredTreeCellRenderer {
 
     @Override
     public void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected,
-                                      boolean expanded, boolean leaf, int row, boolean hasFocus) {
+            boolean expanded, boolean leaf, int row, boolean hasFocus) {
 
         final DefaultMutableTreeNode valueDMTN = (DefaultMutableTreeNode) value;
         final Object valueObj = valueDMTN.getUserObject();

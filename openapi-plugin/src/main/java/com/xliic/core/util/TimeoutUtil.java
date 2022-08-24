@@ -1,7 +1,7 @@
 package com.xliic.core.util;
 
 public class TimeoutUtil {
-	
+
     private TimeoutUtil() {
     }
 

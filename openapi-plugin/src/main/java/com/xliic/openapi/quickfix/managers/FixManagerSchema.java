@@ -151,8 +151,8 @@ public class FixManagerSchema extends FixManager {
         return new FixItem(issue, pointer, text, new LinkedList<>());
     }
 
-	@Override
-	public boolean isResponsibleFor(String pointer, String label) {
-		return pointer.equals(issue.getPointer()) && label.startsWith(issue.getDescription());
-	}
+    @Override
+    public boolean isResponsibleFor(String pointer, String label) {
+        return pointer.equals(issue.getPointer()) && label.startsWith(issue.getDescription());
+    }
 }

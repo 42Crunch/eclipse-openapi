@@ -28,24 +28,24 @@ import static org.apache.commons.lang.StringUtils.isEmpty;
 
 public class JCEFPostMessageListener extends BrowserFunction implements Function<Object, JBCefJSQuery.Response> {
 
-	public static final String HADLER_ID = "injectedPostMessageHandler";
+    public static final String HADLER_ID = "injectedPostMessageHandler";
 
     private final Project project;
     private final ObjectMapper mapper;
 
     public JCEFPostMessageListener(@NotNull Project project, @NotNull Browser browser) {
-    	super(browser, HADLER_ID);
+        super(browser, HADLER_ID);
         this.project = project;
         mapper = new ObjectMapper();
     }
 
-	@Override
-	public Object function(Object[] arguments) {
-		if (arguments != null && arguments.length == 1) {
-			apply(arguments[0]);
-		}
-		return arguments;
-	}
+    @Override
+    public Object function(Object[] arguments) {
+        if (arguments != null && arguments.length == 1) {
+            apply(arguments[0]);
+        }
+        return arguments;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -56,25 +56,25 @@ public class JCEFPostMessageListener extends BrowserFunction implements Function
                 if (props.containsKey("command")) {
                     String command = props.get("command");
                     switch (command) {
-                        case "copyIssueId":
-                            String id = props.get("id");
-                            if (!isEmpty(id)) {
-                                onCopyIssueId(id);
-                            }
-                            break;
-                        case "goToLine":
-                            String uri = props.get("uri");
-                            String pointer = props.get("pointer");
-                            if (!isEmpty(uri) && (pointer != null)) {
-                                onGoToLine(uri, pointer);
-                            }
-                            break;
-                        case "openLink":
-                            String href = props.get("href");
-                            if (!isEmpty(href)) {
-                                BrowserUtil.browse(href);
-                            }
-                            break;
+                    case "copyIssueId":
+                        String id = props.get("id");
+                        if (!isEmpty(id)) {
+                            onCopyIssueId(id);
+                        }
+                        break;
+                    case "goToLine":
+                        String uri = props.get("uri");
+                        String pointer = props.get("pointer");
+                        if (!isEmpty(uri) && (pointer != null)) {
+                            onGoToLine(uri, pointer);
+                        }
+                        break;
+                    case "openLink":
+                        String href = props.get("href");
+                        if (!isEmpty(href)) {
+                            BrowserUtil.browse(href);
+                        }
+                        break;
                     }
                 }
             }

@@ -35,7 +35,7 @@ public class AuditTask extends Task.Backgroundable {
     private final AuditActionCallback callback;
 
     public AuditTask(@Nullable Project project, @Nullable String token, @Nullable String fileName,
-                     @Nullable String text, @Nullable AuditActionCallback callback) {
+            @Nullable String text, @Nullable AuditActionCallback callback) {
         super(project, OpenApiBundle.message("openapi.audit.report.progress.title"), false);
         this.project = project;
         this.token = token;

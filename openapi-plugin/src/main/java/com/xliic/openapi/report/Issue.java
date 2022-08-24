@@ -22,36 +22,36 @@ import com.xliic.openapi.services.BundleService;
 
 public class Issue {
 
-	private final String id;
-	private final String description;
-	private final float score;
-	private final String displayScore;
-	private final int criticality;
-	private final Severity severity;
-	private final Project project;
+    private final String id;
+    private final String description;
+    private final float score;
+    private final String displayScore;
+    private final int criticality;
+    private final Severity severity;
+    private final Project project;
 
-	private String auditFileName;
-	private String pointer;
-	private String fileName;
-	private URI uri;
-	private Range range;
-	private RangeMarker rangeMarker;
+    private String auditFileName;
+    private String pointer;
+    private String fileName;
+    private URI uri;
+    private Range range;
+    private RangeMarker rangeMarker;
 
-	public Issue(Project project, String auditFileName, String id, String description, String bundlePointer,
-			float score, int criticality, boolean platform) {
+    public Issue(Project project, String auditFileName, String id, String description, String bundlePointer,
+            float score, int criticality, boolean platform) {
 
-		this.id = id;
-		this.description = description;
-		this.score = score;
-		displayScore = transformScore(score);
-		this.criticality = criticality;
-		severity = Severity.getSeverity(criticality);
-		this.auditFileName = auditFileName;
-		this.project = project;
-		fileName = null;
-		uri = null;
-		pointer = bundlePointer;
-		
+        this.id = id;
+        this.description = description;
+        this.score = score;
+        displayScore = transformScore(score);
+        this.criticality = criticality;
+        severity = Severity.getSeverity(criticality);
+        this.auditFileName = auditFileName;
+        this.project = project;
+        fileName = null;
+        uri = null;
+        pointer = bundlePointer;
+
         BundleLocation errorLocation;
         if (platform) {
             errorLocation = new BundleLocation(auditFileName, bundlePointer);
@@ -81,7 +81,7 @@ public class Issue {
                 }
             }
         }
-	}
+    }
 
     public Map<String, Object> getProperties() {
         Map<String, Object> result = new HashMap<>();
@@ -95,123 +95,123 @@ public class Issue {
         result.put("lineNo", range.getLine() + 1);
         return result;
     }
-    
-	public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
-		if (Objects.equals(auditFileName, oldFileName)) {
-			auditFileName = newFile.getPath();
-		}
-		if (Objects.equals(fileName, oldFileName)) {
-			fileName = newFile.getPath();
-		}
-	}
 
-	public void updateRangeMarkers(Document document, Node root) {
-		if ((rangeMarker != null) && !rangeMarker.isValid()) {
-			disposeRangeMarker();
-		}
-		Node node = root.find(pointer);
-		if (node == null) {
-			range = null;
-			disposeRangeMarker();
-		} else {
-			range = node.getHighlightRange();
-			if (rangeMarker == null) {
-				rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
-			}
-		}
-	}
+    public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
+        if (Objects.equals(auditFileName, oldFileName)) {
+            auditFileName = newFile.getPath();
+        }
+        if (Objects.equals(fileName, oldFileName)) {
+            fileName = newFile.getPath();
+        }
+    }
 
-	public Project getProject() {
-		return project;
-	}
+    public void updateRangeMarkers(Document document, Node root) {
+        if ((rangeMarker != null) && !rangeMarker.isValid()) {
+            disposeRangeMarker();
+        }
+        Node node = root.find(pointer);
+        if (node == null) {
+            range = null;
+            disposeRangeMarker();
+        } else {
+            range = node.getHighlightRange();
+            if (rangeMarker == null) {
+                rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+            }
+        }
+    }
 
-	public static String transformScore(float score) {
-		int rounded = Math.abs(Math.round(score));
-		if (score == 0) {
-			return "0";
-		} else if (rounded >= 1) {
-			return String.valueOf(rounded);
-		}
-		return "less than 1";
-	}
+    public Project getProject() {
+        return project;
+    }
 
-	public float getScore() {
-		return score;
-	}
+    public static String transformScore(float score) {
+        int rounded = Math.abs(Math.round(score));
+        if (score == 0) {
+            return "0";
+        } else if (rounded >= 1) {
+            return String.valueOf(rounded);
+        }
+        return "less than 1";
+    }
 
-	public String getId() {
-		return id;
-	}
+    public float getScore() {
+        return score;
+    }
 
-	public String getFileName() {
-		return fileName;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public Severity getSeverity() {
-		return severity;
-	}
+    public String getFileName() {
+        return fileName;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public Severity getSeverity() {
+        return severity;
+    }
 
-	public String getPointer() {
-		return pointer;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getDisplayScore() {
-		return displayScore;
-	}
+    public String getPointer() {
+        return pointer;
+    }
 
-	public int getCriticality() {
-		return criticality;
-	}
+    public String getDisplayScore() {
+        return displayScore;
+    }
 
-	public Range getRange() {
-		return range;
-	}
+    public int getCriticality() {
+        return criticality;
+    }
 
-	public RangeMarker getRangeMarker() {
-		return rangeMarker;
-	}
+    public Range getRange() {
+        return range;
+    }
 
-	public String getAuditFileName() {
-		return auditFileName;
-	}
+    public RangeMarker getRangeMarker() {
+        return rangeMarker;
+    }
 
-	public TextRange getTextRange() {
-		return new TextRange(rangeMarker.getStartOffset(), rangeMarker.getEndOffset());
-	}
+    public String getAuditFileName() {
+        return auditFileName;
+    }
 
-	public String getLabel() {
-		return getDescription() + " " + ("0".equals(displayScore) ? "" : "(score impact " + displayScore + ")");
-	}
+    public TextRange getTextRange() {
+        return new TextRange(rangeMarker.getStartOffset(), rangeMarker.getEndOffset());
+    }
 
-	public String getHighlightInfoLabel() {
-		return getDescription() + " in " + getAuditOfString()
-				+ ("0".equals(displayScore) ? "" : " (score impact " + displayScore + ")");
-	}
+    public String getLabel() {
+        return getDescription() + " " + ("0".equals(displayScore) ? "" : "(score impact " + displayScore + ")");
+    }
 
-	public String getLabelLocation() {
-		return " " + getAuditOfString() + " " + rangeToString(range);
-	}
-    
+    public String getHighlightInfoLabel() {
+        return getDescription() + " in " + getAuditOfString()
+        + ("0".equals(displayScore) ? "" : " (score impact " + displayScore + ")");
+    }
+
+    public String getLabelLocation() {
+        return " " + getAuditOfString() + " " + rangeToString(range);
+    }
+
     public URI getUri() {
         return uri;
     }
 
-	private String rangeToString(Range range) {
-		return "[" + (range.getLine() + 1) + ", " + (range.getColumn() + 1) + "]";
-	}
+    private String rangeToString(Range range) {
+        return "[" + (range.getLine() + 1) + ", " + (range.getColumn() + 1) + "]";
+    }
 
-	private void disposeRangeMarker() {
-		if (rangeMarker != null) {
-			rangeMarker.dispose();
-			rangeMarker = null;
-		}
-	}
+    private void disposeRangeMarker() {
+        if (rangeMarker != null) {
+            rangeMarker.dispose();
+            rangeMarker = null;
+        }
+    }
 
-	private String getAuditOfString() {
-		return "audit of " + Paths.get(auditFileName).getFileName().toString();
-	}
+    private String getAuditOfString() {
+        return "audit of " + Paths.get(auditFileName).getFileName().toString();
+    }
 }

@@ -31,107 +31,107 @@ import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
 
 public class OpenAPICreationPage extends WizardNewFileCreationPage {
-	
-	private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
-	
-	private IWorkbench workbench;
-	private Button openFileCheckbox;
-	
-	private OpenApiVersion version;
-	private OpenApiFileType fileType;
-	
-	private static int nameCounter = 1;
 
-	public OpenAPICreationPage(IWorkbench workbench, IStructuredSelection selection, OpenApiVersion version, OpenApiFileType fileType) {
+    private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
 
-		super("sampleCreateReadmePage1", selection);
-		this.setTitle(OpenApiBundle.message("openapi.new.file.action.dialog.title"));
-		this.setDescription(OpenApiBundle.message("openapi.new.file.action.dialog.title"));
-		this.workbench = workbench;
-		this.version = version;
-		this.fileType = fileType;
-	}
+    private IWorkbench workbench;
+    private Button openFileCheckbox;
 
-	@Override
-	public void createControl(Composite parent) {
+    private OpenApiVersion version;
+    private OpenApiFileType fileType;
 
-		super.createControl(parent);
-		Composite composite = (Composite) getControl();
+    private static int nameCounter = 1;
 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(composite, "org.eclipse.ui.examples.readmetool.creation_wizard_page_context");
-		this.setFileName("sample" + nameCounter + (fileType == OpenApiFileType.Json ? ".json" : ".yaml"));
+    public OpenAPICreationPage(IWorkbench workbench, IStructuredSelection selection, OpenApiVersion version, OpenApiFileType fileType) {
 
-		Group group = new Group(composite, SWT.NONE);
-		group.setLayout(new GridLayout());
-		group.setText("Automatic_sample_section_generation");
-		group.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
+        super("sampleCreateReadmePage1", selection);
+        this.setTitle(OpenApiBundle.message("openapi.new.file.action.dialog.title"));
+        this.setDescription(OpenApiBundle.message("openapi.new.file.action.dialog.title"));
+        this.workbench = workbench;
+        this.version = version;
+        this.fileType = fileType;
+    }
 
-		openFileCheckbox = new Button(composite, SWT.CHECK);
-		openFileCheckbox.setText("Open_file_for_editing_when_done");
-		openFileCheckbox.setSelection(true);
+    @Override
+    public void createControl(Composite parent) {
 
-		setPageComplete(validatePage());
-	}
+        super.createControl(parent);
+        Composite composite = (Composite) getControl();
 
-	public boolean finish() {
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(composite, "org.eclipse.ui.examples.readmetool.creation_wizard_page_context");
+        this.setFileName("sample" + nameCounter + (fileType == OpenApiFileType.Json ? ".json" : ".yaml"));
 
-		IFile newFile = createNewFile();
-		if (newFile == null) {
-			return false;
-		}
-		try {
-			if (openFileCheckbox.getSelection()) {
-				IWorkbenchWindow dwindow = workbench.getActiveWorkbenchWindow();
-				IWorkbenchPage page = dwindow.getActivePage();
-				if (page != null) {
-					IDE.openEditor(page, newFile, true);
-				}
-			}
-		} 
-		catch (PartInitException e) {
-			e.printStackTrace();
-			return false;
-		}
-		nameCounter++;
-		return true;
-	}
+        Group group = new Group(composite, SWT.NONE);
+        group.setLayout(new GridLayout());
+        group.setText("Automatic_sample_section_generation");
+        group.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
 
-	@Override
-	protected InputStream getInitialContents() {
-		
-		String id = null;
-		if (fileType == OpenApiFileType.Json) {
-			if (version == OpenApiVersion.V3) {
-				id = "Json OpenAPI version 3.json.ft";	
-			}
-			else {
-				id = "Json OpenAPI version 2.json.ft";
-			}
-		}
-		else if (fileType == OpenApiFileType.Yaml) {
-			if (version == OpenApiVersion.V3) {
-				id = "Yaml OpenAPI version 3.yaml.ft";	
-			}
-			else {
-				id = "Yaml OpenAPI version 2.yaml.ft";
-			}
-		}
-		
+        openFileCheckbox = new Button(composite, SWT.CHECK);
+        openFileCheckbox.setText("Open_file_for_editing_when_done");
+        openFileCheckbox.setSelection(true);
+
+        setPageComplete(validatePage());
+    }
+
+    public boolean finish() {
+
+        IFile newFile = createNewFile();
+        if (newFile == null) {
+            return false;
+        }
+        try {
+            if (openFileCheckbox.getSelection()) {
+                IWorkbenchWindow dwindow = workbench.getActiveWorkbenchWindow();
+                IWorkbenchPage page = dwindow.getActivePage();
+                if (page != null) {
+                    IDE.openEditor(page, newFile, true);
+                }
+            }
+        }
+        catch (PartInitException e) {
+            e.printStackTrace();
+            return false;
+        }
+        nameCounter++;
+        return true;
+    }
+
+    @Override
+    protected InputStream getInitialContents() {
+
+        String id = null;
+        if (fileType == OpenApiFileType.Json) {
+            if (version == OpenApiVersion.V3) {
+                id = "Json OpenAPI version 3.json.ft";
+            }
+            else {
+                id = "Json OpenAPI version 2.json.ft";
+            }
+        }
+        else if (fileType == OpenApiFileType.Yaml) {
+            if (version == OpenApiVersion.V3) {
+                id = "Yaml OpenAPI version 3.yaml.ft";
+            }
+            else {
+                id = "Yaml OpenAPI version 2.yaml.ft";
+            }
+        }
+
         StringBuilder sb = new StringBuilder();
-		try {
-			URL url = new URL(BASE_URL, "resources/fileTemplates/internal/" + id);
-	        InputStream inputStream = getClass().getResourceAsStream(url.getFile());
-	        Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
-	        stream.forEach(line -> sb.append(line).append("\n"));
-		} 
-		catch (MalformedURLException e) {
-			e.printStackTrace();
-		}		
-		return new ByteArrayInputStream(sb.toString().getBytes());
-	}
+        try {
+            URL url = new URL(BASE_URL, "resources/fileTemplates/internal/" + id);
+            InputStream inputStream = getClass().getResourceAsStream(url.getFile());
+            Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
+            stream.forEach(line -> sb.append(line).append("\n"));
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return new ByteArrayInputStream(sb.toString().getBytes());
+    }
 
-	@Override
-	protected String getNewFileLabel() {
-		return "File name";
-	}
+    @Override
+    protected String getNewFileLabel() {
+        return "File name";
+    }
 }

@@ -7,21 +7,21 @@ import com.xliic.core.project.Project;
 
 public class FileChooserFactory {
 
-	private static FileChooserFactory factory;
+    private static FileChooserFactory factory;
 
-	private FileChooserFactory() {}
+    private FileChooserFactory() {}
 
-	public static FileChooserFactory getInstance() {
-		if (factory == null) {
-			factory = new FileChooserFactory();
-		}
-		return factory;
-	}
-	
-	public @NotNull FileChooserDialog createFileChooser(@NotNull FileChooserDescriptor descriptor, 
-                                                        @Nullable Project project,
-                                                        @Nullable String text,
-                                                        @Nullable Component component) {
-		return new FileChooserDialog(descriptor, project, text);
-	}
+    public static FileChooserFactory getInstance() {
+        if (factory == null) {
+            factory = new FileChooserFactory();
+        }
+        return factory;
+    }
+
+    public @NotNull FileChooserDialog createFileChooser(@NotNull FileChooserDescriptor descriptor,
+            @Nullable Project project,
+            @Nullable String text,
+            @Nullable Component component) {
+        return new FileChooserDialog(descriptor, project, text);
+    }
 }

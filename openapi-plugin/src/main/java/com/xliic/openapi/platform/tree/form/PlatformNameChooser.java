@@ -27,15 +27,15 @@ public abstract class PlatformNameChooser extends DialogWrapper {
         convention = null;
         init();
     }
-    
-	@Override
-	public void create(Composite parent) {
-	    GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-	    myValueEditor = new JTextField(parent, gridData);
+
+    @Override
+    public void create(Composite parent) {
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+        myValueEditor = new JTextField(parent, gridData);
         myValueEditor.setEnabled(false);
         myValueEditor.setText(currentName);
-	    registerForValidation(myValueEditor);
-	}
+        registerForValidation(myValueEditor);
+    }
 
     public String getValue() {
         return myValueEditor.getText();
@@ -83,7 +83,7 @@ public abstract class PlatformNameChooser extends DialogWrapper {
 
     protected void disable() {
         setOKActionEnabled(false);
-       	myValueEditor.setEnabled(false);	
+        myValueEditor.setEnabled(false);
     }
 
     private String getMessage(PatternSyntaxException e) {

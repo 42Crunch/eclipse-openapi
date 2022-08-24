@@ -31,10 +31,10 @@ public class FixItem {
     }
 
     public FixItem(List<Issue> issues,
-                   String absPointer,
-                   String text,
-                   List<PlaceHolder> placeHolders,
-                   String insertAfterPointer) {
+            String absPointer,
+            String text,
+            List<PlaceHolder> placeHolders,
+            String insertAfterPointer) {
         this.issues = issues;
         this.absPointer = absPointer;
         this.text = text;

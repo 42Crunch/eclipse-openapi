@@ -13,57 +13,57 @@ import com.xliic.core.editor.Editor;
 
 public class RangeHighlighter {
 
-	  private Annotation annotation;
-	  private Position position; 
-	  private Editor editor;
-	  
-	  public RangeHighlighter(@NotNull Annotation annotation, @NotNull Position position, @NotNull Editor editor) {
-		  this.annotation = annotation;
-		  this.position = position;
-		  this.editor = editor;
-	  } 
+    private Annotation annotation;
+    private Position position;
+    private Editor editor;
 
-	  @NotNull
-	  public Document getDocument() {
-		  return editor.getDocument();
-	  }
+    public RangeHighlighter(@NotNull Annotation annotation, @NotNull Position position, @NotNull Editor editor) {
+        this.annotation = annotation;
+        this.position = position;
+        this.editor = editor;
+    }
 
-	  @Contract(pure = true)
-	  public int getStartOffset() {
-		  return position.getOffset();
-	  }
+    @NotNull
+    public Document getDocument() {
+        return editor.getDocument();
+    }
 
-	  @Contract(pure = true)
-	  public int getEndOffset() {
-		  return position.getOffset() + position.getLength();
-	  }
+    @Contract(pure = true)
+    public int getStartOffset() {
+        return position.getOffset();
+    }
 
-	  @Contract(pure = true)
-	  public boolean isValid() {
-		  return annotation != null && position != null && editor != null && !(position.isDeleted() || annotation.isMarkedDeleted());
-	  }
+    @Contract(pure = true)
+    public int getEndOffset() {
+        return position.getOffset() + position.getLength();
+    }
 
-	  public void setGreedyToLeft(boolean greedy) {
-	  }
+    @Contract(pure = true)
+    public boolean isValid() {
+        return annotation != null && position != null && editor != null && !(position.isDeleted() || annotation.isMarkedDeleted());
+    }
 
-	  public void setGreedyToRight(boolean greedy) {
-	  }
-	  
-	  public Position getPosition() {
-		  return position;
-	  }
+    public void setGreedyToLeft(boolean greedy) {
+    }
 
-	  public void dispose() {
-			IEditorPart sourcepart = editor.getTextEditor();
-			if (sourcepart instanceof IEditorPart) {
-				ISourceViewer viewer = (ISourceViewer) sourcepart.getAdapter(ITextOperationTarget.class);
-				if (viewer != null) {
-					viewer.getAnnotationModel().removeAnnotation(annotation);
-					position.delete();
-				}
-			}
-			annotation = null;
-			position = null;
-			editor = null;
-	  }
+    public void setGreedyToRight(boolean greedy) {
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void dispose() {
+        IEditorPart sourcepart = editor.getTextEditor();
+        if (sourcepart instanceof IEditorPart) {
+            ISourceViewer viewer = (ISourceViewer) sourcepart.getAdapter(ITextOperationTarget.class);
+            if (viewer != null) {
+                viewer.getAnnotationModel().removeAnnotation(annotation);
+                position.delete();
+            }
+        }
+        annotation = null;
+        position = null;
+        editor = null;
+    }
 }

@@ -7,41 +7,41 @@ import org.jetbrains.annotations.Nullable;
 
 public class RangeMarker {
 
-	@Nullable
-	private final DocumentImpl document;
-	
-	@NotNull
-	private final Position position;
-	
-	public RangeMarker(@NotNull Position position) throws BadLocationException {
-		this.document = null;
-		this.position = position;
-	}
+    @Nullable
+    private final DocumentImpl document;
 
-	public RangeMarker(@NotNull Document document, @NotNull Position position) throws BadLocationException {
-		this.document = (DocumentImpl) document;
-		this.position = position;
-		if (document != null) {
-			this.document.addPosition(position);
-		}
-	}
+    @NotNull
+    private final Position position;
 
-	public int getStartOffset() {
-		return position.offset;
-	}
+    public RangeMarker(@NotNull Position position) throws BadLocationException {
+        this.document = null;
+        this.position = position;
+    }
 
-	public int getEndOffset() {
-		return position.offset + position.length;
-	}
+    public RangeMarker(@NotNull Document document, @NotNull Position position) throws BadLocationException {
+        this.document = (DocumentImpl) document;
+        this.position = position;
+        if (document != null) {
+            this.document.addPosition(position);
+        }
+    }
 
-	public void dispose() {
-		if (document != null) {
-			document.removePosition(position);
-		}
-		position.delete();
-	}
+    public int getStartOffset() {
+        return position.offset;
+    }
 
-	public boolean isValid() {
-		return !position.isDeleted();
-	}
+    public int getEndOffset() {
+        return position.offset + position.length;
+    }
+
+    public void dispose() {
+        if (document != null) {
+            document.removePosition(position);
+        }
+        position.delete();
+    }
+
+    public boolean isValid() {
+        return !position.isDeleted();
+    }
 }

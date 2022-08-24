@@ -7,10 +7,10 @@ import com.xliic.core.util.TextRange;
 
 public class QuickFixAction {
 
-	public static void registerQuickFixAction(@Nullable HighlightInfo info, @Nullable IntentionAction action) {
-	}
+    public static void registerQuickFixAction(@Nullable HighlightInfo info, @Nullable IntentionAction action) {
+    }
 
-	public static void registerQuickFixActions(@Nullable HighlightInfo info, @Nullable TextRange fixRange,
-			@NotNull Iterable<? extends IntentionAction> actions) {
-	}
+    public static void registerQuickFixActions(@Nullable HighlightInfo info, @Nullable TextRange fixRange,
+            @NotNull Iterable<? extends IntentionAction> actions) {
+    }
 }

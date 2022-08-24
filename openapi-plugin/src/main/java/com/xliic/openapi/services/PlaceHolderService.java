@@ -58,8 +58,9 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         editorMouseListeners = new HashMap<>();
     }
 
+    @Override
     public void register(@NotNull Editor editor, @NotNull FixItem fixItem) {
-    	dispose(editor);
+        dispose(editor);
         Document document = editor.getDocument();
         VirtualFile file = FileDocumentManager.getInstance().getFile(document);
         if (file != null) {
@@ -109,6 +110,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         return project.getService(PlaceHolderService.class);
     }
 
+    @Override
     public List<Object> getValues(Editor editor, RangeHighlighter highlighter) {
         if (highlighters.containsKey(editor)) {
             return highlighterInfoMap.get(highlighter).getFirst().getValues();
@@ -116,10 +118,12 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         return Collections.emptyList();
     }
 
+    @Override
     public boolean hasOpenPopup() {
         return popup != null;
     }
 
+    @Override
     public void closePopup() {
         if (popup != null) {
             popup.cancel();
@@ -127,6 +131,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         }
     }
 
+    @Override
     public void show(Editor editor, RangeHighlighter highlighter, List<Object> values) {
         List<String> input = new LinkedList<>();
         for (Object value : values) {
@@ -164,9 +169,10 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         Disposer.register(popup, () -> popup = null);
     }
 
+    @Override
     public EnterHandlerDelegate.Result preprocessEnter(@NotNull Editor editor, int offset) {
         if (highlighters.containsKey(editor)) {
-        	LogicalPosition caretPosition = editor.getCaretModel().getPrimaryCaret().getLogicalPosition();
+            LogicalPosition caretPosition = editor.getCaretModel().getPrimaryCaret().getLogicalPosition();
             int myOffset = editor.logicalPositionToOffset(caretPosition);
             RangeHighlighter highlighter = getTriggeredRangeHighlighter(highlighters.get(editor), myOffset);
             if (highlighter != null) {
@@ -184,6 +190,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
     }
 
     // Range highlighters can be disposed by ESC key, let highlighting pass thread handle this case
+    @Override
     public void update(@NotNull Editor editor) {
         if (highlighters.containsKey(editor)) {
             for (RangeHighlighter highlighter : highlighters.get(editor)) {
@@ -195,6 +202,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         }
     }
 
+    @Override
     public void documentChanged(@NotNull Editor editor, int offset) {
         if (highlighters.containsKey(editor)) {
             RangeHighlighter highlighter = getTriggeredRangeHighlighter(highlighters.get(editor), offset);
@@ -211,6 +219,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         }
     }
 
+    @Override
     public RangeHighlighter getTriggeredRangeHighlighter(Editor editor, int offset) {
         if (highlighters.containsKey(editor)) {
             for (RangeHighlighter highlighter : highlighters.get(editor)) {
@@ -239,6 +248,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         }
     }
 
+    @Override
     public void dispose(Editor editor) {
         if (highlighters.containsKey(editor)) {
             for (RangeHighlighter highlighter : highlighters.remove(editor)) {
@@ -295,7 +305,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
             return text;
         }
     }
-    
+
     private String getText(Editor editor, RangeHighlighter h) {
         return editor.getDocument().getText(new TextRange(h.getStartOffset(), h.getEndOffset()));
     }
@@ -323,32 +333,32 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
     private void update(Editor editor, String text, List<RangeHighlighter> highlighters, boolean dispose) {
         ApplicationManager.getApplication().invokeLater(() -> WriteCommandAction.runWriteCommandAction(project, () -> {
             PlaceHolderDocumentListener listener = documentListeners.get(editor);
-                try {
-                    listener.setMute(true);
-                    final String pureText = StringUtils.strip(text, "'\"");
-                    for (RangeHighlighter h : highlighters) {
-                        int start = h.getStartOffset();
-                        int end = h.getEndOffset();
-                        if (isWrapped(getText(editor, h))) {
-                            start += 1;
-                            end -= 1;
-                        }
-                        editor.getDocument().replaceString(start, end, pureText);
-                        if (dispose) {
-                            dispose(editor, h);
-                        }
+            try {
+                listener.setMute(true);
+                final String pureText = StringUtils.strip(text, "'\"");
+                for (RangeHighlighter h : highlighters) {
+                    int start = h.getStartOffset();
+                    int end = h.getEndOffset();
+                    if (isWrapped(getText(editor, h))) {
+                        start += 1;
+                        end -= 1;
+                    }
+                    editor.getDocument().replaceString(start, end, pureText);
+                    if (dispose) {
+                        dispose(editor, h);
                     }
                 }
-                finally {
-                    listener.setMute(false);
-                }
             }
-        ));
+            finally {
+                listener.setMute(false);
+            }
+        }
+                ));
     }
 
     @Override
     public void dispose() {
-		Project.getInstance().dispose();
+        Project.getInstance().dispose();
         for (Editor editor : new HashSet<>(highlighters.keySet())) {
             dispose(editor);
         }

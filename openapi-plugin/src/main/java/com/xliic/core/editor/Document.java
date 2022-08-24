@@ -7,36 +7,36 @@ import com.xliic.core.util.TextRange;
 
 public interface Document {
 
-	public String getText();
+    public String getText();
 
-	@NotNull
-	public String getText(@NotNull TextRange range);
+    @NotNull
+    public String getText(@NotNull TextRange range);
 
-	public void setReadOnly(boolean isReadOnly);
-	  
-	public int getTextLength();
+    public void setReadOnly(boolean isReadOnly);
 
-	public int getLineOffset(int line);
+    public int getTextLength();
 
-	public int getLineNumber(int offset);
+    public int getLineOffset(int line);
 
-	public int getLineStartOffset(int lineNumber);
+    public int getLineNumber(int offset);
 
-	public int getLineEndOffset(int lineNumber);
+    public int getLineStartOffset(int lineNumber);
 
-	public void addDocumentListener(@NotNull DocumentListener listener);
+    public int getLineEndOffset(int lineNumber);
 
-	public void removeDocumentListener(@NotNull DocumentListener listener);
+    public void addDocumentListener(@NotNull DocumentListener listener);
 
-	public RangeMarker createRangeMarker(int startOffset, int endOffset);
+    public void removeDocumentListener(@NotNull DocumentListener listener);
 
-	public RangeMarker createRangeMarker(@NotNull TextRange textRange);
+    public RangeMarker createRangeMarker(int startOffset, int endOffset);
 
-	public void insertString(int offset, @NotNull CharSequence s);
+    public RangeMarker createRangeMarker(@NotNull TextRange textRange);
 
-	public void deleteString(int startOffset, int endOffset);
+    public void insertString(int offset, @NotNull CharSequence s);
 
-	public void replaceString(int startOffset, int endOffset, @NotNull CharSequence s);
+    public void deleteString(int startOffset, int endOffset);
 
-	public boolean hasCrLfEnding();
+    public void replaceString(int startOffset, int endOffset, @NotNull CharSequence s);
+
+    public boolean hasCrLfEnding();
 }

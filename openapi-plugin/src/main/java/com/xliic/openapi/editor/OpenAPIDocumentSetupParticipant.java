@@ -20,61 +20,61 @@ import org.xml.sax.SAXParseException;
 
 public class OpenAPIDocumentSetupParticipant implements IDocumentSetupParticipant, IDocumentSetupParticipantExtension {
 
-	@SuppressWarnings("unused")
-	private final class DocumentValidator implements IDocumentListener {
+    @SuppressWarnings("unused")
+    private final class DocumentValidator implements IDocumentListener {
 
-		private final IFile file;
-		private IMarker marker;
+        private final IFile file;
+        private IMarker marker;
 
-		private DocumentValidator(IFile file) {
-			this.file = file;
-		}
+        private DocumentValidator(IFile file) {
+            this.file = file;
+        }
 
-		@Override
-		public void documentChanged(DocumentEvent event) {
-			if (this.marker != null) {
-				try {
-					this.marker.delete();
-				} 
-				catch (CoreException e) {
-					e.printStackTrace();
-				}
-				this.marker = null;
-			}
-			try (StringReader reader = new StringReader(event.getDocument().get());) {
-				DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-				documentBuilder.parse(new InputSource(reader));
-			} 
-			catch (Exception ex) {
-				try {
-					this.marker = file.createMarker(IMarker.PROBLEM);
-					this.marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-					this.marker.setAttribute(IMarker.MESSAGE, ex.getMessage());
-					if (ex instanceof SAXParseException) {
-						SAXParseException saxParseException = (SAXParseException)ex;
-						int lineNumber = saxParseException.getLineNumber();
-						int offset = event.getDocument().getLineInformation(lineNumber - 1).getOffset() + saxParseException.getColumnNumber() - 1;
-						this.marker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
-						this.marker.setAttribute(IMarker.CHAR_START, offset);
-						this.marker.setAttribute(IMarker.CHAR_END, offset + 1);
-					}
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
+        @Override
+        public void documentChanged(DocumentEvent event) {
+            if (this.marker != null) {
+                try {
+                    this.marker.delete();
+                }
+                catch (CoreException e) {
+                    e.printStackTrace();
+                }
+                this.marker = null;
+            }
+            try (StringReader reader = new StringReader(event.getDocument().get());) {
+                DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                documentBuilder.parse(new InputSource(reader));
+            }
+            catch (Exception ex) {
+                try {
+                    this.marker = file.createMarker(IMarker.PROBLEM);
+                    this.marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+                    this.marker.setAttribute(IMarker.MESSAGE, ex.getMessage());
+                    if (ex instanceof SAXParseException) {
+                        SAXParseException saxParseException = (SAXParseException)ex;
+                        int lineNumber = saxParseException.getLineNumber();
+                        int offset = event.getDocument().getLineInformation(lineNumber - 1).getOffset() + saxParseException.getColumnNumber() - 1;
+                        this.marker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
+                        this.marker.setAttribute(IMarker.CHAR_START, offset);
+                        this.marker.setAttribute(IMarker.CHAR_END, offset + 1);
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-		@Override
-		public void documentAboutToBeChanged(DocumentEvent event) {
-		}
-	}
+        @Override
+        public void documentAboutToBeChanged(DocumentEvent event) {
+        }
+    }
 
-	@Override
-	public void setup(IDocument document) {
-	}
+    @Override
+    public void setup(IDocument document) {
+    }
 
-	@Override
-	public void setup(IDocument document, IPath location, LocationKind locationKind) {
-	}
+    @Override
+    public void setup(IDocument document, IPath location, LocationKind locationKind) {
+    }
 }

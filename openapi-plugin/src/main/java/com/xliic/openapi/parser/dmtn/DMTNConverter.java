@@ -32,9 +32,9 @@ public class DMTNConverter {
     }
 
     private void dfs(Node parentAST,
-                     DefaultMutableTreeNode parentDMTN,
-                     Map<String, DefaultMutableTreeNode> pointers,
-                     Map<String, DefaultMutableTreeNode> panels) {
+            DefaultMutableTreeNode parentDMTN,
+            Map<String, DefaultMutableTreeNode> pointers,
+            Map<String, DefaultMutableTreeNode> panels) {
 
         int level = parentAST.getDepth();
 
