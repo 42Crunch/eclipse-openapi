@@ -1,28 +1,39 @@
 package com.xliic.openapi.report.tree.filter;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.ui.IWorkbenchWindow;
+import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.AnJAction;
+import com.xliic.core.actionSystem.AnJActionEvent;
+import com.xliic.core.ui.SearchDialogWrapper;
+import com.xliic.core.util.Icon;
 import com.xliic.openapi.OpenAPIImages;
-import com.xliic.openapi.report.tree.ui.ReportPanelView;
+import com.xliic.openapi.report.tree.ui.ReportPanel;
 
-public class ShowFilterAction extends Action {
+public class ShowFilterAction extends AnJAction {
 
-	private IWorkbenchWindow window;
-    private final ReportPanelView view;
+    private final ReportPanel panel;
+    private final FilterState filterState;
 
-    public ShowFilterAction(IWorkbenchWindow window, ReportPanelView view) {    	
-        super("Filter", IAction.AS_CHECK_BOX);
-		setToolTipText("Filter");
-		setImageDescriptor(OpenAPIImages.Filter);
-		this.window = window;
-		this.view = view;
+    public ShowFilterAction(ReportPanel panel) {    	
+        super("Search", "", new Icon(OpenAPIImages.Filter));
+        this.panel = panel;
+        this.filterState = panel.getFilterState();
     }
 
-    @Override
-    public void run() {
-    	FilterDialogWrapper filterSelectionDialog = new FilterDialogWrapper(window.getShell(), view, this);
-		filterSelectionDialog.open();
-    }
+	@Override
+	public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {
+		String text = filterState.getSearchText();
+	    boolean caseSensitive = filterState.isCaseSensitiveState();
+	    boolean regex = filterState.isRegexState();
+	    boolean wholeWords = filterState.isWholeWordsState();		
+    	SearchDialogWrapper dialog = new SearchDialogWrapper(panel.getProject(), text, caseSensitive, regex, wholeWords);
+    	dialog.open();
+    	if (dialog.isUpdated()) {
+            filterState.setSearchText(dialog.getText());
+            filterState.setCaseSensitiveState(dialog.isCaseSensitive());
+            filterState.setRegexState(dialog.isRegex());
+            filterState.setWholeWordsState(dialog.isWholeWords());
+            panel.reloadAndRestoreExpansion();
+    	}
+	}
 }

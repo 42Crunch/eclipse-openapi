@@ -93,18 +93,23 @@ public class OpenAPIBulkFileListener extends BulkFileListener {
 	}
 
     private void update(VirtualFile newFile, String oldFileName) {
-
-        Map<String, Object> asyncTaskData = new HashMap<>();
-        asyncTaskData.put(AsyncService.OLD_FILE_NAME_KEY, oldFileName);
-        BundleService bundleService = BundleService.getInstance(project);
-        bundleService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
-
-        AuditService auditService = AuditService.getInstance(project);
-        auditService.handleFileNameChanged(newFile, oldFileName);
-
-        ASTService astService = ASTService.getInstance(project);
-        astService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
-
-        project.getMessageBus().syncPublisher(FileListener.TOPIC).handleFileNameChanged(newFile, oldFileName);
+    	if (isFileNameUpdated(newFile, oldFileName) ) {
+	        Map<String, Object> asyncTaskData = new HashMap<>();
+	        asyncTaskData.put(AsyncService.OLD_FILE_NAME_KEY, oldFileName);
+	        BundleService bundleService = BundleService.getInstance(project);
+	        bundleService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
+	
+	        AuditService auditService = AuditService.getInstance(project);
+	        auditService.handleFileNameChanged(newFile, oldFileName);
+	
+	        ASTService astService = ASTService.getInstance(project);
+	        astService.runAsyncTask(project, AsyncTaskType.REFACTOR_RENAME, newFile, asyncTaskData);
+	
+	        project.getMessageBus().syncPublisher(FileListener.TOPIC).handleFileNameChanged(newFile, oldFileName);
+    	}
+    }
+    
+    private static boolean isFileNameUpdated(VirtualFile newFile, String oldFileName) {
+        return (newFile != null) && (oldFileName != null) && !oldFileName.equals(newFile.getPath());
     }
 }

@@ -1,29 +1,32 @@
 package com.xliic.openapi.report.tree.filter;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-
-import com.xliic.openapi.OpenAPIImages;
+import com.xliic.core.actionSystem.AnJActionEvent;
+import com.xliic.core.actionSystem.ToggleAction;
+import com.xliic.core.project.DumbAware;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.report.tree.ui.ReportPanelView;
+import com.xliic.openapi.report.tree.ui.ReportPanel;
+import icons.OpenApiIcons;
+import org.jetbrains.annotations.NotNull;
 
-public class ShowForSelectedFileAction extends Action {
+public class ShowForSelectedFileAction extends ToggleAction implements DumbAware {
 
-    private final ReportPanelView view;
+    private final ReportPanel panel;
     private final FilterState filterState;
 
-    public ShowForSelectedFileAction(ReportPanelView view) {    	
-        super(OpenApiBundle.message("openapi.action.show.file"), IAction.AS_CHECK_BOX);
-		setToolTipText(OpenApiBundle.message("openapi.action.show.file"));
-		setImageDescriptor(OpenAPIImages.File);
-        this.view = view;
-        this.filterState = view.getFilterState();
-        setChecked(filterState.isShowSelectedFileOnly());
+    public ShowForSelectedFileAction(ReportPanel panel) {
+        super(OpenApiBundle.message("openapi.action.show.file"), "", OpenApiIcons.File);
+        this.panel = panel;
+        this.filterState = panel.getFilterState();
     }
 
     @Override
-    public void run() {
-        filterState.setShowSelectedFileOnly(isChecked());
-        view.reloadAndRestoreExpansion();
+    public boolean isSelected(@NotNull AnJActionEvent event) {
+        return filterState != null && filterState.isShowSelectedFileOnly();
+    }
+
+    @Override
+    public void setSelected(@NotNull AnJActionEvent event, boolean showSelectedFileOnly) {
+        filterState.setShowSelectedFileOnly(showSelectedFileOnly);
+        panel.reloadAndRestoreExpansion();
     }
 }

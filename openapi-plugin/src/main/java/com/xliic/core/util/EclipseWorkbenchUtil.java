@@ -21,6 +21,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.ui.PanelViewPart;
 import com.xliic.openapi.OpenAPIPerspectiveFactory;
 
 @SuppressWarnings("restriction")
@@ -112,6 +113,14 @@ public final class EclipseWorkbenchUtil {
 	public static void updateActionBars() {
 		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
 			((WorkbenchWindow) window).updateActionBars();
+    		for (IWorkbenchPage page : window.getPages()) {
+    			for (IViewReference ref : page.getViewReferences()) {
+    				IViewPart viewPart = ref.getView(false);
+    				if (viewPart instanceof PanelViewPart) {
+    					((PanelViewPart) viewPart).refreshToolBarActions();
+    				}
+    			}
+    		}
 		}
 	}
 

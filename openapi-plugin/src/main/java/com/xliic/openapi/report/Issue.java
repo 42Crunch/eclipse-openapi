@@ -139,11 +139,6 @@ public class Issue {
 		return score;
 	}
 
-	@Override
-	public String toString() {
-		return super.toString();
-	}
-
 	public String getId() {
 		return id;
 	}

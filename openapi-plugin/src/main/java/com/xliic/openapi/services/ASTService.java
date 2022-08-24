@@ -212,11 +212,6 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     }
 
     @Override
-    public Node getRootNode(@NotNull VirtualFile file, @NotNull String text) {
-        return getRootNode(file.getPath(), text);
-    }
-
-    @Override
     public Node getRootNode(@NotNull String fileName, @NotNull String text) {
         Node result = cache.get(fileName);
         if (result != null) {

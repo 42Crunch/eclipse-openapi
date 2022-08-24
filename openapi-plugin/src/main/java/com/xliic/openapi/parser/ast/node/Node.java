@@ -63,10 +63,6 @@ public abstract class Node implements Comparable<Node> {
         return getValueRange().compareTo(o.getValueRange());
     }
 
-    public Object getNode() {
-        return node;
-    }
-
     public Node getParent() {
         return parent;
     }

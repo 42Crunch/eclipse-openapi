@@ -2,6 +2,8 @@ package com.xliic.openapi.preview;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,9 +27,9 @@ public class PreviewUtils {
 		return query.split("&")[0].split("=")[1];
 	}
 
-	public static String getCanonicalPathFromQuery(String query) {
-		return query.split("&")[1].split("=")[1];
-	}
+    public static String getCanonicalPathFromQuery(String query) {
+        return URLDecoder.decode(query.split("&")[1].split("=")[1], StandardCharsets.UTF_8);
+    }
 
 	public static boolean isPortValid(int port) {
 		return (0 < port) && (port <= 65535);

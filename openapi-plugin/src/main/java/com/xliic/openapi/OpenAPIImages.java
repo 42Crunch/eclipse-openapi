@@ -13,6 +13,9 @@ public class OpenAPIImages {
 	public static final ImageDescriptor CreateWizard;
 	public static final ImageDescriptor Any_type;
 
+	public static final ImageDescriptor CollapseAll;
+	public static final ImageDescriptor ExpandAll;
+
 	public static final ImageDescriptor ReportError;
 	public static final ImageDescriptor ReportWarning;
 	public static final ImageDescriptor ReportInfo;
@@ -51,6 +54,9 @@ public class OpenAPIImages {
 		AddSnippet = createImageDescriptor("icons/add.png");
 		CreateWizard = createImageDescriptor("icons/openapi-create-wizard.png");
 		Any_type = createImageDescriptor("icons/any_type.png");
+
+		CollapseAll = createImageDescriptor("icons/collapseall.png");
+		ExpandAll = createImageDescriptor("icons/expandall.png");
 
 		ReportError = createImageDescriptor("icons/reportError.png");
 		ReportWarning = createImageDescriptor("icons/reportWarning.png");

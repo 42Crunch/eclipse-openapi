@@ -26,10 +26,6 @@ public class FixItem {
         this(List.of(issue), absPointer, text, placeHolders, null);
     }
 
-    public FixItem(List<Issue> issues, String absPointer, String text) {
-        this(issues, absPointer, text, Collections.emptyList(), null);
-    }
-
     public FixItem(List<Issue> issues, String absPointer, String text, List<PlaceHolder> placeHolders) {
         this(issues, absPointer, text, placeHolders, null);
     }

@@ -29,6 +29,14 @@ public abstract class AsyncService implements Runnable {
 
     @Override
     public void run() {
+        try {
+            safeRun();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    private void safeRun() {
         if (isActive()) {
             LinkedHashSet<AsyncTask> copyQueue;
             synchronized (queue) {
@@ -57,7 +65,9 @@ public abstract class AsyncService implements Runnable {
                         refactorRename(task);
                     }
                 }
-                catch (Exception ignored) {}
+                catch (Throwable t) {
+                    t.printStackTrace();
+                }
             }
             if (isActive()) {
                 onRunComplete();

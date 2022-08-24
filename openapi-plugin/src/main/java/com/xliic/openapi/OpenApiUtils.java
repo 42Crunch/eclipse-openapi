@@ -32,9 +32,6 @@ import com.xliic.openapi.report.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.ExtRefService;
 import com.xliic.openapi.settings.SettingsKeys;
-import com.xliic.openapi.tree.node.BaseNode;
-import com.xliic.openapi.tree.node.PanelNode;
-import com.xliic.openapi.tree.node.SimpleNode;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -42,7 +39,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -71,26 +67,13 @@ public class OpenApiUtils {
 
 	public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
 
-    public static String pointer(String key) {
-        return pointer(StringUtils.EMPTY, key);
-    }
-
     public static String pointer(String parentPointer, String key) {
         return parentPointer + POINTER_SEPARATOR + escape(key);
-    }
-
-    public static String pointer(String parentPointer, int index) {
-        return parentPointer + POINTER_SEPARATOR + index;
     }
 
     public static String escape(String token) {
         return token.replace("~", "~0").replace("/", "~1")
                 .replace("\\", "\\\\").replace("\"", "\\\"");
-    }
-
-    public static String unescape(String token) {
-        return token.replace("~1", "/").replace("~0", "~")
-                .replace("\\\"", "\"").replace("\\\\", "\\");
     }
 
     public static String getRefTextFromPsiElement(@NotNull PsiElement psiElement) {
@@ -101,12 +84,15 @@ public class OpenApiUtils {
 		if (target == null) {
 			return new OpenFileDescriptor(project, file);
 		} else {
-			Range range = EclipseUtil.getSelectionRange(target);
-			if (range == null) {
-				return new OpenFileDescriptor(project, file);
-			}
-	        return new OpenFileDescriptor(project, file, range.getOffset(), range.getLength());
+	        return getOpenFileDescriptor(project, file, EclipseUtil.getSelectionRange(target));
 		}
+	}
+	
+	public static OpenFileDescriptor getOpenFileDescriptor(@NotNull Project project, @NotNull VirtualFile file, Range range) {
+		if (range == null) {
+			return new OpenFileDescriptor(project, file);
+		}
+        return new OpenFileDescriptor(project, file, range.getOffset(), range.getLength());
 	}
 
     public static String getTextFromFile(@NotNull VirtualFile file) {
@@ -186,42 +172,8 @@ public class OpenApiUtils {
         return getOpenAPIVersion(psiFile.toPsiElement().getNode());
     }
 
-    public static void show(@NotNull Project project, @NotNull String toolWindowId) {
-        ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(toolWindowId);
-        if (toolWindow != null && !toolWindow.isVisible()) {
-            toolWindow.show(null);
-        }
-    }
-
     public static boolean isToolWindowRegistered(@NotNull Project project, @NotNull String toolWindowId) {
         return ToolWindowManager.getInstance(project).getToolWindow(toolWindowId) != null;
-    }
-
-    public static DefaultMutableTreeNode getFirstNotEmptyPanel(DefaultMutableTreeNode panelNode) {
-
-        String panelName = ((SimpleNode) panelNode.getUserObject()).getName();
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) panelNode.getParent();
-        DefaultMutableTreeNode nextPanel = null;
-
-        int count = root.getChildCount();
-        boolean panelNodeFound = false;
-
-        for (int i = count - 1 ; i >= 0 ; i--) {
-
-            DefaultMutableTreeNode p = (DefaultMutableTreeNode) root.getChildAt(i);
-            BaseNode o = (BaseNode) p.getUserObject();
-            if (o instanceof PanelNode) {
-                if (!panelNodeFound && panelName.equals(o.getName())) {
-                    panelNodeFound = true;
-                    continue;
-                }
-                if (panelNodeFound && ((PanelNode) o).exists()) {
-                    nextPanel = p;
-                    break;
-                }
-            }
-        }
-        return nextPanel;
     }
 
     public static OpenApiFileType getFileType(PsiFile file) {
@@ -304,7 +256,12 @@ public class OpenApiUtils {
     }
 
     public static Node getJsonAST(@NotNull String text) {
-        return new ParserJsonAST().parse(text);
+        try {
+            return new ParserJsonAST().parse(text);
+        }
+        catch (Throwable t) {
+            return null;
+        }
     }
 
     public static ResponseStatus getStatus(@NotNull Node node) {
@@ -411,10 +368,8 @@ public class OpenApiUtils {
     }
 
     public static void showErrorMessageDialog(@NotNull Project project, @NotNull String message) {
-        SwingUtilities.invokeLater(() -> {
-            Messages.showMessageDialog(project, message,
-                    OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
-        });
+        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, message,
+                OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
     }
 
     public static String getURI(String fileName) {

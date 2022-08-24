@@ -14,8 +14,6 @@ public interface IASTService {
 
     public Node getRootNode(@NotNull String fileName);
 
-    public Node getRootNode(@NotNull VirtualFile file, @NotNull String text);
-
     public Node getRootNode(@NotNull String fileName, @NotNull String text);
 
     public @NotNull Node getOpenAPIRootNode(@NotNull String fileName) throws Exception;

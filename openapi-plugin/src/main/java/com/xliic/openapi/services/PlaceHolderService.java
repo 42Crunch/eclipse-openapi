@@ -1,6 +1,7 @@
 package com.xliic.openapi.services;
 
 import com.xliic.core.Disposable;
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeInsight.editorActions.enter.EnterHandlerDelegate;
 import com.xliic.core.codeInsight.highlighting.HighlightManager;
 import com.xliic.core.command.WriteCommandAction;
@@ -22,6 +23,7 @@ import com.xliic.core.ui.popup.JBPopupFactory;
 import com.xliic.core.util.Disposer;
 import com.xliic.core.util.DocumentUtil;
 import com.xliic.core.util.Pair;
+import com.xliic.core.util.TextRange;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.listeners.PlaceHolderDocumentListener;
 import com.xliic.openapi.listeners.PlaceHolderEditorMouseListener;
@@ -31,6 +33,7 @@ import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.services.api.IPlaceHolderService;
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -42,8 +45,8 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
     private final Map<Editor, Set<RangeHighlighter>> highlighters;
     private final Map<RangeHighlighter, Pair<PlaceHolder, Boolean>> highlighterInfoMap;
 
-    private final Map<Editor, DocumentListener> documentListeners;
-    private final Map<Editor, EditorMouseListener> editorMouseListeners;
+    private final Map<Editor, PlaceHolderDocumentListener> documentListeners;
+    private final Map<Editor, PlaceHolderEditorMouseListener> editorMouseListeners;
 
     private JBPopup popup;
 
@@ -142,7 +145,13 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
                 final String replaceText = wrapInQuote(editor, text, startOffset, endOffset);
                 WriteCommandAction.runWriteCommandAction(project, () -> {
                     editor.getDocument().replaceString(startOffset, endOffset, replaceText);
-                    dispose(editor, highlighter);
+                    List<RangeHighlighter> bindings = getBoundRangeHighlighters(editor, highlighter);
+                    if (bindings.isEmpty()) {
+                        dispose(editor, highlighter);
+                    }
+                    else {
+                        update(editor, replaceText, bindings, true);
+                    }
                 });
                 closePopup();
                 return true;
@@ -188,8 +197,16 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
 
     public void documentChanged(@NotNull Editor editor, int offset) {
         if (highlighters.containsKey(editor)) {
-            if (getTriggeredRangeHighlighter(highlighters.get(editor), offset) == null) {
+            RangeHighlighter highlighter = getTriggeredRangeHighlighter(highlighters.get(editor), offset);
+            if (highlighter == null) {
                 dispose(editor);
+            }
+            else {
+                List<RangeHighlighter> bindings = getBoundRangeHighlighters(editor, highlighter);
+                if (!bindings.isEmpty()) {
+                    String text = getText(editor, highlighter);
+                    update(editor, text, bindings, false);
+                }
             }
         }
     }
@@ -206,11 +223,19 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
     }
 
     private void dispose(Editor editor, RangeHighlighter highlighter) {
-        highlighter.dispose();
-        highlighters.get(editor).remove(highlighter);
-        highlighterInfoMap.remove(highlighter);
-        if (highlighters.get(editor).isEmpty()) {
+        Set<RangeHighlighter> editorHighlighters = highlighters.get(editor);
+        String id = highlighterInfoMap.get(highlighter).getFirst().getId();
+        for (RangeHighlighter h : new HashSet<>(editorHighlighters)) {
+            PlaceHolder ph = highlighterInfoMap.get(h).getFirst();
+            if (id.equals(ph.getId())) {
+                h.dispose();
+                editorHighlighters.remove(h);
+                highlighterInfoMap.remove(h);
+            }
+        }
+        if (editorHighlighters.isEmpty()) {
             dispose(editor);
+            highlighters.remove(editor);
         }
     }
 
@@ -269,6 +294,56 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         else {
             return text;
         }
+    }
+    
+    private String getText(Editor editor, RangeHighlighter h) {
+        return editor.getDocument().getText(new TextRange(h.getStartOffset(), h.getEndOffset()));
+    }
+
+    private boolean isWrapped(String text) {
+        return (text.startsWith("'") && text.endsWith("'")) || ((text.startsWith("\"") && text.endsWith("\"")));
+    }
+
+    private List<RangeHighlighter> getBoundRangeHighlighters(Editor editor, RangeHighlighter h) {
+        List<RangeHighlighter> result = new LinkedList<>();
+        if (highlighters.containsKey(editor) && highlighterInfoMap.containsKey(h)) {
+            PlaceHolder ph = highlighterInfoMap.get(h).getFirst();
+            for (RangeHighlighter oh : highlighters.get(editor)) {
+                if (oh != h) {
+                    PlaceHolder oph = highlighterInfoMap.get(oh).getFirst();
+                    if (ph.isBoundTo(oph)) {
+                        result.add(oh);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private void update(Editor editor, String text, List<RangeHighlighter> highlighters, boolean dispose) {
+        ApplicationManager.getApplication().invokeLater(() -> WriteCommandAction.runWriteCommandAction(project, () -> {
+            PlaceHolderDocumentListener listener = documentListeners.get(editor);
+                try {
+                    listener.setMute(true);
+                    final String pureText = StringUtils.strip(text, "'\"");
+                    for (RangeHighlighter h : highlighters) {
+                        int start = h.getStartOffset();
+                        int end = h.getEndOffset();
+                        if (isWrapped(getText(editor, h))) {
+                            start += 1;
+                            end -= 1;
+                        }
+                        editor.getDocument().replaceString(start, end, pureText);
+                        if (dispose) {
+                            dispose(editor, h);
+                        }
+                    }
+                }
+                finally {
+                    listener.setMute(false);
+                }
+            }
+        ));
     }
 
     @Override

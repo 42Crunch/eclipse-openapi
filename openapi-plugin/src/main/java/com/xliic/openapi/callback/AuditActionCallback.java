@@ -45,11 +45,17 @@ public class AuditActionCallback extends ActionCallback {
         }
     }
 
-    public void setDone(@NotNull Node response) {
+    public void setDone(@NotNull Node response, boolean isLocal) {
 
         AuditService auditService = AuditService.getInstance(project);
         Audit newAudit = ApplicationManager.getApplication().runReadAction((Computable<Audit>) () ->  {
-            auditService.setAuditReport(file.getPath(), new Audit(project, file.getPath(), response));
+            Audit report;
+            if (isLocal) {
+                report = new Audit(project, file.getPath(), response, true);
+            } else {
+                report = new Audit(project, file.getPath(), response);
+            }
+            auditService.setAuditReport(file.getPath(), report);
             PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
             if (psiFile != null) {
                 DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
@@ -88,18 +94,16 @@ public class AuditActionCallback extends ActionCallback {
                 }
             }
             if (sb.length() > 0) {
-                SwingUtilities.invokeLater(() -> {
-                    Messages.showMessageDialog(project, message("openapi.audit.issues.notification", sb.toString()),
-                            message("openapi.warning.title"), Messages.getWarningIcon());
-                });
+                SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project,
+                        message("openapi.audit.issues.notification", sb.toString()),
+                        message("openapi.warning.title"), Messages.getWarningIcon()));
             }
         });
     }
 
     @Override
     public void setRejected() {
-        SwingUtilities.invokeLater(() -> {
-            Messages.showMessageDialog(project, getError(), message("openapi.error.title"), Messages.getErrorIcon());
-        });
+        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, getError(),
+                message("openapi.error.title"), Messages.getErrorIcon()));
     }
 }

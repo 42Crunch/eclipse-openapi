@@ -138,7 +138,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 ToolWindow platformWindow = windowManager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
                 if (platformWindow != null && !platformWindow.isDisposed()) {
                 	PlatformPanelView view = (PlatformPanelView) platformWindow.getView();
-                	if (view != null && view.isUnavailable()) {
+                	if (view != null && !view.isReady()) {
                 		// Eclipse Development Note 
                 		// Removing will trigger view recreation
                 		platformWindow.remove();

@@ -1,35 +1,33 @@
 package com.xliic.openapi.report.tree.filter;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-
-import com.xliic.openapi.OpenAPIImages;
+import com.xliic.core.actionSystem.AnJActionEvent;
+import com.xliic.core.actionSystem.ToggleAction;
+import com.xliic.core.project.DumbAware;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.report.tree.ui.ReportPanelView;
+import com.xliic.openapi.report.tree.ui.ReportPanel;
+import icons.OpenApiIcons;
+import org.jetbrains.annotations.NotNull;
 
-public class FilterResetAction extends Action {
+public class FilterResetAction extends ToggleAction implements DumbAware {
 
-    private final ReportPanelView view;
+    private final ReportPanel panel;
     private final FilterState filterState;
 
-    public FilterResetAction(ReportPanelView view) {    	
-        super(OpenApiBundle.message("openapi.action.show.reset"), IAction.AS_CHECK_BOX);
-		setToolTipText(OpenApiBundle.message("openapi.action.show.reset"));
-		setImageDescriptor(OpenAPIImages.Reset);
-        this.view = view;
-        this.filterState = view.getFilterState();
-        setChecked(false);
+    public FilterResetAction(ReportPanel panel) {
+        super(OpenApiBundle.message("openapi.action.show.reset"), "", OpenApiIcons.Reset);
+        this.panel = panel;
+        this.filterState = panel.getFilterState();
     }
 
     @Override
-    public boolean isChecked() {
+    public boolean isSelected(@NotNull AnJActionEvent event) {
         return false;
     }
 
     @Override
-    public void run() {
+    public void setSelected(@NotNull AnJActionEvent event, boolean showError) {
         filterState.reset();
-        view.cleanSearchTextArea();
-        view.reloadAndRestoreExpansion();
+        panel.updateTitleActions();
+        panel.reloadAndRestoreExpansion();
     }
 }

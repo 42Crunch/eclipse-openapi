@@ -14,8 +14,18 @@ import org.jetbrains.annotations.NotNull;
 public abstract class MouseAdapter implements MouseListener, IMenuListener {
     
 	private boolean doubleClick;
+	private final boolean monitorDoubleClick;
+
 	private TreeViewer viewer;
 	private final CompositeActionGroup fActionSet = new CompositeActionGroup();
+
+	public MouseAdapter() {
+		this(true);
+	}
+
+	public MouseAdapter(boolean monitorDoubleClick) {
+		this.monitorDoubleClick = monitorDoubleClick;
+	}
 
 	@Override
 	public void mouseDoubleClick(MouseEvent e) {
@@ -26,16 +36,20 @@ public abstract class MouseAdapter implements MouseListener, IMenuListener {
 	public void mouseDown(MouseEvent e) {
 		doubleClick = false;
 		if (e.count == 1 && e.button == com.xliic.core.ui.treeStructure.MouseEvent.BUTTON1) {
-	        Display.getDefault().timerExec(Display.getDefault().getDoubleClickTime(), new Runnable() {
-	            public void run() {
-	                if (!doubleClick) {
-	                    mouseClicked(new com.xliic.core.ui.treeStructure.MouseEvent(e.button));
-	                }
-	            }
-	        });			
-		}		 
+			if (monitorDoubleClick) {
+		        Display.getDefault().timerExec(Display.getDefault().getDoubleClickTime(), new Runnable() {
+		            public void run() {
+		                if (!doubleClick) {
+		                    mouseClicked(new com.xliic.core.ui.treeStructure.MouseEvent(e.button));
+		                }
+		            }
+		        });
+			} else {
+				mouseClicked(new com.xliic.core.ui.treeStructure.MouseEvent(e.button));
+			}
+		}
 	}
-	
+
 	@Override
 	public void mouseUp(MouseEvent e) {}
 	

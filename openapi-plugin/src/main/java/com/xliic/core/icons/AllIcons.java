@@ -17,5 +17,15 @@ public class AllIcons {
     
     public static final class Actions {
     	public static final @NotNull Icon Refresh = IconLoader.findIcon("/icons/refresh.png");
+    	public static final @NotNull Icon CollapseAll = IconLoader.findIcon("/icons/collapseall.png");
+    	public static final @NotNull Icon ExpandAll = IconLoader.findIcon("/icons/expandall.png");
+    }
+    
+    public static final class ObjectBrowser {
+    	public static final @NotNull Icon Sorted = IconLoader.findIcon("/icons/sorted.png");
+    }
+
+    public static final class FileTypes {
+    	public static final @NotNull Icon Any_type = IconLoader.findIcon("/icons/any_type.png");
     }
 }

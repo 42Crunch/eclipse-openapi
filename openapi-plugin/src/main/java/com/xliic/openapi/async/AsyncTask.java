@@ -10,7 +10,8 @@ import java.util.Map;
 
 public class AsyncTask {
 
-    private final Project project;
+    @SuppressWarnings("unused")
+	private final Project project;
     private final VirtualFile file;
     private final AsyncTaskType type;
     private final Map<String, Object> data;
@@ -36,10 +37,6 @@ public class AsyncTask {
 
     public AsyncTaskType getType() {
         return type;
-    }
-
-    public Project getProject() {
-        return project;
     }
 
     public VirtualFile getFile() {

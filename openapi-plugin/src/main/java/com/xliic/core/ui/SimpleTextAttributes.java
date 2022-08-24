@@ -1,29 +1,64 @@
 package com.xliic.core.ui;
 
-import java.awt.Color;
+import static org.eclipse.ui.PlatformUI.getWorkbench;
 
-public final class SimpleTextAttributes {
+import org.eclipse.jface.viewers.StyledString.Styler;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.TextStyle;
+import org.jetbrains.annotations.Nullable;
+
+public final class SimpleTextAttributes extends Styler {
 	
     public static final int STYLE_PLAIN = 0;
     public static final int STYLE_BOLD = 1;
+    public static final int STYLE_ITALIC = 2;
     
-    public static final SimpleTextAttributes REGULAR_ATTRIBUTES = new SimpleTextAttributes(0, (Color) null);
-    public static final SimpleTextAttributes REGULAR_BOLD_ATTRIBUTES = new SimpleTextAttributes(1, (Color) null);
-    public static final SimpleTextAttributes GRAYED_ATTRIBUTES = new SimpleTextAttributes(0, Color.GRAY);
+    public static final SimpleTextAttributes REGULAR_ATTRIBUTES = new SimpleTextAttributes(STYLE_PLAIN, null);
+    public static final SimpleTextAttributes REGULAR_BOLD_ATTRIBUTES = new SimpleTextAttributes(STYLE_BOLD, null);
+    public static final SimpleTextAttributes GRAYED_ATTRIBUTES = new SimpleTextAttributes(STYLE_PLAIN, JBColor.GRAY);
+    public static final SimpleTextAttributes GRAY_ITALIC_ATTRIBUTES = new SimpleTextAttributes(STYLE_ITALIC, JBColor.GRAY);
     
-    private final Color myFgColor;
-    private final int myStyle;
+    private static final Font FONT_BOLD = getFont(SWT.BOLD);
+    private static final Font FONT_ITALIC = getFont(SWT.ITALIC);
     
-    public SimpleTextAttributes(int style, Color fgColor) {
-        myStyle = style;
-        myFgColor = fgColor;
+    private final int styler;
+    @Nullable
+    private final Color fgColor;
+    
+    public SimpleTextAttributes(int style, @Nullable Color fgColor) {
+        this.styler = style;
+        this.fgColor = fgColor;
     }
     
+    @Nullable
     public Color getFgColor() {
-        return this.myFgColor;
+        return this.fgColor;
     }
     
     public int getStyle() {
-        return this.myStyle;
+        return styler;
     }
+    
+	@Override
+	public void applyStyles(TextStyle textStyle) {
+        if (styler == 1) {
+            textStyle.font = FONT_BOLD;
+        } else if (styler == 2) {
+        	textStyle.font = FONT_ITALIC;
+        }
+		if (fgColor != null) {
+			textStyle.foreground = fgColor.getSwtGraphicsColor();
+		}	
+	}
+	
+	private static Font getFont(int style) {
+		Font font = getWorkbench().getDisplay().getSystemFont();
+		FontData[] data = font.getFontData();
+		for (int i = 0; i < data.length; i++) {
+			data[i].setStyle(style);
+		}
+		return new Font(font.getDevice(), data);
+	}
 }

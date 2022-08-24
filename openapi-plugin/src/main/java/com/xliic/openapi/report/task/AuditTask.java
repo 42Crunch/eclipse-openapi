@@ -59,7 +59,7 @@ public class AuditTask extends Task.Backgroundable {
                     retry(node);
                 }
                 else if (getStatus(node) == ResponseStatus.PROCESSED) {
-                    callback.setDone(node);
+                    callback.setDone(node, false);
                 }
                 else if (response.code() == 403) {
                     callback.reject(message("openapi.error.response.403"));
@@ -92,7 +92,7 @@ public class AuditTask extends Task.Backgroundable {
             if (body != null) {
                 node = getJsonAST(body.string());
                 if (getStatus(node) == ResponseStatus.PROCESSED) {
-                    callback.setDone(node);
+                    callback.setDone(node, false);
                     return;
                 }
             }

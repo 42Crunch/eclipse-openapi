@@ -11,6 +11,7 @@ import com.xliic.core.ui.jcef.JBCefBrowser;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.AuditParameters;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.HTMLService;
@@ -30,13 +31,13 @@ public class JCEFReportPanel extends JBCefBrowser
   private final ToolWindow toolWindow;
   private final JCEFLoadHandlerAdapter loadHandlerAdapter;
   private final HTMLService htmlService;
-  private Audit lastAuditReport;
+  private AuditParameters lastAuditParameters;
 
   public JCEFReportPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
 	super(parent);
     this.project = project;
     this.toolWindow = toolWindow;
-    lastAuditReport = null;
+    lastAuditParameters = null;
     loadHandlerAdapter = new JCEFLoadHandlerAdapter(project,this);
     htmlService = HTMLService.getInstance();
 
@@ -63,13 +64,13 @@ public class JCEFReportPanel extends JBCefBrowser
   @Override
   public void dispose() {
     super.dispose();
-    lastAuditReport = null;
+    lastAuditParameters = null;
     loadHandlerAdapter.dispose();
     getJBCefClient().removeLoadHandler(loadHandlerAdapter, getCefBrowser());
   }
 
   @Override
-  public void handleToolWindowRegistered(String id) {
+  public void handleToolWindowRegistered(@NotNull String id) {
     if (ToolWindowId.OPEN_API_HTML_REPORT.equals(id)) {
       reportNotAvailable();
       if (toolWindow.isVisible()) {
@@ -79,7 +80,7 @@ public class JCEFReportPanel extends JBCefBrowser
   }
 
   @Override
-  public void handleToolWindowOpened(String id) {}
+  public void handleToolWindowOpened(@NotNull String id) {}
 
   @Override
   public void handleAllFilesClosed() {
@@ -87,10 +88,10 @@ public class JCEFReportPanel extends JBCefBrowser
   }
 
   @Override
-  public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
+  public void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName) {
     AuditService auditService = AuditService.getInstance(project);
     for (Audit report : auditService.getAuditReportsForAuditParticipantFileName(newFile.getPath())) {
-      if (report == lastAuditReport) {
+      if (lastAuditParameters != null && report == lastAuditParameters.getReport()) {
         update(report);
         break;
       }
@@ -98,11 +99,11 @@ public class JCEFReportPanel extends JBCefBrowser
   }
 
   @Override
-  public void handleDocumentChanged(VirtualFile file) {
+  public void handleDocumentChanged(@NotNull VirtualFile file) {
   }
 
   @Override
-  public void handleClosedFile(VirtualFile file) {
+  public void handleClosedFile(@NotNull VirtualFile file) {
     AuditService auditService = AuditService.getInstance(project);
     VirtualFile selectedFile = OpenApiUtils.getSelectedOpenAPIFile(project);
     if (selectedFile != null) {
@@ -117,19 +118,18 @@ public class JCEFReportPanel extends JBCefBrowser
   }
 
   @Override
-  public void handleViewDetails(VirtualFile file, List<Issue> issues) {
+  public void handleViewDetails(@NotNull VirtualFile file, @NotNull List<Issue> issues) {
     if (!issues.isEmpty()) {
       AuditService auditService = AuditService.getInstance(project);
       Audit report = auditService.getAuditReport(issues.get(0).getAuditFileName());
       if (report != null) {
-        List<Integer> ids = report.getIssueIds(file, issues);
-        htmlService.showPartialReport(this, report, file, ids);
+    	  update(report, file, report.getIssueIds(file, issues));
       }
     }
   }
 
   @Override
-  public void handleAuditReportReady(VirtualFile file) {
+  public void handleAuditReportReady(@NotNull VirtualFile file) {
     AuditService auditService = AuditService.getInstance(project);
     Audit report = auditService.getAuditReport(file.getPath());
     if (!report.isPlatform() || report.isShowAsHTML()) {
@@ -139,7 +139,7 @@ public class JCEFReportPanel extends JBCefBrowser
   }
 
   @Override
-  public void handleIssuesFixed(List<Issue> issues) {
+  public void handleIssuesFixed(@NotNull List<Issue> issues) {
     if (!issues.isEmpty()) {
       AuditService auditService = AuditService.getInstance(project);
       Audit report = auditService.getAuditReport(issues.get(0).getAuditFileName());
@@ -150,7 +150,7 @@ public class JCEFReportPanel extends JBCefBrowser
   }
 
   @Override
-  public void handleSelectedFile(VirtualFile file) {
+  public void handleSelectedFile(@NotNull VirtualFile file) {
     AuditService auditService = AuditService.getInstance(project);
     Audit audit = auditService.getAuditReport(file.getPath());
     if (audit != null) {
@@ -172,24 +172,35 @@ public class JCEFReportPanel extends JBCefBrowser
   }
 
   @Override
-  public void handleAuditReportClean(Audit report) {}
+  public void handleAuditReportClean(@NotNull Audit report) {}
 
   public void updateLastReport() {
-    if (lastAuditReport == null) {
+    if (lastAuditParameters == null) {
       reportNotAvailable();
     }
+    else if (lastAuditParameters.isPartialReport()) {
+      update(lastAuditParameters.getReport(), lastAuditParameters.getFile(), lastAuditParameters.getIds());
+    }
     else {
-      update(lastAuditReport);
+      update(lastAuditParameters.getReport());
     }
   }
 
   private void update(Audit report) {
-    lastAuditReport = report;
+	lastAuditParameters = new AuditParameters(report);
     htmlService.showFullReport(this, report);
   }
 
+  private void update(Audit report, VirtualFile file, List<Integer> ids) {
+    lastAuditParameters = new AuditParameters(report, file, ids);
+    if (!report.isShowAsHTML()) {
+      report.setShowAsHTML(true);
+    }
+    htmlService.showPartialReport(this, report, file, ids);
+  }
+  
   private void reportNotAvailable() {
-    lastAuditReport = null;
+	lastAuditParameters = null;
     htmlService.showNoReport(this);
   }
 }

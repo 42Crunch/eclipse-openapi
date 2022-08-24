@@ -1,29 +1,29 @@
 package com.xliic.openapi.report.tree;
 
+import com.xliic.core.ui.tree.TreePathUtil;
+import com.xliic.core.ui.treeStructure.Tree;
+import com.xliic.core.ui.treeStructure.TreeExpansionEvent;
+import com.xliic.core.ui.treeStructure.TreeExpansionListener;
+
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import org.jetbrains.annotations.NotNull;
+public class ReportTreeExpansionListener extends TreeExpansionListener {
 
-import org.eclipse.jface.viewers.ITreeViewerListener;
-import org.eclipse.jface.viewers.TreeExpansionEvent;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.ui.IWorkbench;
-
-public class ReportTreeExpansionListener implements ITreeViewerListener {
-
-	private final TreeViewer viewer;
+    private final Tree tree;
     private final Set<String> expandedKeys = new HashSet<>();
 
-    public ReportTreeExpansionListener(@NotNull IWorkbench workbench, @NotNull TreeViewer viewer) {
-        this.viewer = viewer;
+    public ReportTreeExpansionListener(@NotNull Tree tree) {
+        this.tree = tree;
     }
 
     @Override
     public void treeExpanded(TreeExpansionEvent event) {
-    	Object obj = event.getElement();
+        Object obj = event.getLastPathComponent();
         if (((DefaultMutableTreeNode) obj).getParent() == null) {
             return;
         }
@@ -32,17 +32,17 @@ public class ReportTreeExpansionListener implements ITreeViewerListener {
 
     @Override
     public void treeCollapsed(TreeExpansionEvent event) {
-    	Object obj = event.getElement();
+        Object obj = event.getLastPathComponent();
         if (((DefaultMutableTreeNode) obj).getParent() == null) {
             return;
         }
         expandedKeys.remove((((DefaultMutableTreeNode) obj).getUserObject()).toString());
     }
-    
+
     public void expand(Collection<DefaultMutableTreeNode> nodes) {
         for (DefaultMutableTreeNode node : nodes) {
             if (node != null && expandedKeys.contains(((ReportFileObject) node.getUserObject()).getFileName())) {
-            	viewer.expandToLevel(node, 1);
+                tree.expandPath(TreePathUtil.pathToTreeNode(node));
             }
         }
     }

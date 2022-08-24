@@ -15,30 +15,6 @@ public class FilterState {
 
     private String searchText = null;
 
-    public FilterState copy() {
-    	FilterState copy = new FilterState();
-    	copy.showInfo = showInfo;
-    	copy.showWarning = showWarning;
-    	copy.showError = showError;
-    	copy.showSelectedFileOnly = showSelectedFileOnly;
-    	copy.caseSensitiveState = caseSensitiveState;
-    	copy.wholeWordsState = wholeWordsState;
-    	copy.regexState = regexState;
-    	copy.searchText = searchText;
-        return copy;
-   }
-
-    public void set(FilterState src) {
-    	showInfo = src.showInfo;
-    	showWarning = src.showWarning;
-    	showError = src.showError;
-    	showSelectedFileOnly = src.showSelectedFileOnly;
-    	caseSensitiveState = src.caseSensitiveState;
-    	wholeWordsState = src.wholeWordsState;
-    	regexState = src.regexState;
-    	searchText = src.searchText;
-   }
-
     public void reset() {
         showInfo = true;
         showWarning = true;

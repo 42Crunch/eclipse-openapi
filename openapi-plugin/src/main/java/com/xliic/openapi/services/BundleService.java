@@ -264,7 +264,9 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         }
         clearBundleErrorsMap(bundledFile);
         UIUtil.invokeLaterIfNeeded(() -> {
-            ProjectView.getInstance(project).refresh();
+        	if (!project.isDisposed()) {
+        		ProjectView.getInstance(project).refresh();
+        	}
         });
     }
 

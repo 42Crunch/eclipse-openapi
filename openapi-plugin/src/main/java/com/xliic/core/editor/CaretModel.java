@@ -28,6 +28,10 @@ public class CaretModel {
 	}
 
 	public void moveToOffset(int offset) {
-		new OpenFileDescriptor(editor.getProject(), editor.getVirtualFile(), offset, 0).navigate(true);
+		new OpenFileDescriptor(editor.getProject(), editor.getVirtualFile(), offset, 0).navigate(false);
+	}
+	
+	public void moveToOffset(int offset, int length, boolean requestFocus) {
+		new OpenFileDescriptor(editor.getProject(), editor.getVirtualFile(), offset, length).navigate(requestFocus);
 	}
 }
