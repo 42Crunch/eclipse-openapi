@@ -11,7 +11,6 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.quickfix.QuickFix;
-import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.PlatformService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,8 +62,6 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
             });
             if (file != null) {
                 LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
-                ASTService astService = ASTService.getInstance(project);
-                astService.resetCacheEntry(file.getPath());
                 PlatformService platformService = PlatformService.getInstance(project);
                 platformService.setFileIsModified(file, false);
                 PlatformAPIs.readAuditReport(id,

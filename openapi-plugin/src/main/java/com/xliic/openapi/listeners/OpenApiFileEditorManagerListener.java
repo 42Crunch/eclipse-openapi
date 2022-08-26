@@ -17,7 +17,11 @@ import com.xliic.openapi.services.PlaceHolderService;
 import static com.xliic.openapi.OpenApiUtils.isOpenAPIFileType;
 import static com.xliic.openapi.TempFileUtils.isExtRefFile;
 
+import java.util.HashMap;
+
 public class OpenApiFileEditorManagerListener implements FileEditorManagerListener {
+
+    public static final String IS_FIRST_SELECTION_KEY = "IS_FIRST_SELECTION_KEY";
 
     private final Project project;
     private final PlaceHolderService placeHolderService;
@@ -44,6 +48,7 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
         }
     }
 
+    @SuppressWarnings("serial")
     @Override
     public void selectionChanged(@NotNull FileEditorManagerEvent event) {
         if ((event.getNewFile() != null) && TempFileUtils.isPluginTempDeadFile(event.getNewFile())) {
@@ -52,8 +57,11 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
         placeHolderService.closePopup();
         if (event.getNewFile() == null) {
             astService.runAsyncTask(project, AsyncTaskType.ALL_FILES_CLOSED, event.getOldFile());
-        }
-        else {
+        } else if (event.getOldFile() == null) {
+            astService.runAsyncTask(project, AsyncTaskType.SELECTION_CHANGED, event.getNewFile(), new HashMap<>() {{
+                put(IS_FIRST_SELECTION_KEY, true);
+            }});
+        } else {
             astService.runAsyncTask(project, AsyncTaskType.SELECTION_CHANGED, event.getNewFile());
         }
     }

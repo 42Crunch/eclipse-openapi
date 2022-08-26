@@ -10,26 +10,12 @@ import com.xliic.openapi.tree.node.SimpleNode;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
 import java.util.*;
 
 import static com.xliic.openapi.OpenApiPanelKeys.*;
 import static com.xliic.openapi.tree.node.BaseNode.getPanelName;
 
 public class DMTNConverter {
-
-    private Comparator<TreeNode> comparator;
-    private static final DMTNNaturalComparator naturalComparator = new DMTNNaturalComparator();
-    private static final DMTNAlphabeticalComparator alphabeticalComparator = new DMTNAlphabeticalComparator();
-
-    public DMTNConverter(boolean sortABC) {
-        comparator = getComparator(sortABC);
-    }
-
-    public void setSortABC(boolean sortABC) {
-        comparator = getComparator(sortABC);
-    }
 
     private void dfs(Node parentAST,
             DefaultMutableTreeNode parentDMTN,
@@ -75,13 +61,11 @@ public class DMTNConverter {
                     dfs(childAST, childDMTN, pointers, panels);
                 }
             }
-            sortChildren(parentDMTN);
         }
         else if (parentAST.isArray()) {
             for (Node child : parentAST.getChildren()) {
                 dfs(child, parentDMTN, pointers, panels);
             }
-            sortChildren(parentDMTN);
         }
         else {
             if (level == 3) {
@@ -97,28 +81,6 @@ public class DMTNConverter {
                         o.rename(parentAST.getValue());
                     }
                 }
-            }
-        }
-    }
-
-    private void sortChildrenInPanels(Map<String, DefaultMutableTreeNode> panels) {
-        for (DefaultMutableTreeNode parent : panels.values()) {
-            sortChildren(parent);
-        }
-    }
-
-    private void sortChildren(DefaultMutableTreeNode parent) {
-        if (parent.getUserObject() instanceof RootNode) {
-            return;
-        }
-        List<TreeNode> children = Collections.list(parent.children());
-        if (children.size() > 1) {
-            children.sort(comparator);
-            parent.removeAllChildren();
-            int childIndex = 0;
-            for (TreeNode child : children) {
-                parent.insert((MutableTreeNode) child, childIndex);
-                childIndex += 1;
             }
         }
     }
@@ -173,10 +135,6 @@ public class DMTNConverter {
         return true;
     }
 
-    private static Comparator<TreeNode> getComparator(boolean sortABC) {
-        return sortABC ? alphabeticalComparator : naturalComparator;
-    }
-
     public DefaultMutableTreeNode convert(@NotNull Node root) {
         RootNode rootNode = new RootNode(OpenApiUtils.getOpenAPIVersion(root));
         DefaultMutableTreeNode rootDMTN = new DefaultMutableTreeNode(rootNode);
@@ -190,7 +148,6 @@ public class DMTNConverter {
             rootDMTN.add(nodeDMTN);
         }
         dfs(root, rootDMTN, pointers, panels);
-        sortChildrenInPanels(panels);
         return rootDMTN;
     }
 }

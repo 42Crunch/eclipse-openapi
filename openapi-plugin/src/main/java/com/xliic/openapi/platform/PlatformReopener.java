@@ -33,7 +33,6 @@ public class PlatformReopener implements FileListener {
     @Override
     public void handleClosedFile(VirtualFile file) {
         if (files.contains(file.getPath())) {
-            System.out.println("PlatformReopener file " + file.getPath());
             files.remove(file.getPath());
             String apiId = PlatformUtils.getApiId(file);
             PlatformAPIs.readApi(apiId, true,

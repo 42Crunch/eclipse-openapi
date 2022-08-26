@@ -9,6 +9,7 @@ import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.ui.UIUtil;
+import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Audit;
@@ -37,7 +38,6 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
 
     private final Project project;
     private final ToolWindow toolWindow;
-    private final ReportTreeExpansionListener expansionListener;
     private final Map<String, DefaultMutableTreeNode> fileNameToTreeNodeMap = new HashMap<>();
     private final Map<Issue, DefaultMutableTreeNode> issueToTreeNodeMap = new HashMap<>();
 
@@ -65,8 +65,6 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
         tree.setRootVisible(false);
         tree.setModel(new ReportTreeModel(tree.getViewer(), new DefaultMutableTreeNode(), this));
         tree.setCellRenderer(new ReportColoredTreeCellRenderer(project));
-        expansionListener = new ReportTreeExpansionListener(tree);
-        tree.addTreeExpansionListener(expansionListener);
         tree.addMouseListener(new ReportMouseAdapter(this));
         cleanTree();
 
@@ -99,9 +97,10 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
     }
 
     public void reloadAndRestoreExpansion() {
+        List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
         ReportTreeModel model = (ReportTreeModel) getTree().getModel();
         model.reload();
-        expansionListener.expand(fileNameToTreeNodeMap.values());
+        TreeUtil.restoreExpandedPaths(tree, expandedPaths);
     }
 
     public void updateTitleActions() {
@@ -130,7 +129,6 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
 
     @Override
     public void handleAllFilesClosed() {
-        expansionListener.clear();
         cleanTree();
     }
 
@@ -146,12 +144,12 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
     @Override
     public void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName) {
         if (fileNameToTreeNodeMap.containsKey(oldFileName)) {
-            expansionListener.replace(newFile.getPath(), oldFileName);
             fileNameToTreeNodeMap.put(newFile.getPath(), fileNameToTreeNodeMap.remove(oldFileName));
             DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(newFile.getPath());
+            List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
             ReportTreeModel model = (ReportTreeModel) getTree().getModel();
             model.reload(node);
-            expansionListener.expand(fileNameToTreeNodeMap.values());
+            TreeUtil.restoreExpandedPaths(tree, expandedPaths);
         }
     }
 
@@ -240,6 +238,7 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
         }
         ReportTreeModel model = (ReportTreeModel) getTree().getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+        List<DefaultMutableTreeNode> nodesToExpand = new LinkedList<>();
 
         for (Issue issue : issues) {
 
@@ -251,7 +250,6 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
                 DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(fileName);
                 node.add(child);
                 issueToTreeNodeMap.put(issue, child);
-                expansionListener.addNodeExpandedState(node);
             } else {
                 ReportFileObject fo = new ReportFileObject(issue);
                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(fo);
@@ -259,13 +257,16 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
                 root.add(node);
                 fileNameToTreeNodeMap.put(fileName, node);
                 issueToTreeNodeMap.put(issue, child);
-                expansionListener.addNodeExpandedState(node);
+                nodesToExpand.add(node);
             }
         }
         for (String fileName : fileNameToTreeNodeMap.keySet()) {
             sortChildren(fileNameToTreeNodeMap.get(fileName));
         }
-        reloadAndRestoreExpansion();
+        model.reload();
+        for (DefaultMutableTreeNode node : nodesToExpand) {
+            tree.expandPath(TreePathUtil.pathToTreeNode(node));
+        }
     }
 
     private void removeIssues(List<Issue> issues) {
@@ -286,7 +287,6 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
             if (node.getChildCount() == 0) {
                 DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
                 parent.remove(node);
-                expansionListener.clearNodeExpandedState(node);
                 iterator.remove();
             }
         }

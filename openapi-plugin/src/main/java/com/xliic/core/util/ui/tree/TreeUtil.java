@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.treeStructure.Tree;
@@ -15,11 +16,31 @@ public final class TreeUtil {
         tree.getViewer().expandAll();
     }
 
+    public static void restoreExpandedElements(@NotNull Tree tree, @NotNull List<Object> elements) {
+        TreeViewer viewer = tree.getViewer();
+        viewer.setExpandedElements(elements.toArray());
+        viewer.getControl().setRedraw(true);
+    }
+
     public static void restoreExpandedPaths(@NotNull Tree tree, @NotNull List<TreePath> paths) {
-        tree.getViewer().setExpandedTreePaths(paths.toArray(new TreePath[0]));
+        TreeViewer viewer = tree.getViewer();
+        viewer.setExpandedTreePaths(paths.toArray(new TreePath[0]));
+        viewer.getControl().setRedraw(true);
+    }
+
+    public static void restoreExpandedPaths(@NotNull Tree tree, @NotNull List<TreePath> paths, int limit) {
+        TreeViewer viewer = tree.getViewer();
+        if (paths.size() > limit) {
+            viewer.setExpandedTreePaths(paths.subList(0, limit).toArray(new TreePath[0]));
+        } else {
+            viewer.setExpandedTreePaths(paths.toArray(new TreePath[0]));
+        }
+        viewer.getControl().setRedraw(true);
     }
 
     public static @NotNull List<TreePath> collectExpandedPaths(@NotNull Tree tree) {
-        return new LinkedList<>(Arrays.asList(tree.getViewer().getExpandedTreePaths()));
+        TreeViewer viewer = tree.getViewer();
+        viewer.getControl().setRedraw(false);
+        return new LinkedList<>(Arrays.asList(viewer.getExpandedTreePaths()));
     }
 }

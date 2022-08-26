@@ -66,8 +66,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         if (file != null) {
             String fileName = file.getPath();
             ASTService astService = ASTService.getInstance(project);
-            astService.resetCacheEntry(fileName);
-            Node root = astService.getRootNode(fileName, document.getText());
+            Node root = astService.getRootNodeFromText(fileName, document.getText());
             if (root == null) {
                 return;
             }

@@ -18,7 +18,5 @@ public interface IASTService {
 
     public @NotNull Node getOpenAPIRootNode(@NotNull String fileName) throws Exception;
 
-    public void resetCacheEntry(@NotNull String fileName);
-
     public @NotNull OpenApiVersion getOpenAPIVersion(@NotNull String fileName);
 }

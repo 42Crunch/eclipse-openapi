@@ -2,9 +2,12 @@ package com.xliic.openapi.services;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.psi.PsiManager;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;
@@ -20,6 +23,7 @@ import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.topic.FileListener;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -70,6 +74,17 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         return project.getService(ASTService.class);
     }
 
+    public static @NotNull OpenApiVersion getOpenAPIVersion(@NotNull Project project, @NotNull VirtualFile file) {
+        return getOpenAPIVersion(project, file.getPath());
+    }
+
+    public static @NotNull OpenApiVersion getOpenAPIVersion(@NotNull Project project, @NotNull String fileName) {
+        if (getFileType(fileName) == OpenApiFileType.Unsupported) {
+            return OpenApiVersion.Unknown;
+        }
+        return ASTService.getInstance(project).getOpenAPIVersion(fileName);
+    }
+
     @Override
     protected void onRunComplete() {
         if (counter > CACHE_TO_WIPE_THRESHOLD) {
@@ -87,7 +102,9 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     protected void beforeFileOpened(AsyncTask task) {
         VirtualFile file = task.getFile();
         if (file != null) {
-            parse(file, true);
+            // No real document content change has happened
+            // This call must not fire the document change event
+            parse(file, false);
         }
     }
 
@@ -95,7 +112,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     protected void documentChanged(AsyncTask task) {
         VirtualFile file = task.getFile();
         if (file != null) {
-            parse(file, false);
+            parse(file, true);
         }
     }
 
@@ -156,37 +173,44 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         }
     }
 
-    private void parse(@NotNull VirtualFile file, boolean isOpenBefore) {
-        resetCacheEntry(file.getPath());
-        if (isOpenBefore) {
-            Node root = getRootNode(file);
-            if (root != null) {
-                OpenApiVersion version = OpenApiUtils.getOpenAPIVersion(root);
-                if (version != OpenApiVersion.Unknown) {
-                    putInCache(file.getPath(), root);
-                    knownOpenAPIFiles.add(file.getPath());
-                }
-                else {
-                    return;
-                }
-            }
-            else {
-                return;
+    public void parse(@NotNull VirtualFile file, boolean documentChanged) {
+        final String fileName = file.getPath();
+        Node root = getRootNodeFromFile(fileName);
+        putInCache(fileName, root);
+        boolean updateSchemas = false;
+        if (root != null) {
+            OpenApiVersion version = OpenApiUtils.getOpenAPIVersion(root);
+            if (version == OpenApiVersion.Unknown) {
+                updateSchemas = knownOpenAPIFiles.contains(fileName);
+                knownOpenAPIFiles.remove(fileName);
+            } else {
+                updateSchemas = !knownOpenAPIFiles.contains(fileName);
+                knownOpenAPIFiles.add(fileName);
             }
         }
-        if (!astListenersMap.containsKey(file.getPath())) {
-            TreeDocumentListener treeListener = new TreeDocumentListener(project);
-            astListenersMap.put(file.getPath(), treeListener);
+        if (!astListenersMap.containsKey(fileName)) {
             ApplicationManager.getApplication().runReadAction(() -> {
                 Document document = FileDocumentManager.getInstance().getDocument(file);
                 if (document != null) {
+                    TreeDocumentListener treeListener = new TreeDocumentListener(project);
+                    astListenersMap.put(fileName, treeListener);
                     document.addDocumentListener(treeListener);
                 }
             });
         }
         auditService.update(file);
+        boolean finalUpdateSchemas = updateSchemas;
         ApplicationManager.getApplication().invokeLater(() -> {
-            project.getMessageBus().syncPublisher(FileListener.TOPIC).handleDocumentChanged(file);
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+            if (psiFile != null) {
+                DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
+            }
+            if (finalUpdateSchemas) {
+                // JsonSchemaService.Impl.get(project).reset();
+            }
+            if (documentChanged && !project.isDisposed()) {
+                project.getMessageBus().syncPublisher(FileListener.TOPIC).handleDocumentChanged(file);
+            }
         });
     }
 
@@ -196,68 +220,69 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     }
 
     @Override
+    @Nullable
     public Node getRootNode(@NotNull VirtualFile file) {
         return getRootNode(file.getPath());
     }
 
     @Override
+    @Nullable
     public Node getRootNode(@NotNull String fileName) {
         Node result = cache.get(fileName);
         if (result != null) {
             return result;
-        }
-        else {
+        } else {
             return getRootNode(fileName, getTextFromFile(fileName, true));
         }
     }
 
     @Override
+    @Nullable
     public Node getRootNode(@NotNull String fileName, @NotNull String text) {
         Node result = cache.get(fileName);
         if (result != null) {
             return result;
-        }
-        else {
-            Node root;
-            try {
-                root = getParser(fileName).parse(text);
-            }
-            catch (Exception e) {
-                root = null;
-            }
+        } else {
+            Node root = getRootNodeFromText(fileName, text);
             putInCache(fileName, root);
             return root;
         }
     }
 
+    @Nullable
+    public Node getRootNodeFromText(@NotNull String fileName, @NotNull String text) {
+        try {
+            return getParser(fileName).parse(text);
+        } catch (Throwable ignored) {
+        }
+        return null;
+    }
+
+    @Nullable
+    public Node getRootNodeFromFile(@NotNull String fileName) {
+        return getRootNodeFromText(fileName, getTextFromFile(fileName, true));
+    }
+
     @Override
-    public @NotNull Node getOpenAPIRootNode(@NotNull String fileName) throws Exception {
+    @NotNull
+    public Node getOpenAPIRootNode(@NotNull String fileName) throws Exception {
         Node root = cache.get(fileName);
         if (root == null) {
             root = getParser(fileName).parse(getTextFromFile(fileName, true));
         }
         if (OpenApiUtils.getOpenAPIVersion(root) == OpenApiVersion.Unknown) {
             throw new Exception("Unknown OAS version");
-        }
-        else {
+        } else {
             putInCache(fileName, root);
         }
         return root;
-    }
-
-    @Override
-    public void resetCacheEntry(@NotNull String fileName) {
-        if (cache.containsKey(fileName)) {
-            putInCache(fileName, null);
-        }
     }
 
     private void putInCache(String fileName, Node root) {
         cache.put(fileName, root);
         if (root == null) {
             versionCache.put(fileName, null);
-        }
-        else {
+        } else {
             versionCache.put(fileName, OpenApiUtils.getOpenAPIVersion(root));
         }
     }
@@ -275,17 +300,6 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     public @NotNull OpenApiVersion getOpenAPIVersion(@NotNull String fileName) {
         OpenApiVersion version = versionCache.get(fileName);
         return (version == null) ? OpenApiVersion.Unknown : version;
-    }
-
-    public static @NotNull OpenApiVersion getOpenAPIVersion(@NotNull Project project, @NotNull VirtualFile file) {
-        return getOpenAPIVersion(project, file.getPath());
-    }
-
-    public static @NotNull OpenApiVersion getOpenAPIVersion(@NotNull Project project, @NotNull String fileName) {
-        if (getFileType(fileName) == OpenApiFileType.Unsupported) {
-            return OpenApiVersion.Unknown;
-        }
-        return ASTService.getInstance(project).getOpenAPIVersion(fileName);
     }
 
     @Override

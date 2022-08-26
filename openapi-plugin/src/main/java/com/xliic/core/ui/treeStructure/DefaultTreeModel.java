@@ -28,12 +28,21 @@ public class DefaultTreeModel implements ITreeContentProvider, TreeModel {
     }
 
     public void reload() {
-        reload(null);
+        reload(null, true);
     }
 
+    public void reload(boolean updateLabels) {
+        reload(null, updateLabels);
+    }
+
+
     public void reload(TreeNode node) {
+        reload(node, true);
+    }
+
+    public void reload(TreeNode node, boolean updateLabels) {
         if (!isDisposed()) {
-            viewer.refresh(node);
+            viewer.refresh(node, updateLabels);
         }
     }
 

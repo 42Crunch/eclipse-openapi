@@ -151,6 +151,11 @@ public class Tree {
         }
     }
 
+    public boolean isExpanded(@NotNull TreePath path) {
+        // Root is always expanded
+        return path == TreePath.EMPTY || viewer.getExpandedState(path);
+    }
+
     public void toggle() {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) getLastSelectedPathComponent();
         if (node != null) {
