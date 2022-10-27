@@ -29,10 +29,10 @@ public class TempFileUtils {
     private static final String PLATFORM_SUB_DIR = "platform";
     private static final String EXT_REF_SUB_DIR = "refs";
     private static final String AUDIT_SUB_DIR = "audit";
+    private static final String DICTIONARY_SUB_DIR = "dictionary";
 
     public static VirtualFile createPlatformFile(@NotNull Object requestor,
-            @NotNull String fileName,
-            @NotNull String text) {
+            @NotNull String subDirName, @NotNull String fileName, @NotNull String text) {
         try {
             IProject project = EclipseUtil.getTempProject();
             if (project == null) {
@@ -51,9 +51,8 @@ public class TempFileUtils {
                 final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(
                         Paths.get(rootDir.getPath(), PLATFORM_SUB_DIR).toString());
                 if (rootSubDir != null) {
-                    String domain = PlatformConnection.getOptions().getDomainName("default");
                     VirtualFile platformDomainDir = VfsUtil.createDirectoryIfMissing(
-                            Paths.get(rootSubDir.getPath(), domain).toString());
+                            Paths.get(rootSubDir.getPath(), subDirName).toString());
                     if (platformDomainDir != null) {
                         VirtualFile tmpFile = platformDomainDir.createChildData(requestor, fileName);
                         Charset charset = tmpFile.getCharset();
@@ -69,9 +68,7 @@ public class TempFileUtils {
         return null;
     }
 
-    public static VirtualFile createExtRefFile(@NotNull Object requestor,
-            @NotNull String fileName,
-            @NotNull String text) {
+    public static VirtualFile createExtRefFile(@NotNull Object requestor, @NotNull String fileName, @NotNull String text) {
         try {
             File pluginTempDir = createProjectTempDirIfMissing((IProject) requestor, false);
             final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
@@ -155,6 +152,27 @@ public class TempFileUtils {
             if (rootDir != null) {
                 final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(
                         Paths.get(rootDir.getPath(), AUDIT_SUB_DIR).toString());
+                if (rootSubDir != null) {
+                    VirtualFile tmpFile = rootSubDir.createChildData(requestor, "index.js");
+                    Charset charset = tmpFile.getCharset();
+                    try (OutputStream stream = new FileOutputStream(tmpFile.getPath(), false)) {
+                        stream.write(text.getBytes(charset));
+                        return tmpFile;
+                    }
+                }
+            }
+        } catch (IOException ignored) {
+        }
+        return null;
+    }
+
+    public static VirtualFile createDictionaryIndexJsFile(@NotNull Object requestor, @NotNull String text) {
+        try {
+            File pluginTempDir = createPluginTempDirIfMissing();
+            final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
+            if (rootDir != null) {
+                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(
+                        Paths.get(rootDir.getPath(), DICTIONARY_SUB_DIR).toString());
                 if (rootSubDir != null) {
                     VirtualFile tmpFile = rootSubDir.createChildData(requestor, "index.js");
                     Charset charset = tmpFile.getCharset();

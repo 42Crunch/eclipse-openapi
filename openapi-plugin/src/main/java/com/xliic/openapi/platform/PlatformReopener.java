@@ -26,8 +26,8 @@ public class PlatformReopener implements FileListener {
     }
 
     public void dispose() {
-        files.clear();
         project.getMessageBus().connect().unsubscribe(this);
+        files.clear();
     }
 
     @Override

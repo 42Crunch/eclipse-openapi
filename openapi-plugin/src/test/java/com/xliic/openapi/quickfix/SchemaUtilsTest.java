@@ -6,6 +6,7 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.schema.SchemaUtils;
 import junit.framework.TestCase;
 
+import java.math.BigInteger;
 import java.io.FileNotFoundException;
 
 import static com.xliic.openapi.TestUtils.*;
@@ -41,7 +42,7 @@ public class SchemaUtilsTest extends TestCase {
         Node target2 = root.find("/paths/~1/get/responses/200/content/application~1json/examples/foo/value");
         Node target3 = SchemaUtils.unpack(target2);
         assertNotSame(target2, target3);
-        assertEquals(target3.find("/a").getTypedValue(), 12);
+        assertEquals(target3.find("/a").getTypedValue(), new BigInteger("12"));
     }
 
     public void testGenerateSchema3() throws FileNotFoundException {

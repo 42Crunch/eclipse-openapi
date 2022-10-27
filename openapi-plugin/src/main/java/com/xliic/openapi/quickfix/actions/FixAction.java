@@ -53,9 +53,9 @@ public abstract class FixAction extends IntentionAction implements IMarkerResolu
             ApplicationManager.getApplication().invokeLater(() -> {
                 // Continue only if a user presses OK button
                 if (provider.openDialog()) {
-                    DocumentUpdater documentUpdater = DocumentUpdater.getInstance(editor, file, provider);
+                    DocumentUpdater documentUpdater = new DocumentUpdater(editor, file);
                     WriteCommandAction.runWriteCommandAction(project, () -> {
-                        List<Issue> fixedIssues = documentUpdater.process();
+                        List<Issue> fixedIssues = documentUpdater.process(provider.getFixItems());
                         quickFixService.fix(project, fixedIssues);
                         editor.getCaretModel().moveToOffset(documentUpdater.getMoveToOffset());
                     }
@@ -64,9 +64,9 @@ public abstract class FixAction extends IntentionAction implements IMarkerResolu
             });
         }
         else {
-            DocumentUpdater documentUpdater = DocumentUpdater.getInstance(editor, file, provider);
+            DocumentUpdater documentUpdater = new DocumentUpdater(editor, file);
             WriteCommandAction.runWriteCommandAction(project, () -> {
-                List<Issue> fixedIssues = documentUpdater.process();
+                List<Issue> fixedIssues = documentUpdater.process(provider.getFixItems());
                 quickFixService.fix(project, fixedIssues);
                 editor.getCaretModel().moveToOffset(documentUpdater.getMoveToOffset());
             }

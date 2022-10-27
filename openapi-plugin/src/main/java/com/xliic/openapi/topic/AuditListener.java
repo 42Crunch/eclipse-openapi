@@ -13,11 +13,13 @@ public interface AuditListener {
 
     Topic<AuditListener> TOPIC = new TopicAuditListener<>(AuditListener.class, Topic.BroadcastDirection.NONE);
 
-    void handleAuditReportClean(@NotNull Audit auditReport);
+    default void handleAuditReportClean(@NotNull Audit auditReport) {}
 
     void handleAuditReportReady(@NotNull VirtualFile file);
 
-    void handleViewDetails(@NotNull VirtualFile file, @NotNull List<Issue> issues);
+    default void handleViewDetails(@NotNull VirtualFile file, @NotNull List<Issue> issues) {}
 
     void handleIssuesFixed(@NotNull List<Issue> issues);
+
+    default void handleKDBReady(@NotNull String text) {}
 }

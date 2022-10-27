@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.yaml.snakeyaml.DumperOptions;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
@@ -82,7 +84,7 @@ public class QuickFix {
     }
 
     @NotNull
-    public static String formatFixText(String text, boolean asJson) {
+    public static String formatFixText(@NotNull String text, boolean asJson, @Nullable DumperOptions.ScalarStyle style) {
         JsonNode node;
         text = wrap(text, asJson);
         try {
@@ -98,11 +100,17 @@ public class QuickFix {
                 }
                 return result;
             } else {
-                return wrap(new YAMLMapper().writeValueAsString(node).trim(), false);
+                YAMLMapper mapper = (style == null) ? new YAMLMapper() : new YAMLMapper(new FixYAMLFactory(style));
+                return wrap(mapper.writeValueAsString(node).trim(), false);
             }
         } catch (JsonProcessingException e) {
             return StringUtils.EMPTY;
         }
+    }
+
+    @NotNull
+    public static String formatFixText(@NotNull String text, boolean asJson) {
+        return formatFixText(text, asJson, null);
     }
 
     public Set<String> getProblems() {

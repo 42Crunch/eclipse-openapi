@@ -63,6 +63,8 @@ public abstract class AsyncService implements Runnable {
                     }
                     else if (isActive() && (type == AsyncTaskType.REFACTOR_RENAME)) {
                         refactorRename(task);
+                    } else if (isActive() && (type == AsyncTaskType.RUN_TREE_DFS)) {
+                        treeDfs(task);
                     }
                 }
                 catch (Throwable t) {
@@ -99,6 +101,7 @@ public abstract class AsyncService implements Runnable {
     protected abstract void beforeFileClosed(AsyncTask task);
     protected abstract void allFilesClosed(AsyncTask task);
     protected abstract void refactorRename(AsyncTask task);
+    protected abstract void treeDfs(AsyncTask task);
 
     private boolean isActive() {
         return active && !project.isDisposed();

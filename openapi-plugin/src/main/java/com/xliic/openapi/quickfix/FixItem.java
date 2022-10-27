@@ -1,65 +1,63 @@
 package com.xliic.openapi.quickfix;
 
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
-import com.xliic.openapi.report.Issue;
 
 public class FixItem {
 
-    private final List<Issue> issues;
-    private final String absPointer;
-    private final String text;
-    private final List<PlaceHolder> placeHolders;
-    private final String insertAfterPointer;
+    public static final Object NULL = new Object() {
+        @Override
+        public String toString() {
+            return "null";
+        }
+    };
 
-    public FixItem(String absPointer, String text, List<PlaceHolder> placeHolders, String insertAfterPointer) {
-        this(Collections.emptyList(), absPointer, text, placeHolders, insertAfterPointer);
+    protected final String pointer;
+    protected final Object value;
+    protected final FixType fixType;
+
+    protected String anchorPointer = null;
+    protected final List<PlaceHolder> placeHolders = new LinkedList<>();
+
+    public FixItem(@NotNull String pointer, @NotNull Object value, @NotNull FixType fixType) {
+        this.pointer = pointer;
+        this.value = value;
+        this.fixType = fixType;
     }
 
-    public FixItem(Issue issue, String absPointer, String text) {
-        this(List.of(issue), absPointer, text, Collections.emptyList(), null);
+    public String getPointer() {
+        return pointer;
     }
 
-    public FixItem(Issue issue, String absPointer, String text, List<PlaceHolder> placeHolders) {
-        this(List.of(issue), absPointer, text, placeHolders, null);
+    public Object getValue() {
+        return value;
     }
 
-    public FixItem(List<Issue> issues, String absPointer, String text, List<PlaceHolder> placeHolders) {
-        this(issues, absPointer, text, placeHolders, null);
+    public FixType getFixType() {
+        return fixType;
     }
 
-    public FixItem(List<Issue> issues,
-            String absPointer,
-            String text,
-            List<PlaceHolder> placeHolders,
-            String insertAfterPointer) {
-        this.issues = issues;
-        this.absPointer = absPointer;
-        this.text = text;
-        this.placeHolders = placeHolders;
-        this.insertAfterPointer = insertAfterPointer;
+    public String getAnchorPointer() {
+        return anchorPointer;
     }
 
-    public List<Issue> getIssues() {
-        return issues;
-    }
-
-    public String getAbsPointer() {
-        return absPointer;
-    }
-
-    public String getText() {
-        return text;
+    public FixItem withAnchorPointer(@Nullable String pointer) {
+        this.anchorPointer = pointer;
+        return this;
     }
 
     public List<PlaceHolder> getPlaceHolders() {
         return placeHolders;
     }
 
-    public String getInsertAfterPointer() {
-        return insertAfterPointer;
+    public FixItem withPlaceHolders(@NotNull List<PlaceHolder> placeHolders) {
+        this.placeHolders.addAll(placeHolders);
+        return this;
     }
 
     public void setPlaceHolderOffset(int offset) {

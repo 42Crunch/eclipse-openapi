@@ -7,6 +7,7 @@ import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformAPICallback;
 import com.xliic.openapi.platform.callback.PlatformCollectionCallback;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
+import com.xliic.openapi.platform.tree.node.PlatformDataDictionary;
 import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 import com.xliic.openapi.platform.tree.node.PlatformRootFavorite;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadingDecorator;
@@ -29,6 +30,7 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
 
     private final DefaultMutableTreeNode cloudCollections;
     private final DefaultMutableTreeNode favoriteCollections;
+    private final DefaultMutableTreeNode dataDictionary;
 
     public PlatformAsyncTreeModel(@NotNull Project project, @NotNull Tree tree, @NotNull DefaultMutableTreeNode root) {
         super(tree.getViewer(), root, false);
@@ -37,6 +39,8 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
         this.root = root;
         favoriteCollections = new DefaultMutableTreeNode(new PlatformRootFavorite());
         root.add(favoriteCollections);
+        dataDictionary = new DefaultMutableTreeNode(new PlatformDataDictionary());
+        root.add(dataDictionary);
         cloudCollections = new DefaultMutableTreeNode(new PlatformRootCloud());
         root.add(cloudCollections);
     }
@@ -93,6 +97,8 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
                 parentDMTN.add(LOADING_DECORATOR);
                 return 1;
             }
+        } else if (parentObj instanceof PlatformDataDictionary) {
+            return 0;
         }
         return PlatformUtils.getVisibleChildren(parent).size();
     }
@@ -116,6 +122,8 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
             if (pro.isChildrenUnavailable()) {
                 return false;
             }
+        } else if (nodeObj instanceof PlatformDataDictionary) {
+            return true;
         }
         return PlatformUtils.getVisibleChildren(node).isEmpty();
     }

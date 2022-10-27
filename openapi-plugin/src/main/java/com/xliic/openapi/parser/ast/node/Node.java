@@ -9,6 +9,8 @@ import org.snakeyaml.engine.v2.emitter.Emitter;
 import org.snakeyaml.engine.v2.nodes.*;
 import org.snakeyaml.engine.v2.serializer.Serializer;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 
 public abstract class Node implements Comparable<Node> {
@@ -58,6 +60,11 @@ public abstract class Node implements Comparable<Node> {
         return (result == null) ? null : result.getValue();
     }
 
+    public Object getChildTypedValue(String key) {
+        Node result = getChild(key);
+        return (result == null) ? null : result.getTypedValue();
+    }
+
     @Override
     public int compareTo(Node o) {
         return getValueRange().compareTo(o.getValueRange());
@@ -88,29 +95,43 @@ public abstract class Node implements Comparable<Node> {
         return key;
     }
 
+    public Object getNode() {
+        return node;
+    }
+
     public String getValue() {
         if (node instanceof NodeTuple) {
-            org.snakeyaml.engine.v2.nodes.Node target = ((NodeTuple) (node)).getValueNode();
-            return target instanceof ScalarNode ? ((ScalarNode) target).getValue() : null;
-        }
-        else if (node instanceof ScalarNode) {
+            org.snakeyaml.engine.v2.nodes.Node valueNode = ((NodeTuple) node).getValueNode();
+            if (valueNode instanceof ScalarNode) {
+                return ((ScalarNode) valueNode).getValue();
+            }
+        } else if (node instanceof ScalarNode) {
             return ((ScalarNode) node).getValue();
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
     public Object getTypedValue() {
         if (node instanceof NodeTuple) {
-            return getValueFromScalarNode((ScalarNode) ((NodeTuple) (node)).getValueNode());
-        }
-        else if (node instanceof ScalarNode) {
+            org.snakeyaml.engine.v2.nodes.Node valueNode = ((NodeTuple) node).getValueNode();
+            if (valueNode instanceof ScalarNode) {
+                return getValueFromScalarNode((ScalarNode) valueNode);
+            } else if (valueNode instanceof SequenceNode) {
+                List<Object> list = new LinkedList<>();
+                List<org.snakeyaml.engine.v2.nodes.Node> nodes = ((SequenceNode) valueNode).getValue();
+                for (org.snakeyaml.engine.v2.nodes.Node listNode : nodes) {
+                    if (listNode instanceof ScalarNode) {
+                        list.add(getValueFromScalarNode((ScalarNode) listNode));
+                    }
+                }
+                if (list.size() == nodes.size()) {
+                    return list;
+                }
+            }
+        } else if (node instanceof ScalarNode) {
             return getValueFromScalarNode((ScalarNode) node);
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
     public Node find(String pointer) {
@@ -236,12 +257,12 @@ public abstract class Node implements Comparable<Node> {
         Tag tag = node.getTag();
         if (tag == Tag.BOOL) {
             return Boolean.valueOf(node.getValue());
-        }
-        else if (tag == Tag.INT) {
-            return Integer.valueOf(node.getValue());
-        }
-        else if (tag == Tag.FLOAT) {
-            return Float.valueOf(node.getValue());
+        } else if (tag == Tag.INT) {
+            return new BigInteger(node.getValue());
+        } else if (tag == Tag.FLOAT) {
+            return new BigDecimal(node.getValue());
+        } else if (tag == Tag.NULL && "null".equals(node.getValue())) {
+            return null;
         }
         return node.getValue();
     }

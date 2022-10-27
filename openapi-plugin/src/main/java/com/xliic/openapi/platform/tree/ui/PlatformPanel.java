@@ -27,14 +27,19 @@ import java.util.List;
 
 public class PlatformPanel implements PlatformListener, Disposable {
 
+    @NotNull
     private final Project project;
-    private Tree tree;
+    @NotNull
+    private final Tree tree;
+    @NotNull
+    private final ToolWindow toolWindow;
 
     public PlatformPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
 
         tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
 
         this.project = project;
+        this.toolWindow = toolWindow;
 
         tree.setOpaque(true);
 
@@ -76,7 +81,15 @@ public class PlatformPanel implements PlatformListener, Disposable {
     }
 
     @Override
+    public void reloadDictionary() {}
+
+    @Override
     public void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid) {
         PlatformAPIUtils.updateAuditStatus(tree, apiId, grade, isValid);
+    }
+
+    @Override
+    public void collectionsLoaded() {
+        toolWindow.updateTitleActions();
     }
 }

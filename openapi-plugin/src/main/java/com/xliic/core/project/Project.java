@@ -38,6 +38,9 @@ public class Project {
     public void dispose() {
         if (!disposed) {
             disposed = true;
+            if (messageBus != null) {
+                messageBus.dispose();
+            }
         }
     }
 

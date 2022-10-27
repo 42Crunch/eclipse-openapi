@@ -34,6 +34,7 @@ import com.xliic.openapi.services.api.IPlatformService;
 import com.xliic.openapi.settings.SettingsKeys;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
+
 import okhttp3.Callback;
 
 import org.jetbrains.annotations.NotNull;
@@ -125,34 +126,31 @@ public final class PlatformService implements IPlatformService, SettingsListener
 
     @Override
     public void propertiesUpdated(@NotNull String key) {
-        if ((SettingsKeys.PLATFORM.equals(key) || SettingsKeys.API_KEY.equals(key) ||
-                SettingsKeys.PLATFORM_ALL.equals(key)) && !project.isDisposed()) {
-            ToolWindowManager windowManager = ToolWindowManager.getInstance(project);
+        if (SettingsKeys.isPlatformKey(key) && !project.isDisposed()) {
+            ToolWindowManager manager = ToolWindowManager.getInstance(project);
             if (PlatformConnection.isEmpty()) {
-                ToolWindow platformWindow = windowManager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
-                if (platformWindow != null && !platformWindow.isDisposed()) {
-                    platformWindow.remove();
+                ToolWindow window = manager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
+                if (window != null && !window.isDisposed()) {
+                    window.remove();
                 }
                 EclipseUtil.removeTempProject();
             } else {
-                ToolWindow platformWindow = windowManager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
+                ToolWindow platformWindow = manager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
                 if (platformWindow != null && !platformWindow.isDisposed()) {
                     PlatformPanelView view = (PlatformPanelView) platformWindow.getView();
                     if (view != null && !view.isReady()) {
-                        // Eclipse Development Note
-                        // Removing will trigger view recreation
+                        // Eclipse Development Note: removing will trigger view recreation
                         platformWindow.remove();
                     }
                 }
-                // Eclipse Development Note
-                // The view is always registered, open it in its perspective scope
-                invokeAndWaitToCreatePlatformWindow(true);
+                // Eclipse Development Note: view is always registered, open it in its perspective scope
+                createPlatformWindow(true);
             }
         }
     }
 
-    public void invokeAndWaitToCreatePlatformWindow(boolean doViewActivation) {
-        if (doViewActivation) {
+    public void createPlatformWindow(boolean activate) {
+        if (activate) {
             ApplicationManager.getApplication().invokeAndWait(() -> {
                 OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
@@ -234,6 +232,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
 
     @Override
     public void dispose() {
+        project.getMessageBus().connect().unsubscribe(this);
         modificationsMap.clear();
         listenersMap.clear();
         auditWaiters.clear();

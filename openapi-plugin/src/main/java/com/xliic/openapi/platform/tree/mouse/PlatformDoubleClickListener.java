@@ -4,13 +4,17 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.DoubleClickListener;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
+import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformOASCallback;
 import com.xliic.openapi.platform.tree.node.PlatformAudit;
+import com.xliic.openapi.platform.tree.node.PlatformDataDictionary;
 import com.xliic.openapi.platform.tree.node.PlatformOAS;
 import com.xliic.openapi.platform.tree.node.core.ProgressAware;
 import com.xliic.openapi.platform.tree.ui.PlatformPanel;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
+import com.xliic.openapi.services.DictionaryService;
+
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -55,6 +59,11 @@ public class PlatformDoubleClickListener extends DoubleClickListener {
             PlatformAPIs.readApi(auditObject.getId(), true,
                     new PlatformOASCallback(project, tree, node, true, false));
             PlatformUtils.setInProgress(tree, node, true);
+        } else if (o instanceof PlatformDataDictionary) {
+            SwingUtilities.invokeLater(() -> {
+                DictionaryService ddService = DictionaryService.getInstance(project);
+                ddService.reload(true);
+            });
         }
         return true;
     }

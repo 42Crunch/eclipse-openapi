@@ -7,7 +7,6 @@ import com.xliic.openapi.parser.replace.ReplaceManager;
 import com.xliic.openapi.parser.replace.Replacement;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixParameter;
-import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.services.ASTService;
@@ -137,13 +136,8 @@ public class FixManagerSnippet extends FixManager {
 
         // Everything is ready here
         List<FixItem> result = new LinkedList<>();
-        result.add(new FixItem(pointer, text, placeHolders, insertAfterPointer));
+        result.add(new FixItem(pointer, text, quickFix.getType()).withAnchorPointer(insertAfterPointer).withPlaceHolders(placeHolders));
         return result;
-    }
-
-    @Override
-    public FixType getType() {
-        return quickFix.getType();
     }
 
     @Override

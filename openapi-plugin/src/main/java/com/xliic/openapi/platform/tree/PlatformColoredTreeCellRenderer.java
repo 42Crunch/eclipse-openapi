@@ -39,6 +39,10 @@ public class PlatformColoredTreeCellRenderer extends ColoredTreeCellRenderer {
             PlatformRootFavorite rfo = (PlatformRootFavorite) valueObj;
             append(rfo.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
             setIcon(OpenApiIcons.PlatformFavorite);
+        } else if (valueObj instanceof PlatformDataDictionary) {
+            PlatformDataDictionary ddo = (PlatformDataDictionary) valueObj;
+            append(ddo.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
+            setIcon(OpenApiIcons.Dictionary);
         } else if (valueObj instanceof PlatformCollection) {
             PlatformCollection pco = (PlatformCollection) valueObj;
             append(pco.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);

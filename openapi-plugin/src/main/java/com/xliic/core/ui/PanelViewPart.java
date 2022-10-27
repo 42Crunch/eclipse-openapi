@@ -1,6 +1,8 @@
 package com.xliic.core.ui;
 
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IViewSite;
@@ -51,7 +53,13 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
         if (initControl(project)) {
             window = ToolWindowManager.getInstance(project).getToolWindow(id);
             if (window != null) {
-                panel = createPanel(project, window, parent);
+                try {
+                    panel = createPanel(project, window, parent);
+                } catch (Throwable e) {
+                    panel = null;
+                    Label label = new Label(parent, SWT.NULL);
+                    label.setText("Unable to initialize JCEF browser: " + e.getMessage());
+                }
                 for (AnJAction action : window.getTitleActions()) {
                     if (action instanceof Separator) {
                         toolBarManager.add(new org.eclipse.jface.action.Separator());

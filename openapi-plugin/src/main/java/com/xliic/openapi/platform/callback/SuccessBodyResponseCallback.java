@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public abstract class SuccessBodyResponseCallback implements Callback {
 
-    protected final Project project;
+    protected final @NotNull Project project;
     protected final boolean showDialogOnFailure;
 
     public SuccessBodyResponseCallback(@NotNull Project project) {

@@ -1,5 +1,7 @@
 package com.xliic.core.ui.jcef;
 
+import java.util.function.Function;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,6 +21,10 @@ public final class JBCefJSQuery {
     public @NotNull String inject(@Nullable String queryResult) {
         return "";
     }
+
+    public void addHandler(Function<Object, JBCefJSQuery.Response> handler) {}
+
+    public void removeHandler(Function<Object, JBCefJSQuery.Response> handler) {}
 
     public static class Response {
 

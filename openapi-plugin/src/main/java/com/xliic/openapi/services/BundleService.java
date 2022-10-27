@@ -157,6 +157,9 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
     }
 
     @Override
+    protected void treeDfs(AsyncTask task) {}
+
+    @Override
     public void scheduleToBundleByHost(@NotNull String hostname) {
         for (BundleResult result : bundleResultMap.values()) {
             if (result.hasBundleHost(hostname)) {

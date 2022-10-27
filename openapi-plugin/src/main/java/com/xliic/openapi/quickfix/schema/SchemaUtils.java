@@ -11,6 +11,8 @@ import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -81,11 +83,11 @@ public class SchemaUtils {
         Object value = node.getTypedValue();
         if (value == null) {
             return "null";
-        } else if (value instanceof Integer) {
+        } else if (value instanceof BigInteger) {
             return "integer";
-        } else if (value instanceof Float) {
-            Float fValue = (Float) value;
-            if ((1.0 * fValue.intValue()) == fValue) {
+        } else if (value instanceof BigDecimal) {
+            float fValue = ((BigDecimal) value).floatValue();
+            if ((1.0 * (int) fValue) == fValue) {
                 return "integer";
             }
             return "number";

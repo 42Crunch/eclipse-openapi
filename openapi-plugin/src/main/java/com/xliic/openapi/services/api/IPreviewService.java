@@ -1,10 +1,14 @@
 package com.xliic.openapi.services.api;
 
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.preview.PreviewCallback;
+
 public interface IPreviewService {
 
-    public void sendText(String projectId, String canonicalPath, String text);
+    boolean isInitComplete();
 
-    public void restartServer();
+    void sendText(String projectId, String canonicalPath, String text);
 
-    public void startServer() throws Exception;
+    void start(@NotNull PreviewCallback callback);
 }

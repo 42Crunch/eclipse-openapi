@@ -4,6 +4,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +33,9 @@ public class PlatformCollectionCallback extends SuccessASTResponseWithFailureDec
                 collections.add(new PlatformCollection(id, name, locked));
             }
         }
-        SwingUtilities.invokeLater(() -> PlatformCollectionUtils.addAll(project, tree, parentDMTN, collections));
+        SwingUtilities.invokeLater(() -> {
+            PlatformCollectionUtils.addAll(project, tree, parentDMTN, collections);
+            project.getMessageBus().syncPublisher(PlatformListener.TOPIC).collectionsLoaded();
+        });
     }
 }

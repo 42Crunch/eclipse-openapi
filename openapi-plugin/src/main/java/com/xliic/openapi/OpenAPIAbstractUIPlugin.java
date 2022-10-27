@@ -119,6 +119,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
     @Override
     public void stop(BundleContext context) throws Exception {
         try {
+            project.getMessageBus().connect().unsubscribe(actionUpdater);
             project.dispose();
             highlightingManager.dispose();
             removeListeners();

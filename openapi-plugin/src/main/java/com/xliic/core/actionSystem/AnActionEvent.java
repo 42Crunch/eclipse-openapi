@@ -53,6 +53,10 @@ public class AnActionEvent {
         setEnabled(visible);
     }
 
+    public boolean isVisible() {
+        return enabled;
+    }
+
     @Nullable
     @SuppressWarnings("unchecked")
     public <T> T getData(@NotNull DataKey<T> key) {

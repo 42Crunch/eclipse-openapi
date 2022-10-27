@@ -113,6 +113,16 @@ public class PlatformAPIs {
         client.newCall(request).enqueue(callback);
     }
 
+    public static void getDataDictionaries(Callback callback) {
+        Request request = getRequestBuilder("api/v2/dataDictionaries").build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    public static void getDataDictionaryFormats(String dictionaryId, Callback callback) {
+        Request request = getRequestBuilder(String.format("api/v2/dataDictionaries/%s/formats", dictionaryId)).build();
+        client.newCall(request).enqueue(callback);
+    }
+
     private static Request.Builder getRequestBuilder(String url) {
         PlatformConnection options = PlatformConnection.getOptions();
         return new Request.Builder()

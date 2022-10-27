@@ -11,5 +11,9 @@ public interface PlatformListener {
 
     void reloadAll();
 
+    void reloadDictionary();
+
     void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid);
+
+    default void collectionsLoaded() {}
 }

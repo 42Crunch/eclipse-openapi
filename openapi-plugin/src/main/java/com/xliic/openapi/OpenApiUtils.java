@@ -376,8 +376,9 @@ public class OpenApiUtils {
         return new File(fileName).toURI().toString();
     }
 
-    public static String getURI(VirtualFile file) {
-        return getURI(file.getPath());
+    @Nullable
+    public static String getURI(@Nullable VirtualFile file) {
+        return file == null ? null : getURI(file.getPath());
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {

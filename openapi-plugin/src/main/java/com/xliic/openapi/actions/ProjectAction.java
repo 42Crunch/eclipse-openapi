@@ -67,6 +67,9 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
         actionPerformed(project, file);
     }
 
-    public abstract boolean update(@NotNull Project project, @NotNull VirtualFile file);
+    public boolean update(@NotNull Project project, @NotNull VirtualFile file) {
+        return true;
+    }
+
     public abstract void actionPerformed(@NotNull Project project, @NotNull VirtualFile file);
 }

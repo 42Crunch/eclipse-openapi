@@ -4,8 +4,8 @@ import com.google.gson.JsonObject;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.quickfix.FixIssueItem;
 import com.xliic.openapi.quickfix.FixItem;
-import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.schema.SchemaNameChooser;
 import com.xliic.openapi.quickfix.schema.SchemaUtils;
@@ -68,11 +68,6 @@ public class FixManagerSchema extends FixManager {
     }
 
     @Override
-    public FixType getType() {
-        return quickFix.getType();
-    }
-
-    @Override
     public String getTitle() {
         return title;
     }
@@ -105,7 +100,7 @@ public class FixManagerSchema extends FixManager {
             }
         }
         String text = QuickFix.formatFixText(schemaRefFix.toString(), isJson(psiFile));
-        return new FixItem(issue, pointer, text, new LinkedList<>());
+        return new FixIssueItem(issue, pointer, text, quickFix.getType());
     }
 
     private FixItem getSchemaMainFixItem(Node root) {
@@ -148,7 +143,7 @@ public class FixManagerSchema extends FixManager {
             }
         }
         text = QuickFix.formatFixText(text, isJson(psiFile));
-        return new FixItem(issue, pointer, text, new LinkedList<>());
+        return new FixIssueItem(issue, pointer, text, quickFix.getType());
     }
 
     @Override

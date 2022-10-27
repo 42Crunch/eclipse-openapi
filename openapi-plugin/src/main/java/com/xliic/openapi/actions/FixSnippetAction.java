@@ -51,9 +51,9 @@ public class FixSnippetAction extends AnJAction implements DumbAware {
         FileEditor fileEditor = FileEditorManager.getInstance(project).getSelectedEditor(psiFile.getVirtualFile());
         Editor editor = ((TextEditor) Objects.requireNonNull(fileEditor)).getEditor();
 
-        DocumentUpdater documentUpdater = DocumentUpdater.getInstance(editor, psiFile, provider);
+        DocumentUpdater documentUpdater = new DocumentUpdater(editor, psiFile);
         WriteCommandAction.runWriteCommandAction(project, () -> {
-            documentUpdater.process();
+            documentUpdater.process(provider.getFixItems());
             editor.getCaretModel().moveToOffset(documentUpdater.getMoveToOffset());
             editor.getScrollingModel().scrollToCaret(ScrollType.CENTER_UP);
         });

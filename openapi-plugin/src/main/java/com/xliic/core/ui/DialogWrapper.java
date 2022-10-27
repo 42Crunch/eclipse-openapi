@@ -19,6 +19,9 @@ import com.xliic.core.util.EclipseUtil;
 @SuppressWarnings("restriction")
 public class DialogWrapper extends StatusDialog {
 
+    public static final int OK_EXIT_CODE = OK;
+    public static final int CANCEL_EXIT_CODE = CANCEL;
+
     private final int numColumns;
     protected final Project project;
 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="Content-Security-Policy"  content="default-src 'none';  img-src ${cspSource} https: data:; script-src ${cspSource} 'unsafe-inline'; style-src ${cspSource}  'unsafe-inline'; connect-src http: https:">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>${style}</style>
+      <style>
+		  :root {
+			--xliic-foreground: var(--xliic-foreground-custom, var(--vscode-editor-foreground));
+			--xliic-background: var(--xliic-background-custom, var(--vscode-editor-background));
+		  }
+      </style>
+    </head>
+    <body>
+    <div id="root"></div>  
+    <script>
+		window.initWebJS = function() {
+			window.dispatchMessage = function(message) {
+				switch (message.command) {
+					case 'showDictionary':
+						window.postMessage({ command: "showDictionary", payload: JSON.parse(message.payload) });
+						break;
+					case 'changeTheme':
+					window.postMessage({ command: "changeTheme", payload: message.payload });
+					break;
+				}
+			};
+			const host = { postMessage: (message) => window.__EclipseJTools.postMessage(JSON.stringify(message)) };
+			window.renderWebView(host, { theme: {} });
+	    };
+    </script>
+    </body>
+</html>

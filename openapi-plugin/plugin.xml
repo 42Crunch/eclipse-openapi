@@ -7,7 +7,7 @@
       <page
             name="OpenAPI (Swagger) Editor"
             class="com.xliic.openapi.settings.AuditConfigurable"
-            id="org.eclipse.ui.examples.fieldassist.preferences.FieldAssistPreferencePage">
+            id="com.xliic.openapi.settings.AuditConfigurable">
       </page>
    </extension>
    
@@ -15,6 +15,10 @@
 		 point="org.eclipse.ui.genericeditor.contentAssistProcessors">
 	  <contentAssistProcessor
 		class="com.xliic.openapi.editor.OpenAPIContentAssistProcessor"
+		contentType="org.eclipse.core.runtime.text">
+	  </contentAssistProcessor>
+ 	  <contentAssistProcessor
+		class="com.xliic.openapi.platform.dictionary.completion.DictionaryContentAssistProcessor"
 		contentType="org.eclipse.core.runtime.text">
 	  </contentAssistProcessor>
 	</extension>
@@ -27,6 +31,10 @@
 		<command
 			id="com.xliic.openapi.actions.LoadAuditReportAction"
 			name="Load Security Audit Report from File" />
+			
+		<command
+			id="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
+			name="Update Data Dictionary Properties in File" />
 			
   <command
         defaultHandler="com.xliic.openapi.actions.SecurityAuditAction"
@@ -67,11 +75,25 @@
 		<handler
 			commandId="com.xliic.openapi.actions.LoadAuditReportAction"
 			class="com.xliic.openapi.actions.LoadAuditReportAction" />
+		<handler
+			commandId="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
+			class="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction" />
 	</extension>    
 	
    <extension
          point="org.eclipse.ui.menus">
 
+     <menuContribution
+                locationURI="popup:org.eclipse.ui.popup.any?before=undo">
+                <command
+                        commandId="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
+                        id="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
+                        label="Update Data Dictionary Properties in File"
+                        icon="icons/platform-data-dictionary.png"
+                        style="push">
+                </command>
+     </menuContribution>
+     
      <menuContribution
                 locationURI="popup:org.eclipse.ui.popup.any?before=undo">
                 <command
@@ -138,7 +160,15 @@
             inject="true"
             name="42Crunch">
       </view>
-      
+      <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class="com.xliic.openapi.platform.dictionary.jcef.ui.JCEFDictionaryPanelView"
+            icon="icons/platform-data-dictionary.png"
+            id="com.xliic.openapi.platform.dictionary.jcef.ui.JCEFDictionaryPanelView"
+            inject="true"
+            name="Data Dictionary">
+      </view>
    </extension>
 
 	<extension point="org.eclipse.ui.services">
@@ -171,12 +201,16 @@
      		<service serviceClass="com.xliic.openapi.services.api.IExtRefService"></service>
 		</serviceFactory>
 
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.HTMLServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IHTMLService"></service>
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.KDBServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IKDBService"></service>
 		</serviceFactory>
 		
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.PlatformServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.api.IPlatformService"></service>
+		</serviceFactory>
+		
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.DictionaryServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IDictionaryService"></service>
 		</serviceFactory>
 		
 	</extension>

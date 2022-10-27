@@ -11,6 +11,7 @@ import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.replace.ReplaceManager;
 import com.xliic.openapi.parser.replace.Replacement;
+import com.xliic.openapi.quickfix.FixIssueItem;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.FixTitle;
@@ -73,16 +74,11 @@ public class FixManagerCombined extends FixManager {
         }
         if (!replacements.isEmpty()) {
             String sourceText = ReplaceManager.replace(text, replacements, isJson);
-            result.add(new FixItem(new LinkedList<>(fixToIssueMap.values()), pointer, sourceText, placeHolders));
+            result.add(new FixIssueItem(new LinkedList<>(fixToIssueMap.values()), pointer, sourceText, FixType.Insert).withPlaceHolders(placeHolders));
             return result;
         }
-        result.add(new FixItem(new LinkedList<>(fixToIssueMap.values()), pointer, text, placeHolders));
+        result.add(new FixIssueItem(new LinkedList<>(fixToIssueMap.values()), pointer, text, FixType.Insert).withPlaceHolders(placeHolders));
         return result;
-    }
-
-    @Override
-    public FixType getType() {
-        return FixType.Insert;
     }
 
     @Override

@@ -31,7 +31,6 @@ public abstract class FixManager {
         project = psiFile.getProject();
     }
 
-    public abstract FixType getType();
     public abstract String getTitle();
     public abstract List<FixItem> getFixItems();
 

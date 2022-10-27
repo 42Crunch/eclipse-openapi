@@ -1,21 +1,23 @@
 package com.xliic.core.util.messages;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 import org.osgi.service.event.EventHandler;
 
-import com.xliic.core.Disposable;
-
-public class MessageBusConnection implements Disposable {
+public class MessageBusConnection {
 
     public static final String EVENT_FUNCTION_ID_PROPERTY_KEY = "funcId";
     public static final String EVENT_ARGS_PROPERTY_KEY = "args";
 
     private final IEventBroker eventBroker;
-    private final Map<Object, EventHandler> handlers = new HashMap<>();
+    private final Map<Object, List<EventHandler>> handlers = Collections.synchronizedMap(new HashMap<>());
 
     public MessageBusConnection(IEventBroker eventBroker) {
         this.eventBroker = eventBroker;
@@ -23,11 +25,18 @@ public class MessageBusConnection implements Disposable {
 
     public <L> void subscribe(@NotNull Topic<L> topic, @NotNull L handler) {
         EventHandler eventHandler = event -> {
-            Integer funcId = (Integer) event.getProperty(EVENT_FUNCTION_ID_PROPERTY_KEY);
-            topic.dispatch(funcId, event.getProperty(EVENT_ARGS_PROPERTY_KEY), handler);
+            if (handlers.containsKey(handler)) {
+                Integer funcId = (Integer) event.getProperty(EVENT_FUNCTION_ID_PROPERTY_KEY);
+                topic.dispatch(funcId, event.getProperty(EVENT_ARGS_PROPERTY_KEY), handler);
+            }
         };
-        eventBroker.subscribe(topic.getTopic(), eventHandler);
-        handlers.put(handler, eventHandler);
+        boolean status = eventBroker.subscribe(topic.getTopic(), eventHandler);
+        if (status) {
+            if (!handlers.containsKey(handler)) {
+                handlers.put(handler, new LinkedList<>());
+            }
+            handlers.get(handler).add(eventHandler);
+        }
     }
 
     @NotNull
@@ -36,17 +45,17 @@ public class MessageBusConnection implements Disposable {
     }
 
     public <L> void unsubscribe(@NotNull L handler) {
-        EventHandler eventHandler = handlers.remove(handler);
-        if (eventHandler != null) {
-            eventBroker.unsubscribe(eventHandler);
+        List<EventHandler> eventHandlers = handlers.remove(handler);
+        if (eventHandlers != null) {
+            for (EventHandler eventHandler : eventHandlers) {
+                eventBroker.unsubscribe(eventHandler);
+            }
         }
     }
 
-    @Override
     public void dispose() {
-        for (EventHandler eventHandler : handlers.values()) {
-            eventBroker.unsubscribe(eventHandler);
+        for (Object handler : new HashSet<>(handlers.keySet())) {
+            unsubscribe(handler);
         }
-        handlers.clear();
     }
 }

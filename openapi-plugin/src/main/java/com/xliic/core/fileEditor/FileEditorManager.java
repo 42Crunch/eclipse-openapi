@@ -13,6 +13,7 @@ import org.eclipse.ui.internal.Workbench;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
@@ -93,6 +94,15 @@ public class FileEditorManager {
         IEditorInput input = getSelectedEditorInput();
         if (input != null) {
             return new FileEditor(input);
+        }
+        return null;
+    }
+
+    @Nullable
+    public Editor getSelectedTextEditor() {
+        IEditorInput input = getSelectedEditorInput();
+        if (input != null) {
+            return new Editor(project, input);
         }
         return null;
     }

@@ -9,14 +9,18 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.module.Module;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.components.JComponent;
 
 public abstract class SearchableConfigurable extends PreferencePage implements IWorkbenchPreferencePage {
 
+    protected final PropertiesComponent settings;
+
     public SearchableConfigurable(@Nullable Module module, @NotNull Project project) {
         super();
+        settings = PropertiesComponent.getInstance();
     }
 
     @Override

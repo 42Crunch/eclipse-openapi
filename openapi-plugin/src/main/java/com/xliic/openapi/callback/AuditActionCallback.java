@@ -2,6 +2,7 @@ package com.xliic.openapi.callback;
 
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.application.ModalityState;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.project.Project;
@@ -72,20 +73,18 @@ public class AuditActionCallback extends ActionCallback {
             }
         }
 
-        SwingUtilities.invokeLater(() -> {
-
+        // From now on idea requires running below code within write-safe context
+        ApplicationManager.getApplication().invokeAndWait(() -> {
             OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
             OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
-
             project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleIssuesFixed(issues);
             project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
+            OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(project, file);
+            FileEditorManager.getInstance(project).openEditor(fileDescriptor, true);
+        }, ModalityState.NON_MODAL);
 
-            ApplicationManager.getApplication().invokeLater(() -> {
-                OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(project, file);
-                FileEditorManager.getInstance(project).openEditor(fileDescriptor, true);
-            });
-
-            // Report issues with unknown location
+        // Report issues with unknown location
+        SwingUtilities.invokeLater(() -> {
             StringBuilder sb = new StringBuilder();
             for (Issue issue : newAudit.getHiddenIssues()) {
                 sb.append(message("openapi.audit.issue.bad.location", issue.getId(), issue.getPointer()));

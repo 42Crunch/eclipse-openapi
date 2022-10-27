@@ -81,11 +81,13 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
 
         if (TempFileUtils.isPlatformFile(file)) {
             SwingUtilities.invokeLater(() -> {
-                PlatformService platformService = PlatformService.getInstance(project);
-                if (platformService.isPlatformFileModified(file)) {
-                    platformService.saveToPlatform(file, false);
+                if (!project.isDisposed()) {
+                    PlatformService platformService = PlatformService.getInstance(project);
+                    if (platformService.isPlatformFileModified(file)) {
+                        platformService.saveToPlatform(file, false);
+                    }
+                    platformService.removeListener(file);
                 }
-                platformService.removeListener(file);
             });
         }
     }

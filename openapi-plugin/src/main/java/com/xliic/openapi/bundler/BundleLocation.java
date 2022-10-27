@@ -39,9 +39,13 @@ public class BundleLocation {
             this.uri = uri;
         }
         else {
-            File directory = new File(Paths.get(rootFileName).getParent().toString());
-            String fileName = URLDecoder.decode(uri.toString(), StandardCharsets.UTF_8);
-            file = LocalFileSystem.getInstance().findFileByIoFile(new File(directory, fileName));
+            if (uri.isAbsolute()) {
+                file = LocalFileSystem.getInstance().findFileByIoFile(new File(uri));
+            } else {
+                File directory = new File(Paths.get(rootFileName).getParent().toString());
+                String fileName = URLDecoder.decode(uri.toString(), StandardCharsets.UTF_8);
+                file = LocalFileSystem.getInstance().findFileByIoFile(new File(directory, fileName));
+            }
             this.uri = null;
         }
         this.pointer = pointer;

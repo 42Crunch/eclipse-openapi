@@ -29,6 +29,8 @@ public class TopicAuditListener<L> extends Topic<L> {
             listener.handleViewDetails((VirtualFile) args.get(0), (List<Issue>) args.get(1));
         } else if (funcId == 3) {
             listener.handleIssuesFixed((List<Issue>) args.get(0));
+        } else if (funcId == 4) {
+            listener.handleKDBReady((String) args.get(0));
         }
     }
 
@@ -56,6 +58,11 @@ public class TopicAuditListener<L> extends Topic<L> {
             @Override
             public void handleIssuesFixed(@NotNull List<Issue> issues) {
                 eventBroker.send(getTopic(), getArgs(3, List.of(issues)));
+            }
+
+            @Override
+            public void handleKDBReady(@NotNull String text) {
+                eventBroker.send(getTopic(), getArgs(4, List.of(text)));
             }
         };
     }

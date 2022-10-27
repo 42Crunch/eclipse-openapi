@@ -213,8 +213,8 @@ public class HostNameTableEditor {
     private void createTable(Composite parent) {
         Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER);
         GridData data = new GridData(GridData.FILL_BOTH);
-        // Height space for 5 items and the header
-        data.heightHint = (1 + 5) * table.getItemHeight();
+        // Height space for 3 items and the header
+        data.heightHint = (1 + 3) * table.getItemHeight();
         data.verticalSpan = 3;
         table.setLayoutData(data);
         table.setFont(parent.getFont());

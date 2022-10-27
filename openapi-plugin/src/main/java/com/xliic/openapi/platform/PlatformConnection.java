@@ -34,6 +34,10 @@ public class PlatformConnection {
         this.platformUrl = platformUrl;
     }
 
+    public static boolean isPlatformUsed() {
+        return !isEmpty();
+    }
+
     public static boolean isEmpty() {
         String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
         String apiToken = getPlatformAPIKey();
@@ -99,6 +103,7 @@ public class PlatformConnection {
         return platformUrl;
     }
 
+    @NotNull
     public String getDomainName(@NotNull String defaultName) {
         try {
             return OpenApiUtils.getDomainName(platformUrl);

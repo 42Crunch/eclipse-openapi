@@ -129,10 +129,6 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
     }
 
     @Override
-    public void handleToolWindowOpened(@NotNull String id) {
-    }
-
-    @Override
     public void handleAllFilesClosed() {
         DefaultTreeModel model = getTree().getModel();
         model.setRoot(null);
