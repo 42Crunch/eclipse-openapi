@@ -13,6 +13,8 @@ public class IconLoader {
             return new Icon(OpenAPIImages.PropertyNode);
         } else if (path.startsWith("/icons/add")) {
             return new Icon(OpenAPIImages.AddSnippet);
+        } else if (path.startsWith("/icons/extref")) {
+            return new Icon(OpenAPIImages.ExtRef);
         } else if (path.startsWith("/icons/icon_42crunch_platform")) {
             return new Icon(OpenAPIImages.Platform);
         } else if (path.startsWith("/icons/platform-all")) {

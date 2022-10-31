@@ -21,11 +21,7 @@ public class ReportFileObject {
 
     public String getShortFileName(String projectPath) {
         if (issue.getUri() == null) {
-            String shortName = issue.getFileName().replace(projectPath, "");
-            if (shortName.startsWith("/")) {
-                shortName = shortName.replaceFirst("/", "");
-            }
-            return shortName;
+            return issue.getFileName().replace(projectPath, "");
         } else {
             return issue.getUri().toString();
         }

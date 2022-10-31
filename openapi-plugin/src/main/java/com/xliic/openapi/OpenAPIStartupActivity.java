@@ -47,9 +47,10 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         // Platform
         PlatformService platformService = PlatformService.getInstance(project);
         PlatformConnection.setDefaultPlatformURL();
+        // Eclipse Development Note: initialize to subscribe for settings update
+        DictionaryService ddService = DictionaryService.getInstance(project);
         if (PlatformConnection.isPlatformUsed()) {
             platformService.createPlatformWindow(false);
-            DictionaryService ddService = DictionaryService.getInstance(project);
             ddService.reload(false);
         }
         // Load KDB articles

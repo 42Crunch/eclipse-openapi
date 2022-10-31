@@ -23,6 +23,16 @@ public abstract class PreviewAbstractAction extends ProjectAction {
 
     @Override
     public void actionPerformed(@NotNull Project project, @NotNull VirtualFile file) {
+        String rootFileName = file.getPath();
+        BundleService bundleService = BundleService.getInstance(project);
+        BundleResult bundleResult = bundleService.getBundle(rootFileName);
+        if (bundleResult == null) {
+            return;
+        }
+        if (!bundleResult.isBundleComplete()) {
+            bundleService.notifyOfErrors(rootFileName);
+            return;
+        }
         PreviewService previewService = PreviewService.getInstance();
         if (previewService.isServerStated()) {
             process(project, file);
@@ -52,16 +62,6 @@ public abstract class PreviewAbstractAction extends ProjectAction {
     public abstract void browse(Project project, VirtualFile file) throws MalformedURLException;
 
     private void process(Project project, VirtualFile file) {
-        String rootFileName = file.getPath();
-        BundleService bundleService = BundleService.getInstance(project);
-        BundleResult bundleResult = bundleService.getBundle(rootFileName);
-        if (bundleResult == null) {
-            return;
-        }
-        if (!bundleResult.isBundleComplete()) {
-            bundleService.notifyOfErrors(rootFileName);
-            return;
-        }
         try {
             browse(project, file);
         } catch (MalformedURLException exception) {

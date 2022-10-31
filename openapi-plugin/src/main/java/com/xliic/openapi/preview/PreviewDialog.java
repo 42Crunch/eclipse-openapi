@@ -52,6 +52,7 @@ public class PreviewDialog extends TrayDialog {
         layout.numColumns = port > 0 ? 3 : 1;
         layout.marginHeight = 10;
         layout.marginWidth = 10;
+        layout.horizontalSpacing = 1;
         parent.setLayout(layout);
         if (port > 0) {
             new Label(parent, SWT.NULL).setText("Failed to start preview server:");

@@ -11,12 +11,6 @@ public class JCheckBox {
 
     public JCheckBox(String label, JPanel parent) {
         this(label, parent.getComposite());
-        Composite composite = parent.getComposite();
-        checkBoxWidget = new Button(composite, SWT.CHECK | SWT.LEFT);
-        checkBoxWidget.setFont(composite.getFont());
-        checkBoxWidget.setText(label);
-        checkBoxWidget.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-        checkBoxWidget.addDisposeListener(event -> checkBoxWidget = null);
     }
 
     public JCheckBox(String label, Composite composite) {
