@@ -156,10 +156,11 @@ public class HostNameTableEditor {
 
         PropertiesComponent.getInstance().setValues(SettingsKeys.HOSTS, ArrayUtilRt.toStringArray(getNames(newHosts)));
 
-        // We have app level settings, must propagate the settings to all available opened projects
+        // We have app level settings, must propagate the settings to all available
+        // opened projects
         ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
         if (!changedHosts.isEmpty() && (projectManager != null)) {
-            ReadAction.run(()-> {
+            ReadAction.run(() -> {
                 for (Project project : projectManager.getOpenProjects()) {
                     if (!project.isDisposed()) {
                         BundleService bundleService = BundleService.getInstance(project);
@@ -182,7 +183,6 @@ public class HostNameTableEditor {
         Collections.sort(values);
         return values;
     }
-
 
     private Button createPushButton(Composite parent, String buttonText, int buttonId) {
         Button button = new Button(parent, SWT.PUSH);

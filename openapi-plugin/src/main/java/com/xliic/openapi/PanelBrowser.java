@@ -1,28 +1,5 @@
 package com.xliic.openapi;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.util.DefaultIndenter;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import com.xliic.core.ide.ui.LafManager;
-import com.xliic.core.ide.ui.LafManagerListener;
-import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.project.Project;
-import com.xliic.core.wm.ToolWindow;
-import com.xliic.openapi.report.jcef.JCEFPostMessageListener;
-import com.xliic.core.ui.jcef.CefLoadHandlerAdapter;
-import com.xliic.core.ui.jcef.JBCefBrowser;
-import com.xliic.core.ui.jcef.JBCefJSQuery;
-import com.xliic.core.util.ResourceUtil;
-import com.xliic.core.ui.jcef.CefBrowser;
-
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,6 +8,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.ide.ui.LafManager;
+import com.xliic.core.ide.ui.LafManagerListener;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.jcef.CefBrowser;
+import com.xliic.core.ui.jcef.CefLoadHandlerAdapter;
+import com.xliic.core.ui.jcef.JBCefBrowser;
+import com.xliic.core.ui.jcef.JBCefJSQuery;
+import com.xliic.core.util.ResourceUtil;
+import com.xliic.core.wm.ToolWindow;
+import com.xliic.openapi.report.jcef.JCEFPostMessageListener;
 
 public abstract class PanelBrowser extends JBCefBrowser implements LafManagerListener {
 
@@ -138,10 +138,12 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
     public void lookAndFeelChanged(@NotNull LafManager source) {
         if (isReady) {
             @SuppressWarnings("serial")
-            Map<String, Object> parameters = new HashMap<>() {{
-                put("command", "changeTheme");
-                put("payload", ThemeColors.getThemeColorValues());
-            }};
+            Map<String, Object> parameters = new HashMap<>() {
+                {
+                    put("command", "changeTheme");
+                    put("payload", ThemeColors.getThemeColorValues());
+                }
+            };
             sendMessage(parameters);
         }
     }
@@ -200,7 +202,7 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         for (String line : myJs.split("\\r?\\n|\\r")) {
             if (line.isEmpty() || line.isBlank()) {
                 continue;
-            } else if (line.startsWith("\t\t\t") ) {
+            } else if (line.startsWith("\t\t\t")) {
                 line = line.replaceFirst("\t\t\t", "");
                 line = line.replace("\t", "  ");
             }

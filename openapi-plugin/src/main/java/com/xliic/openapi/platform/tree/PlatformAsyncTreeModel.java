@@ -1,5 +1,11 @@
 package com.xliic.openapi.platform.tree;
 
+import java.util.Map;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.DefaultTreeModel;
 import com.xliic.core.ui.treeStructure.Tree;
@@ -13,16 +19,12 @@ import com.xliic.openapi.platform.tree.node.PlatformRootFavorite;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadingDecorator;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.services.PlatformService;
-import okhttp3.Callback;
-import org.jetbrains.annotations.NotNull;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.Map;
+import okhttp3.Callback;
 
 public class PlatformAsyncTreeModel extends DefaultTreeModel {
 
-    private final static DefaultMutableTreeNode LOADING_DECORATOR =
-            new DefaultMutableTreeNode(new PlatformLoadingDecorator(), false);
+    private final static DefaultMutableTreeNode LOADING_DECORATOR = new DefaultMutableTreeNode(new PlatformLoadingDecorator(), false);
 
     private final Project project;
     private final Tree tree;

@@ -1,16 +1,22 @@
 package com.xliic.openapi.report;
 
+import static org.apache.commons.lang.StringUtils.isEmpty;
+
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.editor.Document;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
-import org.jetbrains.annotations.NotNull;
-
-import java.nio.file.Paths;
-import java.util.*;
-
-import static org.apache.commons.lang.StringUtils.isEmpty;
 
 public class Audit {
 
@@ -24,8 +30,8 @@ public class Audit {
     private boolean showAsHTML;
     private boolean showAsProblems;
 
-    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response,
-            boolean platform, boolean showAsHTML, boolean showAsProblems) {
+    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response, boolean platform, boolean showAsHTML,
+            boolean showAsProblems) {
 
         this.project = project;
         this.auditFileName = auditFileName;
@@ -151,8 +157,7 @@ public class Audit {
             String relative;
             if (from.equals(to)) {
                 relative = Paths.get(auditFileName).getFileName().toString();
-            }
-            else {
+            } else {
                 relative = OpenApiUtils.getRelativePathFromTo(from, to);
             }
             Map<String, Object> props = new HashMap<>();

@@ -1,9 +1,5 @@
 package com.xliic.openapi.platform.dictionary.quickfix;
 
-import com.xliic.core.project.Project;
-import com.xliic.core.ui.DialogWrapper;
-import com.xliic.core.util.EclipseUtil;
-
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
@@ -14,6 +10,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.DialogWrapper;
+import com.xliic.core.util.EclipseUtil;
 
 public class PreAuditDialog extends TrayDialog {
 

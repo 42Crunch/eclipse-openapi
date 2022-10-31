@@ -36,23 +36,20 @@ public class OpenAPINavigationProvider implements DirectNavigationProvider {
             VirtualFile refFile = result.getFirst();
             if (target == null) {
                 return PsiManager.getInstance(project).findFile(refFile).toPsiElement();
-            }
-            else {
+            } else {
                 if (ExtRef.isExtRef(ref)) {
                     PsiFile psiFile = PsiManager.getInstance(project).findFile(refFile);
                     if (psiFile != null) {
                         return psiFile.findElementAt(target.getRange().getStartOffset());
                     }
-                }
-                else {
+                } else {
                     // Platform files are temp files which never indexed
                     if (TempFileUtils.isPlatformFile(refFile)) {
                         PsiFile psiFile = PsiManager.getInstance(project).findFile(refFile);
                         if (psiFile != null) {
                             return psiFile.findElementAt(target.getRange().getStartOffset());
                         }
-                    }
-                    else {
+                    } else {
                         return getPsiElementFromIndex(project, refFile, target.getJsonPointer());
                     }
                 }

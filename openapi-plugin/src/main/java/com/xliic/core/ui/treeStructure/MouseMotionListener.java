@@ -17,5 +17,6 @@ public abstract class MouseMotionListener implements MouseMoveListener {
     }
 
     protected abstract void mouseDragged(MouseEvent e);
+
     protected abstract void mouseMoved(MouseEvent e);
 }

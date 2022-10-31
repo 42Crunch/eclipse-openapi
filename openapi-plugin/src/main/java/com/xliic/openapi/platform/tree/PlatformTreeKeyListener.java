@@ -1,14 +1,14 @@
 package com.xliic.openapi.platform.tree;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.KeyAdapter;
 import com.xliic.core.ui.treeStructure.KeyEvent;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.platform.tree.mouse.PlatformDoubleClickListener;
 
-import org.jetbrains.annotations.NotNull;
-
-public class PlatformTreeKeyListener extends KeyAdapter  {
+public class PlatformTreeKeyListener extends KeyAdapter {
 
     private final Tree tree;
     private final Project project;

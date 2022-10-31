@@ -1,15 +1,30 @@
 package com.xliic.openapi.platform.dictionary;
 
+import static com.xliic.core.codeInsight.HighlightInfo.newHighlightInfo;
+import static com.xliic.core.codeInsight.SeverityRegistrar.getSeverityRegistrar;
+import static com.xliic.core.codeInsight.UpdateHighlightersUtil.setHighlightersToEditor;
+import static com.xliic.core.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
+import static com.xliic.core.codeInspection.ProblemHighlightType.GENERIC_ERROR;
+import static com.xliic.core.lang.HighlightSeverity.ERROR;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
 import com.xliic.core.codeInsight.HighlightInfo;
 import com.xliic.core.codeInsight.HighlightInfoType;
-import com.xliic.core.codeInsight.QuickFixAction;
 import com.xliic.core.codeInsight.IntentionAction;
+import com.xliic.core.codeInsight.QuickFixAction;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.TextRange;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -20,17 +35,6 @@ import com.xliic.openapi.platform.dictionary.quickfix.managers.FixManagerSingleR
 import com.xliic.openapi.platform.dictionary.quickfix.managers.FixManagerUpdateAllDictionary;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.services.DictionaryService;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
-
-import static com.xliic.core.codeInsight.HighlightInfo.newHighlightInfo;
-import static com.xliic.core.codeInsight.SeverityRegistrar.getSeverityRegistrar;
-import static com.xliic.core.codeInsight.UpdateHighlightersUtil.setHighlightersToEditor;
-import static com.xliic.core.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
-import static com.xliic.core.codeInspection.ProblemHighlightType.GENERIC_ERROR;
-import static com.xliic.core.lang.HighlightSeverity.ERROR;
-import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
 
 public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
 
@@ -72,8 +76,8 @@ public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
                                 if (range != null) {
                                     String pointer = propNode.getJsonPointer();
                                     HighlightInfo info = getInfo("Data Dictionary requires value of " + dataFormat.get(prop), range, pointer);
-                                    QuickFixAction.registerQuickFixActions(this, pointer, List.of(new FixDictionaryAction(
-                                            new FixManagerSingleReplaceDictionary(psiFile, dataFormat, propNode))));
+                                    QuickFixAction.registerQuickFixActions(this, pointer,
+                                            List.of(new FixDictionaryAction(new FixManagerSingleReplaceDictionary(psiFile, dataFormat, propNode))));
                                     highlights.add(info);
                                     nodesToUpdate.add(propNode);
                                     nodesInfo.put(propNode, info);
@@ -84,8 +88,8 @@ public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
                             if (range != null) {
                                 String pointer = container.getJsonPointer();
                                 HighlightInfo info = getInfo("Missing " + prop + " property defined in Data Dictionary", range, pointer);
-                                QuickFixAction.registerQuickFixActions(this, pointer, List.of(new FixDictionaryAction(
-                                        new FixManagerSingleInsertDictionary(psiFile, dataFormat, container, prop))));
+                                QuickFixAction.registerQuickFixActions(this, pointer,
+                                        List.of(new FixDictionaryAction(new FixManagerSingleInsertDictionary(psiFile, dataFormat, container, prop))));
                                 highlights.add(info);
                                 propsToAdd.add(prop);
                                 nodesInfo.put(container, info);
@@ -102,8 +106,8 @@ public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
                         if (range != null) {
                             String pointer = x42FormatNode.getJsonPointer();
                             HighlightInfo info = getInfo("Data Dictionary requires value of " + formatName, range, pointer);
-                            QuickFixAction.registerQuickFixActions(this, pointer, List.of(new FixDictionaryAction(
-                                    new FixManagerSingleReplaceDictionary(psiFile, x42FormatNode, formatName))));
+                            QuickFixAction.registerQuickFixActions(this, pointer,
+                                    List.of(new FixDictionaryAction(new FixManagerSingleReplaceDictionary(psiFile, x42FormatNode, formatName))));
                             highlights.add(info);
                             nodesToUpdate.add(x42FormatNode);
                             nodesInfo.put(x42FormatNode, info);
@@ -114,8 +118,8 @@ public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
                     if (range != null) {
                         String pointer = container.getJsonPointer();
                         HighlightInfo info = getInfo("Missing " + X_42C_FORMAT_KEY + " property required for data dictionary", range, pointer);
-                        QuickFixAction.registerQuickFixActions(this, pointer, List.of(new FixDictionaryAction(
-                                new FixManagerSingleInsertDictionary(psiFile, container, X_42C_FORMAT_KEY, formatName))));
+                        QuickFixAction.registerQuickFixActions(this, pointer, List
+                                .of(new FixDictionaryAction(new FixManagerSingleInsertDictionary(psiFile, container, X_42C_FORMAT_KEY, formatName))));
                         highlights.add(info);
                         propsToAdd.add(X_42C_FORMAT_KEY);
                         nodesInfo.put(container, info);

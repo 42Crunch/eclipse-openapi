@@ -15,8 +15,7 @@ public class ResourceUtil {
             URL baseURL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
             URL url = new URL(baseURL, "resources/" + basePath + "/" + fileName);
             return loaderClass.getResourceAsStream(url.getFile());
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return null;
@@ -27,8 +26,7 @@ public class ResourceUtil {
             URL baseURL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
             URL url = new URL(baseURL, "resources/" + basePath + "/" + fileName);
             return classLoader.getResourceAsStream(url.getFile());
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return null;

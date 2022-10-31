@@ -1,5 +1,10 @@
 package com.xliic.openapi.quickfix.managers;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.jetbrains.annotations.NotNull;
 import org.snakeyaml.engine.v2.api.Dump;
 import org.snakeyaml.engine.v2.api.DumpSettings;
@@ -19,11 +24,6 @@ import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.report.Issue;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class FixManagerCombined extends FixManager {
 
@@ -74,7 +74,8 @@ public class FixManagerCombined extends FixManager {
         }
         if (!replacements.isEmpty()) {
             String sourceText = ReplaceManager.replace(text, replacements, isJson);
-            result.add(new FixIssueItem(new LinkedList<>(fixToIssueMap.values()), pointer, sourceText, FixType.Insert).withPlaceHolders(placeHolders));
+            result.add(
+                    new FixIssueItem(new LinkedList<>(fixToIssueMap.values()), pointer, sourceText, FixType.Insert).withPlaceHolders(placeHolders));
             return result;
         }
         result.add(new FixIssueItem(new LinkedList<>(fixToIssueMap.values()), pointer, text, FixType.Insert).withPlaceHolders(placeHolders));

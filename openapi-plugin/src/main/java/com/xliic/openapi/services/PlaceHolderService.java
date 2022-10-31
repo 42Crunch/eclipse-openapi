@@ -1,5 +1,18 @@
 package com.xliic.openapi.services;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.ListSelectionModel;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeInsight.editorActions.enter.EnterHandlerDelegate;
@@ -32,12 +45,6 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.services.api.IPlaceHolderService;
-
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
-import java.util.*;
 
 public class PlaceHolderService implements IPlaceHolderService, Disposable {
 
@@ -152,8 +159,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
                     List<RangeHighlighter> bindings = getBoundRangeHighlighters(editor, highlighter);
                     if (bindings.isEmpty()) {
                         dispose(editor, highlighter);
-                    }
-                    else {
+                    } else {
                         update(editor, replaceText, bindings, true);
                     }
                 });
@@ -162,8 +168,8 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
             }
         }.installOn(list);
         ComponentPopupBuilder builder = JBPopupFactory.getInstance().createComponentPopupBuilder(list, list);
-        popup = builder.setProject(project).setCancelOnClickOutside(false).setFocusable(true)
-                .setResizable(false).setCancelOnOtherWindowOpen(true).createPopup(editor, highlighter.getPosition());
+        popup = builder.setProject(project).setCancelOnClickOutside(false).setFocusable(true).setResizable(false).setCancelOnOtherWindowOpen(true)
+                .createPopup(editor, highlighter.getPosition());
         popup.showInBestPositionFor(editor);
         Disposer.register(popup, () -> popup = null);
     }
@@ -188,7 +194,8 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         return EnterHandlerDelegate.Result.Continue;
     }
 
-    // Range highlighters can be disposed by ESC key, let highlighting pass thread handle this case
+    // Range highlighters can be disposed by ESC key, let highlighting pass thread
+    // handle this case
     @Override
     public void update(@NotNull Editor editor) {
         if (highlighters.containsKey(editor)) {
@@ -207,8 +214,7 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
             RangeHighlighter highlighter = getTriggeredRangeHighlighter(highlighters.get(editor), offset);
             if (highlighter == null) {
                 dispose(editor);
-            }
-            else {
+            } else {
                 List<RangeHighlighter> bindings = getBoundRangeHighlighters(editor, highlighter);
                 if (!bindings.isEmpty()) {
                     String text = getText(editor, highlighter);
@@ -296,11 +302,9 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
         lineText = lineText.substring(startOffset - lineOffset, endOffset - lineOffset);
         if (lineText.startsWith("\"") && lineText.endsWith("\"")) {
             return "\"" + text + "\"";
-        }
-        else if (lineText.startsWith("'") && lineText.endsWith("'")) {
+        } else if (lineText.startsWith("'") && lineText.endsWith("'")) {
             return "'" + text + "'";
-        }
-        else {
+        } else {
             return text;
         }
     }
@@ -347,12 +351,10 @@ public class PlaceHolderService implements IPlaceHolderService, Disposable {
                         dispose(editor, h);
                     }
                 }
-            }
-            finally {
+            } finally {
                 listener.setMute(false);
             }
-        }
-                ));
+        }));
     }
 
     @Override

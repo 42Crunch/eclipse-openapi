@@ -58,19 +58,16 @@ public abstract class FixAction extends IntentionAction implements IMarkerResolu
                         List<Issue> fixedIssues = documentUpdater.process(provider.getFixItems());
                         quickFixService.fix(project, fixedIssues);
                         editor.getCaretModel().moveToOffset(documentUpdater.getMoveToOffset());
-                    }
-                            );
+                    });
                 }
             });
-        }
-        else {
+        } else {
             DocumentUpdater documentUpdater = new DocumentUpdater(editor, file);
             WriteCommandAction.runWriteCommandAction(project, () -> {
                 List<Issue> fixedIssues = documentUpdater.process(provider.getFixItems());
                 quickFixService.fix(project, fixedIssues);
                 editor.getCaretModel().moveToOffset(documentUpdater.getMoveToOffset());
-            }
-                    );
+            });
         }
     }
 

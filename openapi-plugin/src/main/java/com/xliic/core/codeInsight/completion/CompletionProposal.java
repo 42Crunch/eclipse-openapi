@@ -44,7 +44,7 @@ public class CompletionProposal implements ICompletionProposal, ICompletionPropo
                     int j = getIndexOfCloseQuote(lineText, DQ, innerOffset);
                     replace(document, lineText, lineOffset, i, j, DQ);
                 }
-            } else if (type== LookupElement.FileType.YAML) {
+            } else if (type == LookupElement.FileType.YAML) {
                 int i = getIndexOfOpenQuote(lineText, DQ, innerOffset);
                 if (i >= 0) {
                     int j = getIndexOfCloseQuote(lineText, DQ, innerOffset);
@@ -65,41 +65,34 @@ public class CompletionProposal implements ICompletionProposal, ICompletionPropo
                 i = innerOffset - prefix.length();
                 document.replace(offset - prefix.length(), lineText.length() - i - 1, getDisplayString());
             }
-        }
-        catch (BadLocationException x) {
+        } catch (BadLocationException x) {
         }
     }
-
 
     @Override
     public Point getSelection(IDocument document) {
         return null;
     }
 
-
     @Override
     public String getAdditionalProposalInfo() {
         return element.getTypeText();
     }
-
 
     @Override
     public String getDisplayString() {
         return element.getDisplayString();
     }
 
-
     @Override
     public Image getImage() {
         return element.getIcon().createImage();
     }
 
-
     @Override
     public IContextInformation getContextInformation() {
         return null;
     }
-
 
     @Override
     public StyledString getStyledDisplayString(IDocument document, int offset, BoldStylerProvider boldStylerProvider) {
@@ -128,8 +121,7 @@ public class CompletionProposal implements ICompletionProposal, ICompletionPropo
     private void replace(IDocument document, String lineText, int lineOffset, int i, int j, char quote) throws BadLocationException {
         if (i < j) {
             document.replace(lineOffset + i, j - i, getDisplayString());
-        }
-        else {
+        } else {
             document.replace(lineOffset + i, lineText.length() - i - 1, getDisplayString() + quote);
         }
     }
@@ -138,8 +130,7 @@ public class CompletionProposal implements ICompletionProposal, ICompletionPropo
         char ch = lineText.charAt(lineInnerOffset - 1);
         if (ch == quote) {
             return lineInnerOffset;
-        }
-        else {
+        } else {
             int ix = lineText.lastIndexOf(quote, lineInnerOffset - 1);
             return ix >= 0 ? ix + 1 : -1;
         }
@@ -149,8 +140,7 @@ public class CompletionProposal implements ICompletionProposal, ICompletionPropo
         char ch = lineText.charAt(lineInnerOffset);
         if (ch == quote) {
             return lineInnerOffset;
-        }
-        else {
+        } else {
             int ix = lineText.indexOf(quote, lineInnerOffset);
             return ix >= 0 ? ix : -1;
         }

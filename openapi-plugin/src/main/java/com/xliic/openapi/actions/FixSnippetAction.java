@@ -1,5 +1,9 @@
 package com.xliic.openapi.actions;
 
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.command.WriteCommandAction;
@@ -10,18 +14,14 @@ import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.TextEditor;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.Icon;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.quickfix.managers.FixManager;
 import com.xliic.openapi.services.ASTService;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class FixSnippetAction extends AnJAction implements DumbAware {
 

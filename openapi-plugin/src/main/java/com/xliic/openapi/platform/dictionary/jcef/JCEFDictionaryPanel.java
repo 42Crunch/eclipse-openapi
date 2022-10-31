@@ -1,22 +1,26 @@
 package com.xliic.openapi.platform.dictionary.jcef;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.xliic.core.Disposable;
-import com.xliic.core.project.Project;
-import com.xliic.core.wm.ToolWindow;
-import com.xliic.core.ui.jcef.JBCefJSQuery;
-import com.xliic.openapi.PanelBrowser;
-import com.xliic.openapi.platform.PlatformListener;
-import com.xliic.openapi.platform.dictionary.DictionarySerializer;
-import com.xliic.openapi.platform.dictionary.types.DataDictionary;
-import com.xliic.openapi.services.DictionaryService;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-import java.util.function.Function;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.xliic.core.Disposable;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.jcef.JBCefJSQuery;
+import com.xliic.core.wm.ToolWindow;
+import com.xliic.openapi.PanelBrowser;
+import com.xliic.openapi.platform.PlatformListener;
+import com.xliic.openapi.platform.dictionary.DictionarySerializer;
+import com.xliic.openapi.platform.dictionary.types.DataDictionary;
+import com.xliic.openapi.services.DictionaryService;
 
 public class JCEFDictionaryPanel extends PanelBrowser implements PlatformListener, Disposable {
 
@@ -43,10 +47,12 @@ public class JCEFDictionaryPanel extends PanelBrowser implements PlatformListene
     @Override
     protected void loadComplete() {
         @SuppressWarnings("serial")
-        Map<String, Object> parameters = new HashMap<>() {{
-            put("command", "showDictionary");
-            put("payload", getPayload());
-        }};
+        Map<String, Object> parameters = new HashMap<>() {
+            {
+                put("command", "showDictionary");
+                put("payload", getPayload());
+            }
+        };
         sendMessage(parameters);
     }
 
@@ -83,7 +89,8 @@ public class JCEFDictionaryPanel extends PanelBrowser implements PlatformListene
     }
 
     @Override
-    public void reloadAll() {}
+    public void reloadAll() {
+    }
 
     @Override
     public void reloadDictionary() {
@@ -91,5 +98,6 @@ public class JCEFDictionaryPanel extends PanelBrowser implements PlatformListene
     }
 
     @Override
-    public void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid) {}
+    public void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid) {
+    }
 }

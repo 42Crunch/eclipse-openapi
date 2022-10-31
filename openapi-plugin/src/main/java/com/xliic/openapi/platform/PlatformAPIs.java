@@ -1,14 +1,20 @@
 package com.xliic.openapi.platform;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.*;
-
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class PlatformAPIs {
 
@@ -35,40 +41,46 @@ public class PlatformAPIs {
     }
 
     public static void readAuditReport(String apiId, Callback callback) {
-        //noinspection SpellCheckingInspection
+        // noinspection SpellCheckingInspection
         Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
         client.newCall(request).enqueue(callback);
     }
 
     public static Response readAuditReportSync(String apiId) throws IOException {
-        //noinspection SpellCheckingInspection
+        // noinspection SpellCheckingInspection
         Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
         return client.newCall(request).execute();
     }
 
     @SuppressWarnings("serial")
     public static void updateCollection(String collectionId, String name, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
-            put("name", name);
-        }}));
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
+            {
+                put("name", name);
+            }
+        }));
         Request request = getRequestBuilder(String.format("api/v1/collections/%s", collectionId)).put(body).build();
         client.newCall(request).enqueue(callback);
     }
 
     @SuppressWarnings("serial")
     public static void updateAPIContent(String apiId, String text, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
-            put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
-        }}));
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
+            {
+                put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
+            }
+        }));
         Request request = getRequestBuilder(String.format("api/v1/apis/%s", apiId)).put(body).build();
         client.newCall(request).enqueue(callback);
     }
 
     @SuppressWarnings("serial")
     public static void updateAPI(String apiId, String name, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
-            put("name", name);
-        }}));
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
+            {
+                put("name", name);
+            }
+        }));
         Request request = getRequestBuilder(String.format("api/v1/apis/%s", apiId)).put(body).build();
         client.newCall(request).enqueue(callback);
     }
@@ -85,20 +97,24 @@ public class PlatformAPIs {
 
     @SuppressWarnings("serial")
     public static void createCollection(String name, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
-            put("name", name);
-        }}));
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
+            {
+                put("name", name);
+            }
+        }));
         Request request = getRequestBuilder("api/v1/collections").post(body).build();
         client.newCall(request).enqueue(callback);
     }
 
     @SuppressWarnings("serial")
     public static void createAPI(String collectionId, String name, String text, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
-            put("cid", collectionId);
-            put("name", name);
-            put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
-        }}));
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
+            {
+                put("cid", collectionId);
+                put("name", name);
+                put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
+            }
+        }));
         Request request = getRequestBuilder("api/v2/apis").post(body).build();
         client.newCall(request).enqueue(callback);
     }
@@ -125,13 +141,9 @@ public class PlatformAPIs {
 
     private static Request.Builder getRequestBuilder(String url) {
         PlatformConnection options = PlatformConnection.getOptions();
-        return new Request.Builder()
-                .url(String.format("%s/%s", options.getPlatformUrl(), url))
-                .addHeader("X-API-KEY", options.getApiToken())
-                .addHeader("X-42C-IDE", Boolean.TRUE.toString())
-                .addHeader("Accept", "application/json")
-                .addHeader("User-Agent", options.getUserAgent())
-                .addHeader("Referer", options.getReferer());
+        return new Request.Builder().url(String.format("%s/%s", options.getPlatformUrl(), url)).addHeader("X-API-KEY", options.getApiToken())
+                .addHeader("X-42C-IDE", Boolean.TRUE.toString()).addHeader("Accept", "application/json")
+                .addHeader("User-Agent", options.getUserAgent()).addHeader("Referer", options.getReferer());
     }
 
     private static RequestBody getJsonRequestBody(Map<String, String> parameters) {

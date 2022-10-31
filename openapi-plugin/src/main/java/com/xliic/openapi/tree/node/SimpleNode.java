@@ -1,7 +1,8 @@
 package com.xliic.openapi.tree.node;
 
-import com.xliic.openapi.parser.ast.node.Node;
 import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class SimpleNode extends BaseNode {
 

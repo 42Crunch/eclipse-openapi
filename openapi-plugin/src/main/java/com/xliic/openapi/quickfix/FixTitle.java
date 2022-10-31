@@ -9,8 +9,7 @@ public class FixTitle {
 
     private final LinkedList<String> titles;
 
-    private static final Map<String, String> plurals = Map.ofEntries(
-            new AbstractMap.SimpleEntry<>("property", "properties"),
+    private static final Map<String, String> plurals = Map.ofEntries(new AbstractMap.SimpleEntry<>("property", "properties"),
             new AbstractMap.SimpleEntry<>("response", "responses"));
 
     public FixTitle() {

@@ -1,5 +1,7 @@
 package com.xliic.openapi.services;
 
+import static com.xliic.openapi.TempFileUtils.createPluginTempDirIfMissing;
+import static com.xliic.openapi.TempFileUtils.createTextResource;
 import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_REDOC;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_SWAGGERUI;
@@ -30,9 +32,6 @@ import com.xliic.openapi.preview.PreviewWebSocket;
 import com.xliic.openapi.preview.PreviewWebSocketHandler;
 import com.xliic.openapi.services.api.IPreviewService;
 
-import static com.xliic.openapi.TempFileUtils.createPluginTempDirIfMissing;
-import static com.xliic.openapi.TempFileUtils.createTextResource;
-
 public class PreviewService implements IPreviewService, Disposable {
 
     private final Map<String, PreviewWebSocket> sockets;
@@ -41,7 +40,8 @@ public class PreviewService implements IPreviewService, Disposable {
     private File pluginTempDir;
     private boolean initComplete;
 
-    // This is app level service, no matter how many IDE projects are opened the jetty server will be started only once
+    // This is app level service, no matter how many IDE projects are opened the
+    // jetty server will be started only once
     public PreviewService() {
         server = null;
         sockets = new ConcurrentHashMap<>();
@@ -177,6 +177,7 @@ public class PreviewService implements IPreviewService, Disposable {
                 socketHandler.destroy();
                 socketHandler = null;
             }
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) {
+        }
     }
 }

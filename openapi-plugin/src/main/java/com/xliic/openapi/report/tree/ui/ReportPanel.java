@@ -1,37 +1,56 @@
 package com.xliic.openapi.report.tree.ui;
 
-import com.xliic.core.Disposable;
-import com.xliic.core.actionSystem.AnJAction;
-import com.xliic.core.fileEditor.FileEditorManager;
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.wm.ToolWindow;
-import com.xliic.core.ui.tree.TreePathUtil;
-import com.xliic.core.ui.treeStructure.Tree;
-import com.xliic.core.util.ui.UIUtil;
-import com.xliic.core.util.ui.tree.TreeUtil;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.ToolWindowId;
-import com.xliic.openapi.report.Audit;
-import com.xliic.openapi.report.Issue;
-import com.xliic.openapi.report.tree.*;
-import com.xliic.openapi.report.tree.filter.*;
-import com.xliic.openapi.services.AuditService;
-import com.xliic.openapi.topic.AuditListener;
-import com.xliic.openapi.topic.FileListener;
-import com.xliic.openapi.topic.WindowListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JPanel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
+
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeNode;
-import java.util.List;
-import java.util.*;
+import com.xliic.core.Disposable;
+import com.xliic.core.actionSystem.AnJAction;
+import com.xliic.core.fileEditor.FileEditorManager;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.tree.TreePathUtil;
+import com.xliic.core.ui.treeStructure.Tree;
+import com.xliic.core.util.ui.UIUtil;
+import com.xliic.core.util.ui.tree.TreeUtil;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.core.wm.ToolWindow;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.ToolWindowId;
+import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.tree.ReportColoredTreeCellRenderer;
+import com.xliic.openapi.report.tree.ReportFileObject;
+import com.xliic.openapi.report.tree.ReportIssueObject;
+import com.xliic.openapi.report.tree.ReportMouseAdapter;
+import com.xliic.openapi.report.tree.ReportTreeModel;
+import com.xliic.openapi.report.tree.ReportTreeNodeComparator;
+import com.xliic.openapi.report.tree.filter.FilterResetAction;
+import com.xliic.openapi.report.tree.filter.FilterState;
+import com.xliic.openapi.report.tree.filter.ShowErrorAction;
+import com.xliic.openapi.report.tree.filter.ShowFilterAction;
+import com.xliic.openapi.report.tree.filter.ShowForSelectedFileAction;
+import com.xliic.openapi.report.tree.filter.ShowInfoAction;
+import com.xliic.openapi.report.tree.filter.ShowWarningsAction;
+import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.topic.AuditListener;
+import com.xliic.openapi.topic.FileListener;
+import com.xliic.openapi.topic.WindowListener;
 
 @SuppressWarnings("serial")
 public class ReportPanel extends JPanel implements FileListener, WindowListener, AuditListener, Disposable {

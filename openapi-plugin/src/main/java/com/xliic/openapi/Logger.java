@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.Status;
 
 public class Logger {
 
-    private static final String PLUGIN_ID = "com.xliic.openapi" ;
+    private static final String PLUGIN_ID = "com.xliic.openapi";
 
     public static void error(String message) {
         log(new Status(IStatus.ERROR, PLUGIN_ID, message));

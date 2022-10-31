@@ -1,24 +1,25 @@
 package com.xliic.openapi.platform;
 
-import com.xliic.core.ide.passwordSafe.PasswordSafe;
-import com.xliic.core.ide.util.PropertiesComponent;
+import java.net.URISyntaxException;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.application.ApplicationInfo;
 import com.xliic.core.credentialStore.CredentialAttributes;
 import com.xliic.core.credentialStore.CredentialAttributesKt;
 import com.xliic.core.credentialStore.Credentials;
+import com.xliic.core.ide.passwordSafe.PasswordSafe;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.settings.SettingsKeys;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.net.URISyntaxException;
-import java.util.regex.Pattern;
 
 public class PlatformConnection {
 
     private static final String USER_AGENT = "Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
-    private static final Pattern UUID_REGEX =
-            Pattern.compile("^((ide_)|(api_))?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
+    private static final Pattern UUID_REGEX = Pattern
+            .compile("^((ide_)|(api_))?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
 
     private static final CredentialAttributes credentialAttributes = createCredentialAttributes();
 
@@ -73,8 +74,7 @@ public class PlatformConnection {
     }
 
     private static CredentialAttributes createCredentialAttributes() {
-        return new CredentialAttributes(
-                CredentialAttributesKt.generateServiceName("xliic", SettingsKeys.API_KEY));
+        return new CredentialAttributes(CredentialAttributesKt.generateServiceName("xliic", SettingsKeys.API_KEY));
     }
 
     public static String getPlatformAPIKey() {

@@ -1,34 +1,42 @@
 package com.xliic.openapi.platform.dictionary.types;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.callback.SuccessASTResponseCallback;
 import com.xliic.openapi.platform.dictionary.DictionaryReloadCallback;
-import org.jetbrains.annotations.NotNull;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class DataDictionary extends SuccessASTResponseCallback implements Comparable<DataDictionary> {
 
     public static final String STANDARD_NAME = "standard";
     public static final String STANDARD_PREFIX = "o:" + STANDARD_NAME + ":";
 
-    @NotNull private final String id;
-    @NotNull private final String name;
-    @NotNull private final String description;
+    @NotNull
+    private final String id;
+    @NotNull
+    private final String name;
+    @NotNull
+    private final String description;
     private final Map<String, DataFormat> formats = Collections.synchronizedMap(new HashMap<>());
-    @NotNull private final AtomicInteger counter;
-    @NotNull DictionaryReloadCallback callback;
+    @NotNull
+    private final AtomicInteger counter;
+    @NotNull
+    DictionaryReloadCallback callback;
 
-    public DataDictionary(@NotNull String id,
-            @NotNull String name,
-            @NotNull String description,
-            @NotNull Project project,
-            @NotNull AtomicInteger counter,
-            @NotNull DictionaryReloadCallback callback) {
+    public DataDictionary(@NotNull String id, @NotNull String name, @NotNull String description, @NotNull Project project,
+            @NotNull AtomicInteger counter, @NotNull DictionaryReloadCallback callback) {
         super(project);
         this.id = id;
         this.name = name;
@@ -104,9 +112,9 @@ public class DataDictionary extends SuccessASTResponseCallback implements Compar
                     // Parameters
                     Object example = child.getChildTypedValue("example");
                     Object defaultProp = child.getChildTypedValue("default");
-                    Boolean readOnly = getBooleanProperty(child,"readOnly");
-                    Boolean writeOnly = getBooleanProperty(child,"writeOnly");
-                    Boolean nullable = getBooleanProperty(child,"nullable");
+                    Boolean readOnly = getBooleanProperty(child, "readOnly");
+                    Boolean writeOnly = getBooleanProperty(child, "writeOnly");
+                    Boolean nullable = getBooleanProperty(child, "nullable");
 
                     // Additional details
                     String sensitivity = child.getChildValue("sensitivity");
@@ -123,9 +131,8 @@ public class DataDictionary extends SuccessASTResponseCallback implements Compar
                             String pattern = child.getChildValue("pattern");
                             BigInteger minLength = Objects.requireNonNull(getIntegerProperty(child, "minLength"));
                             BigInteger maxLength = Objects.requireNonNull(getIntegerProperty(child, "maxLength"));
-                            df = new DataFormatString(name, description, format, example, defaultProp,
-                                    readOnly, writeOnly, nullable, sensitivity, pii, objectIdentifier,
-                                    lastUpdate, lastChangeBy, pattern, minLength, maxLength);
+                            df = new DataFormatString(name, description, format, example, defaultProp, readOnly, writeOnly, nullable, sensitivity,
+                                    pii, objectIdentifier, lastUpdate, lastChangeBy, pattern, minLength, maxLength);
                         } else if ("integer".equals(type)) {
                             Object exampleInt = getIntegerProperty(child, "example");
                             Object defaultPropInt = getIntegerProperty(child, "default");
@@ -134,18 +141,18 @@ public class DataDictionary extends SuccessASTResponseCallback implements Compar
                             BigInteger maximum = getIntegerProperty(child, "maximum");
                             Boolean exclusiveMaximum = getBooleanProperty(child, "exclusiveMaximum");
                             BigInteger multipleOf = getIntegerProperty(child, "multipleOf");
-                            df = new DataFormatInteger(name, description, format, exampleInt, defaultPropInt,
-                                    readOnly, writeOnly, nullable, sensitivity, pii, objectIdentifier, lastUpdate,
-                                    lastChangeBy, minimum, exclusiveMinimum, maximum, exclusiveMaximum, multipleOf);
+                            df = new DataFormatInteger(name, description, format, exampleInt, defaultPropInt, readOnly, writeOnly, nullable,
+                                    sensitivity, pii, objectIdentifier, lastUpdate, lastChangeBy, minimum, exclusiveMinimum, maximum,
+                                    exclusiveMaximum, multipleOf);
                         } else if ("number".equals(type)) {
                             BigDecimal minimum = getNumberProperty(child, "minimum");
                             Boolean exclusiveMinimum = getBooleanProperty(child, "exclusiveMinimum");
                             BigDecimal maximum = getNumberProperty(child, "maximum");
                             Boolean exclusiveMaximum = getBooleanProperty(child, "exclusiveMaximum");
                             BigDecimal multipleOf = getNumberProperty(child, "multipleOf");
-                            df = new DataFormatNumber(name, description, format, example, defaultProp,
-                                    readOnly, writeOnly, nullable, sensitivity, pii, objectIdentifier, lastUpdate,
-                                    lastChangeBy, minimum, exclusiveMinimum, maximum, exclusiveMaximum, multipleOf);
+                            df = new DataFormatNumber(name, description, format, example, defaultProp, readOnly, writeOnly, nullable, sensitivity,
+                                    pii, objectIdentifier, lastUpdate, lastChangeBy, minimum, exclusiveMinimum, maximum, exclusiveMaximum,
+                                    multipleOf);
                         }
                     } else {
                         Object exampleEnum = example;
@@ -157,8 +164,8 @@ public class DataDictionary extends SuccessASTResponseCallback implements Compar
                             exampleEnum = getNumberProperty(child, "example");
                             defaultPropEnum = getNumberProperty(child, "default");
                         }
-                        df = new DataFormat(name, description, type, format, enumProp, exampleEnum, defaultPropEnum, readOnly,
-                                writeOnly, nullable, sensitivity, pii, objectIdentifier, lastUpdate, lastChangeBy);
+                        df = new DataFormat(name, description, type, format, enumProp, exampleEnum, defaultPropEnum, readOnly, writeOnly, nullable,
+                                sensitivity, pii, objectIdentifier, lastUpdate, lastChangeBy);
                     }
                     if (df != null) {
                         formats.put(name, df);

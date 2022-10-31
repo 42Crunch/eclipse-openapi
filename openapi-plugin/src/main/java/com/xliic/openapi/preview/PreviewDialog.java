@@ -1,9 +1,5 @@
 package com.xliic.openapi.preview;
 
-import com.xliic.core.project.Project;
-import com.xliic.core.util.EclipseUtil;
-import com.xliic.openapi.settings.AuditConfigurable;
-
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.swt.SWT;
@@ -22,6 +18,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseUtil;
+import com.xliic.openapi.settings.AuditConfigurable;
 
 public class PreviewDialog extends TrayDialog {
 

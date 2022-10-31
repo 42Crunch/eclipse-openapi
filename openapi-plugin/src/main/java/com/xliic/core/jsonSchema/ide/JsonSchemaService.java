@@ -18,5 +18,6 @@ public class JsonSchemaService {
         }
     }
 
-    public void reset() {}
+    public void reset() {
+    }
 }

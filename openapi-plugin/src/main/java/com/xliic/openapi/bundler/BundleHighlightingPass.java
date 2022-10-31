@@ -95,8 +95,7 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
             if (ExtRef.isExtRef(url) && msg.startsWith(EXT_REF_STARTS_WITH) && msg.endsWith(EXT_REF_ENDS_WITH)) {
                 try {
                     return getAuthorityName(target);
-                }
-                catch (URISyntaxException e) {
+                } catch (URISyntaxException e) {
                     return null;
                 }
             }

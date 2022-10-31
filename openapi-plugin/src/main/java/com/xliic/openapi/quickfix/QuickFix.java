@@ -33,8 +33,8 @@ public class QuickFix {
     private static final DefaultIndenter indenter = new DefaultIndenter("\t", "\n");
     private static final DefaultPrettyPrinter printer = new DefaultPrettyPrinter().withObjectIndenter(indenter);
 
-    private QuickFix(Set<String> problems, FixType type, String title, String pointer, String fixText,
-            FixTextType fixTextType, List<FixParameter> parameters) {
+    private QuickFix(Set<String> problems, FixType type, String title, String pointer, String fixText, FixTextType fixTextType,
+            List<FixParameter> parameters) {
         this.problems = problems;
         this.type = type;
         this.title = title;

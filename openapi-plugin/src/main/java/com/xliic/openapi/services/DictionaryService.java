@@ -1,5 +1,18 @@
 package com.xliic.openapi.services;
 
+import static com.xliic.openapi.ToolWindowId.PLATFORM_DICTIONARY;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.application.ModalityState;
@@ -21,13 +34,6 @@ import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.services.api.IDictionaryService;
 import com.xliic.openapi.settings.SettingsKeys;
 import com.xliic.openapi.topic.SettingsListener;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.xliic.openapi.ToolWindowId.PLATFORM_DICTIONARY;
 
 public final class DictionaryService implements IDictionaryService, SettingsListener, Disposable {
 

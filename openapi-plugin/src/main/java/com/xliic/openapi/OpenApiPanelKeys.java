@@ -27,25 +27,8 @@ public class OpenApiPanelKeys {
     public final static String SWAGGER_KEY = "swagger";
     public final static String OPERATION_ID_KEY = "operationId";
 
-    public final static List<String> V3_PANEL_KEYS =
-            Arrays.asList(
-                    GENERAL,
-                    PATHS,
-                    OPERATION_ID,
-                    SERVERS,
-                    COMPONENTS,
-                    SECURITY
-                    );
+    public final static List<String> V3_PANEL_KEYS = Arrays.asList(GENERAL, PATHS, OPERATION_ID, SERVERS, COMPONENTS, SECURITY);
 
-    public final static List<String> V2_PANEL_KEYS =
-            Arrays.asList(
-                    GENERAL,
-                    PATHS,
-                    OPERATION_ID,
-                    PARAMETERS,
-                    RESPONSES,
-                    DEFINITIONS,
-                    SECURITY,
-                    SECURITY_DEFINITIONS
-                    );
+    public final static List<String> V2_PANEL_KEYS = Arrays.asList(GENERAL, PATHS, OPERATION_ID, PARAMETERS, RESPONSES, DEFINITIONS, SECURITY,
+            SECURITY_DEFINITIONS);
 }

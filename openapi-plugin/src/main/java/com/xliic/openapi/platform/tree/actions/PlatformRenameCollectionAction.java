@@ -1,5 +1,10 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import java.util.Objects;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -11,10 +16,6 @@ import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.form.PlatformCollectionNameChooser;
 import com.xliic.openapi.platform.tree.form.PlatformNameChooser;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class PlatformRenameCollectionAction extends AnJAction implements DumbAware {
 
@@ -27,10 +28,7 @@ public class PlatformRenameCollectionAction extends AnJAction implements DumbAwa
 
     private String newName;
 
-    public PlatformRenameCollectionAction(@NotNull Project project,
-            @NotNull Tree tree,
-            @NotNull String collectionId,
-            @NotNull String name) {
+    public PlatformRenameCollectionAction(@NotNull Project project, @NotNull Tree tree, @NotNull String collectionId, @NotNull String name) {
         super("Rename", "Rename collection", null);
         this.project = project;
         this.tree = tree;

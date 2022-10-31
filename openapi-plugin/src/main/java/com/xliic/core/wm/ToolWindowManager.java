@@ -13,7 +13,8 @@ public class ToolWindowManager {
 
     private static ToolWindowManager manager;
 
-    private ToolWindowManager(@NotNull Project project) {}
+    private ToolWindowManager(@NotNull Project project) {
+    }
 
     public static ToolWindowManager getInstance(@NotNull Project project) {
         if (manager == null) {

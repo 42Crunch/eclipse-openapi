@@ -35,13 +35,14 @@ public abstract class TreeExpansionListener implements ITreeViewerListener {
     }
 
     protected abstract void treeCollapsed(TreeExpansionEvent event);
+
     protected abstract void treeExpanded(TreeExpansionEvent event);
 
     private void dfs(DefaultMutableTreeNode node, boolean expand) {
         if (node.getParent() != null) {
             treeExpandOrCollapse(node, expand);
         }
-        for (int i = 0 ; i < node.getChildCount() ; i++) {
+        for (int i = 0; i < node.getChildCount(); i++) {
             dfs((DefaultMutableTreeNode) node.getChildAt(i), expand);
         }
     }

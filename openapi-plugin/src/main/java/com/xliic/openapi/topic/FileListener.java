@@ -18,5 +18,6 @@ public interface FileListener {
 
     void handleClosedFile(@NotNull VirtualFile file);
 
-    default void handleDocumentChanged(@NotNull VirtualFile file) {}
+    default void handleDocumentChanged(@NotNull VirtualFile file) {
+    }
 }

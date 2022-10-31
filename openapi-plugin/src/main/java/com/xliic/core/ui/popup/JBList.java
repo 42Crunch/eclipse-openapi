@@ -31,7 +31,6 @@ public class JBList<E> implements JComponent, JBPopupMember {
         this.input = new LinkedList<>(input);
     }
 
-
     @Override
     public Control getControl() {
         return list.getControl();

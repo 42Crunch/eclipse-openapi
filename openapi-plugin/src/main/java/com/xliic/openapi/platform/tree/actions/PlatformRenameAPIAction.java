@@ -1,5 +1,10 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import java.util.Objects;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -11,10 +16,6 @@ import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.form.PlatformAPINameChooser;
 import com.xliic.openapi.platform.tree.form.PlatformNameChooser;
 import com.xliic.openapi.platform.tree.utils.PlatformAPIUtils;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class PlatformRenameAPIAction extends AnJAction implements DumbAware {
 
@@ -27,10 +28,7 @@ public class PlatformRenameAPIAction extends AnJAction implements DumbAware {
 
     private String newName;
 
-    public PlatformRenameAPIAction(@NotNull Project project,
-            @NotNull Tree tree,
-            @NotNull String apiId,
-            @NotNull String name) {
+    public PlatformRenameAPIAction(@NotNull Project project, @NotNull Tree tree, @NotNull String apiId, @NotNull String name) {
         super("Rename", "Rename API", null);
         this.project = project;
         this.tree = tree;

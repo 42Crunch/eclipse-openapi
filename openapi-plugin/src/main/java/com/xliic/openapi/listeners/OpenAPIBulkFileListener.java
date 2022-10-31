@@ -93,7 +93,7 @@ public class OpenAPIBulkFileListener extends BulkFileListener {
     }
 
     private void update(VirtualFile newFile, String oldFileName) {
-        if (isFileNameUpdated(newFile, oldFileName) ) {
+        if (isFileNameUpdated(newFile, oldFileName)) {
             Map<String, Object> asyncTaskData = new HashMap<>();
             asyncTaskData.put(AsyncService.OLD_FILE_NAME_KEY, oldFileName);
             BundleService bundleService = BundleService.getInstance(project);

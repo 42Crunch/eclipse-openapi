@@ -1,6 +1,18 @@
 package com.xliic.openapi;
 
-import okhttp3.*;
+import static com.xliic.openapi.OpenApiUtils.REF_DELIMITER;
+import static com.xliic.openapi.OpenApiUtils.getFileType;
+import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
+import static com.xliic.openapi.quickfix.QuickFix.formatFixText;
+import static org.apache.commons.lang.RandomStringUtils.random;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.jetbrains.annotations.NotNull;
@@ -16,17 +28,11 @@ import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.xliic.openapi.OpenApiUtils.*;
-import static com.xliic.openapi.quickfix.QuickFix.formatFixText;
-import static org.apache.commons.lang.RandomStringUtils.random;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class ExtRef {
 
@@ -34,18 +40,22 @@ public class ExtRef {
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     @SuppressWarnings("serial")
-    private static final Map<String, ContentType> CONTENT_TYPES = new HashMap<>() {{
-        put("application/json", ContentType.JSON);
-        put("application/x-yaml", ContentType.YAML);
-        put("text/yaml", ContentType.YAML);
-    }};
+    private static final Map<String, ContentType> CONTENT_TYPES = new HashMap<>() {
+        {
+            put("application/json", ContentType.JSON);
+            put("application/x-yaml", ContentType.YAML);
+            put("text/yaml", ContentType.YAML);
+        }
+    };
 
     @SuppressWarnings("serial")
-    private static final Map<String, ContentType> EXTENSIONS  = new HashMap<>() {{
-        put(".json", ContentType.JSON);
-        put(".yaml", ContentType.YAML);
-        put(".yml", ContentType.YAML);
-    }};
+    private static final Map<String, ContentType> EXTENSIONS = new HashMap<>() {
+        {
+            put(".json", ContentType.JSON);
+            put(".yaml", ContentType.YAML);
+            put(".yml", ContentType.YAML);
+        }
+    };
 
     private final URL url;
     private final Project project;
@@ -66,8 +76,7 @@ public class ExtRef {
     public String getHostName() {
         try {
             return url.toURI().getAuthority();
-        }
-        catch (URISyntaxException e) {
+        } catch (URISyntaxException e) {
         }
         return null;
     }
@@ -94,8 +103,8 @@ public class ExtRef {
         String text = formatFixText(body.string(), contentType == ContentType.JSON);
         IProject requestor = EclipseUtil.getProject(rootFileName);
         String fileName = (file == null) ? getFileName() : file.getName();
-        file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () ->
-        TempFileUtils.createExtRefFile(requestor, fileName, text));
+        file = WriteCommandAction.runWriteCommandAction(project,
+                (Computable<VirtualFile>) () -> TempFileUtils.createExtRefFile(requestor, fileName, text));
         file.setReadOnly(true);
         LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
     }
@@ -106,8 +115,8 @@ public class ExtRef {
                 IProject project = EclipseUtil.getProject(file.getPath());
                 try {
                     file.delete(this);
+                } catch (IOException ignored) {
                 }
-                catch (IOException ignored) {}
                 file = null;
                 if (project != null) {
                     EclipseUtil.refreshProject(project);
@@ -119,8 +128,7 @@ public class ExtRef {
     public String getText(boolean inReadAction) {
         if (inReadAction) {
             return ApplicationManager.getApplication().runReadAction((Computable<String>) () -> getTextFromFile(file));
-        }
-        else {
+        } else {
             return getTextFromFile(file);
         }
     }
@@ -174,11 +182,9 @@ public class ExtRef {
         OpenApiFileType type = getFileType(file);
         if (type == OpenApiFileType.Json) {
             return ContentType.JSON;
-        }
-        else if (type == OpenApiFileType.Yaml) {
+        } else if (type == OpenApiFileType.Yaml) {
             return ContentType.YAML;
-        }
-        else {
+        } else {
             return null;
         }
     }

@@ -1,20 +1,33 @@
 package com.xliic.openapi.platform.tree.mouse;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.DefaultActionGroup;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
-import com.xliic.openapi.platform.tree.actions.*;
+import com.xliic.openapi.platform.tree.actions.PlatformAddToFavoriteAction;
+import com.xliic.openapi.platform.tree.actions.PlatformCreateNewCollectionAction;
+import com.xliic.openapi.platform.tree.actions.PlatformDeleteAPIAction;
+import com.xliic.openapi.platform.tree.actions.PlatformDeleteCollectionAction;
+import com.xliic.openapi.platform.tree.actions.PlatformFilterAPIAction;
+import com.xliic.openapi.platform.tree.actions.PlatformFilterCollectionAction;
+import com.xliic.openapi.platform.tree.actions.PlatformFilterRemoveAction;
+import com.xliic.openapi.platform.tree.actions.PlatformImportAPIAction;
+import com.xliic.openapi.platform.tree.actions.PlatformImportAPIFromURLAction;
+import com.xliic.openapi.platform.tree.actions.PlatformOpenAPIInWebUIAction;
+import com.xliic.openapi.platform.tree.actions.PlatformOpenCollectionInWebUIAction;
+import com.xliic.openapi.platform.tree.actions.PlatformRemoveFromFavoriteAction;
+import com.xliic.openapi.platform.tree.actions.PlatformRenameAPIAction;
+import com.xliic.openapi.platform.tree.actions.PlatformRenameCollectionAction;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 import com.xliic.openapi.platform.tree.node.PlatformRootFavorite;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformFilterDecorator;
 import com.xliic.openapi.platform.tree.ui.PlatformPanel;
-
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
 
 public class PlatformRightMouseClickHandler {
 
@@ -65,8 +78,7 @@ public class PlatformRightMouseClickHandler {
 
             actions.add(new PlatformOpenCollectionInWebUIAction(collectionId));
             actions.add(new PlatformRenameCollectionAction(project, tree, collectionId, collectionName));
-        }
-        else if (clickedObj instanceof PlatformAPI) {
+        } else if (clickedObj instanceof PlatformAPI) {
             String apiId = ((PlatformAPI) clickedObj).getId();
             String apiName = ((PlatformAPI) clickedObj).getName();
             actions.add(new PlatformDeleteAPIAction(project, tree, apiId));

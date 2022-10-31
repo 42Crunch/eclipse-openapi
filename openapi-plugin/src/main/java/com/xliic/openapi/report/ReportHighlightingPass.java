@@ -99,8 +99,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
                 ProblemHighlightType type = getProblemHighlightType(issue.getSeverity());
                 HighlightSeverity severity = getHighlightSeverity(issue.getSeverity());
                 HighlightInfoType infoType = getHighlightInfoType(type, severity, getSeverityRegistrar(myProject));
-                HighlightInfo info = newHighlightInfo(infoType).pointer(issue.getPointer()).range(range)
-                        .descriptionAndTooltip(label).create();
+                HighlightInfo info = newHighlightInfo(infoType).pointer(issue.getPointer()).range(range).descriptionAndTooltip(label).create();
                 infoList.add(info);
                 if (!isTempFile) {
                     actions.addAll(quickFixService.getSingleFixActions(psiFile, issue));

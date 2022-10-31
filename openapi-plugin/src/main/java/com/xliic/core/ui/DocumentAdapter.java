@@ -2,6 +2,7 @@ package com.xliic.core.ui;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import org.jetbrains.annotations.NotNull;
 
 public abstract class DocumentAdapter implements DocumentListener {

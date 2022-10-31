@@ -32,6 +32,7 @@ public abstract class PreviewAbstractAction extends ProjectAction {
                 public void setDone() {
                     process(project, file);
                 }
+
                 @Override
                 public void setRejected() {
                     SwingUtilities.invokeLater(() -> {

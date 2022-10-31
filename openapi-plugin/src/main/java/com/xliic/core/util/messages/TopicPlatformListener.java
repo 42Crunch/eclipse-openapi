@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
+
 import com.xliic.openapi.platform.PlatformListener;
 
 public class TopicPlatformListener<L> extends Topic<L> {

@@ -1,5 +1,9 @@
 package com.xliic.openapi.platform.tree.mouse;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.DoubleClickListener;
 import com.xliic.core.ui.treeStructure.MouseEvent;
@@ -14,10 +18,6 @@ import com.xliic.openapi.platform.tree.node.core.ProgressAware;
 import com.xliic.openapi.platform.tree.ui.PlatformPanel;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.services.DictionaryService;
-
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
 
 public class PlatformDoubleClickListener extends DoubleClickListener {
 
@@ -48,16 +48,14 @@ public class PlatformDoubleClickListener extends DoubleClickListener {
         }
         if (o instanceof PlatformOAS) {
             PlatformOAS oasObject = (PlatformOAS) o;
-            PlatformAPIs.readApi(oasObject.getId(), true,
-                    new PlatformOASCallback(project, tree, node, false, true));
+            PlatformAPIs.readApi(oasObject.getId(), true, new PlatformOASCallback(project, tree, node, false, true));
             PlatformUtils.setInProgress(tree, node, true);
         } else if (o instanceof PlatformAudit) {
             PlatformAudit auditObject = (PlatformAudit) o;
             if (!auditObject.ready()) {
                 return true;
             }
-            PlatformAPIs.readApi(auditObject.getId(), true,
-                    new PlatformOASCallback(project, tree, node, true, false));
+            PlatformAPIs.readApi(auditObject.getId(), true, new PlatformOASCallback(project, tree, node, true, false));
             PlatformUtils.setInProgress(tree, node, true);
         } else if (o instanceof PlatformDataDictionary) {
             SwingUtilities.invokeLater(() -> {

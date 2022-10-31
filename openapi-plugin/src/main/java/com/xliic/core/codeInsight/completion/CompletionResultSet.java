@@ -35,7 +35,7 @@ public class CompletionResultSet {
         if (size > 1 && sorter != null) {
             elements.sort(sorter);
         }
-        for (int i = 0 ; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             LookupElement element = elements.get(i);
             proposals[i] = new CompletionProposal(element);
         }

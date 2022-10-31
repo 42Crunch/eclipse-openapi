@@ -1,14 +1,21 @@
 package com.xliic.openapi.platform.dictionary.quickfix;
 
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnActionEvent;
 import com.xliic.core.command.WriteCommandAction;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.project.Project;
-import com.xliic.core.util.ActionCallback;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
+import com.xliic.core.util.ActionCallback;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.actions.ProjectAction;
@@ -19,12 +26,6 @@ import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.services.DictionaryService;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
 
 public class FixGlobalDictionaryAction extends ProjectAction {
 
@@ -68,8 +69,7 @@ public class FixGlobalDictionaryAction extends ProjectAction {
                     WriteCommandAction.runWriteCommandAction(project, () -> {
                         documentUpdater.process(result);
                         callback.setDone();
-                    }
-                            );
+                    });
                 }
             }
         }

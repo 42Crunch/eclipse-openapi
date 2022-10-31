@@ -1,5 +1,8 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -13,8 +16,6 @@ import com.xliic.openapi.platform.callback.SuccessBodyResponseCallback;
 import com.xliic.openapi.platform.tree.form.PlatformCollectionNameChooser;
 import com.xliic.openapi.platform.tree.form.PlatformNameChooser;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
 
 public class PlatformCreateNewCollectionAction extends AnJAction implements DumbAware {
 

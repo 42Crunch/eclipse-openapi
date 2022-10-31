@@ -1,18 +1,19 @@
 package com.xliic.openapi.quickfix.editor;
 
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.editor.Document;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.editor.RangeMarker;
-import com.xliic.core.util.TextRange;
 import com.xliic.core.util.DocumentUtil;
+import com.xliic.core.util.TextRange;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.JsonNode;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.FixItem;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public abstract class Processor {
 

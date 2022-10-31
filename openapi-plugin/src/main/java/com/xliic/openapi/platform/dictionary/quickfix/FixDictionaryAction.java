@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.dictionary.quickfix;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.core.command.WriteCommandAction;
 import com.xliic.core.editor.Editor;
@@ -10,7 +12,6 @@ import com.xliic.openapi.platform.dictionary.quickfix.managers.FixManagerSingleI
 import com.xliic.openapi.platform.dictionary.quickfix.managers.FixManagerUpdateAllDictionary;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.quickfix.managers.FixManager;
-import org.jetbrains.annotations.NotNull;
 
 public class FixDictionaryAction extends IntentionAction implements Comparable<IntentionAction> {
 
@@ -40,8 +41,7 @@ public class FixDictionaryAction extends IntentionAction implements Comparable<I
         DocumentUpdater documentUpdater = new DocumentUpdater(editor, file);
         WriteCommandAction.runWriteCommandAction(project, () -> {
             documentUpdater.process(provider.getFixItems());
-        }
-                );
+        });
     }
 
     @Override

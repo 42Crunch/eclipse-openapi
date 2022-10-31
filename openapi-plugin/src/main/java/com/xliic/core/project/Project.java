@@ -16,7 +16,8 @@ public class Project {
     private volatile boolean disposed = false;
     private MessageBus messageBus = null;
 
-    private Project() {}
+    private Project() {
+    }
 
     public static synchronized Project getInstance() {
         return INSTANCE;

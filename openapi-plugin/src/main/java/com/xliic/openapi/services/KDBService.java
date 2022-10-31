@@ -1,17 +1,24 @@
 package com.xliic.openapi.services;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.services.api.IKDBService;
 import com.xliic.openapi.topic.AuditListener;
-import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class KDBService implements IKDBService, Disposable {
 
@@ -40,6 +47,7 @@ public class KDBService implements IKDBService, Disposable {
                     }
                 }
             }
+
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 projects.clear();

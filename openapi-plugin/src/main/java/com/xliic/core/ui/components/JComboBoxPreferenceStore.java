@@ -12,7 +12,8 @@ public class JComboBoxPreferenceStore implements IPreferenceStore {
     }
 
     @Override
-    public void addPropertyChangeListener(IPropertyChangeListener listener) {}
+    public void addPropertyChangeListener(IPropertyChangeListener listener) {
+    }
 
     @Override
     public boolean contains(String name) {
@@ -20,7 +21,8 @@ public class JComboBoxPreferenceStore implements IPreferenceStore {
     }
 
     @Override
-    public void firePropertyChangeEvent(String name, Object oldValue, Object newValue) {}
+    public void firePropertyChangeEvent(String name, Object oldValue, Object newValue) {
+    }
 
     @Override
     public boolean getBoolean(String name) {
@@ -93,47 +95,62 @@ public class JComboBoxPreferenceStore implements IPreferenceStore {
     }
 
     @Override
-    public void putValue(String name, String value) {}
+    public void putValue(String name, String value) {
+    }
 
     @Override
-    public void removePropertyChangeListener(IPropertyChangeListener listener) {}
+    public void removePropertyChangeListener(IPropertyChangeListener listener) {
+    }
 
     @Override
-    public void setDefault(String name, double value) {}
+    public void setDefault(String name, double value) {
+    }
 
     @Override
-    public void setDefault(String name, float value) {}
+    public void setDefault(String name, float value) {
+    }
 
     @Override
-    public void setDefault(String name, int value) {}
+    public void setDefault(String name, int value) {
+    }
 
     @Override
-    public void setDefault(String name, long value) {}
+    public void setDefault(String name, long value) {
+    }
 
     @Override
-    public void setDefault(String name, String defaultObject) {}
+    public void setDefault(String name, String defaultObject) {
+    }
 
     @Override
-    public void setDefault(String name, boolean value) {}
+    public void setDefault(String name, boolean value) {
+    }
 
     @Override
-    public void setToDefault(String name) {}
+    public void setToDefault(String name) {
+    }
 
     @Override
-    public void setValue(String name, double value) {}
+    public void setValue(String name, double value) {
+    }
 
     @Override
-    public void setValue(String name, float value) {}
+    public void setValue(String name, float value) {
+    }
 
     @Override
-    public void setValue(String name, int value) {}
+    public void setValue(String name, int value) {
+    }
 
     @Override
-    public void setValue(String name, long value) {}
+    public void setValue(String name, long value) {
+    }
 
     @Override
-    public void setValue(String name, String value) {}
+    public void setValue(String name, String value) {
+    }
 
     @Override
-    public void setValue(String name, boolean value) {}
+    public void setValue(String name, boolean value) {
+    }
 }

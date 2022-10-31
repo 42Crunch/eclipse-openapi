@@ -1,11 +1,9 @@
 package com.xliic.openapi.tree;
 
-import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.core.ui.treeStructure.DefaultTreeModel;
-import com.xliic.openapi.parser.dmtn.DMTNAlphabeticalComparator;
-import com.xliic.openapi.parser.dmtn.DMTNNaturalComparator;
-import com.xliic.openapi.settings.SettingsKeys;
-import com.xliic.openapi.tree.node.RootNode;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -13,7 +11,12 @@ import javax.swing.tree.TreeNode;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import com.xliic.core.ide.util.PropertiesComponent;
+import com.xliic.core.ui.treeStructure.DefaultTreeModel;
+import com.xliic.openapi.parser.dmtn.DMTNAlphabeticalComparator;
+import com.xliic.openapi.parser.dmtn.DMTNNaturalComparator;
+import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.tree.node.RootNode;
 
 public class SortTreeModel extends DefaultTreeModel {
 

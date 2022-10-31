@@ -1,12 +1,19 @@
 package com.xliic.openapi.platform.callback;
 
+import java.util.Base64;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.project.Project;
+import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -15,11 +22,6 @@ import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.topic.AuditListener;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.Base64;
 
 public class PlatformAuditCallback extends SuccessASTResponseCallback {
 
@@ -29,22 +31,13 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
     private final boolean showAsHTML;
     private final boolean openInEditor;
 
-    public PlatformAuditCallback(@NotNull Project project,
-            @NotNull VirtualFile file,
-            @Nullable Tree tree,
-            @Nullable DefaultMutableTreeNode progressDMTN,
-            boolean showAsHTML,
-            boolean openInEditor) {
+    public PlatformAuditCallback(@NotNull Project project, @NotNull VirtualFile file, @Nullable Tree tree,
+            @Nullable DefaultMutableTreeNode progressDMTN, boolean showAsHTML, boolean openInEditor) {
         this(project, file, tree, progressDMTN, showAsHTML, openInEditor, true);
     }
 
-    public PlatformAuditCallback(@NotNull Project project,
-            @NotNull VirtualFile file,
-            @Nullable Tree tree,
-            @Nullable DefaultMutableTreeNode progressDMTN,
-            boolean showAsHTML,
-            boolean openInEditor,
-            boolean showDialogOnFailure) {
+    public PlatformAuditCallback(@NotNull Project project, @NotNull VirtualFile file, @Nullable Tree tree,
+            @Nullable DefaultMutableTreeNode progressDMTN, boolean showAsHTML, boolean openInEditor, boolean showDialogOnFailure) {
         super(project, showDialogOnFailure);
         this.file = file;
         this.tree = tree;
@@ -60,8 +53,8 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
             Node assessment = node.find("/attr/data");
             float grade = Float.parseFloat(assessment.getChild("grade").getValue());
             boolean isValid = Boolean.parseBoolean(assessment.getChild("isValid").getValue());
-            SwingUtilities.invokeLater(() -> project.getMessageBus().syncPublisher(
-                    PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
+            SwingUtilities
+                    .invokeLater(() -> project.getMessageBus().syncPublisher(PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
 
             byte[] decodedBytes = Base64.getDecoder().decode(node.getChild("data").getValue());
             String text = new String(decodedBytes);
@@ -84,8 +77,7 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
                         newShowAsHTML = showAsHTML;
                         newShowAsProblems = false;
                     }
-                    return new Audit(project, file.getPath(), reportNode,
-                            true, newShowAsHTML, newShowAsProblems);
+                    return new Audit(project, file.getPath(), reportNode, true, newShowAsHTML, newShowAsProblems);
                 } catch (Throwable t) {
                     PlatformUtils.setInProgress(tree, progressDMTN, false);
                 }
@@ -102,8 +94,7 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
                 project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
             });
             if (openInEditor) {
-                ApplicationManager.getApplication().invokeLater(() ->
-                new OpenFileDescriptor(project, file).navigate(true));
+                ApplicationManager.getApplication().invokeLater(() -> new OpenFileDescriptor(project, file).navigate(true));
             }
         } finally {
             PlatformUtils.setInProgress(tree, progressDMTN, false);

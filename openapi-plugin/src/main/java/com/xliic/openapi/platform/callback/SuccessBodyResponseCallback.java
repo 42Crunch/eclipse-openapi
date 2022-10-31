@@ -1,17 +1,19 @@
 package com.xliic.openapi.platform.callback;
 
+import java.io.IOException;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.OpenApiBundle;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 public abstract class SuccessBodyResponseCallback implements Callback {
 
@@ -34,8 +36,8 @@ public abstract class SuccessBodyResponseCallback implements Callback {
 
     public void onFailure(@NotNull String reason) {
         if (showDialogOnFailure) {
-            SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, reason,
-                    OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+            SwingUtilities.invokeLater(
+                    () -> Messages.showMessageDialog(project, reason, OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
         }
     }
 

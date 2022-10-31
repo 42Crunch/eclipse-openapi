@@ -14,6 +14,6 @@ public interface DataContext {
     @SuppressWarnings("unchecked")
     @Nullable
     default <T> T getData(@NotNull DataKey<T> key) {
-        return (T)getData(key.getName());
+        return (T) getData(key.getName());
     }
 }

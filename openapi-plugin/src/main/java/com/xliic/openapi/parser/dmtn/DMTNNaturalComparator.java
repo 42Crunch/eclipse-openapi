@@ -1,10 +1,11 @@
 package com.xliic.openapi.parser.dmtn;
 
-import com.xliic.openapi.tree.node.BaseNode;
+import java.util.Comparator;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import java.util.Comparator;
+
+import com.xliic.openapi.tree.node.BaseNode;
 
 public class DMTNNaturalComparator implements Comparator<TreeNode> {
 

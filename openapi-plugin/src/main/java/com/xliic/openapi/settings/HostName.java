@@ -28,8 +28,10 @@ public class HostName implements Comparable<HostName> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         HostName hostName = (HostName) o;
         return hostname.equals(hostName.hostname);
     }

@@ -1,9 +1,9 @@
 package com.xliic.core.ui;
 
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("restriction")

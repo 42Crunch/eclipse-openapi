@@ -53,8 +53,8 @@ public class FixManagerSingle extends FixManager {
                 }
             }
             if (!replacements.isEmpty()) {
-                result.add(new FixIssueItem(issue, pointer, ReplaceManager.replace(text, replacements, isJson),
-                        quickFix.getType()).withPlaceHolders(placeHolders));
+                result.add(new FixIssueItem(issue, pointer, ReplaceManager.replace(text, replacements, isJson), quickFix.getType())
+                        .withPlaceHolders(placeHolders));
                 return result;
             }
         }

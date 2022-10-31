@@ -1,17 +1,5 @@
 package com.xliic.openapi.services;
 
-import com.xliic.common.WorkspaceException;
-import com.xliic.core.Disposable;
-import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.services.api.IExtRefService;
-import com.xliic.openapi.settings.SettingsKeys;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -20,6 +8,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.common.WorkspaceException;
+import com.xliic.core.Disposable;
+import com.xliic.core.ide.util.PropertiesComponent;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.ExtRef;
+import com.xliic.openapi.services.api.IExtRefService;
+import com.xliic.openapi.settings.SettingsKeys;
 
 public class ExtRefService implements IExtRefService, Disposable {
 
@@ -57,8 +57,8 @@ public class ExtRefService implements IExtRefService, Disposable {
     public ExtRef get(URI uri) {
         try {
             return cache.get(uri.toURL().toString());
+        } catch (MalformedURLException ignored) {
         }
-        catch (MalformedURLException ignored) {}
         return null;
     }
 
@@ -80,7 +80,7 @@ public class ExtRefService implements IExtRefService, Disposable {
     }
 
     public boolean isSafe(String hostname) {
-        String [] hosts = PropertiesComponent.getInstance().getValues(SettingsKeys.HOSTS);
+        String[] hosts = PropertiesComponent.getInstance().getValues(SettingsKeys.HOSTS);
         if (hosts == null) {
             return false;
         }

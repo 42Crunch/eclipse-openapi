@@ -8,7 +8,9 @@ import com.xliic.openapi.OpenApiFileType;
 
 public abstract class LookupElement {
 
-    public static enum FileType { JSON, YAML }
+    public static enum FileType {
+        JSON, YAML
+    }
 
     @NotNull
     protected final String element;

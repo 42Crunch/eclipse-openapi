@@ -12,11 +12,7 @@ public class FileChooserDescriptor {
     private final boolean myChooseMultiple;
     private String[] filterExtensions;
 
-    public FileChooserDescriptor(boolean chooseFiles,
-            boolean chooseFolders,
-            boolean chooseJars,
-            boolean chooseJarsAsFiles,
-            boolean chooseJarContents,
+    public FileChooserDescriptor(boolean chooseFiles, boolean chooseFolders, boolean chooseJars, boolean chooseJarsAsFiles, boolean chooseJarContents,
             boolean chooseMultiple) {
         this.myChooseFiles = chooseFiles;
         this.myChooseFolders = chooseFolders;

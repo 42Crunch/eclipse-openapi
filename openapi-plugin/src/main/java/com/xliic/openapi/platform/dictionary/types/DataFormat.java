@@ -1,59 +1,67 @@
 package com.xliic.openapi.platform.dictionary.types;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
 
 public class DataFormat {
 
     public static final String FORMAT_KEY = "format";
     public static final String X_42C_FORMAT_KEY = "x-42c-format";
-    public static final List<String> PROPERTIES = Arrays.asList("type", "example", "pattern", "minLength", "maxLength",
-            "enum", "default", "exclusiveMinimum", "exclusiveMaximum", "minimum", "maximum", "multipleOf");
+    public static final List<String> PROPERTIES = Arrays.asList("type", "example", "pattern", "minLength", "maxLength", "enum", "default",
+            "exclusiveMinimum", "exclusiveMaximum", "minimum", "maximum", "multipleOf");
 
-    @NotNull protected final String name;
-    @Nullable protected final String description;
+    @NotNull
+    protected final String name;
+    @Nullable
+    protected final String description;
 
     // General information
-    @NotNull protected final String type;    // string / integer / number
-    @Nullable protected final String format; // float, double, any string value
-    @Nullable protected List<Object> enumProp;
+    @NotNull
+    protected final String type; // string / integer / number
+    @Nullable
+    protected final String format; // float, double, any string value
+    @Nullable
+    protected List<Object> enumProp;
 
     // Parameters
-    @Nullable protected final Object example;
-    @Nullable protected final Object defaultProp;
-    @Nullable protected final Boolean readOnly;
-    @Nullable protected final Boolean writeOnly;
-    @Nullable protected final Boolean nullable;
+    @Nullable
+    protected final Object example;
+    @Nullable
+    protected final Object defaultProp;
+    @Nullable
+    protected final Boolean readOnly;
+    @Nullable
+    protected final Boolean writeOnly;
+    @Nullable
+    protected final Boolean nullable;
 
     // Additional details
-    @NotNull protected final String sensitivity;      // "1" - "5"
-    @NotNull protected final String objectIdentifier; // "yes" / "no"
-    @NotNull protected final String pii;              // "yes" / "no"
+    @NotNull
+    protected final String sensitivity; // "1" - "5"
+    @NotNull
+    protected final String objectIdentifier; // "yes" / "no"
+    @NotNull
+    protected final String pii; // "yes" / "no"
 
     // Hidden properties
-    @NotNull protected final String lastUpdate;   // "1659329642"
-    @NotNull protected final String lastChangeBy; // "204e39b1-ee8f-4f09-b543-6b4123d1ba04"
+    @NotNull
+    protected final String lastUpdate; // "1659329642"
+    @NotNull
+    protected final String lastChangeBy; // "204e39b1-ee8f-4f09-b543-6b4123d1ba04"
 
-    public DataFormat(@NotNull String name,
-            @Nullable String description,
-            @NotNull String type,
-            @Nullable String format,
-            @Nullable List<Object> enumProp,
-            @Nullable Object example,
-            @Nullable Object defaultProp,
-            @Nullable Boolean readOnly,
-            @Nullable Boolean writeOnly,
-            @Nullable Boolean nullable,
-            @NotNull String sensitivity,
-            @NotNull String pii,
-            @NotNull String objectIdentifier,
-            @NotNull String lastUpdate,
-            @NotNull String lastChangeBy) {
+    public DataFormat(@NotNull String name, @Nullable String description, @NotNull String type, @Nullable String format,
+            @Nullable List<Object> enumProp, @Nullable Object example, @Nullable Object defaultProp, @Nullable Boolean readOnly,
+            @Nullable Boolean writeOnly, @Nullable Boolean nullable, @NotNull String sensitivity, @NotNull String pii,
+            @NotNull String objectIdentifier, @NotNull String lastUpdate, @NotNull String lastChangeBy) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -73,8 +81,10 @@ public class DataFormat {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         DataFormat format = (DataFormat) o;
         return name.equals(format.name);
     }

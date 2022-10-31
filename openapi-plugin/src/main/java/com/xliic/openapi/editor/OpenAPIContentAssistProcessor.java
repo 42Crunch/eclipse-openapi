@@ -2,6 +2,7 @@ package com.xliic.openapi.editor;
 
 import static com.xliic.core.codeInsight.completion.CompletionProposal.DQ;
 import static com.xliic.core.codeInsight.completion.CompletionProposal.LF;
+import static com.xliic.core.codeInsight.completion.CompletionProposal.NS;
 import static com.xliic.core.codeInsight.completion.CompletionProposal.SQ;
 
 import java.util.Arrays;
@@ -24,8 +25,6 @@ import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 
-import static com.xliic.core.codeInsight.completion.CompletionProposal.NS;
-
 public class OpenAPIContentAssistProcessor extends CompletionContributor {
 
     private static final Pattern JSON_REGEX = Pattern.compile("^ *\"\\$ref\" *: *\".*$");
@@ -34,16 +33,20 @@ public class OpenAPIContentAssistProcessor extends CompletionContributor {
     private static final Pattern YAML_SQ_REGEX = Pattern.compile("^ *\'\\$ref\' *: *[\"'].*$");
 
     @SuppressWarnings("serial")
-    private static final Map<Character, List<Pattern>> JSON_TRIGGER_CHARS = new HashMap<>() {{
-        put(DQ, Arrays.asList(JSON_REGEX));
-    }};
+    private static final Map<Character, List<Pattern>> JSON_TRIGGER_CHARS = new HashMap<>() {
+        {
+            put(DQ, Arrays.asList(JSON_REGEX));
+        }
+    };
 
     @SuppressWarnings("serial")
-    private static final Map<Character, List<Pattern>> YAML_TRIGGER_CHARS = new HashMap<>() {{
-        put(DQ, Arrays.asList(YAML_DQ_REGEX));
-        put(SQ, Arrays.asList(YAML_SQ_REGEX));
-        put(LF, Arrays.asList(YAML_REGEX));
-    }};
+    private static final Map<Character, List<Pattern>> YAML_TRIGGER_CHARS = new HashMap<>() {
+        {
+            put(DQ, Arrays.asList(YAML_DQ_REGEX));
+            put(SQ, Arrays.asList(YAML_SQ_REGEX));
+            put(LF, Arrays.asList(YAML_REGEX));
+        }
+    };
 
     private static final ElementPattern PATTERN = new ElementPattern() {
         @Override

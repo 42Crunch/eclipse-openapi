@@ -1,5 +1,14 @@
 package com.xliic.openapi.platform.dictionary.quickfix.managers;
 
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.DumperOptions;
+
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.parser.ast.NodeUtils;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -10,14 +19,6 @@ import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.managers.FixManager;
-import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.DumperOptions;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
-import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
 
 public class FixManagerUpdateAllDictionary extends FixManager {
 

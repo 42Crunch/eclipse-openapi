@@ -1,5 +1,9 @@
 package com.xliic.openapi.quickfix.managers;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import com.google.gson.JsonObject;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiVersion;
@@ -11,10 +15,6 @@ import com.xliic.openapi.quickfix.schema.SchemaNameChooser;
 import com.xliic.openapi.quickfix.schema.SchemaUtils;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.ASTService;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 public class FixManagerSchema extends FixManager {
 
@@ -46,8 +46,7 @@ public class FixManagerSchema extends FixManager {
         if (chooser.showAndGet()) {
             schemaName = chooser.getValue();
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -82,18 +81,15 @@ public class FixManagerSchema extends FixManager {
         if (version == OpenApiVersion.V2) {
             if ("schema".equals(target.getKey())) {
                 schemaRefFix.addProperty("$ref", "#/definitions/" + schemaName);
-            }
-            else {
+            } else {
                 JsonObject schemaRef = new JsonObject();
                 schemaRef.addProperty("$ref", "#/definitions/" + schemaName);
                 schemaRefFix.add("schema", schemaRef);
             }
-        }
-        else {
+        } else {
             if ("schema".equals(target.getKey())) {
                 schemaRefFix.addProperty("$ref", "#/components/schemas/" + schemaName);
-            }
-            else {
+            } else {
                 JsonObject schemaRef = new JsonObject();
                 schemaRef.addProperty("$ref", "#/components/schemas/" + schemaName);
                 schemaRefFix.add("schema", schemaRef);
@@ -120,8 +116,7 @@ public class FixManagerSchema extends FixManager {
                 definitions.add("definitions", schemaMainFix);
                 text = definitions.toString();
             }
-        }
-        else {
+        } else {
             pointer = "/components/schemas";
             Node target = root.find(pointer);
             if (target == null) {
@@ -131,8 +126,7 @@ public class FixManagerSchema extends FixManager {
                     JsonObject schemas = new JsonObject();
                     schemas.add("schemas", schemaMainFix);
                     text = schemas.toString();
-                }
-                else {
+                } else {
                     pointer = "";
                     JsonObject schemas = new JsonObject();
                     schemas.add("schemas", schemaMainFix);

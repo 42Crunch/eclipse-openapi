@@ -1,8 +1,9 @@
 package icons;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.util.Icon;
 import com.xliic.core.util.IconLoader;
-import org.jetbrains.annotations.NotNull;
 
 public interface OpenApiIcons {
 

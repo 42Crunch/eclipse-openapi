@@ -104,4 +104,3 @@ public class DocumentUpdater {
         return fixedIssues;
     }
 }
-

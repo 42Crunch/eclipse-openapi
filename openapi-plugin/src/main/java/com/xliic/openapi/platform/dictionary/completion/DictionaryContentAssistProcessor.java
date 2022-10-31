@@ -1,5 +1,9 @@
 package com.xliic.openapi.platform.dictionary.completion;
 
+import static com.xliic.core.codeInsight.completion.CompletionProposal.DQ;
+import static com.xliic.core.codeInsight.completion.CompletionProposal.LF;
+import static com.xliic.core.codeInsight.completion.CompletionProposal.SQ;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +26,6 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.services.DictionaryService;
 
-import static com.xliic.core.codeInsight.completion.CompletionProposal.*;
-
 public class DictionaryContentAssistProcessor extends CompletionContributor {
 
     private static final Pattern JSON_REGEX = Pattern.compile("^ *\"format\" *: *\"o:.*$");
@@ -41,16 +43,20 @@ public class DictionaryContentAssistProcessor extends CompletionContributor {
     private static final Pattern OAS_REGEX = Pattern.compile("^(swagger *:|(openapi *: *3\\.0\\.\\d(-.+)?))");
 
     @SuppressWarnings("serial")
-    private static final Map<Character, List<Pattern>> JSON_TRIGGER_CHARS = new HashMap<>() {{
-        put(DQ, Arrays.asList(JSON_REGEX));
-    }};
+    private static final Map<Character, List<Pattern>> JSON_TRIGGER_CHARS = new HashMap<>() {
+        {
+            put(DQ, Arrays.asList(JSON_REGEX));
+        }
+    };
 
     @SuppressWarnings("serial")
-    private static final Map<Character, List<Pattern>> YAML_TRIGGER_CHARS = new HashMap<>() {{
-        put(DQ, Arrays.asList(YAML_DQ_PL_REGEX, YAML_DQ_NP_REGEX));
-        put(SQ, Arrays.asList(YAML_SQ_PL_REGEX, YAML_SQ_NP_REGEX));
-        put(LF, Arrays.asList(YAML_PL_PL_REGEX, YAML_PL_NP_REGEX));
-    }};
+    private static final Map<Character, List<Pattern>> YAML_TRIGGER_CHARS = new HashMap<>() {
+        {
+            put(DQ, Arrays.asList(YAML_DQ_PL_REGEX, YAML_DQ_NP_REGEX));
+            put(SQ, Arrays.asList(YAML_SQ_PL_REGEX, YAML_SQ_NP_REGEX));
+            put(LF, Arrays.asList(YAML_PL_PL_REGEX, YAML_PL_NP_REGEX));
+        }
+    };
 
     private static final ElementPattern PATTERN = new ElementPattern() {
 

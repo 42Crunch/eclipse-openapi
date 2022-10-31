@@ -1,10 +1,10 @@
 package com.xliic.openapi.report;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
-import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class AuditSerializer extends StdSerializer<Audit> {
@@ -18,9 +18,7 @@ public class AuditSerializer extends StdSerializer<Audit> {
     }
 
     @Override
-    public void serialize(Audit audit,
-            JsonGenerator jsonGenerator,
-            SerializerProvider serializerProvider) throws IOException {
+    public void serialize(Audit audit, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeObjectField("summary", audit.getSummaryProperties());
         jsonGenerator.writeObjectField("files", audit.getFilesProperties());

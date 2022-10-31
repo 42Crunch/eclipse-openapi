@@ -36,7 +36,8 @@ public class HostNameContentProvider implements IStructuredContentProvider {
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 
     @Override
     public Object[] getElements(Object inputElement) {

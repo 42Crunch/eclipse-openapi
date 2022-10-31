@@ -18,7 +18,7 @@ public abstract class CompletionContributor implements IContentAssistProcessor {
 
     @NotNull
     private final Project project;
-    private final char [] activationCharacters;
+    private final char[] activationCharacters;
     @NotNull
     private final ElementPattern pattern;
     @NotNull
@@ -42,8 +42,7 @@ public abstract class CompletionContributor implements IContentAssistProcessor {
                     CompletionRunnableWithProgress runnable = new CompletionRunnableWithProgress(params, provider);
                     runnable.run(new NullProgressMonitor());
                     return runnable.getContentProposals();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                 }
             }
         }

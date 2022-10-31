@@ -1,9 +1,10 @@
 package com.xliic.openapi.report.tree;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.ui.treeStructure.MouseAdapter;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.openapi.report.tree.ui.ReportPanel;
-import org.jetbrains.annotations.NotNull;
 
 public class ReportMouseAdapter extends MouseAdapter {
 

@@ -1,5 +1,8 @@
 package com.xliic.openapi.quickfix.managers;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gson.JsonObject;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiVersion;
@@ -10,9 +13,6 @@ import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.schema.SchemaUtils;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.ASTService;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class FixManagerSchemaInline extends FixManager {
 
@@ -43,8 +43,7 @@ public class FixManagerSchemaInline extends FixManager {
             String text;
             if ("schema".equals(target.getKey())) {
                 text = schema.toString();
-            }
-            else {
+            } else {
                 JsonObject schemaObj = new JsonObject();
                 schemaObj.add("schema", schema);
                 text = schemaObj.toString();

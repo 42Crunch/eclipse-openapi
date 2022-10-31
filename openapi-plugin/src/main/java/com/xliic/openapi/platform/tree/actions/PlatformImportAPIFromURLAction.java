@@ -1,5 +1,10 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import java.io.IOException;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.xliic.core.actionSystem.AnJAction;
@@ -13,14 +18,11 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.platform.tree.form.PlatformURLChooser;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAware {
 
@@ -80,8 +82,7 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
                         if (StringUtils.isEmpty(name)) {
                             name = OpenApiUtils.getFileNameFromURL(href, "defaultAPI");
                         }
-                        PlatformAPIs.createAPI(collectionId, name, text,
-                                new PlatformImportAPICallback(project, tree, collectionId, name));
+                        PlatformAPIs.createAPI(collectionId, name, text, new PlatformImportAPICallback(project, tree, collectionId, name));
                     }
                 } catch (IOException e) {
                     OpenApiUtils.showErrorMessageDialog(project, e.getMessage());

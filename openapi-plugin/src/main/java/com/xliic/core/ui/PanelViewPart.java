@@ -2,8 +2,8 @@ package com.xliic.core.ui;
 
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
@@ -85,7 +85,8 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
     }
 
     @Override
-    public void setFocus() {}
+    public void setFocus() {
+    }
 
     @Override
     public void dispose() {
@@ -101,9 +102,15 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
         }
     }
 
-    protected void saveState(@NotNull Project project, @NotNull IMemento memento) {}
-    protected void restoreState(@NotNull Project project, @NotNull IMemento memento) {}
-    protected void createEmptyControl(Composite parent) {}
+    protected void saveState(@NotNull Project project, @NotNull IMemento memento) {
+    }
+
+    protected void restoreState(@NotNull Project project, @NotNull IMemento memento) {
+    }
+
+    protected void createEmptyControl(Composite parent) {
+    }
+
     protected boolean initControl(@NotNull Project project) {
         return true;
     }

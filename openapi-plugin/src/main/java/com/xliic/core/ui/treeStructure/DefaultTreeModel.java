@@ -35,7 +35,6 @@ public class DefaultTreeModel implements ITreeContentProvider, TreeModel {
         reload(null, updateLabels);
     }
 
-
     public void reload(TreeNode node) {
         reload(node, true);
     }
@@ -55,7 +54,7 @@ public class DefaultTreeModel implements ITreeContentProvider, TreeModel {
     public Object[] getChildren(Object parentElement) {
         int count = getChildCount(parentElement);
         Object[] children = new Object[count];
-        for (int i = 0 ; i < count ; i++) {
+        for (int i = 0; i < count; i++) {
             children[i] = getChild(parentElement, i);
         }
         return children;

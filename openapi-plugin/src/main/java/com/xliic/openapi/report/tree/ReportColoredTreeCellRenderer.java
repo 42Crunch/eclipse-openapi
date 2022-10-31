@@ -1,15 +1,17 @@
 package com.xliic.openapi.report.tree;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.icons.AllIcons;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.ColoredTreeCellRenderer;
 import com.xliic.core.ui.SimpleTextAttributes;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.report.Severity;
-import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import icons.OpenApiIcons;
 
 public class ReportColoredTreeCellRenderer extends ColoredTreeCellRenderer {
 
@@ -20,8 +22,8 @@ public class ReportColoredTreeCellRenderer extends ColoredTreeCellRenderer {
     }
 
     @Override
-    public void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected,
-            boolean expanded, boolean leaf, int row, boolean hasFocus) {
+    public void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected, boolean expanded, boolean leaf, int row,
+            boolean hasFocus) {
 
         final DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) value;
 

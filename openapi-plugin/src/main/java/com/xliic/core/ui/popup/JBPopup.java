@@ -25,8 +25,8 @@ public class JBPopup extends PopupDialog {
     private final JComponent content;
     private Disposable disposable;
 
-    private static final int SNAP_POSITION_UNDER_LEFT_FIELD= 2;
-    private static final int SNAP_POSITION_OVER_LEFT_FIELD= 3;
+    private static final int SNAP_POSITION_UNDER_LEFT_FIELD = 2;
+    private static final int SNAP_POSITION_OVER_LEFT_FIELD = 3;
 
     private static final int HAH = 10;
     private static final int GAP = 2;

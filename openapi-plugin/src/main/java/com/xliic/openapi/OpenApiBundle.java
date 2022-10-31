@@ -17,8 +17,7 @@ public class OpenApiBundle {
             URL url = new URL(BASE_URL, "resources/messages/OpenApiBundle.properties");
             InputStream inputStream = OpenApiBundle.class.getResourceAsStream(url.getFile());
             resourceBundle = new PropertyResourceBundle(inputStream);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -26,11 +25,9 @@ public class OpenApiBundle {
     public static String message(String key) {
         try {
             return unescape(resourceBundle.getString(key));
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             return key;
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             return "!" + key + "!";
         }
     }

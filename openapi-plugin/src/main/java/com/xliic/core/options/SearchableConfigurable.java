@@ -24,14 +24,14 @@ public abstract class SearchableConfigurable extends PreferencePage implements I
     }
 
     @Override
-    public void init(IWorkbench workbench) {}
+    public void init(IWorkbench workbench) {
+    }
 
     @Override
     protected void performDefaults() {
         super.performDefaults();
         reset();
     }
-
 
     @Override
     public boolean performOk() {
@@ -50,9 +50,14 @@ public abstract class SearchableConfigurable extends PreferencePage implements I
     }
 
     public abstract String getDisplayName();
+
     public abstract String getHelpTopic();
+
     public abstract JComponent createComponent();
+
     public abstract boolean isModified();
+
     public abstract void reset();
+
     public abstract void apply();
 }

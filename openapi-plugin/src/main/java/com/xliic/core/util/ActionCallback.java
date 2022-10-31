@@ -4,9 +4,11 @@ public class ActionCallback {
 
     private String error;
 
-    public void setDone() {};
+    public void setDone() {
+    };
 
-    protected void setRejected() {};
+    protected void setRejected() {
+    };
 
     public void reject(String error) {
         this.error = error;

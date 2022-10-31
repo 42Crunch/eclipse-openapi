@@ -87,8 +87,7 @@ public class OpenAPICreationPage extends WizardNewFileCreationPage {
                     IDE.openEditor(page, newFile, true);
                 }
             }
-        }
-        catch (PartInitException e) {
+        } catch (PartInitException e) {
             e.printStackTrace();
             return false;
         }
@@ -103,16 +102,13 @@ public class OpenAPICreationPage extends WizardNewFileCreationPage {
         if (fileType == OpenApiFileType.Json) {
             if (version == OpenApiVersion.V3) {
                 id = "Json OpenAPI version 3.json.ft";
-            }
-            else {
+            } else {
                 id = "Json OpenAPI version 2.json.ft";
             }
-        }
-        else if (fileType == OpenApiFileType.Yaml) {
+        } else if (fileType == OpenApiFileType.Yaml) {
             if (version == OpenApiVersion.V3) {
                 id = "Yaml OpenAPI version 3.yaml.ft";
-            }
-            else {
+            } else {
                 id = "Yaml OpenAPI version 2.yaml.ft";
             }
         }
@@ -123,8 +119,7 @@ public class OpenAPICreationPage extends WizardNewFileCreationPage {
             InputStream inputStream = getClass().getResourceAsStream(url.getFile());
             Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
             stream.forEach(line -> sb.append(line).append("\n"));
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return new ByteArrayInputStream(sb.toString().getBytes());

@@ -1,5 +1,21 @@
 package com.xliic.openapi.services;
 
+import static com.xliic.openapi.OpenApiUtils.getFileType;
+import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
+import static com.xliic.openapi.listeners.OpenApiFileEditorManagerListener.IS_FIRST_SELECTION_KEY;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
@@ -27,15 +43,6 @@ import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.topic.FileListener;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
-
-import static com.xliic.openapi.OpenApiUtils.getFileType;
-import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
-import static com.xliic.openapi.listeners.OpenApiFileEditorManagerListener.IS_FIRST_SELECTION_KEY;
-
 public class ASTService extends AsyncService implements IASTService, Disposable {
 
     private static final int DELAY = 500;
@@ -60,13 +67,12 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     @SuppressWarnings("serial")
     public ASTService(@NotNull Project project) {
         super(project, DELAY, INIT_DELAY);
-        this.cache = Collections.synchronizedMap(
-                new LinkedHashMap<>(CACHE_CAPACITY + 1, 1.0f, true) {
-                    @Override
-                    public boolean removeEldestEntry(Map.Entry<String, Node> entry) {
-                        return size() > CACHE_CAPACITY;
-                    }
-                });
+        this.cache = Collections.synchronizedMap(new LinkedHashMap<>(CACHE_CAPACITY + 1, 1.0f, true) {
+            @Override
+            public boolean removeEldestEntry(Map.Entry<String, Node> entry) {
+                return size() > CACHE_CAPACITY;
+            }
+        });
         versionCache = new HashMap<>();
         astListenersMap = new HashMap<>();
         knownOpenAPIFiles = new HashSet<>();
@@ -212,7 +218,6 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
             });
         }
     }
-
 
     public void parse(@NotNull VirtualFile file, boolean documentChanged) {
         final String fileName = file.getPath();

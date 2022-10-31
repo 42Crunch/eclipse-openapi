@@ -1,17 +1,18 @@
 package com.xliic.openapi.platform.dictionary.quickfix.managers;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.managers.FixManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
 
 public class FixManagerSingleReplaceDictionary extends FixManager {
 
@@ -20,17 +21,13 @@ public class FixManagerSingleReplaceDictionary extends FixManager {
     @Nullable
     private final Object value;
 
-    public FixManagerSingleReplaceDictionary(@NotNull PsiFile psiFile,
-            @NotNull DataFormat dataFormat,
-            @NotNull Node propNode) {
+    public FixManagerSingleReplaceDictionary(@NotNull PsiFile psiFile, @NotNull DataFormat dataFormat, @NotNull Node propNode) {
         super(psiFile);
         this.propNode = propNode;
         this.value = dataFormat.get(propNode.getKey());
     }
 
-    public FixManagerSingleReplaceDictionary(@NotNull PsiFile psiFile,
-            @NotNull Node propNode,
-            @NotNull String value) {
+    public FixManagerSingleReplaceDictionary(@NotNull PsiFile psiFile, @NotNull Node propNode, @NotNull String value) {
         super(psiFile);
         this.propNode = propNode;
         this.value = value;

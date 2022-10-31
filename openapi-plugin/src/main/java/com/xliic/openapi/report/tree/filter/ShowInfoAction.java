@@ -1,12 +1,14 @@
 package com.xliic.openapi.report.tree.filter;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.actionSystem.ToggleAction;
 import com.xliic.core.project.DumbAware;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.report.tree.ui.ReportPanel;
+
 import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
 
 public class ShowInfoAction extends ToggleAction implements DumbAware {
 

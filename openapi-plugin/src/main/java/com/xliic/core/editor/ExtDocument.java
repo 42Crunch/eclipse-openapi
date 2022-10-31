@@ -83,10 +83,12 @@ public class ExtDocument implements Document {
     }
 
     @Override
-    public void addDocumentListener(@NotNull DocumentListener listener) {}
+    public void addDocumentListener(@NotNull DocumentListener listener) {
+    }
 
     @Override
-    public void removeDocumentListener(@NotNull DocumentListener listener) {}
+    public void removeDocumentListener(@NotNull DocumentListener listener) {
+    }
 
     @Override
     public RangeMarker createRangeMarker(int startOffset, int endOffset) {

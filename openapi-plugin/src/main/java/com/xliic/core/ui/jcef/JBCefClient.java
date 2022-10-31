@@ -13,5 +13,6 @@ public class JBCefClient {
         browser.removeProgressListener(handler);
     }
 
-    public void dispose() {}
+    public void dispose() {
+    }
 }

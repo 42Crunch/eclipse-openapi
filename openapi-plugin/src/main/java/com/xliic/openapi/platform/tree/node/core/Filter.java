@@ -1,8 +1,8 @@
 package com.xliic.openapi.platform.tree.node.core;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
 
 public interface Filter {
 

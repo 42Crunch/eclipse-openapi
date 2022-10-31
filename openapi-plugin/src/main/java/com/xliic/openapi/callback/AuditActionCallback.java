@@ -1,18 +1,25 @@
 package com.xliic.openapi.callback;
 
-import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
+import static com.xliic.openapi.OpenApiBundle.message;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.application.ModalityState;
+import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.project.Project;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.psi.PsiManager;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.Computable;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.SwingUtilities;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -20,13 +27,6 @@ import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.topic.AuditListener;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import static com.xliic.openapi.OpenApiBundle.message;
 
 public class AuditActionCallback extends ActionCallback {
 
@@ -49,7 +49,7 @@ public class AuditActionCallback extends ActionCallback {
     public void setDone(@NotNull Node response, boolean isLocal) {
 
         AuditService auditService = AuditService.getInstance(project);
-        Audit newAudit = ApplicationManager.getApplication().runReadAction((Computable<Audit>) () ->  {
+        Audit newAudit = ApplicationManager.getApplication().runReadAction((Computable<Audit>) () -> {
             Audit report;
             if (isLocal) {
                 report = new Audit(project, file.getPath(), response, true);
@@ -91,8 +91,7 @@ public class AuditActionCallback extends ActionCallback {
                 sb.append(" ");
             }
             if (sb.length() > 0) {
-                SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project,
-                        message("openapi.audit.issues.notification", sb.toString()),
+                SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, message("openapi.audit.issues.notification", sb.toString()),
                         message("openapi.warning.title"), Messages.getWarningIcon()));
             }
         });
@@ -100,7 +99,6 @@ public class AuditActionCallback extends ActionCallback {
 
     @Override
     public void setRejected() {
-        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, getError(),
-                message("openapi.error.title"), Messages.getErrorIcon()));
+        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, getError(), message("openapi.error.title"), Messages.getErrorIcon()));
     }
 }

@@ -1,10 +1,11 @@
 package com.xliic.openapi.report.tree;
 
-import com.xliic.openapi.report.IssueComparator;
+import java.util.Comparator;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import java.util.Comparator;
+
+import com.xliic.openapi.report.IssueComparator;
 
 public class ReportTreeNodeComparator implements Comparator<TreeNode> {
 

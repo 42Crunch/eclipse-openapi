@@ -13,7 +13,8 @@ public class VfsUtil {
         return createDirectoryIfMissing(LocalFileSystem.getInstance(), directoryPath);
     }
 
-    public static @Nullable VirtualFile createDirectoryIfMissing(@NotNull LocalFileSystem fileSystem, @NotNull String directoryPath) throws IOException {
+    public static @Nullable VirtualFile createDirectoryIfMissing(@NotNull LocalFileSystem fileSystem, @NotNull String directoryPath)
+            throws IOException {
 
         String path = FileUtil.toSystemIndependentName(directoryPath);
         VirtualFile file = fileSystem.refreshAndFindFileByPath(path);

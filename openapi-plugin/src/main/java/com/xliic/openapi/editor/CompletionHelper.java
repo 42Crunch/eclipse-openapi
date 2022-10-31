@@ -1,5 +1,11 @@
 package com.xliic.openapi.editor;
 
+import static com.xliic.core.codeInsight.completion.CompletionProposal.NS;
+
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.codeInsight.completion.CompletionParameters;
 import com.xliic.core.codeInsight.completion.CompletionResultSet;
 import com.xliic.core.codeInsight.completion.CompletionSorter;
@@ -10,12 +16,8 @@ import com.xliic.openapi.OpenApiTargetMapping;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
+
 import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-
-import static com.xliic.core.codeInsight.completion.CompletionProposal.NS;
 
 public class CompletionHelper {
 
@@ -50,13 +52,8 @@ public class CompletionHelper {
         OpenApiFileType type = OpenApiUtils.getFileType(parameters.getFile().getPath());
         LookupElement.FileType fileType = LookupElement.convertToLookupElementFileType(type);
         for (Node child : targetNode.getChildren()) {
-            LookupElementBuilder builder = LookupElementBuilder.create(NS + child.getJsonPointer()).
-                    withIcon(OpenApiIcons.PropertyNode).
-                    withTypeText(typeText).
-                    withFileType(fileType).
-                    withOffset(offset).
-                    withPrefix(prefix).
-                    withFilterPrefix(prefix);
+            LookupElementBuilder builder = LookupElementBuilder.create(NS + child.getJsonPointer()).withIcon(OpenApiIcons.PropertyNode)
+                    .withTypeText(typeText).withFileType(fileType).withOffset(offset).withPrefix(prefix).withFilterPrefix(prefix);
             resultSet.withRelevanceSorter(SORTER).addElement(builder);
         }
     }

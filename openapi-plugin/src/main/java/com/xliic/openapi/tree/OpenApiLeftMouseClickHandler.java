@@ -1,22 +1,23 @@
 package com.xliic.openapi.tree;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.editor.Editor;
 import com.xliic.core.editor.ScrollType;
 import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.TextEditor;
 import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
 
 public class OpenApiLeftMouseClickHandler {
 

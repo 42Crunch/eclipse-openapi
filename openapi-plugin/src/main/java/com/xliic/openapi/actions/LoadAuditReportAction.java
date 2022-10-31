@@ -1,5 +1,10 @@
 package com.xliic.openapi.actions;
 
+import javax.swing.SwingUtilities;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.fileChooser.FileChooserDescriptor;
 import com.xliic.core.fileChooser.FileChooserFactory;
 import com.xliic.core.project.Project;
@@ -9,10 +14,6 @@ import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.parser.ast.node.Node;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
 
 public class LoadAuditReportAction extends ProjectAction {
 
@@ -34,10 +35,10 @@ public class LoadAuditReportAction extends ProjectAction {
 
     @Override
     public void actionPerformed(@NotNull Project project, @NotNull VirtualFile currentFile) {
-        FileChooserDescriptor descriptor = new FileChooserDescriptor(
-                true, false, false, false, false, false).withFileFilter(new String[] {"*.json"});
-        VirtualFile[] choose = FileChooserFactory.getInstance().createFileChooser(
-                descriptor, project, "getText()", null).choose(null, VirtualFile.EMPTY_ARRAY);
+        FileChooserDescriptor descriptor = new FileChooserDescriptor(true, false, false, false, false, false)
+                .withFileFilter(new String[] { "*.json" });
+        VirtualFile[] choose = FileChooserFactory.getInstance().createFileChooser(descriptor, project, "getText()", null).choose(null,
+                VirtualFile.EMPTY_ARRAY);
         if (choose.length == 1) {
             VirtualFile file = choose[0];
             if (file != null) {

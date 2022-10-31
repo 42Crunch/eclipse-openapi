@@ -1,10 +1,11 @@
 package com.xliic.openapi.tree.node;
 
-import com.xliic.openapi.OpenApiVersion;
-
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import com.xliic.openapi.OpenApiVersion;
 
 public class RootNode {
 

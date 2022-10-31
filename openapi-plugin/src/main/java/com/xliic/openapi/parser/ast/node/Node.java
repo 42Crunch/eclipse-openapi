@@ -1,17 +1,26 @@
 package com.xliic.openapi.parser.ast.node;
 
-import com.xliic.openapi.parser.ast.NodeStringWriter;
-import com.xliic.openapi.parser.ast.ParserAST;
-import com.xliic.openapi.parser.ast.Range;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
 import org.snakeyaml.engine.v2.api.DumpSettings;
 import org.snakeyaml.engine.v2.api.StreamDataWriter;
 import org.snakeyaml.engine.v2.emitter.Emitter;
-import org.snakeyaml.engine.v2.nodes.*;
+import org.snakeyaml.engine.v2.nodes.MappingNode;
+import org.snakeyaml.engine.v2.nodes.NodeTuple;
+import org.snakeyaml.engine.v2.nodes.ScalarNode;
+import org.snakeyaml.engine.v2.nodes.SequenceNode;
+import org.snakeyaml.engine.v2.nodes.Tag;
 import org.snakeyaml.engine.v2.serializer.Serializer;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
+import com.xliic.openapi.parser.ast.NodeStringWriter;
+import com.xliic.openapi.parser.ast.ParserAST;
+import com.xliic.openapi.parser.ast.Range;
 
 public abstract class Node implements Comparable<Node> {
 
@@ -165,6 +174,7 @@ public abstract class Node implements Comparable<Node> {
     }
 
     public abstract Range getValueRange();
+
     public abstract Range getRange();
 
     public Node next() {
@@ -198,8 +208,7 @@ public abstract class Node implements Comparable<Node> {
     public boolean isArray() {
         if (node instanceof NodeTuple) {
             return ParserAST.isList(((NodeTuple) node).getValueNode());
-        }
-        else if (node instanceof SequenceNode) {
+        } else if (node instanceof SequenceNode) {
             return ParserAST.isList(node);
         }
         return false;
@@ -208,8 +217,7 @@ public abstract class Node implements Comparable<Node> {
     public boolean isObject() {
         if (node instanceof NodeTuple) {
             return ParserAST.isMap(((NodeTuple) node).getValueNode());
-        }
-        else if (node instanceof MappingNode) {
+        } else if (node instanceof MappingNode) {
             return ParserAST.isMap(node);
         }
         return false;
@@ -222,7 +230,8 @@ public abstract class Node implements Comparable<Node> {
     public Node findNodeAtOffset(int offset) {
         if (getRange().contains(offset)) {
             final Node result = findNodeAtOffset(this, offset);
-            // Make no sense to return the root node as it always contains any offset within the text range
+            // Make no sense to return the root node as it always contains any offset within
+            // the text range
             return result.getParent() == null ? null : result;
         }
         return null;
@@ -234,8 +243,7 @@ public abstract class Node implements Comparable<Node> {
         serializer.open();
         if (node instanceof NodeTuple) {
             serializer.serialize(((NodeTuple) node).getValueNode());
-        }
-        else {
+        } else {
             serializer.serialize((org.snakeyaml.engine.v2.nodes.Node) node);
         }
         serializer.close();

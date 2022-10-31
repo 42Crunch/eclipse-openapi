@@ -1,17 +1,18 @@
 package com.xliic.openapi.bundler;
 
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.services.ExtRefService;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.ExtRef;
+import com.xliic.openapi.services.ExtRefService;
 
 public class BundleLocation {
 
@@ -37,8 +38,7 @@ public class BundleLocation {
             ExtRef extRef = extRefService.get(uri);
             file = (extRef == null) ? null : extRef.getVirtualFile();
             this.uri = uri;
-        }
-        else {
+        } else {
             if (uri.isAbsolute()) {
                 file = LocalFileSystem.getInstance().findFileByIoFile(new File(uri));
             } else {

@@ -81,9 +81,8 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
     }
 
     @Override
-    public int registerTextEditorHighlightingPass(@NotNull TextEditorHighlightingPassFactory factory,
-            final int[] runAfterCompletionOf, int[] runAfterStartingOf, boolean runIntentionsPassAfter,
-            int forcedPassId) {
+    public int registerTextEditorHighlightingPass(@NotNull TextEditorHighlightingPassFactory factory, final int[] runAfterCompletionOf,
+            int[] runAfterStartingOf, boolean runIntentionsPassAfter, int forcedPassId) {
         factories.add(factory);
         return -1;
     }
@@ -185,8 +184,7 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
         }
     }
 
-    private void updateMarkers(Editor editor, VirtualFile file, Set<Marker> newMarkers,
-            Map<String, List<IntentionAction>> actions) {
+    private void updateMarkers(Editor editor, VirtualFile file, Set<Marker> newMarkers, Map<String, List<IntentionAction>> actions) {
         Set<Marker> myMarkers = markers.get(file);
         if (myMarkers == null) {
             markers.put(file, new HashSet<>());

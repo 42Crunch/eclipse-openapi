@@ -1,16 +1,17 @@
 package com.xliic.openapi.platform.tree.form;
 
-import com.xliic.core.project.Project;
-import com.xliic.core.ui.DialogWrapper;
-import com.xliic.core.ui.ValidationInfo;
-import com.xliic.core.ui.components.JTextField;
-import com.xliic.openapi.OpenApiUtils;
+import java.net.URISyntaxException;
+
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 
-import java.net.URISyntaxException;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.DialogWrapper;
+import com.xliic.core.ui.ValidationInfo;
+import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.OpenApiUtils;
 
 public class PlatformURLChooser extends DialogWrapper {
 

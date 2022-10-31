@@ -1,5 +1,7 @@
 package com.xliic.openapi.actions;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
 import com.xliic.core.ide.util.PropertiesComponent;
@@ -19,8 +21,6 @@ import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.settings.SettingsKeys;
-
-import org.jetbrains.annotations.NotNull;
 
 public class PlatformUploadAction extends AnAction implements DumbAware {
 

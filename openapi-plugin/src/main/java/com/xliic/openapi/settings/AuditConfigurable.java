@@ -1,8 +1,27 @@
 package com.xliic.openapi.settings;
 
-import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.platform.PlatformConnection;
+import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
+import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
+
+import java.net.URISyntaxException;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.swing.event.DocumentEvent;
+
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.module.Module;
 import com.xliic.core.options.Configurable;
@@ -18,34 +37,15 @@ import com.xliic.core.ui.components.JComponent;
 import com.xliic.core.ui.components.JPanel;
 import com.xliic.core.ui.components.JTextArea;
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.preview.PreviewCallback;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.services.PreviewService;
+import com.xliic.openapi.settings.SettingsKeys.Platform.Dictionary.PreAudit;
 import com.xliic.openapi.topic.SettingsListener;
-
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-
-import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.swing.event.DocumentEvent;
-
-import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
-import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
-import static com.xliic.openapi.settings.SettingsKeys.Platform.Dictionary.PreAudit;
 
 public class AuditConfigurable extends SearchableConfigurable implements Configurable.NoScroll {
 
@@ -86,7 +86,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         parent.setLayout(gridLayout);
         parent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        platformPanel =  new JPanel("42Crunch Platform Credentials", parent, SWT.NONE, 2);
+        platformPanel = new JPanel("42Crunch Platform Credentials", parent, SWT.NONE, 2);
 
         new Label(platformPanel.getComposite(), SWT.NULL).setText("Platform URL");
         platformURLField = new JTextField(platformPanel);
@@ -124,7 +124,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
             }
         });
 
-        dictPanel =  new JPanel("Data Dictionary", parent, SWT.NONE, 2);
+        dictPanel = new JPanel("Data Dictionary", parent, SWT.NONE, 2);
         new Label(dictPanel.getComposite(), SWT.NULL).setText("Update document to match Data Dictionary definitions before runing Security Audit");
         preAuditComboBox = new JComboBox<>(dictPanel);
         preAuditComboBox.insertItemAt(PreAudit.ASK, 0);
@@ -246,8 +246,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
             if (PreviewUtils.isPortValid(configuredPort) && (port != configuredPort)) {
                 return true;
             }
-        }
-        catch(NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) {
             return false;
         }
 
@@ -260,15 +259,13 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
             String configuredPlatformURL = platformURLField.getText();
             if (StringUtils.isEmpty(configuredPlatformURL)) {
                 return false;
-            }
-            else {
+            } else {
                 OpenApiUtils.getDomainName(configuredPlatformURL);
             }
             if (!Objects.equals(platformURL, configuredPlatformURL)) {
                 return true;
             }
-        }
-        catch (URISyntaxException ignored) {
+        } catch (URISyntaxException ignored) {
             return false;
         }
 
@@ -276,9 +273,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         String configuredPlatformAPIKey = apiKeyField.getText();
         if (StringUtils.isEmpty(configuredPlatformAPIKey)) {
             return false;
-        }
-        else if (PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
-                !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
+        } else if (PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) && !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
             return true;
         }
 
@@ -303,8 +298,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
 
         if (isTokenCleaned) {
             settings.unsetValue(SettingsKeys.TOKEN);
-        }
-        else {
+        } else {
             String configuredTokenText = getTokenText();
             String tokenText = settings.getValue(SettingsKeys.TOKEN);
             if (!Objects.equals(configuredTokenText, tokenText)) {
@@ -328,8 +322,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
                     previewService.start(new PreviewCallback());
                 }
             }
-        }
-        catch(NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) {
         }
         hostsTableModelEditor.applyChanges();
         if (isSortABCModified()) {
@@ -342,8 +335,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
             notify(SettingsKeys.PLATFORM);
             PlatformConnection.setPlatformAPIKey(null);
             notify(SettingsKeys.API_KEY);
-        }
-        else {
+        } else {
             String platformURL = settings.getValue(SettingsKeys.PLATFORM);
             try {
                 String configuredPlatformURL = platformURLField.getText();
@@ -354,14 +346,13 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
                         notify(SettingsKeys.PLATFORM);
                     }
                 }
+            } catch (URISyntaxException ignored) {
             }
-            catch (URISyntaxException ignored) {}
 
             String platformAPIKey = getPlatformAPIKey();
             String configuredPlatformAPIKey = apiKeyField.getText();
-            if (!StringUtils.isEmpty(configuredPlatformAPIKey) &&
-                    PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
-                    !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
+            if (!StringUtils.isEmpty(configuredPlatformAPIKey) && PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey)
+                    && !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
                 PlatformConnection.setPlatformAPIKey(configuredPlatformAPIKey);
                 notify(SettingsKeys.API_KEY);
             }
@@ -388,7 +379,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     private void sendPropertiesUpdatedEvent() {
         ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
         if (projectManager != null) {
-            Project [] projects = projectManager.getOpenProjects();
+            Project[] projects = projectManager.getOpenProjects();
             Set<String> keysSet = new HashSet<>(keysToNotify);
             if (keysSet.contains(SettingsKeys.PLATFORM) && keysSet.contains(SettingsKeys.API_KEY)) {
                 keysToNotify.remove(SettingsKeys.API_KEY);
@@ -423,4 +414,3 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         return StringUtils.isEmpty(password) ? StringUtils.EMPTY : password;
     }
 }
-

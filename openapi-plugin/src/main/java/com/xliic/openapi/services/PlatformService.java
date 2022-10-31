@@ -1,12 +1,27 @@
 package com.xliic.openapi.services;
 
-import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.application.ModalityState;
+import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.psi.PsiManager;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.EclipseWorkbenchUtil;
@@ -14,14 +29,12 @@ import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
-import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.listeners.PlatformDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.platform.PlatformAuditWaiter;
 import com.xliic.openapi.platform.PlatformAPIs;
+import com.xliic.openapi.platform.PlatformAuditWaiter;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.PlatformReopener;
@@ -36,13 +49,6 @@ import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
 
 import okhttp3.Callback;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public final class PlatformService implements IPlatformService, SettingsListener, Disposable {
 
@@ -91,17 +97,14 @@ public final class PlatformService implements IPlatformService, SettingsListener
         auditWaiters.add(waiter);
     }
 
-    public void platformAuditReady(@NotNull String apiId,
-            @Nullable VirtualFile file,
-            @Nullable Node node,
-            @NotNull PlatformAuditWaiter waiter) {
+    public void platformAuditReady(@NotNull String apiId, @Nullable VirtualFile file, @Nullable Node node, @NotNull PlatformAuditWaiter waiter) {
         auditWaiters.remove(waiter);
         if (node != null) {
             Node assessment = node.find("/attr/data");
             float grade = Float.parseFloat(assessment.getChild("grade").getValue());
             boolean isValid = Boolean.parseBoolean(assessment.getChild("isValid").getValue());
-            SwingUtilities.invokeLater(() -> project.getMessageBus().syncPublisher(
-                    PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
+            SwingUtilities
+                    .invokeLater(() -> project.getMessageBus().syncPublisher(PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
             if (file != null) {
                 AuditService auditService = AuditService.getInstance(project);
                 Audit report = auditService.getAuditReport(file.getPath());
@@ -110,15 +113,13 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 ApplicationManager.getApplication().runReadAction(() -> {
                     boolean showAsHTML = report == null || report.isShowAsHTML();
                     boolean showAsProblems = report == null || report.isShowAsProblems();
-                    Audit newReport = new Audit(project, file.getPath(), reportNode,
-                            true, showAsHTML, showAsProblems);
+                    Audit newReport = new Audit(project, file.getPath(), reportNode, true, showAsHTML, showAsProblems);
                     auditService.setAuditReport(file.getPath(), newReport);
                     PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
                     if (psiFile != null) {
                         DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
                     }
-                    SwingUtilities.invokeLater(() -> project.getMessageBus().syncPublisher(
-                            AuditListener.TOPIC).handleAuditReportReady(file));
+                    SwingUtilities.invokeLater(() -> project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file));
                 });
             }
         }
@@ -143,7 +144,8 @@ public final class PlatformService implements IPlatformService, SettingsListener
                         platformWindow.remove();
                     }
                 }
-                // Eclipse Development Note: view is always registered, open it in its perspective scope
+                // Eclipse Development Note: view is always registered, open it in its
+                // perspective scope
                 createPlatformWindow(true);
             }
         }
@@ -200,8 +202,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     }
 
     public void saveToPlatform(@NotNull VirtualFile file, boolean updateFileIsModified) {
-        final int rc = Messages.showOkCancelDialog(project, CONFIRMATION,
-                "Confirm", "Yes", "Cancel", Messages.getQuestionIcon());
+        final int rc = Messages.showOkCancelDialog(project, CONFIRMATION, "Confirm", "Yes", "Cancel", Messages.getQuestionIcon());
         if (rc == Messages.OK) {
             Document document = FileDocumentManager.getInstance().getDocument(file);
             if (document != null) {

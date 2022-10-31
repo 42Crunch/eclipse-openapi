@@ -1,6 +1,7 @@
 package com.xliic.core.ide.ui;
 
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
+
 import com.xliic.core.ui.UIManager;
 
 @SuppressWarnings("restriction")

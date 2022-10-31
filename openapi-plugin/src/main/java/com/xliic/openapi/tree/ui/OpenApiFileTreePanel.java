@@ -1,15 +1,27 @@
 package com.xliic.openapi.tree.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.Disposable;
+import com.xliic.core.actionSystem.AnJAction;
+import com.xliic.core.actionSystem.Separator;
 import com.xliic.core.ide.CommonActionsManager;
 import com.xliic.core.ide.DefaultTreeExpander;
 import com.xliic.core.ide.TreeExpander;
 import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.core.Disposable;
-import com.xliic.core.actionSystem.AnJAction;
-import com.xliic.core.actionSystem.Separator;
 import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.ui.Color;
 import com.xliic.core.ui.JBColor;
 import com.xliic.core.ui.tree.TreePathUtil;
@@ -17,6 +29,8 @@ import com.xliic.core.ui.treeStructure.DefaultTreeModel;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.util.ui.tree.TreeUtil;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
@@ -26,22 +40,14 @@ import com.xliic.openapi.settings.SettingsKeys;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.topic.WindowListener;
-import com.xliic.openapi.tree.*;
+import com.xliic.openapi.tree.OpenAPIAlphaSortAction;
+import com.xliic.openapi.tree.OpenAPIMouseMotionListener;
+import com.xliic.openapi.tree.OpenAPITreeKeyListener;
+import com.xliic.openapi.tree.OpenApiColoredTreeCellRenderer;
+import com.xliic.openapi.tree.OpenApiMouseAdapter;
+import com.xliic.openapi.tree.SortTreeModel;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.RootNode;
-
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 // We have to extend from JPanel to be able to register the whole stuff below as tool window component
 // By doing so we will be able to access all necessary content from anywhere through ToolWindowManager
@@ -258,7 +264,7 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
 
     private List<String> collectExpandedPathsPointers() {
         List<String> pointers = new LinkedList<>();
-        TreePath [] paths = tree.getViewer().getExpandedTreePaths();
+        TreePath[] paths = tree.getViewer().getExpandedTreePaths();
         for (TreePath path : paths) {
             String pointer = getPointerFromTreeNode((DefaultMutableTreeNode) path.getLastSegment());
             if (pointer != null) {

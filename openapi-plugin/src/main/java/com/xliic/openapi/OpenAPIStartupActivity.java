@@ -1,5 +1,8 @@
 package com.xliic.openapi;
 
+import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
+import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,9 +17,6 @@ import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.settings.SettingsKeys;
 import com.xliic.openapi.settings.SettingsKeys.Platform.Dictionary.PreAudit;
-
-import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
-import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 

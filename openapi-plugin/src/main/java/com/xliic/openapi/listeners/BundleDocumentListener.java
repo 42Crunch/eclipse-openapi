@@ -1,5 +1,12 @@
 package com.xliic.openapi.listeners;
 
+import static com.xliic.openapi.services.BundleService.ROOT_FILE_NAME_KEY;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.editor.event.DocumentEvent;
 import com.xliic.core.editor.event.DocumentListener;
 import com.xliic.core.fileEditor.FileDocumentManager;
@@ -8,12 +15,6 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.xliic.openapi.services.BundleService.ROOT_FILE_NAME_KEY;
 
 public class BundleDocumentListener extends DocumentListener {
 
@@ -32,7 +33,8 @@ public class BundleDocumentListener extends DocumentListener {
     }
 
     @Override
-    public void beforeDocumentChange(@NotNull DocumentEvent event) {}
+    public void beforeDocumentChange(@NotNull DocumentEvent event) {
+    }
 
     @Override
     public void documentChanged(@NotNull DocumentEvent event) {

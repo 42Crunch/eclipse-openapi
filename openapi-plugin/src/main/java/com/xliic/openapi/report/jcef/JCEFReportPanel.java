@@ -1,11 +1,22 @@
 package com.xliic.openapi.report.jcef;
 
+import static com.xliic.openapi.OpenApiUtils.getURI;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
+import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
-import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.ToolWindowId;
@@ -18,17 +29,6 @@ import com.xliic.openapi.services.KDBService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.WindowListener;
-
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import static com.xliic.openapi.OpenApiUtils.getURI;
 
 public class JCEFReportPanel extends PanelBrowser implements FileListener, WindowListener, AuditListener, Disposable {
 
@@ -195,10 +195,12 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
     private void update(Audit report) {
         lastAuditParameters = new AuditParameters(report);
         @SuppressWarnings("serial")
-        Map<String, Object> parameters = new HashMap<>() {{
-            put("command", "showFullReport");
-            put("report", serialize(report));
-        }};
+        Map<String, Object> parameters = new HashMap<>() {
+            {
+                put("command", "showFullReport");
+                put("report", serialize(report));
+            }
+        };
         sendMessage(parameters);
     }
 
@@ -208,21 +210,25 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
             report.setShowAsHTML(true);
         }
         @SuppressWarnings("serial")
-        Map<String, Object> parameters = new HashMap<>() {{
-            put("command", "showPartialReport");
-            put("report", serialize(report));
-            put("uri", getURI(file));
-            put("ids", ids);
-        }};
+        Map<String, Object> parameters = new HashMap<>() {
+            {
+                put("command", "showPartialReport");
+                put("report", serialize(report));
+                put("uri", getURI(file));
+                put("ids", ids);
+            }
+        };
         sendMessage(parameters);
     }
 
     private void reportNotAvailable() {
         lastAuditParameters = null;
         @SuppressWarnings("serial")
-        Map<String, Object> parameters = new HashMap<>() {{
-            put("command", "showNoReport");
-        }};
+        Map<String, Object> parameters = new HashMap<>() {
+            {
+                put("command", "showNoReport");
+            }
+        };
         sendMessage(parameters);
     }
 }

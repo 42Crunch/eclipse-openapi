@@ -36,8 +36,7 @@ class OpenAPIMarkerResolution implements IMarkerResolutionRelevance, IMarkerReso
     private final ASTService astService;
     private final HighlightingManager manager;
 
-    public OpenAPIMarkerResolution(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file,
-            @NotNull IntentionAction action) {
+    public OpenAPIMarkerResolution(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file, @NotNull IntentionAction action) {
         this.editor = editor;
         this.file = file;
         this.project = project;

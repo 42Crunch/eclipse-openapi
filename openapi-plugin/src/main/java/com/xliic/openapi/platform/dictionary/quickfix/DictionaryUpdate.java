@@ -1,9 +1,9 @@
 package com.xliic.openapi.platform.dictionary.quickfix;
 
+import java.util.List;
+
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
-
-import java.util.List;
 
 public class DictionaryUpdate {
 

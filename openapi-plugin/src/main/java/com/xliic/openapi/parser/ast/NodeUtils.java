@@ -1,6 +1,8 @@
 package com.xliic.openapi.parser.ast;
 
-import com.xliic.openapi.parser.ast.node.Node;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jetbrains.annotations.NotNull;
 import org.snakeyaml.engine.v2.common.ScalarStyle;
 import org.snakeyaml.engine.v2.nodes.NodeTuple;
@@ -8,8 +10,7 @@ import org.snakeyaml.engine.v2.nodes.ScalarNode;
 import org.snakeyaml.engine.v2.nodes.Tag;
 import org.yaml.snakeyaml.DumperOptions;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class NodeUtils {
 

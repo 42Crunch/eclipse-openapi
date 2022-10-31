@@ -35,20 +35,23 @@ public class PlatformReopener implements FileListener {
         if (files.contains(file.getPath())) {
             files.remove(file.getPath());
             String apiId = PlatformUtils.getApiId(file);
-            PlatformAPIs.readApi(apiId, true,
-                    new PlatformOASCallback(project, null, null, false, true, false));
+            PlatformAPIs.readApi(apiId, true, new PlatformOASCallback(project, null, null, false, true, false));
         }
     }
 
     @Override
-    public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {}
+    public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
+    }
 
     @Override
-    public void handleAllFilesClosed() {}
+    public void handleAllFilesClosed() {
+    }
 
     @Override
-    public void handleSelectedFile(VirtualFile file) {}
+    public void handleSelectedFile(VirtualFile file) {
+    }
 
     @Override
-    public void handleDocumentChanged(VirtualFile file) {}
+    public void handleDocumentChanged(VirtualFile file) {
+    }
 }

@@ -1,12 +1,19 @@
 package com.xliic.openapi;
 
-import com.xliic.core.util.io.FileUtil;
-import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VfsUtil;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.util.EclipseUtil;
-import com.xliic.core.util.ResourceUtil;
-import com.xliic.openapi.platform.PlatformConnection;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
@@ -15,13 +22,13 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
+import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.util.ResourceUtil;
+import com.xliic.core.util.io.FileUtil;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VfsUtil;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.platform.PlatformConnection;
 
 public class TempFileUtils {
 
@@ -31,8 +38,8 @@ public class TempFileUtils {
     private static final String AUDIT_SUB_DIR = "audit";
     private static final String DICTIONARY_SUB_DIR = "dictionary";
 
-    public static VirtualFile createPlatformFile(@NotNull Object requestor,
-            @NotNull String subDirName, @NotNull String fileName, @NotNull String text) {
+    public static VirtualFile createPlatformFile(@NotNull Object requestor, @NotNull String subDirName, @NotNull String fileName,
+            @NotNull String text) {
         try {
             IProject project = EclipseUtil.getTempProject();
             if (project == null) {
@@ -48,11 +55,9 @@ public class TempFileUtils {
             File pluginTempDir = createProjectTempDirIfMissing(project, true);
             final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
             if (rootDir != null) {
-                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(
-                        Paths.get(rootDir.getPath(), PLATFORM_SUB_DIR).toString());
+                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(Paths.get(rootDir.getPath(), PLATFORM_SUB_DIR).toString());
                 if (rootSubDir != null) {
-                    VirtualFile platformDomainDir = VfsUtil.createDirectoryIfMissing(
-                            Paths.get(rootSubDir.getPath(), subDirName).toString());
+                    VirtualFile platformDomainDir = VfsUtil.createDirectoryIfMissing(Paths.get(rootSubDir.getPath(), subDirName).toString());
                     if (platformDomainDir != null) {
                         VirtualFile tmpFile = platformDomainDir.createChildData(requestor, fileName);
                         Charset charset = tmpFile.getCharset();
@@ -73,8 +78,7 @@ public class TempFileUtils {
             File pluginTempDir = createProjectTempDirIfMissing((IProject) requestor, false);
             final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
             if (rootDir != null) {
-                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(
-                        Paths.get(rootDir.getPath(), EXT_REF_SUB_DIR).toString());
+                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(Paths.get(rootDir.getPath(), EXT_REF_SUB_DIR).toString());
                 if (rootSubDir != null) {
                     VirtualFile tmpFile = rootSubDir.createChildData(requestor, fileName);
                     tmpFile.setReadOnly(false);
@@ -119,10 +123,8 @@ public class TempFileUtils {
         return false;
     }
 
-    public static void createTextResource(@NotNull File dir,
-            @NotNull String basePath,
-            @NotNull String prefix,
-            @NotNull String suffix) throws IOException {
+    public static void createTextResource(@NotNull File dir, @NotNull String basePath, @NotNull String prefix, @NotNull String suffix)
+            throws IOException {
         ClassLoader loader = OpenApiUtils.class.getClassLoader();
         InputStream inputStream = ResourceUtil.getResourceAsStream(loader, basePath, prefix + suffix);
         Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
@@ -137,8 +139,7 @@ public class TempFileUtils {
         PlatformConnection options = PlatformConnection.getOptions();
         try {
             String domain = OpenApiUtils.getDomainName(options.getPlatformUrl());
-            path = Paths.get(FileUtil.getTempDirectory(),
-                    OpenAPIStartupActivity.PluginTempDir, domain, id + (isJson ? ".json" : ".yaml"));
+            path = Paths.get(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir, domain, id + (isJson ? ".json" : ".yaml"));
         } catch (URISyntaxException e) {
             path = Paths.get(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir, id);
         }
@@ -150,8 +151,7 @@ public class TempFileUtils {
             File pluginTempDir = createPluginTempDirIfMissing();
             final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
             if (rootDir != null) {
-                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(
-                        Paths.get(rootDir.getPath(), AUDIT_SUB_DIR).toString());
+                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(Paths.get(rootDir.getPath(), AUDIT_SUB_DIR).toString());
                 if (rootSubDir != null) {
                     VirtualFile tmpFile = rootSubDir.createChildData(requestor, "index.js");
                     Charset charset = tmpFile.getCharset();
@@ -171,8 +171,7 @@ public class TempFileUtils {
             File pluginTempDir = createPluginTempDirIfMissing();
             final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
             if (rootDir != null) {
-                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(
-                        Paths.get(rootDir.getPath(), DICTIONARY_SUB_DIR).toString());
+                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(Paths.get(rootDir.getPath(), DICTIONARY_SUB_DIR).toString());
                 if (rootSubDir != null) {
                     VirtualFile tmpFile = rootSubDir.createChildData(requestor, "index.js");
                     Charset charset = tmpFile.getCharset();
@@ -201,7 +200,7 @@ public class TempFileUtils {
             }
         } else if (EXT_REF_SUB_DIR.equals(subDir)) {
             IWorkspace workspace = ResourcesPlugin.getWorkspace();
-            IProject [] projects = workspace.getRoot().getProjects(IContainer.INCLUDE_HIDDEN);
+            IProject[] projects = workspace.getRoot().getProjects(IContainer.INCLUDE_HIDDEN);
             try {
                 for (IProject project : projects) {
                     String tempDir = getProjectTempDir(project, false);

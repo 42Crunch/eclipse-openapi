@@ -1,5 +1,7 @@
 package com.xliic.openapi.quickfix.editor.yaml;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.editor.Document;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.util.DocumentUtil;
@@ -8,7 +10,6 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.editor.DocumentUpdate;
 import com.xliic.openapi.quickfix.editor.Processor;
-import org.jetbrains.annotations.NotNull;
 
 public class YAMLDocumentDeleter extends Processor {
 

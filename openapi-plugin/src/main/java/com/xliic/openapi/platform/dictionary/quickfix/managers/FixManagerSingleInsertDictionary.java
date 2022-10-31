@@ -1,5 +1,13 @@
 package com.xliic.openapi.platform.dictionary.quickfix.managers;
 
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
@@ -7,13 +15,6 @@ import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.managers.FixManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class FixManagerSingleInsertDictionary extends FixManager {
 
@@ -24,20 +25,14 @@ public class FixManagerSingleInsertDictionary extends FixManager {
     @Nullable
     private final Object value;
 
-    public FixManagerSingleInsertDictionary(@NotNull PsiFile psiFile,
-            @NotNull DataFormat dataFormat,
-            @NotNull Node container,
-            @NotNull String prop) {
+    public FixManagerSingleInsertDictionary(@NotNull PsiFile psiFile, @NotNull DataFormat dataFormat, @NotNull Node container, @NotNull String prop) {
         super(psiFile);
         this.value = dataFormat.get(prop);
         this.container = container;
         this.prop = prop;
     }
 
-    public FixManagerSingleInsertDictionary(@NotNull PsiFile psiFile,
-            @NotNull Node container,
-            @NotNull String prop,
-            @NotNull String value) {
+    public FixManagerSingleInsertDictionary(@NotNull PsiFile psiFile, @NotNull Node container, @NotNull String prop, @NotNull String value) {
         super(psiFile);
         this.value = value;
         this.container = container;

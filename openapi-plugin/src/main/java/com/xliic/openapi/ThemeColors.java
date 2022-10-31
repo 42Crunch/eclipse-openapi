@@ -1,14 +1,16 @@
 package com.xliic.openapi;
 
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.UIManager;
+
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
 
 // The class must be used after theme has been changed
 

@@ -1,5 +1,8 @@
 package com.xliic.openapi.quickfix.managers;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,9 +21,6 @@ import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public abstract class FixManager {
 
     protected final PsiFile psiFile;
@@ -32,6 +32,7 @@ public abstract class FixManager {
     }
 
     public abstract String getTitle();
+
     public abstract List<FixItem> getFixItems();
 
     public boolean isAvailable() {
@@ -72,8 +73,7 @@ public abstract class FixManager {
             if (object instanceof String) {
                 String value = (String) object;
                 result.add(value.replace("\\", "\\\\"));
-            }
-            else {
+            } else {
                 result.add(object);
             }
         }
@@ -81,8 +81,7 @@ public abstract class FixManager {
     }
 
     @NotNull
-    protected PlaceHolder getPlaceHolder(String name, String path, boolean isKeyType,
-            List<Object> values, String fixPointer, QuickFix fix) {
+    protected PlaceHolder getPlaceHolder(String name, String path, boolean isKeyType, List<Object> values, String fixPointer, QuickFix fix) {
         fixPointer = trimPointer(fixPointer);
         String pointer = fixPointer + path;
         if (fix.getType() == FixType.Insert) {

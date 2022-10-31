@@ -1,5 +1,14 @@
 package com.xliic.openapi.quickfix.sources;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.util.Pair;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.bundler.BundleResult;
@@ -10,14 +19,6 @@ import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.managers.FixManager;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.ASTService;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class FixSourceMostUsedByName extends FixSource {
 
@@ -28,11 +29,7 @@ public class FixSourceMostUsedByName extends FixSource {
     }
 
     @Override
-    protected List<Object> getValues(Issue issue,
-            QuickFix fix,
-            FixParameter parameter,
-            OpenApiVersion version,
-            BundleResult bundle) {
+    protected List<Object> getValues(Issue issue, QuickFix fix, FixParameter parameter, OpenApiVersion version, BundleResult bundle) {
         Node root = bundle.getAST();
         String rootFileName = bundle.getFile();
         Map<String, Map<String, Map<Object, Integer>>> hints = null;

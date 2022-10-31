@@ -1,5 +1,8 @@
 package com.xliic.openapi.listeners;
 
+import static com.xliic.core.util.ObjectUtils.tryCast;
+import static com.xliic.openapi.OpenApiUtils.getFileType;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.fileEditor.FileEditor;
@@ -16,9 +19,6 @@ import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.services.PlatformService;
-
-import static com.xliic.core.util.ObjectUtils.tryCast;
-import static com.xliic.openapi.OpenApiUtils.getFileType;
 
 // This class is responsible to handle open/close file system events, update data service and panels
 // Do not subscribe to the events anywhere outside the class as it may lead to execution inconsistency

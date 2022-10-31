@@ -72,8 +72,7 @@ public class HighlightInfo {
 
         @Nullable
         public HighlightInfo create() {
-            return new HighlightInfo(type.getSeverity(), description, textRange.getMyStartOffset(),
-                    textRange.getMyEndOffset(), pointer);
+            return new HighlightInfo(type.getSeverity(), description, textRange.getMyStartOffset(), textRange.getMyEndOffset(), pointer);
         }
     }
 

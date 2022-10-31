@@ -1,5 +1,15 @@
 package com.xliic.openapi.actions;
 
+import static com.xliic.openapi.OpenApiUtils.REF;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.common.WorkspaceException;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
@@ -18,16 +28,6 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.ExtRefService;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static com.xliic.openapi.OpenApiUtils.REF;
 
 public class ExtRefReloadAction extends AnAction implements DumbAware {
 
@@ -96,8 +96,7 @@ public class ExtRefReloadAction extends AnAction implements DumbAware {
             Set<String> urls = refs.stream().map(ExtRef::refToURL).collect(Collectors.toSet());
             ExtRefService extRefService = ExtRefService.getInstance(project);
             BundleService bundleService = BundleService.getInstance(project);
-            final Task.Backgroundable task = new Task.Backgroundable(project,
-                    OpenApiBundle.message("openapi.ref.reload.progress.title"), false) {
+            final Task.Backgroundable task = new Task.Backgroundable(project, OpenApiBundle.message("openapi.ref.reload.progress.title"), false) {
                 @Override
                 public void run(@NotNull final ProgressIndicator indicator) {
                     try {
@@ -116,11 +115,9 @@ public class ExtRefReloadAction extends AnAction implements DumbAware {
                         if (!hostnames.isEmpty()) {
                             bundleService.scheduleToBundleByHosts(hostnames);
                         }
-                    }
-                    catch (IOException | WorkspaceException e) {
+                    } catch (IOException | WorkspaceException e) {
                         e.printStackTrace();
-                    }
-                    finally {
+                    } finally {
                         refreshInProgress = false;
                     }
                 }

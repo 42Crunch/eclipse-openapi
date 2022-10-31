@@ -1,5 +1,13 @@
 package com.xliic.openapi.platform.callback;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.eclipse.jface.viewers.TreePath;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
@@ -9,23 +17,15 @@ import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformErrorDecorator;
 import com.xliic.openapi.services.PlatformService;
+
 import okhttp3.Callback;
-
-import org.eclipse.jface.viewers.TreePath;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.List;
-import java.util.Map;
 
 public abstract class SuccessASTResponseWithFailureDecoratorCallback extends SuccessASTResponseCallback {
 
     protected final Tree tree;
     protected final DefaultMutableTreeNode parentDMTN;
 
-    public SuccessASTResponseWithFailureDecoratorCallback(@NotNull Project project,
-            @NotNull Tree tree,
-            @NotNull DefaultMutableTreeNode parentDMTN) {
+    public SuccessASTResponseWithFailureDecoratorCallback(@NotNull Project project, @NotNull Tree tree, @NotNull DefaultMutableTreeNode parentDMTN) {
         super(project);
         this.tree = tree;
         this.parentDMTN = parentDMTN;

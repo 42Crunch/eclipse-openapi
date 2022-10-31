@@ -1,16 +1,16 @@
 package com.xliic.openapi.async;
 
-import org.jetbrains.annotations.NotNull;
-
-import com.xliic.core.concurrency.JobScheduler;
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
-
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.concurrency.JobScheduler;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 
 public abstract class AsyncService implements Runnable {
 
@@ -48,26 +48,20 @@ public abstract class AsyncService implements Runnable {
                     AsyncTaskType type = task.getType();
                     if (isActive() && (type == AsyncTaskType.BEFORE_FILE_OPENED)) {
                         beforeFileOpened(task);
-                    }
-                    else if (isActive() && (type == AsyncTaskType.DOCUMENT_CHANGED)) {
+                    } else if (isActive() && (type == AsyncTaskType.DOCUMENT_CHANGED)) {
                         documentChanged(task);
-                    }
-                    else if (isActive() && (type == AsyncTaskType.SELECTION_CHANGED)) {
+                    } else if (isActive() && (type == AsyncTaskType.SELECTION_CHANGED)) {
                         selectionChanged(task);
-                    }
-                    else if (isActive() && (type == AsyncTaskType.BEFORE_FILE_CLOSED)) {
+                    } else if (isActive() && (type == AsyncTaskType.BEFORE_FILE_CLOSED)) {
                         beforeFileClosed(task);
-                    }
-                    else if (isActive() && (type == AsyncTaskType.ALL_FILES_CLOSED)) {
+                    } else if (isActive() && (type == AsyncTaskType.ALL_FILES_CLOSED)) {
                         allFilesClosed(task);
-                    }
-                    else if (isActive() && (type == AsyncTaskType.REFACTOR_RENAME)) {
+                    } else if (isActive() && (type == AsyncTaskType.REFACTOR_RENAME)) {
                         refactorRename(task);
                     } else if (isActive() && (type == AsyncTaskType.RUN_TREE_DFS)) {
                         treeDfs(task);
                     }
-                }
-                catch (Throwable t) {
+                } catch (Throwable t) {
                     t.printStackTrace();
                 }
             }
@@ -77,30 +71,32 @@ public abstract class AsyncService implements Runnable {
         }
     }
 
-    public void runAsyncTask(@NotNull Project project,
-            @NotNull AsyncTaskType type,
-            @NotNull VirtualFile file) {
+    public void runAsyncTask(@NotNull Project project, @NotNull AsyncTaskType type, @NotNull VirtualFile file) {
         synchronized (queue) {
             queue.add(new AsyncTask(project, type, file));
         }
     }
 
-    public void runAsyncTask(@NotNull Project project,
-            @NotNull AsyncTaskType type,
-            @NotNull VirtualFile file,
-            @NotNull Map<String, Object> data) {
+    public void runAsyncTask(@NotNull Project project, @NotNull AsyncTaskType type, @NotNull VirtualFile file, @NotNull Map<String, Object> data) {
         synchronized (queue) {
             queue.add(new AsyncTask(project, type, file, data));
         }
     }
 
     protected abstract void onRunComplete();
+
     protected abstract void beforeFileOpened(AsyncTask task);
+
     protected abstract void documentChanged(AsyncTask task);
+
     protected abstract void selectionChanged(AsyncTask task);
+
     protected abstract void beforeFileClosed(AsyncTask task);
+
     protected abstract void allFilesClosed(AsyncTask task);
+
     protected abstract void refactorRename(AsyncTask task);
+
     protected abstract void treeDfs(AsyncTask task);
 
     private boolean isActive() {

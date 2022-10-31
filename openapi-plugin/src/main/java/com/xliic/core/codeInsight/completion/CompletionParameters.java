@@ -17,7 +17,7 @@ public class CompletionParameters {
     @NotNull
     private final VirtualFile file;
     @NotNull
-    private final  Document document;
+    private final Document document;
     private final int offset;
 
     private String prefix;

@@ -18,7 +18,7 @@ public class RegisterToolWindowTask {
         this.anchor = anchor;
     }
 
-    public static RegisterToolWindowTask notClosable(@NotNull String id, @NotNull Icon icon, @NotNull ToolWindowAnchor anchor)  {
+    public static RegisterToolWindowTask notClosable(@NotNull String id, @NotNull Icon icon, @NotNull ToolWindowAnchor anchor) {
         return new RegisterToolWindowTask(id, icon, anchor);
     }
 
