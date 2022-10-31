@@ -1,5 +1,12 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import java.util.List;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.eclipse.jface.viewers.TreePath;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -12,21 +19,13 @@ import com.xliic.openapi.platform.tree.filter.PlatformTreeFilter;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.node.core.Filter;
 
-import org.eclipse.jface.viewers.TreePath;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.List;
-
 public class PlatformFilterAPIAction extends AnJAction implements DumbAware {
 
     private final Project project;
     private final Tree tree;
     private final DefaultMutableTreeNode filterDMTN;
 
-    public PlatformFilterAPIAction(@NotNull Project project,
-            @NotNull Tree tree,
-            @NotNull DefaultMutableTreeNode filterDMTN) {
+    public PlatformFilterAPIAction(@NotNull Project project, @NotNull Tree tree, @NotNull DefaultMutableTreeNode filterDMTN) {
         super("Filter", "Filter APIs", null);
         getTemplatePresentation().setDescription(getDescription(filterDMTN));
         this.project = project;

@@ -10,14 +10,12 @@ import static com.xliic.openapi.OpenApiUtils.REF;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
 import com.xliic.core.codeInsight.HighlightInfo;
@@ -42,13 +40,10 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
     public final static String EXT_REF_ENDS_WITH = "is not in the list of approved hosts";
 
     private final PsiFile psiFile;
-    private final List<HighlightInfo> highlights = new LinkedList<>();
-    private final Map<String, List<IntentionAction>> pointerToActions;
 
     public BundleHighlightingPass(final PsiFile file, final Editor editor) {
         super(file.getProject(), editor.getDocument(), true);
         psiFile = file;
-        pointerToActions = new HashMap<>();
     }
 
     @Override
@@ -86,11 +81,7 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
                     if ((hostname != null) && !extRefService.isSafe(hostname)) {
                         List<IntentionAction> actions = new LinkedList<>();
                         actions.add(new FixHostApprovedAction(hostname));
-                        QuickFixAction.registerQuickFixActions(info, null, actions);
-                        if (!pointerToActions.containsKey(pointer)) {
-                            pointerToActions.put(pointer, new LinkedList<>());
-                        }
-                        pointerToActions.get(pointer).addAll(actions);
+                        QuickFixAction.registerQuickFixActions(this, pointer, actions);
                     }
                     highlights.add(info);
                 }
@@ -104,8 +95,7 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
             if (ExtRef.isExtRef(url) && msg.startsWith(EXT_REF_STARTS_WITH) && msg.endsWith(EXT_REF_ENDS_WITH)) {
                 try {
                     return getAuthorityName(target);
-                }
-                catch (URISyntaxException e) {
+                } catch (URISyntaxException e) {
                     return null;
                 }
             }
@@ -121,18 +111,6 @@ public class BundleHighlightingPass extends TextEditorHighlightingPass {
 
     @Override
     public void doApplyInformationToEditor() {
-        setHighlightersToEditor(myProject, myDocument, 0, psiFile.getTextLength(), highlights, getColorsScheme(),
-                getId());
-    }
-
-    @Override
-    public List<HighlightInfo> getInformationToEditor() {
-        return highlights;
-    }
-
-    @Override
-    @Nullable
-    public Map<String, List<IntentionAction>> getActionsToEditor() {
-        return pointerToActions;
+        setHighlightersToEditor(myProject, myDocument, 0, psiFile.getTextLength(), highlights, getColorsScheme(), getId());
     }
 }

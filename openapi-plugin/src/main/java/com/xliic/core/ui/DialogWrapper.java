@@ -19,6 +19,9 @@ import com.xliic.core.util.EclipseUtil;
 @SuppressWarnings("restriction")
 public class DialogWrapper extends StatusDialog {
 
+    public static final int OK_EXIT_CODE = OK;
+    public static final int CANCEL_EXIT_CODE = CANCEL;
+
     private final int numColumns;
     protected final Project project;
 
@@ -48,7 +51,8 @@ public class DialogWrapper extends StatusDialog {
         // Ignore as it is impossible for StatusDialog
     }
 
-    protected void create(Composite parent) {}
+    protected void create(Composite parent) {
+    }
 
     protected void registerForValidation(@NotNull Object widget) {
         if (widget instanceof Validator) {
@@ -74,7 +78,8 @@ public class DialogWrapper extends StatusDialog {
         updateStatus(new StatusInfo(enabled ? IStatus.OK : IStatus.ERROR, null));
     }
 
-    protected void init() {}
+    protected void init() {
+    }
 
     protected boolean postponeValidation() {
         return false;
@@ -99,5 +104,6 @@ public class DialogWrapper extends StatusDialog {
         super.okPressed();
     }
 
-    protected void doOKAction() {}
+    protected void doOKAction() {
+    }
 }

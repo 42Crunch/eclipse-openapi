@@ -1,5 +1,7 @@
 package com.xliic.openapi.actions;
 
+import java.util.Collection;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.actionSystem.AnAction;
@@ -14,8 +16,6 @@ import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
-
-import java.util.Collection;
 
 public abstract class ProjectAction extends AnAction implements DumbAware {
 
@@ -67,6 +67,9 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
         actionPerformed(project, file);
     }
 
-    public abstract boolean update(@NotNull Project project, @NotNull VirtualFile file);
+    public boolean update(@NotNull Project project, @NotNull VirtualFile file) {
+        return true;
+    }
+
     public abstract void actionPerformed(@NotNull Project project, @NotNull VirtualFile file);
 }

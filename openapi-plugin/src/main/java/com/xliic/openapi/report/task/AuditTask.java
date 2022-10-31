@@ -1,5 +1,14 @@
 package com.xliic.openapi.report.task;
 
+import static com.xliic.openapi.OpenApiBundle.message;
+import static com.xliic.openapi.OpenApiUtils.getJsonAST;
+import static com.xliic.openapi.OpenApiUtils.getStatus;
+
+import java.io.IOException;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.application.ApplicationInfo;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
@@ -10,15 +19,14 @@ import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.ResponseStatus;
 import com.xliic.openapi.services.AuditService;
-import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-
-import static com.xliic.openapi.OpenApiBundle.message;
-import static com.xliic.openapi.OpenApiUtils.getJsonAST;
-import static com.xliic.openapi.OpenApiUtils.getStatus;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class AuditTask extends Task.Backgroundable {
 
@@ -34,8 +42,8 @@ public class AuditTask extends Task.Backgroundable {
     private final String text;
     private final AuditActionCallback callback;
 
-    public AuditTask(@Nullable Project project, @Nullable String token, @Nullable String fileName,
-            @Nullable String text, @Nullable AuditActionCallback callback) {
+    public AuditTask(@Nullable Project project, @Nullable String token, @Nullable String fileName, @Nullable String text,
+            @Nullable AuditActionCallback callback) {
         super(project, OpenApiBundle.message("openapi.audit.report.progress.title"), false);
         this.project = project;
         this.token = token;
@@ -57,28 +65,21 @@ public class AuditTask extends Task.Backgroundable {
                 if (getStatus(node) == ResponseStatus.IN_PROGRESS) {
                     progressIndicator.setText(message("openapi.audit.token.progress.indicator.wait"));
                     retry(node);
-                }
-                else if (getStatus(node) == ResponseStatus.PROCESSED) {
+                } else if (getStatus(node) == ResponseStatus.PROCESSED) {
                     callback.setDone(node, false);
-                }
-                else if (response.code() == 403) {
+                } else if (response.code() == 403) {
                     callback.reject(message("openapi.error.response.403"));
-                }
-                else if (response.code() == 429) {
+                } else if (response.code() == 429) {
                     callback.reject(message("openapi.error.response.429"));
-                }
-                else {
+                } else {
                     callback.reject(message("openapi.error.response.unexpected", text));
                 }
-            }
-            else {
+            } else {
                 callback.reject(message("openapi.error.token.response.empty"));
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             callback.reject(message("openapi.error.unexpected", e.getMessage()));
-        }
-        finally {
+        } finally {
             AuditService.getInstance(project).notifyTaskComplete();
         }
     }
@@ -95,8 +96,7 @@ public class AuditTask extends Task.Backgroundable {
                     callback.setDone(node, false);
                     return;
                 }
-            }
-            else {
+            } else {
                 callback.reject(message("openapi.error.token.response.empty"));
                 return;
             }
@@ -111,26 +111,15 @@ public class AuditTask extends Task.Backgroundable {
     private static Request getSubmitAuditRequest(String token, String fileName, String text) {
 
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("specfile", fileName,
-                        RequestBody.create(text, MediaType.parse("application/json")))
-                .build();
+                .addFormDataPart("specfile", fileName, RequestBody.create(text, MediaType.parse("application/json"))).build();
 
-        return new Request.Builder()
-                .url(ASSESS_URL)
-                .method("POST", body)
-                .addHeader("X-API-TOKEN", token)
-                .addHeader("Accept", "application/json")
-                .addHeader("User-Agent", USER_AGENT)
-                .build();
+        return new Request.Builder().url(ASSESS_URL).method("POST", body).addHeader("X-API-TOKEN", token).addHeader("Accept", "application/json")
+                .addHeader("User-Agent", USER_AGENT).build();
     }
 
     private static Request getRetryAuditRequest(String token, String apiToken) {
 
-        return new Request.Builder()
-                .url(ASSESS_URL + "?token=" + token)
-                .addHeader("X-API-TOKEN", apiToken)
-                .addHeader("Accept", "application/json")
-                .addHeader("User-Agent", USER_AGENT)
-                .build();
+        return new Request.Builder().url(ASSESS_URL + "?token=" + token).addHeader("X-API-TOKEN", apiToken).addHeader("Accept", "application/json")
+                .addHeader("User-Agent", USER_AGENT).build();
     }
 }

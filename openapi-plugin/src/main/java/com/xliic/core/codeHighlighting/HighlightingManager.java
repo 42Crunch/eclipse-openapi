@@ -29,6 +29,7 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleHighlightingPassFactory;
+import com.xliic.openapi.platform.dictionary.DictionaryHighlightingPassFactory;
 import com.xliic.openapi.report.ReportHighlightingPassFactory;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
@@ -54,6 +55,7 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
         markersBinding = new HashMap<>();
         new BundleHighlightingPassFactory().registerHighlightingPassFactory(this, project);
         new ReportHighlightingPassFactory().registerHighlightingPassFactory(this, project);
+        new DictionaryHighlightingPassFactory().registerHighlightingPassFactory(this, project);
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(this, 1000, 1000, TimeUnit.MILLISECONDS);
         auditService = AuditService.getInstance(project);
@@ -79,9 +81,8 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
     }
 
     @Override
-    public int registerTextEditorHighlightingPass(@NotNull TextEditorHighlightingPassFactory factory,
-            final int[] runAfterCompletionOf, int[] runAfterStartingOf, boolean runIntentionsPassAfter,
-            int forcedPassId) {
+    public int registerTextEditorHighlightingPass(@NotNull TextEditorHighlightingPassFactory factory, final int[] runAfterCompletionOf,
+            int[] runAfterStartingOf, boolean runIntentionsPassAfter, int forcedPassId) {
         factories.add(factory);
         return -1;
     }
@@ -183,8 +184,7 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
         }
     }
 
-    private void updateMarkers(Editor editor, VirtualFile file, Set<Marker> newMarkers,
-            Map<String, List<IntentionAction>> actions) {
+    private void updateMarkers(Editor editor, VirtualFile file, Set<Marker> newMarkers, Map<String, List<IntentionAction>> actions) {
         Set<Marker> myMarkers = markers.get(file);
         if (myMarkers == null) {
             markers.put(file, new HashSet<>());

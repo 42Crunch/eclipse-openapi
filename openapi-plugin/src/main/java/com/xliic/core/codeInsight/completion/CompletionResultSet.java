@@ -7,37 +7,53 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.codeInsight.lookup.LookupElement;
-import com.xliic.openapi.editor.OpenAPICompletionProposal;
 
 public class CompletionResultSet {
 
-    private final int offset;
+    private CompletionSorter sorter;
     private final List<LookupElement> elements;
 
-    public CompletionResultSet(int offset) {
-        this.offset = offset;
+    public CompletionResultSet() {
+        sorter = null;
         elements = new LinkedList<>();
     }
 
-    public int geOffset() {
-        return offset;
+    public CompletionResultSet withRelevanceSorter(@NotNull CompletionSorter sorter) {
+        this.sorter = sorter;
+        return this;
     }
 
     public void addElement(@NotNull LookupElement element) {
-        elements.add(element);
+        if (isSubstringFoundOrderedInString(element.getFilterPrefix(), element.getDisplayString())) {
+            elements.add(element);
+        }
     }
 
     public ICompletionProposal[] getCompletionProposals() {
-        ICompletionProposal[] completionProposals = new ICompletionProposal[elements.size()];
-        for (int i = 0 ; i < elements.size(); i++) {
-            LookupElement le = elements.get(i);
-            String element = le.getElement();
-            completionProposals[i] = new OpenAPICompletionProposal(element, offset, 0, element.length());
+        int size = elements.size();
+        ICompletionProposal[] proposals = new ICompletionProposal[size];
+        if (size > 1 && sorter != null) {
+            elements.sort(sorter);
         }
-        return completionProposals;
+        for (int i = 0; i < size; i++) {
+            LookupElement element = elements.get(i);
+            proposals[i] = new CompletionProposal(element);
+        }
+        return proposals;
     }
 
-    public @NotNull PrefixMatcher getPrefixMatcher() {
-        return new PrefixMatcher();
+    private static boolean isSubstringFoundOrderedInString(String subString, String string) {
+        int lastIndex = 0;
+        subString = subString.toLowerCase();
+        string = string.toLowerCase();
+        for (Character c : subString.toCharArray()) {
+            int index = string.indexOf(c, lastIndex);
+            if (index < 0) {
+                return false;
+            } else {
+                lastIndex = index + 1;
+            }
+        }
+        return true;
     }
 }

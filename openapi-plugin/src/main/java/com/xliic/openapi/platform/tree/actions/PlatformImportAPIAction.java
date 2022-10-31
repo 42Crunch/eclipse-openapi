@@ -1,5 +1,8 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.fileChooser.FileChooserDescriptor;
@@ -7,9 +10,9 @@ import com.xliic.core.fileChooser.FileChooserFactory;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleError;
@@ -17,8 +20,6 @@ import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
 
 public class PlatformImportAPIAction extends AnJAction implements DumbAware {
 
@@ -35,10 +36,10 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
 
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
-        FileChooserDescriptor descriptor = new FileChooserDescriptor(
-                true, false, false, false, false, false).withFileFilter(new String[] {"*.json;*.yaml;*.yml"});
-        VirtualFile[] choose = FileChooserFactory.getInstance().createFileChooser(
-                descriptor, project, getText(), null).choose(null, VirtualFile.EMPTY_ARRAY);
+        FileChooserDescriptor descriptor = new FileChooserDescriptor(true, false, false, false, false, false)
+                .withFileFilter(new String[] { "*.json;*.yaml;*.yml" });
+        VirtualFile[] choose = FileChooserFactory.getInstance().createFileChooser(descriptor, project, getText(), null).choose(null,
+                VirtualFile.EMPTY_ARRAY);
         if (choose.length == 1) {
             VirtualFile file = choose[0];
             if (OpenApiUtils.isOpenAPIFileType(file)) {
@@ -56,8 +57,7 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
                             name = file.getName();
                             name = name.substring(0, name.lastIndexOf('.'));
                         }
-                        PlatformAPIs.createAPI(collectionId, name, text,
-                                new PlatformImportAPICallback(project, tree, collectionId, name));
+                        PlatformAPIs.createAPI(collectionId, name, text, new PlatformImportAPICallback(project, tree, collectionId, name));
                     }
                 } else {
                     SwingUtilities.invokeLater(() -> {

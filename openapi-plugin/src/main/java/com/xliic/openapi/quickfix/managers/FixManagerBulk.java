@@ -11,9 +11,9 @@ import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.replace.ReplaceManager;
 import com.xliic.openapi.parser.replace.Replacement;
+import com.xliic.openapi.quickfix.FixIssueItem;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixParameter;
-import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.report.Issue;
 
@@ -74,11 +74,6 @@ public class FixManagerBulk extends FixManager {
     }
 
     @Override
-    public FixType getType() {
-        return quickFix.getType();
-    }
-
-    @Override
     public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
         for (Issue issue : issues) {
             if (pointer.equals(issue.getPointer()) && label.equals(issue.getHighlightInfoLabel())) {
@@ -91,7 +86,7 @@ public class FixManagerBulk extends FixManager {
     private FixItem getFixItemForIssue(Issue issue) {
         String pointer = getAbsolutePointer(issue.getPointer(), quickFix.getPointer());
         if (parameters.isEmpty()) {
-            return new FixItem(issue, pointer, text);
+            return new FixIssueItem(issue, pointer, text, quickFix.getType());
         }
         OpenApiVersion version = getOpenApiVersion(issue.getAuditFileName(), psiFile.getProject());
         BundleResult bundle = getBundle(issue.getAuditFileName(), psiFile.getProject());
@@ -104,7 +99,7 @@ public class FixManagerBulk extends FixManager {
             }
         }
         if (!replacements.isEmpty() && (parameters.size() == replacements.size())) {
-            return new FixItem(issue, pointer, ReplaceManager.replace(text, replacements, isJson));
+            return new FixIssueItem(issue, pointer, ReplaceManager.replace(text, replacements, isJson), quickFix.getType());
         }
         return null;
     }

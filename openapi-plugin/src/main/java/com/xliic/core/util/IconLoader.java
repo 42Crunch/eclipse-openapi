@@ -8,7 +8,7 @@ import com.xliic.openapi.OpenAPIImages;
 public class IconLoader {
 
     @NotNull
-    public static Icon findIcon(@NotNull String path) {
+    public static Icon findIcon(@NotNull String path, @NotNull Class<?> aClass) {
         if (path.startsWith("/icons/property")) {
             return new Icon(OpenAPIImages.PropertyNode);
         } else if (path.startsWith("/icons/add")) {
@@ -61,7 +61,14 @@ public class IconLoader {
             return new Icon(OpenAPIImages.Reset);
         } else if (path.startsWith("/icons/text")) {
             return new Icon(OpenAPIImages.File);
+        } else if (path.startsWith("/icons/platform-data-dictionary")) {
+            return new Icon(OpenAPIImages.Dictionary);
         }
         return new Icon(ImageDescriptor.getMissingImageDescriptor());
+    }
+
+    @NotNull
+    public static Icon findIcon(@NotNull String path) {
+        return findIcon(path, IconLoader.class);
     }
 }

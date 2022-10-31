@@ -24,5 +24,6 @@ public class JPanel implements JComponent {
         return group;
     }
 
-    public void setBorder(Object border) {}
+    public void setBorder(Object border) {
+    }
 }

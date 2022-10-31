@@ -1,49 +1,32 @@
 package com.xliic.openapi.editor;
 
+import static com.xliic.core.codeInsight.completion.CompletionProposal.NS;
+
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.codeInsight.completion.CompletionParameters;
 import com.xliic.core.codeInsight.completion.CompletionResultSet;
+import com.xliic.core.codeInsight.completion.CompletionSorter;
+import com.xliic.core.codeInsight.lookup.LookupElement;
 import com.xliic.core.codeInsight.lookup.LookupElementBuilder;
-import com.xliic.core.editor.Editor;
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiTargetMapping;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.services.ASTService;
-import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import icons.OpenApiIcons;
 
 public class CompletionHelper {
 
-    private final static String NUMBER_SIGN = "#";
+    private static final CompletionSorter SORTER = new CompletionSorter();
 
-    public static void updateResultSet(Editor editor, @NotNull CompletionResultSet resultSet) {
-
-        Project project = editor.getProject();
-        if (project == null) {
-            return;
-        }
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
-        if (file == null) {
-            return;
-        }
-        ASTService astService = ASTService.getInstance(project);
-        if (!astService.isKnownOpenAPIFile(file.getPath())) {
-            return;
-        }
-        Node root = astService.getRootNode(file);
-        if (root == null) {
-            return;
-        }
-        int offset = resultSet.geOffset();
-        Node node = root.findNodeAtOffset(offset);
-        if ((node == null) || !OpenApiUtils.REF.equals(node.getKey())) {
-            return;
-        }
-        OpenApiVersion version = ASTService.getOpenAPIVersion(project, file);
+    public static void updateResultSet(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet resultSet) {
+        Node root = parameters.getRoot();
+        Node node = parameters.getTarget();
+        OpenApiVersion version = parameters.getVersion();
         Map<String, String> mapping = OpenApiTargetMapping.getTargetMapping(version);
         String target = null;
         Node parent = node.getParent();
@@ -62,19 +45,16 @@ public class CompletionHelper {
         if ((targetNode == null) || targetNode.getChildren().isEmpty()) {
             return;
         }
-        OpenApiFileType type = OpenApiUtils.getFileType(file);
+        int offset = parameters.getOffset();
+        String prefix = parameters.getPrefix();
         Map<String, String> typeTextMapping = OpenApiTargetMapping.getTargetTypeTextMapping(version);
         String typeText = typeTextMapping.get(target);
-
-        String prefix = resultSet.getPrefixMatcher().getPrefix().toLowerCase();
+        OpenApiFileType type = OpenApiUtils.getFileType(parameters.getFile().getPath());
+        LookupElement.FileType fileType = LookupElement.convertToLookupElementFileType(type);
         for (Node child : targetNode.getChildren()) {
-            String element = NUMBER_SIGN + child.getJsonPointer();
-            if (element.toLowerCase().startsWith(prefix)) {
-                resultSet.addElement(LookupElementBuilder.create(element).
-                        withIcon(OpenApiIcons.PropertyNode).withTypeText(typeText).
-                        withInsertHandler((type == OpenApiFileType.Json) ?
-                                new JsonInsertHandler() : new YamlInsertHandler()));
-            }
+            LookupElementBuilder builder = LookupElementBuilder.create(NS + child.getJsonPointer()).withIcon(OpenApiIcons.PropertyNode)
+                    .withTypeText(typeText).withFileType(fileType).withOffset(offset).withPrefix(prefix).withFilterPrefix(prefix);
+            resultSet.withRelevanceSorter(SORTER).addElement(builder);
         }
     }
 }

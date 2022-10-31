@@ -1,5 +1,9 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -7,9 +11,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
 import com.xliic.openapi.services.PlatformService;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class PlatformRemoveFromFavoriteAction extends AnJAction implements DumbAware {
 

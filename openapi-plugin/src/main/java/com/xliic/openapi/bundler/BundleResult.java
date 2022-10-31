@@ -1,18 +1,9 @@
 package com.xliic.openapi.bundler;
 
-import com.xliic.common.Workspace;
-import com.xliic.common.WorkspaceContent;
-import com.xliic.common.WorkspaceException;
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.parser.ast.ParserJsonAST;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.services.ExtRefService;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
+import static com.xliic.openapi.ExtRef.isExtRef;
+import static com.xliic.openapi.OpenApiBundle.message;
+import static com.xliic.openapi.OpenApiUtils.getOpenAPIVersion;
+import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,10 +18,20 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.xliic.openapi.ExtRef.isExtRef;
-import static com.xliic.openapi.OpenApiBundle.message;
-import static com.xliic.openapi.OpenApiUtils.getOpenAPIVersion;
-import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.common.Workspace;
+import com.xliic.common.WorkspaceContent;
+import com.xliic.common.WorkspaceException;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.ExtRef;
+import com.xliic.openapi.OpenApiVersion;
+import com.xliic.openapi.parser.ast.ParserJsonAST;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.ExtRefService;
 
 public class BundleResult {
 
@@ -52,7 +53,7 @@ public class BundleResult {
         this.project = project;
         this.rootFileName = rootFileName;
         bundleNode = null;
-        final URI workspaceUri =  Paths.get(rootFileName).getParent().toUri();
+        final URI workspaceUri = Paths.get(rootFileName).getParent().toUri();
 
         Workspace workspace = new Workspace() {
 
@@ -67,8 +68,7 @@ public class BundleResult {
                 // URI() constructor will handle the special chars
                 try {
                     return workspaceUri.resolve(new URI(null, filename, null));
-                }
-                catch (URISyntaxException e) {
+                } catch (URISyntaxException e) {
                     throw new IllegalArgumentException(e.getMessage(), e);
                 }
             }
@@ -93,12 +93,10 @@ public class BundleResult {
                         } else {
                             throw new WorkspaceException("Downloaded file " + uri + " not found, please reload remote references");
                         }
-                    }
-                    else {
+                    } else {
                         throw new WorkspaceException(message("openapi.ref.not.approved", uri.getAuthority()));
                     }
-                }
-                else {
+                } else {
                     final String fileName = uri.getPath();
                     VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
                     if (file == null) {
@@ -131,8 +129,7 @@ public class BundleResult {
                 version = getOpenAPIVersion(bundleNode);
                 bundleNode = null;
             }
-        }
-        catch (IOException | URISyntaxException | InterruptedException | BundlingException | WorkspaceException e) {
+        } catch (IOException | URISyntaxException | InterruptedException | BundlingException | WorkspaceException e) {
             exception = e;
         }
     }
@@ -163,8 +160,8 @@ public class BundleResult {
         for (URI uri : externalURIs) {
             try {
                 activeURLs.add(uri.toURL().toString());
+            } catch (MalformedURLException ignored) {
             }
-            catch (MalformedURLException ignored) {}
         }
         return activeURLs;
     }
@@ -194,8 +191,7 @@ public class BundleResult {
                     result.add(new BundleError(rootFileName, file.getPath(), failure.sourcePointer, msg));
                 }
             }
-        }
-        else {
+        } else {
             result = Collections.emptySet();
         }
         return result;
@@ -203,16 +199,15 @@ public class BundleResult {
 
     public BundleLocation getBundleLocation(String pointer) {
         try {
-            // For pointers to entities in the main file which don't resolve to an external file, return null
+            // For pointers to entities in the main file which don't resolve to an external
+            // file, return null
             Mapping.Location location = mapping.find(pointer);
             if (location == null) {
                 return new BundleLocation(rootFileName, pointer);
-            }
-            else {
+            } else {
                 return new BundleLocation(project, rootFileName, location.uri, location.pointer);
             }
-        }
-        catch (UnsupportedEncodingException exception) {
+        } catch (UnsupportedEncodingException exception) {
             return new BundleLocation();
         }
     }
@@ -235,8 +230,8 @@ public class BundleResult {
                     return false;
                 }
             }
+        } catch (MalformedURLException ignored) {
         }
-        catch (MalformedURLException ignored) {}
         return true;
     }
 }

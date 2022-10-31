@@ -37,8 +37,8 @@ public class Issue {
     private Range range;
     private RangeMarker rangeMarker;
 
-    public Issue(Project project, String auditFileName, String id, String description, String bundlePointer,
-            float score, int criticality, boolean platform) {
+    public Issue(Project project, String auditFileName, String id, String description, String bundlePointer, float score, int criticality,
+            boolean platform) {
 
         this.id = id;
         this.description = description;
@@ -55,8 +55,7 @@ public class Issue {
         BundleLocation errorLocation;
         if (platform) {
             errorLocation = new BundleLocation(auditFileName, bundlePointer);
-        }
-        else {
+        } else {
             BundleService bundleService = BundleService.getInstance(project);
             BundleResult bundleResult = bundleService.getBundle(auditFileName);
             errorLocation = bundleResult.getBundleLocation(bundlePointer);
@@ -188,8 +187,7 @@ public class Issue {
     }
 
     public String getHighlightInfoLabel() {
-        return getDescription() + " in " + getAuditOfString()
-        + ("0".equals(displayScore) ? "" : " (score impact " + displayScore + ")");
+        return getDescription() + " in " + getAuditOfString() + ("0".equals(displayScore) ? "" : " (score impact " + displayScore + ")");
     }
 
     public String getLabelLocation() {

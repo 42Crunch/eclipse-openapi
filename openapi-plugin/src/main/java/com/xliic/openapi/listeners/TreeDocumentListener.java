@@ -22,9 +22,12 @@ public class TreeDocumentListener extends DocumentListener {
         fileDocumentManager = FileDocumentManager.getInstance();
     }
 
-    @Override public void beforeDocumentChange(@NotNull DocumentEvent event) {}
+    @Override
+    public void beforeDocumentChange(@NotNull DocumentEvent event) {
+    }
 
-    @Override public void documentChanged(@NotNull DocumentEvent event) {
+    @Override
+    public void documentChanged(@NotNull DocumentEvent event) {
         VirtualFile file = fileDocumentManager.getFile(event.getDocument());
         if (file != null) {
             astService.runAsyncTask(project, AsyncTaskType.DOCUMENT_CHANGED, file);

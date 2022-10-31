@@ -1,17 +1,21 @@
 package com.xliic.openapi.parser.ast;
 
-import org.jetbrains.annotations.NotNull;
-import org.snakeyaml.engine.v2.exceptions.Mark;
-import org.snakeyaml.engine.v2.nodes.*;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
+import org.snakeyaml.engine.v2.exceptions.Mark;
+import org.snakeyaml.engine.v2.nodes.MappingNode;
+import org.snakeyaml.engine.v2.nodes.Node;
+import org.snakeyaml.engine.v2.nodes.NodeTuple;
+import org.snakeyaml.engine.v2.nodes.ScalarNode;
+import org.snakeyaml.engine.v2.nodes.SequenceNode;
+
 public class Range implements Comparable<Range> {
 
-    // LF  (NL line feed, new line)
+    // LF (NL line feed, new line)
     public static final int ASCII_LF = 10;
-    // CR  (carriage return)
+    // CR (carriage return)
     public static final int ASCII_CR = 13;
 
     private final int line;
@@ -80,24 +84,20 @@ public class Range implements Comparable<Range> {
     public static Range getValueRange(Object entry, boolean isJson) {
         if (entry instanceof NodeTuple) {
             return getRangeFromNode(((NodeTuple) entry).getValueNode(), true);
-        }
-        else if (entry instanceof MappingNode) {
+        } else if (entry instanceof MappingNode) {
             MappingNode node = (MappingNode) entry;
             List<NodeTuple> children = node.getValue();
             if (children.isEmpty() || isJson) {
                 return getRangeFromNode(node, !isJson);
-            }
-            else {
+            } else {
                 return getRangeFromNodes(node, children.get(children.size() - 1).getValueNode());
             }
-        }
-        else if (entry instanceof SequenceNode) {
+        } else if (entry instanceof SequenceNode) {
             SequenceNode node = (SequenceNode) entry;
             List<Node> children = node.getValue();
             if (children.isEmpty() || isJson) {
                 return getRangeFromNode(node, !isJson);
-            }
-            else {
+            } else {
                 return getRangeFromNodes(node, children.get(children.size() - 1));
             }
         }
@@ -169,7 +169,7 @@ public class Range implements Comparable<Range> {
     private static boolean hasCRLF(Mark mark) {
         int ch;
         int[] buffer = mark.getBuffer();
-        for(int i = 0 ; i < buffer.length ; i++) {
+        for (int i = 0; i < buffer.length; i++) {
             ch = buffer[i];
             if (ch == ASCII_LF) {
                 return false;

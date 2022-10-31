@@ -1,10 +1,29 @@
 package com.xliic.openapi.services;
 
+import static com.xliic.openapi.OpenApiUtils.getFileType;
+import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
+import static com.xliic.openapi.listeners.OpenApiFileEditorManagerListener.IS_FIRST_SELECTION_KEY;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
+import com.xliic.core.fileEditor.FileEditorManager;
+import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.jsonSchema.ide.JsonSchemaService;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
@@ -19,16 +38,10 @@ import com.xliic.openapi.parser.ast.ParserAST;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.ParserYamlAST;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.topic.FileListener;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
-
-import static com.xliic.openapi.OpenApiUtils.getFileType;
-import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
 
 public class ASTService extends AsyncService implements IASTService, Disposable {
 
@@ -54,13 +67,12 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     @SuppressWarnings("serial")
     public ASTService(@NotNull Project project) {
         super(project, DELAY, INIT_DELAY);
-        this.cache = Collections.synchronizedMap(
-                new LinkedHashMap<>(CACHE_CAPACITY + 1, 1.0f, true) {
-                    @Override
-                    public boolean removeEldestEntry(Map.Entry<String, Node> entry) {
-                        return size() > CACHE_CAPACITY;
-                    }
-                });
+        this.cache = Collections.synchronizedMap(new LinkedHashMap<>(CACHE_CAPACITY + 1, 1.0f, true) {
+            @Override
+            public boolean removeEldestEntry(Map.Entry<String, Node> entry) {
+                return size() > CACHE_CAPACITY;
+            }
+        });
         versionCache = new HashMap<>();
         astListenersMap = new HashMap<>();
         knownOpenAPIFiles = new HashSet<>();
@@ -118,6 +130,25 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
 
     @Override
     protected void selectionChanged(AsyncTask task) {
+        treeDfs(task);
+        Object value = task.get(IS_FIRST_SELECTION_KEY);
+        boolean isFirstSelection = value != null && (Boolean) value;
+        if (isFirstSelection) {
+            // If there are two opened file tabs A & B, B selected and IDE gets restarted
+            // After restart IDE fires selection event for A, although later B is selected
+            // The task contains file A, the call below returns real file selected B
+            VirtualFile file = OpenApiUtils.getSelectedFile(project);
+            if (file != null && !file.getPath().equals(task.getFile().getPath())) {
+                ApplicationManager.getApplication().invokeLater(() -> {
+                    // If then user select A no event fires as IDE still thinks A is active
+                    // So here we force reselection of B to tell IDE that B is really selected now
+                    // This will trigger correct selection event with B file in the task
+                    OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(project, file);
+                    FileEditorManager.getInstance(project).openEditor(fileDescriptor, true);
+                });
+                return;
+            }
+        }
         ApplicationManager.getApplication().invokeLater(() -> {
             if (!project.isDisposed()) {
                 project.getMessageBus().syncPublisher(FileListener.TOPIC).handleSelectedFile(task.getFile());
@@ -173,10 +204,26 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         }
     }
 
+    @Override
+    protected void treeDfs(AsyncTask task) {
+        VirtualFile file = task.getFile();
+        Node root = cache.get(file.getPath());
+        if (root != null) {
+            dfsParsedTree(file.getPath(), root);
+            ApplicationManager.getApplication().invokeLater(() -> {
+                PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+                if (psiFile != null) {
+                    DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
+                }
+            });
+        }
+    }
+
     public void parse(@NotNull VirtualFile file, boolean documentChanged) {
         final String fileName = file.getPath();
         Node root = getRootNodeFromFile(fileName);
         putInCache(fileName, root);
+        dfsParsedTree(fileName, root);
         boolean updateSchemas = false;
         if (root != null) {
             OpenApiVersion version = OpenApiUtils.getOpenAPIVersion(root);
@@ -206,7 +253,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
                 DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
             }
             if (finalUpdateSchemas) {
-                // JsonSchemaService.Impl.get(project).reset();
+                JsonSchemaService.Impl.get(project).reset();
             }
             if (documentChanged && !project.isDisposed()) {
                 project.getMessageBus().syncPublisher(FileListener.TOPIC).handleDocumentChanged(file);
@@ -300,6 +347,35 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     public @NotNull OpenApiVersion getOpenAPIVersion(@NotNull String fileName) {
         OpenApiVersion version = versionCache.get(fileName);
         return (version == null) ? OpenApiVersion.Unknown : version;
+    }
+
+    private void dfsParsedTree(@NotNull String fileName, @Nullable Node root) {
+        if (PlatformConnection.isPlatformUsed()) {
+            DictionaryService ddService = DictionaryService.getInstance(project);
+            if (!ddService.getDictionaries().isEmpty()) {
+                if (root == null || (getOpenAPIVersion(fileName) == OpenApiVersion.Unknown)) {
+                    ddService.removeFormatNodes(fileName);
+                } else {
+                    List<Node> targets = new LinkedList<>();
+                    dfs(root, targets);
+                    if (targets.isEmpty()) {
+                        ddService.removeFormatNodes(fileName);
+                    } else {
+                        ddService.setFormatNodes(fileName, targets);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void dfs(Node node, List<Node> targets) {
+        if (DataFormat.FORMAT_KEY.equals(node.getKey()) && node.getTypedValue() instanceof String) {
+            targets.add(node);
+        } else {
+            for (Node child : node.getChildren()) {
+                dfs(child, targets);
+            }
+        }
     }
 
     @Override

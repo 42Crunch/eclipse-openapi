@@ -29,7 +29,7 @@ public final class TreePathUtil {
         }
     }
 
-    private static TreePath getTreePathFromSwingPath(Object [] segments) {
+    private static TreePath getTreePathFromSwingPath(Object[] segments) {
         if (segments.length <= 1) {
             return TreePath.EMPTY;
         }

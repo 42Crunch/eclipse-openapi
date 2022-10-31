@@ -1,8 +1,27 @@
 package com.xliic.openapi.settings;
 
-import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.platform.PlatformConnection;
+import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
+import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
+
+import java.net.URISyntaxException;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.swing.event.DocumentEvent;
+
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.module.Module;
 import com.xliic.core.options.Configurable;
@@ -18,32 +37,15 @@ import com.xliic.core.ui.components.JComponent;
 import com.xliic.core.ui.components.JPanel;
 import com.xliic.core.ui.components.JTextArea;
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.preview.PreviewCallback;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.services.PreviewService;
+import com.xliic.openapi.settings.SettingsKeys.Platform.Dictionary.PreAudit;
 import com.xliic.openapi.topic.SettingsListener;
-
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-
-import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.swing.event.DocumentEvent;
-
-import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
-import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_RENDERER_INDEX;
 
 public class AuditConfigurable extends SearchableConfigurable implements Configurable.NoScroll {
 
@@ -61,13 +63,15 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     private JTextField platformURLField;
     private JTextField apiKeyField;
     private JPanel platformPanel;
-
+    private JPanel dictPanel;
+    private JComboBox<String> preAuditComboBox;
     private boolean isTokenCleaned = false;
     private HostNameTableEditor hostsTableModelEditor;
     private final List<String> keysToNotify = new LinkedList<>();
 
     public AuditConfigurable() {
         super(null, DefaultProjectFactory.getInstance().getDefaultProject());
+
     }
 
     public AuditConfigurable(@NotNull Module module) {
@@ -82,11 +86,11 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         parent.setLayout(gridLayout);
         parent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        platformPanel =  new JPanel("42Crunch Platform Credentials", parent, SWT.NONE, 2);
+        platformPanel = new JPanel("42Crunch Platform Credentials", parent, SWT.NONE, 2);
 
         new Label(platformPanel.getComposite(), SWT.NULL).setText("Platform URL");
         platformURLField = new JTextField(platformPanel);
-        String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+        String platformURL = settings.getValue(SettingsKeys.PLATFORM);
         platformURLField.setText(StringUtils.isEmpty(platformURL) ? StringUtils.EMPTY : platformURL);
         platformURLField.addValidationListener(() -> {
             if (isPlatformSettingsEmpty()) {
@@ -120,6 +124,14 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
             }
         });
 
+        dictPanel = new JPanel("Data Dictionary", parent, SWT.NONE, 2);
+        new Label(dictPanel.getComposite(), SWT.NULL).setText("Update document to match Data Dictionary definitions before runing Security Audit");
+        preAuditComboBox = new JComboBox<>(dictPanel);
+        preAuditComboBox.insertItemAt(PreAudit.ASK, 0);
+        preAuditComboBox.insertItemAt(PreAudit.ALWAYS, 1);
+        preAuditComboBox.insertItemAt(PreAudit.NEVER, 2);
+        preAuditComboBox.setSelectedIndex(PreAudit.OPTIONS.indexOf(settings.getValue(PreAudit.KEY)));
+
         hostsPanel = new JPanel("Approved Hostnames", parent, SWT.NONE, 2);
         hostsTableModelEditor = new HostNameTableEditor(hostsPanel.getComposite());
 
@@ -150,7 +162,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         gd.widthHint = 90;
         cleanButton.setLayoutData(gd);
 
-        String tokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
+        String tokenText = settings.getValue(SettingsKeys.TOKEN);
         tokenTextArea.setText(StringUtils.isEmpty(tokenText) ? StringUtils.EMPTY : tokenText);
         tokenTextArea.setEnabled(true);
         tokenTextArea.getDocument().addDocumentListener(new DocumentAdapter() {
@@ -170,13 +182,13 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.0.settings"), 0);
         previewComboBox.insertItemAt(OpenApiBundle.message("openapi.settings.preview.item.1.settings"), 1);
 
-        int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
+        int rendererIndex = settings.getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
         previewComboBox.setSelectedIndex(rendererIndex);
 
-        int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
+        int port = settings.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
         serverPortTextField.setText(String.valueOf(port));
 
-        sortABC.setSelected(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
+        sortABC.setSelected(settings.getBoolean(SettingsKeys.ABC_SORT));
         return parent;
     }
 
@@ -206,6 +218,9 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         if (isTokenCleaned) {
             return true;
         }
+        if (preAuditComboBox.getSelectedIndex() != PreAudit.OPTIONS.indexOf(settings.getValue(PreAudit.KEY))) {
+            return true;
+        }
         if (hostsTableModelEditor.isDirty()) {
             return true;
         }
@@ -214,25 +229,24 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         }
 
         String configuredTokenText = getTokenText();
-        String currentTokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
+        String currentTokenText = settings.getValue(SettingsKeys.TOKEN);
         if (!Objects.equals(configuredTokenText, currentTokenText)) {
             return true;
         }
 
         int configuredIndex = previewComboBox.getSelectedIndex();
-        int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
+        int rendererIndex = settings.getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
         if (rendererIndex != configuredIndex) {
             return true;
         }
 
-        int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
+        int port = settings.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
         try {
             int configuredPort = Integer.parseInt(serverPortTextField.getText());
             if (PreviewUtils.isPortValid(configuredPort) && (port != configuredPort)) {
                 return true;
             }
-        }
-        catch(NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) {
             return false;
         }
 
@@ -240,20 +254,18 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
             return true;
         }
 
-        String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+        String platformURL = settings.getValue(SettingsKeys.PLATFORM);
         try {
             String configuredPlatformURL = platformURLField.getText();
             if (StringUtils.isEmpty(configuredPlatformURL)) {
                 return false;
-            }
-            else {
+            } else {
                 OpenApiUtils.getDomainName(configuredPlatformURL);
             }
             if (!Objects.equals(platformURL, configuredPlatformURL)) {
                 return true;
             }
-        }
-        catch (URISyntaxException ignored) {
+        } catch (URISyntaxException ignored) {
             return false;
         }
 
@@ -261,9 +273,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         String configuredPlatformAPIKey = apiKeyField.getText();
         if (StringUtils.isEmpty(configuredPlatformAPIKey)) {
             return false;
-        }
-        else if (PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
-                !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
+        } else if (PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) && !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
             return true;
         }
 
@@ -272,87 +282,93 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
 
     @Override
     public void reset() {
-        PropertiesComponent pc = PropertiesComponent.getInstance();
+        PropertiesComponent pc = settings;
         tokenTextArea.setText(pc.getValue(SettingsKeys.TOKEN));
         previewComboBox.setSelectedIndex(pc.getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX));
         serverPortTextField.setText(String.valueOf(pc.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT)));
         hostsTableModelEditor.reset();
-        sortABC.setSelected(PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT));
-        platformURLField.setText(PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM));
+        sortABC.setSelected(settings.getBoolean(SettingsKeys.ABC_SORT));
+        platformURLField.setText(settings.getValue(SettingsKeys.PLATFORM));
         apiKeyField.setText(getPlatformAPIKey());
+        preAuditComboBox.setSelectedIndex(PreAudit.OPTIONS.indexOf(settings.getValue(PreAudit.KEY)));
     }
 
     @Override
     public void apply() {
 
         if (isTokenCleaned) {
-            PropertiesComponent.getInstance().unsetValue(SettingsKeys.TOKEN);
-        }
-        else {
+            settings.unsetValue(SettingsKeys.TOKEN);
+        } else {
             String configuredTokenText = getTokenText();
-            String tokenText = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
+            String tokenText = settings.getValue(SettingsKeys.TOKEN);
             if (!Objects.equals(configuredTokenText, tokenText)) {
-                PropertiesComponent.getInstance().setValue(SettingsKeys.TOKEN, configuredTokenText);
+                settings.setValue(SettingsKeys.TOKEN, configuredTokenText);
             }
         }
 
         int configuredIndex = previewComboBox.getSelectedIndex();
-        int rendererIndex = PropertiesComponent.getInstance().getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
+        int rendererIndex = settings.getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX);
         if (rendererIndex != configuredIndex) {
-            PropertiesComponent.getInstance().setValue(PreviewKeys.RENDERER, configuredIndex, DEFAULT_RENDERER_INDEX);
+            settings.setValue(PreviewKeys.RENDERER, configuredIndex, DEFAULT_RENDERER_INDEX);
         }
 
-        int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
+        int port = settings.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
         try {
             int configuredPort = Integer.parseInt(serverPortTextField.getText());
             if (port != configuredPort) {
-                PropertiesComponent.getInstance().setValue(PreviewKeys.PORT, configuredPort, DEFAULT_SERVER_PORT);
-                PreviewService.getInstance().restartServer();
+                settings.setValue(PreviewKeys.PORT, configuredPort, DEFAULT_SERVER_PORT);
+                PreviewService previewService = PreviewService.getInstance();
+                if (previewService.isInitComplete()) {
+                    previewService.start(new PreviewCallback());
+                }
             }
-        }
-        catch(NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) {
         }
         hostsTableModelEditor.applyChanges();
         if (isSortABCModified()) {
-            PropertiesComponent.getInstance().setValue(SettingsKeys.ABC_SORT, sortABC.isSelected());
+            settings.setValue(SettingsKeys.ABC_SORT, sortABC.isSelected());
             notify(SettingsKeys.ABC_SORT);
         }
 
         if (isPlatformSettingsReset()) {
-            PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, "");
+            settings.setValue(SettingsKeys.PLATFORM, "");
             notify(SettingsKeys.PLATFORM);
             PlatformConnection.setPlatformAPIKey(null);
             notify(SettingsKeys.API_KEY);
-        }
-        else {
-            String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+        } else {
+            String platformURL = settings.getValue(SettingsKeys.PLATFORM);
             try {
                 String configuredPlatformURL = platformURLField.getText();
                 if (!StringUtils.isEmpty(configuredPlatformURL)) {
                     OpenApiUtils.getDomainName(configuredPlatformURL);
                     if (!Objects.equals(platformURL, configuredPlatformURL)) {
-                        PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, platformURLField.getText());
+                        settings.setValue(SettingsKeys.PLATFORM, platformURLField.getText());
                         notify(SettingsKeys.PLATFORM);
                     }
                 }
+            } catch (URISyntaxException ignored) {
             }
-            catch (URISyntaxException ignored) {}
 
             String platformAPIKey = getPlatformAPIKey();
             String configuredPlatformAPIKey = apiKeyField.getText();
-            if (!StringUtils.isEmpty(configuredPlatformAPIKey) &&
-                    PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey) &&
-                    !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
+            if (!StringUtils.isEmpty(configuredPlatformAPIKey) && PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey)
+                    && !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
                 PlatformConnection.setPlatformAPIKey(configuredPlatformAPIKey);
                 notify(SettingsKeys.API_KEY);
             }
         }
-
+        if (preAuditComboBox.getSelectedIndex() != PreAudit.OPTIONS.indexOf(settings.getValue(PreAudit.KEY))) {
+            settings.setValue(PreAudit.KEY, PreAudit.OPTIONS.get(preAuditComboBox.getSelectedIndex()));
+        }
         sendPropertiesUpdatedEvent();
     }
 
+    public void pointToServerPortComponent() {
+        serverPortTextField.forceFocus();
+    }
+
     private boolean isSortABCModified() {
-        boolean configuredSortABC = PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT);
+        boolean configuredSortABC = settings.getBoolean(SettingsKeys.ABC_SORT);
         return configuredSortABC != sortABC.isSelected();
     }
 
@@ -363,7 +379,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     private void sendPropertiesUpdatedEvent() {
         ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
         if (projectManager != null) {
-            Project [] projects = projectManager.getOpenProjects();
+            Project[] projects = projectManager.getOpenProjects();
             Set<String> keysSet = new HashSet<>(keysToNotify);
             if (keysSet.contains(SettingsKeys.PLATFORM) && keysSet.contains(SettingsKeys.API_KEY)) {
                 keysToNotify.remove(SettingsKeys.API_KEY);
@@ -387,7 +403,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
 
     private boolean isPlatformSettingsReset() {
         if (isPlatformSettingsEmpty()) {
-            String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+            String platformURL = settings.getValue(SettingsKeys.PLATFORM);
             return StringUtils.isNotEmpty(platformURL) && StringUtils.isNotEmpty(getPlatformAPIKey());
         }
         return false;
@@ -398,4 +414,3 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         return StringUtils.isEmpty(password) ? StringUtils.EMPTY : password;
     }
 }
-

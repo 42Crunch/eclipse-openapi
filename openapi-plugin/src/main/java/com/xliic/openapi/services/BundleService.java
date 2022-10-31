@@ -1,8 +1,19 @@
 package com.xliic.openapi.services;
 
-import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
+import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditorManager;
@@ -10,13 +21,13 @@ import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.ide.projectView.ProjectView;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectLocator;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.psi.PsiManager;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.async.AsyncService;
@@ -27,12 +38,6 @@ import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.listeners.BundleDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.api.IBundleService;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class BundleService extends AsyncService implements IBundleService, Disposable {
 
@@ -134,7 +139,8 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
     }
 
     @Override
-    protected void selectionChanged(AsyncTask task) {}
+    protected void selectionChanged(AsyncTask task) {
+    }
 
     @Override
     protected void beforeFileClosed(AsyncTask task) {
@@ -145,7 +151,8 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
     }
 
     @Override
-    protected void allFilesClosed(AsyncTask task) {}
+    protected void allFilesClosed(AsyncTask task) {
+    }
 
     @Override
     public void refactorRename(AsyncTask task) {
@@ -154,6 +161,10 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
             remove(oldFileName);
             beforeFileOpened(task);
         }
+    }
+
+    @Override
+    protected void treeDfs(AsyncTask task) {
     }
 
     @Override
@@ -200,12 +211,11 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
             }
         }
         String text = result.getJsonText();
-        ApplicationManager.getApplication().runReadAction((Computable<Void>)() -> {
+        ApplicationManager.getApplication().runReadAction((Computable<Void>) () -> {
             if (bundleResultMap.containsKey(rootFileName)) {
                 updateListeners(rootFileName, result.getBundledFiles());
                 clearBundleErrorsMap(rootFileName);
-            }
-            else {
+            } else {
                 bundleListenersMap.put(rootFileName, new HashMap<>());
                 addListeners(rootFileName, result.getBundledFiles());
             }
@@ -381,10 +391,8 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         BundleResult br = bundleResultMap.get(rootFileName);
         Set<BundleError> bundleErrors = br.getBundleErrors();
         if (bundleErrors.isEmpty()) {
-            Messages.showMessageDialog(project, br.getExceptionReason(),
-                    OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
-        }
-        else {
+            Messages.showMessageDialog(project, br.getExceptionReason(), OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
+        } else {
             BundleError be = (BundleError) bundleErrors.toArray()[0];
             VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(be.getSourceFileName()));
             if (file != null) {

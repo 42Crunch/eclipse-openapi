@@ -1,5 +1,6 @@
 package com.xliic.core.editor;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.editor.event.DocumentListener;
@@ -7,36 +8,40 @@ import com.xliic.core.util.TextRange;
 
 public interface Document {
 
-    public String getText();
+    String getText();
 
     @NotNull
-    public String getText(@NotNull TextRange range);
+    String getText(@NotNull TextRange range);
 
-    public void setReadOnly(boolean isReadOnly);
+    String getText(int offset, int length) throws BadLocationException;
 
-    public int getTextLength();
+    char getChar(int offset) throws BadLocationException;
 
-    public int getLineOffset(int line);
+    void setReadOnly(boolean isReadOnly);
 
-    public int getLineNumber(int offset);
+    int getTextLength();
 
-    public int getLineStartOffset(int lineNumber);
+    int getLineOffset(int line);
 
-    public int getLineEndOffset(int lineNumber);
+    int getLineNumber(int offset);
 
-    public void addDocumentListener(@NotNull DocumentListener listener);
+    int getLineStartOffset(int lineNumber);
 
-    public void removeDocumentListener(@NotNull DocumentListener listener);
+    int getLineEndOffset(int lineNumber);
 
-    public RangeMarker createRangeMarker(int startOffset, int endOffset);
+    void addDocumentListener(@NotNull DocumentListener listener);
 
-    public RangeMarker createRangeMarker(@NotNull TextRange textRange);
+    void removeDocumentListener(@NotNull DocumentListener listener);
 
-    public void insertString(int offset, @NotNull CharSequence s);
+    RangeMarker createRangeMarker(int startOffset, int endOffset);
 
-    public void deleteString(int startOffset, int endOffset);
+    RangeMarker createRangeMarker(@NotNull TextRange textRange);
 
-    public void replaceString(int startOffset, int endOffset, @NotNull CharSequence s);
+    void insertString(int offset, @NotNull CharSequence s);
 
-    public boolean hasCrLfEnding();
+    void deleteString(int startOffset, int endOffset);
+
+    void replaceString(int startOffset, int endOffset, @NotNull CharSequence s);
+
+    boolean hasCrLfEnding();
 }

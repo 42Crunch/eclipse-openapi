@@ -1,5 +1,12 @@
 package com.xliic.openapi.services;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
@@ -16,13 +23,6 @@ import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.task.AuditTask;
 import com.xliic.openapi.report.task.TokenTask;
 import com.xliic.openapi.services.api.IAuditService;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public final class AuditService implements IAuditService, Disposable {
 
@@ -67,21 +67,18 @@ public final class AuditService implements IAuditService, Disposable {
     public void sendAuditRequest(@NotNull String token, @NotNull String fileName, @NotNull AuditActionCallback callback) {
         if (taskInProgress) {
             callback.reject("Generating audit report for " + fileName + " in progress");
-        }
-        else {
+        } else {
             BundleService bundleService = BundleService.getInstance(project);
             BundleResult bundleResult = bundleService.getBundle(fileName);
             if (bundleResult == null) {
                 callback.reject("Failed to find bundle for " + fileName);
-            }
-            else {
+            } else {
                 taskInProgress = true;
                 try {
                     callback.setBeforeRequest();
                     String text = bundleResult.getJsonText();
                     ProgressManager.getInstance().run(new AuditTask(project, token, fileName, text, callback));
-                }
-                catch (Throwable any) {
+                } catch (Throwable any) {
                     notifyTaskComplete();
                 }
             }
@@ -92,8 +89,7 @@ public final class AuditService implements IAuditService, Disposable {
     public void sendGenerateTokenRequest(@NotNull String email, @NotNull EmailDialogDoOkActionCallback callback) {
         if (taskInProgress) {
             callback.reject("Generating token for " + email + " in progress");
-        }
-        else {
+        } else {
             taskInProgress = true;
             ProgressManager.getInstance().run(new TokenTask(project, email, callback));
         }

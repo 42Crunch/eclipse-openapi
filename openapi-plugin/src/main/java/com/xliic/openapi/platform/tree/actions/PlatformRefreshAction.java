@@ -1,13 +1,15 @@
 package com.xliic.openapi.platform.tree.actions;
 
-import com.xliic.core.icons.AllIcons;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
+import com.xliic.core.icons.AllIcons;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
-import org.jetbrains.annotations.NotNull;
+import com.xliic.openapi.services.DictionaryService;
 
 public class PlatformRefreshAction extends AnJAction implements DumbAware {
 
@@ -28,6 +30,8 @@ public class PlatformRefreshAction extends AnJAction implements DumbAware {
     @Override
     public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {
         anActionEvent.getPresentation().setEnabled(false);
+        DictionaryService ddService = DictionaryService.getInstance(project);
+        ddService.reload(true, false);
         PlatformUtils.reloadAll(project, tree);
     }
 }

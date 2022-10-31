@@ -38,8 +38,7 @@ public class PreviewUtils {
     public static boolean isPortValid(@NotNull String port) {
         try {
             return isPortValid(Integer.parseInt(port));
-        }
-        catch(NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) {
             return false;
         }
     }

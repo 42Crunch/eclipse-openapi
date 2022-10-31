@@ -37,9 +37,19 @@ public class ExtDocument implements Document {
     }
 
     @Override
+    public String getText(int offset, int length) throws BadLocationException {
+        return getText(new TextRange(offset, offset + length));
+    }
+
+    @Override
     @NotNull
     public String getText(@NotNull TextRange range) {
         return range.substring(getText());
+    }
+
+    @Override
+    public char getChar(int offset) throws BadLocationException {
+        return getText(offset, 1).toCharArray()[0];
     }
 
     @Override
@@ -73,10 +83,12 @@ public class ExtDocument implements Document {
     }
 
     @Override
-    public void addDocumentListener(@NotNull DocumentListener listener) {}
+    public void addDocumentListener(@NotNull DocumentListener listener) {
+    }
 
     @Override
-    public void removeDocumentListener(@NotNull DocumentListener listener) {}
+    public void removeDocumentListener(@NotNull DocumentListener listener) {
+    }
 
     @Override
     public RangeMarker createRangeMarker(int startOffset, int endOffset) {

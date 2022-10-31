@@ -1,11 +1,12 @@
 package com.xliic.openapi.platform.tree.node;
 
-import com.xliic.openapi.platform.tree.node.core.Filter;
-import com.xliic.openapi.platform.tree.node.core.Paginator;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import com.xliic.openapi.platform.tree.node.core.Filter;
+import com.xliic.openapi.platform.tree.node.core.Paginator;
 
 public class PlatformCollection implements Paginator, Filter {
 

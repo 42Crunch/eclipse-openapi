@@ -1,12 +1,13 @@
 package com.xliic.openapi.services.api;
 
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.codeInsight.editorActions.enter.EnterHandlerDelegate;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.editor.markup.RangeHighlighter;
 import com.xliic.openapi.quickfix.FixItem;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
 
 public interface IPlaceHolderService {
 

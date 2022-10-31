@@ -50,8 +50,8 @@ public class AuditConfigEmailDialogWrapper extends DialogWrapper {
         infoGridData.widthHint = 350;
         Label info = new Label(parent, SWT.WRAP);
         info.setLayoutData(infoGridData);
-        info.setText("Security Audit from 42Crunch runs ~200 checks for security best practices in your API. " +
-                "Eclipse needs an API key to use the service. Enter your email to receive the token.");
+        info.setText("Security Audit from 42Crunch runs ~200 checks for security best practices in your API. "
+                + "Eclipse needs an API key to use the service. Enter your email to receive the token.");
 
         String previousEmail = PropertiesComponent.getInstance().getValue(SettingsKeys.EMAIL);
         if (previousEmail != null && !previousEmail.isEmpty()) {

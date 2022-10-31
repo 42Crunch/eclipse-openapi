@@ -40,6 +40,10 @@ public class JTextField implements Validator {
         });
     }
 
+    public void forceFocus() {
+        textWidget.forceFocus();
+    }
+
     public void setEchoChar() {
         textWidget.setEchoChar('*');
     }

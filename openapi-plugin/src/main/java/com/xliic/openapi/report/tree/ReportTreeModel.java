@@ -1,11 +1,9 @@
 package com.xliic.openapi.report.tree;
 
-import com.xliic.core.fileEditor.FileEditor;
-import com.xliic.core.fileEditor.FileEditorManager;
-import com.xliic.core.project.Project;
-import com.xliic.core.ui.treeStructure.DefaultTreeModel;
-import com.xliic.openapi.report.tree.filter.FilterState;
-import com.xliic.openapi.report.tree.ui.ReportPanel;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -13,10 +11,12 @@ import javax.swing.tree.TreeNode;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import com.xliic.core.fileEditor.FileEditor;
+import com.xliic.core.fileEditor.FileEditorManager;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.treeStructure.DefaultTreeModel;
+import com.xliic.openapi.report.tree.filter.FilterState;
+import com.xliic.openapi.report.tree.ui.ReportPanel;
 
 public class ReportTreeModel extends DefaultTreeModel {
 
@@ -163,8 +163,8 @@ public class ReportTreeModel extends DefaultTreeModel {
 
     private boolean matchPatterString(String input, String patternToFind) {
         try {
-            Pattern pattern = filterState.isCaseSensitiveState() ?
-                    Pattern.compile(patternToFind) : Pattern.compile(patternToFind, Pattern.CASE_INSENSITIVE);
+            Pattern pattern = filterState.isCaseSensitiveState() ? Pattern.compile(patternToFind)
+                    : Pattern.compile(patternToFind, Pattern.CASE_INSENSITIVE);
             return pattern.matcher(input).find();
         } catch (PatternSyntaxException e) {
             return false;

@@ -1,5 +1,9 @@
 package com.xliic.openapi.listeners;
 
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.editor.Editor;
 import com.xliic.core.editor.event.EditorMouseEvent;
 import com.xliic.core.editor.event.EditorMouseEventArea;
@@ -7,9 +11,6 @@ import com.xliic.core.editor.event.EditorMouseListener;
 import com.xliic.core.editor.markup.RangeHighlighter;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.services.PlaceHolderService;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class PlaceHolderEditorMouseListener extends EditorMouseListener {
 

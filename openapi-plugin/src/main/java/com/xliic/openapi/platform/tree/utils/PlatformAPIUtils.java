@@ -1,5 +1,13 @@
 package com.xliic.openapi.platform.tree.utils;
 
+import java.util.List;
+import java.util.Objects;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.eclipse.jface.viewers.TreePath;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.ui.tree.TreeUtil;
@@ -10,18 +18,9 @@ import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.node.PlatformOAS;
 import com.xliic.openapi.services.PlatformService;
 
-import org.eclipse.jface.viewers.TreePath;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.List;
-import java.util.Objects;
-
 public class PlatformAPIUtils {
 
-    public static void addAll(@NotNull Project project,
-            @NotNull Tree tree,
-            @NotNull DefaultMutableTreeNode parentDMTN,
+    public static void addAll(@NotNull Project project, @NotNull Tree tree, @NotNull DefaultMutableTreeNode parentDMTN,
             @NotNull List<PlatformAPI> apis) {
         parentDMTN.removeAllChildren();
         for (PlatformAPI pao : apis) {
@@ -43,14 +42,8 @@ public class PlatformAPIUtils {
         TreeUtil.restoreExpandedPaths(tree, expandedPaths);
     }
 
-    public static void create(@NotNull Project project,
-            @NotNull Tree tree,
-            @NotNull String collectionId,
-            @NotNull String apiId,
-            @NotNull String name,
-            float grade,
-            boolean isValid,
-            boolean isJson) {
+    public static void create(@NotNull Project project, @NotNull Tree tree, @NotNull String collectionId, @NotNull String apiId, @NotNull String name,
+            float grade, boolean isValid, boolean isJson) {
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
         DefaultMutableTreeNode cloudCollections = model.getCloudCollections();
         DefaultMutableTreeNode favoriteCollections = model.getFavoriteCollections();

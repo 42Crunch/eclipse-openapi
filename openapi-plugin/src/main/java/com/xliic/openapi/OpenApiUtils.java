@@ -1,45 +1,9 @@
 package com.xliic.openapi;
 
-import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.editor.Document;
-import com.xliic.core.fileEditor.FileDocumentManager;
-import com.xliic.core.fileEditor.FileEditor;
-import com.xliic.core.fileEditor.FileEditorManager;
-import com.xliic.core.fileEditor.OpenFileDescriptor;
-import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.core.project.Project;
-import com.xliic.core.util.Computable;
-import com.xliic.core.util.EclipseUtil;
-import com.xliic.core.util.EclipseWorkbenchUtil;
-import com.xliic.core.util.Pair;
-import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.wm.ToolWindow;
-import com.xliic.core.wm.ToolWindowManager;
-import com.xliic.core.patterns.ElementPattern;
-import com.xliic.core.patterns.JsonElementPattern;
-import com.xliic.core.patterns.YamlElementPattern;
-import com.xliic.core.psi.PsiElement;
-import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
-import com.xliic.core.ui.Messages;
-import com.xliic.core.psi.LeafPsiElement;
-import com.xliic.core.util.SwingUtilities;
-import com.xliic.openapi.parser.ast.ParserJsonAST;
-import com.xliic.openapi.parser.ast.Range;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.report.ResponseStatus;
-import com.xliic.openapi.services.ASTService;
-import com.xliic.openapi.services.ExtRefService;
-import com.xliic.openapi.settings.SettingsKeys;
+import static com.xliic.openapi.OpenApiPanelKeys.OPENAPI_KEY;
+import static com.xliic.openapi.OpenApiPanelKeys.SWAGGER_KEY;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.ui.IWorkbenchPage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.*;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,8 +17,44 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static com.xliic.openapi.OpenApiPanelKeys.OPENAPI_KEY;
-import static com.xliic.openapi.OpenApiPanelKeys.SWAGGER_KEY;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.ui.IWorkbenchPage;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.editor.Document;
+import com.xliic.core.fileEditor.FileDocumentManager;
+import com.xliic.core.fileEditor.FileEditor;
+import com.xliic.core.fileEditor.FileEditorManager;
+import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.ide.util.PropertiesComponent;
+import com.xliic.core.patterns.ElementPattern;
+import com.xliic.core.patterns.JsonElementPattern;
+import com.xliic.core.patterns.YamlElementPattern;
+import com.xliic.core.project.Project;
+import com.xliic.core.psi.LeafPsiElement;
+import com.xliic.core.psi.PsiElement;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.psi.PsiManager;
+import com.xliic.core.ui.Messages;
+import com.xliic.core.util.Computable;
+import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.util.EclipseWorkbenchUtil;
+import com.xliic.core.util.Pair;
+import com.xliic.core.util.SwingUtilities;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.core.wm.ToolWindow;
+import com.xliic.core.wm.ToolWindowManager;
+import com.xliic.openapi.parser.ast.ParserJsonAST;
+import com.xliic.openapi.parser.ast.Range;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.report.ResponseStatus;
+import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.services.ExtRefService;
+import com.xliic.openapi.settings.SettingsKeys;
 
 public class OpenApiUtils {
 
@@ -72,8 +72,7 @@ public class OpenApiUtils {
     }
 
     public static String escape(String token) {
-        return token.replace("~", "~0").replace("/", "~1")
-                .replace("\\", "\\\\").replace("\"", "\\\"");
+        return token.replace("~", "~0").replace("/", "~1").replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
     public static String getRefTextFromPsiElement(@NotNull PsiElement psiElement) {
@@ -100,11 +99,9 @@ public class OpenApiUtils {
         if (document == null) {
             try {
                 return Files.readString(new File(file.getPath()).toPath());
+            } catch (Exception ignored) {
             }
-            catch (Exception ignored) {
-            }
-        }
-        else {
+        } else {
             return document.getText();
         }
         return null;
@@ -120,10 +117,8 @@ public class OpenApiUtils {
 
     public static String getTextFromFile(@NotNull String fileName, boolean inReadAction) {
         if (inReadAction) {
-            return ApplicationManager.getApplication().runReadAction(
-                    (Computable<String>) () -> getTextFromFile(new File(fileName)));
-        }
-        else {
+            return ApplicationManager.getApplication().runReadAction((Computable<String>) () -> getTextFromFile(new File(fileName)));
+        } else {
             return getTextFromFile(new File(fileName));
         }
     }
@@ -197,11 +192,9 @@ public class OpenApiUtils {
     public static OpenApiFileType getFileType(final String fileName) {
         if (StringUtils.isEmpty(fileName)) {
             return OpenApiFileType.Unsupported;
-        }
-        else if (Objects.equals(getFileLanguage(fileName), "json")) {
+        } else if (Objects.equals(getFileLanguage(fileName), "json")) {
             return OpenApiFileType.Json;
-        }
-        else if (Objects.equals(getFileLanguage(fileName), "yaml")) {
+        } else if (Objects.equals(getFileLanguage(fileName), "yaml")) {
             return OpenApiFileType.Yaml;
         }
         return OpenApiFileType.Unsupported;
@@ -211,8 +204,7 @@ public class OpenApiUtils {
         fileName = fileName.toLowerCase();
         if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
             return "yaml";
-        }
-        else if (fileName.endsWith(".json")) {
+        } else if (fileName.endsWith(".json")) {
             return "json";
         }
         return null;
@@ -227,8 +219,8 @@ public class OpenApiUtils {
         assert froms[0].equals(tos[0]);
 
         StringBuilder result = new StringBuilder();
-        for (int i = froms.length - 2 ; i >= 0 ; i--) {
-            for (int j = 0 ; j < tos.length - 1 ; j++) {
+        for (int i = froms.length - 2; i >= 0; i--) {
+            for (int j = 0; j < tos.length - 1; j++) {
                 final String t = tos[j];
                 if (froms[i].equals(t)) {
                     return result.append(to.substring(to.indexOf(t) + t.length() + 1)).toString();
@@ -241,11 +233,10 @@ public class OpenApiUtils {
 
     public static Set<String> getApprovedHostnames() {
         Set<String> result = new HashSet<>();
-        String [] hosts = PropertiesComponent.getInstance().getValues(SettingsKeys.HOSTS);
+        String[] hosts = PropertiesComponent.getInstance().getValues(SettingsKeys.HOSTS);
         if ((hosts == null) || (hosts.length == 0)) {
             return result;
-        }
-        else {
+        } else {
             for (String host : hosts) {
                 if (!StringUtils.isEmpty(host)) {
                     result.add(host);
@@ -258,8 +249,7 @@ public class OpenApiUtils {
     public static Node getJsonAST(@NotNull String text) {
         try {
             return new ParserJsonAST().parse(text);
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             return null;
         }
     }
@@ -273,8 +263,7 @@ public class OpenApiUtils {
             String key = child.getKey();
             if (SWAGGER_KEY.equals(key)) {
                 return OpenApiVersion.V2;
-            }
-            else if (OPENAPI_KEY.equals(key)) {
+            } else if (OPENAPI_KEY.equals(key)) {
                 String value = child.getValue().trim();
                 if (VERSION_V3_REGEXP.matcher(value).matches()) {
                     return OpenApiVersion.V3;
@@ -302,11 +291,10 @@ public class OpenApiUtils {
         if (ExtRef.isExtRef(ref)) {
             String url, pointer;
             if (ref.contains(REF_DELIMITER)) {
-                String [] parts = ref.split(REF_DELIMITER);
+                String[] parts = ref.split(REF_DELIMITER);
                 url = parts[0];
                 pointer = "/" + parts[1];
-            }
-            else {
+            } else {
                 url = ref;
                 pointer = "";
             }
@@ -323,7 +311,7 @@ public class OpenApiUtils {
         }
         // Usual file pointer reference
         else if (ref.contains(REF_DELIMITER)) {
-            String [] parts = ref.split(REF_DELIMITER);
+            String[] parts = ref.split(REF_DELIMITER);
             String refFileName = parts[0];
             String pointer = "/" + parts[1];
             // Internal file reference
@@ -362,33 +350,32 @@ public class OpenApiUtils {
         try {
             URL url = new URL(href);
             return FilenameUtils.getBaseName(url.getPath());
+        } catch (MalformedURLException ignored) {
         }
-        catch (MalformedURLException ignored) {}
         return defaultName;
     }
 
     public static void showErrorMessageDialog(@NotNull Project project, @NotNull String message) {
-        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, message,
-                OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+        SwingUtilities.invokeLater(
+                () -> Messages.showMessageDialog(project, message, OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
     }
 
     public static String getURI(String fileName) {
         return new File(fileName).toURI().toString();
     }
 
-    public static String getURI(VirtualFile file) {
-        return getURI(file.getPath());
+    @Nullable
+    public static String getURI(@Nullable VirtualFile file) {
+        return file == null ? null : getURI(file.getPath());
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {
         if (file == null) {
             return null;
-        }
-        else {
+        } else {
             if (strict) {
                 return (node == null) ? null : new Pair<>(file, node);
-            }
-            else {
+            } else {
                 return new Pair<>(file, node);
             }
         }

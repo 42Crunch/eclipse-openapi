@@ -1,5 +1,9 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import static com.xliic.openapi.OpenApiBundle.message;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -10,9 +14,6 @@ import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
-import org.jetbrains.annotations.NotNull;
-
-import static com.xliic.openapi.OpenApiBundle.message;
 
 public class PlatformDeleteCollectionAction extends AnJAction implements DumbAware {
 
@@ -24,10 +25,7 @@ public class PlatformDeleteCollectionAction extends AnJAction implements DumbAwa
     private final String collectionId;
     private final boolean isEmpty;
 
-    public PlatformDeleteCollectionAction(@NotNull Project project,
-            @NotNull Tree tree,
-            @NotNull String collectionId,
-            boolean isEmpty) {
+    public PlatformDeleteCollectionAction(@NotNull Project project, @NotNull Tree tree, @NotNull String collectionId, boolean isEmpty) {
         super("Delete", "Delete collection", null);
         this.project = project;
         this.tree = tree;
@@ -38,8 +36,7 @@ public class PlatformDeleteCollectionAction extends AnJAction implements DumbAwa
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
         if (isEmpty) {
-            final int rc = Messages.showOkCancelDialog(
-                    project, CONFIRM_MSG, "Confirm", "Yes", "Cancel", Messages.getQuestionIcon());
+            final int rc = Messages.showOkCancelDialog(project, CONFIRM_MSG, "Confirm", "Yes", "Cancel", Messages.getQuestionIcon());
             if (rc == Messages.OK) {
                 PlatformAPIs.deleteCollection(collectionId, new SuccessResponseCallback(project) {
                     @Override
@@ -49,8 +46,8 @@ public class PlatformDeleteCollectionAction extends AnJAction implements DumbAwa
                 });
             }
         } else {
-            SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, NOT_EMPTY_MSG,
-                    message("openapi.warning.title"), Messages.getWarningIcon()));
+            SwingUtilities.invokeLater(
+                    () -> Messages.showMessageDialog(project, NOT_EMPTY_MSG, message("openapi.warning.title"), Messages.getWarningIcon()));
         }
     }
 }

@@ -1,20 +1,27 @@
 package com.xliic.openapi.quickfix.schema;
 
-import com.google.gson.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.ParserAST;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.node.Node;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 public class SchemaUtils {
 
@@ -36,9 +43,7 @@ public class SchemaUtils {
         oneOf.add(schema);
     }
 
-    public static void updateRequiredList(@NotNull JsonObject properties,
-            @NotNull Node value,
-            @NotNull JsonArray required) {
+    public static void updateRequiredList(@NotNull JsonObject properties, @NotNull Node value, @NotNull JsonArray required) {
         for (Node child : value.getChildren()) {
             String key = child.getKey();
             int index = getIndex(required, key);
@@ -81,11 +86,11 @@ public class SchemaUtils {
         Object value = node.getTypedValue();
         if (value == null) {
             return "null";
-        } else if (value instanceof Integer) {
+        } else if (value instanceof BigInteger) {
             return "integer";
-        } else if (value instanceof Float) {
-            Float fValue = (Float) value;
-            if ((1.0 * fValue.intValue()) == fValue) {
+        } else if (value instanceof BigDecimal) {
+            float fValue = ((BigDecimal) value).floatValue();
+            if ((1.0 * (int) fValue) == fValue) {
                 return "integer";
             }
             return "number";
@@ -190,8 +195,7 @@ public class SchemaUtils {
                     List<Node> children = examples.getChildren();
                     if (children.size() == 1) {
                         Node child = children.get(0);
-                        if ("application/json".equals(child.getKey()) &&
-                                child.isObject() && child.getChildren().size() > 0) {
+                        if ("application/json".equals(child.getKey()) && child.isObject() && child.getChildren().size() > 0) {
                             return child;
                         }
                     }
@@ -202,7 +206,7 @@ public class SchemaUtils {
     }
 
     public static Node getSchemaV2Example(@NotNull String pointer, @NotNull Set<String> problem, @NotNull Node root) {
-        //noinspection SpellCheckingInspection
+        // noinspection SpellCheckingInspection
         if (problem.contains("schema-request-notype") || problem.contains("schema-response-notype")) {
             Node target = root.find(pointer);
             if ((target != null) && target.isObject() && "schema".equals(target.getKey())) {
@@ -219,8 +223,7 @@ public class SchemaUtils {
     }
 
     public static Node getSchemaV3Examples(@NotNull String pointer, @NotNull Set<String> problem, @NotNull Node root) {
-        if (problem.contains("v3-mediatype-request-schema-undefined") ||
-                problem.contains("v3-mediatype-response-schema-undefined")) {
+        if (problem.contains("v3-mediatype-request-schema-undefined") || problem.contains("v3-mediatype-response-schema-undefined")) {
             Node target = root.find(pointer);
             if ((target != null) && target.isObject() && "application/json".equals(target.getKey())) {
                 Node schema = null;
@@ -250,7 +253,7 @@ public class SchemaUtils {
     }
 
     public static Node getSchemaV3Example(@NotNull String pointer, @NotNull Set<String> problem, @NotNull Node root) {
-        //noinspection SpellCheckingInspection
+        // noinspection SpellCheckingInspection
         if (problem.contains("v3-schema-request-notype") || problem.contains("v3-schema-response-notype")) {
             Node target = root.find(pointer);
             if ((target != null) && target.isObject() && "schema".equals(target.getKey())) {
@@ -266,9 +269,7 @@ public class SchemaUtils {
         return null;
     }
 
-    public static JsonObject getSchemaFromAST(@NotNull PsiFile psiFile,
-            @NotNull Node genFrom,
-            @NotNull OpenApiVersion version) {
+    public static JsonObject getSchemaFromAST(@NotNull PsiFile psiFile, @NotNull Node genFrom, @NotNull OpenApiVersion version) {
         try {
             if (version == OpenApiVersion.V2) {
                 return getAndResolveSchemaFromAST(psiFile, genFrom);
@@ -319,8 +320,7 @@ public class SchemaUtils {
             Object value = node.getTypedValue();
             if (value instanceof String) {
                 String text = ((String) value).trim();
-                if ((text.startsWith("{") && text.endsWith("}")) ||
-                        (text.startsWith("[") && text.endsWith("]"))) {
+                if ((text.startsWith("{") && text.endsWith("}")) || (text.startsWith("[") && text.endsWith("]"))) {
                     try {
                         Node target = parser.parse(text);
                         if (target != null) {

@@ -1,9 +1,10 @@
 package com.xliic.openapi.listeners;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectManagerListener;
 import com.xliic.openapi.services.PlatformService;
-import org.jetbrains.annotations.NotNull;
 
 public class OpenAPIProjectManagerListener extends ProjectManagerListener {
 

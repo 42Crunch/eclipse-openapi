@@ -1,5 +1,15 @@
 package com.xliic.openapi.platform.tree.utils;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
+
+import org.eclipse.jface.viewers.TreePath;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
@@ -9,21 +19,9 @@ import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 import com.xliic.openapi.services.PlatformService;
 
-import org.eclipse.jface.viewers.TreePath;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
 public class PlatformCollectionUtils {
 
-    public static void addAll(@NotNull Project project,
-            @NotNull Tree tree,
-            @NotNull DefaultMutableTreeNode parentDMTN,
+    public static void addAll(@NotNull Project project, @NotNull Tree tree, @NotNull DefaultMutableTreeNode parentDMTN,
             @NotNull List<PlatformCollection> collections) {
 
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
@@ -96,10 +94,7 @@ public class PlatformCollectionUtils {
         }
     }
 
-    public static void create(@NotNull Tree tree,
-            @NotNull String collectionId,
-            @NotNull String name,
-            boolean locked) {
+    public static void create(@NotNull Tree tree, @NotNull String collectionId, @NotNull String name, boolean locked) {
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(new PlatformCollection(collectionId, name, locked));
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
         DefaultMutableTreeNode cloudCollections = model.getCloudCollections();

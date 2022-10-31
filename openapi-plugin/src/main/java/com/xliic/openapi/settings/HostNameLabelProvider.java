@@ -11,7 +11,8 @@ public class HostNameLabelProvider extends LabelProvider implements ITableLabelP
     private static final Image hostImage = OpenAPIImages.Host.createImage();
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 
     @Override
     public Image getColumnImage(Object element, int columnIndex) {

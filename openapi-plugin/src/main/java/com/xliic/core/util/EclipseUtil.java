@@ -53,7 +53,8 @@ public class EclipseUtil {
 
     public static final String TEMP_PROJECT_NAME = "tmp-xliic-project";
 
-    private EclipseUtil() {}
+    private EclipseUtil() {
+    }
 
     public static Shell getShell() {
         return EclipseWorkbenchUtil.getIWorkbenchWindow().getShell();
@@ -120,8 +121,7 @@ public class EclipseUtil {
         try {
             IWorkbenchWindow window = getWorkbench().getActiveWorkbenchWindow();
             return window == null ? null : window.getActivePage();
-        }
-        catch (IllegalStateException ise) {
+        } catch (IllegalStateException ise) {
         }
         return null;
     }
@@ -253,8 +253,7 @@ public class EclipseUtil {
             IDocumentProvider docProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(input);
             docProvider.connect(input);
             return docProvider.getDocument(input);
-        }
-        catch (CoreException e) {
+        } catch (CoreException e) {
         }
         return null;
     }
@@ -312,7 +311,7 @@ public class EclipseUtil {
     @Nullable
     public static IProject getTempProject() throws CoreException {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IProject [] projects = workspace.getRoot().getProjects(IContainer.INCLUDE_HIDDEN);
+        IProject[] projects = workspace.getRoot().getProjects(IContainer.INCLUDE_HIDDEN);
         for (IProject project : projects) {
             try {
                 if (TEMP_PROJECT_NAME.equalsIgnoreCase(project.getDescription().getName())) {

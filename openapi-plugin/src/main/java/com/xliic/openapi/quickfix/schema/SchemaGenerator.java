@@ -1,14 +1,18 @@
 package com.xliic.openapi.quickfix.schema;
 
+import static com.xliic.openapi.quickfix.schema.SchemaUtils.getType;
+import static com.xliic.openapi.quickfix.schema.SchemaUtils.isEqual;
+import static com.xliic.openapi.quickfix.schema.SchemaUtils.isMixedTypeArray;
+import static com.xliic.openapi.quickfix.schema.SchemaUtils.unpack;
+
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.xliic.openapi.parser.ast.node.Node;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-
-import static com.xliic.openapi.quickfix.schema.SchemaUtils.*;
 
 public class SchemaGenerator {
 

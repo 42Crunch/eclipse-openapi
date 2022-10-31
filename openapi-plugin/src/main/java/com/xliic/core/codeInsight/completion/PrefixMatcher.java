@@ -4,9 +4,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class PrefixMatcher {
 
-    private final static String PREFIX = "#/";
+    @NotNull
+    private final String prefix;
+
+    public PrefixMatcher(@NotNull String prefix) {
+        this.prefix = prefix;
+    }
 
     public final @NotNull String getPrefix() {
-        return PREFIX;
+        return prefix;
     }
 }

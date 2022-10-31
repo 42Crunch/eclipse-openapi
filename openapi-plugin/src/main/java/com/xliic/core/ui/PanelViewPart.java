@@ -1,7 +1,9 @@
 package com.xliic.core.ui;
 
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
@@ -51,7 +53,13 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
         if (initControl(project)) {
             window = ToolWindowManager.getInstance(project).getToolWindow(id);
             if (window != null) {
-                panel = createPanel(project, window, parent);
+                try {
+                    panel = createPanel(project, window, parent);
+                } catch (Throwable e) {
+                    panel = null;
+                    Label label = new Label(parent, SWT.NULL);
+                    label.setText("Unable to initialize JCEF browser: " + e.getMessage());
+                }
                 for (AnJAction action : window.getTitleActions()) {
                     if (action instanceof Separator) {
                         toolBarManager.add(new org.eclipse.jface.action.Separator());
@@ -77,7 +85,8 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
     }
 
     @Override
-    public void setFocus() {}
+    public void setFocus() {
+    }
 
     @Override
     public void dispose() {
@@ -93,9 +102,15 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
         }
     }
 
-    protected void saveState(@NotNull Project project, @NotNull IMemento memento) {}
-    protected void restoreState(@NotNull Project project, @NotNull IMemento memento) {}
-    protected void createEmptyControl(Composite parent) {}
+    protected void saveState(@NotNull Project project, @NotNull IMemento memento) {
+    }
+
+    protected void restoreState(@NotNull Project project, @NotNull IMemento memento) {
+    }
+
+    protected void createEmptyControl(Composite parent) {
+    }
+
     protected boolean initControl(@NotNull Project project) {
         return true;
     }

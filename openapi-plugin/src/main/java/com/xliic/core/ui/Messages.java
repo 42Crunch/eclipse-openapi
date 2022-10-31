@@ -15,20 +15,13 @@ public class Messages {
     public static final int NO = 1;
     public static final int CANCEL = 2;
 
-    public static int showOkCancelDialog(@Nullable Project project,
-            @Nullable String message,
-            @NotNull String title,
-            @NotNull String okText,
-            @NotNull String cancelText,
-            @Nullable Icon icon) {
+    public static int showOkCancelDialog(@Nullable Project project, @Nullable String message, @NotNull String title, @NotNull String okText,
+            @NotNull String cancelText, @Nullable Icon icon) {
         Boolean answer = MessageDialog.openQuestion(Display.getDefault().getActiveShell(), title, message);
         return answer ? OK : NO;
     }
 
-    public static void showMessageDialog(@Nullable Project project,
-            @NotNull String message,
-            @NotNull String title,
-            @Nullable Icon icon) {
+    public static void showMessageDialog(@Nullable Project project, @NotNull String message, @NotNull String title, @Nullable Icon icon) {
         if (icon == Icon.ERROR) {
             MessageDialog.openError(EclipseUtil.getShell(), title, message);
         } else if (icon == Icon.WARNING) {

@@ -1,16 +1,17 @@
 package com.xliic.openapi.tree;
 
-import com.xliic.core.icons.AllIcons;
-import com.xliic.core.ide.util.PropertiesComponent;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.actionSystem.ToggleAction;
+import com.xliic.core.icons.AllIcons;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.SettingsKeys;
-import org.jetbrains.annotations.NotNull;
 
 public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 

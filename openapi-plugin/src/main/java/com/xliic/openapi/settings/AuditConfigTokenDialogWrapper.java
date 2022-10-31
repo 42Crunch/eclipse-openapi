@@ -44,8 +44,8 @@ public class AuditConfigTokenDialogWrapper extends DialogWrapper {
         infoGridData.widthHint = 350;
         Label info = new Label(parent, SWT.WRAP);
         info.setLayoutData(infoGridData);
-        info.setText("API token has been sent. If you don't get the mail within a couple minutes, " +
-                " check your spam folder and that the address is correct. Paste the token above.");
+        info.setText("API token has been sent. If you don't get the mail within a couple minutes, "
+                + " check your spam folder and that the address is correct. Paste the token above.");
 
         registerForValidation(tokenTextArea);
         init();

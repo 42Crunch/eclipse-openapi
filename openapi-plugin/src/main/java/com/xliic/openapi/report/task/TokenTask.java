@@ -1,5 +1,11 @@
 package com.xliic.openapi.report.task;
 
+import static com.xliic.openapi.OpenApiBundle.message;
+import static com.xliic.openapi.OpenApiUtils.getJsonAST;
+import static com.xliic.openapi.OpenApiUtils.getStatus;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.application.ApplicationInfo;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
@@ -9,12 +15,13 @@ import com.xliic.openapi.callback.EmailDialogDoOkActionCallback;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.ResponseStatus;
 import com.xliic.openapi.services.AuditService;
-import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 
-import static com.xliic.openapi.OpenApiBundle.message;
-import static com.xliic.openapi.OpenApiUtils.getJsonAST;
-import static com.xliic.openapi.OpenApiUtils.getStatus;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class TokenTask extends Task.Backgroundable {
 
@@ -45,32 +52,22 @@ public class TokenTask extends Task.Backgroundable {
                 Node node = getJsonAST(text);
                 if (getStatus(node) == ResponseStatus.SUCCESS) {
                     callback.setDone();
-                }
-                else {
+                } else {
                     callback.reject(message("openapi.error.token.response.unexpected", text));
                 }
-            }
-            else {
+            } else {
                 callback.reject(message("openapi.error.token.response.empty"));
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             callback.reject(message("openapi.error.token.unexpected", e.getMessage()));
-        }
-        finally {
+        } finally {
             AuditService.getInstance(project).notifyTaskComplete();
         }
     }
 
     private static Request getGenerateTokenRequest(String email) {
-        RequestBody formBody = new FormBody.Builder()
-                .add("email", email)
-                .build();
+        RequestBody formBody = new FormBody.Builder().add("email", email).build();
 
-        return new Request.Builder()
-                .url(TOKEN_URL)
-                .addHeader("User-Agent", USER_AGENT)
-                .post(formBody)
-                .build();
+        return new Request.Builder().url(TOKEN_URL).addHeader("User-Agent", USER_AGENT).post(formBody).build();
     }
 }

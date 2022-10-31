@@ -33,10 +33,7 @@ public abstract class Topic<L> {
 
     public static enum BroadcastDirection {
 
-        TO_CHILDREN,
-        TO_DIRECT_CHILDREN,
-        NONE,
-        TO_PARENT;
+        TO_CHILDREN, TO_DIRECT_CHILDREN, NONE, TO_PARENT;
 
         private BroadcastDirection() {
         }

@@ -1,6 +1,7 @@
 package com.xliic.core.ide.ui;
 
 import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.util.messages.Topic;
 import com.xliic.core.util.messages.TopicLafListener;
 

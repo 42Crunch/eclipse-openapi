@@ -1,12 +1,29 @@
 package com.xliic.openapi.tree;
 
+import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS;
+import static com.xliic.openapi.OpenApiPanelKeys.DEFINITIONS;
+import static com.xliic.openapi.OpenApiPanelKeys.GENERAL;
+import static com.xliic.openapi.OpenApiPanelKeys.PARAMETERS;
+import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
+import static com.xliic.openapi.OpenApiPanelKeys.RESPONSES;
+import static com.xliic.openapi.OpenApiPanelKeys.SECURITY;
+import static com.xliic.openapi.OpenApiPanelKeys.SECURITY_DEFINITIONS;
+import static com.xliic.openapi.OpenApiPanelKeys.SERVERS;
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.DefaultActionGroup;
 import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.TempFileUtils;
@@ -16,14 +33,8 @@ import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.PanelNode;
 import com.xliic.openapi.tree.node.SimpleNode;
 import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
+
 import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.Arrays;
-import java.util.List;
-
-import static com.xliic.openapi.OpenApiPanelKeys.*;
 
 public class OpenApiRightMouseClickHandler {
 
@@ -63,10 +74,8 @@ public class OpenApiRightMouseClickHandler {
             } else if (SECURITY.equals(node.getName())) {
                 actions.addAll(quickFixService.getSnippetFixActions(psiFile, "security", treeNode));
             } else if (COMPONENTS.equals(node.getName())) {
-                List<String> ids = Arrays.asList(
-                        "componentsSchema", "componentsParameter", "componentsResponse",
-                        "componentsSecurityApiKey", "componentsSecurityBasic",
-                        "componentsSecurityJwt", "componentsSecurityOauth2Implicit");
+                List<String> ids = Arrays.asList("componentsSchema", "componentsParameter", "componentsResponse", "componentsSecurityApiKey",
+                        "componentsSecurityBasic", "componentsSecurityJwt", "componentsSecurityOauth2Implicit");
                 actions.addAll(quickFixService.getSnippetFixActions(psiFile, ids, treeNode));
             } else if (GENERAL.equals(node.getName()) && (version == OpenApiVersion.V2)) {
                 List<String> ids = Arrays.asList("basePath", "host", "info");

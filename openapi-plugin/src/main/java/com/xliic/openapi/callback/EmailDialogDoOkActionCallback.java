@@ -23,13 +23,12 @@ public class EmailDialogDoOkActionCallback extends ActionCallback {
 
     @Override
     public void setDone() {
-        ApplicationManager.getApplication().invokeLater(() ->
-        new AuditConfigTokenDialogWrapper(project, file).showAndGet());
+        ApplicationManager.getApplication().invokeLater(() -> new AuditConfigTokenDialogWrapper(project, file).showAndGet());
     }
 
     @Override
     public void setRejected() {
-        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, getError(),
-                OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+        SwingUtilities.invokeLater(
+                () -> Messages.showMessageDialog(project, getError(), OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
     }
 }

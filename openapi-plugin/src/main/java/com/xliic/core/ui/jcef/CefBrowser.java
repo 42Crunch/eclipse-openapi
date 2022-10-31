@@ -48,7 +48,8 @@ public class CefBrowser {
         final CefBrowser myCefBrowser = this;
         progressListener = new ProgressListener() {
             @Override
-            public void changed(ProgressEvent event) {}
+            public void changed(ProgressEvent event) {
+            }
 
             @Override
             public void completed(ProgressEvent event) {

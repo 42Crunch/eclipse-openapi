@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
 import com.xliic.core.codeInsight.HighlightInfo;
@@ -39,8 +38,6 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
 
     private final Editor editor;
     private final PsiFile psiFile;
-    private final List<HighlightInfo> highlights;
-    private final Map<String, List<IntentionAction>> pointerToActions;
 
     private final AuditService auditService;
     private final QuickFixService quickFixService;
@@ -50,8 +47,6 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
         super(file.getProject(), editor.getDocument(), true);
         this.editor = editor;
         psiFile = file;
-        highlights = new LinkedList<>();
-        pointerToActions = new HashMap<>();
         auditService = AuditService.getInstance(myProject);
         quickFixService = QuickFixService.getInstance();
         placeHolderService = PlaceHolderService.getInstance(myProject);
@@ -104,8 +99,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
                 ProblemHighlightType type = getProblemHighlightType(issue.getSeverity());
                 HighlightSeverity severity = getHighlightSeverity(issue.getSeverity());
                 HighlightInfoType infoType = getHighlightInfoType(type, severity, getSeverityRegistrar(myProject));
-                HighlightInfo info = newHighlightInfo(infoType).pointer(issue.getPointer()).range(range)
-                        .descriptionAndTooltip(label).create();
+                HighlightInfo info = newHighlightInfo(infoType).pointer(issue.getPointer()).range(range).descriptionAndTooltip(label).create();
                 infoList.add(info);
                 if (!isTempFile) {
                     actions.addAll(quickFixService.getSingleFixActions(psiFile, issue));
@@ -147,19 +141,7 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
     @Override
     public void doApplyInformationToEditor() {
         if (myDocument != null) {
-            UpdateHighlightersUtil.setHighlightersToEditor(myProject, myDocument, 0, psiFile.getTextLength(),
-                    highlights, getColorsScheme(), getId());
+            UpdateHighlightersUtil.setHighlightersToEditor(myProject, myDocument, 0, psiFile.getTextLength(), highlights, getColorsScheme(), getId());
         }
-    }
-
-    @Override
-    public List<HighlightInfo> getInformationToEditor() {
-        return highlights;
-    }
-
-    @Override
-    @Nullable
-    public Map<String, List<IntentionAction>> getActionsToEditor() {
-        return pointerToActions;
     }
 }

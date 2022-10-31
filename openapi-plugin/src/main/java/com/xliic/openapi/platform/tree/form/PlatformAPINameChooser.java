@@ -1,13 +1,13 @@
 package com.xliic.openapi.platform.tree.form;
 
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessASTResponseCallback;
-
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
 
 public class PlatformAPINameChooser extends PlatformNameChooser {
 

@@ -1,9 +1,7 @@
 package com.xliic.openapi.platform.tree.form;
 
-import com.xliic.core.project.Project;
-import com.xliic.core.ui.DialogWrapper;
-import com.xliic.core.ui.ValidationInfo;
-import com.xliic.core.ui.components.JTextField;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.layout.GridData;
@@ -11,8 +9,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.DialogWrapper;
+import com.xliic.core.ui.ValidationInfo;
+import com.xliic.core.ui.components.JTextField;
 
 public abstract class PlatformNameChooser extends DialogWrapper {
 
@@ -95,7 +95,7 @@ public abstract class PlatformNameChooser extends DialogWrapper {
     }
 
     private String getMessage(String description, String example) {
-        return "The input does not match the expected pattern " + description +
-                " defined in your organization. Example of the expected value: " + example;
+        return "The input does not match the expected pattern " + description + " defined in your organization. Example of the expected value: "
+                + example;
     }
 }

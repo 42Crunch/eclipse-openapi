@@ -11,7 +11,8 @@ public abstract class KeyAdapter implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+    }
 
     public abstract void keyPressed(com.xliic.core.ui.treeStructure.KeyEvent e);
 }

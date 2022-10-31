@@ -36,8 +36,7 @@ public class GoToDefinitionAction extends AnAction implements DumbAware {
         BundleService bundleService = BundleService.getInstance(project);
         if (bundleService.isFileBeingBundled(file.getPath())) {
             event.getPresentation().setEnabled(OpenApiUtils.isPsiRef(getDoubleClickedPsiElement(project, editor)));
-        }
-        else {
+        } else {
             event.getPresentation().setEnabled(false);
         }
     }
@@ -59,15 +58,13 @@ public class GoToDefinitionAction extends AnAction implements DumbAware {
         Pair<VirtualFile, Node> result = OpenApiUtils.resolveRef(psiFile, ref);
         if (result == null) {
             showRefNotFoundPopup("No reference found for " + ref, editor.getShell());
-        }
-        else {
+        } else {
             Node target = result.getSecond();
             VirtualFile refFile = result.getFirst();
             if (target != null) {
                 Range range = EclipseUtil.getSelectionRange(target);
                 new OpenFileDescriptor(project, refFile, range.getOffset(), range.getLength()).navigate(true);
-            }
-            else {
+            } else {
                 new OpenFileDescriptor(project, refFile).navigate(true);
             }
         }

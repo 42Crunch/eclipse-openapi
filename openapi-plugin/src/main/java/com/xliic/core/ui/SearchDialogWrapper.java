@@ -29,8 +29,7 @@ public class SearchDialogWrapper extends DialogWrapper {
     private JCheckBox regexCheckBox;
     private JCheckBox wholeWordsCheckBox;
 
-    public SearchDialogWrapper(@NotNull Project project, @Nullable String text,
-            boolean caseSensitive, boolean regex, boolean wholeWords) {
+    public SearchDialogWrapper(@NotNull Project project, @Nullable String text, boolean caseSensitive, boolean regex, boolean wholeWords) {
         super(project, 2);
         this.text = text == null ? "" : text;
         this.caseSensitive = caseSensitive;
@@ -134,7 +133,7 @@ public class SearchDialogWrapper extends DialogWrapper {
     }
 
     private boolean isCheckBoxesUpdated() {
-        return caseSensitive != caseSensitiveCheckBox.isSelected() ||
-                regex != regexCheckBox.isSelected() || wholeWords != wholeWordsCheckBox.isSelected();
+        return caseSensitive != caseSensitiveCheckBox.isSelected() || regex != regexCheckBox.isSelected()
+                || wholeWords != wholeWordsCheckBox.isSelected();
     }
 }

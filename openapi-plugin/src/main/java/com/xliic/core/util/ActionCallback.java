@@ -1,10 +1,10 @@
 package com.xliic.core.util;
 
-public abstract class ActionCallback {
+public class ActionCallback {
 
     private String error;
 
-    protected void setDone() {
+    public void setDone() {
     };
 
     protected void setRejected() {

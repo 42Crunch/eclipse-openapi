@@ -93,8 +93,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                 if (window != null) {
                     window.getPartService().addPartListener(projectManagerListener);
                     window.getPartService().addPartListener(partListener);
-                    ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceListener,
-                            IResourceChangeEvent.POST_CHANGE);
+                    ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceListener, IResourceChangeEvent.POST_CHANGE);
                     IWorkbenchPage page = window.getActivePage();
                     if (page != null) {
                         IEditorPart editor = page.getActiveEditor();
@@ -119,6 +118,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
     @Override
     public void stop(BundleContext context) throws Exception {
         try {
+            project.getMessageBus().connect().unsubscribe(actionUpdater);
             project.dispose();
             highlightingManager.dispose();
             removeListeners();
@@ -165,8 +165,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
         IPreferenceStore idePreferenceStore = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
         String value = idePreferenceStore.getString(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY);
         if (!TEXT_EDITOR_STRATEGY_PREFERENCE_KEY.equals(value)) {
-            idePreferenceStore.setValue(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY,
-                    TEXT_EDITOR_STRATEGY_PREFERENCE_KEY);
+            idePreferenceStore.setValue(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY, TEXT_EDITOR_STRATEGY_PREFERENCE_KEY);
         }
     }
 
@@ -192,6 +191,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                             public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
                                 return FileVisitResult.CONTINUE;
                             }
+
                             @Override
                             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                                 if (TempFileUtils.isExtRefFile(new VirtualFile(file.toFile()))) {
@@ -199,16 +199,14 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                                         file.toFile().setWritable(true);
                                         Files.delete(file);
                                         projToUpdate[0] = true;
-                                    }
-                                    catch (IOException e) {
+                                    } catch (IOException e) {
                                         e.printStackTrace();
                                     }
                                 }
                                 return FileVisitResult.CONTINUE;
                             }
                         });
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -230,7 +228,8 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                         PlatformService platformService = PlatformService.getInstance(project);
                         // Eclipse Development Note
                         // Closing editor will schedule file closing routine in AST thread
-                        // Only when it is finished we can continue with reopening, so here only schedule it
+                        // Only when it is finished we can continue with reopening, so here only
+                        // schedule it
                         platformService.sheduleToReopenPlatformFile(file);
                         page.closeEditor(ref.getEditor(true), false);
                     }

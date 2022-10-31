@@ -1,10 +1,11 @@
 package com.xliic.openapi.report.tree;
 
-import com.xliic.core.ui.treeStructure.MouseEvent;
-import com.xliic.openapi.report.tree.ui.ReportPanel;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import com.xliic.core.ui.treeStructure.MouseEvent;
+import com.xliic.openapi.report.tree.ui.ReportPanel;
 
 public class ReportLeftMouseClickHandler {
 

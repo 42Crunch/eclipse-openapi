@@ -1,15 +1,26 @@
 package com.xliic.openapi.parser.ast.node;
 
-import com.xliic.openapi.parser.ast.NodeStringWriter;
-import com.xliic.openapi.parser.ast.ParserAST;
-import com.xliic.openapi.parser.ast.Range;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
 import org.snakeyaml.engine.v2.api.DumpSettings;
 import org.snakeyaml.engine.v2.api.StreamDataWriter;
 import org.snakeyaml.engine.v2.emitter.Emitter;
-import org.snakeyaml.engine.v2.nodes.*;
+import org.snakeyaml.engine.v2.nodes.MappingNode;
+import org.snakeyaml.engine.v2.nodes.NodeTuple;
+import org.snakeyaml.engine.v2.nodes.ScalarNode;
+import org.snakeyaml.engine.v2.nodes.SequenceNode;
+import org.snakeyaml.engine.v2.nodes.Tag;
 import org.snakeyaml.engine.v2.serializer.Serializer;
 
-import java.util.*;
+import com.xliic.openapi.parser.ast.NodeStringWriter;
+import com.xliic.openapi.parser.ast.ParserAST;
+import com.xliic.openapi.parser.ast.Range;
 
 public abstract class Node implements Comparable<Node> {
 
@@ -58,6 +69,11 @@ public abstract class Node implements Comparable<Node> {
         return (result == null) ? null : result.getValue();
     }
 
+    public Object getChildTypedValue(String key) {
+        Node result = getChild(key);
+        return (result == null) ? null : result.getTypedValue();
+    }
+
     @Override
     public int compareTo(Node o) {
         return getValueRange().compareTo(o.getValueRange());
@@ -88,29 +104,43 @@ public abstract class Node implements Comparable<Node> {
         return key;
     }
 
+    public Object getNode() {
+        return node;
+    }
+
     public String getValue() {
         if (node instanceof NodeTuple) {
-            org.snakeyaml.engine.v2.nodes.Node target = ((NodeTuple) (node)).getValueNode();
-            return target instanceof ScalarNode ? ((ScalarNode) target).getValue() : null;
-        }
-        else if (node instanceof ScalarNode) {
+            org.snakeyaml.engine.v2.nodes.Node valueNode = ((NodeTuple) node).getValueNode();
+            if (valueNode instanceof ScalarNode) {
+                return ((ScalarNode) valueNode).getValue();
+            }
+        } else if (node instanceof ScalarNode) {
             return ((ScalarNode) node).getValue();
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
     public Object getTypedValue() {
         if (node instanceof NodeTuple) {
-            return getValueFromScalarNode((ScalarNode) ((NodeTuple) (node)).getValueNode());
-        }
-        else if (node instanceof ScalarNode) {
+            org.snakeyaml.engine.v2.nodes.Node valueNode = ((NodeTuple) node).getValueNode();
+            if (valueNode instanceof ScalarNode) {
+                return getValueFromScalarNode((ScalarNode) valueNode);
+            } else if (valueNode instanceof SequenceNode) {
+                List<Object> list = new LinkedList<>();
+                List<org.snakeyaml.engine.v2.nodes.Node> nodes = ((SequenceNode) valueNode).getValue();
+                for (org.snakeyaml.engine.v2.nodes.Node listNode : nodes) {
+                    if (listNode instanceof ScalarNode) {
+                        list.add(getValueFromScalarNode((ScalarNode) listNode));
+                    }
+                }
+                if (list.size() == nodes.size()) {
+                    return list;
+                }
+            }
+        } else if (node instanceof ScalarNode) {
             return getValueFromScalarNode((ScalarNode) node);
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
     public Node find(String pointer) {
@@ -144,6 +174,7 @@ public abstract class Node implements Comparable<Node> {
     }
 
     public abstract Range getValueRange();
+
     public abstract Range getRange();
 
     public Node next() {
@@ -177,8 +208,7 @@ public abstract class Node implements Comparable<Node> {
     public boolean isArray() {
         if (node instanceof NodeTuple) {
             return ParserAST.isList(((NodeTuple) node).getValueNode());
-        }
-        else if (node instanceof SequenceNode) {
+        } else if (node instanceof SequenceNode) {
             return ParserAST.isList(node);
         }
         return false;
@@ -187,8 +217,7 @@ public abstract class Node implements Comparable<Node> {
     public boolean isObject() {
         if (node instanceof NodeTuple) {
             return ParserAST.isMap(((NodeTuple) node).getValueNode());
-        }
-        else if (node instanceof MappingNode) {
+        } else if (node instanceof MappingNode) {
             return ParserAST.isMap(node);
         }
         return false;
@@ -201,7 +230,8 @@ public abstract class Node implements Comparable<Node> {
     public Node findNodeAtOffset(int offset) {
         if (getRange().contains(offset)) {
             final Node result = findNodeAtOffset(this, offset);
-            // Make no sense to return the root node as it always contains any offset within the text range
+            // Make no sense to return the root node as it always contains any offset within
+            // the text range
             return result.getParent() == null ? null : result;
         }
         return null;
@@ -213,8 +243,7 @@ public abstract class Node implements Comparable<Node> {
         serializer.open();
         if (node instanceof NodeTuple) {
             serializer.serialize(((NodeTuple) node).getValueNode());
-        }
-        else {
+        } else {
             serializer.serialize((org.snakeyaml.engine.v2.nodes.Node) node);
         }
         serializer.close();
@@ -236,12 +265,12 @@ public abstract class Node implements Comparable<Node> {
         Tag tag = node.getTag();
         if (tag == Tag.BOOL) {
             return Boolean.valueOf(node.getValue());
-        }
-        else if (tag == Tag.INT) {
-            return Integer.valueOf(node.getValue());
-        }
-        else if (tag == Tag.FLOAT) {
-            return Float.valueOf(node.getValue());
+        } else if (tag == Tag.INT) {
+            return new BigInteger(node.getValue());
+        } else if (tag == Tag.FLOAT) {
+            return new BigDecimal(node.getValue());
+        } else if (tag == Tag.NULL && "null".equals(node.getValue())) {
+            return null;
         }
         return node.getValue();
     }

@@ -1,22 +1,23 @@
 package com.xliic.openapi.platform.callback;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.LinkedList;
-import java.util.List;
 
 public class PlatformCollectionCallback extends SuccessASTResponseWithFailureDecoratorCallback {
 
-    public PlatformCollectionCallback(@NotNull Project project,
-            @NotNull Tree tree,
-            @NotNull DefaultMutableTreeNode parentDMTN) {
+    public PlatformCollectionCallback(@NotNull Project project, @NotNull Tree tree, @NotNull DefaultMutableTreeNode parentDMTN) {
         super(project, tree, parentDMTN);
     }
 
@@ -32,6 +33,9 @@ public class PlatformCollectionCallback extends SuccessASTResponseWithFailureDec
                 collections.add(new PlatformCollection(id, name, locked));
             }
         }
-        SwingUtilities.invokeLater(() -> PlatformCollectionUtils.addAll(project, tree, parentDMTN, collections));
+        SwingUtilities.invokeLater(() -> {
+            PlatformCollectionUtils.addAll(project, tree, parentDMTN, collections);
+            project.getMessageBus().syncPublisher(PlatformListener.TOPIC).collectionsLoaded();
+        });
     }
 }

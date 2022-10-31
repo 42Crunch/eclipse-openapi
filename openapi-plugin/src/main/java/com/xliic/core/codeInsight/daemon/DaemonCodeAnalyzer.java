@@ -16,5 +16,6 @@ public class DaemonCodeAnalyzer {
         return analyzer;
     }
 
-    public void restart(@NotNull PsiFile file) {}
+    public void restart(@NotNull PsiFile file) {
+    }
 }

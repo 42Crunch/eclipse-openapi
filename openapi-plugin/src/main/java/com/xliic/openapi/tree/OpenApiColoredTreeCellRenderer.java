@@ -1,5 +1,9 @@
 package com.xliic.openapi.tree;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.ui.ColoredTreeCellRenderer;
 import com.xliic.core.ui.JBColor;
 import com.xliic.core.ui.SimpleTextAttributes;
@@ -7,16 +11,14 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.PanelNode;
 import com.xliic.openapi.tree.node.RootNode;
-import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import icons.OpenApiIcons;
 
 public class OpenApiColoredTreeCellRenderer extends ColoredTreeCellRenderer {
 
     @Override
-    public void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected,
-            boolean expanded, boolean leaf, int row, boolean hasFocus) {
+    public void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected, boolean expanded, boolean leaf, int row,
+            boolean hasFocus) {
 
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
         Object obj = node.getUserObject();

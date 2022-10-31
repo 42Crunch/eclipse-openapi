@@ -25,7 +25,7 @@ public class FileChooserDialog {
     }
 
     @NotNull
-    public VirtualFile [] choose(@Nullable Project project, @NotNull VirtualFile... files) {
+    public VirtualFile[] choose(@Nullable Project project, @NotNull VirtualFile... files) {
         String filename = fileChooser.open();
         if (filename != null) {
             File file = new File(filename);

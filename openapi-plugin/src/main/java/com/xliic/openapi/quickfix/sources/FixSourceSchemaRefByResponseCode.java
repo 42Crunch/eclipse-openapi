@@ -1,5 +1,19 @@
 package com.xliic.openapi.quickfix.sources;
 
+import static com.xliic.openapi.OpenApiUtils.getRelativePathFromTo;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiVersion;
@@ -10,14 +24,6 @@ import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.managers.FixManager;
 import com.xliic.openapi.report.Issue;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-
-import static com.xliic.openapi.OpenApiUtils.getRelativePathFromTo;
 
 public class FixSourceSchemaRefByResponseCode extends FixSource {
 
@@ -28,11 +34,7 @@ public class FixSourceSchemaRefByResponseCode extends FixSource {
     }
 
     @Override
-    protected List<Object> getValues(Issue issue,
-            QuickFix fix,
-            FixParameter parameter,
-            OpenApiVersion version,
-            BundleResult bundle) {
+    protected List<Object> getValues(Issue issue, QuickFix fix, FixParameter parameter, OpenApiVersion version, BundleResult bundle) {
         Node root = bundle.getAST();
         String rootFileName = bundle.getFile();
         Map<String, Map<String, Integer>> hints = null;
@@ -99,16 +101,14 @@ public class FixSourceSchemaRefByResponseCode extends FixSource {
                 VirtualFile file = location.getFile();
                 if (fileName.equals(file.getPath())) {
                     resolvedPointers.add(pointer);
-                }
-                else if (StringUtils.isEmpty(location.getPointer())) {
+                } else if (StringUtils.isEmpty(location.getPointer())) {
                     resolvedPointers.add(getRelativePathFromTo(fileName, file.getPath()));
-                }
-                else {
+                } else {
                     resolvedPointers.add(getRelativePathFromTo(fileName, file.getPath()) + "#" + location.getPointer());
                 }
             }
         }
-        return  resolvedPointers;
+        return resolvedPointers;
     }
 
     @Override

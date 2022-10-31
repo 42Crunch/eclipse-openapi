@@ -67,7 +67,8 @@ public class Tree {
         return (DefaultTreeModel) contentProvider;
     }
 
-    public void setOpaque(boolean isOpaque) {}
+    public void setOpaque(boolean isOpaque) {
+    }
 
     public void setBackground(@NotNull Color color) {
         if (!isDisposed()) {
@@ -85,7 +86,8 @@ public class Tree {
         }
     }
 
-    public void setRootVisible(boolean rootVisible) {}
+    public void setRootVisible(boolean rootVisible) {
+    }
 
     public void setToolTipText(String text) {
         if (!isDisposed()) {
@@ -99,8 +101,7 @@ public class Tree {
     }
 
     public void setCellRenderer(@NotNull ColoredTreeCellRenderer renderer) {
-        viewer.setLabelProvider(new DecoratingStyledCellLabelProvider(
-                renderer, EclipseUtil.getLabelDecorator(), DecorationContext.DEFAULT_CONTEXT));
+        viewer.setLabelProvider(new DecoratingStyledCellLabelProvider(renderer, EclipseUtil.getLabelDecorator(), DecorationContext.DEFAULT_CONTEXT));
     }
 
     public void removeAll() {

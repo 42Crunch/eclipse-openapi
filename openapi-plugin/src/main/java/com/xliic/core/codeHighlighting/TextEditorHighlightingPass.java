@@ -1,5 +1,7 @@
 package com.xliic.core.codeHighlighting;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +19,10 @@ public abstract class TextEditorHighlightingPass {
 
     protected final Project myProject;
     protected final Document myDocument;
+    protected final List<HighlightInfo> highlights = new LinkedList<>();
+    protected final Map<String, List<IntentionAction>> pointerToActions = new HashMap<>();
 
-    public TextEditorHighlightingPass(@NotNull Project project, @NotNull Document document,
-            boolean runIntentionPassAfter) {
+    public TextEditorHighlightingPass(@NotNull Project project, @NotNull Document document, boolean runIntentionPassAfter) {
         myProject = project;
         myDocument = document;
     }
@@ -32,13 +35,24 @@ public abstract class TextEditorHighlightingPass {
         return -1;
     }
 
+    public void addPointerActions(String pointer, List<IntentionAction> actions) {
+        if (!pointerToActions.containsKey(pointer)) {
+            pointerToActions.put(pointer, new LinkedList<>());
+        }
+        pointerToActions.get(pointer).addAll(actions);
+    }
+
     @Nullable
     public EditorColorsScheme getColorsScheme() {
         return null;
     }
 
-    public abstract List<HighlightInfo> getInformationToEditor();
+    public List<HighlightInfo> getInformationToEditor() {
+        return highlights;
+    }
 
     @Nullable
-    public abstract Map<String, List<IntentionAction>> getActionsToEditor();
+    public Map<String, List<IntentionAction>> getActionsToEditor() {
+        return pointerToActions;
+    }
 }

@@ -1,22 +1,22 @@
 package com.xliic.openapi.tree;
 
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.ui.treeStructure.MouseEvent;
-import com.xliic.core.ui.treeStructure.MouseMotionListener;
-import com.xliic.core.ui.treeStructure.Tree;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.TempFileUtils;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.services.ASTService;
-import com.xliic.openapi.tree.node.BaseNode;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.jface.viewers.TreePath;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.treeStructure.MouseEvent;
+import com.xliic.core.ui.treeStructure.MouseMotionListener;
+import com.xliic.core.ui.treeStructure.Tree;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.TempFileUtils;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.tree.node.BaseNode;
 
 public class OpenAPIMouseMotionListener extends MouseMotionListener {
 

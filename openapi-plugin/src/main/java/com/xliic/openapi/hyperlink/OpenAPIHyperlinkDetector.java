@@ -45,8 +45,7 @@ public class OpenAPIHyperlinkDetector extends AbstractHyperlinkDetector implemen
                 if (node != null) {
                     PsiElement element = provider.getNavigationElement(new LeafPsiElement(offset, node, psiFile));
                     if (element != null) {
-                        return new IHyperlink[] {
-                                new OpenAPIHyperlink(getRegion(node), element, isExternal(file, element)) };
+                        return new IHyperlink[] { new OpenAPIHyperlink(getRegion(node), element, isExternal(file, element)) };
                     }
                 }
             }

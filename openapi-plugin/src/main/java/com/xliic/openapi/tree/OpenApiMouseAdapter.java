@@ -1,10 +1,10 @@
 package com.xliic.openapi.tree;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.ui.treeStructure.MouseAdapter;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
-
-import org.jetbrains.annotations.NotNull;
 
 public class OpenApiMouseAdapter extends MouseAdapter {
 

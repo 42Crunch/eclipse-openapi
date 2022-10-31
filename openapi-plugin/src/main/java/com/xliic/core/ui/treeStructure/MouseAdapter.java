@@ -52,9 +52,11 @@ public abstract class MouseAdapter implements MouseListener, IMenuListener {
     }
 
     @Override
-    public void mouseUp(MouseEvent e) {}
+    public void mouseUp(MouseEvent e) {
+    }
 
-    protected void mouseClicked(com.xliic.core.ui.treeStructure.MouseEvent event) {}
+    protected void mouseClicked(com.xliic.core.ui.treeStructure.MouseEvent event) {
+    }
 
     protected boolean isLeftMouseButton(com.xliic.core.ui.treeStructure.MouseEvent event) {
         return !event.isDoubleClick() && event.isLeftMouseButton();

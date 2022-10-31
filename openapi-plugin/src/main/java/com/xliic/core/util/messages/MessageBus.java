@@ -20,4 +20,10 @@ public class MessageBus {
     public <L> L syncPublisher(@NotNull Topic<L> topic) {
         return connection.syncPublisher(topic);
     }
+
+    public void dispose() {
+        if (connection != null) {
+            connection.dispose();
+        }
+    }
 }

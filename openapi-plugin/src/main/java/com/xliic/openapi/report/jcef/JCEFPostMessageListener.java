@@ -1,22 +1,6 @@
 package com.xliic.openapi.report.jcef;
 
-import com.equo.chromium.swt.Browser;
-import com.equo.chromium.swt.BrowserFunction;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xliic.core.ide.BrowserUtil;
-import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.fileEditor.OpenFileDescriptor;
-import com.xliic.core.ide.CopyPasteManager;
-import com.xliic.core.ide.StringSelection;
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.ui.jcef.JBCefJSQuery;
-import com.xliic.core.util.EclipseUtil;
-import com.xliic.openapi.parser.ast.Range;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.services.ASTService;
-import org.jetbrains.annotations.NotNull;
+import static org.apache.commons.lang.StringUtils.isEmpty;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +8,24 @@ import java.net.URI;
 import java.util.Map;
 import java.util.function.Function;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
+import org.jetbrains.annotations.NotNull;
+
+import com.equo.chromium.swt.Browser;
+import com.equo.chromium.swt.BrowserFunction;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.ide.BrowserUtil;
+import com.xliic.core.ide.CopyPasteManager;
+import com.xliic.core.ide.StringSelection;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.jcef.JBCefJSQuery;
+import com.xliic.core.util.EclipseUtil;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.parser.ast.Range;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.ASTService;
 
 public class JCEFPostMessageListener extends BrowserFunction implements Function<Object, JBCefJSQuery.Response> {
 
@@ -77,8 +78,7 @@ public class JCEFPostMessageListener extends BrowserFunction implements Function
                         break;
                     }
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -88,8 +88,7 @@ public class JCEFPostMessageListener extends BrowserFunction implements Function
     private void onCopyIssueId(@NotNull String id) {
         try {
             CopyPasteManager.getInstance().setContents(new StringSelection(id));
-        }
-        catch (Exception ignore) {
+        } catch (Exception ignore) {
         }
     }
 

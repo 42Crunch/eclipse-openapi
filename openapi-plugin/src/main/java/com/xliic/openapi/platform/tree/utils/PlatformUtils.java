@@ -1,10 +1,24 @@
 package com.xliic.openapi.platform.tree.utils;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
+
+import org.eclipse.jface.viewers.TreePath;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
@@ -15,26 +29,12 @@ import com.xliic.openapi.platform.tree.node.core.ProgressAware;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformFilterDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
 import com.xliic.openapi.services.PlatformService;
+
 import okhttp3.Callback;
-
-import org.eclipse.jface.viewers.TreePath;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class PlatformUtils {
 
-    public static void setInProgress(@Nullable Tree tree,
-            @Nullable DefaultMutableTreeNode targetDMTN,
-            boolean isInProgress) {
+    public static void setInProgress(@Nullable Tree tree, @Nullable DefaultMutableTreeNode targetDMTN, boolean isInProgress) {
         if (tree != null && targetDMTN != null) {
             Object o = targetDMTN.getUserObject();
             if (o instanceof ProgressAware) {
@@ -106,9 +106,7 @@ public class PlatformUtils {
         if (parentObj instanceof Filter) {
             Filter filter = (Filter) parentObj;
             if (filter.isActive()) {
-                result.addFirst(
-                        new DefaultMutableTreeNode(
-                                new PlatformFilterDecorator("Found " + size, parentDMTN), false));
+                result.addFirst(new DefaultMutableTreeNode(new PlatformFilterDecorator("Found " + size, parentDMTN), false));
             }
         }
         return result;

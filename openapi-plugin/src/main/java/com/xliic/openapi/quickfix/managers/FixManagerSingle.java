@@ -10,9 +10,9 @@ import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.replace.ReplaceManager;
 import com.xliic.openapi.parser.replace.Replacement;
+import com.xliic.openapi.quickfix.FixIssueItem;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixParameter;
-import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.report.Issue;
@@ -53,17 +53,13 @@ public class FixManagerSingle extends FixManager {
                 }
             }
             if (!replacements.isEmpty()) {
-                result.add(new FixItem(issue, pointer, ReplaceManager.replace(text, replacements, isJson), placeHolders));
+                result.add(new FixIssueItem(issue, pointer, ReplaceManager.replace(text, replacements, isJson), quickFix.getType())
+                        .withPlaceHolders(placeHolders));
                 return result;
             }
         }
-        result.add(new FixItem(issue, pointer, text, placeHolders));
+        result.add(new FixIssueItem(issue, pointer, text, quickFix.getType()).withPlaceHolders(placeHolders));
         return result;
-    }
-
-    @Override
-    public FixType getType() {
-        return quickFix.getType();
     }
 
     @Override

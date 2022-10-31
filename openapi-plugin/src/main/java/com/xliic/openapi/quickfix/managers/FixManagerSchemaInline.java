@@ -1,18 +1,18 @@
 package com.xliic.openapi.quickfix.managers;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.google.gson.JsonObject;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.quickfix.FixIssueItem;
 import com.xliic.openapi.quickfix.FixItem;
-import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.schema.SchemaUtils;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.ASTService;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class FixManagerSchemaInline extends FixManager {
 
@@ -43,21 +43,15 @@ public class FixManagerSchemaInline extends FixManager {
             String text;
             if ("schema".equals(target.getKey())) {
                 text = schema.toString();
-            }
-            else {
+            } else {
                 JsonObject schemaObj = new JsonObject();
                 schemaObj.add("schema", schema);
                 text = schemaObj.toString();
             }
             text = QuickFix.formatFixText(text, isJson);
-            result.add(new FixItem(issue, pointer, text, new LinkedList<>()));
+            result.add(new FixIssueItem(issue, pointer, text, quickFix.getType()));
         }
         return result;
-    }
-
-    @Override
-    public FixType getType() {
-        return quickFix.getType();
     }
 
     @Override

@@ -1,11 +1,21 @@
 package com.xliic.openapi.platform.tree.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.project.Project;
-import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.ui.tree.TreeUtil;
+import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.PlatformColoredTreeCellRenderer;
@@ -16,25 +26,21 @@ import com.xliic.openapi.platform.tree.mouse.PlatformMouseAdapter;
 import com.xliic.openapi.platform.tree.utils.PlatformAPIUtils;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.ArrayList;
-import java.util.List;
-
 public class PlatformPanel implements PlatformListener, Disposable {
 
+    @NotNull
     private final Project project;
-    private Tree tree;
+    @NotNull
+    private final Tree tree;
+    @NotNull
+    private final ToolWindow toolWindow;
 
     public PlatformPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
 
         tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
 
         this.project = project;
+        this.toolWindow = toolWindow;
 
         tree.setOpaque(true);
 
@@ -76,7 +82,16 @@ public class PlatformPanel implements PlatformListener, Disposable {
     }
 
     @Override
+    public void reloadDictionary() {
+    }
+
+    @Override
     public void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid) {
         PlatformAPIUtils.updateAuditStatus(tree, apiId, grade, isValid);
+    }
+
+    @Override
+    public void collectionsLoaded() {
+        toolWindow.updateTitleActions();
     }
 }

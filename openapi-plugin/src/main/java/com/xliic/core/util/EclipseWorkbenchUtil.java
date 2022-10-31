@@ -56,8 +56,7 @@ public final class EclipseWorkbenchUtil {
             page.setPartState(reference, IWorkbenchPage.STATE_RESTORED);
             return view;
         } catch (PartInitException e) {
-            throw new RuntimeException(
-                    String.format("Cannot show view with id %s and secondary id %s.", viewId, secondaryId), e);
+            throw new RuntimeException(String.format("Cannot show view with id %s and secondary id %s.", viewId, secondaryId), e);
         }
     }
 

@@ -119,7 +119,8 @@ public class OpenAPIPartListener implements IPartListener {
     public final void partBroughtToTop(final IWorkbenchPart part) {
     }
 
-    // This event is thrown before part closed event and annotation model is still available now
+    // This event is thrown before part closed event and annotation model is still
+    // available now
     @Override
     public final void partDeactivated(final IWorkbenchPart part) {
         IEditorInput input = getFileEditorInput(part);

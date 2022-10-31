@@ -56,12 +56,12 @@ public class FileUtil {
                 public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
                     try {
                         Files.delete(dir);
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     return FileVisitResult.CONTINUE;
                 }
+
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     try {
@@ -69,15 +69,13 @@ public class FileUtil {
                             file.toFile().setWritable(true);
                         }
                         Files.delete(file);
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     return FileVisitResult.CONTINUE;
                 }
             });
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -94,7 +92,8 @@ public class FileUtil {
     }
 
     @NotNull
-    public static File createTempFile(@NotNull File dir, @NotNull String prefix, String suffix, boolean create, boolean deleteOnExit) throws IOException {
+    public static File createTempFile(@NotNull File dir, @NotNull String prefix, String suffix, boolean create, boolean deleteOnExit)
+            throws IOException {
         File file = doCreateTempFile(dir, prefix, suffix, false);
         if (deleteOnExit) {
             file.deleteOnExit();
@@ -147,8 +146,7 @@ public class FileUtil {
                 if (success) {
                     return normalizeFile(f);
                 }
-            }
-            catch (IOException e) { // Win32 createFileExclusively access denied
+            } catch (IOException e) { // Win32 createFileExclusively access denied
                 exception = e;
             }
             attempts++;
@@ -156,14 +154,17 @@ public class FileUtil {
             if (attempts > maxFileNumber / 2 || attempts > MAX_ATTEMPTS) {
                 String[] children = dir.list();
                 int size = children == null ? 0 : children.length;
-                maxFileNumber = Math.max(10, size * 10); // if too many files are in tmp dir, we need a bigger random range than meager 10
+                maxFileNumber = Math.max(10, size * 10); // if too many files are in tmp dir, we need a bigger random range than meager
+                                                         // 10
                 if (attempts > MAX_ATTEMPTS) {
-                    throw exception != null ? exception: new IOException("Unable to create a temporary file " + f + "\nDirectory '" + dir +
-                            "' list ("+size+" children): " + Arrays.toString(children));
+                    throw exception != null ? exception
+                            : new IOException("Unable to create a temporary file " + f + "\nDirectory '" + dir + "' list (" + size + " children): "
+                                    + Arrays.toString(children));
                 }
             }
 
-            i++; // for some reason the file1 can't be created (previous file1 was deleted but got locked by anti-virus?). Try file2.
+            i++; // for some reason the file1 can't be created (previous file1 was deleted but
+                 // got locked by anti-virus?). Try file2.
             if (i > 2) {
                 i = 2 + RANDOM.nextInt(maxFileNumber); // generate random suffix if too many failures
             }
@@ -206,8 +207,8 @@ public class FileUtil {
             if (!SystemInfoRt.isWindows || !canonical.contains(" ")) {
                 return canonical;
             }
+        } catch (IOException ignore) {
         }
-        catch (IOException ignore) { }
         return file.getAbsolutePath();
     }
 }

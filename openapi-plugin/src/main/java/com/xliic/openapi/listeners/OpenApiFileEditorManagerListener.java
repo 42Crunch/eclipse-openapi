@@ -1,5 +1,10 @@
 package com.xliic.openapi.listeners;
 
+import static com.xliic.openapi.OpenApiUtils.isOpenAPIFileType;
+import static com.xliic.openapi.TempFileUtils.isExtRefFile;
+
+import java.util.HashMap;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.editor.Document;
@@ -13,11 +18,6 @@ import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.PlaceHolderService;
-
-import static com.xliic.openapi.OpenApiUtils.isOpenAPIFileType;
-import static com.xliic.openapi.TempFileUtils.isExtRefFile;
-
-import java.util.HashMap;
 
 public class OpenApiFileEditorManagerListener implements FileEditorManagerListener {
 
@@ -58,14 +58,17 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
         if (event.getNewFile() == null) {
             astService.runAsyncTask(project, AsyncTaskType.ALL_FILES_CLOSED, event.getOldFile());
         } else if (event.getOldFile() == null) {
-            astService.runAsyncTask(project, AsyncTaskType.SELECTION_CHANGED, event.getNewFile(), new HashMap<>() {{
-                put(IS_FIRST_SELECTION_KEY, true);
-            }});
+            astService.runAsyncTask(project, AsyncTaskType.SELECTION_CHANGED, event.getNewFile(), new HashMap<>() {
+                {
+                    put(IS_FIRST_SELECTION_KEY, true);
+                }
+            });
         } else {
             astService.runAsyncTask(project, AsyncTaskType.SELECTION_CHANGED, event.getNewFile());
         }
     }
 
     @Override
-    public void fileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {}
+    public void fileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
+    }
 }

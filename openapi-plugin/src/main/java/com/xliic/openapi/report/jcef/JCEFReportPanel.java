@@ -1,54 +1,45 @@
 package com.xliic.openapi.report.jcef;
 
-import com.xliic.core.ide.ui.LafManager;
-import com.xliic.core.ide.ui.LafManagerListener;
+import static com.xliic.openapi.OpenApiUtils.getURI;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.xliic.core.Disposable;
-import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
-import com.xliic.core.ui.jcef.JBCefBrowser;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.AuditParameters;
+import com.xliic.openapi.report.AuditSerializer;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.AuditService;
-import com.xliic.openapi.services.HTMLService;
+import com.xliic.openapi.services.KDBService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.WindowListener;
 
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
+public class JCEFReportPanel extends PanelBrowser implements FileListener, WindowListener, AuditListener, Disposable {
 
-import java.util.List;
-
-public class JCEFReportPanel extends JBCefBrowser
-implements LafManagerListener, FileListener, WindowListener, AuditListener, Disposable {
-
-    private final Project project;
-    private final ToolWindow toolWindow;
-    private final JCEFLoadHandlerAdapter loadHandlerAdapter;
-    private final HTMLService htmlService;
     private AuditParameters lastAuditParameters;
 
     public JCEFReportPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
-        super(parent);
-        this.project = project;
-        this.toolWindow = toolWindow;
+        super(project, toolWindow, parent, "audit");
         lastAuditParameters = null;
-        loadHandlerAdapter = new JCEFLoadHandlerAdapter(project,this);
-        htmlService = HTMLService.getInstance();
-
-        getJBCefClient().addLoadHandler(loadHandlerAdapter, getCefBrowser());
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(WindowListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(AuditListener.TOPIC, this);
-
-        ApplicationManager.getApplication().getMessageBus().connect().subscribe(LafManagerListener.TOPIC, this);
-
-        htmlService.initWebUI(this);
         VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
         if (file != null) {
             handleSelectedFile(file);
@@ -56,17 +47,43 @@ implements LafManagerListener, FileListener, WindowListener, AuditListener, Disp
     }
 
     @Override
-    public void lookAndFeelChanged(@NotNull LafManager source) {
-        boolean isDarkTheme = HTMLService.isDarkTheme(source.getCurrentLookAndFeel());
-        htmlService.changeActiveColorTheme(this, isDarkTheme);
+    protected @NotNull String getLoadingMessage() {
+        return "Loading API Contract Security Audit KDB Articles...";
+    }
+
+    @Override
+    protected @Nullable String getMainHTML(String page, String styleCss) {
+        return page.replace("${style}", styleCss);
+    }
+
+    @Override
+    protected @Nullable String getInitJS() {
+        String kdb = KDBService.getInstance().getText();
+        if (kdb != null) {
+            return "window.initWebJS(" + jsonfy(kdb) + ")";
+        }
+        return null;
+    }
+
+    @Override
+    protected void loadComplete() {
+        updateLastReport();
+    }
+
+    @Override
+    protected @Nullable Function<Object, JBCefJSQuery.Response> getBrowserFunction() {
+        return new JCEFPostMessageListener(project, getCefBrowser().getBrowser());
+    }
+
+    @Override
+    protected void addSerializer(@NotNull SimpleModule module) {
+        module.addSerializer(Audit.class, new AuditSerializer());
     }
 
     @Override
     public void dispose() {
         super.dispose();
         lastAuditParameters = null;
-        loadHandlerAdapter.dispose();
-        getJBCefClient().removeLoadHandler(loadHandlerAdapter, getCefBrowser());
     }
 
     @Override
@@ -78,9 +95,6 @@ implements LafManagerListener, FileListener, WindowListener, AuditListener, Disp
             }
         }
     }
-
-    @Override
-    public void handleToolWindowOpened(@NotNull String id) {}
 
     @Override
     public void handleAllFilesClosed() {
@@ -99,10 +113,6 @@ implements LafManagerListener, FileListener, WindowListener, AuditListener, Disp
     }
 
     @Override
-    public void handleDocumentChanged(@NotNull VirtualFile file) {
-    }
-
-    @Override
     public void handleClosedFile(@NotNull VirtualFile file) {
         AuditService auditService = AuditService.getInstance(project);
         VirtualFile selectedFile = OpenApiUtils.getSelectedOpenAPIFile(project);
@@ -111,8 +121,7 @@ implements LafManagerListener, FileListener, WindowListener, AuditListener, Disp
             if (audit != null) {
                 update(audit);
             }
-        }
-        else {
+        } else {
             reportNotAvailable();
         }
     }
@@ -150,6 +159,11 @@ implements LafManagerListener, FileListener, WindowListener, AuditListener, Disp
     }
 
     @Override
+    public void handleKDBReady(@NotNull String text) {
+        init();
+    }
+
+    @Override
     public void handleSelectedFile(@NotNull VirtualFile file) {
         AuditService auditService = AuditService.getInstance(project);
         Audit audit = auditService.getAuditReport(file.getPath());
@@ -157,38 +171,37 @@ implements LafManagerListener, FileListener, WindowListener, AuditListener, Disp
             if (audit.isPlatform()) {
                 if (audit.isShowAsHTML()) {
                     update(audit);
-                }
-                else {
+                } else {
                     reportNotAvailable();
                 }
-            }
-            else {
+            } else {
                 update(audit);
             }
-        }
-        else if (auditService.isNotAuditParticipantFile(file.getPath())) {
+        } else if (auditService.isNotAuditParticipantFile(file.getPath())) {
             reportNotAvailable();
         }
     }
 
-    @Override
-    public void handleAuditReportClean(@NotNull Audit report) {}
-
     public void updateLastReport() {
         if (lastAuditParameters == null) {
             reportNotAvailable();
-        }
-        else if (lastAuditParameters.isPartialReport()) {
+        } else if (lastAuditParameters.isPartialReport()) {
             update(lastAuditParameters.getReport(), lastAuditParameters.getFile(), lastAuditParameters.getIds());
-        }
-        else {
+        } else {
             update(lastAuditParameters.getReport());
         }
     }
 
     private void update(Audit report) {
         lastAuditParameters = new AuditParameters(report);
-        htmlService.showFullReport(this, report);
+        @SuppressWarnings("serial")
+        Map<String, Object> parameters = new HashMap<>() {
+            {
+                put("command", "showFullReport");
+                put("report", serialize(report));
+            }
+        };
+        sendMessage(parameters);
     }
 
     private void update(Audit report, VirtualFile file, List<Integer> ids) {
@@ -196,11 +209,26 @@ implements LafManagerListener, FileListener, WindowListener, AuditListener, Disp
         if (!report.isShowAsHTML()) {
             report.setShowAsHTML(true);
         }
-        htmlService.showPartialReport(this, report, file, ids);
+        @SuppressWarnings("serial")
+        Map<String, Object> parameters = new HashMap<>() {
+            {
+                put("command", "showPartialReport");
+                put("report", serialize(report));
+                put("uri", getURI(file));
+                put("ids", ids);
+            }
+        };
+        sendMessage(parameters);
     }
 
     private void reportNotAvailable() {
         lastAuditParameters = null;
-        htmlService.showNoReport(this);
+        @SuppressWarnings("serial")
+        Map<String, Object> parameters = new HashMap<>() {
+            {
+                put("command", "showNoReport");
+            }
+        };
+        sendMessage(parameters);
     }
 }

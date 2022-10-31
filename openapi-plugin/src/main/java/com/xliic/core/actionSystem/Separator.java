@@ -9,7 +9,8 @@ public class Separator extends AnJAction {
     }
 
     @Override
-    public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {}
+    public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {
+    }
 
     @NotNull
     public static Separator create() {

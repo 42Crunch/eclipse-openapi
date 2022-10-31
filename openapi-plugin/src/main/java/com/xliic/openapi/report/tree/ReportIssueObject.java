@@ -1,18 +1,19 @@
 package com.xliic.openapi.report.tree;
 
-import com.xliic.core.ide.errorTreeView.NavigatableErrorTreeElement;
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.pom.Navigatable;
-import com.xliic.openapi.parser.ast.Range;
-import com.xliic.openapi.report.Issue;
-import com.xliic.openapi.report.Severity;
-import org.jetbrains.annotations.NotNull;
+import static com.xliic.openapi.OpenApiUtils.getOpenFileDescriptor;
 
 import java.io.File;
 
-import static com.xliic.openapi.OpenApiUtils.getOpenFileDescriptor;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.ide.errorTreeView.NavigatableErrorTreeElement;
+import com.xliic.core.pom.Navigatable;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.parser.ast.Range;
+import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.Severity;
 
 public class ReportIssueObject implements NavigatableErrorTreeElement {
 

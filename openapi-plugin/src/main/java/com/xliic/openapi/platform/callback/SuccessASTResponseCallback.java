@@ -1,9 +1,10 @@
 package com.xliic.openapi.platform.callback;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class SuccessASTResponseCallback extends SuccessBodyResponseCallback {
 

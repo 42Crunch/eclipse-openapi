@@ -1,19 +1,19 @@
 package com.xliic.openapi.quickfix.actions;
 
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.ArrayUtilRt;
-import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleHighlightingPass;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.SettingsKeys;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Set;
 
 public class FixHostApprovedAction extends IntentionAction {
 
@@ -58,8 +58,7 @@ public class FixHostApprovedAction extends IntentionAction {
 
     @Override
     public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
-        return label.startsWith(BundleHighlightingPass.EXT_REF_STARTS_WITH) &&
-                label.endsWith(BundleHighlightingPass.EXT_REF_ENDS_WITH) &&
-                label.contains(hostname);
+        return label.startsWith(BundleHighlightingPass.EXT_REF_STARTS_WITH) && label.endsWith(BundleHighlightingPass.EXT_REF_ENDS_WITH)
+                && label.contains(hostname);
     }
 }

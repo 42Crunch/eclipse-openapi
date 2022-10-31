@@ -3,17 +3,17 @@ package com.xliic.openapi.services.factory;
 import org.eclipse.ui.services.AbstractServiceFactory;
 import org.eclipse.ui.services.IServiceLocator;
 
-import com.xliic.openapi.services.HTMLService;
-import com.xliic.openapi.services.api.IHTMLService;
+import com.xliic.openapi.services.KDBService;
+import com.xliic.openapi.services.api.IKDBService;
 
-public class HTMLServiceFactory extends AbstractServiceFactory {
+public class KDBServiceFactory extends AbstractServiceFactory {
 
-    private static final HTMLService service = new HTMLService();
+    private static final KDBService service = new KDBService();
 
     @Override
     @SuppressWarnings("rawtypes")
     public Object create(Class serviceInterface, IServiceLocator parentLocator, IServiceLocator locator) {
-        if (IHTMLService.class.equals(serviceInterface)) {
+        if (IKDBService.class.equals(serviceInterface)) {
             return service;
         }
         return null;

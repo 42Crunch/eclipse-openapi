@@ -1,5 +1,7 @@
 package com.xliic.core.ui.jcef;
 
+import java.util.function.Function;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,6 +22,12 @@ public final class JBCefJSQuery {
         return "";
     }
 
+    public void addHandler(Function<Object, JBCefJSQuery.Response> handler) {
+    }
+
+    public void removeHandler(Function<Object, JBCefJSQuery.Response> handler) {
+    }
+
     public static class Response {
 
         public static final int ERR_CODE_SUCCESS = 0;
@@ -28,7 +36,7 @@ public final class JBCefJSQuery {
         private final @Nullable String myErrMsg;
 
         public Response(@Nullable String response) {
-            this(response, 0, (String)null);
+            this(response, 0, (String) null);
         }
 
         public Response(@Nullable String response, int errCode, @Nullable String errMsg) {

@@ -14,7 +14,7 @@ public class ProjectManager {
         return manager;
     }
 
-    public @NotNull Project [] getOpenProjects() {
+    public @NotNull Project[] getOpenProjects() {
         Project[] projects = new Project[1];
         projects[0] = Project.getInstance();
         return projects;

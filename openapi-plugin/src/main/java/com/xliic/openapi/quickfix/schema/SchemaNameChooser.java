@@ -1,17 +1,19 @@
 package com.xliic.openapi.quickfix.schema;
 
-import com.xliic.core.project.Project;
-import com.xliic.core.ui.DialogWrapper;
-import com.xliic.core.ui.ValidationInfo;
-import com.xliic.core.ui.components.JTextField;
+import java.util.Set;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import java.util.Set;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.DialogWrapper;
+import com.xliic.core.ui.ValidationInfo;
+import com.xliic.core.ui.components.JTextField;
 
 public class SchemaNameChooser extends DialogWrapper {
 
@@ -20,9 +22,7 @@ public class SchemaNameChooser extends DialogWrapper {
     private final String defaultSchemaName;
     private final Set<String> existingSchemaNames;
 
-    public SchemaNameChooser(@NotNull Project project,
-            @NotNull String defaultSchemaName,
-            @NotNull Set<String> existingSchemaNames) {
+    public SchemaNameChooser(@NotNull Project project, @NotNull String defaultSchemaName, @NotNull Set<String> existingSchemaNames) {
         super(project, 1);
         setTitle("Enter New Schema Name");
         this.defaultSchemaName = defaultSchemaName;

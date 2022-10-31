@@ -1,9 +1,10 @@
 package com.xliic.openapi.tree.node;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.openapi.OpenApiPanelKeys;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseNode {
 
@@ -15,7 +16,7 @@ public abstract class BaseNode {
 
     public BaseNode(@NotNull String name, Node node, BaseNode parent) {
         this.name = name;
-        this.node= node;
+        this.node = node;
         this.parent = parent;
         hint = false;
     }
@@ -59,8 +60,7 @@ public abstract class BaseNode {
     public static boolean showHint(BaseNode node) {
         if (node instanceof PanelNode) {
             return !OpenApiPanelKeys.OPERATION_ID.equals(node.getName());
-        }
-        else {
+        } else {
             return OpenApiPanelKeys.PATHS.equals(((SimpleNode) node).getParentName());
         }
     }

@@ -1,5 +1,9 @@
 package com.xliic.core.codeInsight.editorActions.enter;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,11 +13,6 @@ import com.xliic.core.editor.actionSystem.EditorActionHandler;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.Ref;
 import com.xliic.openapi.services.PlaceHolderService;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
 public abstract class EnterHandlerDelegate implements Listener {
 
@@ -28,7 +27,7 @@ public abstract class EnterHandlerDelegate implements Listener {
     }
 
     @Override
-    public void handleEvent (Event event) {
+    public void handleEvent(Event event) {
         switch (event.detail) {
         case SWT.TRAVERSE_ESCAPE:
             PlaceHolderService placeHolderService = PlaceHolderService.getInstance(editor.getProject());
@@ -48,14 +47,8 @@ public abstract class EnterHandlerDelegate implements Listener {
         }
     }
 
-    public abstract Result preprocessEnter(@NotNull PsiFile psiFile,
-            @NotNull Editor editor,
-            @NotNull Ref<Integer> ref,
-            @NotNull Ref<Integer> ref1,
-            @NotNull DataContext dataContext,
-            @Nullable EditorActionHandler editorActionHandler);
+    public abstract Result preprocessEnter(@NotNull PsiFile psiFile, @NotNull Editor editor, @NotNull Ref<Integer> ref, @NotNull Ref<Integer> ref1,
+            @NotNull DataContext dataContext, @Nullable EditorActionHandler editorActionHandler);
 
-    public abstract Result postProcessEnter(@NotNull PsiFile psiFile,
-            @NotNull Editor editor,
-            @NotNull DataContext dataContext);
+    public abstract Result postProcessEnter(@NotNull PsiFile psiFile, @NotNull Editor editor, @NotNull DataContext dataContext);
 }

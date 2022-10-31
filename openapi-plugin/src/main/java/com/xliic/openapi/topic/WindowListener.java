@@ -9,6 +9,8 @@ public interface WindowListener {
 
     Topic<WindowListener> TOPIC = new TopicWindowListener<>(WindowListener.class, Topic.BroadcastDirection.NONE);
 
-    void handleToolWindowOpened(@NotNull String id);
+    default void handleToolWindowOpened(@NotNull String id) {
+    }
+
     void handleToolWindowRegistered(@NotNull String id);
 }

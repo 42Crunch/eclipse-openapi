@@ -1,20 +1,20 @@
 package com.xliic.openapi.quickfix.managers;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import com.google.gson.JsonObject;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.quickfix.FixIssueItem;
 import com.xliic.openapi.quickfix.FixItem;
-import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.schema.SchemaNameChooser;
 import com.xliic.openapi.quickfix.schema.SchemaUtils;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.ASTService;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 public class FixManagerSchema extends FixManager {
 
@@ -46,8 +46,7 @@ public class FixManagerSchema extends FixManager {
         if (chooser.showAndGet()) {
             schemaName = chooser.getValue();
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -68,11 +67,6 @@ public class FixManagerSchema extends FixManager {
     }
 
     @Override
-    public FixType getType() {
-        return quickFix.getType();
-    }
-
-    @Override
     public String getTitle() {
         return title;
     }
@@ -87,25 +81,22 @@ public class FixManagerSchema extends FixManager {
         if (version == OpenApiVersion.V2) {
             if ("schema".equals(target.getKey())) {
                 schemaRefFix.addProperty("$ref", "#/definitions/" + schemaName);
-            }
-            else {
+            } else {
                 JsonObject schemaRef = new JsonObject();
                 schemaRef.addProperty("$ref", "#/definitions/" + schemaName);
                 schemaRefFix.add("schema", schemaRef);
             }
-        }
-        else {
+        } else {
             if ("schema".equals(target.getKey())) {
                 schemaRefFix.addProperty("$ref", "#/components/schemas/" + schemaName);
-            }
-            else {
+            } else {
                 JsonObject schemaRef = new JsonObject();
                 schemaRef.addProperty("$ref", "#/components/schemas/" + schemaName);
                 schemaRefFix.add("schema", schemaRef);
             }
         }
         String text = QuickFix.formatFixText(schemaRefFix.toString(), isJson(psiFile));
-        return new FixItem(issue, pointer, text, new LinkedList<>());
+        return new FixIssueItem(issue, pointer, text, quickFix.getType());
     }
 
     private FixItem getSchemaMainFixItem(Node root) {
@@ -125,8 +116,7 @@ public class FixManagerSchema extends FixManager {
                 definitions.add("definitions", schemaMainFix);
                 text = definitions.toString();
             }
-        }
-        else {
+        } else {
             pointer = "/components/schemas";
             Node target = root.find(pointer);
             if (target == null) {
@@ -136,8 +126,7 @@ public class FixManagerSchema extends FixManager {
                     JsonObject schemas = new JsonObject();
                     schemas.add("schemas", schemaMainFix);
                     text = schemas.toString();
-                }
-                else {
+                } else {
                     pointer = "";
                     JsonObject schemas = new JsonObject();
                     schemas.add("schemas", schemaMainFix);
@@ -148,7 +137,7 @@ public class FixManagerSchema extends FixManager {
             }
         }
         text = QuickFix.formatFixText(text, isJson(psiFile));
-        return new FixItem(issue, pointer, text, new LinkedList<>());
+        return new FixIssueItem(issue, pointer, text, quickFix.getType());
     }
 
     @Override

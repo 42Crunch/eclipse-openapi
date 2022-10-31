@@ -1,12 +1,17 @@
 package com.xliic.openapi.quickfix.schema;
 
+import static com.xliic.openapi.quickfix.schema.SchemaUtils.getRequired;
+import static com.xliic.openapi.quickfix.schema.SchemaUtils.getType;
+import static com.xliic.openapi.quickfix.schema.SchemaUtils.has;
+import static com.xliic.openapi.quickfix.schema.SchemaUtils.isMixedTypeArray;
+import static com.xliic.openapi.quickfix.schema.SchemaUtils.unpack;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.xliic.openapi.parser.ast.node.Node;
-import org.jetbrains.annotations.NotNull;
-
-import static com.xliic.openapi.quickfix.schema.SchemaUtils.*;
 
 public class SchemaObjectGenerator {
 

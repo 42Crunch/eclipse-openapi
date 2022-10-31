@@ -16,14 +16,18 @@ public abstract class ProjectManagerListener implements IPartListener {
     public abstract void projectClosingBeforeSave(@NotNull Project project);
 
     @Override
-    public void partActivated(IWorkbenchPart part) {}
+    public void partActivated(IWorkbenchPart part) {
+    }
 
     @Override
-    public void partBroughtToTop(IWorkbenchPart part) {}
+    public void partBroughtToTop(IWorkbenchPart part) {
+    }
 
     @Override
-    public void partDeactivated(IWorkbenchPart part) {}
+    public void partDeactivated(IWorkbenchPart part) {
+    }
 
     @Override
-    public void partOpened(IWorkbenchPart part) {}
+    public void partOpened(IWorkbenchPart part) {
+    }
 }

@@ -1,20 +1,28 @@
 package com.xliic.openapi.platform.tree;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.CommonBundle;
 import com.xliic.core.icons.AllIcons;
 import com.xliic.core.ui.AnimatedIcon;
 import com.xliic.core.ui.ColoredTreeCellRenderer;
 import com.xliic.core.ui.SimpleTextAttributes;
 import com.xliic.core.ui.treeStructure.Tree;
-import com.xliic.openapi.platform.tree.node.*;
+import com.xliic.openapi.platform.tree.node.PlatformAPI;
+import com.xliic.openapi.platform.tree.node.PlatformAudit;
+import com.xliic.openapi.platform.tree.node.PlatformCollection;
+import com.xliic.openapi.platform.tree.node.PlatformDataDictionary;
+import com.xliic.openapi.platform.tree.node.PlatformOAS;
+import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
+import com.xliic.openapi.platform.tree.node.PlatformRootFavorite;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformErrorDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformFilterDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadingDecorator;
-import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import icons.OpenApiIcons;
 
 public class PlatformColoredTreeCellRenderer extends ColoredTreeCellRenderer {
 
@@ -22,8 +30,8 @@ public class PlatformColoredTreeCellRenderer extends ColoredTreeCellRenderer {
     }
 
     @Override
-    public void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected,
-            boolean expanded, boolean leaf, int row, boolean hasFocus) {
+    public void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected, boolean expanded, boolean leaf, int row,
+            boolean hasFocus) {
 
         final DefaultMutableTreeNode valueDMTN = (DefaultMutableTreeNode) value;
         final Object valueObj = valueDMTN.getUserObject();
@@ -39,6 +47,10 @@ public class PlatformColoredTreeCellRenderer extends ColoredTreeCellRenderer {
             PlatformRootFavorite rfo = (PlatformRootFavorite) valueObj;
             append(rfo.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
             setIcon(OpenApiIcons.PlatformFavorite);
+        } else if (valueObj instanceof PlatformDataDictionary) {
+            PlatformDataDictionary ddo = (PlatformDataDictionary) valueObj;
+            append(ddo.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
+            setIcon(OpenApiIcons.Dictionary);
         } else if (valueObj instanceof PlatformCollection) {
             PlatformCollection pco = (PlatformCollection) valueObj;
             append(pco.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);

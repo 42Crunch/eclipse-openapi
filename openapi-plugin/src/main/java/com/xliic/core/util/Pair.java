@@ -55,12 +55,6 @@ public class Pair<A, B> {
         return second;
     }
 
-    //	@Override
-    //	public final boolean equals(Object o) {
-    //		return o instanceof Pair && Comparing.equal(first, ((Pair<?, ?>) o).first)
-    //				&& Comparing.equal(second, ((Pair<?, ?>) o).second);
-    //	}
-
     @Override
     public int hashCode() {
         int result = first != null ? first.hashCode() : 0;

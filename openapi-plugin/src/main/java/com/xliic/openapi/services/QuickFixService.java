@@ -114,8 +114,7 @@ public final class QuickFixService implements IQuickFixService, Disposable {
                     if (genFrom == null) {
                         genFrom = SchemaUtils.getSchemaV2Example(issue.getPointer(), quickFix.getProblems(), root);
                     }
-                }
-                else {
+                } else {
                     genFrom = SchemaUtils.getSchemaV3Examples(issue.getPointer(), quickFix.getProblems(), root);
                     if (genFrom == null) {
                         genFrom = SchemaUtils.getSchemaV3Example(issue.getPointer(), quickFix.getProblems(), root);
@@ -206,9 +205,7 @@ public final class QuickFixService implements IQuickFixService, Disposable {
     }
 
     @NotNull
-    public List<FixSnippetAction> getSnippetFixActions(@NotNull PsiFile psiFile,
-            @NotNull String id,
-            @NotNull DefaultMutableTreeNode node) {
+    public List<FixSnippetAction> getSnippetFixActions(@NotNull PsiFile psiFile, @NotNull String id, @NotNull DefaultMutableTreeNode node) {
         List<FixSnippetAction> result = new LinkedList<>();
         QuickFix quickFix = snippets.get(id).get(0);
 
@@ -217,8 +214,7 @@ public final class QuickFixService implements IQuickFixService, Disposable {
                 FixManagerSnippet provider = new FixManagerSnippet(psiFile, (String) operation, quickFix, node);
                 result.add(new FixSnippetAction(provider, OpenApiIcons.PropertyNode));
             }
-        }
-        else {
+        } else {
             FixManagerSnippet provider = new FixManagerSnippet(psiFile, quickFix, node);
             result.add(new FixSnippetAction(provider, OpenApiIcons.AddSnippet));
         }
@@ -226,9 +222,7 @@ public final class QuickFixService implements IQuickFixService, Disposable {
     }
 
     @NotNull
-    public List<FixSnippetAction> getSnippetFixActions(@NotNull PsiFile psiFile,
-            @NotNull List<String> ids,
-            @NotNull DefaultMutableTreeNode node) {
+    public List<FixSnippetAction> getSnippetFixActions(@NotNull PsiFile psiFile, @NotNull List<String> ids, @NotNull DefaultMutableTreeNode node) {
         List<FixSnippetAction> result = new LinkedList<>();
         for (String id : ids) {
             result.addAll(getSnippetFixActions(psiFile, id, node));
@@ -238,7 +232,7 @@ public final class QuickFixService implements IQuickFixService, Disposable {
 
     private void loadJsonConfig(String fileName, Map<String, List<QuickFix>> source) {
         if (source.isEmpty()) {
-            InputStream inputStream = getResourceAsStream(getClass().getClassLoader(),"config", fileName);
+            InputStream inputStream = getResourceAsStream(getClass().getClassLoader(), "config", fileName);
             InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             Stream<String> stream = new BufferedReader(reader).lines();
             StringBuilder builder = new StringBuilder();

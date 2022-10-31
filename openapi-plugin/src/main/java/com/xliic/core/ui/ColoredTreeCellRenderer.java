@@ -15,7 +15,7 @@ import com.xliic.core.ui.treeStructure.Tree;
 // Use this information to minimize customizeCellRenderer invocations by caching its return data
 
 public abstract class ColoredTreeCellRenderer extends StyledCellLabelProvider
-implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvider {
+        implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvider {
 
     private final static StyledString UNKNOWN_OBJECT_ERROR = new StyledString("null", null);
 
@@ -40,8 +40,10 @@ implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvide
         if (this.element != element) {
             customizeCellRenderer(element);
         }
-        // Drop the cached element to handle the case where next renderer call is for the same element
-        // In that case we must return actual result, not the cached one to keep consistency
+        // Drop the cached element to handle the case where next renderer call is for
+        // the same element
+        // In that case we must return actual result, not the cached one to keep
+        // consistency
         this.element = null;
         return icon == null ? null : icon.createImage();
     }
@@ -52,8 +54,8 @@ implements DelegatingStyledCellLabelProvider.IStyledLabelProvider, ILabelProvide
         return getStyledText(element).toString();
     }
 
-    public abstract void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected,
-            boolean expanded, boolean leaf, int row, boolean hasFocus);
+    public abstract void customizeCellRenderer(@NotNull Tree jTree, Object value, boolean selected, boolean expanded, boolean leaf, int row,
+            boolean hasFocus);
 
     protected final void setIcon(@Nullable com.xliic.core.util.Icon icon) {
         this.icon = icon;

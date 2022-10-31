@@ -1,9 +1,9 @@
 package com.xliic.openapi.platform;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.util.messages.Topic;
 import com.xliic.core.util.messages.TopicPlatformListener;
-
-import org.jetbrains.annotations.NotNull;
 
 public interface PlatformListener {
 
@@ -11,5 +11,10 @@ public interface PlatformListener {
 
     void reloadAll();
 
+    void reloadDictionary();
+
     void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid);
+
+    default void collectionsLoaded() {
+    }
 }

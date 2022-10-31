@@ -82,18 +82,22 @@ public class JTextArea implements Validator {
                         public int getOffset() {
                             return 0;
                         }
+
                         @Override
                         public int getLength() {
                             return 0;
                         }
+
                         @Override
                         public javax.swing.text.Document getDocument() {
                             return null;
                         }
+
                         @Override
                         public EventType getType() {
                             return null;
                         }
+
                         @Override
                         public ElementChange getChange(Element elem) {
                             return null;

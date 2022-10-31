@@ -11,8 +11,7 @@ import com.xliic.core.project.Project;
 
 public class UpdateHighlightersUtil {
 
-    public static void setHighlightersToEditor(@NotNull Project project, @NotNull Document document, int startOffset,
-            int endOffset, @NotNull Collection<? extends HighlightInfo> highlights,
-            @Nullable EditorColorsScheme colorsScheme, int group) {
+    public static void setHighlightersToEditor(@NotNull Project project, @NotNull Document document, int startOffset, int endOffset,
+            @NotNull Collection<? extends HighlightInfo> highlights, @Nullable EditorColorsScheme colorsScheme, int group) {
     }
 }

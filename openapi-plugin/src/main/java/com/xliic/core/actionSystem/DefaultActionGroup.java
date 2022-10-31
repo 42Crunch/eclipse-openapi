@@ -62,8 +62,10 @@ public class DefaultActionGroup implements Presentation {
     }
 
     @Override
-    public void setIcon(@Nullable Icon icon) {}
+    public void setIcon(@Nullable Icon icon) {
+    }
 
     @Override
-    public void setDescription(@NotNull String description) {}
+    public void setDescription(@NotNull String description) {
+    }
 }
