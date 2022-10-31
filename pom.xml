@@ -23,7 +23,7 @@
 		<repository>
 			<id>download.eclipse.org</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/2020-12</url>
+			<url>https://download.eclipse.org/releases/2021-03/202103171000</url>
 		</repository>
 		<repository>
             <id>chromium-swt-ce</id>
