@@ -25,7 +25,9 @@ Both OAS v2 and v3 are supported.
       - [Individual fixes](#individual-fixes)
       - [Bulk fixes](#bulk-fixes)
   - [Integration with 42Crunch Platform](#integration-with-42crunch-platform)
+  - [Platform Data Dictionary](#platform-data-dictionary)
   - [Known issues](#known-issues)
+  - [Version compatibility](#version-compatibility)
   - [Feedback](#feedback)
 
 ## Quick start
@@ -172,12 +174,47 @@ Then you can work with the platform using the tree view
 
 ![Platform structure in Eclipse](docs/images/Img_platform_structure.jpg)
 
+## Platform Data Dictionary
+
+You can use OpenAPI extension to work with Data Dictionary if integration with [42Crunch Platform](https://platform.42crunch.com/) is enabled.
+
+There is a Data Dictionary node in the platform tree. Click on it will open the panel with information about all configured dictionaries and formats.
+
+If platform format mismatches existing properties there are errors with possible fixes become available.
+
+![Data dictionary in Eclipse](docs/images/Img_dd_overview.jpg)
+
+As you typing OpenAPI format values starting with o: the context-sensitive list of available options is displayed.
+
+![Data dictionary completion in Eclipse](docs/images/Img_dd_overview_completion.jpg)
+
+It is possible to fix all format issues using the right click context menu in the editor.
+
+![Data dictionary fix in Eclipse](docs/images/Img_dd_overview_fix_global.jpg)
+
+If file contains format issues, then a user can be asked to choose whether it should be fixed or not before the following actions:
+
+1. Security audit 
+2. Uploading file to the platform
+
+![Data dictionary fix dialog in Eclipse](docs/images/Img_dd_overview_fix_global_ask.jpg)
+
+This behavior can be changed in the preferences menu.
+
+![Data dictionary pre fix options in Eclipse](docs/images/Img_dd_overview_fix_global_option.jpg)
+
 ## Known issues
 
 - No schema validation of OpenAPI files
 - Reference completion is unavailable for external references
 - Generic Text Editor must be a default editor for json / yaml files to use QuickFixes
 - Sometimes Eclipse doesn't show the QuickFix popup, in this case use right click context menu or press **Ctrl+1** shortcut.
+
+## Version compatibility
+
+Extension prior to version 1.40 are compatible with Eclipse 2020-12 or newer releases.
+
+Extension from version 1.40 onwards are compatible with Eclipse 2021-03 or newer releases.
 
 ## Feedback
 
