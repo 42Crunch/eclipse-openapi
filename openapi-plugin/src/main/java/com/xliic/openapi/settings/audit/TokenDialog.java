@@ -63,7 +63,7 @@ public class TokenDialog extends DialogWrapper {
     @Override
     public void doOKAction() {
         super.doOKAction();
-        PropertiesComponent.getInstance().setValue(Settings.TOKEN, tokenTextArea.getStripText());
+        PropertiesComponent.getInstance().setValue(Settings.Audit.TOKEN, tokenTextArea.getStripText());
         new TokenDialogDoOkActionCallback(project, file, tokenTextArea.getStripText()).setDone();
     }
 }

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jetbrains.annotations.NotNull;
@@ -194,8 +195,8 @@ public final class DictionaryService implements IDictionaryService, SettingsList
     }
 
     @Override
-    public void propertiesUpdated(@NotNull String key) {
-        if (Settings.isPlatformKey(key) && !project.isDisposed()) {
+    public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
+        if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
             if (PlatformConnection.isEmpty()) {
                 ToolWindow window = manager.getToolWindow(PLATFORM_DICTIONARY);

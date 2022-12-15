@@ -68,7 +68,7 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
             return;
         }
         PropertiesComponent settings = PropertiesComponent.getInstance();
-        String value = settings.getValue(Settings.Platform.Dictionary.PreAudit.KEY);
+        String value = settings.getValue(Settings.Platform.Dictionary.PreAudit.CHOICE);
         if (Settings.Platform.Dictionary.PreAudit.ASK.equals(value)) {
             FixGlobalDictionaryAction action = new FixGlobalDictionaryAction();
             if (action.update(project, file)) {
@@ -80,10 +80,10 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
                 } else if (code == PreAuditDialog.NO_EXIT_CODE) {
                     runSaveToPlatform(project, file);
                 } else if (code == PreAuditDialog.ALWAYS_EXIT_CODE) {
-                    settings.setValue(Settings.Platform.Dictionary.PreAudit.KEY, Settings.Platform.Dictionary.PreAudit.ALWAYS);
+                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
                     updateAndRunSaveToPlatform(action, project, file);
                 } else if (code == PreAuditDialog.NEVER_EXIT_CODE) {
-                    settings.setValue(Settings.Platform.Dictionary.PreAudit.KEY, Settings.Platform.Dictionary.PreAudit.NEVER);
+                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
                     runSaveToPlatform(project, file);
                 }
             } else {

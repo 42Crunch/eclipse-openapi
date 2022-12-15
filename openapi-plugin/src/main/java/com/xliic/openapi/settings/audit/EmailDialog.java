@@ -54,7 +54,7 @@ public class EmailDialog extends DialogWrapper {
         info.setText("Security Audit from 42Crunch runs ~200 checks for security best practices in your API. "
                 + "Eclipse needs an API key to use the service. Enter your email to receive the token.");
 
-        String previousEmail = PropertiesComponent.getInstance().getValue(Settings.EMAIL);
+        String previousEmail = PropertiesComponent.getInstance().getValue(Settings.Audit.EMAIL);
         if (previousEmail != null && !previousEmail.isEmpty()) {
             emailTextField.setText(previousEmail);
             setOKActionEnabled(EMAIL_REGEX.matcher(previousEmail).find());
@@ -74,7 +74,7 @@ public class EmailDialog extends DialogWrapper {
     @Override
     public void doOKAction() {
         super.doOKAction();
-        PropertiesComponent.getInstance().setValue(Settings.EMAIL, emailTextField.getText());
+        PropertiesComponent.getInstance().setValue(Settings.Audit.EMAIL, emailTextField.getText());
         ApplicationManager.getApplication().invokeLater(() -> {
             AuditService auditService = AuditService.getInstance(project);
             auditService.sendGenerateTokenRequest(emailTextField.getText(), new EmailDialogDoOkActionCallback(project, file));

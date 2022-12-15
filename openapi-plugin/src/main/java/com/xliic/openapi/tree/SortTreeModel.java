@@ -27,7 +27,7 @@ public class SortTreeModel extends DefaultTreeModel {
 
     public SortTreeModel(@NotNull TreeViewer viewer, @NotNull TreeNode root, boolean asksAllowsChildren) {
         super(viewer, root, asksAllowsChildren);
-        boolean sortABC = PropertiesComponent.getInstance().getBoolean(Settings.ABC_SORT);
+        boolean sortABC = PropertiesComponent.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
         comparator = getComparator(sortABC);
     }
 

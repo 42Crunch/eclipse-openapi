@@ -7,6 +7,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.Set;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -19,8 +20,11 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.application.ModalityState;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.services.api.ITryItService;
+import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.TryItListener;
 import com.xliic.openapi.tryit.TryItResponseCallback;
 import com.xliic.openapi.tryit.TryItTrustManager;
@@ -32,7 +36,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.internal.http.HttpMethod;
 
-public final class TryItService implements ITryItService {
+public final class TryItService implements SettingsListener, ITryItService {
 
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
     private static final OkHttpClient sslClient = getSSLClient(new OkHttpClient().newBuilder());
@@ -41,6 +45,7 @@ public final class TryItService implements ITryItService {
 
     public TryItService(@NotNull Project project) {
         this.project = project;
+        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
     public static TryItService getInstance(@NotNull Project project) {
@@ -122,5 +127,16 @@ public final class TryItService implements ITryItService {
             OpenApiUtils.activateToolWindow(project, TRY_IT);
             project.getMessageBus().syncPublisher(TryItListener.TOPIC).tryOperation(payload);
         }, ModalityState.NON_MODAL);
+    }
+
+    @Override
+    public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
+        if (keys.contains(Settings.TryIt.INSECURE_SSL_HOSTNAMES)) {
+            SwingUtilities.invokeLater(() -> {
+                if (!project.isDisposed()) {
+                    project.getMessageBus().syncPublisher(TryItListener.TOPIC).tryLastOperation();
+                }
+            });
+        }
     }
 }

@@ -30,4 +30,12 @@ public class JComboBox<T> {
     public void insertItemAt(T item, int index) {
         comboWidget.add((String) item, index);
     }
+
+    public int getItemCount() {
+        return comboWidget.getItemCount();
+    }
+
+    public String getItemAt(int index) {
+        return comboWidget.getItem(index);
+    }
 }

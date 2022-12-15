@@ -81,7 +81,7 @@ public class ExtRefService implements IExtRefService, Disposable {
     }
 
     public boolean isSafe(String hostname) {
-        List<String> hosts = PropertiesComponent.getInstance().getList(Settings.HOSTS);
+        List<String> hosts = PropertiesComponent.getInstance().getList(Settings.ExtRef.APPROVED_HOSTNAMES);
         if (hosts == null) {
             return false;
         }

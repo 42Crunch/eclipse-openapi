@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -207,9 +208,9 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
     }
 
     @Override
-    public void propertiesUpdated(@NotNull String key) {
-        if (Settings.ABC_SORT.equals(key)) {
-            boolean sort = PropertiesComponent.getInstance().getBoolean(Settings.ABC_SORT);
+    public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
+        if (keys.contains(Settings.SortOutlines.ABC_SORT) && !project.isDisposed()) {
+            boolean sort = PropertiesComponent.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
             sortTree(sort);
         }
     }

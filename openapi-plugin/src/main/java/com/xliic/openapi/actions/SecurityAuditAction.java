@@ -42,7 +42,7 @@ public class SecurityAuditAction extends ProjectAction {
             return;
         }
         PropertiesComponent settings = PropertiesComponent.getInstance();
-        String value = settings.getValue(PreAudit.KEY);
+        String value = settings.getValue(PreAudit.CHOICE);
         if (PreAudit.ASK.equals(value)) {
             FixGlobalDictionaryAction action = new FixGlobalDictionaryAction();
             if (action.update(project, file)) {
@@ -54,10 +54,10 @@ public class SecurityAuditAction extends ProjectAction {
                 } else if (code == PreAuditDialog.NO_EXIT_CODE) {
                     runAudit(project, file);
                 } else if (code == PreAuditDialog.ALWAYS_EXIT_CODE) {
-                    settings.setValue(PreAudit.KEY, PreAudit.ALWAYS);
+                    settings.setValue(PreAudit.CHOICE, PreAudit.ALWAYS);
                     updateAndRunAudit(action, project, file);
                 } else if (code == PreAuditDialog.NEVER_EXIT_CODE) {
-                    settings.setValue(PreAudit.KEY, PreAudit.NEVER);
+                    settings.setValue(PreAudit.CHOICE, PreAudit.NEVER);
                     runAudit(project, file);
                 }
             } else {
@@ -85,7 +85,7 @@ public class SecurityAuditAction extends ProjectAction {
     }
 
     private void runAudit(Project project, VirtualFile file) {
-        String token = PropertiesComponent.getInstance().getValue(Settings.TOKEN);
+        String token = PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
         if (StringUtils.isEmpty(token)) {
             new EmailDialog(project, file).showAndGet();
         } else {

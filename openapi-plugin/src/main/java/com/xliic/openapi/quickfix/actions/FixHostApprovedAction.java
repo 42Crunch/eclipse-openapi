@@ -40,10 +40,10 @@ public class FixHostApprovedAction extends IntentionAction {
 
     @Override
     public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
-        Set<String> hostnames = Settings.getValues(Settings.HOSTS);
+        Set<String> hostnames = Settings.getValues(Settings.ExtRef.APPROVED_HOSTNAMES);
         if (!hostnames.contains(hostname)) {
             hostnames.add(hostname);
-            PropertiesComponent.getInstance().setList(Settings.HOSTS, hostnames);
+            PropertiesComponent.getInstance().setList(Settings.ExtRef.APPROVED_HOSTNAMES, hostnames);
             BundleService bundleService = BundleService.getInstance(project);
             bundleService.scheduleToBundleByHost(hostname);
         }

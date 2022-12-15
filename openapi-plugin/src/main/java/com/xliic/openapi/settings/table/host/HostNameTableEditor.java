@@ -1,14 +1,9 @@
 package com.xliic.openapi.settings.table.host;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -30,11 +25,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.application.ReadAction;
-import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.core.project.Project;
-import com.xliic.core.project.ProjectManager;
-import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.items.ItemHostsTable;
 
 public abstract class HostNameTableEditor {
 
@@ -66,10 +57,8 @@ public abstract class HostNameTableEditor {
         this.key = key;
         createTable(parent);
         createButtonGroup(parent);
-        initialize();
+        setInput(ItemHostsTable.getHosts(key));
     }
-
-    protected abstract void applyChangesComplete(@NotNull Project project, @NotNull Set<String> hostnames);
 
     private void addContent(Object o) {
         if (contentProvider != null) {
@@ -112,11 +101,7 @@ public abstract class HostNameTableEditor {
         updateContent(type);
     }
 
-    public void initialize() {
-        setInput(getApprovedHosts(key));
-    }
-
-    private HostNameTableEditor getModel() {
+    public HostNameTableEditor getModel() {
         return this;
     }
 
@@ -125,65 +110,6 @@ public abstract class HostNameTableEditor {
         for (int i = 0; i < tableViewer.getTable().getItemCount(); i++) {
             values.add((HostName) tableViewer.getElementAt(i));
         }
-        return values;
-    }
-
-    public void reset() {
-        initialize();
-    }
-
-    public boolean isDirty() {
-        final Set<HostName> approvedHosts = new HashSet<>(getApprovedHosts(key));
-        final Set<HostName> newHosts = new HashSet<>(getModel().getItems());
-        newHosts.removeIf(e -> StringUtils.isEmpty(e.getHostname()));
-        return !approvedHosts.equals(newHosts);
-    }
-
-    public void applyChanges() {
-
-        final Set<HostName> approvedHosts = new HashSet<>(getApprovedHosts(key));
-        final Set<HostName> newHosts = new HashSet<>(getModel().getItems());
-        newHosts.removeIf(e -> StringUtils.isEmpty(e.getHostname()));
-
-        if (approvedHosts.equals(newHosts)) {
-            return;
-        }
-
-        final Set<HostName> removedHosts = new HashSet<>(approvedHosts);
-        removedHosts.removeAll(newHosts);
-
-        final Set<HostName> addedHosts = new HashSet<>(newHosts);
-        addedHosts.removeAll(approvedHosts);
-
-        final Set<HostName> changedHosts = new HashSet<>(addedHosts);
-        changedHosts.addAll(removedHosts);
-
-        PropertiesComponent.getInstance().setList(key, getNames(newHosts));
-
-        // We have app level settings, must propagate the settings to all available
-        // opened projects
-        ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
-        if (!changedHosts.isEmpty() && (projectManager != null)) {
-            ReadAction.run(() -> {
-                for (Project project : projectManager.getOpenProjects()) {
-                    if (!project.isDisposed()) {
-                        applyChangesComplete(project, getNames(changedHosts));
-                    }
-                }
-            });
-        }
-    }
-
-    private Set<String> getNames(Set<HostName> hosts) {
-        return hosts.stream().map(HostName::getHostname).collect(Collectors.toSet());
-    }
-
-    private static List<HostName> getApprovedHosts(String key) {
-        List<HostName> values = new LinkedList<>();
-        for (String hostname : Settings.getValues(key)) {
-            values.add(new HostName(hostname));
-        }
-        Collections.sort(values);
         return values;
     }
 
@@ -279,7 +205,7 @@ public abstract class HostNameTableEditor {
         }
     }
 
-    private void setInput(List<?> inputs) {
+    public void setInput(List<?> inputs) {
         if (tableViewer == null || tableViewer.getControl().isDisposed()) {
             return;
         }

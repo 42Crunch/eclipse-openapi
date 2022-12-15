@@ -13,8 +13,12 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.util.ArrayUtilRt;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
-import com.xliic.openapi.preview.PreviewKeys;
-import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.Settings.Audit;
+import com.xliic.openapi.settings.Settings.ExtRef;
+import com.xliic.openapi.settings.Settings.Platform;
+import com.xliic.openapi.settings.Settings.Preview;
+import com.xliic.openapi.settings.Settings.SortOutlines;
+import com.xliic.openapi.settings.Settings.TryIt;
 
 public class PropertiesComponent {
 
@@ -32,12 +36,15 @@ public class PropertiesComponent {
     public PropertiesComponent() {
         store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
         cache = new Hashtable<>();
-        cache.put(Settings.EMAIL, store.getString(Settings.EMAIL));
-        cache.put(Settings.TOKEN, store.getString(Settings.TOKEN));
-        cache.put(Settings.HOSTS, store.getString(Settings.HOSTS));
-        cache.put(PreviewKeys.PORT, store.getString(PreviewKeys.PORT));
-        cache.put(PreviewKeys.RENDERER, store.getString(PreviewKeys.RENDERER));
-        cache.put(Settings.ABC_SORT, store.getString(Settings.ABC_SORT));
+        cache.put(Audit.EMAIL, store.getString(Audit.EMAIL));
+        cache.put(Audit.TOKEN, store.getString(Audit.TOKEN));
+        cache.put(ExtRef.APPROVED_HOSTNAMES, store.getString(ExtRef.APPROVED_HOSTNAMES));
+        cache.put(TryIt.INSECURE_SSL_HOSTNAMES, store.getString(TryIt.INSECURE_SSL_HOSTNAMES));
+        cache.put(Preview.PORT, store.getString(Preview.PORT));
+        cache.put(Preview.RENDERER, store.getString(Preview.RENDERER));
+        cache.put(SortOutlines.ABC_SORT, store.getString(SortOutlines.ABC_SORT));
+        cache.put(Platform.Credentials.URL, store.getString(Platform.Credentials.URL));
+        cache.put(Platform.Dictionary.PreAudit.CHOICE, store.getString(Platform.Dictionary.PreAudit.CHOICE));
     }
 
     // We store everything as strings to know if a property is set or not

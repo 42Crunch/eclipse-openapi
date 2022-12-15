@@ -2,6 +2,7 @@ package com.xliic.core.ui.components;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Color;
@@ -66,6 +67,14 @@ public class JTextField implements Validator {
 
     public void removeModifyListener(ModifyListener listener) {
         textWidget.removeModifyListener(listener);
+    }
+
+    public void addFocusListener(FocusListener listener) {
+        textWidget.addFocusListener(listener);
+    }
+
+    public void removeFocusListener(FocusListener listener) {
+        textWidget.removeFocusListener(listener);
     }
 
     @Override

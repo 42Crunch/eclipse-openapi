@@ -32,7 +32,7 @@ public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 
     @Override
     public final boolean isSelected(@NotNull AnJActionEvent event) {
-        return PropertiesComponent.getInstance().getBoolean(Settings.ABC_SORT);
+        return PropertiesComponent.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
     }
 
     @Override
