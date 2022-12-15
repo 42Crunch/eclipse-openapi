@@ -1,12 +1,17 @@
 package com.xliic.openapi.settings;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-public class SettingsKeys {
+import com.xliic.core.ide.util.PropertiesComponent;
+
+public class Settings {
 
     public static class Platform {
         public static class Dictionary {
@@ -20,6 +25,10 @@ public class SettingsKeys {
         }
     }
 
+    public static class TryIt {
+        public static final String INSECURE_SSL_HOSTNAMES = "com.xliic.openapi.settings.tryit.insecure.ssl.hostnames.key";
+    }
+
     public static final String EMAIL = "openapi.generate.token.email.key";
     public static final String TOKEN = "openapi.generate.token.base64.key";
     public static final String HOSTS = "openapi.generate.token.hosts.key";
@@ -30,5 +39,20 @@ public class SettingsKeys {
 
     public static boolean isPlatformKey(@NotNull String key) {
         return (PLATFORM.equals(key) || API_KEY.equals(key) || PLATFORM_ALL.equals(key));
+    }
+
+    public static Set<String> getValues(@NotNull String key) {
+        Set<String> result = new HashSet<>();
+        List<String> values = PropertiesComponent.getInstance().getList(key);
+        if ((values == null) || (values.size() == 0)) {
+            return result;
+        } else {
+            for (String host : values) {
+                if (!StringUtils.isEmpty(host)) {
+                    result.add(host);
+                }
+            }
+        }
+        return result;
     }
 }

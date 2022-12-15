@@ -15,8 +15,8 @@ import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.services.KDBService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
-import com.xliic.openapi.settings.SettingsKeys;
-import com.xliic.openapi.settings.SettingsKeys.Platform.Dictionary.PreAudit;
+import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 
@@ -31,8 +31,8 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         QuickFixService.getInstance().load();
         // Set default properties values
         PropertiesComponent settings = PropertiesComponent.getInstance();
-        if (!settings.isValueSet(SettingsKeys.ABC_SORT)) {
-            settings.setValue(SettingsKeys.ABC_SORT, true);
+        if (!settings.isValueSet(Settings.ABC_SORT)) {
+            settings.setValue(Settings.ABC_SORT, true);
         }
         if (!settings.isValueSet(PreAudit.KEY)) {
             settings.setValue(PreAudit.KEY, PreAudit.ASK);

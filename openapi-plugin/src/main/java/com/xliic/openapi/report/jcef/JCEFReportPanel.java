@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.jcef.JBCefJSQuery;
@@ -22,7 +21,6 @@ import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.AuditParameters;
-import com.xliic.openapi.report.AuditSerializer;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.KDBService;
@@ -36,6 +34,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
 
     public JCEFReportPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
         super(project, toolWindow, parent, "audit");
+        init();
         lastAuditParameters = null;
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(WindowListener.TOPIC, this);
@@ -72,12 +71,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
 
     @Override
     protected @Nullable Function<Object, JBCefJSQuery.Response> getBrowserFunction() {
-        return new JCEFPostMessageListener(project, getCefBrowser().getBrowser());
-    }
-
-    @Override
-    protected void addSerializer(@NotNull SimpleModule module) {
-        module.addSerializer(Audit.class, new AuditSerializer());
+        return new JCEFReportFunction(project, getCefBrowser().getBrowser());
     }
 
     @Override

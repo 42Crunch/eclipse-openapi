@@ -1,4 +1,4 @@
-package com.xliic.openapi.settings;
+package com.xliic.openapi.settings.table.host;
 
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;

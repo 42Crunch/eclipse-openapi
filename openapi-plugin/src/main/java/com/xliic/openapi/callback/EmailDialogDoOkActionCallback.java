@@ -9,7 +9,7 @@ import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.settings.AuditConfigTokenDialogWrapper;
+import com.xliic.openapi.settings.audit.TokenDialog;
 
 public class EmailDialogDoOkActionCallback extends ActionCallback {
 
@@ -23,7 +23,7 @@ public class EmailDialogDoOkActionCallback extends ActionCallback {
 
     @Override
     public void setDone() {
-        ApplicationManager.getApplication().invokeLater(() -> new AuditConfigTokenDialogWrapper(project, file).showAndGet());
+        ApplicationManager.getApplication().invokeLater(() -> new TokenDialog(project, file).showAndGet());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.xliic.openapi.settings;
+package com.xliic.openapi.settings.audit;
 
 import java.util.regex.Pattern;
 
@@ -18,8 +18,9 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.callback.EmailDialogDoOkActionCallback;
 import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.settings.Settings;
 
-public class AuditConfigEmailDialogWrapper extends DialogWrapper {
+public class EmailDialog extends DialogWrapper {
 
     // Week, but compact regexp to avoid dummy emails
     private final static Pattern EMAIL_REGEX = Pattern.compile("^(.+)@(.+)$");
@@ -28,7 +29,7 @@ public class AuditConfigEmailDialogWrapper extends DialogWrapper {
     private final VirtualFile file;
     private JTextField emailTextField;
 
-    public AuditConfigEmailDialogWrapper(@NotNull Project project, @NotNull VirtualFile file) {
+    public EmailDialog(@NotNull Project project, @NotNull VirtualFile file) {
         super(project, 2);
         setTitle(OpenApiBundle.message("Remote Audit Settings"));
         this.file = file;
@@ -53,7 +54,7 @@ public class AuditConfigEmailDialogWrapper extends DialogWrapper {
         info.setText("Security Audit from 42Crunch runs ~200 checks for security best practices in your API. "
                 + "Eclipse needs an API key to use the service. Enter your email to receive the token.");
 
-        String previousEmail = PropertiesComponent.getInstance().getValue(SettingsKeys.EMAIL);
+        String previousEmail = PropertiesComponent.getInstance().getValue(Settings.EMAIL);
         if (previousEmail != null && !previousEmail.isEmpty()) {
             emailTextField.setText(previousEmail);
             setOKActionEnabled(EMAIL_REGEX.matcher(previousEmail).find());
@@ -73,7 +74,7 @@ public class AuditConfigEmailDialogWrapper extends DialogWrapper {
     @Override
     public void doOKAction() {
         super.doOKAction();
-        PropertiesComponent.getInstance().setValue(SettingsKeys.EMAIL, emailTextField.getText());
+        PropertiesComponent.getInstance().setValue(Settings.EMAIL, emailTextField.getText());
         ApplicationManager.getApplication().invokeLater(() -> {
             AuditService auditService = AuditService.getInstance(project);
             auditService.sendGenerateTokenRequest(emailTextField.getText(), new EmailDialogDoOkActionCallback(project, file));

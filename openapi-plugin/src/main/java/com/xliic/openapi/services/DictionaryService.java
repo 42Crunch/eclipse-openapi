@@ -32,7 +32,7 @@ import com.xliic.openapi.platform.dictionary.completion.DictionaryElement;
 import com.xliic.openapi.platform.dictionary.types.DataDictionary;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.services.api.IDictionaryService;
-import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.SettingsListener;
 
 public final class DictionaryService implements IDictionaryService, SettingsListener, Disposable {
@@ -195,7 +195,7 @@ public final class DictionaryService implements IDictionaryService, SettingsList
 
     @Override
     public void propertiesUpdated(@NotNull String key) {
-        if (SettingsKeys.isPlatformKey(key) && !project.isDisposed()) {
+        if (Settings.isPlatformKey(key) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
             if (PlatformConnection.isEmpty()) {
                 ToolWindow window = manager.getToolWindow(PLATFORM_DICTIONARY);

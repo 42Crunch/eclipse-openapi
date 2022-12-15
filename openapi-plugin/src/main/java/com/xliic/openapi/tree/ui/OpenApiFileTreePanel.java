@@ -36,7 +36,7 @@ import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.dmtn.DMTNConverter;
 import com.xliic.openapi.services.ASTService;
-import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.topic.WindowListener;
@@ -208,8 +208,8 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
 
     @Override
     public void propertiesUpdated(@NotNull String key) {
-        if (SettingsKeys.ABC_SORT.equals(key)) {
-            boolean sort = PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT);
+        if (Settings.ABC_SORT.equals(key)) {
+            boolean sort = PropertiesComponent.getInstance().getBoolean(Settings.ABC_SORT);
             sortTree(sort);
         }
     }

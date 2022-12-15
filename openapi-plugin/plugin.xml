@@ -6,8 +6,8 @@
          point="org.eclipse.ui.preferencePages">
       <page
             name="OpenAPI (Swagger) Editor"
-            class="com.xliic.openapi.settings.AuditConfigurable"
-            id="com.xliic.openapi.settings.AuditConfigurable">
+            class="com.xliic.openapi.settings.SettingsConfigurable"
+            id="com.xliic.openapi.settings.SettingsConfigurable">
       </page>
    </extension>
    
@@ -169,6 +169,15 @@
             inject="true"
             name="Data Dictionary">
       </view>
+      <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class="com.xliic.openapi.tryit.jcef.ui.JCEFTryItPanelView"
+            icon="icons/tryitPanel.png"
+            id="com.xliic.openapi.tryit.jcef.ui.JCEFTryItPanelView"
+            inject="true"
+            name="Tty It">
+      </view>      
    </extension>
 
 	<extension point="org.eclipse.ui.services">
@@ -211,6 +220,10 @@
 		
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.DictionaryServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.api.IDictionaryService"></service>
+		</serviceFactory>
+		
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.TryItServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.ITryItService"></service>
 		</serviceFactory>
 		
 	</extension>

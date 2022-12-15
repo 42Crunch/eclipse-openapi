@@ -4,8 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.google.gson.JsonObject;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.util.Pair;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.FixIssueItem;
@@ -100,20 +103,32 @@ public class FixManagerSchema extends FixManager {
     }
 
     private FixItem getSchemaMainFixItem(Node root) {
-
         OpenApiVersion version = ASTService.getOpenAPIVersion(project, psiFile.getVirtualFile());
         JsonObject schemaMainFix = new JsonObject();
         schemaMainFix.add(schemaName, SchemaUtils.getSchemaFromAST(psiFile, genFrom, version));
+        Pair<String, String> pair = getSchemaPointerAndText(root, schemaMainFix, version);
+        String pointer = pair.getFirst();
+        String text = pair.getSecond();
+        text = QuickFix.formatFixText(text, isJson(psiFile));
+        return new FixIssueItem(issue, pointer, text, quickFix.getType());
+    }
 
+    @Override
+    public boolean isResponsibleFor(String pointer, String label) {
+        return pointer.equals(issue.getPointer()) && label.startsWith(issue.getDescription());
+    }
+
+    @NotNull
+    public static Pair<String, String> getSchemaPointerAndText(@NotNull Node root, @NotNull JsonObject schema, @NotNull OpenApiVersion version) {
         String pointer;
-        String text = schemaMainFix.toString();
+        String text = schema.toString();
         if (version == OpenApiVersion.V2) {
             pointer = "/definitions";
             Node target = root.find(pointer);
             if (target == null) {
                 pointer = "";
                 JsonObject definitions = new JsonObject();
-                definitions.add("definitions", schemaMainFix);
+                definitions.add("definitions", schema);
                 text = definitions.toString();
             }
         } else {
@@ -124,24 +139,18 @@ public class FixManagerSchema extends FixManager {
                 target = root.find(pointer);
                 if (target != null) {
                     JsonObject schemas = new JsonObject();
-                    schemas.add("schemas", schemaMainFix);
+                    schemas.add("schemas", schema);
                     text = schemas.toString();
                 } else {
                     pointer = "";
                     JsonObject schemas = new JsonObject();
-                    schemas.add("schemas", schemaMainFix);
+                    schemas.add("schemas", schema);
                     JsonObject components = new JsonObject();
                     components.add("components", schemas);
                     text = components.toString();
                 }
             }
         }
-        text = QuickFix.formatFixText(text, isJson(psiFile));
-        return new FixIssueItem(issue, pointer, text, quickFix.getType());
-    }
-
-    @Override
-    public boolean isResponsibleFor(String pointer, String label) {
-        return pointer.equals(issue.getPointer()) && label.startsWith(issue.getDescription());
+        return new Pair<>(pointer, text);
     }
 }

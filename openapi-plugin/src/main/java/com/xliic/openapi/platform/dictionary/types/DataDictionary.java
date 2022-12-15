@@ -14,11 +14,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
+import com.xliic.openapi.Payload;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.callback.SuccessASTResponseCallback;
 import com.xliic.openapi.platform.dictionary.DictionaryReloadCallback;
 
-public class DataDictionary extends SuccessASTResponseCallback implements Comparable<DataDictionary> {
+public class DataDictionary extends SuccessASTResponseCallback implements Payload, Comparable<DataDictionary> {
 
     public static final String STANDARD_NAME = "standard";
     public static final String STANDARD_PREFIX = "o:" + STANDARD_NAME + ":";
@@ -33,7 +34,7 @@ public class DataDictionary extends SuccessASTResponseCallback implements Compar
     @NotNull
     private final AtomicInteger counter;
     @NotNull
-    DictionaryReloadCallback callback;
+    private final DictionaryReloadCallback callback;
 
     public DataDictionary(@NotNull String id, @NotNull String name, @NotNull String description, @NotNull Project project,
             @NotNull AtomicInteger counter, @NotNull DictionaryReloadCallback callback) {
@@ -224,5 +225,15 @@ public class DataDictionary extends SuccessASTResponseCallback implements Compar
             String value = child.getValue();
             return value != null ? Boolean.parseBoolean(value) : null;
         }
+    }
+
+    @Override
+    public Map<String, Object> getProperties() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("id", id);
+        result.put("name", name);
+        result.put("description", description);
+        result.put("formats", getFormatsProperties());
+        return result;
     }
 }

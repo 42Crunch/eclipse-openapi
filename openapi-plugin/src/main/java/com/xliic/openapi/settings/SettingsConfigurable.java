@@ -44,10 +44,13 @@ import com.xliic.openapi.preview.PreviewCallback;
 import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.services.PreviewService;
-import com.xliic.openapi.settings.SettingsKeys.Platform.Dictionary.PreAudit;
+import com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit;
+import com.xliic.openapi.settings.table.ApprovedHostsEditor;
+import com.xliic.openapi.settings.table.InsecureSslHostsEditor;
+import com.xliic.openapi.settings.table.host.HostNameTableEditor;
 import com.xliic.openapi.topic.SettingsListener;
 
-public class AuditConfigurable extends SearchableConfigurable implements Configurable.NoScroll {
+public class SettingsConfigurable extends SearchableConfigurable implements Configurable.NoScroll {
 
     private JPanel tokenPanel;
     private JTextArea tokenTextArea;
@@ -57,6 +60,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     private JPanel previewPanel;
     private JPanel securityAuditPanel;
     private JPanel hostsPanel;
+    private JPanel sslHostsPanel;
     private JPanel sortPanel;
     private JCheckBox sortABC;
 
@@ -67,14 +71,15 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     private JComboBox<String> preAuditComboBox;
     private boolean isTokenCleaned = false;
     private HostNameTableEditor hostsTableModelEditor;
+    private HostNameTableEditor sslHostsTableModelEditor;
     private final List<String> keysToNotify = new LinkedList<>();
 
-    public AuditConfigurable() {
+    public SettingsConfigurable() {
         super(null, DefaultProjectFactory.getInstance().getDefaultProject());
 
     }
 
-    public AuditConfigurable(@NotNull Module module) {
+    public SettingsConfigurable(@NotNull Module module) {
         super(module, module.getProject());
     }
 
@@ -90,7 +95,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
 
         new Label(platformPanel.getComposite(), SWT.NULL).setText("Platform URL");
         platformURLField = new JTextField(platformPanel);
-        String platformURL = settings.getValue(SettingsKeys.PLATFORM);
+        String platformURL = settings.getValue(Settings.PLATFORM);
         platformURLField.setText(StringUtils.isEmpty(platformURL) ? StringUtils.EMPTY : platformURL);
         platformURLField.addValidationListener(() -> {
             if (isPlatformSettingsEmpty()) {
@@ -133,7 +138,10 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         preAuditComboBox.setSelectedIndex(PreAudit.OPTIONS.indexOf(settings.getValue(PreAudit.KEY)));
 
         hostsPanel = new JPanel("Approved Hostnames", parent, SWT.NONE, 2);
-        hostsTableModelEditor = new HostNameTableEditor(hostsPanel.getComposite());
+        hostsTableModelEditor = new ApprovedHostsEditor(hostsPanel.getComposite());
+
+        sslHostsPanel = new JPanel("Insecure Ssl Hostnames", parent, SWT.NONE, 2);
+        sslHostsTableModelEditor = new InsecureSslHostsEditor(sslHostsPanel.getComposite());
 
         sortPanel = new JPanel("Sort Outlines", parent, SWT.NONE, 1);
         sortABC = new JCheckBox("Alphabetically sort contents of OpenAPI explorer outlines", sortPanel);
@@ -162,7 +170,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         gd.widthHint = 90;
         cleanButton.setLayoutData(gd);
 
-        String tokenText = settings.getValue(SettingsKeys.TOKEN);
+        String tokenText = settings.getValue(Settings.TOKEN);
         tokenTextArea.setText(StringUtils.isEmpty(tokenText) ? StringUtils.EMPTY : tokenText);
         tokenTextArea.setEnabled(true);
         tokenTextArea.getDocument().addDocumentListener(new DocumentAdapter() {
@@ -188,7 +196,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         int port = settings.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
         serverPortTextField.setText(String.valueOf(port));
 
-        sortABC.setSelected(settings.getBoolean(SettingsKeys.ABC_SORT));
+        sortABC.setSelected(settings.getBoolean(Settings.ABC_SORT));
         return parent;
     }
 
@@ -221,7 +229,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         if (preAuditComboBox.getSelectedIndex() != PreAudit.OPTIONS.indexOf(settings.getValue(PreAudit.KEY))) {
             return true;
         }
-        if (hostsTableModelEditor.isDirty()) {
+        if (hostsTableModelEditor.isDirty() || sslHostsTableModelEditor.isDirty()) {
             return true;
         }
         if (isSortABCModified()) {
@@ -229,7 +237,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         }
 
         String configuredTokenText = getTokenText();
-        String currentTokenText = settings.getValue(SettingsKeys.TOKEN);
+        String currentTokenText = settings.getValue(Settings.TOKEN);
         if (!Objects.equals(configuredTokenText, currentTokenText)) {
             return true;
         }
@@ -254,7 +262,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
             return true;
         }
 
-        String platformURL = settings.getValue(SettingsKeys.PLATFORM);
+        String platformURL = settings.getValue(Settings.PLATFORM);
         try {
             String configuredPlatformURL = platformURLField.getText();
             if (StringUtils.isEmpty(configuredPlatformURL)) {
@@ -283,12 +291,13 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     @Override
     public void reset() {
         PropertiesComponent pc = settings;
-        tokenTextArea.setText(pc.getValue(SettingsKeys.TOKEN));
+        tokenTextArea.setText(pc.getValue(Settings.TOKEN));
         previewComboBox.setSelectedIndex(pc.getInt(PreviewKeys.RENDERER, DEFAULT_RENDERER_INDEX));
         serverPortTextField.setText(String.valueOf(pc.getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT)));
         hostsTableModelEditor.reset();
-        sortABC.setSelected(settings.getBoolean(SettingsKeys.ABC_SORT));
-        platformURLField.setText(settings.getValue(SettingsKeys.PLATFORM));
+        sslHostsTableModelEditor.reset();
+        sortABC.setSelected(settings.getBoolean(Settings.ABC_SORT));
+        platformURLField.setText(settings.getValue(Settings.PLATFORM));
         apiKeyField.setText(getPlatformAPIKey());
         preAuditComboBox.setSelectedIndex(PreAudit.OPTIONS.indexOf(settings.getValue(PreAudit.KEY)));
     }
@@ -297,12 +306,12 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     public void apply() {
 
         if (isTokenCleaned) {
-            settings.unsetValue(SettingsKeys.TOKEN);
+            settings.unsetValue(Settings.TOKEN);
         } else {
             String configuredTokenText = getTokenText();
-            String tokenText = settings.getValue(SettingsKeys.TOKEN);
+            String tokenText = settings.getValue(Settings.TOKEN);
             if (!Objects.equals(configuredTokenText, tokenText)) {
-                settings.setValue(SettingsKeys.TOKEN, configuredTokenText);
+                settings.setValue(Settings.TOKEN, configuredTokenText);
             }
         }
 
@@ -325,25 +334,26 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         } catch (NumberFormatException ignored) {
         }
         hostsTableModelEditor.applyChanges();
+        sslHostsTableModelEditor.applyChanges();
         if (isSortABCModified()) {
-            settings.setValue(SettingsKeys.ABC_SORT, sortABC.isSelected());
-            notify(SettingsKeys.ABC_SORT);
+            settings.setValue(Settings.ABC_SORT, sortABC.isSelected());
+            notify(Settings.ABC_SORT);
         }
 
         if (isPlatformSettingsReset()) {
-            settings.setValue(SettingsKeys.PLATFORM, "");
-            notify(SettingsKeys.PLATFORM);
+            settings.setValue(Settings.PLATFORM, "");
+            notify(Settings.PLATFORM);
             PlatformConnection.setPlatformAPIKey(null);
-            notify(SettingsKeys.API_KEY);
+            notify(Settings.API_KEY);
         } else {
-            String platformURL = settings.getValue(SettingsKeys.PLATFORM);
+            String platformURL = settings.getValue(Settings.PLATFORM);
             try {
                 String configuredPlatformURL = platformURLField.getText();
                 if (!StringUtils.isEmpty(configuredPlatformURL)) {
                     OpenApiUtils.getDomainName(configuredPlatformURL);
                     if (!Objects.equals(platformURL, configuredPlatformURL)) {
-                        settings.setValue(SettingsKeys.PLATFORM, platformURLField.getText());
-                        notify(SettingsKeys.PLATFORM);
+                        settings.setValue(Settings.PLATFORM, platformURLField.getText());
+                        notify(Settings.PLATFORM);
                     }
                 }
             } catch (URISyntaxException ignored) {
@@ -354,7 +364,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
             if (!StringUtils.isEmpty(configuredPlatformAPIKey) && PlatformConnection.isAPIKeyValid(configuredPlatformAPIKey)
                     && !Objects.equals(platformAPIKey, configuredPlatformAPIKey)) {
                 PlatformConnection.setPlatformAPIKey(configuredPlatformAPIKey);
-                notify(SettingsKeys.API_KEY);
+                notify(Settings.API_KEY);
             }
         }
         if (preAuditComboBox.getSelectedIndex() != PreAudit.OPTIONS.indexOf(settings.getValue(PreAudit.KEY))) {
@@ -368,7 +378,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
     }
 
     private boolean isSortABCModified() {
-        boolean configuredSortABC = settings.getBoolean(SettingsKeys.ABC_SORT);
+        boolean configuredSortABC = settings.getBoolean(Settings.ABC_SORT);
         return configuredSortABC != sortABC.isSelected();
     }
 
@@ -381,10 +391,10 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
         if (projectManager != null) {
             Project[] projects = projectManager.getOpenProjects();
             Set<String> keysSet = new HashSet<>(keysToNotify);
-            if (keysSet.contains(SettingsKeys.PLATFORM) && keysSet.contains(SettingsKeys.API_KEY)) {
-                keysToNotify.remove(SettingsKeys.API_KEY);
-                keysToNotify.remove(SettingsKeys.PLATFORM);
-                keysToNotify.add(SettingsKeys.PLATFORM_ALL);
+            if (keysSet.contains(Settings.PLATFORM) && keysSet.contains(Settings.API_KEY)) {
+                keysToNotify.remove(Settings.API_KEY);
+                keysToNotify.remove(Settings.PLATFORM);
+                keysToNotify.add(Settings.PLATFORM_ALL);
             }
             for (String key : keysToNotify) {
                 for (Project project : projects) {
@@ -403,7 +413,7 @@ public class AuditConfigurable extends SearchableConfigurable implements Configu
 
     private boolean isPlatformSettingsReset() {
         if (isPlatformSettingsEmpty()) {
-            String platformURL = settings.getValue(SettingsKeys.PLATFORM);
+            String platformURL = settings.getValue(Settings.PLATFORM);
             return StringUtils.isNotEmpty(platformURL) && StringUtils.isNotEmpty(getPlatformAPIKey());
         }
         return false;

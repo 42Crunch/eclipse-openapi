@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseUtil;
-import com.xliic.openapi.settings.AuditConfigurable;
+import com.xliic.openapi.settings.SettingsConfigurable;
 
 public class PreviewDialog extends TrayDialog {
 
@@ -65,8 +65,8 @@ public class PreviewDialog extends TrayDialog {
                         PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(null, PREF_PAGE_ID, null, null);
                         if (dialog != null) {
                             Object page = dialog.getSelectedPage();
-                            if (page instanceof AuditConfigurable) {
-                                ((AuditConfigurable) page).pointToServerPortComponent();
+                            if (page instanceof SettingsConfigurable) {
+                                ((SettingsConfigurable) page).pointToServerPortComponent();
                                 close();
                                 dialog.open();
                             }

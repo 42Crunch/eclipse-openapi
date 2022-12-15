@@ -9,11 +9,9 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.util.ArrayUtilRt;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleHighlightingPass;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.settings.Settings;
 
 public class FixHostApprovedAction extends IntentionAction {
 
@@ -42,10 +40,10 @@ public class FixHostApprovedAction extends IntentionAction {
 
     @Override
     public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
-        Set<String> hostnames = OpenApiUtils.getApprovedHostnames();
+        Set<String> hostnames = Settings.getValues(Settings.HOSTS);
         if (!hostnames.contains(hostname)) {
             hostnames.add(hostname);
-            PropertiesComponent.getInstance().setValues(SettingsKeys.HOSTS, ArrayUtilRt.toStringArray(hostnames));
+            PropertiesComponent.getInstance().setList(Settings.HOSTS, hostnames);
             BundleService bundleService = BundleService.getInstance(project);
             bundleService.scheduleToBundleByHost(hostname);
         }

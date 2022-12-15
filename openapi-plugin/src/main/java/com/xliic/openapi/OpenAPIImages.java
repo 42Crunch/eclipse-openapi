@@ -47,6 +47,9 @@ public class OpenAPIImages {
     public static final ImageDescriptor Refresh;
     public static final ImageDescriptor Dictionary;
 
+    public static final ImageDescriptor TryIt;
+    public static final ImageDescriptor TryItPanel;
+
     private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
 
     static {
@@ -89,6 +92,9 @@ public class OpenAPIImages {
         UpdateRunningApplication = createImageDescriptor("/icons/progress.png");
         Refresh = createImageDescriptor("/icons/refresh.png");
         Dictionary = createImageDescriptor("/icons/platform-data-dictionary.png");
+
+        TryIt = createImageDescriptor("/icons/tryit.png");
+        TryItPanel = createImageDescriptor("/icons/tryitPanel.png");
     }
 
     private static ImageDescriptor createImageDescriptor(String path) {

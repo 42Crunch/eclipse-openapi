@@ -23,9 +23,11 @@ public class OpenFileDescriptor implements Navigatable {
     private final int length;
 
     public OpenFileDescriptor(@NotNull Project project, @NotNull VirtualFile file) {
-        this.file = file;
-        offset = 0;
-        length = 0;
+        this(project, file, 0, 0);
+    }
+
+    public OpenFileDescriptor(@NotNull Project project, @NotNull VirtualFile file, int offset) {
+        this(project, file, offset, 0);
     }
 
     public OpenFileDescriptor(@NotNull Project project, @NotNull VirtualFile file, int offset, int length) {

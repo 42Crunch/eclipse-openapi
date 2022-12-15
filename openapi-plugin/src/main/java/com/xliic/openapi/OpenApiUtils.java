@@ -12,9 +12,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FilenameUtils;
@@ -29,7 +27,6 @@ import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.patterns.ElementPattern;
 import com.xliic.core.patterns.JsonElementPattern;
 import com.xliic.core.patterns.YamlElementPattern;
@@ -54,7 +51,6 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.ExtRefService;
-import com.xliic.openapi.settings.SettingsKeys;
 
 public class OpenApiUtils {
 
@@ -231,21 +227,6 @@ public class OpenApiUtils {
         return result.toString();
     }
 
-    public static Set<String> getApprovedHostnames() {
-        Set<String> result = new HashSet<>();
-        String[] hosts = PropertiesComponent.getInstance().getValues(SettingsKeys.HOSTS);
-        if ((hosts == null) || (hosts.length == 0)) {
-            return result;
-        } else {
-            for (String host : hosts) {
-                if (!StringUtils.isEmpty(host)) {
-                    result.add(host);
-                }
-            }
-        }
-        return result;
-    }
-
     public static Node getJsonAST(@NotNull String text) {
         try {
             return new ParserJsonAST().parse(text);
@@ -367,6 +348,16 @@ public class OpenApiUtils {
     @Nullable
     public static String getURI(@Nullable VirtualFile file) {
         return file == null ? null : getURI(file.getPath());
+    }
+
+    @NotNull
+    public static String wrapJsonToString(@NotNull String value) {
+        value = value.replace("\"", "\\\"");
+        value = value.replace("\b", "\\b");
+        value = value.replace("\f", "\\f");
+        value = value.replace("\n", "");
+        value = value.replace("\r", "");
+        return value.replace("\t", "");
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {

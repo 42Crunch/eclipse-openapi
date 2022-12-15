@@ -1,6 +1,9 @@
 package com.xliic.core.ide.util;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.util.ArrayUtilRt;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.preview.PreviewKeys;
-import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.settings.Settings;
 
 public class PropertiesComponent {
 
@@ -29,12 +32,12 @@ public class PropertiesComponent {
     public PropertiesComponent() {
         store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
         cache = new Hashtable<>();
-        cache.put(SettingsKeys.EMAIL, store.getString(SettingsKeys.EMAIL));
-        cache.put(SettingsKeys.TOKEN, store.getString(SettingsKeys.TOKEN));
-        cache.put(SettingsKeys.HOSTS, store.getString(SettingsKeys.HOSTS));
+        cache.put(Settings.EMAIL, store.getString(Settings.EMAIL));
+        cache.put(Settings.TOKEN, store.getString(Settings.TOKEN));
+        cache.put(Settings.HOSTS, store.getString(Settings.HOSTS));
         cache.put(PreviewKeys.PORT, store.getString(PreviewKeys.PORT));
         cache.put(PreviewKeys.RENDERER, store.getString(PreviewKeys.RENDERER));
-        cache.put(SettingsKeys.ABC_SORT, store.getString(SettingsKeys.ABC_SORT));
+        cache.put(Settings.ABC_SORT, store.getString(Settings.ABC_SORT));
     }
 
     // We store everything as strings to know if a property is set or not
@@ -100,5 +103,19 @@ public class PropertiesComponent {
     public String[] getValues(@NotNull String name) {
         String values = getValue(name);
         return values == null ? ArrayUtilRt.EMPTY_STRING_ARRAY : values.split(ARRAY_DELIMETER);
+    }
+
+    // List
+    public void setList(@NotNull String name, Collection<String> values) {
+        if (values == null || values.isEmpty()) {
+            setValue(name, "");
+        } else {
+            setValue(name, String.join(ARRAY_DELIMETER, values));
+        }
+    }
+
+    public List<String> getList(@NotNull String name) {
+        String values = getValue(name);
+        return StringUtils.isEmpty(values) ? Collections.emptyList() : List.of(values.split(ARRAY_DELIMETER));
     }
 }

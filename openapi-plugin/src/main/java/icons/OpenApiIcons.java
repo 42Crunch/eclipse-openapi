@@ -45,6 +45,8 @@ public interface OpenApiIcons {
     Icon PlatformAuditVerified = findIcon("platform-audit-verified.svg");
     Icon PlatformAuditUnverified = findIcon("platform-audit-unverified.svg");
     Icon Dictionary = findIcon("platform-data-dictionary.png");
+    Icon TryIt = findIcon("tryit.svg");
+    Icon TryItPanel = findIcon("tryitPanel.svg");
 
     private static Icon findIcon(@NotNull String name) {
         return IconLoader.findIcon("/icons/" + name, OpenApiIcons.class);

@@ -16,9 +16,10 @@ import com.xliic.core.editor.Document;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.Payload;
 import com.xliic.openapi.parser.ast.node.Node;
 
-public class Audit {
+public class Audit implements Payload {
 
     private Summary summary;
     private final List<Issue> issues;
@@ -284,6 +285,15 @@ public class Audit {
                 }
             }
         }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> getProperties() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("summary", getSummaryProperties());
+        result.put("files", getFilesProperties());
+        result.put("issues", getIssuesProperties());
         return result;
     }
 }

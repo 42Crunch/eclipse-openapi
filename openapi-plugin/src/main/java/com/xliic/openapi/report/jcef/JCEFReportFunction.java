@@ -23,19 +23,18 @@ import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 
-public class JCEFPostMessageListener extends BrowserFunction implements Function<Object, JBCefJSQuery.Response> {
-
-    public static final String HADLER_ID = "injectedPostMessageHandler";
+public class JCEFReportFunction extends BrowserFunction implements Function<Object, JBCefJSQuery.Response> {
 
     private final Project project;
     private final ObjectMapper mapper;
 
-    public JCEFPostMessageListener(@NotNull Project project, @NotNull Browser browser) {
-        super(browser, HADLER_ID);
+    public JCEFReportFunction(@NotNull Project project, @NotNull Browser browser) {
+        super(browser, PanelBrowser.FUNCTION_ID);
         this.project = project;
         mapper = new ObjectMapper();
     }
@@ -51,7 +50,7 @@ public class JCEFPostMessageListener extends BrowserFunction implements Function
     @Override
     @SuppressWarnings("unchecked")
     public JBCefJSQuery.Response apply(Object message) {
-        if (message instanceof String) {
+        if (message instanceof String && !((String) message).isEmpty()) {
             try {
                 Map<String, String> props = mapper.readValue((String) message, Map.class);
                 if (props.containsKey("command")) {

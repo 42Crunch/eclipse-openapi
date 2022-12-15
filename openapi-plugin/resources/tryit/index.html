@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<style>${style}</style>
+	<style>
+		:root {
+			--xliic-foreground: var(--xliic-foreground-custom, var(--vscode-foreground));
+			--xliic-disabledForeground: var(--xliic-disabledForeground-custom, var(--vscode-disabledForeground));
+			--xliic-background: var(--xliic-background-custom, var(--vscode-editor-background));
+			--xliic-border: var(--xliic-border-custom, var(--vscode-editorGroup-border));
+			--xliic-focusBorder: var(--xliic-focusBorder-custom, var(--vscode-focusBorder));
+			--xliic-buttonBorder: var(--xliic-buttonBorder-custom, var(--vscode-button-border));
+			--xliic-buttonBackground: var(--xliic-buttonBackground-custom, var(--vscode-button-background));
+			--xliic-buttonForeground: var(--xliic-buttonForeground-custom, var(--vscode-button-foreground));
+			--xliic-buttonHoverBackground: var(--xliic-buttonHoverBackground-custom, var(--vscode-button-hoverBackground));
+			--xliic-buttonSecondaryBackground: var(--xliic-buttonSecondaryBackground-custom, var(--vscode-button-secondaryBackground));
+			--xliic-buttonSecondaryForeground: var(--xliic-buttonSecondaryForeground-custom, var(--vscode-button-secondaryForeground));
+			--xliic-buttonSecondaryHoverBackground: var(--xliic-buttonSecondaryHoverBackground-custom, var(--vscode-button-secondaryHoverBackground));
+			--xliic-inputBackground: var(--xliic-inputBackground-custom, var(--vscode-input-background));
+			--xliic-inputForeground: var(--xliic-inputForeground-custom, var(--vscode-input-foreground));
+			--xliic-inputBorder: var(--xliic-inputBorder-custom, var(--vscode-input-border));
+			--xliic-tabBorder: var(--xliic-tabBorder-custom, var(--vscode-tab-border));
+			--xliic-tabActiveBackground: var(--xliic-tabActiveBackground-custom, var(--vscode-tab-activeBackground));
+			--xliic-tabActiveForeground: var(--xliic-tabActiveForeground-custom, var(--vscode-tab-activeForeground));
+			--xliic-tabInactiveBackground: var(--xliic-tabInactiveBackground-custom, var(--vscode-tab-inactiveBackground));
+			--xliic-tabInactiveForeground: var(--xliic-tabInactiveForeground-custom, var(--vscode-tab-inactiveForeground));
+			--xliic-dropdownBackground: var(--xliic-dropdownBackground-custom, var(--vscode-dropdown-background));
+			--xliic-dropdownBorder: var(--xliic-dropdownBorder-custom, var(--vscode-dropdown-border));
+			--xliic-dropdownForeground: var(--xliic-dropdownForeground-custom, var(--vscode-dropdown-foreground));
+			--xliic-checkboxBackground: var(--xliic-checkboxBackground-custom, var(--vscode-checkbox-background));
+			--xliic-checkboxBorder: var(--xliic-checkboxBorder-custom, var(--vscode-checkbox-border));
+			--xliic-checkboxForeground: var(--xliic-checkboxForeground-custom, var(--vscode-checkbox-foreground));
+			--xliic-errorForeground: var(--xliic-errorForeground-custom, var(--vscode-errorForeground));
+			--xliic-errorBackground: var(--xliic-errorBackground-custom, var(--vscode-inputValidation-errorBackground));
+			--xliic-errorBorder: var(--xliic-errorBorder-custom, var(--vscode-inputValidation-errorBorder));
+			--xliic-sidebarBackground: var(--xliic-sidebarBackground-custom, var(--vscode-sideBar-background));
+			--xliic-listActiveSelectionBackground: var(--xliic-listActiveSelectionBackground-custom, var(--vscode-list-activeSelectionBackground));
+			--xliic-listActiveSelectionForeground: var(--xliic-listActiveSelectionForeground-custom, var(--vscode-list-activeSelectionForeground));
+			--xliic-listHoverBackground: var(--xliic-listHoverBackground-custom, var(--vscode-list-hoverBackground));
+		}
+	</style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+		window.initWebJS = function() {
+			window.dispatchMessage = function(message) {
+				switch (message.command) {
+					case 'tryOperation':
+						const payload = JSON.parse(message.payload);
+						payload.oas = JSON.parse(payload.oas);
+						if (payload.preferredBodyValue) {
+						    payload.preferredBodyValue = JSON.parse(payload.preferredBodyValue);
+						}
+						window.postMessage({ command: "tryOperation", payload: payload });
+						break;
+					case 'showResponse':
+						window.postMessage({ command: "showResponse", payload: JSON.parse(message.payload) });
+						break;
+					case 'showError':
+						window.postMessage({ command: "showError", payload: JSON.parse(message.payload) });
+						break;
+					case 'changeTheme':
+						window.postMessage({ command: "changeTheme", payload: message.payload });
+						break;
+				}
+			};
+			const host = { postMessage: (message) => window.__EclipseJTools.postMessage(JSON.stringify(message)) };
+			window.renderWebView(host, { theme: {} });
+	    };
+    </script>
+  </body>
+</html>

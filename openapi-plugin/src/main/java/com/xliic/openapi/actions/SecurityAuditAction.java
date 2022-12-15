@@ -14,9 +14,9 @@ import com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction;
 import com.xliic.openapi.platform.dictionary.quickfix.PreAuditDialog;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.settings.AuditConfigEmailDialogWrapper;
-import com.xliic.openapi.settings.SettingsKeys;
-import com.xliic.openapi.settings.SettingsKeys.Platform.Dictionary.PreAudit;
+import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit;
+import com.xliic.openapi.settings.audit.EmailDialog;
 
 public class SecurityAuditAction extends ProjectAction {
 
@@ -85,9 +85,9 @@ public class SecurityAuditAction extends ProjectAction {
     }
 
     private void runAudit(Project project, VirtualFile file) {
-        String token = PropertiesComponent.getInstance().getValue(SettingsKeys.TOKEN);
+        String token = PropertiesComponent.getInstance().getValue(Settings.TOKEN);
         if (StringUtils.isEmpty(token)) {
-            new AuditConfigEmailDialogWrapper(project, file).showAndGet();
+            new EmailDialog(project, file).showAndGet();
         } else {
             AuditService auditService = AuditService.getInstance(project);
             auditService.sendAuditRequest(token, file.getPath(), new AuditActionCallback(project, file));

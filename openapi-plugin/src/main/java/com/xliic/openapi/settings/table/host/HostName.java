@@ -1,4 +1,4 @@
-package com.xliic.openapi.settings;
+package com.xliic.openapi.settings.table.host;
 
 import org.jetbrains.annotations.NotNull;
 

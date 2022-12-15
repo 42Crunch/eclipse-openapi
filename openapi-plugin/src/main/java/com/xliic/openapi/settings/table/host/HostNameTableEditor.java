@@ -1,4 +1,4 @@
-package com.xliic.openapi.settings;
+package com.xliic.openapi.settings.table.host;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -34,11 +34,9 @@ import com.xliic.core.application.ReadAction;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectManager;
-import com.xliic.core.util.ArrayUtilRt;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.settings.Settings;
 
-public class HostNameTableEditor {
+public abstract class HostNameTableEditor {
 
     private static final int ADD_BUTTON = IDialogConstants.CLIENT_ID + 1;
     private static final int EDIT_BUTTON = IDialogConstants.CLIENT_ID + 2;
@@ -58,14 +56,20 @@ public class HostNameTableEditor {
     private Button editButton;
     private Button removeButton;
 
+    @NotNull
+    private final String key;
+
     private final String[] fTableColumnHeaders = { "Name" };
     private final ColumnLayoutData[] fTableColumnLayouts = { new ColumnWeightData(33) };
 
-    public HostNameTableEditor(Composite parent) {
+    public HostNameTableEditor(@NotNull Composite parent, @NotNull String key, @NotNull String emptyText) {
+        this.key = key;
         createTable(parent);
         createButtonGroup(parent);
         initialize();
     }
+
+    protected abstract void applyChangesComplete(@NotNull Project project, @NotNull Set<String> hostnames);
 
     private void addContent(Object o) {
         if (contentProvider != null) {
@@ -109,7 +113,7 @@ public class HostNameTableEditor {
     }
 
     public void initialize() {
-        setInput(getApprovedHosts());
+        setInput(getApprovedHosts(key));
     }
 
     private HostNameTableEditor getModel() {
@@ -129,7 +133,7 @@ public class HostNameTableEditor {
     }
 
     public boolean isDirty() {
-        final Set<HostName> approvedHosts = new HashSet<>(getApprovedHosts());
+        final Set<HostName> approvedHosts = new HashSet<>(getApprovedHosts(key));
         final Set<HostName> newHosts = new HashSet<>(getModel().getItems());
         newHosts.removeIf(e -> StringUtils.isEmpty(e.getHostname()));
         return !approvedHosts.equals(newHosts);
@@ -137,7 +141,7 @@ public class HostNameTableEditor {
 
     public void applyChanges() {
 
-        final Set<HostName> approvedHosts = new HashSet<>(getApprovedHosts());
+        final Set<HostName> approvedHosts = new HashSet<>(getApprovedHosts(key));
         final Set<HostName> newHosts = new HashSet<>(getModel().getItems());
         newHosts.removeIf(e -> StringUtils.isEmpty(e.getHostname()));
 
@@ -154,7 +158,7 @@ public class HostNameTableEditor {
         final Set<HostName> changedHosts = new HashSet<>(addedHosts);
         changedHosts.addAll(removedHosts);
 
-        PropertiesComponent.getInstance().setValues(SettingsKeys.HOSTS, ArrayUtilRt.toStringArray(getNames(newHosts)));
+        PropertiesComponent.getInstance().setList(key, getNames(newHosts));
 
         // We have app level settings, must propagate the settings to all available
         // opened projects
@@ -163,8 +167,7 @@ public class HostNameTableEditor {
             ReadAction.run(() -> {
                 for (Project project : projectManager.getOpenProjects()) {
                     if (!project.isDisposed()) {
-                        BundleService bundleService = BundleService.getInstance(project);
-                        bundleService.scheduleToBundleByHosts(getNames(changedHosts));
+                        applyChangesComplete(project, getNames(changedHosts));
                     }
                 }
             });
@@ -175,9 +178,9 @@ public class HostNameTableEditor {
         return hosts.stream().map(HostName::getHostname).collect(Collectors.toSet());
     }
 
-    private static List<HostName> getApprovedHosts() {
+    private static List<HostName> getApprovedHosts(String key) {
         List<HostName> values = new LinkedList<>();
-        for (String hostname : OpenApiUtils.getApprovedHostnames()) {
+        for (String hostname : Settings.getValues(key)) {
             values.add(new HostName(hostname));
         }
         Collections.sort(values);

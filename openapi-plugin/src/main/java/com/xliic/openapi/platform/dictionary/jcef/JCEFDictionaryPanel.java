@@ -11,14 +11,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.platform.PlatformListener;
-import com.xliic.openapi.platform.dictionary.DictionarySerializer;
 import com.xliic.openapi.platform.dictionary.types.DataDictionary;
 import com.xliic.openapi.services.DictionaryService;
 
@@ -59,16 +57,6 @@ public class JCEFDictionaryPanel extends PanelBrowser implements PlatformListene
     @Override
     protected @Nullable Function<Object, JBCefJSQuery.Response> getBrowserFunction() {
         return null;
-    }
-
-    @Override
-    protected void addSerializer(@NotNull SimpleModule module) {
-        module.addSerializer(DataDictionary.class, new DictionarySerializer());
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
     }
 
     private String getPayload() {
