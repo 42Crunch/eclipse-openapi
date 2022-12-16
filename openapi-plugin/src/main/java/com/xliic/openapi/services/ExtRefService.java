@@ -55,6 +55,15 @@ public class ExtRefService implements IExtRefService, Disposable {
         return cache.get(key);
     }
 
+    public @Nullable ExtRef getExtRefByFile(@NotNull String fileName) {
+        for (ExtRef extRef : cache.values()) {
+            if (fileName.equals(extRef.getVirtualFile().getPath())) {
+                return extRef;
+            }
+        }
+        return null;
+    }
+
     public ExtRef get(URI uri) {
         try {
             return cache.get(uri.toURL().toString());

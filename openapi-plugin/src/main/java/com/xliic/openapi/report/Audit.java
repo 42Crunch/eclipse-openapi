@@ -15,9 +15,11 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.editor.Document;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.Payload;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.ExtRefService;
 
 public class Audit implements Payload {
 
@@ -153,16 +155,24 @@ public class Audit implements Payload {
     public Map<String, Map<String, Object>> getFilesProperties() {
         String from = OpenApiUtils.getURI(auditFileName);
         Map<String, Map<String, Object>> result = new HashMap<>();
+        ExtRefService extRefService = ExtRefService.getInstance(project);
         for (String fileName : fileNameToIssuesMap.keySet()) {
-            String to = OpenApiUtils.getURI(fileName);
-            String relative;
-            if (from.equals(to)) {
-                relative = Paths.get(auditFileName).getFileName().toString();
-            } else {
-                relative = OpenApiUtils.getRelativePathFromTo(from, to);
-            }
+            String to;
             Map<String, Object> props = new HashMap<>();
-            props.put("relative", relative);
+            ExtRef extRef = extRefService.getExtRefByFile(fileName);
+            if (extRef == null) {
+                String relative;
+                to = OpenApiUtils.getURI(fileName);
+                if (from.equals(to)) {
+                    relative = Paths.get(auditFileName).getFileName().toString();
+                } else {
+                    relative = OpenApiUtils.getRelativePathFromTo(from, to);
+                }
+                props.put("relative", relative);
+            } else {
+                to = extRef.getInternalURI();
+                props.put("relative", extRef.getUrl().toString());
+            }
             result.put(to, props);
         }
         return result;
@@ -170,12 +180,19 @@ public class Audit implements Payload {
 
     public Map<String, List<Map<String, Object>>> getIssuesProperties() {
         Map<String, List<Map<String, Object>>> result = new HashMap<>();
+        ExtRefService extRefService = ExtRefService.getInstance(project);
         for (Map.Entry<String, List<Issue>> entry : fileNameToIssuesMap.entrySet()) {
             List<Map<String, Object>> issues = new LinkedList<>();
             for (Issue issue : entry.getValue()) {
                 issues.add(issue.getProperties());
             }
-            result.put(OpenApiUtils.getURI(entry.getKey()), issues);
+            String fileName = entry.getKey();
+            ExtRef extRef = extRefService.getExtRefByFile(fileName);
+            if (extRef == null) {
+                result.put(OpenApiUtils.getURI(fileName), issues);
+            } else {
+                result.put(extRef.getInternalURI(), issues);
+            }
         }
         return result;
     }

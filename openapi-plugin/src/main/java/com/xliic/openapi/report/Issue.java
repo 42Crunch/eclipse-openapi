@@ -12,6 +12,7 @@ import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.TextRange;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleLocation;
 import com.xliic.openapi.bundler.BundleResult;
@@ -90,7 +91,11 @@ public class Issue {
         result.put("score", getScore());
         result.put("displayScore", getDisplayScore());
         result.put("criticality", getCriticality());
-        result.put("documentUri", OpenApiUtils.getURI(getFileName()));
+        if (uri == null) {
+            result.put("documentUri", OpenApiUtils.getURI(getFileName()));
+        } else {
+            result.put("documentUri", ExtRef.getInternalURI(uri));
+        }
         result.put("lineNo", range.getLine() + 1);
         return result;
     }
