@@ -3,13 +3,11 @@ package com.xliic.openapi.settings.items;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.core.ui.components.Validator;
 
 public abstract class Item {
 
@@ -35,23 +33,12 @@ public abstract class Item {
     }
 
     protected void validate(@NotNull JTextField component) {
-        component.addModifyListener(new ModifyListener() {
-            @Override
-            public void modifyText(ModifyEvent e) {
+        if (component instanceof Validator) {
+            Validator validator = component;
+            validator.setValidationListener(() -> {
                 valid();
-            }
-        });
-        component.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-              valid();
-            }
-
-            @Override
-            public void focusLost(org.eclipse.swt.events.FocusEvent e) {
-                valid();
-            }
-        });
+            });
+        }
     }
 
     protected static void drawValidationStatus(JTextField component, String message) {

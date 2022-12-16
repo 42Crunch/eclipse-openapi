@@ -1,6 +1,9 @@
 package com.xliic.core.ui.components;
 
-import org.eclipse.core.runtime.Assert;
+import java.util.EventListener;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -16,12 +19,11 @@ public class JTextField implements Validator {
 
     private Text textWidget;
     private String text;
-    private ModifyListener validator;
+    private List<EventListener> validators = new LinkedList<>();
 
     public JTextField(@NotNull JPanel parent) {
         this(parent.getComposite(), null);
         text = null;
-        validator = null;
     }
 
     public JTextField(Composite parent, @Nullable GridData gridData) {
@@ -34,7 +36,7 @@ public class JTextField implements Validator {
         textWidget.setLayoutData(gridData);
         textWidget.addDisposeListener(event -> {
             text = getText();
-            if (validator != null) {
+            if (!validators.isEmpty()) {
                 removeValidationListener();
             }
             textWidget = null;
@@ -90,21 +92,27 @@ public class JTextField implements Validator {
     }
 
     @Override
-    public void addValidationListener(ValidationListener listener) {
-        Assert.isTrue(validator == null);
-        validator = new ModifyListener() {
+    public void setValidationListener(ValidationListener listener) {
+        if (!validators.isEmpty()) {
+            return;
+        }
+        ModifyListener modifyListener = new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
                 listener.validate();
             }
         };
-        addModifyListener(validator);
+        validators.add(modifyListener);
+        addModifyListener(modifyListener);
     }
 
     @Override
     public void removeValidationListener() {
-        Assert.isNotNull(validator);
-        removeModifyListener(validator);
-        validator = null;
+        for (EventListener listener : validators) {
+            if (listener instanceof ModifyListener) {
+                removeModifyListener((ModifyListener) listener);
+            }
+        }
+        validators.clear();
     }
 }

@@ -57,7 +57,7 @@ public class DialogWrapper extends StatusDialog {
     protected void registerForValidation(@NotNull Object widget) {
         if (widget instanceof Validator) {
             Validator validator = (Validator) widget;
-            validator.addValidationListener(() -> {
+            validator.setValidationListener(() -> {
                 ValidationInfo info = doValidate();
                 if (info == null) {
                     validator.setValid();

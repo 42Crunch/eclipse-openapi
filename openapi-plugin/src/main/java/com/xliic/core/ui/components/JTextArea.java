@@ -1,12 +1,16 @@
 package com.xliic.core.ui.components;
 
+import java.util.EventListener;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Element;
 
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Color;
@@ -24,7 +28,7 @@ public class JTextArea implements Validator {
 
     private Text textWidget;
     private String text;
-    private ModifyListener validator;
+    private List<EventListener> validators = new LinkedList<>();
     private Color bkgColor;
 
     public JTextArea(JPanel parent) {
@@ -45,7 +49,7 @@ public class JTextArea implements Validator {
         setLayout(widthInChars, heigthInChars);
         textWidget.addDisposeListener(event -> {
             text = getText();
-            if (validator != null) {
+            if (!validators.isEmpty()) {
                 removeValidationListener();
             }
             textWidget = null;
@@ -142,6 +146,14 @@ public class JTextArea implements Validator {
         textWidget.removeModifyListener(listener);
     }
 
+    public void addFocusListener(FocusListener listener) {
+        textWidget.addFocusListener(listener);
+    }
+
+    public void removeFocusListener(FocusListener listener) {
+        textWidget.removeFocusListener(listener);
+    }
+
     @Override
     public void setValid() {
         textWidget.setBackground(bkgColor);
@@ -155,23 +167,29 @@ public class JTextArea implements Validator {
     }
 
     @Override
-    public void addValidationListener(ValidationListener listener) {
-        Assert.isTrue(validator == null);
-        validator = new ModifyListener() {
+    public void setValidationListener(ValidationListener listener) {
+        if (!validators.isEmpty()) {
+            return;
+        }
+        ModifyListener modifyListener = new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent e) {
                 listener.validate();
             }
         };
-        addModifyListener(validator);
+        validators.add(modifyListener);
+        addModifyListener(modifyListener);
         bkgColor = textWidget.getBackground();
     }
 
     @Override
     public void removeValidationListener() {
-        Assert.isNotNull(validator);
-        removeModifyListener(validator);
-        validator = null;
+        for (EventListener listener : validators) {
+            if (listener instanceof ModifyListener) {
+                removeModifyListener((ModifyListener) listener);
+            }
+        }
+        validators.clear();
         bkgColor = null;
     }
 }

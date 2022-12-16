@@ -11,7 +11,7 @@ public interface Validator {
 
     void setInvalid(@NotNull String message);
 
-    void addValidationListener(@NotNull ValidationListener listener);
+    void setValidationListener(@NotNull ValidationListener listener);
 
     void removeValidationListener();
 }
