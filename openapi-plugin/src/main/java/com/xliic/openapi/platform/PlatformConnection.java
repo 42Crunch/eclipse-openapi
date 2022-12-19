@@ -13,7 +13,7 @@ import com.xliic.core.credentialStore.Credentials;
 import com.xliic.core.ide.passwordSafe.PasswordSafe;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.settings.Settings;
 
 public class PlatformConnection {
 
@@ -40,7 +40,7 @@ public class PlatformConnection {
     }
 
     public static boolean isEmpty() {
-        String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+        String platformURL = PropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.URL);
         String apiToken = getPlatformAPIKey();
         return StringUtils.isEmpty(platformURL) || StringUtils.isEmpty(apiToken);
     }
@@ -58,7 +58,7 @@ public class PlatformConnection {
     }
 
     public static PlatformConnection getOptions() {
-        String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+        String platformURL = PropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.URL);
         if (!StringUtils.isEmpty(platformURL) && platformURL.endsWith("/")) {
             platformURL = StringUtils.strip(platformURL, "/");
         }
@@ -67,14 +67,14 @@ public class PlatformConnection {
     }
 
     public static void setDefaultPlatformURL() {
-        String platformURL = PropertiesComponent.getInstance().getValue(SettingsKeys.PLATFORM);
+        String platformURL = PropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.URL);
         if (StringUtils.isEmpty(platformURL)) {
-            PropertiesComponent.getInstance().setValue(SettingsKeys.PLATFORM, "https://platform.42crunch.com");
+            PropertiesComponent.getInstance().setValue(Settings.Platform.Credentials.URL, "https://platform.42crunch.com");
         }
     }
 
     private static CredentialAttributes createCredentialAttributes() {
-        return new CredentialAttributes(CredentialAttributesKt.generateServiceName("xliic", SettingsKeys.API_KEY));
+        return new CredentialAttributes(CredentialAttributesKt.generateServiceName("xliic", Settings.Platform.Credentials.API_KEY));
     }
 
     public static String getPlatformAPIKey() {

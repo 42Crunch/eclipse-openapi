@@ -11,7 +11,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.services.ASTService;
-import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.settings.Settings;
 
 public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 
@@ -32,7 +32,7 @@ public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 
     @Override
     public final boolean isSelected(@NotNull AnJActionEvent event) {
-        return PropertiesComponent.getInstance().getBoolean(SettingsKeys.ABC_SORT);
+        return PropertiesComponent.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
     }
 
     @Override

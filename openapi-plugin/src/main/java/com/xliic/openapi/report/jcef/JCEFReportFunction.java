@@ -23,19 +23,20 @@ import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.ExtRef;
+import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.services.ExtRefService;
 
-public class JCEFPostMessageListener extends BrowserFunction implements Function<Object, JBCefJSQuery.Response> {
-
-    public static final String HADLER_ID = "injectedPostMessageHandler";
+public class JCEFReportFunction extends BrowserFunction implements Function<Object, JBCefJSQuery.Response> {
 
     private final Project project;
     private final ObjectMapper mapper;
 
-    public JCEFPostMessageListener(@NotNull Project project, @NotNull Browser browser) {
-        super(browser, HADLER_ID);
+    public JCEFReportFunction(@NotNull Project project, @NotNull Browser browser) {
+        super(browser, PanelBrowser.FUNCTION_ID);
         this.project = project;
         mapper = new ObjectMapper();
     }
@@ -51,7 +52,7 @@ public class JCEFPostMessageListener extends BrowserFunction implements Function
     @Override
     @SuppressWarnings("unchecked")
     public JBCefJSQuery.Response apply(Object message) {
-        if (message instanceof String) {
+        if (message instanceof String && !((String) message).isEmpty()) {
             try {
                 Map<String, String> props = mapper.readValue((String) message, Map.class);
                 if (props.containsKey("command")) {
@@ -67,6 +68,9 @@ public class JCEFPostMessageListener extends BrowserFunction implements Function
                         String uri = props.get("uri");
                         String pointer = props.get("pointer");
                         if (!isEmpty(uri) && (pointer != null)) {
+                            if (ExtRef.isInternalURI(uri)) {
+                                uri = ExtRef.toURI(uri);
+                            }
                             onGoToLine(uri, pointer);
                         }
                         break;
@@ -93,7 +97,10 @@ public class JCEFPostMessageListener extends BrowserFunction implements Function
     }
 
     private void onGoToLine(@NotNull String uri, @NotNull String pointer) {
-        String path = URI.create(uri).getPath(); // Will be decoded internally
+        URI uriObj = URI.create(uri); // Will be decoded internally
+        ExtRefService extRefService = ExtRefService.getInstance(project);
+        ExtRef extRef = extRefService.get(uriObj);
+        String path = extRef == null ? uriObj.getPath() : extRef.getVirtualFile().getPath();
         VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(path));
         if (file != null) {
             ASTService astService = ASTService.getInstance(project);

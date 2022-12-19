@@ -1,6 +1,8 @@
 package com.xliic.core.util.messages;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +21,7 @@ public class TopicSettingsListener<L> extends Topic<L> {
         SettingsListener listener = (SettingsListener) handler;
         List<Object> args = (List<Object>) data;
         if (funcId == 0) {
-            listener.propertiesUpdated((String) args.get(0));
+            listener.propertiesUpdated((Set<String>) args.get(0), (Map<String, Object>) args.get(1));
         }
     }
 
@@ -29,8 +31,8 @@ public class TopicSettingsListener<L> extends Topic<L> {
     public <T> T syncPublisher(@NotNull IEventBroker eventBroker) {
         return (T) new SettingsListener() {
             @Override
-            public void propertiesUpdated(String key) {
-                eventBroker.send(getTopic(), getArgs(0, List.of(key)));
+            public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
+                eventBroker.send(getTopic(), getArgs(0, List.of(keys, prevData)));
             }
         };
     }

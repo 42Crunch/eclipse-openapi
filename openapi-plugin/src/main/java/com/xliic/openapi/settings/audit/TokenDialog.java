@@ -1,4 +1,4 @@
-package com.xliic.openapi.settings;
+package com.xliic.openapi.settings.audit;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
@@ -15,14 +15,15 @@ import com.xliic.core.ui.components.JTextArea;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.callback.TokenDialogDoOkActionCallback;
+import com.xliic.openapi.settings.Settings;
 
-public class AuditConfigTokenDialogWrapper extends DialogWrapper {
+public class TokenDialog extends DialogWrapper {
 
     private final Project project;
     private final VirtualFile file;
     private JTextArea tokenTextArea;
 
-    public AuditConfigTokenDialogWrapper(@NotNull Project project, @NotNull VirtualFile file) {
+    public TokenDialog(@NotNull Project project, @NotNull VirtualFile file) {
         super(project, 2);
         setTitle(OpenApiBundle.message("Security Audit Settings"));
         this.file = file;
@@ -62,7 +63,7 @@ public class AuditConfigTokenDialogWrapper extends DialogWrapper {
     @Override
     public void doOKAction() {
         super.doOKAction();
-        PropertiesComponent.getInstance().setValue(SettingsKeys.TOKEN, tokenTextArea.getStripText());
+        PropertiesComponent.getInstance().setValue(Settings.Audit.TOKEN, tokenTextArea.getStripText());
         new TokenDialogDoOkActionCallback(project, file, tokenTextArea.getStripText()).setDone();
     }
 }

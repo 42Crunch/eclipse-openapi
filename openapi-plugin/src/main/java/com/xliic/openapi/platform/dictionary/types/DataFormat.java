@@ -30,7 +30,7 @@ public class DataFormat {
     @Nullable
     protected final String format; // float, double, any string value
     @Nullable
-    protected List<Object> enumProp;
+    protected final List<Object> enumProp;
 
     // Parameters
     @Nullable

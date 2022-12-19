@@ -2,9 +2,9 @@ package com.xliic.openapi.services;
 
 import static com.xliic.openapi.TempFileUtils.createPluginTempDirIfMissing;
 import static com.xliic.openapi.TempFileUtils.createTextResource;
-import static com.xliic.openapi.preview.PreviewUtils.DEFAULT_SERVER_PORT;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_REDOC;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_SWAGGERUI;
+import static com.xliic.openapi.settings.Settings.Preview.getPort;
 
 import java.io.File;
 import java.net.BindException;
@@ -24,9 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.openapi.preview.PreviewCallback;
-import com.xliic.openapi.preview.PreviewKeys;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.preview.PreviewWebSocket;
 import com.xliic.openapi.preview.PreviewWebSocketHandler;
@@ -51,11 +49,6 @@ public class PreviewService implements IPreviewService, Disposable {
 
     public static PreviewService getInstance() {
         return ApplicationManager.getApplication().getService(PreviewService.class);
-    }
-
-    @Override
-    public boolean isInitComplete() {
-        return initComplete;
     }
 
     public boolean isServerStated() {
@@ -100,8 +93,7 @@ public class PreviewService implements IPreviewService, Disposable {
         if (server != null && !server.isStopped() && !server.isFailed()) {
             shutDownServer(callback);
         } else {
-            int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
-            ApplicationManager.getApplication().executeOnPooledThread(() -> createAndRunServer(port, callback));
+            ApplicationManager.getApplication().executeOnPooledThread(() -> createAndRunServer(getPort(), callback));
         }
     }
 
@@ -110,8 +102,7 @@ public class PreviewService implements IPreviewService, Disposable {
             @Override
             public void lifeCycleStopped(LifeCycle event) {
                 server.removeLifeCycleListener(this);
-                int port = PropertiesComponent.getInstance().getInt(PreviewKeys.PORT, DEFAULT_SERVER_PORT);
-                ApplicationManager.getApplication().executeOnPooledThread(() -> createAndRunServer(port, callback));
+                ApplicationManager.getApplication().executeOnPooledThread(() -> createAndRunServer(getPort(), callback));
             }
         });
         try {

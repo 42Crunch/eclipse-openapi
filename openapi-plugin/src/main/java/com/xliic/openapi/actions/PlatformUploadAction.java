@@ -20,7 +20,7 @@ import com.xliic.openapi.platform.dictionary.quickfix.PreAuditDialog;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.PlatformService;
-import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.settings.Settings;
 
 public class PlatformUploadAction extends AnAction implements DumbAware {
 
@@ -68,8 +68,8 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
             return;
         }
         PropertiesComponent settings = PropertiesComponent.getInstance();
-        String value = settings.getValue(SettingsKeys.Platform.Dictionary.PreAudit.KEY);
-        if (SettingsKeys.Platform.Dictionary.PreAudit.ASK.equals(value)) {
+        String value = settings.getValue(Settings.Platform.Dictionary.PreAudit.CHOICE);
+        if (Settings.Platform.Dictionary.PreAudit.ASK.equals(value)) {
             FixGlobalDictionaryAction action = new FixGlobalDictionaryAction();
             if (action.update(project, file)) {
                 PreAuditDialog dialog = new PreAuditDialog(project);
@@ -80,16 +80,16 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
                 } else if (code == PreAuditDialog.NO_EXIT_CODE) {
                     runSaveToPlatform(project, file);
                 } else if (code == PreAuditDialog.ALWAYS_EXIT_CODE) {
-                    settings.setValue(SettingsKeys.Platform.Dictionary.PreAudit.KEY, SettingsKeys.Platform.Dictionary.PreAudit.ALWAYS);
+                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
                     updateAndRunSaveToPlatform(action, project, file);
                 } else if (code == PreAuditDialog.NEVER_EXIT_CODE) {
-                    settings.setValue(SettingsKeys.Platform.Dictionary.PreAudit.KEY, SettingsKeys.Platform.Dictionary.PreAudit.NEVER);
+                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
                     runSaveToPlatform(project, file);
                 }
             } else {
                 runSaveToPlatform(project, file);
             }
-        } else if (SettingsKeys.Platform.Dictionary.PreAudit.ALWAYS.equals(value)) {
+        } else if (Settings.Platform.Dictionary.PreAudit.ALWAYS.equals(value)) {
             FixGlobalDictionaryAction action = new FixGlobalDictionaryAction();
             if (action.update(project, file)) {
                 updateAndRunSaveToPlatform(action, project, file);

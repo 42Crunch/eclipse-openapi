@@ -2,6 +2,7 @@ package com.xliic.openapi;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,8 +36,6 @@ public class TempFileUtils {
     private static final String PROJECT_TMP_DIR = "tmp-xliic";
     private static final String PLATFORM_SUB_DIR = "platform";
     private static final String EXT_REF_SUB_DIR = "refs";
-    private static final String AUDIT_SUB_DIR = "audit";
-    private static final String DICTIONARY_SUB_DIR = "dictionary";
 
     public static VirtualFile createPlatformFile(@NotNull Object requestor, @NotNull String subDirName, @NotNull String fileName,
             @NotNull String text) {
@@ -60,11 +59,7 @@ public class TempFileUtils {
                     VirtualFile platformDomainDir = VfsUtil.createDirectoryIfMissing(Paths.get(rootSubDir.getPath(), subDirName).toString());
                     if (platformDomainDir != null) {
                         VirtualFile tmpFile = platformDomainDir.createChildData(requestor, fileName);
-                        Charset charset = tmpFile.getCharset();
-                        try (OutputStream stream = new FileOutputStream(tmpFile.getPath(), false)) {
-                            stream.write(text.getBytes(charset));
-                            return tmpFile;
-                        }
+                        return createTempFile(tmpFile, text);
                     }
                 }
             }
@@ -82,16 +77,20 @@ public class TempFileUtils {
                 if (rootSubDir != null) {
                     VirtualFile tmpFile = rootSubDir.createChildData(requestor, fileName);
                     tmpFile.setReadOnly(false);
-                    Charset charset = tmpFile.getCharset();
-                    try (OutputStream stream = new FileOutputStream(tmpFile.getPath(), false)) {
-                        stream.write(text.getBytes(charset));
-                        return tmpFile;
-                    }
+                    return createTempFile(tmpFile, text);
                 }
             }
         } catch (IOException ignored) {
         }
         return null;
+    }
+
+    private static VirtualFile createTempFile(@NotNull VirtualFile tmpFile, @NotNull String text) throws FileNotFoundException, IOException {
+        Charset charset = tmpFile.getCharset();
+        try (OutputStream stream = new FileOutputStream(tmpFile.getPath(), false)) {
+            stream.write(text.getBytes(charset));
+            return tmpFile;
+        }
     }
 
     public static File createPluginTempDirIfMissing() throws IOException {
@@ -119,10 +118,6 @@ public class TempFileUtils {
         return false;
     }
 
-    public static boolean isPluginPlatformTempDeadFile(@NotNull VirtualFile file) {
-        return false;
-    }
-
     public static void createTextResource(@NotNull File dir, @NotNull String basePath, @NotNull String prefix, @NotNull String suffix)
             throws IOException {
         ClassLoader loader = OpenApiUtils.class.getClassLoader();
@@ -144,46 +139,6 @@ public class TempFileUtils {
             path = Paths.get(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir, id);
         }
         return LocalFileSystem.getInstance().findFileByIoFile(path.toFile());
-    }
-
-    public static VirtualFile createAuditIndexJsFile(@NotNull Object requestor, @NotNull String text) {
-        try {
-            File pluginTempDir = createPluginTempDirIfMissing();
-            final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
-            if (rootDir != null) {
-                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(Paths.get(rootDir.getPath(), AUDIT_SUB_DIR).toString());
-                if (rootSubDir != null) {
-                    VirtualFile tmpFile = rootSubDir.createChildData(requestor, "index.js");
-                    Charset charset = tmpFile.getCharset();
-                    try (OutputStream stream = new FileOutputStream(tmpFile.getPath(), false)) {
-                        stream.write(text.getBytes(charset));
-                        return tmpFile;
-                    }
-                }
-            }
-        } catch (IOException ignored) {
-        }
-        return null;
-    }
-
-    public static VirtualFile createDictionaryIndexJsFile(@NotNull Object requestor, @NotNull String text) {
-        try {
-            File pluginTempDir = createPluginTempDirIfMissing();
-            final VirtualFile rootDir = VfsUtil.createDirectoryIfMissing(pluginTempDir.getAbsolutePath());
-            if (rootDir != null) {
-                final VirtualFile rootSubDir = VfsUtil.createDirectoryIfMissing(Paths.get(rootDir.getPath(), DICTIONARY_SUB_DIR).toString());
-                if (rootSubDir != null) {
-                    VirtualFile tmpFile = rootSubDir.createChildData(requestor, "index.js");
-                    Charset charset = tmpFile.getCharset();
-                    try (OutputStream stream = new FileOutputStream(tmpFile.getPath(), false)) {
-                        stream.write(text.getBytes(charset));
-                        return tmpFile;
-                    }
-                }
-            }
-        } catch (IOException ignored) {
-        }
-        return null;
     }
 
     private static boolean isTempFileInSubDir(@NotNull VirtualFile file, @NotNull String subDir) {

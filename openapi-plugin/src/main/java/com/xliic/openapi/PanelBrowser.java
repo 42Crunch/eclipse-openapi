@@ -30,9 +30,10 @@ import com.xliic.core.ui.jcef.JBCefBrowser;
 import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.util.ResourceUtil;
 import com.xliic.core.wm.ToolWindow;
-import com.xliic.openapi.report.jcef.JCEFPostMessageListener;
 
 public abstract class PanelBrowser extends JBCefBrowser implements LafManagerListener {
+
+    public static final String FUNCTION_ID = "injectedPostMessageHandler";
 
     private static final String SCRIPT_OPEN_TAG = "<script>";
     private static final String SCRIPT_CLOSE_TAG = "</script>";
@@ -48,6 +49,7 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
     private final String indexCSS;
     private String indexJs;
 
+    private volatile boolean isInit = false;
     private volatile boolean isReady = false;
 
     private final JBCefJSQuery query;
@@ -93,9 +95,8 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         indexCSS = getResourceAsString("style.css");
         indexJs = getResourceAsString("index.js");
         SimpleModule module = new SimpleModule();
-        addSerializer(module);
+        module.addSerializer(Payload.class, new PayloadSerializer());
         mapper.registerModule(module);
-        init();
     }
 
     @NotNull
@@ -112,9 +113,8 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
     @Nullable
     protected abstract Function<Object, JBCefJSQuery.Response> getBrowserFunction();
 
-    protected abstract void addSerializer(@NotNull SimpleModule module);
-
     protected void init() {
+        isInit = true;
         String page = indexHTML.replaceAll("<meta http-equiv=.*?>", "");
         page = page.replace("theme: {}", "theme: " + getMessage(ThemeColors.getThemeColorValues()));
         page = getMainHTML(page, indexCSS);
@@ -155,13 +155,15 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
                 CefBrowser cefBrowser = getCefBrowser();
                 cefBrowser.executeJavaScript(getJs(message), cefBrowser.getURL(), 0);
             }
+        } else if (!isInit) {
+            init();
         }
     }
 
     protected <T> String serialize(@Nullable T data) {
         try {
             String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
-            return escape(result).replace("\\\\\"", "\"");
+            return OpenApiUtils.wrapJsonToString(result).replace("\\\\\"", "\"");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -196,7 +198,7 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         int from = page.indexOf(SCRIPT_OPEN_TAG) + SCRIPT_OPEN_TAG.length();
         int to = page.lastIndexOf(SCRIPT_CLOSE_TAG);
         String myJs = page.substring(from, to);
-        myJs = myJs.replace("window.__EclipseJTools.postMessage", JCEFPostMessageListener.HADLER_ID);
+        myJs = myJs.replace("window.__EclipseJTools.postMessage", FUNCTION_ID);
         // Apply some readable format
         StringBuilder text = new StringBuilder();
         for (String line : myJs.split("\\r?\\n|\\r")) {
@@ -210,15 +212,6 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         }
         myJs = text.toString();
         return indexJs + "\n" + myJs;
-    }
-
-    private static String escape(String value) {
-        value = value.replace("\"", "\\\"");
-        value = value.replace("\b", "\\b");
-        value = value.replace("\f", "\\f");
-        value = value.replace("\n", "");
-        value = value.replace("\r", "");
-        return value.replace("\t", "");
     }
 
     private static String getJs(String message) {

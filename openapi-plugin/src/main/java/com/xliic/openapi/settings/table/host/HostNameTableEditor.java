@@ -1,14 +1,9 @@
-package com.xliic.openapi.settings;
+package com.xliic.openapi.settings.table.host;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -30,15 +25,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.application.ReadAction;
-import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.core.project.Project;
-import com.xliic.core.project.ProjectManager;
-import com.xliic.core.util.ArrayUtilRt;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.settings.items.ItemHostsTable;
 
-public class HostNameTableEditor {
+public abstract class HostNameTableEditor {
 
     private static final int ADD_BUTTON = IDialogConstants.CLIENT_ID + 1;
     private static final int EDIT_BUTTON = IDialogConstants.CLIENT_ID + 2;
@@ -58,13 +47,17 @@ public class HostNameTableEditor {
     private Button editButton;
     private Button removeButton;
 
+    @NotNull
+    private final String key;
+
     private final String[] fTableColumnHeaders = { "Name" };
     private final ColumnLayoutData[] fTableColumnLayouts = { new ColumnWeightData(33) };
 
-    public HostNameTableEditor(Composite parent) {
+    public HostNameTableEditor(@NotNull Composite parent, @NotNull String key, @NotNull String emptyText) {
+        this.key = key;
         createTable(parent);
         createButtonGroup(parent);
-        initialize();
+        setInput(ItemHostsTable.getHosts(key));
     }
 
     private void addContent(Object o) {
@@ -108,11 +101,7 @@ public class HostNameTableEditor {
         updateContent(type);
     }
 
-    public void initialize() {
-        setInput(getApprovedHosts());
-    }
-
-    private HostNameTableEditor getModel() {
+    public HostNameTableEditor getModel() {
         return this;
     }
 
@@ -121,66 +110,6 @@ public class HostNameTableEditor {
         for (int i = 0; i < tableViewer.getTable().getItemCount(); i++) {
             values.add((HostName) tableViewer.getElementAt(i));
         }
-        return values;
-    }
-
-    public void reset() {
-        initialize();
-    }
-
-    public boolean isDirty() {
-        final Set<HostName> approvedHosts = new HashSet<>(getApprovedHosts());
-        final Set<HostName> newHosts = new HashSet<>(getModel().getItems());
-        newHosts.removeIf(e -> StringUtils.isEmpty(e.getHostname()));
-        return !approvedHosts.equals(newHosts);
-    }
-
-    public void applyChanges() {
-
-        final Set<HostName> approvedHosts = new HashSet<>(getApprovedHosts());
-        final Set<HostName> newHosts = new HashSet<>(getModel().getItems());
-        newHosts.removeIf(e -> StringUtils.isEmpty(e.getHostname()));
-
-        if (approvedHosts.equals(newHosts)) {
-            return;
-        }
-
-        final Set<HostName> removedHosts = new HashSet<>(approvedHosts);
-        removedHosts.removeAll(newHosts);
-
-        final Set<HostName> addedHosts = new HashSet<>(newHosts);
-        addedHosts.removeAll(approvedHosts);
-
-        final Set<HostName> changedHosts = new HashSet<>(addedHosts);
-        changedHosts.addAll(removedHosts);
-
-        PropertiesComponent.getInstance().setValues(SettingsKeys.HOSTS, ArrayUtilRt.toStringArray(getNames(newHosts)));
-
-        // We have app level settings, must propagate the settings to all available
-        // opened projects
-        ProjectManager projectManager = ProjectManager.getInstanceIfCreated();
-        if (!changedHosts.isEmpty() && (projectManager != null)) {
-            ReadAction.run(() -> {
-                for (Project project : projectManager.getOpenProjects()) {
-                    if (!project.isDisposed()) {
-                        BundleService bundleService = BundleService.getInstance(project);
-                        bundleService.scheduleToBundleByHosts(getNames(changedHosts));
-                    }
-                }
-            });
-        }
-    }
-
-    private Set<String> getNames(Set<HostName> hosts) {
-        return hosts.stream().map(HostName::getHostname).collect(Collectors.toSet());
-    }
-
-    private static List<HostName> getApprovedHosts() {
-        List<HostName> values = new LinkedList<>();
-        for (String hostname : OpenApiUtils.getApprovedHostnames()) {
-            values.add(new HostName(hostname));
-        }
-        Collections.sort(values);
         return values;
     }
 
@@ -276,7 +205,7 @@ public class HostNameTableEditor {
         }
     }
 
-    private void setInput(List<?> inputs) {
+    public void setInput(List<?> inputs) {
         if (tableViewer == null || tableViewer.getControl().isDisposed()) {
             return;
         }

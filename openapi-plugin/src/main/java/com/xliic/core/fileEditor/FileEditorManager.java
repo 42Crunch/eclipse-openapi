@@ -77,6 +77,10 @@ public class FileEditorManager {
         return fileEditors.toArray(new FileEditor[0]);
     }
 
+    public FileEditor[] getEditors(@NotNull VirtualFile file) {
+        return getAllEditors(file);
+    }
+
     @NotNull
     public VirtualFile[] getOpenFiles() {
         List<VirtualFile> files = new LinkedList<>();

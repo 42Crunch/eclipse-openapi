@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -44,7 +45,7 @@ import com.xliic.openapi.platform.tree.ui.PlatformPanelView;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.services.api.IPlatformService;
-import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
 
@@ -126,8 +127,8 @@ public final class PlatformService implements IPlatformService, SettingsListener
     }
 
     @Override
-    public void propertiesUpdated(@NotNull String key) {
-        if (SettingsKeys.isPlatformKey(key) && !project.isDisposed()) {
+    public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
+        if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
             if (PlatformConnection.isEmpty()) {
                 ToolWindow window = manager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);

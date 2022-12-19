@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.services.api.IExtRefService;
-import com.xliic.openapi.settings.SettingsKeys;
+import com.xliic.openapi.settings.Settings;
 
 public class ExtRefService implements IExtRefService, Disposable {
 
@@ -54,6 +55,15 @@ public class ExtRefService implements IExtRefService, Disposable {
         return cache.get(key);
     }
 
+    public @Nullable ExtRef getExtRefByFile(@NotNull String fileName) {
+        for (ExtRef extRef : cache.values()) {
+            if (fileName.equals(extRef.getVirtualFile().getPath())) {
+                return extRef;
+            }
+        }
+        return null;
+    }
+
     public ExtRef get(URI uri) {
         try {
             return cache.get(uri.toURL().toString());
@@ -80,7 +90,7 @@ public class ExtRefService implements IExtRefService, Disposable {
     }
 
     public boolean isSafe(String hostname) {
-        String[] hosts = PropertiesComponent.getInstance().getValues(SettingsKeys.HOSTS);
+        List<String> hosts = PropertiesComponent.getInstance().getList(Settings.ExtRef.APPROVED_HOSTNAMES);
         if (hosts == null) {
             return false;
         }

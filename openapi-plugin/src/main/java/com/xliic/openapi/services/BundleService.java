@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -38,8 +39,10 @@ import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.listeners.BundleDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.api.IBundleService;
+import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.topic.SettingsListener;
 
-public class BundleService extends AsyncService implements IBundleService, Disposable {
+public class BundleService extends AsyncService implements SettingsListener, IBundleService, Disposable {
 
     public static final String ROOT_FILE_NAME_KEY = "ROOT_FILE_NAME_KEY";
     public static final String DO_HIGHLIGHTING_KEY = "DO_HIGHLIGHTING_KEY";
@@ -56,6 +59,7 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
         bundleResultMap = new ConcurrentHashMap<>();
         bundleListenersMap = new HashMap<>();
         bundleErrorsMap = new HashMap<>();
+        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
     public static BundleService getInstance(@NotNull Project project) {
@@ -406,6 +410,30 @@ public class BundleService extends AsyncService implements IBundleService, Dispo
                     }
                 }
                 new OpenFileDescriptor(project, file).navigate(true);
+            }
+        }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
+        if (keys.contains(Settings.ExtRef.APPROVED_HOSTNAMES) && !project.isDisposed()) {
+            Object prevValue = prevData.get(Settings.ExtRef.APPROVED_HOSTNAMES);
+            if (prevValue instanceof List) {
+                Set<String> prevHosts = new HashSet<>((List<String>) prevValue);
+                Set<String> hosts = Settings.getValues(Settings.ExtRef.APPROVED_HOSTNAMES);
+                if (!prevHosts.equals(hosts)) {
+                    Set<String> removedHosts = new HashSet<>(prevHosts);
+                    removedHosts.removeAll(hosts);
+                    Set<String> addedHosts = new HashSet<>(hosts);
+                    addedHosts.removeAll(prevHosts);
+                    Set<String> changedHosts = new HashSet<>(addedHosts);
+                    changedHosts.addAll(removedHosts);
+                    if (!changedHosts.isEmpty()) {
+                        BundleService bundleService = BundleService.getInstance(project);
+                        bundleService.scheduleToBundleByHosts(changedHosts);
+                    }
+                }
             }
         }
     }

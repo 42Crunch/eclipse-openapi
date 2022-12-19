@@ -37,6 +37,7 @@ import okhttp3.ResponseBody;
 public class ExtRef {
 
     public static final String EXT_FILE_PREFIX = "ext_ref_";
+    private static final String INTERNAL_URL_PREFIX = "openapi-internal-";
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     @SuppressWarnings("serial")
@@ -135,6 +136,26 @@ public class ExtRef {
 
     public VirtualFile getVirtualFile() {
         return file;
+    }
+
+    public URL getUrl() {
+        return url;
+    }
+
+    public @NotNull String getInternalURI() {
+        return INTERNAL_URL_PREFIX + url.toString();
+    }
+
+    public static @NotNull String getInternalURI(@NotNull URI uri) {
+        return INTERNAL_URL_PREFIX + uri;
+    }
+
+    public static boolean isInternalURI(@NotNull String uri) {
+        return uri.startsWith(INTERNAL_URL_PREFIX);
+    }
+
+    public static @NotNull String toURI(@NotNull String internalUri) {
+        return internalUri.replace(INTERNAL_URL_PREFIX, "");
     }
 
     public String getrRootFileName() {
