@@ -1,7 +1,5 @@
 package com.xliic.openapi.platform.callback;
 
-import java.util.Base64;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jetbrains.annotations.NotNull;
@@ -53,12 +51,9 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
             Node assessment = node.find("/attr/data");
             float grade = Float.parseFloat(assessment.getChild("grade").getValue());
             boolean isValid = Boolean.parseBoolean(assessment.getChild("isValid").getValue());
-            SwingUtilities
-                    .invokeLater(() -> project.getMessageBus().syncPublisher(PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
-
-            byte[] decodedBytes = Base64.getDecoder().decode(node.getChild("data").getValue());
-            String text = new String(decodedBytes);
-            Node reportNode = Utils.getJsonAST(text);
+            SwingUtilities.invokeLater(() ->
+                project.getMessageBus().syncPublisher(PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
+            Node reportNode = PlatformUtils.getAssessmentReportNode(node);
             if (reportNode == null) {
                 PlatformUtils.setInProgress(tree, progressDMTN, false);
                 onFailure("Response report content is not JSON");

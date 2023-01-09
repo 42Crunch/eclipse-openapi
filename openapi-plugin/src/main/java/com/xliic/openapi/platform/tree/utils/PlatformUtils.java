@@ -2,8 +2,12 @@ package com.xliic.openapi.platform.tree.utils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +15,7 @@ import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.viewers.TreePath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,6 +41,8 @@ import com.xliic.openapi.utils.Utils;
 import okhttp3.Callback;
 
 public class PlatformUtils {
+
+    private static final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     public static void setInProgress(@Nullable Tree tree, @Nullable DefaultMutableTreeNode targetDMTN, boolean isInProgress) {
         if (tree != null && targetDMTN != null) {
@@ -179,5 +186,21 @@ public class PlatformUtils {
             return null;
         }
         return Utils.getJsonAST(new String(Base64.getDecoder().decode(data)));
+    }
+
+    @Nullable
+    public static Date getLastAssessmentDate(@Nullable Node assessment) {
+        if (assessment == null) {
+            return null;
+        }
+        String serverLastDate = assessment.getChildValue("last");
+        if (StringUtils.isEmpty(serverLastDate)) {
+            return null;
+        }
+        try {
+            return FORMATTER.parse(serverLastDate);
+        } catch (ParseException ignored) {
+        }
+        return null;
     }
 }

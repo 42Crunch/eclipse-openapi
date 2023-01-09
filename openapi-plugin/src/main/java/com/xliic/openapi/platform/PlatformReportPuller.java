@@ -1,29 +1,37 @@
 package com.xliic.openapi.platform;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.project.Project;
 import com.xliic.openapi.Puller;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.tree.utils.PlatformUtils;
+import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.utils.NetUtils;
 
 import okhttp3.Response;
 
 public class PlatformReportPuller extends Puller<Node> {
 
-    private static final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    private static final long DEFAULT_TIME = new Date(0).getTime();
-    private final String apiId;
+    private static final Date DEFAULT_LAST_DATE = new Date(0);
 
-    public PlatformReportPuller(String apiId, int pause, int duration) {
+    @NotNull
+    private final Project project;
+    @NotNull
+    private final String apiId;
+    private final long lastDate;
+
+    public PlatformReportPuller(@NotNull Project project, @NotNull String apiId, int pause, int duration) {
         super(pause, duration);
+        this.project = project;
         this.apiId = apiId;
+        PlatformService platformService = PlatformService.getInstance(project);
+        Date date = platformService.getAssessmentLastDate(apiId);
+        lastDate = (date == null) ? DEFAULT_LAST_DATE.getTime() : date.getTime();
     }
 
     @Override
@@ -40,15 +48,14 @@ public class PlatformReportPuller extends Puller<Node> {
         if (!Boolean.parseBoolean(assessment.getChildValue("isProcessed"))) {
             return null;
         }
-        String lastUpdateDate = assessment.getChildValue("last");
-        if (StringUtils.isEmpty(lastUpdateDate)) {
-            return null;
-        }
-        try {
-            if (FORMATTER.parse(lastUpdateDate).getTime() > DEFAULT_TIME) {
+        Date date = PlatformUtils.getLastAssessmentDate(assessment);
+        if (date != null && date.getTime() > lastDate) {
+            PlatformService platformService = PlatformService.getInstance(project);
+            platformService.setAssessmentLastDate(apiId, date);
+            try {
                 return NetUtils.getBodyNode(PlatformAPIs.Sync.readAuditReport(apiId));
+            } catch (Exception ignored) {
             }
-        } catch (Exception ignored) {
         }
         return null;
     }

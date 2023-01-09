@@ -1,7 +1,7 @@
 package com.xliic.openapi.services;
 
-import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,6 +62,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     private final List<Task.Backgroundable> auditBkgTasks;
     private final Map<String, Boolean> modificationsMap;
     private final Map<String, PlatformDocumentListener> listenersMap;
+    private final Map<String, Date> assessmentLastDates;
     private final Map<DefaultMutableTreeNode, Callback> treeAsyncCallbacksMap;
     private final PlatformReopener reopener;
     private PlatformFavoriteState favoriteState = new PlatformFavoriteState();
@@ -71,6 +72,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
         auditBkgTasks = Collections.synchronizedList(new LinkedList<>());
         modificationsMap = new ConcurrentHashMap<>();
         listenersMap = new HashMap<>();
+        assessmentLastDates = new HashMap<>();
         treeAsyncCallbacksMap = new ConcurrentHashMap<>();
         reopener = new PlatformReopener(project);
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
@@ -95,6 +97,15 @@ public final class PlatformService implements IPlatformService, SettingsListener
         favoriteState = state;
     }
 
+    @Nullable
+    public Date getAssessmentLastDate(@NotNull String apiId) {
+        return assessmentLastDates.get(apiId);
+    }
+
+    public void setAssessmentLastDate(@NotNull String apiId, @NotNull Date date) {
+        assessmentLastDates.put(apiId, date);
+    }
+
     public Map<DefaultMutableTreeNode, Callback> getTreeAsyncCallbacks() {
         return treeAsyncCallbacksMap;
     }
@@ -105,7 +116,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
             public void run(@NotNull ProgressIndicator progressIndicator) {
                 progressIndicator.setText("Waiting for assessment report");
                 try {
-                    Node report = new PlatformReportPuller(apiId,1000, 60000).get();
+                    Node report = new PlatformReportPuller(project, apiId,1000, 60000).get();
                     PlatformService platformService = PlatformService.getInstance(project);
                     platformService.platformAuditReady(apiId, file, report);
                 } catch (Exception ignored) {
@@ -128,8 +139,10 @@ public final class PlatformService implements IPlatformService, SettingsListener
             if (file != null) {
                 AuditService auditService = AuditService.getInstance(project);
                 Audit report = auditService.getAuditReport(file.getPath());
-                byte[] decodedBytes = Base64.getDecoder().decode(node.getChild("data").getValue());
-                Node reportNode = Utils.getJsonAST(new String(decodedBytes));
+                Node reportNode = PlatformUtils.getAssessmentReportNode(node);
+                if (reportNode == null) {
+                    return;
+                }
                 ApplicationManager.getApplication().runReadAction(() -> {
                     boolean showAsHTML = report == null || report.isShowAsHTML();
                     boolean showAsProblems = report == null || report.isShowAsProblems();
@@ -259,5 +272,6 @@ public final class PlatformService implements IPlatformService, SettingsListener
         auditBkgTasks.clear();
         treeAsyncCallbacksMap.clear();
         reopener.dispose();
+        assessmentLastDates.clear();
     }
 }

@@ -38,7 +38,7 @@ public class ScanTask extends Task.Backgroundable {
         String apiId = null;
         try {
             String oas = ScanUtils.extractSinglePath(path, bundle);
-            apiId = ScanUtils.getTempAPI(oas, progress);
+            apiId = ScanUtils.getTempAPI(getProject(), oas, progress);
 
             progress.setText("Creating default scan configuration");
             ScanUtils.createDefaultScanConfig(apiId);

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.actionSystem.DefaultActionGroup;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.Puller;
 import com.xliic.openapi.bundler.BundleResult;
@@ -57,12 +58,12 @@ public class ScanUtils {
     }
 
     @NotNull
-    public static String getTempAPI(@NotNull String oas, @NotNull ProgressIndicator progressIndicator) throws Exception {
+    public static String getTempAPI(@NotNull Project project, @NotNull String oas, @NotNull ProgressIndicator progressIndicator) throws Exception {
         progressIndicator.setText("Creating temporary platform API");
         PlatformAPI api = ScanUtils.createTempApi(oas);
         String apiId = api.getId();
         progressIndicator.setText("Waiting for security audit report");
-        Node fullReport = new PlatformReportPuller(apiId, PAUSE, PULL_REPORT_DURATION).get();
+        Node fullReport = new PlatformReportPuller(project, apiId, PAUSE, PULL_REPORT_DURATION).get();
         Node report = PlatformUtils.getAssessmentReportNode(fullReport);
         if (report == null || !"valid".equals(report.getChildValue("openapiState"))) {
             throw new Exception("Security audit report is not valid");

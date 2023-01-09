@@ -47,7 +47,7 @@ public class ScanDockerTask extends Task.Backgroundable {
     public void run(@NotNull ProgressIndicator progressIndicator) {
         String apiId = null;
         try {
-            apiId = ScanUtils.getTempAPI(runConfig.getRawOas(), progressIndicator);
+            apiId = ScanUtils.getTempAPI(getProject(), runConfig.getRawOas(), progressIndicator);
 
             progressIndicator.setText("Creating scan configuration");
             ScanUtils.createScanConfig(apiId, DEFAULT_CONFIG_NAME, runConfig.getConfig());

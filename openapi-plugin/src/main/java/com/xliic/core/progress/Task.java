@@ -42,7 +42,13 @@ public abstract class Task implements ICoreRunnable {
         public String getTitle() {
             return title;
         }
+
+        @Override
+        public Project getProject() {
+            return project;
+        }
     }
 
     public abstract String getTitle();
+    public abstract Project getProject();
 }

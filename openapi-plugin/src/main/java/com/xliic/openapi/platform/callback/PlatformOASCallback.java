@@ -2,6 +2,7 @@ package com.xliic.openapi.platform.callback;
 
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -49,6 +50,11 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
         try {
             Node desc = node.getChild("desc");
             String id = desc.getChild("id").getValue();
+            Date date = PlatformUtils.getLastAssessmentDate(node.getChild("assessment"));
+            if (date != null) {
+                PlatformService platformService = PlatformService.getInstance(project);
+                platformService.setAssessmentLastDate(id, date);
+            }
             boolean isJson = !Boolean.parseBoolean(desc.getChild("yaml").getValue());
             String specFile = desc.getChild("specfile").getValue();
             byte[] decodedBytes = Base64.getDecoder().decode(specFile);
