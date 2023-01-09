@@ -47,7 +47,7 @@ public class ScanUtils {
     private static final SimpleDateFormat API_TEMP_NAME_DATE_FORMATTER = new SimpleDateFormat("HHmmssddMMyyyy");
     private static final int PAUSE = 1000;
     private static final int PULL_SCAN_CONFIG_DURATION = 30000;
-    private static final int PULL_SCAN_REPORT_DURATION = 20000;
+    private static final int PULL_SCAN_REPORT_DURATION = 10000;
     private static final int PULL_REPORT_DURATION = 60000;
 
     @NotNull

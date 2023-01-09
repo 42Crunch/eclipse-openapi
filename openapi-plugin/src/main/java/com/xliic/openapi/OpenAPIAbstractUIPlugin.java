@@ -1,5 +1,7 @@
 package com.xliic.openapi;
 
+import static com.xliic.openapi.platform.PlatformConnection.isPlatformIntegrationEnabled;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -225,7 +227,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                     VirtualFile file = EclipseUtil.getVirtualFile(ref.getEditorInput());
                     if (TempFileUtils.isExtRefFile(file)) {
                         page.closeEditor(ref.getEditor(true), false);
-                    } else if (TempFileUtils.isPlatformFile(file)) {
+                    } else if (isPlatformIntegrationEnabled() && TempFileUtils.isPlatformFile(file)) {
                         PlatformService platformService = PlatformService.getInstance(project);
                         // Eclipse Development Note
                         // Closing editor will schedule file closing routine in AST thread
