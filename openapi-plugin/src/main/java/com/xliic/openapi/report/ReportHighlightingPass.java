@@ -26,13 +26,13 @@ import com.xliic.core.lang.HighlightSeverity;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.TextRange;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.quickfix.actions.FixBulkAction;
 import com.xliic.openapi.quickfix.actions.FixCombinedAction;
 import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.services.QuickFixService;
+import com.xliic.openapi.utils.TempFileUtils;
 
 public class ReportHighlightingPass extends TextEditorHighlightingPass {
 

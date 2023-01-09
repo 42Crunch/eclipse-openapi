@@ -9,9 +9,9 @@ import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.utils.Utils;
 
 public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 
@@ -42,7 +42,7 @@ public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
 
     @Override
     public void update(AnJActionEvent event) {
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file != null) {
             ASTService astService = ASTService.getInstance(project);
             event.getPresentation().setEnabled(astService.getRootNode(file) != null);

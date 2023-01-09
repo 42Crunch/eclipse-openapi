@@ -20,11 +20,11 @@ import com.xliic.core.codeInsight.completion.CompletionResultSet;
 import com.xliic.core.codeInsight.completion.ElementPattern;
 import com.xliic.core.editor.Document;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.services.DictionaryService;
+import com.xliic.openapi.utils.Utils;
 
 public class DictionaryContentAssistProcessor extends CompletionContributor {
 
@@ -69,7 +69,7 @@ public class DictionaryContentAssistProcessor extends CompletionContributor {
             if (ddService.getAllFormats().isEmpty()) {
                 return false;
             }
-            OpenApiFileType type = OpenApiUtils.getFileType(parameters.getFile().getPath());
+            OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
             if (type == OpenApiFileType.Json) {
                 return accepts(parameters, JSON_TRIGGER_CHARS);
             } else if (type == OpenApiFileType.Yaml) {
@@ -94,7 +94,7 @@ public class DictionaryContentAssistProcessor extends CompletionContributor {
             public void addCompletions(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet resultSet) {
                 Node root = parameters.getRoot();
                 if (root == null) {
-                    OpenApiFileType type = OpenApiUtils.getFileType(parameters.getFile().getPath());
+                    OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
                     if (type == OpenApiFileType.Yaml && isPlainPattern(parameters.getPattern())) {
                         try {
                             int offset = parameters.getOffset();

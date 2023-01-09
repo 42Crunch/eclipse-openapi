@@ -11,8 +11,8 @@ import javax.net.ssl.SSLException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.Payload;
+import com.xliic.openapi.utils.Utils;
 
 public class TryItResponse implements Payload {
 
@@ -45,7 +45,7 @@ public class TryItResponse implements Payload {
         result.put("statusCode", statusCode);
         result.put("statusMessage", statusMessage);
         result.put("headers", escapeAndGetHeaders());
-        result.put("body", body == null ? "" : OpenApiUtils.wrapJsonToString(body));
+        result.put("body", body == null ? "" : Utils.wrapJsonToString(body));
         return result;
     }
 
@@ -56,7 +56,7 @@ public class TryItResponse implements Payload {
     private List<List<String>> escapeAndGetHeaders() {
         List<List<String>> result = new LinkedList<>();
         for (List<String> pair : headers) {
-            result.add(Arrays.asList(pair.get(0), OpenApiUtils.wrapJsonToString(pair.get(1))));
+            result.add(Arrays.asList(pair.get(0), Utils.wrapJsonToString(pair.get(1))));
         }
         return result;
     }

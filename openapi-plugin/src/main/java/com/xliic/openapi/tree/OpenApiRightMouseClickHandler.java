@@ -25,9 +25,7 @@ import com.xliic.core.psi.PsiManager;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.services.ASTService;
@@ -37,6 +35,8 @@ import com.xliic.openapi.tree.node.PanelNode;
 import com.xliic.openapi.tree.node.SimpleNode;
 import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
 import com.xliic.openapi.tryit.TryItUtils;
+import com.xliic.openapi.utils.TempFileUtils;
+import com.xliic.openapi.utils.Utils;
 
 import icons.OpenApiIcons;
 
@@ -52,7 +52,7 @@ public class OpenApiRightMouseClickHandler {
 
         Tree tree = panel.getTree();
         Project project = panel.getProject();
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
         if ((treeNode == null) || (file == null) || TempFileUtils.isExtRefFile(file)) {
             return;

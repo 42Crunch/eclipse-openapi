@@ -6,8 +6,8 @@ import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.settings.audit.TokenDialog;
+import com.xliic.openapi.utils.MsgUtils;
 
 public class EmailDialogDoOkActionCallback extends ActionCallback {
 

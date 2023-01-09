@@ -16,10 +16,10 @@ import com.xliic.core.editor.Document;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.Payload;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ExtRefService;
+import com.xliic.openapi.utils.Utils;
 
 public class Audit implements Payload {
 
@@ -148,12 +148,12 @@ public class Audit implements Payload {
 
     public Map<String, Object> getSummaryProperties() {
         Map<String, Object> result = getSummary().getProperties();
-        result.put("documentUri", OpenApiUtils.getURI(auditFileName));
+        result.put("documentUri", Utils.getURI(auditFileName));
         return result;
     }
 
     public Map<String, Map<String, Object>> getFilesProperties() {
-        String from = OpenApiUtils.getURI(auditFileName);
+        String from = Utils.getURI(auditFileName);
         Map<String, Map<String, Object>> result = new HashMap<>();
         ExtRefService extRefService = ExtRefService.getInstance(project);
         for (String fileName : fileNameToIssuesMap.keySet()) {
@@ -162,11 +162,11 @@ public class Audit implements Payload {
             ExtRef extRef = extRefService.getExtRefByFile(fileName);
             if (extRef == null) {
                 String relative;
-                to = OpenApiUtils.getURI(fileName);
+                to = Utils.getURI(fileName);
                 if (from.equals(to)) {
                     relative = Paths.get(auditFileName).getFileName().toString();
                 } else {
-                    relative = OpenApiUtils.getRelativePathFromTo(from, to);
+                    relative = Utils.getRelativePathFromTo(from, to);
                 }
                 props.put("relative", relative);
             } else {
@@ -189,7 +189,7 @@ public class Audit implements Payload {
             String fileName = entry.getKey();
             ExtRef extRef = extRefService.getExtRefByFile(fileName);
             if (extRef == null) {
-                result.put(OpenApiUtils.getURI(fileName), issues);
+                result.put(Utils.getURI(fileName), issues);
             } else {
                 result.put(extRef.getInternalURI(), issues);
             }

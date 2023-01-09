@@ -1,7 +1,7 @@
 package com.xliic.openapi.editor;
 
-import static com.xliic.openapi.OpenApiUtils.getFileType;
-import static com.xliic.openapi.OpenApiUtils.getRefTextFromPsiElement;
+import static com.xliic.openapi.utils.Utils.getFileType;
+import static com.xliic.openapi.utils.Utils.getRefTextFromPsiElement;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,22 +15,22 @@ import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.utils.TempFileUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class OpenAPINavigationProvider implements DirectNavigationProvider {
 
     @Override
     public @Nullable PsiElement getNavigationElement(@NotNull PsiElement psiElement) {
         VirtualFile file = psiElement.getContainingFile().getVirtualFile();
-        if ((getFileType(file) == OpenApiFileType.Unsupported) || !OpenApiUtils.isPsiRef(psiElement)) {
+        if ((getFileType(file) == OpenApiFileType.Unsupported) || !Utils.isPsiRef(psiElement)) {
             return null;
         }
         Project project = psiElement.getProject();
         String ref = getRefTextFromPsiElement(psiElement);
-        Pair<VirtualFile, Node> result = OpenApiUtils.resolveRef(psiElement.getContainingFile(), ref);
+        Pair<VirtualFile, Node> result = Utils.resolveRef(psiElement.getContainingFile(), ref);
         if (result != null) {
             Node target = result.getSecond();
             VirtualFile refFile = result.getFirst();

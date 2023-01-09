@@ -5,10 +5,10 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.utils.PlatformAPIUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class PlatformImportAPICallback extends SuccessBodyResponseCallback {
 
@@ -25,7 +25,7 @@ public class PlatformImportAPICallback extends SuccessBodyResponseCallback {
 
     @Override
     public void onCode200WithBodyTextResponse(@NotNull String text) {
-        Node node = OpenApiUtils.getJsonAST(text);
+        Node node = Utils.getJsonAST(text);
         if (node != null) {
             PlatformAPI api = getPlatformAPI(node, name);
             SwingUtilities.invokeLater(() -> PlatformAPIUtils.create(project, tree, collectionId, api));

@@ -14,14 +14,14 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.NetUtils;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.services.PlatformService;
+import com.xliic.openapi.utils.NetUtils;
+import com.xliic.openapi.utils.TempFileUtils;
 
 public class PlatformOASCallback extends SuccessASTResponseCallback {
 

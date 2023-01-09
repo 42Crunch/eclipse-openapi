@@ -1,7 +1,7 @@
 package com.xliic.openapi.listeners;
 
-import static com.xliic.openapi.OpenApiUtils.isOpenAPIFileType;
-import static com.xliic.openapi.TempFileUtils.isExtRefFile;
+import static com.xliic.openapi.utils.TempFileUtils.isExtRefFile;
+import static com.xliic.openapi.utils.Utils.isOpenAPIFileType;
 
 import java.util.HashMap;
 
@@ -14,10 +14,10 @@ import com.xliic.core.fileEditor.FileEditorManagerEvent;
 import com.xliic.core.fileEditor.FileEditorManagerListener;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.PlaceHolderService;
+import com.xliic.openapi.utils.TempFileUtils;
 
 public class OpenApiFileEditorManagerListener implements FileEditorManagerListener {
 

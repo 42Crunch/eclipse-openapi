@@ -8,8 +8,8 @@ import com.xliic.core.icons.AllIcons;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.utils.Utils;
 
 public class CommonActionsManager {
 
@@ -54,7 +54,7 @@ public class CommonActionsManager {
 
     private void updatePresentation(AnJActionEvent event) {
         Project project = event.getProject();
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file != null) {
             ASTService astService = ASTService.getInstance(project);
             event.getPresentation().setEnabled(astService.getRootNode(file) != null);

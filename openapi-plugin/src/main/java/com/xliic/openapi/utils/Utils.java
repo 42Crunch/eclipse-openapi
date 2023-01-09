@@ -1,4 +1,4 @@
-package com.xliic.openapi;
+package com.xliic.openapi.utils;
 
 import static com.xliic.openapi.OpenApiPanelKeys.OPENAPI_KEY;
 import static com.xliic.openapi.OpenApiPanelKeys.SWAGGER_KEY;
@@ -41,6 +41,9 @@ import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
+import com.xliic.openapi.ExtRef;
+import com.xliic.openapi.OpenApiFileType;
+import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -48,7 +51,7 @@ import com.xliic.openapi.report.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.ExtRefService;
 
-public class OpenApiUtils {
+public class Utils {
 
     public static final String REF = "$ref";
     public static final String REF_DELIMITER = "#/";

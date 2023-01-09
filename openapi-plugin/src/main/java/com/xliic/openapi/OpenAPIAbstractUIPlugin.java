@@ -43,6 +43,7 @@ import com.xliic.openapi.listeners.OpenAPIProjectManagerListener;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.utils.TempFileUtils;
 
 @SuppressWarnings("restriction")
 public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {

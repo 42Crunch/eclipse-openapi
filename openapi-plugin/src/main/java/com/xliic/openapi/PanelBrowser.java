@@ -30,6 +30,7 @@ import com.xliic.core.ui.jcef.JBCefBrowser;
 import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.util.ResourceUtil;
 import com.xliic.core.wm.ToolWindow;
+import com.xliic.openapi.utils.Utils;
 
 public abstract class PanelBrowser extends JBCefBrowser implements LafManagerListener {
 
@@ -164,7 +165,7 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
     protected <T> String serialize(@Nullable T data) {
         try {
             String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
-            return OpenApiUtils.wrapJsonToString(result).replace("\\\\\"", "\"");
+            return Utils.wrapJsonToString(result).replace("\\\\\"", "\"");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

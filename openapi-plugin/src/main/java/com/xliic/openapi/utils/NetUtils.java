@@ -1,4 +1,4 @@
-package com.xliic.openapi;
+package com.xliic.openapi.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +34,7 @@ public class NetUtils {
         try (ResponseBody body = response.body()) {
             if (response.code() == 200 && body != null) {
                 try {
-                    return OpenApiUtils.getJsonAST(body.string());
+                    return Utils.getJsonAST(body.string());
                 } catch (IOException ignored) {
                 }
             }
@@ -47,7 +47,7 @@ public class NetUtils {
         try (ResponseBody body = response.body()) {
             if (body != null) {
                 try {
-                    return OpenApiUtils.getJsonAST(body.string());
+                    return Utils.getJsonAST(body.string());
                 } catch (IOException ignored) {
                 }
             }

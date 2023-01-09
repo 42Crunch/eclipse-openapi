@@ -9,10 +9,10 @@ import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.topic.AuditListener;
+import com.xliic.openapi.utils.Utils;
 
 public class FixGoToHTMLAction extends FixAction {
 
@@ -33,7 +33,7 @@ public class FixGoToHTMLAction extends FixAction {
         SwingUtilities.invokeLater(() -> {
             // Eclipse Development Note
             // Activate as the view may be not visible now
-            OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
+            Utils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
             project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleViewDetails(file.getVirtualFile(), issues);
         });
     }

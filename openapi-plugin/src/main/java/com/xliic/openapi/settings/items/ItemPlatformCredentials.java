@@ -9,8 +9,8 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.components.JTextField;
-import com.xliic.openapi.NetUtils;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.utils.NetUtils;
 
 public class ItemPlatformCredentials extends Item {
 

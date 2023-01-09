@@ -13,7 +13,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.wm.ToolWindow;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.platform.scan.Environment;
 import com.xliic.openapi.platform.scan.Preferences;
@@ -22,6 +21,7 @@ import com.xliic.openapi.platform.scan.payload.ScanOperation;
 import com.xliic.openapi.platform.scan.payload.ScanReport;
 import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItResponse;
+import com.xliic.openapi.utils.Utils;
 
 public class JCEFScanPanel extends PanelBrowser implements ScanListener, Disposable {
 
@@ -96,7 +96,7 @@ public class JCEFScanPanel extends PanelBrowser implements ScanListener, Disposa
         @SuppressWarnings("serial")
         Map<String, Object> parameters = new HashMap<>() {{
             put("command", "showScanReport");
-            put("payload", OpenApiUtils.wrapJsonToString(report.getPayload()));
+            put("payload", Utils.wrapJsonToString(report.getPayload()));
         }};
         sendMessage(parameters);
     }

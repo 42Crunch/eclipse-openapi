@@ -1,6 +1,6 @@
 package com.xliic.openapi.quickfix.sources;
 
-import static com.xliic.openapi.OpenApiUtils.getRelativePathFromTo;
+import static com.xliic.openapi.utils.Utils.getRelativePathFromTo;
 
 import java.util.Arrays;
 import java.util.Collections;

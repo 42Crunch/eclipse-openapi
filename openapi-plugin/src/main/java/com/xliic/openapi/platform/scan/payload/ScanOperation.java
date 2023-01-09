@@ -6,8 +6,8 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.Payload;
+import com.xliic.openapi.utils.Utils;
 
 public class ScanOperation implements Payload {
 
@@ -82,11 +82,11 @@ public class ScanOperation implements Payload {
     @NotNull
     public Map<String, Object> getProperties() {
         Map<String, Object> result = new HashMap<>();
-        result.put("oas", OpenApiUtils.wrapJsonToString(oas));
+        result.put("oas", Utils.wrapJsonToString(oas));
         result.put("rawOas", result.get("oas"));
         result.put("path", path);
         result.put("method", method);
-        result.put("config", OpenApiUtils.wrapJsonToString(config));
+        result.put("config", Utils.wrapJsonToString(config));
         return result;
     }
 }

@@ -1,6 +1,6 @@
 package com.xliic.openapi.platform;
 
-import static com.xliic.openapi.NetUtils.getJsonRequestBody;
+import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 import java.io.IOException;
 import java.util.Base64;

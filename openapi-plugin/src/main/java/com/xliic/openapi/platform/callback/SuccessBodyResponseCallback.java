@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
-import com.xliic.openapi.MsgUtils;
+import com.xliic.openapi.utils.MsgUtils;
 
 import okhttp3.Call;
 import okhttp3.Callback;

@@ -20,7 +20,6 @@ import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
@@ -32,6 +31,7 @@ import com.xliic.openapi.platform.tree.node.core.ProgressAware;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformFilterDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
 import com.xliic.openapi.services.PlatformService;
+import com.xliic.openapi.utils.Utils;
 
 import okhttp3.Callback;
 
@@ -178,6 +178,6 @@ public class PlatformUtils {
         if (data == null) {
             return null;
         }
-        return OpenApiUtils.getJsonAST(new String(Base64.getDecoder().decode(data)));
+        return Utils.getJsonAST(new String(Base64.getDecoder().decode(data)));
     }
 }

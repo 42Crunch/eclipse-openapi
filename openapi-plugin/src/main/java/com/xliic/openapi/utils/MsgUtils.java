@@ -1,4 +1,4 @@
-package com.xliic.openapi;
+package com.xliic.openapi.utils;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -14,10 +14,10 @@ import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
+import com.xliic.openapi.utils.Utils;
 
 public class OpenApiLeftMouseClickHandler {
 
@@ -32,7 +32,7 @@ public class OpenApiLeftMouseClickHandler {
     }
 
     public static void moveToSelectedNodeInEditor(@NotNull Project project, @NotNull Tree tree) {
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file == null) {
             return;
         }

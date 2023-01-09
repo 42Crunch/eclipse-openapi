@@ -1,6 +1,6 @@
 package com.xliic.openapi.report.jcef;
 
-import static com.xliic.openapi.OpenApiUtils.getURI;
+import static com.xliic.openapi.utils.Utils.getURI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Audit;
@@ -27,6 +26,7 @@ import com.xliic.openapi.services.KDBService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.WindowListener;
+import com.xliic.openapi.utils.Utils;
 
 public class JCEFReportPanel extends PanelBrowser implements FileListener, WindowListener, AuditListener, Disposable {
 
@@ -39,7 +39,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(WindowListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(AuditListener.TOPIC, this);
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file != null) {
             handleSelectedFile(file);
         }
@@ -109,7 +109,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
     @Override
     public void handleClosedFile(@NotNull VirtualFile file) {
         AuditService auditService = AuditService.getInstance(project);
-        VirtualFile selectedFile = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile selectedFile = Utils.getSelectedOpenAPIFile(project);
         if (selectedFile != null) {
             Audit audit = auditService.getAuditReport(selectedFile.getPath());
             if (audit != null) {

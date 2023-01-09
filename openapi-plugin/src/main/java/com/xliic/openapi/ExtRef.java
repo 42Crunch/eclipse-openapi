@@ -1,9 +1,9 @@
 package com.xliic.openapi;
 
-import static com.xliic.openapi.OpenApiUtils.REF_DELIMITER;
-import static com.xliic.openapi.OpenApiUtils.getFileType;
-import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
 import static com.xliic.openapi.quickfix.QuickFix.formatFixText;
+import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
+import static com.xliic.openapi.utils.Utils.getFileType;
+import static com.xliic.openapi.utils.Utils.getTextFromFile;
 import static org.apache.commons.lang.RandomStringUtils.random;
 
 import java.io.IOException;
@@ -27,6 +27,7 @@ import com.xliic.core.util.Computable;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.utils.TempFileUtils;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

@@ -14,7 +14,6 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformListener;
@@ -22,6 +21,7 @@ import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.topic.AuditListener;
+import com.xliic.openapi.utils.Utils;
 
 public class PlatformAuditCallback extends SuccessASTResponseCallback {
 
@@ -58,7 +58,7 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
 
             byte[] decodedBytes = Base64.getDecoder().decode(node.getChild("data").getValue());
             String text = new String(decodedBytes);
-            Node reportNode = OpenApiUtils.getJsonAST(text);
+            Node reportNode = Utils.getJsonAST(text);
             if (reportNode == null) {
                 PlatformUtils.setInProgress(tree, progressDMTN, false);
                 onFailure("Response report content is not JSON");
@@ -87,9 +87,9 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
 
             SwingUtilities.invokeLater(() -> {
                 if (showAsHTML) {
-                    OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
+                    Utils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
                 } else {
-                    OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
+                    Utils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
                 }
                 project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
             });

@@ -1,6 +1,8 @@
 package com.xliic.openapi;
 
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.NetUtils;
+
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

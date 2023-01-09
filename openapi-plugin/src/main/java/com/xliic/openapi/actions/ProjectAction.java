@@ -10,12 +10,12 @@ import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectLocator;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.TempFileUtils;
+import com.xliic.openapi.utils.Utils;
 
 public abstract class ProjectAction extends AnAction implements DumbAware {
 
@@ -32,7 +32,7 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
         if (project == null) {
             return;
         }
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file == null) {
             return;
         }
@@ -50,7 +50,7 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
         if (project == null) {
             return;
         }
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file == null) {
             return;
         }

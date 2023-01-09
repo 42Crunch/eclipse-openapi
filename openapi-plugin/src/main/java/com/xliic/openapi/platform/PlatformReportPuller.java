@@ -9,9 +9,9 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.openapi.NetUtils;
 import com.xliic.openapi.Puller;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.NetUtils;
 
 import okhttp3.Response;
 

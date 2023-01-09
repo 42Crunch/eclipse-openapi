@@ -7,12 +7,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.Payload;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.tryit.TryItUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class TryItOperation implements Payload {
 
@@ -49,7 +49,7 @@ public class TryItOperation implements Payload {
     public void setOas(@NotNull BundleResult bundle) {
         oas = TryItUtils.extractSingleOperation(path, method, bundle);
         if (preferredExamplePointer != null) {
-            Node root = OpenApiUtils.getJsonAST(oas);
+            Node root = Utils.getJsonAST(oas);
             if (root != null) {
                 Node target = root.find(preferredExamplePointer);
                 if (target != null) {
@@ -95,14 +95,14 @@ public class TryItOperation implements Payload {
     @NotNull
     public Map<String, Object> getProperties() {
         Map<String, Object> result = new HashMap<>();
-        result.put("oas", OpenApiUtils.wrapJsonToString(oas));
+        result.put("oas", Utils.wrapJsonToString(oas));
         result.put("path", path);
         result.put("method", method);
         if (preferredMediaType != null) {
             result.put("preferredMediaType", preferredMediaType);
         }
         if (preferredBodyValue != null) {
-            result.put("preferredBodyValue", OpenApiUtils.wrapJsonToString(preferredBodyValue));
+            result.put("preferredBodyValue", Utils.wrapJsonToString(preferredBodyValue));
         }
         result.put("config", config.getProperties());
         return result;

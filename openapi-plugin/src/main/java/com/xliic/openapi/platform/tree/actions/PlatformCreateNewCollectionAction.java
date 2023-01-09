@@ -9,7 +9,6 @@ import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessBodyResponseCallback;
@@ -17,6 +16,7 @@ import com.xliic.openapi.platform.tree.form.PlatformCollectionNameChooser;
 import com.xliic.openapi.platform.tree.form.PlatformNameChooser;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class PlatformCreateNewCollectionAction extends AnJAction implements DumbAware {
 
@@ -43,7 +43,7 @@ public class PlatformCreateNewCollectionAction extends AnJAction implements Dumb
                 PlatformAPIs.createCollection(newName, new SuccessBodyResponseCallback(project) {
                     @Override
                     public void onCode200WithBodyTextResponse(@NotNull String text) {
-                        Node node = OpenApiUtils.getJsonAST(text);
+                        Node node = Utils.getJsonAST(text);
                         if (node != null) {
                             PlatformCollection collection = getPlatformCollection(node);
                             SwingUtilities.invokeLater(() -> PlatformCollectionUtils.create(tree, collection));

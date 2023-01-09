@@ -23,7 +23,6 @@ import com.xliic.core.actionSystem.DefaultActionGroup;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.NetUtils;
 import com.xliic.openapi.Puller;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -38,6 +37,7 @@ import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.tryit.TryItUtils;
+import com.xliic.openapi.utils.NetUtils;
 
 import okhttp3.Response;
 

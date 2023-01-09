@@ -33,7 +33,6 @@ import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.listeners.PlatformDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -51,6 +50,7 @@ import com.xliic.openapi.services.api.IPlatformService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.utils.Utils;
 
 import okhttp3.Callback;
 
@@ -129,7 +129,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 AuditService auditService = AuditService.getInstance(project);
                 Audit report = auditService.getAuditReport(file.getPath());
                 byte[] decodedBytes = Base64.getDecoder().decode(node.getChild("data").getValue());
-                Node reportNode = OpenApiUtils.getJsonAST(new String(decodedBytes));
+                Node reportNode = Utils.getJsonAST(new String(decodedBytes));
                 ApplicationManager.getApplication().runReadAction(() -> {
                     boolean showAsHTML = report == null || report.isShowAsHTML();
                     boolean showAsProblems = report == null || report.isShowAsProblems();
@@ -174,7 +174,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     public void createPlatformWindow(boolean activate) {
         if (activate) {
             ApplicationManager.getApplication().invokeAndWait(() -> {
-                OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
+                Utils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
             }, ModalityState.NON_MODAL);
         }
@@ -228,7 +228,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
             if (document != null) {
                 ApplicationManager.getApplication().invokeLaterOnWriteThread(() -> {
                     FileDocumentManager.getInstance().saveDocument(document);
-                    String text = OpenApiUtils.getTextFromFile(file);
+                    String text = Utils.getTextFromFile(file);
                     if (text != null) {
                         String apiId = PlatformUtils.getApiId(file);
                         PlatformAPIs.updateAPIContent(apiId, text, new SuccessResponseCallback(project) {

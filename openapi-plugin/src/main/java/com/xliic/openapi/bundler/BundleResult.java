@@ -2,8 +2,8 @@ package com.xliic.openapi.bundler;
 
 import static com.xliic.openapi.ExtRef.isExtRef;
 import static com.xliic.openapi.OpenApiBundle.message;
-import static com.xliic.openapi.OpenApiUtils.getOpenAPIVersion;
-import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
+import static com.xliic.openapi.utils.Utils.getOpenAPIVersion;
+import static com.xliic.openapi.utils.Utils.getTextFromFile;
 
 import java.io.File;
 import java.io.IOException;

@@ -22,7 +22,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.Preferences;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
@@ -32,6 +31,7 @@ import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.tryit.TryItFixManager;
 import com.xliic.openapi.tryit.TryItResponseCallback;
 import com.xliic.openapi.tryit.payload.TryItRequest;
+import com.xliic.openapi.utils.Utils;
 
 public abstract class JCEFTryItFunction extends BrowserFunction implements Function<Object, JBCefJSQuery.Response> {
 
@@ -108,7 +108,7 @@ public abstract class JCEFTryItFunction extends BrowserFunction implements Funct
     }
 
     public static void createSchema(@NotNull Project project, @NotNull PsiFile psiFile,@NotNull String message) {
-        Node node = OpenApiUtils.getJsonAST(message);
+        Node node = Utils.getJsonAST(message);
         if (node != null) {
             Node genFrom = node.getChild("payload");
             if (genFrom != null) {

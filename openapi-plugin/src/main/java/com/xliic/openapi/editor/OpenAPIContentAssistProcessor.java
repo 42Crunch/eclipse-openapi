@@ -20,10 +20,10 @@ import com.xliic.core.codeInsight.completion.CompletionResultSet;
 import com.xliic.core.codeInsight.completion.ElementPattern;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.utils.Utils;
 
 public class OpenAPIContentAssistProcessor extends CompletionContributor {
 
@@ -52,7 +52,7 @@ public class OpenAPIContentAssistProcessor extends CompletionContributor {
         @Override
         public boolean accepts(@NotNull CompletionParameters parameters) {
             VirtualFile file = parameters.getFile();
-            OpenApiFileType type = OpenApiUtils.getFileType(parameters.getFile().getPath());
+            OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
             if (type == OpenApiFileType.Unsupported) {
                 return false;
             }
@@ -86,7 +86,7 @@ public class OpenAPIContentAssistProcessor extends CompletionContributor {
                 Node root = parameters.getRoot();
                 if (root != null && parameters.getVersion() != OpenApiVersion.Unknown) {
                     Node target = root.findNodeAtOffset(parameters.getOffset());
-                    if (target != null && target.isScalar() && OpenApiUtils.REF.equals(target.getKey())) {
+                    if (target != null && target.isScalar() && Utils.REF.equals(target.getKey())) {
                         parameters.setTarget(target);
                         CompletionHelper.updateResultSet(parameters, resultSet);
                     }

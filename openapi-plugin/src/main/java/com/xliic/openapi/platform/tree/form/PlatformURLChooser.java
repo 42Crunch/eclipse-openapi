@@ -11,7 +11,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.DialogWrapper;
 import com.xliic.core.ui.ValidationInfo;
 import com.xliic.core.ui.components.JTextField;
-import com.xliic.openapi.NetUtils;
+import com.xliic.openapi.utils.NetUtils;
 
 public class PlatformURLChooser extends DialogWrapper {
 

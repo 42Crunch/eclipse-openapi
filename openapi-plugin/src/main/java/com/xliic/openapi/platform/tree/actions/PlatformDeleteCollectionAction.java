@@ -9,10 +9,10 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
-import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
+import com.xliic.openapi.utils.MsgUtils;
 
 public class PlatformDeleteCollectionAction extends AnJAction implements DumbAware {
 

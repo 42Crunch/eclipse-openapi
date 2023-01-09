@@ -1,6 +1,6 @@
 package com.xliic.openapi.actions;
 
-import static com.xliic.openapi.OpenApiUtils.REF;
+import static com.xliic.openapi.utils.Utils.REF;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -21,13 +21,13 @@ import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectLocator;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.ExtRefService;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class ExtRefReloadAction extends AnAction implements DumbAware {
 
@@ -46,7 +46,7 @@ public class ExtRefReloadAction extends AnAction implements DumbAware {
             return;
         }
 
-        VirtualFile file = OpenApiUtils.getSelectedFile(project);
+        VirtualFile file = Utils.getSelectedFile(project);
         if (file == null) {
             return;
         }
@@ -75,7 +75,7 @@ public class ExtRefReloadAction extends AnAction implements DumbAware {
             return;
         }
 
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file == null) {
             return;
         }

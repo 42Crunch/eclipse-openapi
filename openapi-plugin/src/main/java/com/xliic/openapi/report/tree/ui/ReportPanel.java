@@ -30,7 +30,6 @@ import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
@@ -51,6 +50,7 @@ import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.WindowListener;
+import com.xliic.openapi.utils.Utils;
 
 @SuppressWarnings("serial")
 public class ReportPanel extends JPanel implements FileListener, WindowListener, AuditListener, Disposable {
@@ -142,7 +142,7 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
     @Override
     public void handleToolWindowOpened(@NotNull String id) {
         if (ToolWindowId.OPEN_API_REPORT.equals(id) && toolWindow.isVisible()) {
-            refreshProblems(OpenApiUtils.getSelectedFile(project));
+            refreshProblems(Utils.getSelectedFile(project));
         }
     }
 

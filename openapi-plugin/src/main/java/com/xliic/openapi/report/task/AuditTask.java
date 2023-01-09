@@ -1,8 +1,8 @@
 package com.xliic.openapi.report.task;
 
 import static com.xliic.openapi.OpenApiBundle.message;
-import static com.xliic.openapi.OpenApiUtils.getJsonAST;
-import static com.xliic.openapi.OpenApiUtils.getStatus;
+import static com.xliic.openapi.utils.Utils.getJsonAST;
+import static com.xliic.openapi.utils.Utils.getStatus;
 
 import java.io.IOException;
 

@@ -7,9 +7,9 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.Utils;
 
 public class CompletionRunnableWithProgress implements IRunnableWithProgress {
 
@@ -33,9 +33,9 @@ public class CompletionRunnableWithProgress implements IRunnableWithProgress {
     @Override
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
         monitor.beginTask("Preparing completions...", IProgressMonitor.UNKNOWN);
-        Node root = OpenApiUtils.getJsonAST(parameters.getDocument().getText());
+        Node root = Utils.getJsonAST(parameters.getDocument().getText());
         parameters.setRoot(root);
-        parameters.setVersion(root == null ? OpenApiVersion.Unknown : OpenApiUtils.getOpenAPIVersion(root));
+        parameters.setVersion(root == null ? OpenApiVersion.Unknown : Utils.getOpenAPIVersion(root));
         provider.addCompletions(parameters, resultSet);
         monitor.done();
     }

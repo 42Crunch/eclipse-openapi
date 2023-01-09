@@ -11,7 +11,6 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.ParserYamlAST;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -26,6 +25,7 @@ import com.xliic.openapi.quickfix.editor.yaml.YAMLDocumentInserter;
 import com.xliic.openapi.quickfix.editor.yaml.YAMLDocumentReplacer;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.PlaceHolderService;
+import com.xliic.openapi.utils.Utils;
 
 public class DocumentUpdater {
 
@@ -39,7 +39,7 @@ public class DocumentUpdater {
 
     public DocumentUpdater(@NotNull Editor editor, @NotNull PsiFile psiFile) {
         this.editor = editor;
-        boolean isJson = (OpenApiUtils.getFileType(psiFile) == OpenApiFileType.Json);
+        boolean isJson = (Utils.getFileType(psiFile) == OpenApiFileType.Json);
         if (isJson) {
             Node root = parserJsonAST.parse(editor.getDocument().getText());
             processors.put(FixType.Insert, new JSONDocumentInserter(editor, root));

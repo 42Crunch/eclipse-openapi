@@ -33,7 +33,6 @@ import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.dmtn.DMTNConverter;
 import com.xliic.openapi.services.ASTService;
@@ -49,6 +48,7 @@ import com.xliic.openapi.tree.OpenApiMouseAdapter;
 import com.xliic.openapi.tree.SortTreeModel;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.RootNode;
+import com.xliic.openapi.utils.Utils;
 
 // We have to extend from JPanel to be able to register the whole stuff below as tool window component
 // By doing so we will be able to access all necessary content from anywhere through ToolWindowManager
@@ -96,7 +96,7 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(WindowListener.TOPIC, this);
 
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file != null) {
             handleSelectedFile(file);
         }

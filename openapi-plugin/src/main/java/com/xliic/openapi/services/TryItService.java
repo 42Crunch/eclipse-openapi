@@ -21,7 +21,6 @@ import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.application.ModalityState;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.SwingUtilities;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.platform.scan.Preferences;
 import com.xliic.openapi.services.api.ITryItService;
 import com.xliic.openapi.settings.Settings;
@@ -31,6 +30,7 @@ import com.xliic.openapi.tryit.TryItResponseCallback;
 import com.xliic.openapi.tryit.TryItTrustManager;
 import com.xliic.openapi.tryit.payload.TryItOperation;
 import com.xliic.openapi.tryit.payload.TryItRequest;
+import com.xliic.openapi.utils.Utils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -127,7 +127,7 @@ public final class TryItService implements SettingsListener, ITryItService {
         ScanService scanService = ScanService.getInstance(project);
         Preferences prefs = scanService.getPreferences(payload.getPsiFile().getVirtualFile());
         ApplicationManager.getApplication().invokeAndWait(() -> {
-            OpenApiUtils.activateToolWindow(project, TRY_IT);
+            Utils.activateToolWindow(project, TRY_IT);
             project.getMessageBus().syncPublisher(TryItListener.TOPIC).tryOperation(payload, prefs);
         }, ModalityState.NON_MODAL);
     }

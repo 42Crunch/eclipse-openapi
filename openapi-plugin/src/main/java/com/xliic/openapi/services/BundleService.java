@@ -28,8 +28,6 @@ import com.xliic.core.util.Computable;
 import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.MsgUtils;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.async.AsyncService;
 import com.xliic.openapi.async.AsyncTask;
 import com.xliic.openapi.async.AsyncTaskType;
@@ -40,6 +38,8 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.api.IBundleService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class BundleService extends AsyncService implements SettingsListener, IBundleService, Disposable {
 
@@ -404,7 +404,7 @@ public class BundleService extends AsyncService implements SettingsListener, IBu
                 if (root != null) {
                     Node target = root.find(be.getSourcePointer());
                     if (target != null) {
-                        OpenApiUtils.getOpenFileDescriptor(project, file, target).navigate(true);
+                        Utils.getOpenFileDescriptor(project, file, target).navigate(true);
                         return;
                     }
                 }

@@ -20,8 +20,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
-import com.xliic.openapi.MsgUtils;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.scan.Environment;
@@ -35,6 +33,8 @@ import com.xliic.openapi.platform.scan.task.ScanTask;
 import com.xliic.openapi.services.api.IScanService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.Utils;
 
 public final class ScanService implements IScanService, SettingsListener, Disposable {
 
@@ -111,7 +111,7 @@ public final class ScanService implements IScanService, SettingsListener, Dispos
         Preferences prefs = preferences.getOrDefault(file.getPath(), new Preferences());
         Environment myEnv = loadEnv();
         ApplicationManager.getApplication().invokeAndWait(() -> {
-            OpenApiUtils.activateToolWindow(project, SCAN);
+            Utils.activateToolWindow(project, SCAN);
             project.getMessageBus().syncPublisher(ScanListener.TOPIC).scanOperation(payload, myEnv, prefs);
         }, ModalityState.NON_MODAL);
     }

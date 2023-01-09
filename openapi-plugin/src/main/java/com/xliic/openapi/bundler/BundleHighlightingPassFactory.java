@@ -11,7 +11,7 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.utils.Utils;
 
 public final class BundleHighlightingPassFactory implements TextEditorHighlightingPassFactory, TextEditorHighlightingPassFactoryRegistrar {
 
@@ -26,7 +26,7 @@ public final class BundleHighlightingPassFactory implements TextEditorHighlighti
         if (editor.getProject() == null) {
             return null;
         }
-        if (OpenApiUtils.getFileType(file.getVirtualFile()) != OpenApiFileType.Unsupported) {
+        if (Utils.getFileType(file.getVirtualFile()) != OpenApiFileType.Unsupported) {
             return new BundleHighlightingPass(file, editor);
         }
         return null;

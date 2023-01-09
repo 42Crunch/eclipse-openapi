@@ -19,14 +19,14 @@ import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.MsgUtils;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.topic.AuditListener;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class AuditActionCallback extends ActionCallback {
 
@@ -75,8 +75,8 @@ public class AuditActionCallback extends ActionCallback {
 
         // From now on idea requires running below code within write-safe context
         ApplicationManager.getApplication().invokeAndWait(() -> {
-            OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
-            OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
+            Utils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
+            Utils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
             project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleIssuesFixed(issues);
             project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
             OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(project, file);

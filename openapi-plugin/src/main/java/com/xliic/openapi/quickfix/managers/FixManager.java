@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -20,6 +19,7 @@ import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.utils.Utils;
 
 public abstract class FixManager {
 
@@ -61,7 +61,7 @@ public abstract class FixManager {
     }
 
     protected boolean isJson(PsiFile file) {
-        return OpenApiUtils.getFileType(file) == OpenApiFileType.Json;
+        return Utils.getFileType(file) == OpenApiFileType.Json;
     }
 
     public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);
