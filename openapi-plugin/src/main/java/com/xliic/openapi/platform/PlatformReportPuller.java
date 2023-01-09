@@ -37,8 +37,7 @@ public class PlatformReportPuller extends Puller<Node> {
         if (assessment == null) {
             return null;
         }
-        boolean processed = Boolean.parseBoolean(assessment.getChildValue("isProcessed"));
-        if (!processed) {
+        if (!Boolean.parseBoolean(assessment.getChildValue("isProcessed"))) {
             return null;
         }
         String lastUpdateDate = assessment.getChildValue("last");

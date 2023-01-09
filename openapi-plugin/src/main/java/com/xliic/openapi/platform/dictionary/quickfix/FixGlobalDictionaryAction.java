@@ -30,7 +30,7 @@ import com.xliic.openapi.utils.Utils;
 public class FixGlobalDictionaryAction extends ProjectAction {
 
     public FixGlobalDictionaryAction() {
-        super("update data dictionary properties");
+        super("update data dictionary properties", true);
     }
 
     @Override

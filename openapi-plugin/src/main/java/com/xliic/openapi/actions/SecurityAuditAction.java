@@ -21,7 +21,7 @@ import com.xliic.openapi.settings.audit.EmailDialog;
 public class SecurityAuditAction extends ProjectAction {
 
     public SecurityAuditAction() {
-        super("audit");
+        super("audit", false);
     }
 
     @Override

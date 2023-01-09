@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Issue;
@@ -30,7 +30,7 @@ public class FixGoToHTMLAction extends FixAction {
 
     @Override
     public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
-        SwingUtilities.invokeLater(() -> {
+        ApplicationManager.getApplication().invokeLater(() -> {
             // Eclipse Development Note
             // Activate as the view may be not visible now
             Utils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);

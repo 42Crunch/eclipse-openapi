@@ -18,7 +18,7 @@ import com.xliic.openapi.services.PreviewService;
 public abstract class PreviewAbstractAction extends ProjectAction {
 
     public PreviewAbstractAction() {
-        super("preview");
+        super("preview", false);
     }
 
     @Override

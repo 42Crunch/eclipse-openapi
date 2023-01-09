@@ -17,7 +17,7 @@ public class LoadAuditReportAction extends ProjectAction {
     private static final String REPORT_ERROR_MSG = "Can't find 42Crunch Security Audit report in the selected file";
 
     public LoadAuditReportAction() {
-        super("load security audit report from file");
+        super("load security audit report from file", false);
     }
 
     private static boolean isReportValid(Node report) {

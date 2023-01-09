@@ -20,9 +20,11 @@ import com.xliic.openapi.utils.Utils;
 public abstract class ProjectAction extends AnAction implements DumbAware {
 
     private final String name;
+    private final boolean performOnPlatformFiles;
 
-    public ProjectAction(String name) {
+    public ProjectAction(String name, boolean performOnPlatformFiles) {
         this.name = name;
+        this.performOnPlatformFiles = performOnPlatformFiles;
     }
 
     @Override
@@ -52,6 +54,10 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
         }
         VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file == null) {
+            return;
+        }
+        if (performOnPlatformFiles && TempFileUtils.isPlatformFile(file)) {
+            actionPerformed(project, file);
             return;
         }
         Collection<Project> projects = ProjectLocator.getInstance().getProjectsForFile(file);

@@ -84,18 +84,13 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
                 return null;
             });
             auditService.setAuditReport(file.getPath(), report);
-
-            SwingUtilities.invokeLater(() -> {
-                if (showAsHTML) {
-                    Utils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
-                } else {
-                    Utils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
-                }
+            ApplicationManager.getApplication().invokeLater(() -> {
+                Utils.activateToolWindow(project, showAsHTML ? ToolWindowId.OPEN_API_HTML_REPORT : ToolWindowId.OPEN_API_REPORT);
                 project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
+                if (openInEditor) {
+                    new OpenFileDescriptor(project, file).navigate(true);
+                }
             });
-            if (openInEditor) {
-                ApplicationManager.getApplication().invokeLater(() -> new OpenFileDescriptor(project, file).navigate(true));
-            }
         } finally {
             PlatformUtils.setInProgress(tree, progressDMTN, false);
         }
