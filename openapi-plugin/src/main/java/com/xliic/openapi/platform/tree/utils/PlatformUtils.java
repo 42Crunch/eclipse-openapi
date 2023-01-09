@@ -2,6 +2,7 @@ package com.xliic.openapi.platform.tree.utils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,8 @@ import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
@@ -167,5 +170,14 @@ public class PlatformUtils {
             apiId = fileName.substring(0, fileName.lastIndexOf('.'));
         }
         return apiId;
+    }
+
+    @Nullable
+    public static Node getAssessmentReportNode(@NotNull Node report) {
+        String data = report.getChildValue("data");
+        if (data == null) {
+            return null;
+        }
+        return OpenApiUtils.getJsonAST(new String(Base64.getDecoder().decode(data)));
     }
 }

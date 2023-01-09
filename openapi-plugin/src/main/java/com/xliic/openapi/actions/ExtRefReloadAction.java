@@ -19,9 +19,9 @@ import com.xliic.core.progress.Task;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectLocator;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
+import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -83,7 +83,7 @@ public class ExtRefReloadAction extends AnAction implements DumbAware {
         Collection<Project> projects = ProjectLocator.getInstance().getProjectsForFile(file);
         if (projects.isEmpty()) {
             String msg = OpenApiBundle.message("openapi.non.project.file", "refresh");
-            Messages.showMessageDialog(project, msg, OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
+            MsgUtils.error(project, msg, false);
             return;
         }
 

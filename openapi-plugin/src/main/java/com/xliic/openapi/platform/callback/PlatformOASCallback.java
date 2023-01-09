@@ -14,6 +14,7 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.NetUtils;
 import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
@@ -52,7 +53,8 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
             String specFile = desc.getChild("specfile").getValue();
             byte[] decodedBytes = Base64.getDecoder().decode(specFile);
             String text = QuickFix.formatFixText(new String(decodedBytes), isJson);
-            String domain = PlatformConnection.getOptions().getDomainName("default");
+            String platformUrl = PlatformConnection.getOptions().getPlatformUrl();
+            String domain = NetUtils.getDomainName(platformUrl, "default");
             VirtualFile file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () -> {
                 String fileName = id + (isJson ? ".json" : ".yaml");
                 return TempFileUtils.createPlatformFile(this, domain, fileName, text);

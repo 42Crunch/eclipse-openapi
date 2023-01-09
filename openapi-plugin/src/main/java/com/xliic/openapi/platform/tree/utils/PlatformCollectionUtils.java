@@ -94,8 +94,8 @@ public class PlatformCollectionUtils {
         }
     }
 
-    public static void create(@NotNull Tree tree, @NotNull String collectionId, @NotNull String name, boolean locked) {
-        DefaultMutableTreeNode node = new DefaultMutableTreeNode(new PlatformCollection(collectionId, name, locked));
+    public static void create(@NotNull Tree tree, @NotNull PlatformCollection collection) {
+        DefaultMutableTreeNode node = new DefaultMutableTreeNode(collection);
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
         DefaultMutableTreeNode cloudCollections = model.getCloudCollections();
         cloudCollections.add(node);

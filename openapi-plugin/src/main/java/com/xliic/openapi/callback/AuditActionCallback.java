@@ -15,11 +15,11 @@ import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -91,14 +91,13 @@ public class AuditActionCallback extends ActionCallback {
                 sb.append(" ");
             }
             if (sb.length() > 0) {
-                SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, message("openapi.audit.issues.notification", sb.toString()),
-                        message("openapi.warning.title"), Messages.getWarningIcon()));
+                MsgUtils.warning(project, message("openapi.audit.issues.notification", sb.toString()), true);
             }
         });
     }
 
     @Override
     public void setRejected() {
-        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, getError(), message("openapi.error.title"), Messages.getErrorIcon()));
+        MsgUtils.error(project, getError(), true);
     }
 }

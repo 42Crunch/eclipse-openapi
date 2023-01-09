@@ -3,18 +3,27 @@ package com.xliic.openapi.settings;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xliic.core.credentialStore.CredentialAttributes;
+import com.xliic.core.credentialStore.CredentialAttributesKt;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.openapi.platform.PlatformConnection;
 
 public class Settings {
 
+    private static final ObjectMapper mapper = new ObjectMapper();
     private static final PropertiesComponent settings = PropertiesComponent.getInstance();
 
     public static class Platform {
@@ -42,6 +51,23 @@ public class Settings {
                     if (!settings.isValueSet(CHOICE)) {
                         settings.setValue(CHOICE, ASK);
                     }
+                }
+            }
+        }
+
+        public static class Scan {
+
+            public static final String IMAGE = "com.xliic.openapi.settings.platform.scan.image";
+            public static final String SERVICES = "com.xliic.openapi.settings.platform.scan.services";
+            public static final String ENV_DEFAULT_KEY = "com.xliic.openapi.settings.platform.scan.default.env";
+            public static final String ENV_SECRETS_KEY = "com.xliic.openapi.settings.platform.scan.secrets.env";
+
+            public static void init() {
+                if (!settings.isValueSet(IMAGE)) {
+                    settings.setValue(IMAGE, "42crunch/scand-agent:v2.0.0-beta");
+                }
+                if (!settings.isValueSet(SERVICES)) {
+                    settings.setValue(SERVICES, "");
                 }
             }
         }
@@ -126,10 +152,39 @@ public class Settings {
     }
 
     public static void initProperties() {
+        Platform.Scan.init();
         Platform.Credentials.init();
         Platform.Dictionary.PreAudit.init();
         SortOutlines.init();
         Preview.init();
         Audit.init();
+    }
+
+    @NotNull
+    public static CredentialAttributes createCredentialAttributes(@NotNull String key) {
+        return new CredentialAttributes(CredentialAttributesKt.generateServiceName("xliic", key));
+    }
+
+    @Nullable
+    public static String objectToString(@NotNull Object data) {
+        try {
+            return mapper.writeValueAsString(data);
+        } catch (JsonProcessingException ignored) {
+        }
+        return null;
+    }
+
+    @NotNull
+    @SuppressWarnings("unchecked")
+    public static Map<String, String> stringToMap(@NotNull String value) {
+        if (value.isEmpty()) {
+            return new HashMap<>();
+        }
+        try {
+            Map<String, Object> props = mapper.readValue(value, Map.class);
+            return props.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> String.valueOf(e.getValue())));
+        } catch (JsonProcessingException e) {
+            return new HashMap<>();
+        }
     }
 }

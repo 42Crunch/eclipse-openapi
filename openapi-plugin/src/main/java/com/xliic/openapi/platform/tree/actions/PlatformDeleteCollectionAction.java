@@ -1,7 +1,5 @@
 package com.xliic.openapi.platform.tree.actions;
 
-import static com.xliic.openapi.OpenApiBundle.message;
-
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.actionSystem.AnJAction;
@@ -11,6 +9,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
+import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
@@ -46,8 +45,7 @@ public class PlatformDeleteCollectionAction extends AnJAction implements DumbAwa
                 });
             }
         } else {
-            SwingUtilities.invokeLater(
-                    () -> Messages.showMessageDialog(project, NOT_EMPTY_MSG, message("openapi.warning.title"), Messages.getWarningIcon()));
+            MsgUtils.warning(project, NOT_EMPTY_MSG, true);
         }
     }
 }

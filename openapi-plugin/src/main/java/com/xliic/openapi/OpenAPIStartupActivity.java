@@ -10,6 +10,7 @@ import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.services.KDBService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
+import com.xliic.openapi.services.ScanService;
 import com.xliic.openapi.settings.Settings;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
@@ -25,12 +26,15 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         Settings.initProperties();
         // Load quickfix configuration
         QuickFixService.getInstance().load();
-        // Eclipse Development Note: initialize to subscribe for settings update
-        DictionaryService ddService = DictionaryService.getInstance(project);
+        // Subscribe for events
+        PlatformService.getInstance(project).subscribe();
+        DictionaryService.getInstance(project).subscribe();
+        ScanService.getInstance(project).subscribe();
         // Platform
         PlatformService platformService = PlatformService.getInstance(project);
-        if (PlatformConnection.isPlatformUsed()) {
+        if (PlatformConnection.isPlatformIntegrationEnabled()) {
             platformService.createPlatformWindow(false);
+            DictionaryService ddService = DictionaryService.getInstance(project);
             ddService.reload(false);
         }
         // Load KDB articles

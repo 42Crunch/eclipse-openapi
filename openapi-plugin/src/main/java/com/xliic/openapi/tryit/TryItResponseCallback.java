@@ -21,10 +21,18 @@ import okhttp3.ResponseBody;
 
 public class TryItResponseCallback implements Callback {
 
-    private final Project project;
+    protected final Project project;
 
     public TryItResponseCallback(@NotNull Project project) {
         this.project = project;
+    }
+
+    protected void showOperationResponse(@NotNull TryItResponse tryItResponse) {
+        project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationResponse(tryItResponse);
+    }
+
+    protected void showOperationError(@NotNull TryItError payload) {
+        project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationError(payload);
     }
 
     @Override
@@ -40,11 +48,11 @@ public class TryItResponseCallback implements Callback {
         try (ResponseBody body = response.body()) {
             if (body != null) {
                 TryItResponse tryItResponse = new TryItResponse(httpVersion, statusCode, statusMessage, headers, body.string());
-                SwingUtilities.invokeLater(() -> project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationResponse(tryItResponse));
+                SwingUtilities.invokeLater(() -> showOperationResponse(tryItResponse));
             }
         } catch (IOException e) {
             TryItError payload = new TryItError(e.getMessage(), false);
-            SwingUtilities.invokeLater(() -> project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationError(payload));
+            SwingUtilities.invokeLater(() -> showOperationError(payload));
         }
     }
     @Override
@@ -58,6 +66,6 @@ public class TryItResponseCallback implements Callback {
 
     public void onFailure(@NotNull String msg, boolean sslError) {
         TryItError payload = new TryItError(msg, sslError);
-        SwingUtilities.invokeLater(() -> project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationError(payload));
+        SwingUtilities.invokeLater(() -> showOperationError(payload));
     }
 }

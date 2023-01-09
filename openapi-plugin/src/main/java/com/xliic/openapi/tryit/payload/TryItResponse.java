@@ -45,7 +45,7 @@ public class TryItResponse implements Payload {
         result.put("statusCode", statusCode);
         result.put("statusMessage", statusMessage);
         result.put("headers", escapeAndGetHeaders());
-        result.put("body", OpenApiUtils.wrapJsonToString(body));
+        result.put("body", body == null ? "" : OpenApiUtils.wrapJsonToString(body));
         return result;
     }
 

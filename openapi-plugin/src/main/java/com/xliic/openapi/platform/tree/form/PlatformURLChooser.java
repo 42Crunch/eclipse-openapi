@@ -11,7 +11,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.DialogWrapper;
 import com.xliic.core.ui.ValidationInfo;
 import com.xliic.core.ui.components.JTextField;
-import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.NetUtils;
 
 public class PlatformURLChooser extends DialogWrapper {
 
@@ -38,7 +38,7 @@ public class PlatformURLChooser extends DialogWrapper {
     protected ValidationInfo doValidate() {
         try {
             String value = getValue();
-            if (!StringUtils.isEmpty(value) && StringUtils.isEmpty(OpenApiUtils.getDomainName(value))) {
+            if (!StringUtils.isEmpty(value) && StringUtils.isEmpty(NetUtils.getDomainName(value))) {
                 return new ValidationInfo("Please enter valid URL");
             }
         } catch (URISyntaxException e) {

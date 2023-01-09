@@ -71,7 +71,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
 
     @Override
     protected @Nullable Function<Object, JBCefJSQuery.Response> getBrowserFunction() {
-        return new JCEFReportFunction(project, getCefBrowser().getBrowser());
+        return new JCEFReportFunction(project, getCefBrowser().getBrowser(), functionId);
     }
 
     @Override

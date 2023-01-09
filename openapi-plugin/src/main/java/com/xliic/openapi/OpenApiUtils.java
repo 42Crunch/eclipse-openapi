@@ -5,8 +5,6 @@ import static com.xliic.openapi.OpenApiPanelKeys.SWAGGER_KEY;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -35,12 +33,10 @@ import com.xliic.core.psi.LeafPsiElement;
 import com.xliic.core.psi.PsiElement;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.util.Pair;
-import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
@@ -227,6 +223,7 @@ public class OpenApiUtils {
         return result.toString();
     }
 
+    @Nullable
     public static Node getJsonAST(@NotNull String text) {
         try {
             return new ParserJsonAST().parse(text);
@@ -321,12 +318,6 @@ public class OpenApiUtils {
         return null;
     }
 
-    public static String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        return domain != null && domain.startsWith("www.") ? domain.substring(4) : domain;
-    }
-
     public static String getFileNameFromURL(@NotNull String href, @NotNull String defaultName) {
         try {
             URL url = new URL(href);
@@ -334,11 +325,6 @@ public class OpenApiUtils {
         } catch (MalformedURLException ignored) {
         }
         return defaultName;
-    }
-
-    public static void showErrorMessageDialog(@NotNull Project project, @NotNull String message) {
-        SwingUtilities.invokeLater(
-                () -> Messages.showMessageDialog(project, message, OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
     }
 
     public static String getURI(String fileName) {

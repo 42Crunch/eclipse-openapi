@@ -9,6 +9,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.NetUtils;
 import com.xliic.openapi.platform.PlatformConnection;
 
 public class ItemPlatformCredentials extends Item {
@@ -34,7 +35,7 @@ public class ItemPlatformCredentials extends Item {
         if (login.getText().isEmpty()) {
             drawValidationStatus(login, null);
         } else {
-            isURLValid = PlatformConnection.isURLValid(login.getText());
+            isURLValid = NetUtils.isURLValid(login.getText());
             drawValidationStatus(login, isURLValid ? null : ERROR_URL_TEXT);
         }
         boolean isAPIKeyValid = true;

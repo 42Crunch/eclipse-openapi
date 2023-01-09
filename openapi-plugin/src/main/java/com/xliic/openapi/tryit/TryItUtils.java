@@ -102,7 +102,7 @@ public class TryItUtils {
         return schemaNames;
     }
 
-    private static void collectSchemaNames(Node node, Set<String> schemaNames) {
+    public static void collectSchemaNames(Node node, Set<String> schemaNames) {
         if (node.isScalar() && "$ref".equals(node.getKey())) {
             String value = node.getValue();
             if (value != null && value.startsWith("#/components/schemas")) {

@@ -15,6 +15,7 @@ import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessBodyResponseCallback;
 import com.xliic.openapi.platform.tree.form.PlatformCollectionNameChooser;
 import com.xliic.openapi.platform.tree.form.PlatformNameChooser;
+import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
 
 public class PlatformCreateNewCollectionAction extends AnJAction implements DumbAware {
@@ -43,13 +44,21 @@ public class PlatformCreateNewCollectionAction extends AnJAction implements Dumb
                     @Override
                     public void onCode200WithBodyTextResponse(@NotNull String text) {
                         Node node = OpenApiUtils.getJsonAST(text);
-                        String id = node.getChild("desc").getChild("id").getValue();
-                        String name = node.getChild("desc").getChild("name").getValue();
-                        boolean locked = !Boolean.parseBoolean(node.getChild("summary").getChild("writeApis").getValue());
-                        SwingUtilities.invokeLater(() -> PlatformCollectionUtils.create(tree, id, name, locked));
+                        if (node != null) {
+                            PlatformCollection collection = getPlatformCollection(node);
+                            SwingUtilities.invokeLater(() -> PlatformCollectionUtils.create(tree, collection));
+                        }
                     }
                 });
             }
         }
+    }
+
+    @NotNull
+    public static PlatformCollection getPlatformCollection(@NotNull Node node) {
+        String id = node.getChild("desc").getChild("id").getValue();
+        String name = node.getChild("desc").getChild("name").getValue();
+        boolean locked = !Boolean.parseBoolean(node.getChild("summary").getChild("writeApis").getValue());
+        return new PlatformCollection(id, name, locked);
     }
 }

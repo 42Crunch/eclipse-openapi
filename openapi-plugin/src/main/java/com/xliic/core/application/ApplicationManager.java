@@ -25,6 +25,10 @@ public class ApplicationManager {
         Display.getDefault().asyncExec(runnable);
     }
 
+    public void invokeAndWait(@NotNull Runnable runnable) {
+        Display.getDefault().asyncExec(runnable);
+    }
+
     public void invokeAndWait(@NotNull Runnable runnable, @NotNull ModalityState state) {
         Display.getDefault().asyncExec(runnable);
     }

@@ -26,7 +26,7 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
 
     @Override
     public void update(@NotNull AnActionEvent event) {
-        if (PlatformConnection.isEmpty()) {
+        if (!PlatformConnection.isPlatformIntegrationEnabled()) {
             event.getPresentation().setVisible(false);
             return;
         }

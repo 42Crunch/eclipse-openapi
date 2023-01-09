@@ -49,11 +49,14 @@ public final class DictionaryService implements IDictionaryService, SettingsList
 
     public DictionaryService(@NotNull Project project) {
         this.project = project;
-        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
     public static DictionaryService getInstance(@NotNull Project project) {
         return project.getService(DictionaryService.class);
+    }
+
+    public void subscribe() {
+        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
     @Override
@@ -198,14 +201,14 @@ public final class DictionaryService implements IDictionaryService, SettingsList
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            if (PlatformConnection.isEmpty()) {
+            if (PlatformConnection.isPlatformIntegrationEnabled()) {
+                reload(false);
+            } else {
                 ToolWindow window = manager.getToolWindow(PLATFORM_DICTIONARY);
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
                 dispose();
-            } else {
-                reload(false);
             }
         }
     }

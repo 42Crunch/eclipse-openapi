@@ -4,11 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.util.ActionCallback;
-import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.settings.audit.TokenDialog;
 
 public class EmailDialogDoOkActionCallback extends ActionCallback {
@@ -28,7 +26,6 @@ public class EmailDialogDoOkActionCallback extends ActionCallback {
 
     @Override
     public void setRejected() {
-        SwingUtilities.invokeLater(
-                () -> Messages.showMessageDialog(project, getError(), OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+        MsgUtils.error(project, getError(), true);
     }
 }

@@ -42,8 +42,7 @@ public class PlatformAPIUtils {
         TreeUtil.restoreExpandedPaths(tree, expandedPaths);
     }
 
-    public static void create(@NotNull Project project, @NotNull Tree tree, @NotNull String collectionId, @NotNull String apiId, @NotNull String name,
-            float grade, boolean isValid, boolean isJson) {
+    public static void create(@NotNull Project project, @NotNull Tree tree, @NotNull String collectionId, @NotNull PlatformAPI api) {
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
         DefaultMutableTreeNode cloudCollections = model.getCloudCollections();
         DefaultMutableTreeNode favoriteCollections = model.getFavoriteCollections();
@@ -52,19 +51,18 @@ public class PlatformAPIUtils {
                 DefaultMutableTreeNode collectionDMTN = (DefaultMutableTreeNode) subRoot.getChildAt(i);
                 PlatformCollection collectionObj = (PlatformCollection) collectionDMTN.getUserObject();
                 if (Objects.equals(collectionId, collectionObj.getId())) {
-                    PlatformAPI pao = new PlatformAPI(apiId, name, grade, isValid, isJson);
-                    DefaultMutableTreeNode childDMTN = new DefaultMutableTreeNode(pao);
-                    childDMTN.add(new DefaultMutableTreeNode(new PlatformAudit(pao.getId(), pao.getGrade(), pao.isValid(), pao.isJson()), false));
-                    childDMTN.add(new DefaultMutableTreeNode(new PlatformOAS(pao.getId(), pao.isJson()), false));
+                    DefaultMutableTreeNode childDMTN = new DefaultMutableTreeNode(api);
+                    childDMTN.add(new DefaultMutableTreeNode(new PlatformAudit(api.getId(), api.getGrade(), api.isValid(), api.isJson()), false));
+                    childDMTN.add(new DefaultMutableTreeNode(new PlatformOAS(api.getId(), api.isJson()), false));
                     collectionDMTN.add(childDMTN);
                     List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
                     model.reload(collectionDMTN);
                     TreeUtil.restoreExpandedPaths(tree, expandedPaths);
                     tree.expandPath(new TreePath(collectionDMTN.getPath()));
                     PlatformUtils.goToTreeNode(tree, childDMTN);
-                    if (grade == -1.0f) {
+                    if (api.getGrade() == -1.0f) {
                         PlatformService platformService = PlatformService.getInstance(project);
-                        platformService.waitForPlatformAudit(apiId, null);
+                        platformService.waitForPlatformAudit(api.getId(), null);
                     }
                     break;
                 }

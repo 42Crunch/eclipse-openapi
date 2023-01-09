@@ -24,12 +24,11 @@ import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectLocator;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.async.AsyncService;
 import com.xliic.openapi.async.AsyncTask;
@@ -395,7 +394,7 @@ public class BundleService extends AsyncService implements SettingsListener, IBu
         BundleResult br = bundleResultMap.get(rootFileName);
         Set<BundleError> bundleErrors = br.getBundleErrors();
         if (bundleErrors.isEmpty()) {
-            Messages.showMessageDialog(project, br.getExceptionReason(), OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
+            MsgUtils.error(project, br.getExceptionReason(), false);
         } else {
             BundleError be = (BundleError) bundleErrors.toArray()[0];
             VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(be.getSourceFileName()));

@@ -62,7 +62,7 @@ public class DictionaryContentAssistProcessor extends CompletionContributor {
 
         @Override
         public boolean accepts(@NotNull CompletionParameters parameters) {
-            if (!PlatformConnection.isPlatformUsed()) {
+            if (!PlatformConnection.isPlatformIntegrationEnabled()) {
                 return false;
             }
             DictionaryService ddService = DictionaryService.getInstance(parameters.getProject());

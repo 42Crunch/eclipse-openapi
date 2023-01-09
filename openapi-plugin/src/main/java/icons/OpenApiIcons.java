@@ -47,6 +47,8 @@ public interface OpenApiIcons {
     Icon Dictionary = findIcon("platform-data-dictionary.png");
     Icon TryIt = findIcon("tryit.svg");
     Icon TryItPanel = findIcon("tryitPanel.svg");
+    Icon Scan = findIcon("scan.svg");
+    Icon ScanPanel = findIcon("scanPanel.svg");
 
     private static Icon findIcon(@NotNull String name) {
         return IconLoader.findIcon("/icons/" + name, OpenApiIcons.class);

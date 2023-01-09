@@ -19,6 +19,6 @@ public class TryItRequestDefault extends TryItRequest {
 
     @Override
     public @Nullable RequestBody restoreBody() {
-        return null;
+        return RequestBody.create(new byte[0], null);
     }
 }

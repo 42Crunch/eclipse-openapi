@@ -16,18 +16,26 @@ public abstract class Task implements ICoreRunnable {
         private final @NotNull String title;
         @SuppressWarnings("unused")
         private final boolean canBeCancelled;
+        private final int totalWork;
 
         public Backgroundable(@Nullable Project project, @NotNull String title, boolean canBeCancelled) {
+            this(project, title, canBeCancelled, IProgressMonitor.UNKNOWN);
+        }
+
+        public Backgroundable(@Nullable Project project, @NotNull String title, boolean canBeCancelled, int totalWork) {
             this.project = project;
             this.title = title;
             this.canBeCancelled = canBeCancelled;
+            this.totalWork = totalWork;
         }
+
 
         public abstract void run(ProgressIndicator indicator) throws CoreException;
 
         @Override
         public void run(IProgressMonitor monitor) throws CoreException {
-            run(new ProgressIndicator(monitor));
+            monitor.beginTask(title, totalWork);
+            run(new ProgressIndicator(monitor, totalWork));
         }
 
         @Override

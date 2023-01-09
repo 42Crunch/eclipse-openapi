@@ -9,11 +9,10 @@ import com.xliic.core.fileChooser.FileChooserDescriptor;
 import com.xliic.core.fileChooser.FileChooserFactory;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleError;
 import com.xliic.openapi.bundler.BundleResult;
@@ -65,7 +64,7 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
                         for (BundleError error : result.getBundleErrors()) {
                             msg.append(error.getMessage()).append("\n");
                         }
-                        Messages.showMessageDialog(project, msg.toString(), OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
+                        MsgUtils.error(project, msg.toString(), false);
                     });
                 }
             }

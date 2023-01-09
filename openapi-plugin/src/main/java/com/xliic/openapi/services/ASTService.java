@@ -350,7 +350,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     }
 
     private void dfsParsedTree(@NotNull String fileName, @Nullable Node root) {
-        if (PlatformConnection.isPlatformUsed()) {
+        if (PlatformConnection.isPlatformIntegrationEnabled()) {
             DictionaryService ddService = DictionaryService.getInstance(project);
             if (!ddService.getDictionaries().isEmpty()) {
                 if (root == null || (getOpenAPIVersion(fileName) == OpenApiVersion.Unknown)) {

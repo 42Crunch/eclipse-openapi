@@ -14,6 +14,7 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.ui.jcef.JBCefJSQuery;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.PanelBrowser;
+import com.xliic.openapi.platform.scan.Preferences;
 import com.xliic.openapi.tryit.TryItListener;
 import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItOperation;
@@ -23,10 +24,13 @@ public class JCEFTryItPanel extends PanelBrowser implements TryItListener, Dispo
 
     @Nullable
     private TryItOperation lastPayload;
+    @Nullable
+    private Preferences lastPrefs;
 
     public JCEFTryItPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
         super(project, toolWindow, parent, "tryit");
         lastPayload = null;
+        lastPrefs = null;
         project.getMessageBus().connect().subscribe(TryItListener.TOPIC, this);
     }
 
@@ -52,7 +56,7 @@ public class JCEFTryItPanel extends PanelBrowser implements TryItListener, Dispo
 
     @Override
     protected @Nullable Function<Object, JBCefJSQuery.Response> getBrowserFunction() {
-        return new JCEFTryItFunction(project, getCefBrowser().getBrowser()) {
+        return new JCEFTryItFunction(project, getCefBrowser().getBrowser(), functionId) {
             @Override
             public PsiFile getPsiFile() {
                 return lastPayload != null ? lastPayload.getPsiFile() : null;
@@ -67,20 +71,22 @@ public class JCEFTryItPanel extends PanelBrowser implements TryItListener, Dispo
     }
 
     @Override
-    public void tryOperation(@NotNull TryItOperation payload) {
+    public void tryOperation(@NotNull TryItOperation payload, @NotNull Preferences prefs) {
         @SuppressWarnings("serial")
         Map<String, Object> parameters = new HashMap<>() {{
             put("command", "tryOperation");
             put("payload", serialize(payload));
+            put("prefs", serialize(prefs));
         }};
         lastPayload = payload;
+        lastPrefs = prefs;
         sendMessage(parameters);
     }
 
     @Override
     public void tryLastOperation() {
-        if (lastPayload != null) {
-            tryOperation(lastPayload);
+        if (lastPayload != null && lastPrefs != null) {
+            tryOperation(lastPayload, lastPrefs);
         }
     }
 

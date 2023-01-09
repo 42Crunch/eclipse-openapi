@@ -58,6 +58,6 @@ public class PlatformPanelView extends PanelViewPart {
 
     @Override
     protected boolean initControl(@NotNull Project project) {
-        return !PlatformConnection.isEmpty();
+        return PlatformConnection.isPlatformIntegrationEnabled();
     }
 }

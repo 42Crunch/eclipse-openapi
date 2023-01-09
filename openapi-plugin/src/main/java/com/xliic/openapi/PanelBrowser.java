@@ -33,8 +33,6 @@ import com.xliic.core.wm.ToolWindow;
 
 public abstract class PanelBrowser extends JBCefBrowser implements LafManagerListener {
 
-    public static final String FUNCTION_ID = "injectedPostMessageHandler";
-
     private static final String SCRIPT_OPEN_TAG = "<script>";
     private static final String SCRIPT_CLOSE_TAG = "</script>";
 
@@ -44,6 +42,8 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
     protected final ToolWindow toolWindow;
     @NotNull
     protected final String basePath;
+    @NotNull
+    protected final String functionId;
 
     private final String indexHTML;
     private final String indexCSS;
@@ -62,6 +62,7 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         this.project = project;
         this.toolWindow = toolWindow;
         this.basePath = basePath;
+        functionId = basePath + "InjectedPostMessageHandler";
         fun = getBrowserFunction();
         if (fun != null) {
             query = JBCefJSQuery.create(this);
@@ -118,7 +119,7 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         String page = indexHTML.replaceAll("<meta http-equiv=.*?>", "");
         page = page.replace("theme: {}", "theme: " + getMessage(ThemeColors.getThemeColorValues()));
         page = getMainHTML(page, indexCSS);
-        indexJs = getMainJS(page, indexJs);
+        indexJs = getMainJS(page, indexJs, functionId);
         page = remove(page, SCRIPT_OPEN_TAG, SCRIPT_CLOSE_TAG);
         loadHTML(page != null ? page : "<html><head></head><body><div><h1>Loading</h1><p>" + getLoadingMessage() + "</p></div></body></html>");
     }
@@ -194,11 +195,11 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         return text.toString();
     }
 
-    private static String getMainJS(String page, String indexJs) {
+    private static String getMainJS(String page, String indexJs, String functionId) {
         int from = page.indexOf(SCRIPT_OPEN_TAG) + SCRIPT_OPEN_TAG.length();
         int to = page.lastIndexOf(SCRIPT_CLOSE_TAG);
         String myJs = page.substring(from, to);
-        myJs = myJs.replace("window.__EclipseJTools.postMessage", FUNCTION_ID);
+        myJs = myJs.replace("window.__EclipseJTools.postMessage", functionId);
         // Apply some readable format
         StringBuilder text = new StringBuilder();
         for (String line : myJs.split("\\r?\\n|\\r")) {

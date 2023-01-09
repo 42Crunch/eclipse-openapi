@@ -29,6 +29,7 @@ import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.tree.node.BaseNode;
@@ -100,8 +101,10 @@ public class OpenApiRightMouseClickHandler {
             actions.add(diffGroup);
         } else if (isOperation(treeNode) && (version == OpenApiVersion.V3)) {
             TryItUtils.setActionsForOperation(psiFile, node.getNode(), actions);
+            ScanUtils.setActionsForOperation(psiFile, node.getNode(), actions);
         } else if (isOperationId(treeNode) && (version == OpenApiVersion.V3)) {
             TryItUtils.setActionsForOperation(psiFile, node.getNode().getParent(), actions);
+            ScanUtils.setActionsForOperation(psiFile, node.getNode().getParent(), actions);
         }
     }
 

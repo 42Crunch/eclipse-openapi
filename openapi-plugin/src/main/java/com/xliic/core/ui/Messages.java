@@ -42,4 +42,8 @@ public class Messages {
     public static Icon getQuestionIcon() {
         return Icon.INFO;
     }
+
+    public static Icon getInformationIcon() {
+        return Icon.INFO;
+    }
 }

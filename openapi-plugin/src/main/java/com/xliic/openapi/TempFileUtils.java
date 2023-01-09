@@ -133,7 +133,7 @@ public class TempFileUtils {
         Path path;
         PlatformConnection options = PlatformConnection.getOptions();
         try {
-            String domain = OpenApiUtils.getDomainName(options.getPlatformUrl());
+            String domain = NetUtils.getDomainName(options.getPlatformUrl());
             path = Paths.get(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir, domain, id + (isJson ? ".json" : ".yaml"));
         } catch (URISyntaxException e) {
             path = Paths.get(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir, id);

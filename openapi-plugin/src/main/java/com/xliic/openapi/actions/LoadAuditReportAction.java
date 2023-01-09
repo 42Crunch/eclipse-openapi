@@ -1,16 +1,13 @@
 package com.xliic.openapi.actions;
 
-import javax.swing.SwingUtilities;
-
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.fileChooser.FileChooserDescriptor;
 import com.xliic.core.fileChooser.FileChooserFactory;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.MsgUtils;
 import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -51,12 +48,10 @@ public class LoadAuditReportAction extends ProjectAction {
                         try {
                             cb.setDone(report.getChild("data"), true);
                         } catch (Throwable t) {
-                            SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, REPORT_ERROR_MSG,
-                                    OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+                            MsgUtils.error(project, REPORT_ERROR_MSG, true);
                         }
                     } else {
-                        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, REPORT_ERROR_MSG,
-                                OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+                        MsgUtils.error(project, REPORT_ERROR_MSG, true);
                     }
                 }
             }
