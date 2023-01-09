@@ -64,7 +64,7 @@ public class Settings {
 
             public static void init() {
                 if (!settings.isValueSet(IMAGE)) {
-                    settings.setValue(IMAGE, "42crunch/scand-agent:v2.0.0-beta");
+                    settings.setValue(IMAGE, "42crunch/scand-agent:v2.0.0-rc");
                 }
                 if (!settings.isValueSet(SERVICES)) {
                     settings.setValue(SERVICES, "");
