@@ -47,6 +47,7 @@ import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.quickfix.editor.DocumentIndent;
 import com.xliic.openapi.report.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.ExtRefService;
@@ -61,6 +62,7 @@ public class Utils {
     public final static ElementPattern<PsiElement> YAML_REF_PATTERN = new YamlElementPattern<>();
 
     public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
+    private static final String TAB_REPLACE_REGEXP = "(?<!\\\\)\\t";
 
     public static String pointer(String parentPointer, String key) {
         return parentPointer + POINTER_SEPARATOR + escape(key);
@@ -341,12 +343,14 @@ public class Utils {
 
     @NotNull
     public static String wrapJsonToString(@NotNull String value) {
-        value = value.replace("\"", "\\\"");
-        value = value.replace("\b", "\\b");
-        value = value.replace("\f", "\\f");
-        value = value.replace("\n", "");
-        value = value.replace("\r", "");
-        return value.replace("\t", "");
+        return value.replace("\"", "\\\"").replace("\b", "\\b").
+                replace("\f", "\\f").replace("\n", "").
+                replace("\r", "").replace("\t", "");
+    }
+
+    @NotNull
+    public static String convertAllTabsToSpaces(@NotNull String text, int indent) {
+        return text.replaceAll(TAB_REPLACE_REGEXP, new DocumentIndent(indent, ' ').toString());
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {

@@ -23,6 +23,7 @@ import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.TempFileUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class PlatformOASCallback extends SuccessASTResponseCallback {
 
@@ -63,7 +64,7 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
             String domain = NetUtils.getDomainName(platformUrl, "default");
             VirtualFile file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () -> {
                 String fileName = id + (isJson ? ".json" : ".yaml");
-                return TempFileUtils.createPlatformFile(this, domain, fileName, text);
+                return TempFileUtils.createPlatformFile(this, domain, fileName, Utils.convertAllTabsToSpaces(text, 2));
             });
             if (file != null) {
                 LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
