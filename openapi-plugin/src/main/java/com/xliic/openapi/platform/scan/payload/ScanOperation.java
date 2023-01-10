@@ -1,5 +1,6 @@
 package com.xliic.openapi.platform.scan.payload;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,11 +83,11 @@ public class ScanOperation implements Payload {
     @NotNull
     public Map<String, Object> getProperties() {
         Map<String, Object> result = new HashMap<>();
-        result.put("oas", Utils.wrapJsonToString(oas));
-        result.put("rawOas", result.get("oas"));
+        result.put("oas", Utils.deserialize(oas, Collections.EMPTY_MAP));
+        result.put("rawOas", oas);
         result.put("path", path);
         result.put("method", method);
-        result.put("config", Utils.wrapJsonToString(config));
+        result.put("config", Utils.deserialize(config, Collections.EMPTY_MAP));
         return result;
     }
 }

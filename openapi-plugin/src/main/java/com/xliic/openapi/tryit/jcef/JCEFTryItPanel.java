@@ -75,8 +75,8 @@ public class JCEFTryItPanel extends PanelBrowser implements TryItListener, Dispo
         @SuppressWarnings("serial")
         Map<String, Object> parameters = new HashMap<>() {{
             put("command", "tryOperation");
-            put("payload", serialize(payload));
-            put("prefs", serialize(prefs));
+            put("payload", payload.getProperties());
+            put("prefs", prefs.getProperties());
         }};
         lastPayload = payload;
         lastPrefs = prefs;
@@ -95,7 +95,7 @@ public class JCEFTryItPanel extends PanelBrowser implements TryItListener, Dispo
         @SuppressWarnings("serial")
         Map<String, Object> parameters = new HashMap<>() {{
             put("command", "showResponse");
-            put("payload", serialize(payload));
+            put("payload", payload.getProperties());
         }};
         sendMessage(parameters);
     }
@@ -105,7 +105,7 @@ public class JCEFTryItPanel extends PanelBrowser implements TryItListener, Dispo
         @SuppressWarnings("serial")
         Map<String, Object> parameters = new HashMap<>() {{
             put("command", "showError");
-            put("payload", serialize(payload));
+            put("payload", payload.getProperties());
         }};
         sendMessage(parameters);
     }

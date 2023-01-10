@@ -192,7 +192,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
         Map<String, Object> parameters = new HashMap<>() {
             {
                 put("command", "showFullReport");
-                put("report", serialize(report));
+                put("report", report.getProperties());
             }
         };
         sendMessage(parameters);
@@ -207,7 +207,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
         Map<String, Object> parameters = new HashMap<>() {
             {
                 put("command", "showPartialReport");
-                put("report", serialize(report));
+                put("report", report.getProperties());
                 put("uri", getURI(file));
                 put("ids", ids);
             }

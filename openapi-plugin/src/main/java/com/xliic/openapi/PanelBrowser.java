@@ -18,7 +18,6 @@ import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.ide.ui.LafManager;
@@ -96,9 +95,6 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         indexHTML = getResourceAsString("index.html");
         indexCSS = getResourceAsString("style.css");
         indexJs = getResourceAsString("index.js");
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Payload.class, new PayloadSerializer());
-        mapper.registerModule(module);
     }
 
     @NotNull
@@ -118,7 +114,7 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
     protected void init() {
         isInit = true;
         String page = indexHTML.replaceAll("<meta http-equiv=.*?>", "");
-        page = page.replace("theme: {}", "theme: " + getMessage(ThemeColors.getThemeColorValues()));
+        page = page.replace("theme: {}", "theme: " + Utils.serialize(mapper, ThemeColors.getThemeColorValues()));
         page = getMainHTML(page, indexCSS);
         indexJs = getMainJS(page, indexJs, functionId);
         page = remove(page, SCRIPT_OPEN_TAG, SCRIPT_CLOSE_TAG);
@@ -152,24 +148,14 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
 
     protected void sendMessage(@NotNull Map<String, Object> parameters) {
         if (isReady) {
-            String message = getMessage(parameters);
-            if (message != null) {
+            String options = Utils.serialize(mapper, parameters);
+            if (options != null) {
                 CefBrowser cefBrowser = getCefBrowser();
-                cefBrowser.executeJavaScript(getJs(message), cefBrowser.getURL(), 0);
+                cefBrowser.executeJavaScript(getJs(options), cefBrowser.getURL(), 0);
             }
         } else if (!isInit) {
             init();
         }
-    }
-
-    protected <T> String serialize(@Nullable T data) {
-        try {
-            String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
-            return Utils.wrapJsonToString(result).replace("\\\\\"", "\"");
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
     protected static String jsonfy(String text) {
@@ -216,17 +202,8 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         return indexJs + "\n" + myJs;
     }
 
-    private static String getJs(String message) {
-        return "window.dispatchMessage(" + message + ");";
-    }
-
-    private static String getMessage(Map<String, Object> parameters) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(parameters).replace("\\\\\"", "\"");
-        } catch (JsonProcessingException e) {
-            return null;
-        }
+    private static String getJs(String options) {
+        return "window.dispatchMessage(" + options + ");";
     }
 
     private String getResourceAsString(String fileName) {

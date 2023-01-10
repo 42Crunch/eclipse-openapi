@@ -28,7 +28,7 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
     }
 
     @Override
-    public void update(AnActionEvent event) {
+    public void update(@NotNull AnActionEvent event) {
         event.getPresentation().setEnabled(false);
         Project project = event.getProject();
         if (project == null) {
@@ -47,7 +47,7 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
     }
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
+    public void actionPerformed(@NotNull AnActionEvent e) {
         Project project = e.getProject();
         if (project == null) {
             return;

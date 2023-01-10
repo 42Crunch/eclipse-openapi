@@ -21,7 +21,6 @@ import com.xliic.openapi.platform.scan.payload.ScanOperation;
 import com.xliic.openapi.platform.scan.payload.ScanReport;
 import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItResponse;
-import com.xliic.openapi.utils.Utils;
 
 public class JCEFScanPanel extends PanelBrowser implements ScanListener, Disposable {
 
@@ -81,9 +80,9 @@ public class JCEFScanPanel extends PanelBrowser implements ScanListener, Disposa
         @SuppressWarnings("serial")
         Map<String, Object> parameters = new HashMap<>() {{
             put("command", "scanOperation");
-            put("payload", serialize(payload));
-            put("env", serialize(env));
-            put("prefs", serialize(prefs));
+            put("payload", payload.getProperties());
+            put("env", env.getProperties());
+            put("prefs", prefs.getProperties());
         }};
         lastPayload = payload;
         lastEnv = env;
@@ -96,7 +95,7 @@ public class JCEFScanPanel extends PanelBrowser implements ScanListener, Disposa
         @SuppressWarnings("serial")
         Map<String, Object> parameters = new HashMap<>() {{
             put("command", "showScanReport");
-            put("payload", Utils.wrapJsonToString(report.getPayload()));
+            put("payload", report.getPayload());
         }};
         sendMessage(parameters);
     }
@@ -113,7 +112,7 @@ public class JCEFScanPanel extends PanelBrowser implements ScanListener, Disposa
         @SuppressWarnings("serial")
         Map<String, Object> parameters = new HashMap<>() {{
             put("command", "showResponse");
-            put("payload", serialize(payload));
+            put("payload", payload.getProperties());
         }};
         sendMessage(parameters);
     }
@@ -123,7 +122,7 @@ public class JCEFScanPanel extends PanelBrowser implements ScanListener, Disposa
         @SuppressWarnings("serial")
         Map<String, Object> parameters = new HashMap<>() {{
             put("command", "showError");
-            put("payload", serialize(payload));
+            put("payload", payload.getProperties());
         }};
         sendMessage(parameters);
     }

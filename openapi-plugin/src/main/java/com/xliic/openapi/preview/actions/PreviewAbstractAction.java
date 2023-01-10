@@ -5,8 +5,8 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
-import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.actions.ProjectAction;
 import com.xliic.openapi.bundler.BundleResult;
@@ -45,7 +45,7 @@ public abstract class PreviewAbstractAction extends ProjectAction {
 
                 @Override
                 public void setRejected() {
-                    SwingUtilities.invokeLater(() -> {
+                    ApplicationManager.getApplication().invokeLater(() -> {
                         PreviewDialog dialog;
                         if (getPort() > 0) {
                             dialog = new PreviewDialog(project, getPort());

@@ -25,7 +25,7 @@ import com.xliic.openapi.utils.Utils;
 public class GoToDefinitionAction extends AnAction implements DumbAware {
 
     @Override
-    public void update(AnActionEvent event) {
+    public void update(@NotNull AnActionEvent event) {
         Project project = event.getProject();
         Editor editor = event.getData(CommonDataKeys.EDITOR);
         VirtualFile file = event.getData(CommonDataKeys.VIRTUAL_FILE);

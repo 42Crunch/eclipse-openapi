@@ -10,6 +10,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -19,6 +20,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
@@ -63,6 +66,7 @@ public class Utils {
 
     public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
     private static final String TAB_REPLACE_REGEXP = "(?<!\\\\)\\t";
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public static String pointer(String parentPointer, String key) {
         return parentPointer + POINTER_SEPARATOR + escape(key);
@@ -342,15 +346,28 @@ public class Utils {
     }
 
     @NotNull
-    public static String wrapJsonToString(@NotNull String value) {
-        return value.replace("\"", "\\\"").replace("\b", "\\b").
-                replace("\f", "\\f").replace("\n", "").
-                replace("\r", "").replace("\t", "");
+    public static String convertAllTabsToSpaces(@NotNull String text, int indent) {
+        return text.replaceAll(TAB_REPLACE_REGEXP, new DocumentIndent(indent, ' ').toString());
+    }
+
+    @Nullable
+    public static String serialize(@NotNull ObjectMapper mapper, @NotNull Object data) {
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @NotNull
-    public static String convertAllTabsToSpaces(@NotNull String text, int indent) {
-        return text.replaceAll(TAB_REPLACE_REGEXP, new DocumentIndent(indent, ' ').toString());
+    public static Object deserialize(@NotNull String json, @NotNull Object defaultObj) {
+        try {
+            return OBJECT_MAPPER.readValue(json, Map.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return defaultObj;
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {

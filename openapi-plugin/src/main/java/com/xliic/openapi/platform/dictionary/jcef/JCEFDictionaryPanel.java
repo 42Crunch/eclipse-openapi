@@ -59,21 +59,15 @@ public class JCEFDictionaryPanel extends PanelBrowser implements PlatformListene
         return null;
     }
 
-    private String getPayload() {
-        StringBuilder builder = new StringBuilder("[");
+    private List<Map<String, Object>> getPayload() {
+        List<Map<String, Object>> payload = new LinkedList<>();
         DictionaryService ddService = DictionaryService.getInstance(project);
-        int index = 0;
         List<DataDictionary> dictionaries = new LinkedList<>(ddService.getDictionaries());
         Collections.sort(dictionaries);
         for (DataDictionary dictionary : dictionaries) {
-            builder.append(serialize(dictionary));
-            if (index < ddService.getDictionaries().size() - 1) {
-                builder.append(",");
-                index += 1;
-            }
+            payload.add(dictionary.getProperties());
         }
-        builder.append("]");
-        return builder.toString();
+        return payload;
     }
 
     @Override

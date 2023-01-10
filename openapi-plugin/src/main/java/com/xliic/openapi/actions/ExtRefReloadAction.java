@@ -34,7 +34,7 @@ public class ExtRefReloadAction extends AnAction implements DumbAware {
     private boolean refreshInProgress = false;
 
     @Override
-    public void update(AnActionEvent event) {
+    public void update(@NotNull AnActionEvent event) {
 
         event.getPresentation().setEnabled(false);
         if (refreshInProgress) {

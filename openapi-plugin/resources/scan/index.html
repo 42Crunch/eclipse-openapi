@@ -47,8 +47,7 @@
     <script src="${script}"></script>
     <script>
 		window.initWebJS = function() {
-			function setPrefs(payload) {
-				const prefs = JSON.parse(payload);
+			function setPrefs(prefs) {
 				if (Object.keys(prefs).length > 0) {
 					window.postMessage({ command: "loadPrefs", payload: prefs });
 				}
@@ -56,27 +55,14 @@
 			window.dispatchMessage = function(message) {
 				switch (message.command) {
 					case 'scanOperation':
-						const payload = JSON.parse(message.payload);
-						payload.oas = JSON.parse(payload.oas);
-						payload.config = JSON.parse(payload.config);
-						window.postMessage({ command: "loadEnv", payload: JSON.parse(message.env) });
+						window.postMessage({ command: "loadEnv", payload: message.env });
 						setPrefs(message.prefs);
-						window.postMessage({ command: "scanOperation", payload: payload });
-						break;
-					case 'showScanReport':
-						window.postMessage({ command: "showScanReport", payload: JSON.parse(message.payload) });
-						break;
-					case 'showResponse':
-						window.postMessage({ command: "showResponse", payload: JSON.parse(message.payload) });
-						break;
-					case 'showError':
-						window.postMessage({ command: "showError", payload: JSON.parse(message.payload) });
-						break;
-					case 'changeTheme':
-						window.postMessage({ command: "changeTheme", payload: message.payload });
-						break;
 					case 'loadEnv':
-						window.postMessage({ command: "loadEnv", payload: JSON.parse(message.payload) });
+					case 'showError':
+					case 'changeTheme':
+					case 'showResponse':
+					case 'showScanReport':
+						window.postMessage({ command: message.command, payload: message.payload });
 						break;
 					case 'loadPrefs':
 						setPrefs(message.payload);

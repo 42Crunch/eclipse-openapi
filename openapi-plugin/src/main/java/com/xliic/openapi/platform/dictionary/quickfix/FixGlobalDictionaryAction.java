@@ -34,7 +34,7 @@ public class FixGlobalDictionaryAction extends ProjectAction {
     }
 
     @Override
-    public void update(AnActionEvent event) {
+    public void update(@NotNull AnActionEvent event) {
         event.getPresentation().setVisible(PlatformConnection.isPlatformIntegrationEnabled());
         if (event.getPresentation().isVisible()) {
             super.update(event);

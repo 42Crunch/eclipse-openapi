@@ -19,10 +19,10 @@
 				window.dispatchMessage = function(message) {
 					switch (message.command) {
 						case 'showFullReport':
-							window.postMessage({ command: "showFullReport", report: JSON.parse(message.report) });
+							window.postMessage({ command: "showFullReport", report: message.report });
 							break;
 						case 'showPartialReport':
-							window.postMessage({ command: "showPartialReport", report: JSON.parse(message.report), uri: message.uri, ids: message.ids });
+							window.postMessage({ command: "showPartialReport", report: message.report, uri: message.uri, ids: message.ids });
 							break;
 						case 'showNoReport':
 							window.postMessage({ command: "showNoReport" });

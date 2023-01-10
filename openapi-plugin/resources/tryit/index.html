@@ -46,8 +46,7 @@
     <div id="root"></div>
     <script>
 		window.initWebJS = function() {
-			function setPrefs(payload) {
-				const prefs = JSON.parse(payload);
+			function setPrefs(prefs) {
 				if (Object.keys(prefs).length > 0) {
 					window.postMessage({ command: "loadPrefs", payload: prefs });
 				}
@@ -55,22 +54,11 @@
 			window.dispatchMessage = function(message) {
 				switch (message.command) {
 					case 'tryOperation':
-						const payload = JSON.parse(message.payload);
-						payload.oas = JSON.parse(payload.oas);
-						if (payload.preferredBodyValue) {
-						    payload.preferredBodyValue = JSON.parse(payload.preferredBodyValue);
-						}
 						setPrefs(message.prefs);
-						window.postMessage({ command: "tryOperation", payload: payload });
-						break;
-					case 'showResponse':
-						window.postMessage({ command: "showResponse", payload: JSON.parse(message.payload) });
-						break;
 					case 'showError':
-						window.postMessage({ command: "showError", payload: JSON.parse(message.payload) });
-						break;
 					case 'changeTheme':
-						window.postMessage({ command: "changeTheme", payload: message.payload });
+					case 'showResponse':
+						window.postMessage({ command: message.command, payload: message.payload });
 						break;
 					case 'loadPrefs':
 						setPrefs(message.payload);
