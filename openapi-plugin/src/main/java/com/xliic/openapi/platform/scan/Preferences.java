@@ -1,10 +1,11 @@
 package com.xliic.openapi.platform.scan;
 
-import com.xliic.openapi.Payload;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.Payload;
 
 public class Preferences implements Payload {
 

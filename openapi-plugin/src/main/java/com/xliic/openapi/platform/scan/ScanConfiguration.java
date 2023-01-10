@@ -1,11 +1,12 @@
 package com.xliic.openapi.platform.scan;
 
-import com.xliic.openapi.parser.ast.node.Node;
+import java.util.Base64;
+import java.util.Objects;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Base64;
-import java.util.Objects;
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class ScanConfiguration {
 

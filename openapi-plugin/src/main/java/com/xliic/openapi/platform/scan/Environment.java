@@ -1,12 +1,13 @@
 package com.xliic.openapi.platform.scan;
 
-import com.xliic.openapi.Payload;
-import com.xliic.openapi.settings.Settings;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.xliic.openapi.Payload;
+import com.xliic.openapi.settings.Settings;
 
 public class Environment implements Payload {
 

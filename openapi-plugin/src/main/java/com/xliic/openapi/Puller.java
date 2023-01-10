@@ -1,16 +1,17 @@
 package com.xliic.openapi;
 
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.utils.NetUtils;
-
-import okhttp3.Response;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.NetUtils;
+
+import okhttp3.Response;
 
 public abstract class Puller<T> {
 

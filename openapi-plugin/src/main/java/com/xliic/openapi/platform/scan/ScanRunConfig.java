@@ -1,10 +1,10 @@
 package com.xliic.openapi.platform.scan;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
 
 public class ScanRunConfig {
 
