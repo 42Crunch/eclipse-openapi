@@ -1,0 +1,190 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Pixi App API",
+    "description" : "Pixi Photo Sharing API",
+    "contact" : {
+      "email" : "nicole.becher@owasp.org"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8090"
+  }, {
+    "url" : "http://host.docker.internal:8090"
+  } ],
+  "tags" : [ {
+    "name" : "admins",
+    "description" : "Secured Admin-only calls"
+  }, {
+    "name" : "users",
+    "description" : "Operations available to regular, logged in users"
+  }, {
+    "name" : "anyone",
+    "description" : "Operations available to anyone"
+  } ],
+  "paths" : {
+    "/api/register" : {
+      "post" : {
+        "tags" : [ "anyone" ],
+        "summary" : "register for an account and receive token",
+        "description" : "user supplies email and password to register and receives a   json web token.",
+        "operationId" : "register",
+        "requestBody" : {
+          "content" : {
+            "text/plain" : {
+              "examples" : {
+                "zero" : {
+                  "value" : "bah"
+                }
+              }
+            },
+            "application/json" : {
+              "examples" : {
+                "zero" : {
+                  "description" : "this is an  example",
+                  "value" : {
+                    "account_balance" : 444444666,
+                    "is_admin" : "true,",
+                    "name" : "Foo Bar Baz",
+                    "pass" : "qj&g#qJ",
+                    "user" : "foo@baz.com"
+                  }
+                },
+                "one" : {
+                  "description" : "this is an example",
+                  "value" : {
+                    "account_balance" : 777,
+                    "is_admin" : "true,",
+                    "name" : "Fooaz",
+                    "pass" : "qj&g#qJ",
+                    "user" : "foo@baz.com"
+                  }
+                }
+              },
+              "schema" : {
+                "$ref" : "#/components/schemas/UserRegistrationData"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "successfully registered, token received",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "maxLength" : 255,
+                      "minLength" : 1,
+                      "pattern" : "^[\\w\\s\\.\\-@:,;]{1,255}$",
+                      "type" : "string"
+                    },
+                    "token" : {
+                      "maxLength" : 700,
+                      "pattern" : "^([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_=]{4,})\\.([a-zA-Z0-9_\\-\\+\\/=]{4,})",
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409" : {
+            "description" : "email address already registered",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "maxLength" : 255,
+                      "minLength" : 1,
+                      "pattern" : "^[\\w\\s\\.\\-@:,;]{1,255}$",
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "required" : [ "message" ],
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "maxLength" : 255,
+                      "minLength" : 1,
+                      "pattern" : "^[\\w\\s\\.@:-]{1,255}$",
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-42c-no-authentication" : true,
+        "x-42c-sensitivity" : 5,
+        "x-codegen-request-body-name" : "user"
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "UserRegistrationData" : {
+        "required" : [ "account_balance", "is_admin", "name", "pass", "user" ],
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "maxLength" : 50,
+            "minLength" : 4,
+            "pattern" : "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
+            "type" : "string",
+            "format" : "email"
+          },
+          "pass" : {
+            "maxLength" : 12,
+            "minLength" : 4,
+            "pattern" : "^[a-zA-Z0-9&@#!?]{4,12}$",
+            "type" : "string"
+          },
+          "name" : {
+            "maxLength" : 30,
+            "minLength" : 5,
+            "pattern" : "^[\\w\\s\\.]{5,30}$",
+            "type" : "string"
+          },
+          "is_admin" : {
+            "type" : "boolean"
+          },
+          "account_balance" : {
+            "maximum" : 1000,
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "access-token" : {
+        "type" : "apiKey",
+        "description" : "Most operations need to pass a user token retrieved calling /api/login",
+        "name" : "x-access-token",
+        "in" : "header"
+      }
+    }
+  }
+}

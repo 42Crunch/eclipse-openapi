@@ -1,0 +1,400 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "API for 42Crunch Platform",
+		"version": "1.0"
+	},
+	"x-42c-deactivate-allowlist": true,
+	"x-42c-request-strategies": [
+		{
+			"x-42c-strategy": {
+				"protections": [
+					{
+						"x-42c-request-allowlist": {}
+					}
+				]
+			}
+		}
+	],
+	"servers": [
+		{
+			"url": "https://us.42crunch.cloud/"
+		}
+	],
+	"security": [
+		{
+			"cookieAuth": []
+		},
+		{
+			"token": []
+		}
+	],
+	"paths": {
+		"/api/v1/collections": {
+			"get": {
+				"deprecated": true,
+				"tags": [
+					"CollectionManager"
+				],
+				"summary": "List API collections",
+				"operationId": "CollectionListLegacy",
+				"x-42c-actions": [
+					"CollectionsRead"
+				],
+				"responses": {
+					"200": {
+						"description": "A successful response.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CollectionListBody"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"403": {
+						"$ref": "#/components/responses/403"
+					},
+					"404": {
+						"$ref": "#/components/responses/404"
+					},
+					"406": {
+						"$ref": "#/components/responses/406"
+					},
+					"500": {
+						"$ref": "#/components/responses/500"
+					},
+					"default": {
+						"description": "An unexpected error response.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/rpcStatus"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"securitySchemes": {
+			"token": {
+				"type": "apiKey",
+				"name": "X-API-KEY",
+				"in": "header"
+			},
+			"cookieAuth": {
+				"type": "apiKey",
+				"in": "cookie",
+				"name": "sessionid"
+			}
+		},
+		"responses": {
+			"400": {
+				"description": "Invalid Input",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/rpcStatus"
+						}
+					}
+				}
+			},
+			"401": {
+				"description": "Invalid authorization",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/rpcStatus"
+						}
+					}
+				}
+			},
+			"403": {
+				"description": "Invalid authentication",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/rpcStatus"
+						}
+					}
+				}
+			},
+			"404": {
+				"description": "Not Found",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/rpcStatus"
+						}
+					}
+				}
+			},
+			"406": {
+				"description": "Does not exist",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/rpcStatus"
+						}
+					}
+				}
+			},
+			"500": {
+				"description": "Internal Error",
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/rpcStatus"
+						}
+					}
+				}
+			}
+		},
+		"schemas": {
+			"Collection": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"desc": {
+						"$ref": "#/components/schemas/CollectionDescriptor"
+					},
+					"summary": {
+						"$ref": "#/components/schemas/CollectionSummary"
+					},
+					"protection": {
+						"$ref": "#/components/schemas/ProtectionSummary"
+					},
+					"owner": {
+						"$ref": "#/components/schemas/CollectionOwner"
+					},
+					"userCounter": {
+						"type": "integer",
+						"format": "uint32",
+						"minimum": 0,
+						"maximum": 9223372036854775807
+					},
+					"teamCounter": {
+						"type": "integer",
+						"format": "uint32",
+						"minimum": 0,
+						"maximum": 9223372036854775807
+					}
+				}
+			},
+			"CollectionDescriptor": {
+				"title": "Collection",
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/uuid"
+					},
+					"name": {
+						"type": "string",
+						"format": "name50",
+						"minLength": 1,
+						"maxLength": 50,
+						"pattern": "^[\\w:-]{1,50}$"
+					},
+					"technicalName": {
+						"type": "string",
+						"format": "collectionTechnicalName",
+						"minLength": 1,
+						"maxLength": 512
+					},
+					"source": {
+						"type": "string",
+						"enum": [
+							"default",
+							"github",
+							"gitlab",
+							"bitbucket",
+							"azure",
+							"jenkins",
+							"bamboo",
+							"sonarqube"
+						],
+						"default": "default"
+					},
+					"isShared": {
+						"type": "boolean"
+					},
+					"isSharedWrite": {
+						"type": "boolean"
+					}
+				}
+			},
+			"CollectionListBody": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"num": {
+						"type": "integer",
+						"format": "uint32",
+						"minimum": 0,
+						"maximum": 999999999999
+					},
+					"list": {
+						"type": "array",
+						"minItems": 0,
+						"maxItems": 999999999999,
+						"items": {
+							"$ref": "#/components/schemas/Collection"
+						}
+					}
+				}
+			},
+			"CollectionOwner": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/uuid"
+					},
+					"username": {
+						"$ref": "#/components/schemas/email"
+					},
+					"firstname": {
+						"type": "string",
+						"format": "nameHuman",
+						"minLength": 1,
+						"maxLength": 50,
+						"pattern": "^[a-zA-Z\\s]{1,50}$"
+					},
+					"lastname": {
+						"type": "string",
+						"format": "nameHuman",
+						"minLength": 1,
+						"maxLength": 50,
+						"pattern": "^[a-zA-Z\\s]{1,50}$"
+					}
+				}
+			},
+			"CollectionSummary": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"org": {
+						"$ref": "#/components/schemas/OrgDescriptor"
+					},
+					"read": {
+						"type": "boolean"
+					},
+					"write": {
+						"type": "boolean"
+					},
+					"writeApis": {
+						"type": "boolean"
+					},
+					"apis": {
+						"type": "integer",
+						"format": "uint32",
+						"minimum": 0,
+						"maximum": 4294967295
+					}
+				}
+			},
+			"OrgDescriptor": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				}
+			},
+			"ProtectionSummary": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"isProcessed": {
+						"type": "boolean"
+					},
+					"last": {
+						"type": "string"
+					},
+					"lastCompilation": {
+						"type": "string"
+					},
+					"compilationStatus": {
+						"type": "boolean"
+					},
+					"numActiveClients": {
+						"type": "integer",
+						"format": "int32",
+						"minimum": 0,
+						"maximum": 2147483647
+					}
+				}
+			},
+			"email": {
+				"type": "string",
+				"format": "email",
+				"minLength": 2,
+				"maxLength": 63,
+				"pattern": "^[\\w\\-+.]+@((\\w\\-?)+\\.){1,4}[a-zA-Z0-9]{2,63}$"
+			},
+			"protobufAny": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"typeUrl": {
+						"type": "string",
+						"description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+					},
+					"value": {
+						"pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+						"type": "string",
+						"description": "Must be a valid serialized protocol buffer of the above specified type.",
+						"format": "byte"
+					}
+				},
+				"description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+			},
+			"rpcStatus": {
+				"type": "object",
+				"additionalProperties": false,
+				"properties": {
+					"code": {
+						"type": "integer",
+						"format": "int32",
+						"minimum": 0,
+						"maximum": 2147483647
+					},
+					"message": {
+						"type": "string",
+						"pattern": "^.*$",
+						"minLength": 0,
+						"maxLength": 999999999999
+					},
+					"details": {
+						"type": "array",
+						"minItems": 0,
+						"maxItems": 999999999999,
+						"items": {
+							"$ref": "#/components/schemas/protobufAny"
+						}
+					}
+				}
+			},
+			"uuid": {
+				"description": "A universally unique identifier (UUID) is a 128-bit label used for information in computer systems.",
+				"type": "string",
+				"format": "uuid",
+				"pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+				"maxLength": 36,
+				"minLength": 36,
+				"example": "123e4567-e89b-12d3-a456-426614174000"
+			}
+		}
+	}
+}

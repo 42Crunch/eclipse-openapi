@@ -75,7 +75,7 @@ public abstract class JCEFScanFunction extends BrowserFunction implements Functi
                             Map<String, Object> payloadEnv = (Map<String, Object>) payload.get("env");
                             Map<String, String> configEnv = payloadEnv.entrySet().stream().collect(
                                     Collectors.toMap(Map.Entry::getKey, e -> String.valueOf(e.getValue())));
-                            String rawOas = mapper.writeValueAsString(payload.get("rawOas"));
+                            String rawOas = (String) payload.get("rawOas");
                             String config = mapper.writeValueAsString(payload.get("config"));
                             ScanRunConfig runConfig = new ScanRunConfig(config, configEnv, rawOas);
                             scanService.runScan(runConfig);

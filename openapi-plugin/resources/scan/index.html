@@ -58,7 +58,6 @@
 					case 'scanOperation':
 						const payload = JSON.parse(message.payload);
 						payload.oas = JSON.parse(payload.oas);
-						payload.rawOas = payload.oas;
 						payload.config = JSON.parse(payload.config);
 						window.postMessage({ command: "loadEnv", payload: JSON.parse(message.env) });
 						setPrefs(message.prefs);

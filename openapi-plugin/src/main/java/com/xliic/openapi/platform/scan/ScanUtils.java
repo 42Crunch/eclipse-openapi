@@ -216,10 +216,14 @@ public class ScanUtils {
     }
 
     @NotNull
-    @SuppressWarnings("unchecked")
     public static String extractSinglePath(@NotNull String path, @NotNull BundleResult bundle) {
-        String text = bundle.getJsonText();
-        Set<String> refs = getReferences(path, bundle.getAST());
+        return extractSinglePath(bundle.getJsonText(), bundle.getAST(), path);
+    }
+
+    @NotNull
+    @SuppressWarnings("unchecked")
+    public static String extractSinglePath(@NotNull String text, @NotNull Node astRoot, @NotNull String path) {
+        Set<String> refs = getReferences(path, astRoot);
         try {
             Map<String, Object> root = new ObjectMapper().readValue(text, new TypeReference<>() {
             });
