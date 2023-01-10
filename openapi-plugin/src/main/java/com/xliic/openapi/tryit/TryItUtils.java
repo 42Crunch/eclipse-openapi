@@ -94,7 +94,7 @@ public class TryItUtils {
                 for (String key : Arrays.asList("parameters", method)) {
                     Node child = pathNode.getChild(key);
                     if (child != null) {
-                        collectSchemaNames(child, schemaNames);
+                        collectSchemaNames(root, child, schemaNames);
                     }
                 }
             }
@@ -102,18 +102,22 @@ public class TryItUtils {
         return schemaNames;
     }
 
-    public static void collectSchemaNames(Node node, Set<String> schemaNames) {
+    public static void collectSchemaNames(Node root, Node node, Set<String> schemaNames) {
         if (node.isScalar() && "$ref".equals(node.getKey())) {
             String value = node.getValue();
-            if (value != null && value.startsWith("#/components/schemas")) {
+            if (value != null && value.startsWith("#/components")) {
                 String [] segments = value.split("/");
                 if (segments.length > 0) {
                     schemaNames.add(segments[segments.length - 1]);
+                    Node refNode = root.find(value.replaceFirst("#/", "/"));
+                    if (refNode != null) {
+                        collectSchemaNames(root, refNode, schemaNames);
+                    }
                 }
             }
         }
         for (Node child : node.getChildren()) {
-            collectSchemaNames(child, schemaNames);
+            collectSchemaNames(root, child, schemaNames);
         }
     }
 }

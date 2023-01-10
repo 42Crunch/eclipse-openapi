@@ -289,7 +289,7 @@ public class ScanUtils {
             Node pathNode = paths.getChild(path);
             if (pathNode != null) {
                 for (Node child : pathNode.getChildren()) {
-                    TryItUtils.collectSchemaNames(child, schemaNames);
+                    TryItUtils.collectSchemaNames(root, child, schemaNames);
                 }
             }
         }
