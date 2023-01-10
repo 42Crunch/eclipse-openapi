@@ -1,7 +1,6 @@
 package com.xliic.openapi.platform.scan;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,8 +14,6 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.actionSystem.DefaultActionGroup;
@@ -222,31 +219,17 @@ public class ScanUtils {
     @SuppressWarnings("unchecked")
     public static String extractSinglePath(@NotNull String path, @NotNull BundleResult bundle) {
         String text = bundle.getJsonText();
-        Set<String> schemaNames = getReferencedSchemaNames(path, bundle.getAST());
-        ObjectMapper objectMapper = new ObjectMapper();
+        Set<String> refs = getReferences(path, bundle.getAST());
         try {
-            Map<String, Object> root = objectMapper.readValue(text, new TypeReference<>() {
+            Map<String, Object> root = new ObjectMapper().readValue(text, new TypeReference<>() {
             });
             if (root != null) {
                 Map<String, Object> pathsMap = (Map<String, Object>) root.get("paths");
                 if (pathsMap != null) {
                     pathsMap.keySet().removeIf(key -> !path.equals(key));
                 }
-                Map<String, Object> componentsMap = (Map<String, Object>) root.get("components");
-                if (componentsMap != null) {
-                    Map<String, Object> schemasMap = (Map<String, Object>) componentsMap.get("schemas");
-                    if (schemasMap != null) {
-                        schemasMap.keySet().removeIf(key -> !schemaNames.contains(key));
-                    }
-                }
-                JsonFactory factory = new JsonFactory();
-                StringWriter jsonObjectWriter = new StringWriter();
-                JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
-                generator.useDefaultPrettyPrinter();
-                generator.setCodec(new ObjectMapper());
-                generator.writeObject(root);
-                generator.close();
-                return jsonObjectWriter.toString();
+                TryItUtils.filterComponents(root, refs);
+                return TryItUtils.serializeToString(root);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -282,15 +265,13 @@ public class ScanUtils {
         throw new Exception("Failed to create temporary collection " + COLLECTION_TEMP_NAME);
     }
 
-    private static Set<String> getReferencedSchemaNames(String path, Node root) {
+    private static Set<String> getReferences(String path, Node root) {
         Set<String> schemaNames = new HashSet<>();
         Node paths = root.getChild("paths");
         if (paths != null) {
             Node pathNode = paths.getChild(path);
             if (pathNode != null) {
-                for (Node child : pathNode.getChildren()) {
-                    TryItUtils.collectSchemaNames(root, child, schemaNames);
-                }
+                TryItUtils.collectSchemaNames(root, pathNode, schemaNames);
             }
         }
         return schemaNames;

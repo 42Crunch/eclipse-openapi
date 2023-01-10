@@ -1,7 +1,9 @@
 package com.xliic.openapi.tryit;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -24,11 +26,10 @@ public class TryItUtils {
     @SuppressWarnings("unchecked")
     public static String extractSingleOperation(@NotNull String path, @NotNull String method, @NotNull BundleResult bundle) {
         String text = bundle.getJsonText();
-        Set<String> schemaNames = getReferencedSchemaNames(path, method, bundle.getAST());
+        Set<String> refs = getReferences(path, method, bundle.getAST());
         Set<String> pathKeysToSave = new HashSet<>(Arrays.asList("parameters", "servers", method));
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Map<String, Object> root = objectMapper.readValue(text, new TypeReference<>() {});
+            Map<String, Object> root = new ObjectMapper().readValue(text, new TypeReference<>() {});
             if (root != null) {
                 Map<String, Object> pathsMap = (Map<String, Object>) root.get("paths");
                 if (pathsMap != null) {
@@ -38,26 +39,68 @@ public class TryItUtils {
                     }
                     pathsMap.keySet().removeIf(key -> !path.equals(key));
                 }
-                Map<String, Object> componentsMap = (Map<String, Object>) root.get("components");
-                if (componentsMap != null) {
-                    Map<String, Object> schemasMap = (Map<String, Object>) componentsMap.get("schemas");
-                    if (schemasMap != null) {
-                        schemasMap.keySet().removeIf(key -> !schemaNames.contains(key));
-                    }
-                }
-                JsonFactory factory = new JsonFactory();
-                StringWriter jsonObjectWriter = new StringWriter();
-                JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
-                generator.useDefaultPrettyPrinter();
-                generator.setCodec(new ObjectMapper());
-                generator.writeObject(root);
-                generator.close();
-                return jsonObjectWriter.toString();
+                filterComponents(root, refs);
+                return serializeToString(root);
             }
         } catch (Exception e) {
            e.printStackTrace();
         }
         return text;
+    }
+
+    @NotNull
+    public static String serializeToString(@NotNull Map<String, Object> root) throws IOException {
+        JsonFactory factory = new JsonFactory();
+        StringWriter jsonObjectWriter = new StringWriter();
+        JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
+        generator.useDefaultPrettyPrinter();
+        generator.setCodec(new ObjectMapper());
+        generator.writeObject(root);
+        generator.close();
+        return jsonObjectWriter.toString();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void filterComponents(@NotNull Map<String, Object> root, @NotNull Set<String> refs) {
+        Map<String, Object> componentsMap = (Map<String, Object>) root.get("components");
+        if (componentsMap != null) {
+            Set<String> typesToRemove = new HashSet<>();
+            Map<String, Set<String>> componentsRefsMap = getComponentsReferencesMap(refs);
+            for (Map.Entry<String, Object> item : componentsMap.entrySet()) {
+                // Type may be responses, schemas, parameters, securitySchemes
+                String type = item.getKey();
+                if ("securitySchemes".equals(type)) {
+                    continue;
+                }
+                Map<String, Object> typeMap = (Map<String, Object>) componentsMap.get(type);
+                if (typeMap != null) {
+                    Set<String> typeKeys = componentsRefsMap.get(type);
+                    typeMap.keySet().removeIf(key -> typeKeys == null || !typeKeys.contains(key));
+                    if (typeMap.size() == 0) {
+                        typesToRemove.add(type);
+                    }
+                }
+            }
+            componentsMap.keySet().removeIf(typesToRemove::contains);
+        }
+    }
+
+    private static Map<String, Set<String>> getComponentsReferencesMap(Set<String> refs) {
+        Map<String, Set<String>> result = new HashMap<>();
+        for (String ref : refs) {
+            if (ref.startsWith("#/components")) {
+                String [] segments = ref.replace("#/components/", "").split("/");
+                if (segments.length > 1) {
+                    String type = segments[0];
+                    String name = segments[1];
+                    if (!result.containsKey(type)) {
+                        result.put(type, new HashSet<>());
+                    }
+                    result.get(type).add(name);
+                }
+            }
+        }
+        return result;
     }
 
     public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull DefaultActionGroup actions) {
@@ -85,8 +128,8 @@ public class TryItUtils {
         }
     }
 
-    private static Set<String> getReferencedSchemaNames(String path, String method, Node root) {
-        Set<String> schemaNames = new HashSet<>();
+    private static Set<String> getReferences(String path, String method, Node root) {
+        Set<String> refs = new HashSet<>();
         Node paths = root.getChild("paths");
         if (paths != null) {
             Node pathNode = paths.getChild(path);
@@ -94,30 +137,30 @@ public class TryItUtils {
                 for (String key : Arrays.asList("parameters", method)) {
                     Node child = pathNode.getChild(key);
                     if (child != null) {
-                        collectSchemaNames(root, child, schemaNames);
+                        collectSchemaNames(root, child, refs);
                     }
                 }
             }
         }
-        return schemaNames;
+        return refs;
     }
 
-    public static void collectSchemaNames(Node root, Node node, Set<String> schemaNames) {
+    public static void collectSchemaNames(Node root, Node node, Set<String> refs) {
         if (node.isScalar() && "$ref".equals(node.getKey())) {
             String value = node.getValue();
             if (value != null && value.startsWith("#/components")) {
                 String [] segments = value.split("/");
                 if (segments.length > 0) {
-                    schemaNames.add(segments[segments.length - 1]);
+                    refs.add(segments[segments.length - 1]);
                     Node refNode = root.find(value.replaceFirst("#/", "/"));
                     if (refNode != null) {
-                        collectSchemaNames(root, refNode, schemaNames);
+                        collectSchemaNames(root, refNode, refs);
                     }
                 }
             }
         }
         for (Node child : node.getChildren()) {
-            collectSchemaNames(root, child, schemaNames);
+            collectSchemaNames(root, child, refs);
         }
     }
 }
