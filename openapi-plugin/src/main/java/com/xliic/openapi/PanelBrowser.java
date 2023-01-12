@@ -13,12 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.util.DefaultIndenter;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.ide.ui.LafManager;
 import com.xliic.core.ide.ui.LafManagerListener;
@@ -44,6 +39,8 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
     protected final String basePath;
     @NotNull
     protected final String functionId;
+    @NotNull
+    protected final ObjectMapper mapper = new ObjectMapper();
 
     private final String indexHTML;
     private final String indexCSS;
@@ -55,7 +52,6 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
     private final JBCefJSQuery query;
     private final CefLoadHandlerAdapter loadHandler;
     private final Function<Object, JBCefJSQuery.Response> fun;
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public PanelBrowser(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent, @NotNull String basePath) {
         super(parent);
@@ -156,22 +152,6 @@ public abstract class PanelBrowser extends JBCefBrowser implements LafManagerLis
         } else if (!isInit) {
             init();
         }
-    }
-
-    protected static String jsonfy(String text) {
-        try {
-            String JSON_SPACES = "\" : ";
-            JsonNode node = new YAMLMapper().readTree(text);
-            DefaultPrettyPrinter printer = new DefaultPrettyPrinter().withObjectIndenter(new DefaultIndenter("", ""));
-            String result = new ObjectMapper().writer(printer).writeValueAsString(node).trim();
-            if (result.contains(JSON_SPACES)) {
-                result = result.replace(JSON_SPACES, "\":");
-            }
-            return result;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private static String remove(String page, String fromTag, String toTag) {

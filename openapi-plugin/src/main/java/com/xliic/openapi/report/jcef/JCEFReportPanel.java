@@ -59,7 +59,10 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
     protected @Nullable String getInitJS() {
         String kdb = KDBService.getInstance().getText();
         if (kdb != null) {
-            return "window.initWebJS(" + jsonfy(kdb) + ")";
+            Object kdbObj = Utils.deserialize(kdb, null);
+            if (kdbObj != null) {
+                return "window.initWebJS(" + Utils.serialize(mapper, kdbObj) + ")";
+            }
         }
         return null;
     }
