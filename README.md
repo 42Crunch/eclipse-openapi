@@ -27,6 +27,7 @@ Both OAS v2 and v3 are supported.
   - [Integration with 42Crunch Platform](#integration-with-42crunch-platform)
   - [Platform Data Dictionary](#platform-data-dictionary)
   - [Try it](#try-it)
+  - [Scan](#scan)
   - [Known issues](#known-issues)
   - [Version compatibility](#version-compatibility)
   - [Feedback](#feedback)
@@ -226,14 +227,55 @@ In case of HTTPS requests there is an option to ignore certificate errors
 
 It is available both in the try it panel and in the plugin preferences
 
+## Scan
+
+You can use OpenAPI extension to perform platform scan for a specific path.
+
+If the OpenAPI file is valid this option can be run in the context menu:
+
+![Try it overview in Eclipse](docs/images/Img_scan_overview.jpg)
+
+The following panel is available where you can choose the server and set headers or/and body parameters.
+
+![Try it overview panel in Eclipse](docs/images/Img_scan_overview_panel.jpg)
+
+Frequently used environment variables can be managed using the tab below.
+
+![Try it overview panel in Eclipse](docs/images/Img_scan_overview_env_panel.jpg)
+
+Before scan be sure docker is running locally. Scan results will be shown in the corresponding tab.
+
+![Try it overview panel in Eclipse](docs/images/Img_scan_overview_result_panel.jpg)
+
+Use curl buttons to copy the command to run in terminal for example.
+
+![Try it overview panel in Eclipse](docs/images/Img_scan_curl.jpg)
+
 ## Known issues
 
 - No schema validation of OpenAPI files
 - Reference completion is unavailable for external references
 - Generic Text Editor must be a default editor for json / yaml files to use QuickFixes
 - Sometimes Eclipse doesn't show the QuickFix popup, in this case use right click context menu or press **Ctrl+1** shortcut
-- Try it feature is currently supported only for OpenAPI version 3.0.x
+- Both scan and try it features are currently supported only for OpenAPI version 3.0.x
+- Scan feature does not involve Eclipse console to run curl and docker commands (as opposed to IntelliJ IDEA plugin)
+- Scan feature on Mac, Linux (or other Unix OS) requires interactive login shell capability
 
+  The following command can be used to check your environment:
+
+```bash
+$SHELL --login -c "docker run hello-world"
+```
+- Scan feature also requires the ability to run docker command without sudo.
+  On Linux the following commands can be used to setup your environment:
+
+```bash
+sudo groupadd docker 
+sudo usermod -aG docker $USER
+sudo chown root:docker /var/run/docker.sock 
+sudo chown -R root:docker /var/run/docker
+```
+  
 ## Version compatibility
 
 Extension prior to version 1.40 are compatible with Eclipse 2020-12 or newer releases.
