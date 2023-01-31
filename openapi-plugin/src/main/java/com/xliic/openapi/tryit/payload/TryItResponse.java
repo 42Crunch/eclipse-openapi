@@ -1,8 +1,6 @@
 package com.xliic.openapi.tryit.payload;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +9,6 @@ import javax.net.ssl.SSLException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.Payload;
 
 public class TryItResponse implements Payload {
@@ -44,20 +41,12 @@ public class TryItResponse implements Payload {
         result.put("httpVersion", httpVersion);
         result.put("statusCode", statusCode);
         result.put("statusMessage", statusMessage);
-        result.put("headers", escapeAndGetHeaders());
-        result.put("body", OpenApiUtils.wrapJsonToString(body));
+        result.put("headers", headers);
+        result.put("body", body == null ? "" : body);
         return result;
     }
 
     public static boolean isSslError(Throwable error) {
         return error instanceof SSLException;
-    }
-
-    private List<List<String>> escapeAndGetHeaders() {
-        List<List<String>> result = new LinkedList<>();
-        for (List<String> pair : headers) {
-            result.add(Arrays.asList(pair.get(0), OpenApiUtils.wrapJsonToString(pair.get(1))));
-        }
-        return result;
     }
 }

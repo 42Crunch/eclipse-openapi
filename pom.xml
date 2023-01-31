@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.xliic.openapi</groupId>
 	<artifactId>openapi-parent</artifactId>
-	<version>1.0.41</version>
+	<version>1.0.43</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -28,12 +28,12 @@
 		<repository>
             <id>chromium-swt-ce</id>
             <layout>p2</layout>
-  			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/swt/95.0.1/repository</url>
+  			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/swt/95.0.9/repository</url>
 		</repository> 
 		<repository>
 			<id>chromium-cef-ce</id>
             <layout>p2</layout>
-            <url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/95.0.1/repository</url>
+            <url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/95.0.9/repository</url>
         </repository>
 	</repositories>
 

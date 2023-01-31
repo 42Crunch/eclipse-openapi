@@ -27,13 +27,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.PanelNode;
 import com.xliic.openapi.tree.node.RootNode;
 import com.xliic.openapi.tree.node.SimpleNode;
+import com.xliic.openapi.utils.Utils;
 
 public class DMTNConverter {
 
@@ -139,7 +139,7 @@ public class DMTNConverter {
     }
 
     public DefaultMutableTreeNode convert(@NotNull Node root) {
-        RootNode rootNode = new RootNode(OpenApiUtils.getOpenAPIVersion(root));
+        RootNode rootNode = new RootNode(Utils.getOpenAPIVersion(root));
         DefaultMutableTreeNode rootDMTN = new DefaultMutableTreeNode(rootNode);
         Map<String, DefaultMutableTreeNode> panels = new HashMap<>();
         Map<String, DefaultMutableTreeNode> pointers = rootNode.getChildren();

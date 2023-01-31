@@ -1,4 +1,4 @@
-package com.xliic.openapi;
+package com.xliic.openapi.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,6 +29,7 @@ import com.xliic.core.util.io.FileUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.OpenAPIStartupActivity;
 import com.xliic.openapi.platform.PlatformConnection;
 
 public class TempFileUtils {
@@ -120,7 +121,7 @@ public class TempFileUtils {
 
     public static void createTextResource(@NotNull File dir, @NotNull String basePath, @NotNull String prefix, @NotNull String suffix)
             throws IOException {
-        ClassLoader loader = OpenApiUtils.class.getClassLoader();
+        ClassLoader loader = Utils.class.getClassLoader();
         InputStream inputStream = ResourceUtil.getResourceAsStream(loader, basePath, prefix + suffix);
         Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
         File tmp = FileUtil.createTempFile(dir, prefix, suffix, true);
@@ -133,7 +134,7 @@ public class TempFileUtils {
         Path path;
         PlatformConnection options = PlatformConnection.getOptions();
         try {
-            String domain = OpenApiUtils.getDomainName(options.getPlatformUrl());
+            String domain = NetUtils.getDomainName(options.getPlatformUrl());
             path = Paths.get(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir, domain, id + (isJson ? ".json" : ".yaml"));
         } catch (URISyntaxException e) {
             path = Paths.get(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir, id);

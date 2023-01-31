@@ -31,6 +31,6 @@ public class JCEFDictionaryPanelView extends PanelViewPart {
 
     @Override
     public boolean initControl(@NotNull Project project) {
-        return PlatformConnection.isPlatformUsed();
+        return PlatformConnection.isPlatformIntegrationEnabled();
     }
 }

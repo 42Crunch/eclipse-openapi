@@ -1,7 +1,5 @@
 package com.xliic.openapi.platform.callback;
 
-import java.util.Base64;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +12,6 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformListener;
@@ -22,6 +19,7 @@ import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.topic.AuditListener;
+import com.xliic.openapi.utils.Utils;
 
 public class PlatformAuditCallback extends SuccessASTResponseCallback {
 
@@ -53,12 +51,9 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
             Node assessment = node.find("/attr/data");
             float grade = Float.parseFloat(assessment.getChild("grade").getValue());
             boolean isValid = Boolean.parseBoolean(assessment.getChild("isValid").getValue());
-            SwingUtilities
-                    .invokeLater(() -> project.getMessageBus().syncPublisher(PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
-
-            byte[] decodedBytes = Base64.getDecoder().decode(node.getChild("data").getValue());
-            String text = new String(decodedBytes);
-            Node reportNode = OpenApiUtils.getJsonAST(text);
+            SwingUtilities.invokeLater(() ->
+                project.getMessageBus().syncPublisher(PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
+            Node reportNode = PlatformUtils.getAssessmentReportNode(node);
             if (reportNode == null) {
                 PlatformUtils.setInProgress(tree, progressDMTN, false);
                 onFailure("Response report content is not JSON");
@@ -84,18 +79,13 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
                 return null;
             });
             auditService.setAuditReport(file.getPath(), report);
-
-            SwingUtilities.invokeLater(() -> {
-                if (showAsHTML) {
-                    OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
-                } else {
-                    OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
-                }
+            ApplicationManager.getApplication().invokeLater(() -> {
+                Utils.activateToolWindow(project, showAsHTML ? ToolWindowId.OPEN_API_HTML_REPORT : ToolWindowId.OPEN_API_REPORT);
                 project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
+                if (openInEditor) {
+                    new OpenFileDescriptor(project, file).navigate(true);
+                }
             });
-            if (openInEditor) {
-                ApplicationManager.getApplication().invokeLater(() -> new OpenFileDescriptor(project, file).navigate(true));
-            }
         } finally {
             PlatformUtils.setInProgress(tree, progressDMTN, false);
         }

@@ -59,8 +59,9 @@ public class FixManagerSchema extends FixManager {
         ASTService astService = ASTService.getInstance(project);
         Node root = astService.getRootNode(psiFile.getVirtualFile());
         List<FixItem> result = new LinkedList<>();
-        result.add(getSchemaMainFixItem(root));
+        // Order matters in case of inserting both fixes into the last offset in a file
         result.add(getSchemaRefFixItem(schemaName, root));
+        result.add(getSchemaMainFixItem(root));
         return result;
     }
 

@@ -1,16 +1,13 @@
 package com.xliic.openapi.platform;
 
+import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
+
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -19,6 +16,19 @@ import okhttp3.Response;
 public class PlatformAPIs {
 
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+    public static class Sync {
+        public static Response readApi(String apiId, boolean spec) throws IOException {
+            Request request = getRequestBuilder(String.format("api/v1/apis/%s?specfile=%b", apiId, spec)).build();
+            return client.newCall(request).execute();
+        }
+
+        public static Response readAuditReport(String apiId) throws IOException {
+            //noinspection SpellCheckingInspection
+            Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
+            return client.newCall(request).execute();
+        }
+    }
 
     public static void listCollections(Callback callback) {
         Request request = getRequestBuilder(String.format("api/v2/collections?listOption=%s&perPage=%d", "ALL", 0)).build();
@@ -30,11 +40,6 @@ public class PlatformAPIs {
         client.newCall(request).enqueue(callback);
     }
 
-    public static Response readApiSync(String apiId, boolean spec) throws IOException {
-        Request request = getRequestBuilder(String.format("api/v1/apis/%s?specfile=%b", apiId, spec)).build();
-        return client.newCall(request).execute();
-    }
-
     public static void readApi(String apiId, boolean spec, Callback callback) {
         Request request = getRequestBuilder(String.format("api/v1/apis/%s?specfile=%b", apiId, spec)).build();
         client.newCall(request).enqueue(callback);
@@ -44,12 +49,6 @@ public class PlatformAPIs {
         // noinspection SpellCheckingInspection
         Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
         client.newCall(request).enqueue(callback);
-    }
-
-    public static Response readAuditReportSync(String apiId) throws IOException {
-        // noinspection SpellCheckingInspection
-        Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
-        return client.newCall(request).execute();
     }
 
     @SuppressWarnings("serial")
@@ -139,20 +138,10 @@ public class PlatformAPIs {
         client.newCall(request).enqueue(callback);
     }
 
-    private static Request.Builder getRequestBuilder(String url) {
+    public static Request.Builder getRequestBuilder(String url) {
         PlatformConnection options = PlatformConnection.getOptions();
         return new Request.Builder().url(String.format("%s/%s", options.getPlatformUrl(), url)).addHeader("X-API-KEY", options.getApiToken())
                 .addHeader("X-42C-IDE", Boolean.TRUE.toString()).addHeader("Accept", "application/json")
                 .addHeader("User-Agent", options.getUserAgent()).addHeader("Referer", options.getReferer());
-    }
-
-    private static RequestBody getJsonRequestBody(Map<String, String> parameters) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            String json = objectMapper.writeValueAsString(parameters);
-            return RequestBody.create(json, MediaType.parse("application/json"));
-        } catch (JsonProcessingException e) {
-            return null;
-        }
     }
 }

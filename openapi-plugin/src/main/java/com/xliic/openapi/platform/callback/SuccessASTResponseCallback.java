@@ -3,8 +3,8 @@ package com.xliic.openapi.platform.callback;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.Utils;
 
 public abstract class SuccessASTResponseCallback extends SuccessBodyResponseCallback {
 
@@ -20,7 +20,7 @@ public abstract class SuccessASTResponseCallback extends SuccessBodyResponseCall
 
     @Override
     public void onCode200WithBodyTextResponse(@NotNull String text) {
-        Node node = OpenApiUtils.getJsonAST(text);
+        Node node = Utils.getJsonAST(text);
         if (node != null) {
             onCode200ASTResponse(node);
         } else {

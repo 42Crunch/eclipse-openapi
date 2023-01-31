@@ -6,7 +6,7 @@ import static com.xliic.core.codeInsight.UpdateHighlightersUtil.setHighlightersT
 import static com.xliic.core.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
 import static com.xliic.core.codeInspection.ProblemHighlightType.GENERIC_ERROR;
 import static com.xliic.core.lang.HighlightSeverity.ERROR;
-import static com.xliic.openapi.OpenApiUtils.REF;
+import static com.xliic.openapi.utils.Utils.REF;
 
 import java.net.URI;
 import java.net.URISyntaxException;

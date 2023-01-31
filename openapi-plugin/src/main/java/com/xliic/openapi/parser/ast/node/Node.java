@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
 import org.snakeyaml.engine.v2.api.DumpSettings;
 import org.snakeyaml.engine.v2.api.StreamDataWriter;
 import org.snakeyaml.engine.v2.emitter.Emitter;
@@ -64,6 +65,7 @@ public abstract class Node implements Comparable<Node> {
         return null;
     }
 
+    @Nullable
     public String getChildValue(String key) {
         Node result = getChild(key);
         return (result == null) ? null : result.getValue();

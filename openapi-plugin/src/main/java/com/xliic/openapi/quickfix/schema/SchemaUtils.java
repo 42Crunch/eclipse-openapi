@@ -17,11 +17,11 @@ import com.google.gson.JsonPrimitive;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.ParserAST;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.Utils;
 
 public class SchemaUtils {
 
@@ -302,7 +302,7 @@ public class SchemaUtils {
         List<Node> children = genFrom.getChildren();
         if ((children.size() == 1) && "$ref".equals(children.get(0).getKey())) {
             String ref = children.get(0).getValue();
-            Pair<VirtualFile, Node> result = OpenApiUtils.resolveRef(psiFile, ref);
+            Pair<VirtualFile, Node> result = Utils.resolveRef(psiFile, ref);
             if (result != null) {
                 Node node = result.getSecond();
                 if (node != null) {

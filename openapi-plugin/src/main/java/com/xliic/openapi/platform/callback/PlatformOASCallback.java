@@ -2,6 +2,7 @@ package com.xliic.openapi.platform.callback;
 
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -14,13 +15,15 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.services.PlatformService;
+import com.xliic.openapi.utils.NetUtils;
+import com.xliic.openapi.utils.TempFileUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class PlatformOASCallback extends SuccessASTResponseCallback {
 
@@ -48,14 +51,20 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
         try {
             Node desc = node.getChild("desc");
             String id = desc.getChild("id").getValue();
+            Date date = PlatformUtils.getLastAssessmentDate(node.getChild("assessment"));
+            if (date != null) {
+                PlatformService platformService = PlatformService.getInstance(project);
+                platformService.setAssessmentLastDate(id, date);
+            }
             boolean isJson = !Boolean.parseBoolean(desc.getChild("yaml").getValue());
             String specFile = desc.getChild("specfile").getValue();
             byte[] decodedBytes = Base64.getDecoder().decode(specFile);
             String text = QuickFix.formatFixText(new String(decodedBytes), isJson);
-            String domain = PlatformConnection.getOptions().getDomainName("default");
+            String platformUrl = PlatformConnection.getOptions().getPlatformUrl();
+            String domain = NetUtils.getDomainName(platformUrl, "default");
             VirtualFile file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () -> {
                 String fileName = id + (isJson ? ".json" : ".yaml");
-                return TempFileUtils.createPlatformFile(this, domain, fileName, text);
+                return TempFileUtils.createPlatformFile(this, domain, fileName, Utils.convertAllTabsToSpaces(text, 2));
             });
             if (file != null) {
                 LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));

@@ -17,7 +17,6 @@ import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.actions.ProjectAction;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -26,16 +25,17 @@ import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.services.DictionaryService;
+import com.xliic.openapi.utils.Utils;
 
 public class FixGlobalDictionaryAction extends ProjectAction {
 
     public FixGlobalDictionaryAction() {
-        super("update data dictionary properties");
+        super("update data dictionary properties", true);
     }
 
     @Override
-    public void update(AnActionEvent event) {
-        event.getPresentation().setVisible(PlatformConnection.isPlatformUsed());
+    public void update(@NotNull AnActionEvent event) {
+        event.getPresentation().setVisible(PlatformConnection.isPlatformIntegrationEnabled());
         if (event.getPresentation().isVisible()) {
             super.update(event);
         }
@@ -61,7 +61,7 @@ public class FixGlobalDictionaryAction extends ProjectAction {
                 Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
                 if (editor != null) {
                     List<FixItem> result = new LinkedList<>();
-                    boolean isJson = OpenApiUtils.getFileType(currentFile) == OpenApiFileType.Json;
+                    boolean isJson = Utils.getFileType(currentFile) == OpenApiFileType.Json;
                     for (DictionaryUpdate update : updates) {
                         result.addAll(FixManagerUpdateAllDictionary.getItems(update, isJson));
                     }

@@ -1,8 +1,8 @@
 package com.xliic.openapi.services;
 
-import static com.xliic.openapi.OpenApiUtils.getFileType;
-import static com.xliic.openapi.OpenApiUtils.getTextFromFile;
 import static com.xliic.openapi.listeners.OpenApiFileEditorManagerListener.IS_FIRST_SELECTION_KEY;
+import static com.xliic.openapi.utils.Utils.getFileType;
+import static com.xliic.openapi.utils.Utils.getTextFromFile;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,7 +29,6 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.async.AsyncService;
 import com.xliic.openapi.async.AsyncTask;
@@ -42,6 +41,7 @@ import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.topic.FileListener;
+import com.xliic.openapi.utils.Utils;
 
 public class ASTService extends AsyncService implements IASTService, Disposable {
 
@@ -137,7 +137,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
             // If there are two opened file tabs A & B, B selected and IDE gets restarted
             // After restart IDE fires selection event for A, although later B is selected
             // The task contains file A, the call below returns real file selected B
-            VirtualFile file = OpenApiUtils.getSelectedFile(project);
+            VirtualFile file = Utils.getSelectedFile(project);
             if (file != null && !file.getPath().equals(task.getFile().getPath())) {
                 ApplicationManager.getApplication().invokeLater(() -> {
                     // If then user select A no event fires as IDE still thinks A is active
@@ -226,7 +226,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         dfsParsedTree(fileName, root);
         boolean updateSchemas = false;
         if (root != null) {
-            OpenApiVersion version = OpenApiUtils.getOpenAPIVersion(root);
+            OpenApiVersion version = Utils.getOpenAPIVersion(root);
             if (version == OpenApiVersion.Unknown) {
                 updateSchemas = knownOpenAPIFiles.contains(fileName);
                 knownOpenAPIFiles.remove(fileName);
@@ -317,7 +317,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         if (root == null) {
             root = getParser(fileName).parse(getTextFromFile(fileName, true));
         }
-        if (OpenApiUtils.getOpenAPIVersion(root) == OpenApiVersion.Unknown) {
+        if (Utils.getOpenAPIVersion(root) == OpenApiVersion.Unknown) {
             throw new Exception("Unknown OAS version");
         } else {
             putInCache(fileName, root);
@@ -330,7 +330,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         if (root == null) {
             versionCache.put(fileName, null);
         } else {
-            versionCache.put(fileName, OpenApiUtils.getOpenAPIVersion(root));
+            versionCache.put(fileName, Utils.getOpenAPIVersion(root));
         }
     }
 
@@ -340,7 +340,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     }
 
     private ParserAST getParser(String fileName) {
-        return (OpenApiUtils.getFileType(fileName) == OpenApiFileType.Json) ? parserJsonAST : parserYamlAST;
+        return (Utils.getFileType(fileName) == OpenApiFileType.Json) ? parserJsonAST : parserYamlAST;
     }
 
     @Override
@@ -350,7 +350,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     }
 
     private void dfsParsedTree(@NotNull String fileName, @Nullable Node root) {
-        if (PlatformConnection.isPlatformUsed()) {
+        if (PlatformConnection.isPlatformIntegrationEnabled()) {
             DictionaryService ddService = DictionaryService.getInstance(project);
             if (!ddService.getDictionaries().isEmpty()) {
                 if (root == null || (getOpenAPIVersion(fileName) == OpenApiVersion.Unknown)) {

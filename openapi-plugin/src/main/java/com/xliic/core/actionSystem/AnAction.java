@@ -3,6 +3,7 @@ package com.xliic.core.actionSystem;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AnAction extends AbstractHandler {
 
@@ -22,7 +23,7 @@ public abstract class AnAction extends AbstractHandler {
         }
     }
 
-    public abstract void update(AnActionEvent event);
+    public abstract void update(@NotNull AnActionEvent event);
 
-    public abstract void actionPerformed(AnActionEvent event);
+    public abstract void actionPerformed(@NotNull AnActionEvent event);
 }

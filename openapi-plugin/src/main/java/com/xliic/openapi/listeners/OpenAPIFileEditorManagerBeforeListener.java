@@ -1,7 +1,9 @@
 package com.xliic.openapi.listeners;
 
 import static com.xliic.core.util.ObjectUtils.tryCast;
-import static com.xliic.openapi.OpenApiUtils.getFileType;
+import static com.xliic.openapi.utils.TempFileUtils.isPlatformFile;
+import static com.xliic.openapi.utils.TempFileUtils.isPluginTempDeadFile;
+import static com.xliic.openapi.utils.Utils.getFileType;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +15,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
@@ -32,7 +33,7 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
             return;
         }
         final Project project = source.getProject();
-        if (TempFileUtils.isPluginTempDeadFile(file)) {
+        if (isPluginTempDeadFile(file)) {
             return;
         }
         if (FileEditorManager.getInstance(project).getAllEditors(file).length > 1) {
@@ -42,7 +43,7 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
         ASTService astService = ASTService.getInstance(project);
         astService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_OPENED, file);
 
-        if (TempFileUtils.isPlatformFile(file)) {
+        if (isPlatformFile(file)) {
             PlatformService platformService = PlatformService.getInstance(project);
             platformService.addListener(file);
         }
@@ -55,7 +56,7 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
         if (getFileType(file) == OpenApiFileType.Unsupported) {
             return;
         }
-        if (TempFileUtils.isPluginTempDeadFile(file)) {
+        if (isPluginTempDeadFile(file)) {
             return;
         }
         final Project project = source.getProject();
@@ -66,7 +67,6 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
 
         ASTService astService = ASTService.getInstance(project);
         astService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_CLOSED, file);
-
         BundleService bundleService = BundleService.getInstance(project);
         bundleService.runAsyncTask(project, AsyncTaskType.BEFORE_FILE_CLOSED, file);
 
@@ -79,7 +79,7 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
             }
         }
 
-        if (TempFileUtils.isPlatformFile(file)) {
+        if (isPlatformFile(file)) {
             SwingUtilities.invokeLater(() -> {
                 if (!project.isDisposed()) {
                     PlatformService platformService = PlatformService.getInstance(project);

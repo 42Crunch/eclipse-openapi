@@ -18,10 +18,10 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.Icon;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.quickfix.managers.FixManager;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.utils.Utils;
 
 public class FixSnippetAction extends AnJAction implements DumbAware {
 
@@ -62,7 +62,7 @@ public class FixSnippetAction extends AnJAction implements DumbAware {
     private PsiFile getOpenAPIPsiFile(@NotNull AnJActionEvent event) {
         Project project = event.getProject();
         if (project != null) {
-            VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+            VirtualFile file = Utils.getSelectedOpenAPIFile(project);
             if (file != null) {
                 return PsiManager.getInstance(project).findFile(file);
             }

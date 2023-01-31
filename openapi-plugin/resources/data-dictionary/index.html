@@ -18,12 +18,10 @@
 		window.initWebJS = function() {
 			window.dispatchMessage = function(message) {
 				switch (message.command) {
-					case 'showDictionary':
-						window.postMessage({ command: "showDictionary", payload: JSON.parse(message.payload) });
-						break;
 					case 'changeTheme':
-					window.postMessage({ command: "changeTheme", payload: message.payload });
-					break;
+					case 'showDictionary':
+						window.postMessage({ command: message.command, payload: message.payload });
+						break;
 				}
 			};
 			const host = { postMessage: (message) => window.__EclipseJTools.postMessage(JSON.stringify(message)) };

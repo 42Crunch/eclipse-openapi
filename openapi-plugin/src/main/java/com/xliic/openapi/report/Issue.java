@@ -13,13 +13,13 @@ import com.xliic.core.project.Project;
 import com.xliic.core.util.TextRange;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleLocation;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.utils.Utils;
 
 public class Issue {
 
@@ -92,7 +92,7 @@ public class Issue {
         result.put("displayScore", getDisplayScore());
         result.put("criticality", getCriticality());
         if (uri == null) {
-            result.put("documentUri", OpenApiUtils.getURI(getFileName()));
+            result.put("documentUri", Utils.getURI(getFileName()));
         } else {
             result.put("documentUri", ExtRef.getInternalURI(uri));
         }

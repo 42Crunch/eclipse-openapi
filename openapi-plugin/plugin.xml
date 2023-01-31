@@ -177,7 +177,16 @@
             id="com.xliic.openapi.tryit.jcef.ui.JCEFTryItPanelView"
             inject="true"
             name="Tty It">
-      </view>      
+      </view>  
+      <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class="com.xliic.openapi.platform.scan.jcef.ui.JCEFScanPanelView"
+            icon="icons/scanPanel.png"
+            id="com.xliic.openapi.platform.scan.jcef.ui.JCEFScanPanelView"
+            inject="true"
+            name="Scan">
+      </view>        
    </extension>
 
 	<extension point="org.eclipse.ui.services">
@@ -224,6 +233,14 @@
 		
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.TryItServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.api.ITryItService"></service>
+		</serviceFactory>
+		
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ScanServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.IScanService"></service>
+		</serviceFactory>
+
+		<serviceFactory factoryClass="com.xliic.openapi.services.factory.TerminalServiceFactory">
+			<service serviceClass="com.xliic.openapi.services.api.ITerminalService"></service>
 		</serviceFactory>
 		
 	</extension>

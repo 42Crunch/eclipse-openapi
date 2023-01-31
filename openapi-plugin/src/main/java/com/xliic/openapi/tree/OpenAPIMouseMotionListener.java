@@ -12,11 +12,11 @@ import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.MouseMotionListener;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.tree.node.BaseNode;
+import com.xliic.openapi.utils.TempFileUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class OpenAPIMouseMotionListener extends MouseMotionListener {
 
@@ -39,7 +39,7 @@ public class OpenAPIMouseMotionListener extends MouseMotionListener {
         if (tp == null) {
             return;
         }
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if ((file == null) || TempFileUtils.isExtRefFile(file)) {
             return;
         }

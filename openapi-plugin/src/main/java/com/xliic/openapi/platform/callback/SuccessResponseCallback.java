@@ -5,9 +5,7 @@ import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
-import com.xliic.core.util.SwingUtilities;
-import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.utils.MsgUtils;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -24,8 +22,7 @@ public abstract class SuccessResponseCallback implements Callback {
 
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        SwingUtilities.invokeLater(
-                () -> Messages.showMessageDialog(project, e.getMessage(), OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+        MsgUtils.error(project, e.getMessage(), true);
     }
 
     public abstract void onCode200Response();
@@ -38,8 +35,7 @@ public abstract class SuccessResponseCallback implements Callback {
                 onCode200Response();
             } else {
                 String msg = "Response code " + code + " message " + response.message();
-                SwingUtilities.invokeLater(
-                        () -> Messages.showMessageDialog(project, msg, OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+                MsgUtils.error(project, msg, true);
             }
         }
     }

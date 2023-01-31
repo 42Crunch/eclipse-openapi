@@ -50,6 +50,9 @@ public class OpenAPIImages {
     public static final ImageDescriptor TryIt;
     public static final ImageDescriptor TryItPanel;
 
+    public static final ImageDescriptor Scan;
+    public static final ImageDescriptor ScanPanel;
+
     private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
 
     static {
@@ -95,6 +98,9 @@ public class OpenAPIImages {
 
         TryIt = createImageDescriptor("/icons/tryit.png");
         TryItPanel = createImageDescriptor("/icons/tryitPanel.png");
+
+        Scan = createImageDescriptor("/icons/scan.png");
+        ScanPanel = createImageDescriptor("/icons/scanPanel.png");
     }
 
     private static ImageDescriptor createImageDescriptor(String path) {

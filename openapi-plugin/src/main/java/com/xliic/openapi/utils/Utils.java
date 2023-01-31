@@ -1,17 +1,16 @@
-package com.xliic.openapi;
+package com.xliic.openapi.utils;
 
 import static com.xliic.openapi.OpenApiPanelKeys.OPENAPI_KEY;
 import static com.xliic.openapi.OpenApiPanelKeys.SWAGGER_KEY;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -21,6 +20,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
@@ -35,24 +36,26 @@ import com.xliic.core.psi.LeafPsiElement;
 import com.xliic.core.psi.PsiElement;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.util.Pair;
-import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
+import com.xliic.openapi.ExtRef;
+import com.xliic.openapi.OpenApiFileType;
+import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.quickfix.editor.DocumentIndent;
 import com.xliic.openapi.report.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.ExtRefService;
 
-public class OpenApiUtils {
+public class Utils {
 
     public static final String REF = "$ref";
     public static final String REF_DELIMITER = "#/";
@@ -62,6 +65,8 @@ public class OpenApiUtils {
     public final static ElementPattern<PsiElement> YAML_REF_PATTERN = new YamlElementPattern<>();
 
     public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
+    private static final String TAB_REPLACE_REGEXP = "(?<!\\\\)\\t";
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public static String pointer(String parentPointer, String key) {
         return parentPointer + POINTER_SEPARATOR + escape(key);
@@ -227,6 +232,7 @@ public class OpenApiUtils {
         return result.toString();
     }
 
+    @Nullable
     public static Node getJsonAST(@NotNull String text) {
         try {
             return new ParserJsonAST().parse(text);
@@ -321,12 +327,6 @@ public class OpenApiUtils {
         return null;
     }
 
-    public static String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        return domain != null && domain.startsWith("www.") ? domain.substring(4) : domain;
-    }
-
     public static String getFileNameFromURL(@NotNull String href, @NotNull String defaultName) {
         try {
             URL url = new URL(href);
@@ -334,11 +334,6 @@ public class OpenApiUtils {
         } catch (MalformedURLException ignored) {
         }
         return defaultName;
-    }
-
-    public static void showErrorMessageDialog(@NotNull Project project, @NotNull String message) {
-        SwingUtilities.invokeLater(
-                () -> Messages.showMessageDialog(project, message, OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
     }
 
     public static String getURI(String fileName) {
@@ -351,13 +346,28 @@ public class OpenApiUtils {
     }
 
     @NotNull
-    public static String wrapJsonToString(@NotNull String value) {
-        value = value.replace("\"", "\\\"");
-        value = value.replace("\b", "\\b");
-        value = value.replace("\f", "\\f");
-        value = value.replace("\n", "");
-        value = value.replace("\r", "");
-        return value.replace("\t", "");
+    public static String convertAllTabsToSpaces(@NotNull String text, int indent) {
+        return text.replaceAll(TAB_REPLACE_REGEXP, new DocumentIndent(indent, ' ').toString());
+    }
+
+    @Nullable
+    public static String serialize(@NotNull ObjectMapper mapper, @NotNull Object data) {
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @NotNull
+    public static Object deserialize(@NotNull String json, @NotNull Object defaultObj) {
+        try {
+            return OBJECT_MAPPER.readValue(json, Map.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return defaultObj;
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {

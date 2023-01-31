@@ -1,18 +1,20 @@
 package com.xliic.openapi.tryit.payload;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.Payload;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.tryit.TryItUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class TryItOperation implements Payload {
 
@@ -49,12 +51,13 @@ public class TryItOperation implements Payload {
     public void setOas(@NotNull BundleResult bundle) {
         oas = TryItUtils.extractSingleOperation(path, method, bundle);
         if (preferredExamplePointer != null) {
-            Node root = OpenApiUtils.getJsonAST(oas);
+            Node root = Utils.getJsonAST(oas);
             if (root != null) {
                 Node target = root.find(preferredExamplePointer);
                 if (target != null) {
                     Range range = target.getValueRange();
                     preferredBodyValue = oas.substring(range.getStartOffset(), range.getEndOffset());
+                    preferredBodyValue = StringUtils.strip(preferredBodyValue, "\"");
                 }
             }
         }
@@ -95,14 +98,14 @@ public class TryItOperation implements Payload {
     @NotNull
     public Map<String, Object> getProperties() {
         Map<String, Object> result = new HashMap<>();
-        result.put("oas", OpenApiUtils.wrapJsonToString(oas));
+        result.put("oas", Utils.deserialize(oas, Collections.EMPTY_MAP));
         result.put("path", path);
         result.put("method", method);
         if (preferredMediaType != null) {
             result.put("preferredMediaType", preferredMediaType);
         }
         if (preferredBodyValue != null) {
-            result.put("preferredBodyValue", OpenApiUtils.wrapJsonToString(preferredBodyValue));
+            result.put("preferredBodyValue", Utils.deserialize(preferredBodyValue, preferredBodyValue));
         }
         result.put("config", config.getProperties());
         return result;

@@ -12,12 +12,13 @@ import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.platform.tree.form.PlatformURLChooser;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.Utils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -55,23 +56,23 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
                     if (body != null) {
                         String text = body.string().trim();
                         if (StringUtils.isEmpty(text) || !(text.startsWith("{") && text.endsWith("}"))) {
-                            OpenApiUtils.showErrorMessageDialog(project, ERROR_JSON_INVALID);
+                            MsgUtils.error(project, ERROR_JSON_INVALID, true);
                             return;
                         }
                         try {
                             new Gson().fromJson(text, Object.class);
                         } catch (JsonSyntaxException ex) {
-                            OpenApiUtils.showErrorMessageDialog(project, ERROR_JSON_INVALID);
+                            MsgUtils.error(project, ERROR_JSON_INVALID, true);
                             return;
                         }
-                        Node root = OpenApiUtils.getJsonAST(text);
+                        Node root = Utils.getJsonAST(text);
                         if (root == null) {
-                            OpenApiUtils.showErrorMessageDialog(project, ERROR_JSON_INVALID);
+                            MsgUtils.error(project, ERROR_JSON_INVALID, true);
                             return;
                         }
-                        OpenApiVersion version = OpenApiUtils.getOpenAPIVersion(root);
+                        OpenApiVersion version = Utils.getOpenAPIVersion(root);
                         if (version == OpenApiVersion.Unknown) {
-                            OpenApiUtils.showErrorMessageDialog(project, ERROR_JSON_OPENAPI_UNKNOWN);
+                            MsgUtils.error(project, ERROR_JSON_OPENAPI_UNKNOWN, true);
                             return;
                         }
                         String name = "";
@@ -80,12 +81,12 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
                             name = titleNode.getValue();
                         }
                         if (StringUtils.isEmpty(name)) {
-                            name = OpenApiUtils.getFileNameFromURL(href, "defaultAPI");
+                            name = Utils.getFileNameFromURL(href, "defaultAPI");
                         }
                         PlatformAPIs.createAPI(collectionId, name, text, new PlatformImportAPICallback(project, tree, collectionId, name));
                     }
                 } catch (IOException e) {
-                    OpenApiUtils.showErrorMessageDialog(project, e.getMessage());
+                    MsgUtils.error(project, e.getMessage(), true);
                 }
             }
         }

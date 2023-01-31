@@ -1,7 +1,7 @@
 package com.xliic.openapi.services;
 
-import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +20,9 @@ import com.xliic.core.application.ModalityState;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
+import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.progress.ProgressManager;
+import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
@@ -30,15 +33,14 @@ import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.listeners.PlatformDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
-import com.xliic.openapi.platform.PlatformAuditWaiter;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.PlatformReopener;
+import com.xliic.openapi.platform.PlatformReportPuller;
 import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.PlatformFavoriteState;
 import com.xliic.openapi.platform.tree.ui.PlatformPanelView;
@@ -48,6 +50,7 @@ import com.xliic.openapi.services.api.IPlatformService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.utils.Utils;
 
 import okhttp3.Callback;
 
@@ -56,18 +59,20 @@ public final class PlatformService implements IPlatformService, SettingsListener
     private static final String CONFIRMATION = "Are you sure you want to update remote API?";
 
     private final Project project;
-    private final List<PlatformAuditWaiter> auditWaiters;
+    private final List<Task.Backgroundable> auditBkgTasks;
     private final Map<String, Boolean> modificationsMap;
     private final Map<String, PlatformDocumentListener> listenersMap;
+    private final Map<String, Date> assessmentLastDates;
     private final Map<DefaultMutableTreeNode, Callback> treeAsyncCallbacksMap;
     private final PlatformReopener reopener;
     private PlatformFavoriteState favoriteState = new PlatformFavoriteState();
 
     public PlatformService(@NotNull Project project) {
         this.project = project;
-        auditWaiters = Collections.synchronizedList(new LinkedList<>());
+        auditBkgTasks = Collections.synchronizedList(new LinkedList<>());
         modificationsMap = new ConcurrentHashMap<>();
         listenersMap = new HashMap<>();
+        assessmentLastDates = new HashMap<>();
         treeAsyncCallbacksMap = new ConcurrentHashMap<>();
         reopener = new PlatformReopener(project);
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
@@ -75,6 +80,10 @@ public final class PlatformService implements IPlatformService, SettingsListener
 
     public static PlatformService getInstance(@NotNull Project project) {
         return project.getService(PlatformService.class);
+    }
+
+    public void subscribe() {
+        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
     @Override
@@ -88,18 +97,39 @@ public final class PlatformService implements IPlatformService, SettingsListener
         favoriteState = state;
     }
 
+    @Nullable
+    public Date getAssessmentLastDate(@NotNull String apiId) {
+        return assessmentLastDates.get(apiId);
+    }
+
+    public void setAssessmentLastDate(@NotNull String apiId, @NotNull Date date) {
+        assessmentLastDates.put(apiId, date);
+    }
+
     public Map<DefaultMutableTreeNode, Callback> getTreeAsyncCallbacks() {
         return treeAsyncCallbacksMap;
     }
 
     public void waitForPlatformAudit(@NotNull String apiId, @Nullable VirtualFile file) {
-        PlatformAuditWaiter waiter = new PlatformAuditWaiter(project, apiId, file);
-        new Thread(waiter).start();
-        auditWaiters.add(waiter);
+        Task.Backgroundable task = new Task.Backgroundable(project, "Platform audit", false) {
+            @Override
+            public void run(@NotNull ProgressIndicator progressIndicator) {
+                progressIndicator.setText("Waiting for assessment report");
+                try {
+                    Node report = new PlatformReportPuller(project, apiId,1000, 60000).get();
+                    PlatformService platformService = PlatformService.getInstance(project);
+                    platformService.platformAuditReady(apiId, file, report);
+                } catch (Exception ignored) {
+                } finally {
+                    auditBkgTasks.remove(this);
+                }
+            }
+        };
+        auditBkgTasks.add(task);
+        ProgressManager.getInstance().run(task);
     }
 
-    public void platformAuditReady(@NotNull String apiId, @Nullable VirtualFile file, @Nullable Node node, @NotNull PlatformAuditWaiter waiter) {
-        auditWaiters.remove(waiter);
+    public void platformAuditReady(@NotNull String apiId, @Nullable VirtualFile file, @Nullable Node node) {
         if (node != null) {
             Node assessment = node.find("/attr/data");
             float grade = Float.parseFloat(assessment.getChild("grade").getValue());
@@ -109,8 +139,10 @@ public final class PlatformService implements IPlatformService, SettingsListener
             if (file != null) {
                 AuditService auditService = AuditService.getInstance(project);
                 Audit report = auditService.getAuditReport(file.getPath());
-                byte[] decodedBytes = Base64.getDecoder().decode(node.getChild("data").getValue());
-                Node reportNode = OpenApiUtils.getJsonAST(new String(decodedBytes));
+                Node reportNode = PlatformUtils.getAssessmentReportNode(node);
+                if (reportNode == null) {
+                    return;
+                }
                 ApplicationManager.getApplication().runReadAction(() -> {
                     boolean showAsHTML = report == null || report.isShowAsHTML();
                     boolean showAsProblems = report == null || report.isShowAsProblems();
@@ -130,13 +162,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            if (PlatformConnection.isEmpty()) {
-                ToolWindow window = manager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
-                if (window != null && !window.isDisposed()) {
-                    window.remove();
-                }
-                EclipseUtil.removeTempProject();
-            } else {
+            if (PlatformConnection.isPlatformIntegrationEnabled()) {
                 ToolWindow platformWindow = manager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
                 if (platformWindow != null && !platformWindow.isDisposed()) {
                     PlatformPanelView view = (PlatformPanelView) platformWindow.getView();
@@ -148,6 +174,12 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 // Eclipse Development Note: view is always registered, open it in its
                 // perspective scope
                 createPlatformWindow(true);
+            } else {
+                ToolWindow window = manager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
+                if (window != null && !window.isDisposed()) {
+                    window.remove();
+                }
+                EclipseUtil.removeTempProject();
             }
         }
     }
@@ -155,7 +187,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     public void createPlatformWindow(boolean activate) {
         if (activate) {
             ApplicationManager.getApplication().invokeAndWait(() -> {
-                OpenApiUtils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
+                Utils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
             }, ModalityState.NON_MODAL);
         }
@@ -209,7 +241,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
             if (document != null) {
                 ApplicationManager.getApplication().invokeLaterOnWriteThread(() -> {
                     FileDocumentManager.getInstance().saveDocument(document);
-                    String text = OpenApiUtils.getTextFromFile(file);
+                    String text = Utils.getTextFromFile(file);
                     if (text != null) {
                         String apiId = PlatformUtils.getApiId(file);
                         PlatformAPIs.updateAPIContent(apiId, text, new SuccessResponseCallback(project) {
@@ -237,8 +269,9 @@ public final class PlatformService implements IPlatformService, SettingsListener
         project.getMessageBus().connect().unsubscribe(this);
         modificationsMap.clear();
         listenersMap.clear();
-        auditWaiters.clear();
+        auditBkgTasks.clear();
         treeAsyncCallbacksMap.clear();
         reopener.dispose();
+        assessmentLastDates.clear();
     }
 }

@@ -43,6 +43,10 @@ public class JTextField implements Validator {
         });
     }
 
+    public void setToolTipText(String text) {
+        textWidget.setToolTipText(text);
+    }
+
     public void forceFocus() {
         textWidget.forceFocus();
     }

@@ -11,7 +11,7 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
+import com.xliic.openapi.utils.Utils;
 
 final public class DictionaryHighlightingPassFactory implements TextEditorHighlightingPassFactory, TextEditorHighlightingPassFactoryRegistrar {
 
@@ -22,7 +22,7 @@ final public class DictionaryHighlightingPassFactory implements TextEditorHighli
 
     @Override
     public TextEditorHighlightingPass createHighlightingPass(@NotNull final PsiFile file, @NotNull final Editor editor) {
-        if ((editor.getProject() != null) && (OpenApiUtils.getFileType(file.getVirtualFile()) != OpenApiFileType.Unsupported)) {
+        if ((editor.getProject() != null) && (Utils.getFileType(file.getVirtualFile()) != OpenApiFileType.Unsupported)) {
             return new DictionaryHighlightingPass(file, editor);
         }
         return null;

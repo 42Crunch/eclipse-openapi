@@ -1,6 +1,5 @@
 package com.xliic.openapi.platform;
 
-import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,7 +11,6 @@ import com.xliic.core.credentialStore.CredentialAttributesKt;
 import com.xliic.core.credentialStore.Credentials;
 import com.xliic.core.ide.passwordSafe.PasswordSafe;
 import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.settings.Settings;
 
 public class PlatformConnection {
@@ -35,26 +33,17 @@ public class PlatformConnection {
         this.platformUrl = platformUrl;
     }
 
-    public static boolean isPlatformUsed() {
-        return !isEmpty();
-    }
-
-    public static boolean isEmpty() {
-        String platformURL = PropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.URL);
-        String apiToken = getPlatformAPIKey();
-        return StringUtils.isEmpty(platformURL) || StringUtils.isEmpty(apiToken);
+    public static boolean isPlatformIntegrationEnabled() {
+        String url = PropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.URL);
+        if (StringUtils.isEmpty(url)) {
+            return false;
+        }
+        String key = getPlatformAPIKey();
+        return !StringUtils.isEmpty(key);
     }
 
     public static boolean isAPIKeyValid(@NotNull String apiKey) {
         return UUID_REGEX.matcher(apiKey).matches();
-    }
-
-    public static boolean isURLValid(@NotNull String url) {
-        try {
-            return StringUtils.isNotEmpty(OpenApiUtils.getDomainName(url));
-        } catch (URISyntaxException e) {
-            return false;
-        }
     }
 
     public static PlatformConnection getOptions() {
@@ -101,14 +90,5 @@ public class PlatformConnection {
 
     public String getPlatformUrl() {
         return platformUrl;
-    }
-
-    @NotNull
-    public String getDomainName(@NotNull String defaultName) {
-        try {
-            return OpenApiUtils.getDomainName(platformUrl);
-        } catch (URISyntaxException e) {
-            return defaultName;
-        }
     }
 }

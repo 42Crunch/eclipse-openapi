@@ -21,7 +21,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
@@ -35,6 +34,7 @@ import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.services.api.IDictionaryService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.utils.Utils;
 
 public final class DictionaryService implements IDictionaryService, SettingsListener, Disposable {
 
@@ -49,11 +49,14 @@ public final class DictionaryService implements IDictionaryService, SettingsList
 
     public DictionaryService(@NotNull Project project) {
         this.project = project;
-        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
     public static DictionaryService getInstance(@NotNull Project project) {
         return project.getService(DictionaryService.class);
+    }
+
+    public void subscribe() {
+        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
     @Override
@@ -91,7 +94,7 @@ public final class DictionaryService implements IDictionaryService, SettingsList
                         if (redraw) {
                             createOrActiveDictionaryWindow(project, register);
                         }
-                        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+                        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
                         if (file != null) {
                             ASTService astService = ASTService.getInstance(project);
                             astService.runAsyncTask(project, AsyncTaskType.RUN_TREE_DFS, file);
@@ -182,7 +185,7 @@ public final class DictionaryService implements IDictionaryService, SettingsList
             if (toolWindow == null && !register) {
                 return;
             }
-            OpenApiUtils.activateToolWindow(project, PLATFORM_DICTIONARY);
+            Utils.activateToolWindow(project, PLATFORM_DICTIONARY);
             project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadDictionary();
         }, ModalityState.NON_MODAL);
     }
@@ -198,14 +201,14 @@ public final class DictionaryService implements IDictionaryService, SettingsList
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            if (PlatformConnection.isEmpty()) {
+            if (PlatformConnection.isPlatformIntegrationEnabled()) {
+                reload(false);
+            } else {
                 ToolWindow window = manager.getToolWindow(PLATFORM_DICTIONARY);
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
                 dispose();
-            } else {
-                reload(false);
             }
         }
     }

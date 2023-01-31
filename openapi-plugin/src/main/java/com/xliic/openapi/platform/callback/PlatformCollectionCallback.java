@@ -11,7 +11,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
 
@@ -23,19 +22,29 @@ public class PlatformCollectionCallback extends SuccessASTResponseWithFailureDec
 
     @Override
     public void onCode200ASTResponse(@NotNull Node node) {
+        List<PlatformCollection> collections = getCollections(node);
+        SwingUtilities.invokeLater(() -> PlatformCollectionUtils.addAll(project, tree, parentDMTN, collections));
+    }
+
+    public static List<PlatformCollection> getCollections(@NotNull Node node) {
         Node list = node.find("/list");
         List<PlatformCollection> collections = new LinkedList<>();
         if (list != null) {
             for (Node item : list.getChildren()) {
-                String id = item.getChild("desc").getChild("id").getValue();
-                String name = item.getChild("desc").getChild("name").getValue();
-                boolean locked = !Boolean.parseBoolean(item.getChild("summary").getChild("writeApis").getValue());
+                String id, name;
+                Node desc = item.getChild("desc");
+                if (desc == null) {
+                    id = item.getChild("id").getValue();
+                    name = item.getChild("name").getValue();
+                } else {
+                    id = desc.getChild("id").getValue();
+                    name = desc.getChild("name").getValue();
+                }
+                Node summary = item.getChild("summary");
+                boolean locked = summary != null && !Boolean.parseBoolean(summary.getChild("writeApis").getValue());
                 collections.add(new PlatformCollection(id, name, locked));
             }
         }
-        SwingUtilities.invokeLater(() -> {
-            PlatformCollectionUtils.addAll(project, tree, parentDMTN, collections);
-            project.getMessageBus().syncPublisher(PlatformListener.TOPIC).collectionsLoaded();
-        });
+        return collections;
     }
 }

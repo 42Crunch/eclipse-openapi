@@ -24,7 +24,6 @@ import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
@@ -32,13 +31,14 @@ import com.xliic.openapi.services.ExtRefService;
 
 public class JCEFReportFunction extends BrowserFunction implements Function<Object, JBCefJSQuery.Response> {
 
+    @NotNull
     private final Project project;
-    private final ObjectMapper mapper;
+    @NotNull
+    private final ObjectMapper mapper = new ObjectMapper();
 
-    public JCEFReportFunction(@NotNull Project project, @NotNull Browser browser) {
-        super(browser, PanelBrowser.FUNCTION_ID);
+    public JCEFReportFunction(@NotNull Project project, @NotNull Browser browser, @NotNull String functionId) {
+        super(browser, functionId);
         this.project = project;
-        mapper = new ObjectMapper();
     }
 
     @Override

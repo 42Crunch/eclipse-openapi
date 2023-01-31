@@ -9,8 +9,8 @@ import com.xliic.core.codeInsight.lookup.LookupElement;
 import com.xliic.core.codeInsight.lookup.LookupElementBuilder;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.services.DictionaryService;
+import com.xliic.openapi.utils.Utils;
 
 import icons.OpenApiIcons;
 
@@ -55,7 +55,7 @@ public class DictionaryCompletionHelper {
             filterStandardPrefix = prefix.replace("o:", "");
             filterPrefix = "o" + filterStandardPrefix;
         }
-        OpenApiFileType type = OpenApiUtils.getFileType(parameters.getFile().getPath());
+        OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
         LookupElement.FileType fileType = LookupElement.convertToLookupElementFileType(type);
         for (DictionaryElement item : ddService.getAllFormats()) {
             LookupElementBuilder builder = LookupElementBuilder.create(item.getElement()).withPresentableText(item.getPresentableText())

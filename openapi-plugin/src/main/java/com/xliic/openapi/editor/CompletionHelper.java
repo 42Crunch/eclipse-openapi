@@ -13,9 +13,9 @@ import com.xliic.core.codeInsight.lookup.LookupElement;
 import com.xliic.core.codeInsight.lookup.LookupElementBuilder;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiTargetMapping;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.Utils;
 
 import icons.OpenApiIcons;
 
@@ -49,7 +49,7 @@ public class CompletionHelper {
         String prefix = parameters.getPrefix();
         Map<String, String> typeTextMapping = OpenApiTargetMapping.getTargetTypeTextMapping(version);
         String typeText = typeTextMapping.get(target);
-        OpenApiFileType type = OpenApiUtils.getFileType(parameters.getFile().getPath());
+        OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
         LookupElement.FileType fileType = LookupElement.convertToLookupElementFileType(type);
         for (Node child : targetNode.getChildren()) {
             LookupElementBuilder builder = LookupElementBuilder.create(NS + child.getJsonPointer()).withIcon(OpenApiIcons.PropertyNode)

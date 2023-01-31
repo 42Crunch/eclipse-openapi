@@ -17,8 +17,6 @@ import com.xliic.core.vfs.VFilePropertyChangeEvent;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
-import com.xliic.openapi.OpenApiUtils;
-import com.xliic.openapi.TempFileUtils;
 import com.xliic.openapi.async.AsyncService;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.report.Audit;
@@ -28,6 +26,8 @@ import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.ExtRefService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.FileListener;
+import com.xliic.openapi.utils.TempFileUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class OpenAPIBulkFileListener extends BulkFileListener {
 
@@ -40,13 +40,13 @@ public class OpenAPIBulkFileListener extends BulkFileListener {
         for (VFileEvent event : events) {
             if (event instanceof VFileMoveEvent) {
                 VirtualFile file = ((VFileMoveEvent) event).getFile();
-                OpenApiFileType fileType = OpenApiUtils.getFileType(file);
+                OpenApiFileType fileType = Utils.getFileType(file);
                 if (fileType != OpenApiFileType.Unsupported) {
                     update(file, ((VFileMoveEvent) event).getOldPath());
                 }
             } else if (event instanceof VFilePropertyChangeEvent) {
                 VirtualFile file = ((VFilePropertyChangeEvent) event).getFile();
-                OpenApiFileType fileType = OpenApiUtils.getFileType(file);
+                OpenApiFileType fileType = Utils.getFileType(file);
                 if (fileType != OpenApiFileType.Unsupported) {
                     update(file, ((VFilePropertyChangeEvent) event).getOldPath());
                 }

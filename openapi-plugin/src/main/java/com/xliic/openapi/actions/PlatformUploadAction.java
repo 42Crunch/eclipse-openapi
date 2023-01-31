@@ -11,7 +11,6 @@ import com.xliic.core.ui.DialogWrapper;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -21,12 +20,13 @@ import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.utils.Utils;
 
 public class PlatformUploadAction extends AnAction implements DumbAware {
 
     @Override
     public void update(@NotNull AnActionEvent event) {
-        if (PlatformConnection.isEmpty()) {
+        if (!PlatformConnection.isPlatformIntegrationEnabled()) {
             event.getPresentation().setVisible(false);
             return;
         }
@@ -35,7 +35,7 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
         if (project == null) {
             return;
         }
-        VirtualFile file = OpenApiUtils.getSelectedOpenAPIFile(project);
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file == null) {
             return;
         }
@@ -54,7 +54,7 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
         if (project == null) {
             return;
         }
-        VirtualFile file = OpenApiUtils.getSelectedFile(project);
+        VirtualFile file = Utils.getSelectedFile(project);
         if (file == null) {
             return;
         }

@@ -9,17 +9,16 @@ import com.xliic.core.fileChooser.FileChooserDescriptor;
 import com.xliic.core.fileChooser.FileChooserFactory;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.bundler.BundleError;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class PlatformImportAPIAction extends AnJAction implements DumbAware {
 
@@ -42,13 +41,13 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
                 VirtualFile.EMPTY_ARRAY);
         if (choose.length == 1) {
             VirtualFile file = choose[0];
-            if (OpenApiUtils.isOpenAPIFileType(file)) {
+            if (Utils.isOpenAPIFileType(file)) {
                 BundleResult result = new BundleResult(project, file.getPath());
                 if (result.isBundleComplete()) {
                     String text = result.getJsonText();
                     if (text != null) {
                         String name = "";
-                        Node root = OpenApiUtils.getJsonAST(text);
+                        Node root = Utils.getJsonAST(text);
                         Node titleNode = root.find("/info/title");
                         if (titleNode != null) {
                             name = titleNode.getValue();
@@ -65,7 +64,7 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
                         for (BundleError error : result.getBundleErrors()) {
                             msg.append(error.getMessage()).append("\n");
                         }
-                        Messages.showMessageDialog(project, msg.toString(), OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon());
+                        MsgUtils.error(project, msg.toString(), false);
                     });
                 }
             }

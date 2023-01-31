@@ -1,6 +1,6 @@
 package com.xliic.openapi.report.tree;
 
-import static com.xliic.openapi.OpenApiUtils.getOpenFileDescriptor;
+import static com.xliic.openapi.utils.Utils.getOpenFileDescriptor;
 
 import java.io.File;
 

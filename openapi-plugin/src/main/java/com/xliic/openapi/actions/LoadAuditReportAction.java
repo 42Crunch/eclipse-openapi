@@ -1,26 +1,23 @@
 package com.xliic.openapi.actions;
 
-import javax.swing.SwingUtilities;
-
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.fileChooser.FileChooserDescriptor;
 import com.xliic.core.fileChooser.FileChooserFactory;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class LoadAuditReportAction extends ProjectAction {
 
     private static final String REPORT_ERROR_MSG = "Can't find 42Crunch Security Audit report in the selected file";
 
     public LoadAuditReportAction() {
-        super("load security audit report from file");
+        super("load security audit report from file", false);
     }
 
     private static boolean isReportValid(Node report) {
@@ -42,21 +39,19 @@ public class LoadAuditReportAction extends ProjectAction {
         if (choose.length == 1) {
             VirtualFile file = choose[0];
             if (file != null) {
-                String text = OpenApiUtils.getTextFromFile(file);
+                String text = Utils.getTextFromFile(file);
                 if (!StringUtils.isEmpty(text)) {
-                    Node report = OpenApiUtils.getJsonAST(text);
+                    Node report = Utils.getJsonAST(text);
                     if (report != null && isReportValid(report)) {
                         AuditActionCallback cb = new AuditActionCallback(project, currentFile);
                         cb.setBeforeRequest();
                         try {
                             cb.setDone(report.getChild("data"), true);
                         } catch (Throwable t) {
-                            SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, REPORT_ERROR_MSG,
-                                    OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+                            MsgUtils.error(project, REPORT_ERROR_MSG, true);
                         }
                     } else {
-                        SwingUtilities.invokeLater(() -> Messages.showMessageDialog(project, REPORT_ERROR_MSG,
-                                OpenApiBundle.message("openapi.error.title"), Messages.getErrorIcon()));
+                        MsgUtils.error(project, REPORT_ERROR_MSG, true);
                     }
                 }
             }

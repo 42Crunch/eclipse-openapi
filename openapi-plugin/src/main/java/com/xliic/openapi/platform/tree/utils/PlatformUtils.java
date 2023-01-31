@@ -2,7 +2,12 @@ package com.xliic.openapi.platform.tree.utils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +15,7 @@ import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.viewers.TreePath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +25,7 @@ import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
@@ -29,10 +36,13 @@ import com.xliic.openapi.platform.tree.node.core.ProgressAware;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformFilterDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
 import com.xliic.openapi.services.PlatformService;
+import com.xliic.openapi.utils.Utils;
 
 import okhttp3.Callback;
 
 public class PlatformUtils {
+
+    private static final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     public static void setInProgress(@Nullable Tree tree, @Nullable DefaultMutableTreeNode targetDMTN, boolean isInProgress) {
         if (tree != null && targetDMTN != null) {
@@ -167,5 +177,30 @@ public class PlatformUtils {
             apiId = fileName.substring(0, fileName.lastIndexOf('.'));
         }
         return apiId;
+    }
+
+    @Nullable
+    public static Node getAssessmentReportNode(@NotNull Node report) {
+        String data = report.getChildValue("data");
+        if (data == null) {
+            return null;
+        }
+        return Utils.getJsonAST(new String(Base64.getDecoder().decode(data)));
+    }
+
+    @Nullable
+    public static Date getLastAssessmentDate(@Nullable Node assessment) {
+        if (assessment == null) {
+            return null;
+        }
+        String serverLastDate = assessment.getChildValue("last");
+        if (StringUtils.isEmpty(serverLastDate)) {
+            return null;
+        }
+        try {
+            return FORMATTER.parse(serverLastDate);
+        } catch (ParseException ignored) {
+        }
+        return null;
     }
 }

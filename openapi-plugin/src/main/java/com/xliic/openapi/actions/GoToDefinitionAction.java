@@ -17,15 +17,15 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenApiUtils;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.utils.Utils;
 
 public class GoToDefinitionAction extends AnAction implements DumbAware {
 
     @Override
-    public void update(AnActionEvent event) {
+    public void update(@NotNull AnActionEvent event) {
         Project project = event.getProject();
         Editor editor = event.getData(CommonDataKeys.EDITOR);
         VirtualFile file = event.getData(CommonDataKeys.VIRTUAL_FILE);
@@ -35,7 +35,7 @@ public class GoToDefinitionAction extends AnAction implements DumbAware {
         }
         BundleService bundleService = BundleService.getInstance(project);
         if (bundleService.isFileBeingBundled(file.getPath())) {
-            event.getPresentation().setEnabled(OpenApiUtils.isPsiRef(getDoubleClickedPsiElement(project, editor)));
+            event.getPresentation().setEnabled(Utils.isPsiRef(getDoubleClickedPsiElement(project, editor)));
         } else {
             event.getPresentation().setEnabled(false);
         }
@@ -54,8 +54,8 @@ public class GoToDefinitionAction extends AnAction implements DumbAware {
         if (psiElement == null) {
             return;
         }
-        String ref = OpenApiUtils.getRefTextFromPsiElement(psiElement);
-        Pair<VirtualFile, Node> result = OpenApiUtils.resolveRef(psiFile, ref);
+        String ref = Utils.getRefTextFromPsiElement(psiElement);
+        Pair<VirtualFile, Node> result = Utils.resolveRef(psiFile, ref);
         if (result == null) {
             showRefNotFoundPopup("No reference found for " + ref, editor.getShell());
         } else {

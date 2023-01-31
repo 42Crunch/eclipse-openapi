@@ -47,7 +47,7 @@ public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
 
     @Override
     public void doCollectInformation(@NotNull final ProgressIndicator progress) {
-        if (!PlatformConnection.isPlatformUsed()) {
+        if (!PlatformConnection.isPlatformIntegrationEnabled()) {
             return;
         }
         DictionaryService ddService = DictionaryService.getInstance(myProject);
