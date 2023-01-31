@@ -1,12 +1,14 @@
 package com.xliic.openapi.platform.scan.payload;
 
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.Utils;
 
 public class ScanReport {
 
@@ -34,7 +36,7 @@ public class ScanReport {
         return data;
     }
 
-    public String getPayload() {
-        return new String(Base64.getDecoder().decode(data));
+    public Object getPayload() {
+        return Utils.deserialize(new String(Base64.getDecoder().decode(data)), Collections.EMPTY_MAP);
     }
 }
