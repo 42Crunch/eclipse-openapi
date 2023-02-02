@@ -2,6 +2,7 @@ package com.xliic.openapi.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,16 +23,9 @@ public final class TerminalService implements ITerminalService, Disposable {
         return project.getService(TerminalService.class);
     }
 
-    public void sendTextQuietly(@NotNull String tabName, @NotNull String command) {
-        try {
-            sendText(tabName, command);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sendText(@NotNull String tabName, @NotNull String command) throws Exception {
-        Process process = Runtime.getRuntime().exec(command);
+    public void sendText(@NotNull String tabName, @NotNull List<String> cmdList) throws Exception {
+        String cmdArray[] = new String[cmdList.size()];
+        Process process = Runtime.getRuntime().exec(cmdList.toArray(cmdArray));
         int exitCode = process.waitFor();
         if (exitCode != 0) {
             String result = new BufferedReader(new InputStreamReader(process.getErrorStream())).readLine();

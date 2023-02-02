@@ -1,9 +1,11 @@
 package com.xliic.openapi.platform.scan.task;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ide.util.PropertiesComponent;
@@ -65,6 +67,13 @@ public class ScanDockerTask extends Task.Backgroundable {
                 callback.setRejected("Scan image is not available");
                 return;
             }
+            String dockerCmd = PropertiesComponent.getInstance().getValue(Settings.Platform.Scan.DOCKER_HOME);
+            if (StringUtils.isEmpty(dockerCmd)) {
+                dockerCmd = "docker";
+            } else {
+                boolean endsWithSeparator = dockerCmd.endsWith("/") || dockerCmd.endsWith("\\\\");
+                dockerCmd = dockerCmd + (endsWithSeparator ? "" : "/") + "docker";
+            }
             ScanService scanService = ScanService.getInstance(project);
             Environment myEnv = scanService.loadEnv();
             Map<String, String> dockerEnv = new HashMap<>();
@@ -74,9 +83,17 @@ public class ScanDockerTask extends Task.Backgroundable {
             dockerEnv.put("SCAN_TOKEN", token);
             dockerEnv.put("PLATFORM_SERVICE", ScanUtils.getServices());
 
-            String dockerArgs = ScanUtils.getCmdLine(dockerEnv);
+            List<String> cmdList = new LinkedList<>();
+            cmdList.add(dockerCmd);
+            cmdList.add("run");
+            cmdList.add("--rm");
+            for (Map.Entry<String, String> e : dockerEnv.entrySet()) {
+                cmdList.add("-e");
+                cmdList.add(e.getKey() + "=" + e.getValue());
+            }
+            cmdList.add(image);
             TerminalService terminalService = TerminalService.getInstance(project);
-            terminalService.sendText(ScanService.TERMINAL_TAB, "docker run --rm " + dockerArgs + " " + image);
+            terminalService.sendText(ScanService.TERMINAL_TAB, cmdList);
 
             progressIndicator.setText("Waiting for scan report");
             String reportId = ScanUtils.waitForScanReport(apiId);

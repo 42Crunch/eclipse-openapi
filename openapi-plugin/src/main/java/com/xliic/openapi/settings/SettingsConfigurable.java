@@ -33,6 +33,7 @@ import com.xliic.core.ui.components.JComponent;
 import com.xliic.core.ui.components.JPanel;
 import com.xliic.core.ui.components.JTextArea;
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.core.util.SystemInfoRt;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.settings.Settings.Audit;
 import com.xliic.openapi.settings.Settings.ExtRef;
@@ -65,6 +66,7 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
     private JPanel platformScanPanel;
     private JTextField platformScanImage;
     private JTextField platformScanServices;
+    private JTextField platformDockerHome;
 
     // Data dictionary
     private JPanel dictPanel;
@@ -128,6 +130,11 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         platformScanServices.setToolTipText("Format hostname:port");
         items.add(new ItemTextField(platformScanImage, Scan.IMAGE));
         items.add(new ItemTextField(platformScanServices, Scan.SERVICES));
+        if (!SystemInfoRt.isWindows) {
+            new Label(platformScanPanel.getComposite(), SWT.NULL).setText("Docker home");
+            platformDockerHome = new JTextField(platformScanPanel);
+            items.add(new ItemTextField(platformDockerHome, Scan.DOCKER_HOME));
+        }
 
         dictPanel = new JPanel("Data Dictionary", parent, SWT.NONE, 2);
         new Label(dictPanel.getComposite(), SWT.NULL).setText("Update document to match Data Dictionary definitions before runing Security Audit");

@@ -49,12 +49,6 @@ public class ScanUtils {
     private static final int PULL_REPORT_DURATION = 60000;
 
     @NotNull
-    public static String getCmdLine(@NotNull Map<String, String> env) {
-        return env.entrySet().stream().map(
-                e -> "-e " + e.getKey() + "=\"" + e.getValue() + "\"").collect(Collectors.joining(" "));
-    }
-
-    @NotNull
     public static String getTempAPI(@NotNull Project project, @NotNull String oas, @NotNull ProgressIndicator progressIndicator) throws Exception {
         progressIndicator.setText("Creating temporary platform API");
         PlatformAPI api = ScanUtils.createTempApi(oas);
