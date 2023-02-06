@@ -4,14 +4,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.SystemInfoRt;
 import com.xliic.openapi.platform.scan.Environment;
 import com.xliic.openapi.platform.scan.ScanConfiguration;
 import com.xliic.openapi.platform.scan.ScanRunConfig;
@@ -67,13 +68,7 @@ public class ScanDockerTask extends Task.Backgroundable {
                 callback.setRejected("Scan image is not available");
                 return;
             }
-            String dockerCmd = PropertiesComponent.getInstance().getValue(Settings.Platform.Scan.DOCKER_HOME);
-            if (StringUtils.isEmpty(dockerCmd)) {
-                dockerCmd = "docker";
-            } else {
-                boolean endsWithSeparator = dockerCmd.endsWith("/") || dockerCmd.endsWith("\\\\");
-                dockerCmd = dockerCmd + (endsWithSeparator ? "" : "/") + "docker";
-            }
+
             ScanService scanService = ScanService.getInstance(project);
             Environment myEnv = scanService.loadEnv();
             Map<String, String> dockerEnv = new HashMap<>();
@@ -84,14 +79,24 @@ public class ScanDockerTask extends Task.Backgroundable {
             dockerEnv.put("PLATFORM_SERVICE", ScanUtils.getServices());
 
             List<String> cmdList = new LinkedList<>();
-            cmdList.add(dockerCmd);
-            cmdList.add("run");
-            cmdList.add("--rm");
-            for (Map.Entry<String, String> e : dockerEnv.entrySet()) {
-                cmdList.add("-e");
-                cmdList.add(e.getKey() + "=" + e.getValue());
+            if (SystemInfoRt.isWindows) {
+            	cmdList.add("docker");
+                cmdList.add("run");
+                cmdList.add("--rm");
+                for (Map.Entry<String, String> e : dockerEnv.entrySet()) {
+                    cmdList.add("-e");
+                    cmdList.add(e.getKey() + "=" + e.getValue());
+                }
+                cmdList.add(image);
+            } else {
+            	cmdList.add("bash");
+            	cmdList.add("--login");
+            	cmdList.add("-c");
+            	cmdList.add("docker run --rm " + dockerEnv.entrySet().stream().map(
+                        e -> "-e " + e.getKey() + "=" + e.getValue()).collect(
+                        		Collectors.joining(" ")) + " " + image);
             }
-            cmdList.add(image);
+            
             TerminalService terminalService = TerminalService.getInstance(project);
             terminalService.sendText(ScanService.TERMINAL_TAB, cmdList);
 

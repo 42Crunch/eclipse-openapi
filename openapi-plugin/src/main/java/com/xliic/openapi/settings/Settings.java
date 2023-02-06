@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.credentialStore.CredentialAttributes;
 import com.xliic.core.credentialStore.CredentialAttributesKt;
 import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.core.util.SystemInfoRt;
 import com.xliic.openapi.platform.PlatformConnection;
 
 public class Settings {
@@ -60,7 +59,6 @@ public class Settings {
 
             public static final String IMAGE = "com.xliic.openapi.settings.platform.scan.image";
             public static final String SERVICES = "com.xliic.openapi.settings.platform.scan.services";
-            public static final String DOCKER_HOME = "com.xliic.openapi.settings.platform.scan.docker.home";
             public static final String ENV_DEFAULT_KEY = "com.xliic.openapi.settings.platform.scan.default.env";
             public static final String ENV_SECRETS_KEY = "com.xliic.openapi.settings.platform.scan.secrets.env";
 
@@ -72,9 +70,6 @@ public class Settings {
                 }
                 if (!settings.isValueSet(SERVICES)) {
                     settings.setValue(SERVICES, "");
-                }
-                if (!settings.isValueSet(DOCKER_HOME)) {
-                    settings.setValue(DOCKER_HOME, SystemInfoRt.isWindows ? "" : "/usr/local/bin");
                 }
             }
         }
