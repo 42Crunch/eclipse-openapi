@@ -24,6 +24,7 @@ import com.xliic.openapi.settings.Settings;
 
 public class ScanDockerTask extends Task.Backgroundable {
 
+	private static final String DEFAULT_SHELL = "sh";
     private static final String DEFAULT_CONFIG_NAME = "updated";
 
     @NotNull
@@ -89,7 +90,11 @@ public class ScanDockerTask extends Task.Backgroundable {
                 }
                 cmdList.add(image);
             } else {
-            	cmdList.add("bash");
+            	String shell = System.getenv().get("SHELL");
+            	if (shell == null || shell.endsWith("csh") || shell.endsWith("tcsh")) {
+            		shell = DEFAULT_SHELL;
+            	}
+            	cmdList.add(shell);
             	cmdList.add("--login");
             	cmdList.add("-c");
             	cmdList.add("docker run --rm " + dockerEnv.entrySet().stream().map(
