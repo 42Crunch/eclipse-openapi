@@ -1,7 +1,5 @@
 package com.xliic.openapi.platform.dictionary.quickfix.managers;
 
-import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +11,6 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.parser.ast.NodeUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.dictionary.quickfix.DictionaryUpdate;
-import com.xliic.openapi.platform.dictionary.types.DataDictionary;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixType;
@@ -36,7 +33,7 @@ public class FixManagerUpdateAllDictionary extends FixManager {
 
     @Override
     public List<FixItem> getFixItems() {
-        return getItems(update, isJson(psiFile));
+        return getItems(update, isJson);
     }
 
     @Override
@@ -54,7 +51,8 @@ public class FixManagerUpdateAllDictionary extends FixManager {
             StringBuilder builder = new StringBuilder();
             int index = 0;
             for (String prop : propsToAdd) {
-                Object value = X_42C_FORMAT_KEY.equals(prop) ? getFullFormatValue(container, dataFormat) : dataFormat.get(prop);
+                // Set true even if file is yaml because we assemble json below
+                Object value = dataFormat.get(prop, true);
                 if (value instanceof String) {
                     builder.append(prop).append(": ").append("\"").append(value).append("\"");
                 } else {
@@ -75,16 +73,10 @@ public class FixManagerUpdateAllDictionary extends FixManager {
             result.add(new FixItem(container.getJsonPointer(), text, FixType.Insert));
         }
         for (Node propNode : nodesToUpdate) {
-            String key = propNode.getKey();
-            Object value = X_42C_FORMAT_KEY.equals(key) ? getFullFormatValue(container, dataFormat) : dataFormat.get(key);
+            Object value = dataFormat.get(propNode.getKey(), isJson);
             result.add(new FixItem(propNode.getJsonPointer(), Objects.requireNonNullElse(value, FixItem.NULL), FixType.Replace));
         }
         return result;
-    }
-
-    private static String getFullFormatValue(Node container, DataFormat dataFormat) {
-        String value = container.getChild("format").getValue();
-        return value.startsWith("o:") ? value : DataDictionary.getFullStandardFormatName((String) Objects.requireNonNull(dataFormat.get("name")));
     }
 
     @Override
@@ -99,8 +91,7 @@ public class FixManagerUpdateAllDictionary extends FixManager {
         }
         DataFormat dataFormat = update.getDataFormat();
         for (Node propNode : update.getNodesToUpdate()) {
-            String key = propNode.getKey();
-            Object value = X_42C_FORMAT_KEY.equals(key) ? getFullFormatValue(container, dataFormat) : dataFormat.get(key);
+            Object value = dataFormat.get(propNode.getKey(), isJson);
             if (pointer.equals(propNode.getJsonPointer()) && FixManagerSingleReplaceDictionary.isValueInLabel(label, value)) {
                 return true;
             }

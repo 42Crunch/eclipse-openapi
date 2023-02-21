@@ -6,7 +6,8 @@ import static com.xliic.core.codeInsight.UpdateHighlightersUtil.setHighlightersT
 import static com.xliic.core.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
 import static com.xliic.core.codeInspection.ProblemHighlightType.GENERIC_ERROR;
 import static com.xliic.core.lang.HighlightSeverity.ERROR;
-import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.doPropertyReplacement;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.getPropertiesToPass;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,6 +26,8 @@ import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.TextRange;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.OpenApiFileType;
+import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -34,7 +37,10 @@ import com.xliic.openapi.platform.dictionary.quickfix.managers.FixManagerSingleI
 import com.xliic.openapi.platform.dictionary.quickfix.managers.FixManagerSingleReplaceDictionary;
 import com.xliic.openapi.platform.dictionary.quickfix.managers.FixManagerUpdateAllDictionary;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
+import com.xliic.openapi.quickfix.managers.FixManager;
+import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.DictionaryService;
+import com.xliic.openapi.utils.Utils;
 
 public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
 
@@ -55,10 +61,13 @@ public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
             return;
         }
         VirtualFile file = psiFile.getVirtualFile();
+        ASTService astService = ASTService.getInstance(myProject);
+        boolean isJson = (Utils.getFileType(psiFile) == OpenApiFileType.Json);
+        OpenApiVersion version = astService.getOpenAPIVersion(file.getPath());
         for (Node target : ddService.getFormatNodes(file.getPath())) {
             Node container = target.getParent();
             String formatName = target.getValue();
-            DataFormat dataFormat = ddService.get(formatName);
+            DataFormat dataFormat = ddService.get(formatName, isJson);
             List<String> propsToAdd = new LinkedList<>();
             List<Node> nodesToUpdate = new LinkedList<>();
             Map<Node, HighlightInfo> nodesInfo = new HashMap<>();
@@ -67,62 +76,19 @@ public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
             // for the standard formats, as on the backend we don't yet add 'standard'
             // dictionary to everyone
             if (dataFormat != null) {
-                for (String prop : DataFormat.PROPERTIES) {
-                    if (dataFormat.hasOwnProperty(prop)) {
+                List<String> properties = getPropertiesToPass(version, container.getJsonPointer());
+                for (String prop : properties) {
+                    if (dataFormat.hasOwnProperty(prop, isJson)) {
                         Node propNode = container.getChild(prop);
                         if (propNode != null) {
-                            if (!dataFormat.equals(prop, propNode.getTypedValue())) {
-                                Range range = propNode.getValueRange();
-                                if (range != null) {
-                                    String pointer = propNode.getJsonPointer();
-                                    HighlightInfo info = getInfo("Data Dictionary requires value of " + dataFormat.get(prop), range, pointer);
-                                    QuickFixAction.registerQuickFixActions(this, pointer,
-                                            List.of(new FixDictionaryAction(new FixManagerSingleReplaceDictionary(psiFile, dataFormat, propNode))));
-                                    highlights.add(info);
-                                    nodesToUpdate.add(propNode);
-                                    nodesInfo.put(propNode, info);
-                                }
+                            if (doPropertyReplacement(prop) && !dataFormat.equals(prop, propNode.getTypedValue(), isJson)) {
+                                FixManager manager = new FixManagerSingleReplaceDictionary(psiFile, dataFormat, propNode);
+                                replaceProperty(manager, propNode, dataFormat.get(prop, isJson), nodesToUpdate, nodesInfo);
                             }
                         } else {
-                            Range range = container.getKeyRange();
-                            if (range != null) {
-                                String pointer = container.getJsonPointer();
-                                HighlightInfo info = getInfo("Missing " + prop + " property defined in Data Dictionary", range, pointer);
-                                QuickFixAction.registerQuickFixActions(this, pointer,
-                                        List.of(new FixDictionaryAction(new FixManagerSingleInsertDictionary(psiFile, dataFormat, container, prop))));
-                                highlights.add(info);
-                                propsToAdd.add(prop);
-                                nodesInfo.put(container, info);
-                            }
+                            FixManager manager = new FixManagerSingleInsertDictionary(psiFile, dataFormat, container, prop);
+                            insertMissingProperty(manager, container, prop, propsToAdd, nodesInfo);
                         }
-                    }
-                }
-                // Check custom x-42c-format property
-                Node x42FormatNode = container.getChild(X_42C_FORMAT_KEY);
-                if (x42FormatNode != null) {
-                    DataFormat x42Format = ddService.get(x42FormatNode.getValue());
-                    if (x42Format == null || !x42Format.equals(dataFormat)) {
-                        Range range = x42FormatNode.getValueRange();
-                        if (range != null) {
-                            String pointer = x42FormatNode.getJsonPointer();
-                            HighlightInfo info = getInfo("Data Dictionary requires value of " + formatName, range, pointer);
-                            QuickFixAction.registerQuickFixActions(this, pointer,
-                                    List.of(new FixDictionaryAction(new FixManagerSingleReplaceDictionary(psiFile, x42FormatNode, formatName))));
-                            highlights.add(info);
-                            nodesToUpdate.add(x42FormatNode);
-                            nodesInfo.put(x42FormatNode, info);
-                        }
-                    }
-                } else {
-                    Range range = container.getKeyRange();
-                    if (range != null) {
-                        String pointer = container.getJsonPointer();
-                        HighlightInfo info = getInfo("Missing " + X_42C_FORMAT_KEY + " property required for data dictionary", range, pointer);
-                        QuickFixAction.registerQuickFixActions(this, pointer, List
-                                .of(new FixDictionaryAction(new FixManagerSingleInsertDictionary(psiFile, container, X_42C_FORMAT_KEY, formatName))));
-                        highlights.add(info);
-                        propsToAdd.add(X_42C_FORMAT_KEY);
-                        nodesInfo.put(container, info);
                     }
                 }
             }
@@ -135,6 +101,11 @@ public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
         }
     }
 
+    @Override
+    public void doApplyInformationToEditor() {
+        setHighlightersToEditor(myProject, myDocument, 0, psiFile.getTextLength(), highlights, getColorsScheme(), getId());
+    }
+
     private HighlightInfo getInfo(String msg, Range nodeRange, String pointer) {
         TextRange range = new TextRange(nodeRange.getStartOffset(), nodeRange.getEndOffset());
         HighlightInfoType type = getHighlightInfoType(GENERIC_ERROR, ERROR, getSeverityRegistrar(myProject));
@@ -142,8 +113,27 @@ public class DictionaryHighlightingPass extends TextEditorHighlightingPass {
         return builder.descriptionAndTooltip(msg).create();
     }
 
-    @Override
-    public void doApplyInformationToEditor() {
-        setHighlightersToEditor(myProject, myDocument, 0, psiFile.getTextLength(), highlights, getColorsScheme(), getId());
+    private void replaceProperty(FixManager manager, Node propNode, Object value, List<Node> propNodes, Map<Node, HighlightInfo> infos) {
+        Range range = propNode.getValueRange();
+        if (range != null) {
+            String pointer = propNode.getJsonPointer();
+            HighlightInfo info = getInfo("Data Dictionary requires value of " + value, range, pointer);
+            QuickFixAction.registerQuickFixActions(this, pointer, List.of(new FixDictionaryAction(manager)));
+            propNodes.add(propNode);
+            infos.put(propNode, info);
+            highlights.add(info);
+        }
+    }
+
+    private void insertMissingProperty(FixManager manager, Node container, String prop, List<String> props, Map<Node, HighlightInfo> infos) {
+        Range range = container.getKeyRange();
+        if (range != null) {
+            String pointer = container.getJsonPointer();
+            HighlightInfo info = getInfo("Missing " + prop + " property defined in Data Dictionary", range, pointer);
+            QuickFixAction.registerQuickFixActions(this, pointer, List.of(new FixDictionaryAction(manager)));
+            props.add(prop);
+            infos.put(container, info);
+            highlights.add(info);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.xliic.openapi.platform.dictionary.quickfix;
 
-import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT_KEY;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.doPropertyReplacement;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.getPropertiesToPass;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +18,7 @@ import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
+import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.actions.ProjectAction;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -24,6 +26,7 @@ import com.xliic.openapi.platform.dictionary.quickfix.managers.FixManagerUpdateA
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
+import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.utils.Utils;
 
@@ -79,34 +82,28 @@ public class FixGlobalDictionaryAction extends ProjectAction {
         List<DictionaryUpdate> updates = new LinkedList<>();
         DictionaryService ddService = DictionaryService.getInstance(project);
         if (!ddService.getDictionaries().isEmpty()) {
+            ASTService astService = ASTService.getInstance(project);
+            OpenApiVersion version = astService.getOpenAPIVersion(file.getPath());
+            boolean isJson = (Utils.getFileType(file) == OpenApiFileType.Json);
             for (Node target : ddService.getFormatNodes(file.getPath())) {
                 Node container = target.getParent();
                 String formatName = target.getValue();
-                DataFormat dataFormat = ddService.get(formatName);
+                DataFormat dataFormat = ddService.get(formatName, isJson);
                 List<String> propsToAdd = new LinkedList<>();
                 List<Node> nodesToUpdate = new LinkedList<>();
                 if (dataFormat != null) {
-                    for (String prop : DataFormat.PROPERTIES) {
-                        if (dataFormat.hasOwnProperty(prop)) {
+                    List<String> properties = getPropertiesToPass(version, container.getJsonPointer());
+                    for (String prop : properties) {
+                        if (dataFormat.hasOwnProperty(prop, isJson)) {
                             Node propNode = container.getChild(prop);
                             if (propNode != null) {
-                                if (!dataFormat.equals(prop, propNode.getTypedValue())) {
+                                if (doPropertyReplacement(prop) && !dataFormat.equals(prop, propNode.getTypedValue(), isJson)) {
                                     nodesToUpdate.add(propNode);
                                 }
                             } else {
                                 propsToAdd.add(prop);
                             }
                         }
-                    }
-                    // Check custom x-42c-format property
-                    Node x42FormatNode = container.getChild(X_42C_FORMAT_KEY);
-                    if (x42FormatNode != null) {
-                        DataFormat x42Format = ddService.get(x42FormatNode.getValue());
-                        if (x42Format == null || !x42Format.equals(dataFormat)) {
-                            nodesToUpdate.add(x42FormatNode);
-                        }
-                    } else {
-                        propsToAdd.add(X_42C_FORMAT_KEY);
                     }
                 }
                 // A container has been processed

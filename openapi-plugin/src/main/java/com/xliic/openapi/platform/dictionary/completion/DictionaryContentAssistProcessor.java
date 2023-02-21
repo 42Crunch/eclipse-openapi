@@ -65,11 +65,11 @@ public class DictionaryContentAssistProcessor extends CompletionContributor {
             if (!PlatformConnection.isPlatformIntegrationEnabled()) {
                 return false;
             }
+            OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
             DictionaryService ddService = DictionaryService.getInstance(parameters.getProject());
-            if (ddService.getAllFormats().isEmpty()) {
+            if (ddService.getAllFormats(type == OpenApiFileType.Json).isEmpty()) {
                 return false;
             }
-            OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
             if (type == OpenApiFileType.Json) {
                 return accepts(parameters, JSON_TRIGGER_CHARS);
             } else if (type == OpenApiFileType.Yaml) {

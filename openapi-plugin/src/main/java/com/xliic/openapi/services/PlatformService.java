@@ -1,5 +1,7 @@
 package com.xliic.openapi.services;
 
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -114,7 +116,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
         Task.Backgroundable task = new Task.Backgroundable(project, "Platform audit", false) {
             @Override
             public void run(@NotNull ProgressIndicator progressIndicator) {
-                progressIndicator.setText("Waiting for assessment report");
+                progressIndicator.setText(RUNNING_SECURITY_AUDIT);
                 try {
                     Node report = new PlatformReportPuller(project, apiId,1000, 60000).get();
                     PlatformService platformService = PlatformService.getInstance(project);

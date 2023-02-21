@@ -1,13 +1,5 @@
 package com.xliic.core.ui.components;
 
-import java.util.EventListener;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Element;
-
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusListener;
@@ -19,8 +11,12 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.jetbrains.annotations.NotNull;
 
-public class JTextArea implements Validator {
+import com.xliic.core.ui.DocumentAdapter;
+import com.xliic.core.ui.DocumentEvent;
+
+public class JTextArea implements JTextComponent {
 
     private static final int DEFAULT_HEIGTH_CHARS = 8;
     private static final int DEFAULT_WEIGTH_CHARS = 50;
@@ -28,7 +24,6 @@ public class JTextArea implements Validator {
 
     private Text textWidget;
     private String text;
-    private List<EventListener> validators = new LinkedList<>();
     private Color bkgColor;
 
     public JTextArea(JPanel parent) {
@@ -39,6 +34,16 @@ public class JTextArea implements Validator {
         this(DEFAULT_WEIGTH_CHARS, DEFAULT_HEIGTH_CHARS, parent);
     }
 
+    public JTextArea(Composite parent, String myText) {
+        textWidget = new Text(parent, SWT.READ_ONLY | SWT.WRAP);
+        textWidget.setFont(parent.getFont());
+        textWidget.addDisposeListener(event -> {
+            text = getText();
+            textWidget = null;
+        });
+        setText(myText);
+    }
+
     public JTextArea(int widthInChars, int heigthInChars, JPanel parent) {
         this(widthInChars, heigthInChars, parent.getComposite());
     }
@@ -46,73 +51,41 @@ public class JTextArea implements Validator {
     public JTextArea(int widthInChars, int heigthInChars, Composite parent) {
         textWidget = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
         textWidget.setFont(parent.getFont());
-        setLayout(widthInChars, heigthInChars);
+        setLayoutData(widthInChars, heigthInChars, 10);
         textWidget.addDisposeListener(event -> {
             text = getText();
-            if (!validators.isEmpty()) {
-                removeValidationListener();
-            }
             textWidget = null;
         });
     }
 
+    @Override
     public void setText(String t) {
         textWidget.setText(t);
     }
 
+    @Override
     public String getText() {
         return textWidget == null ? text : textWidget.getText();
+    }
+
+    public void setEditable(boolean editable) {
+        textWidget.setEditable(editable);
     }
 
     public String getStripText() {
         return StringUtils.strip(getText(), " \n");
     }
 
+    @Override
     public void setEnabled(boolean enabled) {
         textWidget.setEnabled(enabled);
     }
 
-    public Document getDocument() {
-        return new Document();
+    public void setLayoutData(int widthInChars) {
+        setLayoutData(widthInChars, UNLIMITED, 0);
     }
 
-    public class Document {
-        public void addDocumentListener(DocumentListener listener) {
-            textWidget.addModifyListener(new ModifyListener() {
-                @Override
-                public void modifyText(ModifyEvent e) {
-                    listener.changedUpdate(new DocumentEvent() {
-                        @Override
-                        public int getOffset() {
-                            return 0;
-                        }
-
-                        @Override
-                        public int getLength() {
-                            return 0;
-                        }
-
-                        @Override
-                        public javax.swing.text.Document getDocument() {
-                            return null;
-                        }
-
-                        @Override
-                        public EventType getType() {
-                            return null;
-                        }
-
-                        @Override
-                        public ElementChange getChange(Element elem) {
-                            return null;
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    private void setLayout(int widthInChars, int heigthInChars) {
+    private void setLayoutData(int widthInChars, int heigthInChars, int horizontalIndent) {
         GridData gd = new GridData(GridData.FILL_BOTH);
         if (widthInChars != UNLIMITED || heigthInChars > 1) {
             GC gc = new GC(textWidget);
@@ -134,7 +107,9 @@ public class JTextArea implements Validator {
             gd.horizontalAlignment = GridData.FILL;
             gd.grabExcessHorizontalSpace = true;
         }
-        gd.horizontalIndent = 10;
+        if (horizontalIndent > 0) {
+            gd.horizontalIndent = horizontalIndent;
+        }
         textWidget.setLayoutData(gd);
     }
 
@@ -167,29 +142,31 @@ public class JTextArea implements Validator {
     }
 
     @Override
-    public void setValidationListener(ValidationListener listener) {
-        if (!validators.isEmpty()) {
-            return;
-        }
-        ModifyListener modifyListener = new ModifyListener() {
+    public Document getDocument() {
+        return new Document() {
+
+            private ModifyListener docListener = null;
+
             @Override
-            public void modifyText(ModifyEvent e) {
-                listener.validate();
+            public void addDocumentListener(@NotNull DocumentAdapter listener) {
+                if (docListener == null) {
+                    docListener = new ModifyListener() {
+                        @Override
+                        public void modifyText(ModifyEvent e) {
+                            listener.textChanged(new DocumentEvent(e));
+                        }
+                    };
+                    textWidget.addModifyListener(docListener);
+                }
+            }
+
+            @Override
+            public void removeDocumentListener(@NotNull DocumentAdapter listener) {
+                if (docListener != null) {
+                    textWidget.removeModifyListener(docListener);
+                    docListener = null;
+                }
             }
         };
-        validators.add(modifyListener);
-        addModifyListener(modifyListener);
-        bkgColor = textWidget.getBackground();
-    }
-
-    @Override
-    public void removeValidationListener() {
-        for (EventListener listener : validators) {
-            if (listener instanceof ModifyListener) {
-                removeModifyListener((ModifyListener) listener);
-            }
-        }
-        validators.clear();
-        bkgColor = null;
     }
 }

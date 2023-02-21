@@ -8,11 +8,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.psi.PsiFile;
+import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.managers.FixManager;
+import com.xliic.openapi.utils.Utils;
 
 public class FixManagerSingleReplaceDictionary extends FixManager {
 
@@ -24,13 +26,8 @@ public class FixManagerSingleReplaceDictionary extends FixManager {
     public FixManagerSingleReplaceDictionary(@NotNull PsiFile psiFile, @NotNull DataFormat dataFormat, @NotNull Node propNode) {
         super(psiFile);
         this.propNode = propNode;
-        this.value = dataFormat.get(propNode.getKey());
-    }
-
-    public FixManagerSingleReplaceDictionary(@NotNull PsiFile psiFile, @NotNull Node propNode, @NotNull String value) {
-        super(psiFile);
-        this.propNode = propNode;
-        this.value = value;
+        String key = propNode.getKey();
+        this.value = dataFormat.get(key, Utils.getFileType(psiFile) == OpenApiFileType.Json);
     }
 
     @Override

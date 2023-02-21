@@ -15,6 +15,8 @@ import okhttp3.ResponseBody;
 
 public abstract class SuccessBodyResponseCallback implements Callback {
 
+    public static final String FAILED_TO_CONNECT = "Failed to connect: ";
+
     protected final @NotNull Project project;
     protected final boolean showDialogOnFailure;
 
@@ -29,7 +31,8 @@ public abstract class SuccessBodyResponseCallback implements Callback {
 
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        onFailure(e.getMessage());
+        onFailure(FAILED_TO_CONNECT + e);
+        e.printStackTrace();
     }
 
     public void onFailure(@NotNull String reason) {
@@ -49,22 +52,22 @@ public abstract class SuccessBodyResponseCallback implements Callback {
                 if (body != null) {
                     String text = body.string().trim();
                     if (StringUtils.isEmpty(text)) {
-                        msg = "Response body content is empty";
+                        msg = "response body content is empty";
                     } else {
                         if (text.endsWith("</html>")) {
-                            msg = "Response body content is HTML instead of JSON";
+                            msg = "response body content is HTML instead of JSON";
                         } else {
                             onCode200WithBodyTextResponse(text);
                         }
                     }
                 } else {
-                    msg = "Response body is not set";
+                    msg = "response body is not set";
                 }
             } else {
-                msg = "Response code " + code + " message " + response.message();
+                msg = "response code " + code + " message " + response.message();
             }
             if (msg != null) {
-                onFailure(msg);
+                onFailure(FAILED_TO_CONNECT + msg);
             }
         }
     }

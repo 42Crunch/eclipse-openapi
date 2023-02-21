@@ -100,9 +100,9 @@ public abstract class Processor {
     protected int getSafeOffset(int offset) {
         int column = editor.offsetToLogicalPosition(offset).column;
         if (column == 0) {
-            return offset - 1;
+            return decrementIfBetweenCRLF(offset - 1);
         } else if (hasNoAlphabeticCharBeforeOffset(offset)) {
-            return offset - column - 1;
+            return decrementIfBetweenCRLF(offset - column - 1);
         }
         return offset;
     }
@@ -159,5 +159,9 @@ public abstract class Processor {
             index += 1;
         }
         return index;
+    }
+
+    private int decrementIfBetweenCRLF(int offset) {
+        return "\r\n".equals(getTextByRange(offset - 1, offset + 1)) ? offset - 1 : offset;
     }
 }

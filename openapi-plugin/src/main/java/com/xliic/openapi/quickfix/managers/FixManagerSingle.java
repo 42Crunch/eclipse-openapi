@@ -30,8 +30,6 @@ public class FixManagerSingle extends FixManager {
 
     @Override
     public List<FixItem> getFixItems() {
-
-        boolean isJson = isJson(psiFile);
         String text = quickFix.getFixText(isJson);
         List<FixItem> result = new LinkedList<>();
         List<FixParameter> parameters = quickFix.getParameters();

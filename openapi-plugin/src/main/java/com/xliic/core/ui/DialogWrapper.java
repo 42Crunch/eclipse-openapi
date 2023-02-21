@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Control;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.components.Validator;
+import com.xliic.core.ui.components.JTextComponent;
 import com.xliic.core.util.EclipseUtil;
 
 @SuppressWarnings("restriction")
@@ -55,16 +55,19 @@ public class DialogWrapper extends StatusDialog {
     }
 
     protected void registerForValidation(@NotNull Object widget) {
-        if (widget instanceof Validator) {
-            Validator validator = (Validator) widget;
-            validator.setValidationListener(() -> {
-                ValidationInfo info = doValidate();
-                if (info == null) {
-                    validator.setValid();
-                    setOKActionEnabled(true);
-                } else {
-                    setOKActionEnabled(false);
-                    validator.setInvalid(info.getMessage());
+        if (widget instanceof JTextComponent) {
+            JTextComponent cmp = (JTextComponent) widget;
+            cmp.getDocument().addDocumentListener(new DocumentAdapter() {
+                @Override
+                public void textChanged(@NotNull DocumentEvent e) {
+                    ValidationInfo info = doValidate();
+                    if (info == null) {
+                        cmp.setValid();
+                        setOKActionEnabled(true);
+                    } else {
+                        setOKActionEnabled(false);
+                        cmp.setInvalid(info.getMessage());
+                    }
                 }
             });
         }

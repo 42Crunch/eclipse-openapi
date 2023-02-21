@@ -7,8 +7,8 @@ import com.xliic.core.fileChooser.FileChooserDescriptor;
 import com.xliic.core.fileChooser.FileChooserFactory;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.callback.AuditActionCallback;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 
@@ -43,13 +43,9 @@ public class LoadAuditReportAction extends ProjectAction {
                 if (!StringUtils.isEmpty(text)) {
                     Node report = Utils.getJsonAST(text);
                     if (report != null && isReportValid(report)) {
-                        AuditActionCallback cb = new AuditActionCallback(project, currentFile);
-                        cb.setBeforeRequest();
-                        try {
-                            cb.setDone(report.getChild("data"), true);
-                        } catch (Throwable t) {
-                            MsgUtils.error(project, REPORT_ERROR_MSG, true);
-                        }
+                        AuditService auditService = AuditService.getInstance(project);
+                        auditService.cleanAuditReport(currentFile);
+                        auditService.processAuditReport(currentFile, report.getChild("data"));
                     } else {
                         MsgUtils.error(project, REPORT_ERROR_MSG, true);
                     }

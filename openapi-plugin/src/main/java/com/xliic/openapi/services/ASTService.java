@@ -1,6 +1,6 @@
 package com.xliic.openapi.services;
 
-import static com.xliic.openapi.listeners.OpenApiFileEditorManagerListener.IS_FIRST_SELECTION_KEY;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.FORMAT;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
 
@@ -21,8 +21,6 @@ import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
-import com.xliic.core.fileEditor.FileEditorManager;
-import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.jsonSchema.ide.JsonSchemaService;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
@@ -38,7 +36,6 @@ import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.ParserYamlAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
-import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.utils.Utils;
@@ -131,24 +128,6 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     @Override
     protected void selectionChanged(AsyncTask task) {
         treeDfs(task);
-        Object value = task.get(IS_FIRST_SELECTION_KEY);
-        boolean isFirstSelection = value != null && (Boolean) value;
-        if (isFirstSelection) {
-            // If there are two opened file tabs A & B, B selected and IDE gets restarted
-            // After restart IDE fires selection event for A, although later B is selected
-            // The task contains file A, the call below returns real file selected B
-            VirtualFile file = Utils.getSelectedFile(project);
-            if (file != null && !file.getPath().equals(task.getFile().getPath())) {
-                ApplicationManager.getApplication().invokeLater(() -> {
-                    // If then user select A no event fires as IDE still thinks A is active
-                    // So here we force reselection of B to tell IDE that B is really selected now
-                    // This will trigger correct selection event with B file in the task
-                    OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(project, file);
-                    FileEditorManager.getInstance(project).openEditor(fileDescriptor, true);
-                });
-                return;
-            }
-        }
         ApplicationManager.getApplication().invokeLater(() -> {
             if (!project.isDisposed()) {
                 project.getMessageBus().syncPublisher(FileListener.TOPIC).handleSelectedFile(task.getFile());
@@ -369,13 +348,17 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     }
 
     private static void dfs(Node node, List<Node> targets) {
-        if (DataFormat.FORMAT_KEY.equals(node.getKey()) && node.getTypedValue() instanceof String) {
+        if (FORMAT.equals(node.getKey()) && node.getTypedValue() instanceof String && !isNodeInExample(node.getJsonPointer())) {
             targets.add(node);
         } else {
             for (Node child : node.getChildren()) {
                 dfs(child, targets);
             }
         }
+    }
+
+    private static boolean isNodeInExample(String pointer) {
+        return pointer.contains("/example/") || pointer.contains("/examples/") || pointer.contains("/x-42c-sample/");
     }
 
     @Override

@@ -114,7 +114,7 @@ public class BundleResult {
         };
 
         Parser parser = new Parser(workspace);
-        Serializer serializer = new Serializer();
+        Serializer serializer = new BundleSerializer();
         Bundler bundler;
         Document document;
         exception = null;
