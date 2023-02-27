@@ -16,6 +16,7 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.FileEditorManagerEvent;
 import com.xliic.core.project.Project;
+import com.xliic.core.ui.PanelViewPart;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.vfs.VirtualFile;
@@ -117,10 +118,12 @@ public class OpenAPIPartListener implements IPartListener {
 
     @Override
     public final void partBroughtToTop(final IWorkbenchPart part) {
+        if (part instanceof PanelViewPart) {
+            ((PanelViewPart) part).onViewPartBroughtToTop();
+        }
     }
 
-    // This event is thrown before part closed event and annotation model is still
-    // available now
+    // This event is thrown before part closed event and annotation model is still available now
     @Override
     public final void partDeactivated(final IWorkbenchPart part) {
         IEditorInput input = getFileEditorInput(part);

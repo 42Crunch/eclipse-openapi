@@ -1,13 +1,12 @@
 package com.xliic.openapi.tryit.payload;
 
-import java.util.Map;
-import java.util.Objects;
-
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
+import java.util.Map;
+import java.util.Objects;
 
 public class TryItRequestBodyJson extends TryItRequest {
 
@@ -15,8 +14,9 @@ public class TryItRequestBodyJson extends TryItRequest {
                                 @NotNull String method,
                                 @NotNull Map<String, String> headers,
                                 @Nullable Object body,
+                                @Nullable String id,
                                 boolean rejectUnauthorized) {
-        super(url, method, headers, body, rejectUnauthorized);
+        super(url, method, headers, body, id, rejectUnauthorized);
     }
 
     @Override

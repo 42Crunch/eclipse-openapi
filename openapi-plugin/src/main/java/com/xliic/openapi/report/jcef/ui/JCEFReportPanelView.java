@@ -17,7 +17,10 @@ public class JCEFReportPanelView extends PanelViewPart {
     }
 
     @Override
-    public Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
-        return new JCEFReportPanel(project, window, parent);
+    public Disposable createPanel(@NotNull Project project,
+                                  @NotNull ToolWindow window,
+                                  @NotNull Composite parent,
+                                  @NotNull ViewPartHandler handler) {
+        return new JCEFReportPanel(project, window, parent, handler);
     }
 }

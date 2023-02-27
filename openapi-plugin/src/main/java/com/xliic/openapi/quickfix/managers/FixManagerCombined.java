@@ -23,7 +23,7 @@ import com.xliic.openapi.quickfix.FixTitle;
 import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 
 public class FixManagerCombined extends FixManager {
 
@@ -42,8 +42,6 @@ public class FixManagerCombined extends FixManager {
     @Override
     @SuppressWarnings("unchecked")
     public List<FixItem> getFixItems() {
-
-        boolean isJson = isJson(psiFile);
         List<FixItem> result = new LinkedList<>();
         String pointer = getAbsolutePointer(getIssuePointer(), "");
         // Use tree map to sort inserted fix properties by key

@@ -1,6 +1,6 @@
 package com.xliic.openapi.report.tree;
 
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 
 public class ReportFileObject {
 

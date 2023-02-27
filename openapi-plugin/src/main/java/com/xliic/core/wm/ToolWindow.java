@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.actionSystem.AnJAction;
+import com.xliic.core.ui.PanelViewPart;
 import com.xliic.core.util.EclipseWorkbenchUtil;
 
 public class ToolWindow {
@@ -28,7 +29,6 @@ public class ToolWindow {
     }
 
     public void activate(@Nullable Runnable runnable) {
-        // Eclipse Development Note
         // It means simply to show the view
         show(runnable);
     }
@@ -54,7 +54,6 @@ public class ToolWindow {
     }
 
     public void remove() {
-        // Eclipse Development Note
         // It means simply to hide the view
         hide(null);
     }
@@ -73,7 +72,12 @@ public class ToolWindow {
         }
     }
 
-    private String getId() {
+    public String getId() {
         return ((IViewPart) part).getViewSite().getId();
+    }
+
+    @Nullable
+    public PanelViewPart getPanelViewPart() {
+        return part instanceof PanelViewPart ? (PanelViewPart) part : null;
     }
 }

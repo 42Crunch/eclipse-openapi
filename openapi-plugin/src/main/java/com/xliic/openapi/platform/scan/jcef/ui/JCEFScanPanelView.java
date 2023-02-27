@@ -12,6 +12,7 @@ import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.scan.jcef.JCEFScanPanel;
+import com.xliic.openapi.platform.tree.ui.PlatformPanelView;
 
 public class JCEFScanPanelView extends PanelViewPart {
 
@@ -20,13 +21,16 @@ public class JCEFScanPanelView extends PanelViewPart {
     }
 
     @Override
-    public Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
-        return new JCEFScanPanel(project, window, parent);
+    public Disposable createPanel(@NotNull Project project,
+                                  @NotNull ToolWindow window,
+                                  @NotNull Composite parent,
+                                  @NotNull ViewPartHandler handler) {
+        return new JCEFScanPanel(project, window, parent, handler);
     }
 
     @Override
     public void createEmptyControl(Composite parent) {
-        new Label(parent, SWT.NULL).setText("42Crunch Platform Credentials are not defined");
+        new Label(parent, SWT.NULL).setText(PlatformPanelView.CREDENTIALS_NA_TEXT);
     }
 
     @Override

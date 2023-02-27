@@ -14,8 +14,8 @@ import com.xliic.openapi.utils.NetUtils;
 
 public class ItemPlatformCredentials extends Item {
 
-    private static final String ERROR_URL_TEXT = "Must be a valid URL";
-    private static final String ERROR_API_KEY_TEXT = "Must be a valid API Token";
+    public static final String ERROR_URL_TEXT = "Must be a valid URL";
+    public static final String ERROR_API_KEY_TEXT = "Must be a valid API Token";
 
     protected final JTextField login;
     protected final JTextField password;

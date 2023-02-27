@@ -1,95 +1,50 @@
 package com.xliic.openapi.report.jcef;
 
-import static com.xliic.openapi.utils.Utils.getURI;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.equo.chromium.swt.Browser;
+import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.jcef.JBCefJSQuery;
+import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
-import com.xliic.openapi.PanelBrowser;
-import com.xliic.openapi.ToolWindowId;
-import com.xliic.openapi.report.Audit;
-import com.xliic.openapi.report.AuditParameters;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.jcef.messages.LoadKdb;
+import com.xliic.openapi.report.jcef.messages.ShowFullReport;
+import com.xliic.openapi.report.jcef.messages.ShowNoReport;
+import com.xliic.openapi.report.jcef.messages.ShowPartialReport;
+import com.xliic.openapi.report.types.Audit;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.AuditService;
-import com.xliic.openapi.services.KDBService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.FileListener;
-import com.xliic.openapi.topic.WindowListener;
 import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.webapp.WebApp;
 
-public class JCEFReportPanel extends PanelBrowser implements FileListener, WindowListener, AuditListener, Disposable {
+public class JCEFReportPanel extends WebApp implements FileListener, AuditListener, Disposable {
 
-    private AuditParameters lastAuditParameters;
+    private static final String AUDIT_REPORT = "com.xliic.openapi.report.jcef.JCEFReportPanel[AuditReport]";
 
-    public JCEFReportPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
-        super(project, toolWindow, parent, "audit");
-        init();
-        lastAuditParameters = null;
+    public JCEFReportPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent, @NotNull ViewPartHandler handler) {
+        super(project, toolWindow, "audit", parent, handler);
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
-        project.getMessageBus().connect().subscribe(WindowListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(AuditListener.TOPIC, this);
+    }
+
+    @Override
+    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
+        return new JCEFReportFunction(project, browser, name);
+    }
+
+    @Override
+    public void onLoadEnd() {
         VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file != null) {
             handleSelectedFile(file);
-        }
-    }
-
-    @Override
-    protected @NotNull String getLoadingMessage() {
-        return "Loading API Contract Security Audit KDB Articles...";
-    }
-
-    @Override
-    protected @Nullable String getMainHTML(String page, String styleCss) {
-        return page.replace("${style}", styleCss);
-    }
-
-    @Override
-    protected @Nullable String getInitJS() {
-        String kdb = KDBService.getInstance().getText();
-        if (kdb != null) {
-            Object kdbObj = Utils.deserialize(kdb, null);
-            if (kdbObj != null) {
-                return "window.initWebJS(" + Utils.serialize(mapper, kdbObj) + ")";
-            }
-        }
-        return null;
-    }
-
-    @Override
-    protected void loadComplete() {
-        updateLastReport();
-    }
-
-    @Override
-    protected @Nullable Function<Object, JBCefJSQuery.Response> getBrowserFunction() {
-        return new JCEFReportFunction(project, getCefBrowser().getBrowser(), functionId);
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        lastAuditParameters = null;
-    }
-
-    @Override
-    public void handleToolWindowRegistered(@NotNull String id) {
-        if (ToolWindowId.OPEN_API_HTML_REPORT.equals(id)) {
-            reportNotAvailable();
-            if (toolWindow.isVisible()) {
-                toolWindow.hide(null);
-            }
         }
     }
 
@@ -102,8 +57,8 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
     public void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName) {
         AuditService auditService = AuditService.getInstance(project);
         for (Audit report : auditService.getAuditReportsForAuditParticipantFileName(newFile.getPath())) {
-            if (lastAuditParameters != null && report == lastAuditParameters.getReport()) {
-                update(report);
+            if (report == cache.get(AUDIT_REPORT)) {
+                update(report, auditService.getArticles());
                 break;
             }
         }
@@ -116,7 +71,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
         if (selectedFile != null) {
             Audit audit = auditService.getAuditReport(selectedFile.getPath());
             if (audit != null) {
-                update(audit);
+                update(audit, auditService.getArticles());
             }
         } else {
             reportNotAvailable();
@@ -129,7 +84,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
             AuditService auditService = AuditService.getInstance(project);
             Audit report = auditService.getAuditReport(issues.get(0).getAuditFileName());
             if (report != null) {
-                update(report, file, report.getIssueIds(file, issues));
+                update(report, file, report.getIssueIds(file, issues), auditService.getArticles());
             }
         }
     }
@@ -139,8 +94,8 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
         AuditService auditService = AuditService.getInstance(project);
         Audit report = auditService.getAuditReport(file.getPath());
         if (!report.isPlatform() || report.isShowAsHTML()) {
-            update(report);
-            toolWindow.show(null);
+            update(report, auditService.getArticles());
+            window.show(null);
         }
     }
 
@@ -150,14 +105,9 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
             AuditService auditService = AuditService.getInstance(project);
             Audit report = auditService.getAuditReport(issues.get(0).getAuditFileName());
             if (report != null) {
-                update(report);
+                update(report, auditService.getArticles());
             }
         }
-    }
-
-    @Override
-    public void handleKDBReady(@NotNull String text) {
-        init();
     }
 
     @Override
@@ -167,65 +117,35 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
         if (audit != null) {
             if (audit.isPlatform()) {
                 if (audit.isShowAsHTML()) {
-                    update(audit);
+                    update(audit, auditService.getArticles());
                 } else {
                     reportNotAvailable();
                 }
             } else {
-                update(audit);
+                update(audit, auditService.getArticles());
             }
         } else if (auditService.isNotAuditParticipantFile(file.getPath())) {
             reportNotAvailable();
         }
     }
 
-    public void updateLastReport() {
-        if (lastAuditParameters == null) {
-            reportNotAvailable();
-        } else if (lastAuditParameters.isPartialReport()) {
-            update(lastAuditParameters.getReport(), lastAuditParameters.getFile(), lastAuditParameters.getIds());
-        } else {
-            update(lastAuditParameters.getReport());
-        }
+    private void update(Audit report, String kdb) {
+        new LoadKdb(kdb).send(getCefBrowser());
+        new ShowFullReport(project, report).send(getCefBrowser());
+        cache.put(AUDIT_REPORT, report);
     }
 
-    private void update(Audit report) {
-        lastAuditParameters = new AuditParameters(report);
-        @SuppressWarnings("serial")
-        Map<String, Object> parameters = new HashMap<>() {
-            {
-                put("command", "showFullReport");
-                put("report", report.getProperties());
-            }
-        };
-        sendMessage(parameters);
-    }
-
-    private void update(Audit report, VirtualFile file, List<Integer> ids) {
-        lastAuditParameters = new AuditParameters(report, file, ids);
+    private void update(Audit report, VirtualFile file, List<Integer> ids, String kdb) {
         if (!report.isShowAsHTML()) {
             report.setShowAsHTML(true);
         }
-        @SuppressWarnings("serial")
-        Map<String, Object> parameters = new HashMap<>() {
-            {
-                put("command", "showPartialReport");
-                put("report", report.getProperties());
-                put("uri", getURI(file));
-                put("ids", ids);
-            }
-        };
-        sendMessage(parameters);
+        new LoadKdb(kdb).send(getCefBrowser());
+        new ShowPartialReport(project, report, file, ids).send(getCefBrowser());
+        cache.put(AUDIT_REPORT, report);
     }
 
     private void reportNotAvailable() {
-        lastAuditParameters = null;
-        @SuppressWarnings("serial")
-        Map<String, Object> parameters = new HashMap<>() {
-            {
-                put("command", "showNoReport");
-            }
-        };
-        sendMessage(parameters);
+        new ShowNoReport().send(getCefBrowser());
+        cache.remove(AUDIT_REPORT);
     }
 }

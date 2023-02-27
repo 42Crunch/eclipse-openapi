@@ -75,7 +75,7 @@ public class TryItFixManager extends FixManager {
         Pair<String, String> pair = FixManagerSchema.getSchemaPointerAndText(root, schemaMainFix, version);
         String pointer = pair.getFirst();
         String text = pair.getSecond();
-        text = QuickFix.formatFixText(text, isJson(psiFile));
+        text = QuickFix.formatFixText(text, isJson);
         return new FixItem(pointer, text, FixType.Insert);
     }
 

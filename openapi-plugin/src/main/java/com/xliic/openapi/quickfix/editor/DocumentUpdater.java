@@ -23,7 +23,7 @@ import com.xliic.openapi.quickfix.editor.json.JSONDocumentReplacer;
 import com.xliic.openapi.quickfix.editor.yaml.YAMLDocumentDeleter;
 import com.xliic.openapi.quickfix.editor.yaml.YAMLDocumentInserter;
 import com.xliic.openapi.quickfix.editor.yaml.YAMLDocumentReplacer;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.utils.Utils;
 

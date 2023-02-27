@@ -24,9 +24,9 @@ public interface IDictionaryService {
 
     List<DataDictionary> getDictionaries();
 
-    List<DictionaryElement> getAllFormats();
+    List<DictionaryElement> getAllFormats(boolean isJson);
 
-    DataFormat get(@NotNull String formatName);
+    DataFormat get(@NotNull String formatName, boolean isJson);
 
     void createOrActiveDictionaryWindow(@NotNull Project project, boolean register);
 }

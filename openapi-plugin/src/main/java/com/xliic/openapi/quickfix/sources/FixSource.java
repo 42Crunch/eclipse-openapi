@@ -9,7 +9,7 @@ import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.QuickFix;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 
 public abstract class FixSource {
 

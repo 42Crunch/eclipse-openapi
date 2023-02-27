@@ -1,6 +1,11 @@
 package com.xliic.openapi.services;
 
 import static com.xliic.openapi.ToolWindowId.PLATFORM_DICTIONARY;
+import static com.xliic.openapi.platform.dictionary.types.DataDictionary.FORMAT_PREFIX;
+import static com.xliic.openapi.platform.dictionary.types.DataDictionary.STANDARD_DESC;
+import static com.xliic.openapi.platform.dictionary.types.DataDictionary.STANDARD_ID;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.isStandardName;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,6 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -35,6 +41,7 @@ import com.xliic.openapi.services.api.IDictionaryService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.utils.WindowUtils;
 
 public final class DictionaryService implements IDictionaryService, SettingsListener, Disposable {
 
@@ -89,7 +96,7 @@ public final class DictionaryService implements IDictionaryService, SettingsList
             @Override
             public void onCode200ASTResponse(@NotNull Node node) {
                 Node target = node.find("/list");
-                if (target != null && !target.getChildren().isEmpty()) {
+                if (target != null) {
                     DictionaryReloadCallback callback = () -> {
                         if (redraw) {
                             createOrActiveDictionaryWindow(project, register);
@@ -101,12 +108,18 @@ public final class DictionaryService implements IDictionaryService, SettingsList
                         }
                     };
                     for (Node child : target.getChildren()) {
-                        String id = child.getChildValue("id");
-                        String name = child.getChildValue("name");
-                        String desc = child.getChildValue("description");
-                        DataDictionary dd = new DataDictionary(id, name, desc, project, counter, callback);
-                        dictionaries.add(dd);
+                        try {
+                            String id = Objects.requireNonNull(child.getChildValue("id"));
+                            String name = Objects.requireNonNull(child.getChildValue("name"));
+                            String desc = Objects.requireNonNull(child.getChildValue("description"));
+                            DataDictionary dd = new DataDictionary(id, name, desc, project, counter, callback);
+                            dictionaries.add(dd);
+                        } catch (Throwable e) {
+                            e.printStackTrace();
+                        }
                     }
+                    dictionaries.add(new DataDictionary(STANDARD_ID, STANDARD_ID, STANDARD_DESC, project, counter, callback));
+                    Collections.sort(dictionaries);
                     counter.set(dictionaries.size());
                     for (DataDictionary dd : dictionaries) {
                         PlatformAPIs.getDataDictionaryFormats(dd.getId(), dd);
@@ -129,16 +142,18 @@ public final class DictionaryService implements IDictionaryService, SettingsList
 
     @Override
     @NotNull
-    public List<DictionaryElement> getAllFormats() {
+    public List<DictionaryElement> getAllFormats(boolean isJson) {
         if (counter.get() == 0) {
             List<DictionaryElement> result = new LinkedList<>();
             for (DataDictionary d : dictionaries) {
                 for (Map.Entry<String, DataFormat> entry : d.getFormats().entrySet()) {
-                    String element = "o:" + d.getName() + ":" + entry.getKey();
-                    String presentableText = d.isStandard() ? entry.getKey() : element;
-                    Object desc = entry.getValue().get("description");
-                    String withTypeText = desc == null ? "" : (String) desc;
-                    result.add(new DictionaryElement(element, presentableText, withTypeText));
+                    String element = (String) entry.getValue().get(X_42C_FORMAT, isJson);
+                    if (element != null) {
+                        String presentableText = d.isStandard() ? entry.getKey() : element;
+                        Object desc = entry.getValue().get("description", isJson);
+                        String withTypeText = desc == null ? "" : (String) desc;
+                        result.add(new DictionaryElement(element, presentableText, withTypeText, d.isStandard()));
+                    }
                 }
             }
             result.sort(Comparator.comparing(DictionaryElement::getPresentableText));
@@ -150,27 +165,18 @@ public final class DictionaryService implements IDictionaryService, SettingsList
 
     @Override
     @Nullable
-    public DataFormat get(@NotNull String formatName) {
+    public DataFormat get(@NotNull String formatName, boolean isJson) {
         if (counter.get() == 0) {
-            // formatName = o:${dictionary.name}:${format.name}
-            if (formatName.startsWith("o:")) {
-                for (DataDictionary d : dictionaries) {
-                    if (formatName.startsWith("o:" + d.getName())) {
-                        for (Map.Entry<String, DataFormat> entry : d.getFormats().entrySet()) {
-                            if (formatName.equals("o:" + d.getName() + ":" + entry.getKey())) {
-                                return entry.getValue();
-                            }
-                        }
-                    }
+            // formatName = ${format.name}, o:${format.name}, o:${dictionary.name}:${format.name}
+            boolean standard = isStandardName(formatName);
+            String x42Format = (formatName.startsWith(FORMAT_PREFIX) ? "" : FORMAT_PREFIX) + formatName;
+            for (DataDictionary d : dictionaries) {
+                if (standard && !d.isStandard()) {
+                    continue;
                 }
-            } else {
-                for (DataDictionary d : dictionaries) {
-                    if (d.isStandard()) {
-                        for (Map.Entry<String, DataFormat> entry : d.getFormats().entrySet()) {
-                            if (formatName.equals(entry.getKey())) {
-                                return entry.getValue();
-                            }
-                        }
+                for (DataFormat df : d.getFormats().values()) {
+                    if (x42Format.equals(df.get(X_42C_FORMAT, isJson))) {
+                        return df;
                     }
                 }
             }
@@ -185,8 +191,8 @@ public final class DictionaryService implements IDictionaryService, SettingsList
             if (toolWindow == null && !register) {
                 return;
             }
-            Utils.activateToolWindow(project, PLATFORM_DICTIONARY);
-            project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadDictionary();
+            WindowUtils.activateToolWindow(project, PLATFORM_DICTIONARY, () ->
+                project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadDictionary(getDictionaries()));
         }, ModalityState.NON_MODAL);
     }
 
@@ -201,14 +207,22 @@ public final class DictionaryService implements IDictionaryService, SettingsList
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            if (PlatformConnection.isPlatformIntegrationEnabled()) {
-                reload(false);
-            } else {
+            String prevApiKey = (String) prevData.get(Settings.Platform.Credentials.API_KEY);
+            boolean wasPltDisabled = prevApiKey != null && prevApiKey.isEmpty();
+            boolean isPltEnabled = PlatformConnection.isPlatformIntegrationEnabled();
+            boolean isPltTurnedOn = isPltEnabled && wasPltDisabled;
+            if (isPltTurnedOn || !isPltEnabled) {
                 ToolWindow window = manager.getToolWindow(PLATFORM_DICTIONARY);
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
-                dispose();
+                cache.clear();
+                dictionaries.clear();
+                if (isPltTurnedOn) {
+                    reload(true);
+                }
+            } else {
+                reload(false);
             }
         }
     }

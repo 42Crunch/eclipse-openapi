@@ -15,7 +15,7 @@ import com.xliic.openapi.quickfix.FixIssueItem;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.QuickFix;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 
 public class FixManagerBulk extends FixManager {
 
@@ -23,7 +23,6 @@ public class FixManagerBulk extends FixManager {
     private final Issue targetIssue;
     private final List<Issue> issues;
 
-    private final boolean isJson;
     private final String text;
     private final List<FixParameter> parameters;
     private volatile int fixItemsSize;
@@ -33,7 +32,6 @@ public class FixManagerBulk extends FixManager {
         this.quickFix = quickFix;
         this.targetIssue = targetIssue;
         this.issues = issues;
-        isJson = isJson(psiFile);
         text = quickFix.getFixText(isJson);
         parameters = quickFix.getParameters();
         fixItemsSize = 0;

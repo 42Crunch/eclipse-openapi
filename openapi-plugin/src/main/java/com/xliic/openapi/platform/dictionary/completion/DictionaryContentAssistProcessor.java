@@ -1,13 +1,6 @@
 package com.xliic.openapi.platform.dictionary.completion;
 
-import static com.xliic.core.codeInsight.completion.CompletionProposal.DQ;
-import static com.xliic.core.codeInsight.completion.CompletionProposal.LF;
-import static com.xliic.core.codeInsight.completion.CompletionProposal.SQ;
-
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.eclipse.jface.text.BadLocationException;
@@ -18,107 +11,87 @@ import com.xliic.core.codeInsight.completion.CompletionParameters;
 import com.xliic.core.codeInsight.completion.CompletionProvider;
 import com.xliic.core.codeInsight.completion.CompletionResultSet;
 import com.xliic.core.codeInsight.completion.ElementPattern;
-import com.xliic.core.editor.Document;
+import com.xliic.core.codeInsight.lookup.LookupElement;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.utils.Utils;
 
 public class DictionaryContentAssistProcessor extends CompletionContributor {
 
-    private static final Pattern JSON_REGEX = Pattern.compile("^ *\"format\" *: *\"o:.*$");
-
-    // Value is single or double quoted
-    private static final Pattern YAML_DQ_NP_REGEX = Pattern.compile("^ *\"format\" *: *[\"']o:.*$");
-    private static final Pattern YAML_SQ_NP_REGEX = Pattern.compile("^ *'format' *: *[\"']o:.*$");
-    private static final Pattern YAML_PL_NP_REGEX = Pattern.compile("^ *format *: *[\"']o:.*$");
-
-    // Value is plain
-    private static final Pattern YAML_DQ_PL_REGEX = Pattern.compile("^ *\"format\" *: *o:.*$");
-    private static final Pattern YAML_SQ_PL_REGEX = Pattern.compile("^ *'format' *: *o:.*$");
-    private static final Pattern YAML_PL_PL_REGEX = Pattern.compile("^ *format *: *o:.*$");
-
     private static final Pattern OAS_REGEX = Pattern.compile("^(swagger *:|(openapi *: *3\\.0\\.\\d(-.+)?))");
 
-    @SuppressWarnings("serial")
-    private static final Map<Character, List<Pattern>> JSON_TRIGGER_CHARS = new HashMap<>() {
-        {
-            put(DQ, Arrays.asList(JSON_REGEX));
-        }
-    };
-
-    @SuppressWarnings("serial")
-    private static final Map<Character, List<Pattern>> YAML_TRIGGER_CHARS = new HashMap<>() {
-        {
-            put(DQ, Arrays.asList(YAML_DQ_PL_REGEX, YAML_DQ_NP_REGEX));
-            put(SQ, Arrays.asList(YAML_SQ_PL_REGEX, YAML_SQ_NP_REGEX));
-            put(LF, Arrays.asList(YAML_PL_PL_REGEX, YAML_PL_NP_REGEX));
-        }
-    };
-
     private static final ElementPattern PATTERN = new ElementPattern() {
+
+        private final Pattern JSON_REGEX = Pattern.compile("^[ \t]*\"format\"[ \t]*:[ \t]*\".*$");
+        private final Pattern YAML_REGEX = Pattern.compile("^[ ]+[\"']{0,1}format[\"']{0,1}[ \t]*:[ \t]+[\"']{0,1}.*$");
 
         @Override
         public boolean accepts(@NotNull CompletionParameters parameters) {
             if (!PlatformConnection.isPlatformIntegrationEnabled()) {
                 return false;
             }
+            OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
             DictionaryService ddService = DictionaryService.getInstance(parameters.getProject());
-            if (ddService.getAllFormats().isEmpty()) {
+            List<DictionaryElement> formats = ddService.getAllFormats(type == OpenApiFileType.Json);
+            if (formats.isEmpty()) {
                 return false;
             }
-            OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
+            boolean status = false;
             if (type == OpenApiFileType.Json) {
-                return accepts(parameters, JSON_TRIGGER_CHARS);
+                status = accepts(parameters, List.of(JSON_REGEX));
             } else if (type == OpenApiFileType.Yaml) {
-                return accepts(parameters, YAML_TRIGGER_CHARS);
+                status = accepts(parameters, List.of(YAML_REGEX));
+                if (status) {
+                    ASTService astService = ASTService.getInstance(parameters.getProject());
+                    if (astService.getOpenAPIVersion(parameters.getFile().getPath()) == OpenApiVersion.Unknown) {
+                        // If version is unknown the file may be invalid due to typing special symbols like : or -
+                        // It is fine but in this case we can't parse it to know the version
+                        try {
+                            status = OAS_REGEX.matcher(parameters.getDocument().getText(0, 256)).find();
+                        } catch (BadLocationException e) {
+                            status = false;
+                        }
+                    }
+                }
+            }
+            if (!status) {
+                return false;
+            }
+            String prefix = parameters.getPrefix();
+            for (DictionaryElement item : formats) {
+                String dStr = LookupElement.getDisplayString(item.getElement(), item.getPresentableText());
+                if (CompletionResultSet.isSubstringFoundOrderedInString(prefix, dStr)) {
+                    parameters.setUseRunnable(false);
+                    return true;
+                }
             }
             return false;
-        }
-
-        @Override
-        public String getPrefix(String fragment) {
-            int i = fragment.indexOf("o:");
-            if (i > 0) {
-                return fragment.substring(i);
-            }
-            return null;
         }
     };
 
     public DictionaryContentAssistProcessor() {
-        super(":", PATTERN, new CompletionProvider() {
+        super("date-imuronlhspv46fc:", PATTERN, new CompletionProvider() {
             @Override
             public void addCompletions(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet resultSet) {
-                Node root = parameters.getRoot();
-                if (root == null) {
-                    OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
-                    if (type == OpenApiFileType.Yaml && isPlainPattern(parameters.getPattern())) {
-                        try {
-                            int offset = parameters.getOffset();
-                            Document document = parameters.getDocument();
-                            if (document.getChar(offset - 1) == ':') {
-                                String text = document.getText();
-                                if (OAS_REGEX.matcher(text).find()) {
-                                    DictionaryCompletionHelper.updateResultSet(parameters, resultSet);
-                                }
-                            }
-                        } catch (BadLocationException e) {
-                        }
-                    }
-                } else if (parameters.getVersion() != OpenApiVersion.Unknown) {
-                    Node target = root.findNodeAtOffset(parameters.getOffset());
-                    if (target != null && target.isScalar() && "format".equals(target.getKey())) {
-                        DictionaryCompletionHelper.updateResultSet(parameters, resultSet);
-                    }
-                }
+                DictionaryCompletionHelper.updateResultSet(parameters, resultSet);
             }
         });
     }
 
-    private static boolean isPlainPattern(Pattern pattern) {
-        return pattern == YAML_DQ_PL_REGEX || pattern == YAML_SQ_PL_REGEX || pattern == YAML_PL_PL_REGEX;
+    @Override
+    protected boolean enableCompletionInFile(@NotNull Project project, @NotNull VirtualFile file) {
+        OpenApiFileType type = Utils.getFileType(file);
+        if (type == OpenApiFileType.Unsupported) {
+            return false;
+        }
+        if (type == OpenApiFileType.Json) {
+            return ASTService.getInstance(project).getOpenAPIVersion(file.getPath()) != OpenApiVersion.Unknown;
+        }
+        return true;
     }
 }

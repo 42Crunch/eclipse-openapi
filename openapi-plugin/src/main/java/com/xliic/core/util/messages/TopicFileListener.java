@@ -30,6 +30,8 @@ public class TopicFileListener<L> extends Topic<L> {
             listener.handleClosedFile((VirtualFile) args.get(0));
         } else if (funcId == 4) {
             listener.handleDocumentChanged((VirtualFile) args.get(0));
+        } else if (funcId == 5) {
+            listener.handleDocumentBundled((String) args.get(0));
         }
     }
 
@@ -62,6 +64,11 @@ public class TopicFileListener<L> extends Topic<L> {
             @Override
             public void handleDocumentChanged(@NotNull VirtualFile file) {
                 eventBroker.send(getTopic(), getArgs(4, List.of(file)));
+            }
+
+            @Override
+            public void handleDocumentBundled(@NotNull String fileName) {
+                eventBroker.send(getTopic(), getArgs(5, List.of(fileName)));
             }
         };
     }

@@ -5,9 +5,10 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
 import com.xliic.core.startup.StartupActivity;
+import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.DictionaryService;
-import com.xliic.openapi.services.KDBService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.services.ScanService;
@@ -30,6 +31,7 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         PlatformService.getInstance(project).subscribe();
         DictionaryService.getInstance(project).subscribe();
         ScanService.getInstance(project).subscribe();
+        EnvService.getInstance(project).subscribe();
         // Platform
         PlatformService platformService = PlatformService.getInstance(project);
         if (PlatformConnection.isPlatformIntegrationEnabled()) {
@@ -37,8 +39,8 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
             DictionaryService ddService = DictionaryService.getInstance(project);
             ddService.reload(false);
         }
-        // Load KDB articles
-        KDBService.getInstance().notifyWhenKDBReady(project);
+        // Download and cache KDB articles to boost first security audit
+        AuditService.getInstance(project).downloadArticlesAsync();
     }
 
     public static boolean isMyPluginTempDir(@NotNull String dirName) {

@@ -16,7 +16,7 @@ import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.schema.SchemaNameChooser;
 import com.xliic.openapi.quickfix.schema.SchemaUtils;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.ASTService;
 
 public class FixManagerSchema extends FixManager {
@@ -99,7 +99,7 @@ public class FixManagerSchema extends FixManager {
                 schemaRefFix.add("schema", schemaRef);
             }
         }
-        String text = QuickFix.formatFixText(schemaRefFix.toString(), isJson(psiFile));
+        String text = QuickFix.formatFixText(schemaRefFix.toString(), isJson);
         return new FixIssueItem(issue, pointer, text, quickFix.getType());
     }
 
@@ -110,7 +110,7 @@ public class FixManagerSchema extends FixManager {
         Pair<String, String> pair = getSchemaPointerAndText(root, schemaMainFix, version);
         String pointer = pair.getFirst();
         String text = pair.getSecond();
-        text = QuickFix.formatFixText(text, isJson(psiFile));
+        text = QuickFix.formatFixText(text, isJson);
         return new FixIssueItem(issue, pointer, text, quickFix.getType());
     }
 

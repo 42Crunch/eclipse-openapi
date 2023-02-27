@@ -11,7 +11,7 @@ import com.xliic.openapi.quickfix.FixIssueItem;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.schema.SchemaUtils;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.ASTService;
 
 public class FixManagerSchemaInline extends FixManager {
@@ -31,7 +31,6 @@ public class FixManagerSchemaInline extends FixManager {
 
     @Override
     public List<FixItem> getFixItems() {
-        boolean isJson = isJson(psiFile);
         ASTService astService = ASTService.getInstance(project);
         Node root = astService.getRootNode(psiFile.getVirtualFile());
         String pointer = getAbsolutePointer(issue.getPointer(), quickFix.getPointer());

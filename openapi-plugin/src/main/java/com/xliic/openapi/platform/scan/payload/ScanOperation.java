@@ -1,16 +1,10 @@
 package com.xliic.openapi.platform.scan.payload;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.Payload;
-import com.xliic.openapi.utils.Utils;
 
-public class ScanOperation implements Payload {
+public class ScanOperation {
 
     @NotNull
     private String oas;
@@ -79,15 +73,7 @@ public class ScanOperation implements Payload {
         return method;
     }
 
-    @Override
-    @NotNull
-    public Map<String, Object> getProperties() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("oas", Utils.deserialize(oas, Collections.EMPTY_MAP));
-        result.put("rawOas", oas);
-        result.put("path", path);
-        result.put("method", method);
-        result.put("config", Utils.deserialize(config, Collections.EMPTY_MAP));
-        return result;
+    public @NotNull String getConfig() {
+        return config;
     }
 }

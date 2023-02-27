@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.platform.tree.node.core.ProgressAware;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.utils.TempFileUtils;
 
 public class PlatformAudit implements ProgressAware {

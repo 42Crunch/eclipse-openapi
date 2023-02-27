@@ -2,6 +2,13 @@
 
 This is a repository for OpenAPI (Swagger) Editor plugin for Eclipse.
 
+## Setup Equo
+
+```bash
+CD C:\Users\xxx\eclipse\eclipse-committers-2021-03-R-win32-x86_64\eclipse
+eclipsec.exe  -application org.eclipse.equinox.p2.director -repository https://dl.equo.dev/middleware/1.2/repo -installIU com.equo.middleware.api,com.equo.middleware.ee.provider
+```
+
 ## Build
 
 1) Download all dependencies

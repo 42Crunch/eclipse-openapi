@@ -1,14 +1,13 @@
 package com.xliic.openapi.tryit.payload;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class TryItRequestBodyMultiPart extends TryItRequest {
 
@@ -16,8 +15,9 @@ public class TryItRequestBodyMultiPart extends TryItRequest {
                                      @NotNull String method,
                                      @NotNull Map<String, String> headers,
                                      @Nullable Object body,
+                                     @Nullable String id,
                                      boolean rejectUnauthorized) {
-        super(url, method, headers, body, rejectUnauthorized);
+        super(url, method, headers, body, id, rejectUnauthorized);
     }
 
     @SuppressWarnings("unchecked")

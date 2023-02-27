@@ -1,9 +1,5 @@
 package com.xliic.core.ui.components;
 
-import java.util.EventListener;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -15,11 +11,13 @@ import org.eclipse.swt.widgets.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class JTextField implements Validator {
+import com.xliic.core.ui.DocumentAdapter;
+import com.xliic.core.ui.DocumentEvent;
+
+public class JTextField implements JTextComponent {
 
     private Text textWidget;
     private String text;
-    private List<EventListener> validators = new LinkedList<>();
 
     public JTextField(@NotNull JPanel parent) {
         this(parent.getComposite(), null);
@@ -36,9 +34,6 @@ public class JTextField implements Validator {
         textWidget.setLayoutData(gridData);
         textWidget.addDisposeListener(event -> {
             text = getText();
-            if (!validators.isEmpty()) {
-                removeValidationListener();
-            }
             textWidget = null;
         });
     }
@@ -55,14 +50,17 @@ public class JTextField implements Validator {
         textWidget.setEchoChar('*');
     }
 
+    @Override
     public void setText(String t) {
         textWidget.setText(t);
     }
 
+    @Override
     public String getText() {
         return textWidget == null ? text : textWidget.getText();
     }
 
+    @Override
     public void setEnabled(boolean enabled) {
         textWidget.setEnabled(enabled);
     }
@@ -96,27 +94,31 @@ public class JTextField implements Validator {
     }
 
     @Override
-    public void setValidationListener(ValidationListener listener) {
-        if (!validators.isEmpty()) {
-            return;
-        }
-        ModifyListener modifyListener = new ModifyListener() {
+    public Document getDocument() {
+        return new Document() {
+
+            private ModifyListener docListener = null;
+
             @Override
-            public void modifyText(ModifyEvent e) {
-                listener.validate();
+            public void addDocumentListener(@NotNull DocumentAdapter listener) {
+                if (docListener == null) {
+                    docListener = new ModifyListener() {
+                        @Override
+                        public void modifyText(ModifyEvent e) {
+                            listener.textChanged(new DocumentEvent(e));
+                        }
+                    };
+                    textWidget.addModifyListener(docListener);
+                }
+            }
+
+            @Override
+            public void removeDocumentListener(@NotNull DocumentAdapter listener) {
+                if (docListener != null) {
+                    textWidget.removeModifyListener(docListener);
+                    docListener = null;
+                }
             }
         };
-        validators.add(modifyListener);
-        addModifyListener(modifyListener);
-    }
-
-    @Override
-    public void removeValidationListener() {
-        for (EventListener listener : validators) {
-            if (listener instanceof ModifyListener) {
-                removeModifyListener((ModifyListener) listener);
-            }
-        }
-        validators.clear();
     }
 }

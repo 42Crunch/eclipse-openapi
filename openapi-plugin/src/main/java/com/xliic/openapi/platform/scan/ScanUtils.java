@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.scan;
 
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
@@ -47,13 +49,15 @@ public class ScanUtils {
     private static final int PULL_SCAN_CONFIG_DURATION = 30000;
     private static final int PULL_SCAN_REPORT_DURATION = 10000;
     private static final int PULL_REPORT_DURATION = 60000;
+    public static final String LIMIT_REACHED_MSG = "You have reached your maximum number of APIs. " +
+            "Please contact support@42crunch.com to upgrade your account.";
 
     @NotNull
     public static String getTempAPI(@NotNull Project project, @NotNull String oas, @NotNull ProgressIndicator progressIndicator) throws Exception {
         progressIndicator.setText("Creating temporary platform API");
         PlatformAPI api = ScanUtils.createTempApi(oas);
         String apiId = api.getId();
-        progressIndicator.setText("Waiting for security audit report");
+        progressIndicator.setText(RUNNING_SECURITY_AUDIT);
         Node fullReport = new PlatformReportPuller(project, apiId, PAUSE, PULL_REPORT_DURATION).get();
         Node report = PlatformUtils.getAssessmentReportNode(fullReport);
         if (report == null || !"valid".equals(report.getChildValue("openapiState"))) {
@@ -199,8 +203,7 @@ public class ScanUtils {
                     String code = body.getChildValue("code");
                     String message = body.getChildValue("message");
                     if ("109".equals(code) && "limit reached".equals(message)) {
-                        throw new Exception("You have reached your maximum number of APIs. " +
-                                "Please contact support@42crunch.com to upgrade your account.");
+                        throw new Exception(LIMIT_REACHED_MSG);
                     }
                 }
                 return PlatformImportAPICallback.getPlatformAPI(body, apiName);
@@ -227,6 +230,7 @@ public class ScanUtils {
                     pathsMap.keySet().removeIf(key -> !path.equals(key));
                 }
                 TryItUtils.filterComponents(root, refs);
+                TryItUtils.filterDefinitions(root, refs);
                 return TryItUtils.serializeToString(root);
             }
         } catch (Exception e) {

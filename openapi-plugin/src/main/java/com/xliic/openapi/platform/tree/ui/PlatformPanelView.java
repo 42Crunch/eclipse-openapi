@@ -20,15 +20,17 @@ import com.xliic.openapi.services.PlatformService;
 
 public class PlatformPanelView extends PanelViewPart {
 
+    public static final String CREDENTIALS_NA_TEXT = "42Crunch Platform Credentials are not available";
+
     private static final String MEMENTO_DELIMETER = ",";
     private static final String FAVORITE_STATE_PATH = "com.xliic.openapi.platform.tree.PlatformFavoriteState";
 
     public PlatformPanelView() {
-        super(ToolWindowId.OPEN_API_PLATFORM);
+        super(ToolWindowId.PLATFORM);
     }
 
     @Override
-    protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
+    protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent, @NotNull ViewPartHandler handler) {
         return new PlatformPanel(project, window, parent);
     }
 
@@ -53,7 +55,7 @@ public class PlatformPanelView extends PanelViewPart {
 
     @Override
     protected void createEmptyControl(Composite parent) {
-        new Label(parent, SWT.NULL).setText("42Crunch Platform Credentials are not defined");
+        new Label(parent, SWT.NULL).setText(CREDENTIALS_NA_TEXT);
     }
 
     @Override

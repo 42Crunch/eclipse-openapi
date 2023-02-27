@@ -16,11 +16,13 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.ui.IWorkbenchPage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.PrettyPrinter;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
@@ -38,11 +40,9 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.EclipseUtil;
-import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
@@ -51,7 +51,7 @@ import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.editor.DocumentIndent;
-import com.xliic.openapi.report.ResponseStatus;
+import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.ExtRefService;
 
@@ -67,6 +67,9 @@ public class Utils {
     public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
     private static final String TAB_REPLACE_REGEXP = "(?<!\\\\)\\t";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final DefaultIndenter INDENTER = new DefaultIndenter("", "");
+    private static final PrettyPrinter PRINTER = new DefaultPrettyPrinter().withObjectIndenter(INDENTER).
+            withArrayIndenter(INDENTER).withoutSpacesInObjectEntries();
 
     public static String pointer(String parentPointer, String key) {
         return parentPointer + POINTER_SEPARATOR + escape(key);
@@ -121,20 +124,6 @@ public class Utils {
             return ApplicationManager.getApplication().runReadAction((Computable<String>) () -> getTextFromFile(new File(fileName)));
         } else {
             return getTextFromFile(new File(fileName));
-        }
-    }
-
-    public static void activateToolWindow(@NotNull Project project, @NotNull String id) {
-        if (!project.isDisposed()) {
-            EclipseWorkbenchUtil.openPerspective();
-            ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(id);
-            if (toolWindow == null) {
-                // Eclipse Development Note
-                // View is always registered, but may not be available in any page
-                EclipseWorkbenchUtil.showView(id, null, IWorkbenchPage.VIEW_ACTIVATE);
-            } else if ((toolWindow != null) && !toolWindow.isActive()) {
-                toolWindow.activate(null);
-            }
         }
     }
 
@@ -351,8 +340,11 @@ public class Utils {
     }
 
     @Nullable
-    public static String serialize(@NotNull ObjectMapper mapper, @NotNull Object data) {
+    public static String serialize(@NotNull ObjectMapper mapper, @NotNull Object data, boolean minify) {
         try {
+            if (minify) {
+                 return mapper.writer(PRINTER).writeValueAsString(data);
+            }
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -360,14 +352,41 @@ public class Utils {
         return null;
     }
 
+    @Nullable
+    public static String serialize(@NotNull Object data, boolean minify) {
+        return serialize(new ObjectMapper(), data, minify);
+    }
+
     @NotNull
     public static Object deserialize(@NotNull String json, @NotNull Object defaultObj) {
         try {
             return OBJECT_MAPPER.readValue(json, Map.class);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
         }
         return defaultObj;
+    }
+
+    @Nullable
+    public static PsiFile getPsiFile(@NotNull Project project, @NotNull String filePath) {
+        VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
+        if (file != null) {
+            return PsiManager.getInstance(project).findFile(file);
+        }
+        return null;
+    }
+
+    public static void goToPointerInFile(@NotNull Project project, @NotNull VirtualFile file, @NotNull String pointer) {
+        ASTService astService = ASTService.getInstance(project);
+        Node root = astService.getRootNode(file);
+        if (root != null) {
+            Node target = root.find(pointer);
+            if (target != null) {
+                ApplicationManager.getApplication().invokeLater(() -> {
+                    int offset = target.getRange().getStartOffset();
+                    new OpenFileDescriptor(project, file, offset).navigate(true);
+                });
+            }
+        }
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {

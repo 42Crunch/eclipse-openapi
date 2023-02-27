@@ -8,7 +8,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.messages.MessageBus;
 
-public class ApplicationManager {
+public class ApplicationManager implements Application {
 
     private final static ApplicationManager applicationManager = new ApplicationManager();
 
@@ -16,42 +16,49 @@ public class ApplicationManager {
         return applicationManager;
     }
 
-    @NotNull
-    public MessageBus getMessageBus() {
+    @Override
+    public @NotNull MessageBus getMessageBus() {
         return Project.getInstance().getMessageBus();
     }
 
+    @Override
     public void invokeLater(@NotNull Runnable runnable) {
         Display.getDefault().asyncExec(runnable);
     }
 
+    @Override
     public void invokeAndWait(@NotNull Runnable runnable) {
         Display.getDefault().asyncExec(runnable);
     }
 
+    @Override
     public void invokeAndWait(@NotNull Runnable runnable, @NotNull ModalityState state) {
         Display.getDefault().asyncExec(runnable);
     }
 
+    @Override
     public void invokeLaterOnWriteThread(@NotNull Runnable runnable) {
         Display.getDefault().asyncExec(runnable);
     }
 
+    @Override
     public void runReadAction(@NotNull Runnable runnable) {
         Display.getDefault().asyncExec(runnable);
     }
 
+    @Override
     public <T> T runReadAction(@NotNull Computable<T> computable) {
         return computable.get();
     }
 
+    @Override
     public void runWriteAction(@NotNull Runnable runnable) {
         Display.getDefault().asyncExec(runnable);
     }
 
+    @Override
     public void executeOnPooledThread(@NotNull Runnable runnable) {
-        Thread thread = new Thread(runnable);
-        thread.start();
+        new Thread(runnable).start();
     }
 
     @SuppressWarnings("unchecked")

@@ -15,7 +15,7 @@ import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 
 public class FixManagerSingle extends FixManager {
 
@@ -30,8 +30,6 @@ public class FixManagerSingle extends FixManager {
 
     @Override
     public List<FixItem> getFixItems() {
-
-        boolean isJson = isJson(psiFile);
         String text = quickFix.getFixText(isJson);
         List<FixItem> result = new LinkedList<>();
         List<FixParameter> parameters = quickFix.getParameters();

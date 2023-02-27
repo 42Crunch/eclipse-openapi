@@ -1,14 +1,13 @@
 package com.xliic.openapi.tryit.payload;
 
+import okhttp3.RequestBody;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import okhttp3.RequestBody;
 
 public abstract class TryItRequest {
 
@@ -20,17 +19,21 @@ public abstract class TryItRequest {
     protected final Map<String, String> headers;
     @Nullable
     protected final Object body;
+    @Nullable
+    protected final String id;
     protected final boolean rejectUnauthorized;
 
     protected TryItRequest(@NotNull String url,
                            @NotNull String method,
                            @NotNull Map<String, String> headers,
                            @Nullable Object body,
+                           @Nullable String id,
                            boolean rejectUnauthorized) {
         this.url = url;
         this.method = method;
         this.headers = headers;
         this.body = body;
+        this.id = id;
         this.rejectUnauthorized = rejectUnauthorized;
     }
 
@@ -39,20 +42,21 @@ public abstract class TryItRequest {
                                            @NotNull String method,
                                            @NotNull Map<String, String> headers,
                                            @Nullable Object body,
+                                           @Nullable String id,
                                            boolean rejectUnauthorized) {
         if (body != null) {
             final String contentType = getContentType(headers);
             if (body instanceof List && "multipart/form-data".equals(contentType)) {
-                return new TryItRequestBodyMultiPart(url, method, headers, body, rejectUnauthorized);
+                return new TryItRequestBodyMultiPart(url, method, headers, body, id, rejectUnauthorized);
             } else if (body instanceof String) {
                 if ("application/x-www-form-urlencoded".equals(contentType)) {
-                    return new TryItRequestBodyForm(url, method, headers, body, rejectUnauthorized);
+                    return new TryItRequestBodyForm(url, method, headers, body, id, rejectUnauthorized);
                 } else {
-                    return new TryItRequestBodyJson(url, method, headers, body, rejectUnauthorized);
+                    return new TryItRequestBodyJson(url, method, headers, body, id, rejectUnauthorized);
                 }
             }
         }
-        return new TryItRequestDefault(url, method, headers, body, rejectUnauthorized);
+        return new TryItRequestDefault(url, method, headers, body, id, rejectUnauthorized);
     }
 
     @NotNull
@@ -93,5 +97,9 @@ public abstract class TryItRequest {
             }
         }
         return null;
+    }
+
+    public @Nullable String getId() {
+        return id;
     }
 }

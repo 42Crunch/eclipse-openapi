@@ -13,7 +13,8 @@ import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.SystemInfoRt;
-import com.xliic.openapi.platform.scan.Environment;
+import com.xliic.openapi.environment.EnvService;
+import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.ScanConfiguration;
 import com.xliic.openapi.platform.scan.ScanRunConfig;
 import com.xliic.openapi.platform.scan.ScanUtils;
@@ -70,8 +71,7 @@ public class ScanDockerTask extends Task.Backgroundable {
                 return;
             }
 
-            ScanService scanService = ScanService.getInstance(project);
-            Environment myEnv = scanService.loadEnv();
+            Environment myEnv = EnvService.getInstance(project).getEnv();
             Map<String, String> dockerEnv = new HashMap<>();
             for (Map.Entry<String, String> entry : runConfig.getEnv().entrySet()) {
                 dockerEnv.put(entry.getKey(), myEnv.replace(entry.getValue()));
@@ -101,7 +101,7 @@ public class ScanDockerTask extends Task.Backgroundable {
                         e -> "-e " + e.getKey() + "=" + e.getValue()).collect(
                         		Collectors.joining(" ")) + " " + image);
             }
-            
+
             TerminalService terminalService = TerminalService.getInstance(project);
             terminalService.sendText(ScanService.TERMINAL_TAB, cmdList);
 

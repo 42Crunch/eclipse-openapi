@@ -3,8 +3,8 @@ package com.xliic.openapi.report;
 import static com.xliic.core.codeInsight.HighlightInfo.newHighlightInfo;
 import static com.xliic.core.codeInsight.SeverityRegistrar.getSeverityRegistrar;
 import static com.xliic.core.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
-import static com.xliic.openapi.report.Severity.getHighlightSeverity;
-import static com.xliic.openapi.report.Severity.getProblemHighlightType;
+import static com.xliic.openapi.report.types.Severity.getHighlightSeverity;
+import static com.xliic.openapi.report.types.Severity.getProblemHighlightType;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,6 +29,7 @@ import com.xliic.core.util.TextRange;
 import com.xliic.openapi.quickfix.actions.FixBulkAction;
 import com.xliic.openapi.quickfix.actions.FixCombinedAction;
 import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.services.QuickFixService;

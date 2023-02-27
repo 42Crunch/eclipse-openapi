@@ -33,13 +33,11 @@ import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.dmtn.DMTNConverter;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
-import com.xliic.openapi.topic.WindowListener;
 import com.xliic.openapi.tree.OpenAPIAlphaSortAction;
 import com.xliic.openapi.tree.OpenAPIMouseMotionListener;
 import com.xliic.openapi.tree.OpenAPITreeKeyListener;
@@ -48,11 +46,10 @@ import com.xliic.openapi.tree.OpenApiMouseAdapter;
 import com.xliic.openapi.tree.SortTreeModel;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.RootNode;
-import com.xliic.openapi.utils.Utils;
 
 // We have to extend from JPanel to be able to register the whole stuff below as tool window component
 // By doing so we will be able to access all necessary content from anywhere through ToolWindowManager
-public class OpenApiFileTreePanel implements FileListener, WindowListener, SettingsListener, Disposable {
+public class OpenApiFileTreePanel implements FileListener, SettingsListener, Disposable {
 
     private static final String SHOW_PROPERTY_KEY = "openapi.show.key";
     private static final Color ERROR_BACKGROUND = new JBColor(0xFFF2F2F2, 0x808080);
@@ -94,12 +91,6 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
 
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
-        project.getMessageBus().connect().subscribe(WindowListener.TOPIC, this);
-
-        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
-        if (file != null) {
-            handleSelectedFile(file);
-        }
     }
 
     public Project getProject() {
@@ -121,16 +112,6 @@ public class OpenApiFileTreePanel implements FileListener, WindowListener, Setti
                 setTreeBackGround(true, null);
             } catch (Exception e) {
                 setTreeBackGround(false, e.getMessage());
-            }
-        }
-    }
-
-    @Override
-    public void handleToolWindowRegistered(@NotNull String id) {
-        if (ToolWindowId.OPEN_API.equals(id)) {
-            if (!toolWindow.isVisible() && PropertiesComponent.getInstance().isValueSet(SHOW_PROPERTY_KEY)) {
-                toolWindow.show(null);
-                PropertiesComponent.getInstance().setValue(SHOW_PROPERTY_KEY, false);
             }
         }
     }

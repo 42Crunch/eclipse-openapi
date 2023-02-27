@@ -99,10 +99,10 @@ public class OpenApiRightMouseClickHandler {
             diffGroup.getTemplatePresentation().setIcon(OpenApiIcons.AddSnippet);
             diffGroup.addAll(quickFixService.getSnippetFixActions(psiFile, "operation", treeNode));
             actions.add(diffGroup);
-        } else if (isOperation(treeNode) && (version == OpenApiVersion.V3)) {
+        } else if (isOperation(treeNode)) {
             TryItUtils.setActionsForOperation(psiFile, node.getNode(), actions);
             ScanUtils.setActionsForOperation(psiFile, node.getNode(), actions);
-        } else if (isOperationId(treeNode) && (version == OpenApiVersion.V3)) {
+        } else if (isOperationId(treeNode)) {
             TryItUtils.setActionsForOperation(psiFile, node.getNode().getParent(), actions);
             ScanUtils.setActionsForOperation(psiFile, node.getNode().getParent(), actions);
         }
