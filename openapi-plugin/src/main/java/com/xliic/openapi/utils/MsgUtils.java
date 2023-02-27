@@ -26,6 +26,10 @@ public class MsgUtils {
         }
     }
 
+    public static void info(@NotNull Project project, @NotNull String msg, boolean insideEDT) {
+        info(project, msg, "Info", insideEDT);
+    }
+
     public static void info(@NotNull Project project, @NotNull String msg, @NotNull String title, boolean insideEDT) {
         if (insideEDT) {
             ApplicationManager.getApplication().invokeAndWait(() ->

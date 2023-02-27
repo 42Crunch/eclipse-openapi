@@ -49,8 +49,6 @@ public class FixManagerSnippet extends FixManager {
 
     @Override
     public List<FixItem> getFixItems() {
-
-        boolean isJson = isJson(psiFile);
         String fixPointer = quickFix.getPointer();
         String clickedPointer = ((BaseNode) node.getUserObject()).getPointer();
         if (!clickedPointer.equals("/general") && clickedPointer.startsWith(fixPointer)) {

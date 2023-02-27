@@ -6,34 +6,25 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.openapi.parser.ast.node.Node;
+
 public class DataFormatNumber extends DataFormat {
 
-    @Nullable
-    protected final BigDecimal minimum;
-    @Nullable
-    protected final Boolean exclusiveMinimum;
+    @Nullable protected final BigDecimal minimum;
+    @Nullable protected final Boolean exclusiveMinimum;
 
-    @Nullable
-    protected final BigDecimal maximum;
-    @Nullable
-    protected final Boolean exclusiveMaximum;
+    @Nullable protected final BigDecimal maximum;
+    @Nullable protected final Boolean exclusiveMaximum;
 
-    @Nullable
-    protected final BigDecimal multipleOf;
+    @Nullable protected final BigDecimal multipleOf;
 
-    public DataFormatNumber(@NotNull String name, @Nullable String description, @Nullable String format, @Nullable Object example,
-            @Nullable Object defaultProp, @Nullable Boolean readOnly, @Nullable Boolean writeOnly, @Nullable Boolean nullable,
-            @NotNull String sensitivity, @NotNull String pii, @NotNull String objectIdentifier, @NotNull String lastUpdate,
-            @NotNull String lastChangeBy, @Nullable BigDecimal minimum, @Nullable Boolean exclusiveMinimum, @Nullable BigDecimal maximum,
-            @Nullable Boolean exclusiveMaximum, @Nullable BigDecimal multipleOf) {
-
-        super(name, description, "number", format, null, example, defaultProp, readOnly, writeOnly, nullable, sensitivity, pii, objectIdentifier,
-                lastUpdate, lastChangeBy);
-        this.minimum = minimum;
-        this.exclusiveMinimum = exclusiveMinimum;
-        this.maximum = maximum;
-        this.exclusiveMaximum = exclusiveMaximum;
-        this.multipleOf = multipleOf;
+    public DataFormatNumber(@NotNull Node node, @NotNull String prefix) {
+        super(node, prefix);
+        this.minimum = getNumberProperty(node, "minimum");
+        this.exclusiveMinimum = getBooleanProperty(node, "exclusiveMinimum");
+        this.maximum = getNumberProperty(node, "maximum");
+        this.exclusiveMaximum = getBooleanProperty(node, "exclusiveMaximum");
+        this.multipleOf = getNumberProperty(node, "multipleOf");
     }
 
     @Override

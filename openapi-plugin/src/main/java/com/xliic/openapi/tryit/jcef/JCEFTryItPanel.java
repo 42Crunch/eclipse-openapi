@@ -36,7 +36,7 @@ public class JCEFTryItPanel extends PanelBrowser implements TryItListener, Dispo
 
     @Override
     protected @NotNull String getLoadingMessage() {
-        return "Try It...";
+        return "Try It";
     }
 
     @Override

@@ -6,8 +6,10 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ide.util.PropertiesComponent;
+import com.xliic.core.ui.DocumentAdapter;
+import com.xliic.core.ui.DocumentEvent;
+import com.xliic.core.ui.components.JTextComponent;
 import com.xliic.core.ui.components.JTextField;
-import com.xliic.core.ui.components.Validator;
 
 public abstract class Item {
 
@@ -33,15 +35,15 @@ public abstract class Item {
     }
 
     protected void validate(@NotNull JTextField component) {
-        if (component instanceof Validator) {
-            Validator validator = component;
-            validator.setValidationListener(() -> {
+        component.getDocument().addDocumentListener(new DocumentAdapter() {
+            @Override
+            public void textChanged(@NotNull DocumentEvent e) {
                 valid();
-            });
-        }
+            }
+        });
     }
 
-    protected static void drawValidationStatus(JTextField component, String message) {
+    public static void drawValidationStatus(JTextComponent component, String message) {
         if (message == null) {
             component.setValid();
         } else {

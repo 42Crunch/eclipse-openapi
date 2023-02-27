@@ -47,7 +47,7 @@ public class JCEFReportPanel extends PanelBrowser implements FileListener, Windo
 
     @Override
     protected @NotNull String getLoadingMessage() {
-        return "Loading API Contract Security Audit KDB Articles...";
+        return "Loading API Contract Security Audit KDB Articles";
     }
 
     @Override

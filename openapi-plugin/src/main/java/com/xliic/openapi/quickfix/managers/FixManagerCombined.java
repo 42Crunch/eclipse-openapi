@@ -42,8 +42,6 @@ public class FixManagerCombined extends FixManager {
     @Override
     @SuppressWarnings("unchecked")
     public List<FixItem> getFixItems() {
-
-        boolean isJson = isJson(psiFile);
         List<FixItem> result = new LinkedList<>();
         String pointer = getAbsolutePointer(getIssuePointer(), "");
         // Use tree map to sort inserted fix properties by key

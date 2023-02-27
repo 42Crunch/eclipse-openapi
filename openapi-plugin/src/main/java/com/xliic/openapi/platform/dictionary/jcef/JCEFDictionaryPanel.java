@@ -29,7 +29,7 @@ public class JCEFDictionaryPanel extends PanelBrowser implements PlatformListene
 
     @Override
     protected @NotNull String getLoadingMessage() {
-        return "Data Dictionary...";
+        return "Data Dictionary";
     }
 
     @Override

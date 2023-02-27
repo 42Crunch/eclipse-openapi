@@ -25,10 +25,12 @@ public abstract class FixManager {
 
     protected final PsiFile psiFile;
     protected final Project project;
+    protected final boolean isJson;
 
     protected FixManager(PsiFile psiFile) {
         this.psiFile = psiFile;
         project = psiFile.getProject();
+        isJson = (Utils.getFileType(psiFile) == OpenApiFileType.Json);
     }
 
     public abstract String getTitle();
@@ -58,10 +60,6 @@ public abstract class FixManager {
 
     protected OpenApiVersion getOpenApiVersion(String auditFileName, Project project) {
         return ASTService.getOpenAPIVersion(project, auditFileName);
-    }
-
-    protected boolean isJson(PsiFile file) {
-        return Utils.getFileType(file) == OpenApiFileType.Json;
     }
 
     public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);

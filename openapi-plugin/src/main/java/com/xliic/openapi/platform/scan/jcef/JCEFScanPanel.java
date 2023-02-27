@@ -41,7 +41,7 @@ public class JCEFScanPanel extends PanelBrowser implements ScanListener, Disposa
 
     @Override
     protected @NotNull String getLoadingMessage() {
-        return "Scan...";
+        return "Scan";
     }
 
     @Override

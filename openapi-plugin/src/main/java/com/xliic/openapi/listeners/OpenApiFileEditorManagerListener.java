@@ -3,8 +3,6 @@ package com.xliic.openapi.listeners;
 import static com.xliic.openapi.utils.TempFileUtils.isExtRefFile;
 import static com.xliic.openapi.utils.Utils.isOpenAPIFileType;
 
-import java.util.HashMap;
-
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.editor.Document;
@@ -48,27 +46,22 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
         }
     }
 
-    @SuppressWarnings("serial")
     @Override
     public void selectionChanged(@NotNull FileEditorManagerEvent event) {
-        if ((event.getNewFile() != null) && TempFileUtils.isPluginTempDeadFile(event.getNewFile())) {
+        VirtualFile file = event.getNewFile();
+        if (file != null && TempFileUtils.isPluginTempDeadFile(file)) {
             return;
         }
         placeHolderService.closePopup();
-        if (event.getNewFile() == null) {
-            astService.runAsyncTask(project, AsyncTaskType.ALL_FILES_CLOSED, event.getOldFile());
-        } else if (event.getOldFile() == null) {
-            astService.runAsyncTask(project, AsyncTaskType.SELECTION_CHANGED, event.getNewFile(), new HashMap<>() {
-                {
-                    put(IS_FIRST_SELECTION_KEY, true);
-                }
-            });
-        } else {
-            astService.runAsyncTask(project, AsyncTaskType.SELECTION_CHANGED, event.getNewFile());
+        if (file != null) {
+            astService.runAsyncTask(project, AsyncTaskType.SELECTION_CHANGED, file);
         }
     }
 
     @Override
     public void fileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
+        if (source.getAllEditors().length == 0) {
+            astService.runAsyncTask(project, AsyncTaskType.ALL_FILES_CLOSED, file);
+        }
     }
 }

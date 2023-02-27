@@ -10,11 +10,13 @@ public class DictionaryElement {
     private final String presentableText;
     @NotNull
     private final String withTypeText;
+    private final boolean isStandard;
 
-    public DictionaryElement(@NotNull String element, @NotNull String presentableText, @NotNull String withTypeText) {
+    public DictionaryElement(@NotNull String element, @NotNull String presentableText, @NotNull String withTypeText, boolean isStandard) {
         this.element = element;
         this.presentableText = presentableText;
         this.withTypeText = withTypeText;
+        this.isStandard = isStandard;
     }
 
     @NotNull
@@ -36,15 +38,11 @@ public class DictionaryElement {
         if ("o:".equals(prefix)) {
             return true;
         } else {
-            if (isStandard()) {
-                return presentableText.toLowerCase().startsWith(prefix);
-            } else {
-                return element.toLowerCase().contains(prefix);
-            }
+            return (isStandard ? presentableText : element).toLowerCase().contains(prefix);
         }
     }
 
     public boolean isStandard() {
-        return !element.equals(presentableText);
+        return isStandard;
     }
 }

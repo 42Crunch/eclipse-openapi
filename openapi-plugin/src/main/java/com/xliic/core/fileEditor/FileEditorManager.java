@@ -77,6 +77,15 @@ public class FileEditorManager {
         return fileEditors.toArray(new FileEditor[0]);
     }
 
+    @NotNull
+    public FileEditor[] getAllEditors() {
+        List<FileEditor> fileEditors = new LinkedList<>();
+        for (IEditorInput input : EclipseUtil.getAllSupportedEditorInputs()) {
+            fileEditors.add(new FileEditor(input));
+        }
+        return fileEditors.toArray(new FileEditor[0]);
+    }
+
     public FileEditor[] getEditors(@NotNull VirtualFile file) {
         return getAllEditors(file);
     }

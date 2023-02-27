@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.callback;
 
+import static com.xliic.openapi.platform.callback.SuccessBodyResponseCallback.FAILED_TO_CONNECT;
+
 import java.io.IOException;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +24,8 @@ public abstract class SuccessResponseCallback implements Callback {
 
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        MsgUtils.error(project, e.getMessage(), true);
+        MsgUtils.error(project, FAILED_TO_CONNECT + e, true);
+        e.printStackTrace();
     }
 
     public abstract void onCode200Response();
@@ -34,7 +37,7 @@ public abstract class SuccessResponseCallback implements Callback {
             if (code == 200) {
                 onCode200Response();
             } else {
-                String msg = "Response code " + code + " message " + response.message();
+                String msg = FAILED_TO_CONNECT + "response code " + code + " message " + response.message();
                 MsgUtils.error(project, msg, true);
             }
         }

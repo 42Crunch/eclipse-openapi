@@ -1,6 +1,11 @@
 package com.xliic.openapi.services;
 
 import static com.xliic.openapi.ToolWindowId.PLATFORM_DICTIONARY;
+import static com.xliic.openapi.platform.dictionary.types.DataDictionary.FORMAT_PREFIX;
+import static com.xliic.openapi.platform.dictionary.types.DataDictionary.STANDARD_DESC;
+import static com.xliic.openapi.platform.dictionary.types.DataDictionary.STANDARD_ID;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT;
+import static com.xliic.openapi.platform.dictionary.types.DataFormat.isStandardName;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,6 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -101,12 +107,17 @@ public final class DictionaryService implements IDictionaryService, SettingsList
                         }
                     };
                     for (Node child : target.getChildren()) {
-                        String id = child.getChildValue("id");
-                        String name = child.getChildValue("name");
-                        String desc = child.getChildValue("description");
-                        DataDictionary dd = new DataDictionary(id, name, desc, project, counter, callback);
-                        dictionaries.add(dd);
+                        try {
+                            String id = Objects.requireNonNull(child.getChildValue("id"));
+                            String name = Objects.requireNonNull(child.getChildValue("name"));
+                            String desc = Objects.requireNonNull(child.getChildValue("description"));
+                            DataDictionary dd = new DataDictionary(id, name, desc, project, counter, callback);
+                            dictionaries.add(dd);
+                        } catch (Throwable e) {
+                            e.printStackTrace();
+                        }
                     }
+                    dictionaries.add(new DataDictionary(STANDARD_ID, STANDARD_ID, STANDARD_DESC, project, counter, callback));
                     counter.set(dictionaries.size());
                     for (DataDictionary dd : dictionaries) {
                         PlatformAPIs.getDataDictionaryFormats(dd.getId(), dd);
@@ -129,16 +140,18 @@ public final class DictionaryService implements IDictionaryService, SettingsList
 
     @Override
     @NotNull
-    public List<DictionaryElement> getAllFormats() {
+    public List<DictionaryElement> getAllFormats(boolean isJson) {
         if (counter.get() == 0) {
             List<DictionaryElement> result = new LinkedList<>();
             for (DataDictionary d : dictionaries) {
                 for (Map.Entry<String, DataFormat> entry : d.getFormats().entrySet()) {
-                    String element = "o:" + d.getName() + ":" + entry.getKey();
-                    String presentableText = d.isStandard() ? entry.getKey() : element;
-                    Object desc = entry.getValue().get("description");
-                    String withTypeText = desc == null ? "" : (String) desc;
-                    result.add(new DictionaryElement(element, presentableText, withTypeText));
+                    String element = (String) entry.getValue().get(X_42C_FORMAT, isJson);
+                    if (element != null) {
+                        String presentableText = d.isStandard() ? entry.getKey() : element;
+                        Object desc = entry.getValue().get("description", isJson);
+                        String withTypeText = desc == null ? "" : (String) desc;
+                        result.add(new DictionaryElement(element, presentableText, withTypeText, d.isStandard()));
+                    }
                 }
             }
             result.sort(Comparator.comparing(DictionaryElement::getPresentableText));
@@ -150,27 +163,18 @@ public final class DictionaryService implements IDictionaryService, SettingsList
 
     @Override
     @Nullable
-    public DataFormat get(@NotNull String formatName) {
+    public DataFormat get(@NotNull String formatName, boolean isJson) {
         if (counter.get() == 0) {
-            // formatName = o:${dictionary.name}:${format.name}
-            if (formatName.startsWith("o:")) {
-                for (DataDictionary d : dictionaries) {
-                    if (formatName.startsWith("o:" + d.getName())) {
-                        for (Map.Entry<String, DataFormat> entry : d.getFormats().entrySet()) {
-                            if (formatName.equals("o:" + d.getName() + ":" + entry.getKey())) {
-                                return entry.getValue();
-                            }
-                        }
-                    }
+            // formatName = ${format.name}, o:${format.name}, o:${dictionary.name}:${format.name}
+            boolean standard = isStandardName(formatName);
+            String x42Format = (formatName.startsWith(FORMAT_PREFIX) ? "" : FORMAT_PREFIX) + formatName;
+            for (DataDictionary d : dictionaries) {
+                if (standard && !d.isStandard()) {
+                    continue;
                 }
-            } else {
-                for (DataDictionary d : dictionaries) {
-                    if (d.isStandard()) {
-                        for (Map.Entry<String, DataFormat> entry : d.getFormats().entrySet()) {
-                            if (formatName.equals(entry.getKey())) {
-                                return entry.getValue();
-                            }
-                        }
+                for (DataFormat df : d.getFormats().values()) {
+                    if (x42Format.equals(df.get(X_42C_FORMAT, isJson))) {
+                        return df;
                     }
                 }
             }

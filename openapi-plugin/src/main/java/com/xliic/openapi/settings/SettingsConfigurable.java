@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.event.DocumentEvent;
-
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -26,6 +24,7 @@ import com.xliic.core.project.DefaultProjectFactory;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectManager;
 import com.xliic.core.ui.DocumentAdapter;
+import com.xliic.core.ui.DocumentEvent;
 import com.xliic.core.ui.components.JButton;
 import com.xliic.core.ui.components.JCheckBox;
 import com.xliic.core.ui.components.JComboBox;
@@ -168,7 +167,7 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         auditTokenCleanButton.setLayoutData(gd);
         auditTokenTextArea.getDocument().addDocumentListener(new DocumentAdapter() {
             @Override
-            protected void textChanged(@NotNull DocumentEvent e) {
+            public void textChanged(@NotNull DocumentEvent e) {
                 auditTokenCleanButton.setEnabled(!StringUtils.isEmpty(getTokenText()));
             }
         });

@@ -57,7 +57,7 @@ public class DictionaryCompletionHelper {
         }
         OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
         LookupElement.FileType fileType = LookupElement.convertToLookupElementFileType(type);
-        for (DictionaryElement item : ddService.getAllFormats()) {
+        for (DictionaryElement item : ddService.getAllFormats(type == OpenApiFileType.Json)) {
             LookupElementBuilder builder = LookupElementBuilder.create(item.getElement()).withPresentableText(item.getPresentableText())
                     .withIcon(OpenApiIcons.Dictionary).withTypeText(item.getWithTypeText()).withFileType(fileType).withOffset(offset)
                     .withPrefix(prefix).withFilterPrefix(item.isStandard() ? filterStandardPrefix : filterPrefix);
