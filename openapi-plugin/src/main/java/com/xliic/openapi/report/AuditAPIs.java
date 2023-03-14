@@ -18,7 +18,7 @@ public class AuditAPIs {
 
     private static final String TOKEN_URL = "https://stateless.42crunch.com/api/v1/anon/token";
     private static final String ASSESS_URL = "https://stateless.42crunch.com/api/v1/anon/assess/vscode";
-    private static final String USER_AGENT = "IntelliJ/" + ApplicationInfo.getInstance().getFullVersion();
+    private static final String USER_AGENT = "Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     public static class Sync {
