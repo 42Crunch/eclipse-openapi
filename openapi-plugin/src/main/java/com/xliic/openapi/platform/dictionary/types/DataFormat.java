@@ -10,13 +10,13 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.quickfix.QuickFix;
 
 public class DataFormat {
 
@@ -38,6 +38,8 @@ public class DataFormat {
 
     protected static final String DEFAULT_STRING = "";
     protected static final BigInteger DEFAULT_INTEGER = new BigInteger("0");
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @NotNull protected final String name;
     @Nullable protected final String description;
@@ -271,9 +273,16 @@ public class DataFormat {
         return prop;
     }
 
-    private static Object getFinalValue(String prop, Object value, boolean isJson) {
-        if (isJson && "pattern".equals(prop) && value instanceof String) {
-            return StringUtils.strip(QuickFix.formatFixText((String) value, true), "\"");
+    public static Object getFinalValue(String prop, Object value, boolean isJson) {
+        if (isJson && value instanceof String && "pattern".equals(prop)) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("pattern", value);
+            try {
+                String escJson = OBJECT_MAPPER.writeValueAsString(params);
+                int i = escJson.indexOf("\"", escJson.indexOf(":"));
+                return escJson.substring(i + 1, escJson.lastIndexOf("\""));
+            } catch (JsonProcessingException ignored) {
+            }
         }
         return value;
     }
