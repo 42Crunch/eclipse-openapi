@@ -16,7 +16,6 @@ public abstract class LookupElement {
     protected final String element;
     protected String presentableText;
     protected String typeText;
-    protected String filterPrefix;
     protected String prefix;
     protected Icon icon;
     protected InsertHandler<LookupElement> insertHandler;
@@ -47,10 +46,6 @@ public abstract class LookupElement {
         return typeText;
     }
 
-    public String getFilterPrefix() {
-        return filterPrefix;
-    }
-
     public String getPrefix() {
         return prefix;
     }
@@ -68,11 +63,15 @@ public abstract class LookupElement {
     }
 
     public String getDisplayString() {
-        return presentableText == null ? element : presentableText;
+        return getDisplayString(element, presentableText);
     }
 
     public FileType getFileType() {
         return fileType;
+    }
+
+    public static String getDisplayString(String element, String presentableText) {
+        return presentableText == null ? element : presentableText;
     }
 
     public static FileType convertToLookupElementFileType(OpenApiFileType type) {

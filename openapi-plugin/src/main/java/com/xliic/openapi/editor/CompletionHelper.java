@@ -53,7 +53,7 @@ public class CompletionHelper {
         LookupElement.FileType fileType = LookupElement.convertToLookupElementFileType(type);
         for (Node child : targetNode.getChildren()) {
             LookupElementBuilder builder = LookupElementBuilder.create(NS + child.getJsonPointer()).withIcon(OpenApiIcons.PropertyNode)
-                    .withTypeText(typeText).withFileType(fileType).withOffset(offset).withPrefix(prefix).withFilterPrefix(prefix);
+                    .withTypeText(typeText).withFileType(fileType).withOffset(offset).withPrefix(prefix);
             resultSet.withRelevanceSorter(SORTER).addElement(builder);
         }
     }

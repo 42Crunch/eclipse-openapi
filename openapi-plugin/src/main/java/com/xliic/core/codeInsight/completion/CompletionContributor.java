@@ -35,19 +35,29 @@ public abstract class CompletionContributor implements IContentAssistProcessor {
     public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
         Document document = new DocumentImpl(viewer.getDocument());
         VirtualFile file = FileDocumentManager.getInstance().getFile(document);
-        if (offset >= 0 && file != null) {
+        if (offset >= 0 && file != null && enableCompletionInFile(project, file)) {
             CompletionParameters params = new CompletionParameters(project, file, document, offset);
             if (pattern.accepts(params)) {
                 try {
-                    CompletionRunnableWithProgress runnable = new CompletionRunnableWithProgress(params, provider);
-                    runnable.run(new NullProgressMonitor());
-                    return runnable.getContentProposals();
+                    if (params.isUseRunnable()) {
+                        CompletionRunnableWithProgress runnable = new CompletionRunnableWithProgress(params, provider);
+                        runnable.run(new NullProgressMonitor());
+                        return runnable.getContentProposals();
+                    } else {
+                        CompletionResultSet resultSet = new CompletionResultSet();
+                        params.setRoot(null);
+                        params.setVersion(null);
+                        provider.addCompletions(params, resultSet);
+                        return resultSet.getCompletionProposals();
+                    }
                 } catch (Exception e) {
                 }
             }
         }
         return null;
     }
+
+    protected abstract boolean enableCompletionInFile(@NotNull Project project, @NotNull VirtualFile file);
 
     @Override
     public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {

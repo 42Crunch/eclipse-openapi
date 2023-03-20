@@ -36,11 +36,6 @@ public class LookupElementBuilder extends LookupElement {
         return this;
     }
 
-    public @NotNull LookupElementBuilder withFilterPrefix(@Nullable String filterPrefix) {
-        this.filterPrefix = filterPrefix;
-        return this;
-    }
-
     public @NotNull LookupElementBuilder withPrefix(@Nullable String prefix) {
         this.prefix = prefix;
         return this;

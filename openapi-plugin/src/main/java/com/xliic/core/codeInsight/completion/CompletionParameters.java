@@ -25,6 +25,7 @@ public class CompletionParameters {
     private Node target;
     private OpenApiVersion version;
     private Pattern pattern;
+    private boolean useRunnable;
 
     public CompletionParameters(@NotNull Project project, @NotNull VirtualFile file, @NotNull Document document, int offset) {
         this.project = project;
@@ -36,6 +37,15 @@ public class CompletionParameters {
         target = null;
         version = null;
         pattern = null;
+        useRunnable = true;
+    }
+
+    public boolean isUseRunnable() {
+        return useRunnable;
+    }
+
+    public void setUseRunnable(boolean useRunnable) {
+        this.useRunnable = useRunnable;
     }
 
     @NotNull
