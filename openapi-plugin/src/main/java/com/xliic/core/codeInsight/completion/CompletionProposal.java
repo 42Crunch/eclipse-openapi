@@ -36,8 +36,10 @@ public class CompletionProposal implements ICompletionProposal, ICompletionPropo
             int innerOffset = offset - lineOffset;
             int length = document.getLineLength(line);
             String lineText = document.get(lineOffset, length);
+            if (lineText.endsWith("\r")) {
+                lineText = lineText.substring(0, lineText.length() - 1);
+            }
             LookupElement.FileType type = element.getFileType();
-
             if (type == LookupElement.FileType.JSON) {
                 int i = getIndexOfOpenQuote(lineText, DQ, innerOffset);
                 if (i >= 0) {
@@ -62,7 +64,7 @@ public class CompletionProposal implements ICompletionProposal, ICompletionPropo
                     }
                 }
                 String prefix = element.getPrefix();
-                i = innerOffset - prefix.length();
+                i = innerOffset - prefix.length() + 1;
                 document.replace(offset - prefix.length(), lineText.length() - i - 1, getDisplayString());
             }
         } catch (BadLocationException x) {
@@ -98,7 +100,7 @@ public class CompletionProposal implements ICompletionProposal, ICompletionPropo
     public StyledString getStyledDisplayString(IDocument document, int offset, BoldStylerProvider boldStylerProvider) {
         String name = getDisplayString();
         String nameLc = name.toLowerCase();
-        String prefix = element.getFilterPrefix().toLowerCase();
+        String prefix = element.getPrefix().toLowerCase();
         if (prefix == null || prefix.isBlank()) {
             return new StyledString(getDisplayString());
         }
@@ -119,7 +121,7 @@ public class CompletionProposal implements ICompletionProposal, ICompletionPropo
     }
 
     private void replace(IDocument document, String lineText, int lineOffset, int i, int j, char quote) throws BadLocationException {
-        if (i < j) {
+        if (i <= j) {
             document.replace(lineOffset + i, j - i, getDisplayString());
         } else {
             document.replace(lineOffset + i, lineText.length() - i - 1, getDisplayString() + quote);

@@ -46,21 +46,12 @@ public class DictionaryCompletionHelper {
         String prefix = parameters.getPrefix();
         Project project = parameters.getProject();
         DictionaryService ddService = DictionaryService.getInstance(project);
-        String filterPrefix = prefix;
-        String filterStandardPrefix = prefix;
-        if ("o:".equals(prefix)) {
-            filterPrefix = "o";
-            filterStandardPrefix = "o";
-        } else if (prefix.startsWith("o:")) {
-            filterStandardPrefix = prefix.replace("o:", "");
-            filterPrefix = "o" + filterStandardPrefix;
-        }
         OpenApiFileType type = Utils.getFileType(parameters.getFile().getPath());
         LookupElement.FileType fileType = LookupElement.convertToLookupElementFileType(type);
         for (DictionaryElement item : ddService.getAllFormats(type == OpenApiFileType.Json)) {
             LookupElementBuilder builder = LookupElementBuilder.create(item.getElement()).withPresentableText(item.getPresentableText())
-                    .withIcon(OpenApiIcons.Dictionary).withTypeText(item.getWithTypeText()).withFileType(fileType).withOffset(offset)
-                    .withPrefix(prefix).withFilterPrefix(item.isStandard() ? filterStandardPrefix : filterPrefix);
+                    .withIcon(OpenApiIcons.Dictionary).withTypeText(item.getWithTypeText()).withFileType(fileType)
+                    .withOffset(offset).withPrefix(prefix);
             resultSet.withRelevanceSorter(SORTER).addElement(builder);
         }
     }

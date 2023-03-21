@@ -24,7 +24,7 @@ public class CompletionResultSet {
     }
 
     public void addElement(@NotNull LookupElement element) {
-        if (isSubstringFoundOrderedInString(element.getFilterPrefix(), element.getDisplayString())) {
+        if (isSubstringFoundOrderedInString(element.getPrefix(), element.getDisplayString())) {
             elements.add(element);
         }
     }
@@ -42,7 +42,10 @@ public class CompletionResultSet {
         return proposals;
     }
 
-    private static boolean isSubstringFoundOrderedInString(String subString, String string) {
+    public static boolean isSubstringFoundOrderedInString(String subString, String string) {
+        if (subString == null || string == null || string.isEmpty()) {
+            return false;
+        }
         int lastIndex = 0;
         subString = subString.toLowerCase();
         string = string.toLowerCase();

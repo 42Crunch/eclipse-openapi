@@ -1,9 +1,6 @@
 package com.xliic.core.codeInsight.completion;
 
-import static com.xliic.core.codeInsight.completion.CompletionProposal.LF;
-
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.eclipse.jface.text.BadLocationException;
@@ -15,41 +12,52 @@ public abstract class ElementPattern {
 
     protected abstract boolean accepts(@NotNull CompletionParameters parameters);
 
-    protected abstract String getPrefix(@NotNull String fragment);
-
-    protected boolean accepts(@NotNull CompletionParameters parameters, @NotNull Map<Character, List<Pattern>> triggers) {
-        String fragment;
+    protected boolean accepts(@NotNull CompletionParameters parameters, @NotNull List<Pattern> patterns) {
         int offset = parameters.getOffset();
         Document document = parameters.getDocument();
-        int i = offset - 2;
+        int lineNumber = document.getLineNumber(offset);
+        int lineStartOffset = document.getLineStartOffset(lineNumber);
+        int lineEndOffset = document.getLineEndOffset(lineNumber);
         try {
-            char ch = document.getChar(i);
-            while (ch != LF) {
-                if (triggers.containsKey(ch)) {
-                    fragment = document.getText(i, offset - i);
-                    for (Pattern pattern : triggers.get(ch)) {
-                        if (pattern.matcher(fragment).matches()) {
-                            parameters.setPrefix(getPrefix(fragment));
-                            parameters.setPattern(pattern);
-                            return true;
-                        }
-                    }
-                }
-                i -= 1;
-                ch = document.getChar(i);
+            String fragment = document.getText(lineStartOffset, lineEndOffset - lineStartOffset);
+            if (fragment.endsWith("\r")) {
+                fragment = fragment.substring(0, fragment.length() - 1);
             }
-            if (triggers.containsKey(LF)) {
-                fragment = document.getText(i + 1, offset - i - 1);
-                for (Pattern pattern : triggers.get(LF)) {
-                    if (pattern.matcher(fragment).matches()) {
-                        parameters.setPrefix(getPrefix(fragment));
-                        parameters.setPattern(pattern);
-                        return true;
-                    }
+            for (Pattern pattern : patterns) {
+                if (pattern.matcher(fragment).matches()) {
+                    String prefix = getPrefix(fragment);
+                    parameters.setPrefix(prefix);
+                    parameters.setPattern(pattern);
+                    return prefix != null;
                 }
             }
         } catch (BadLocationException e) {
         }
         return false;
+    }
+
+    // Default implementation
+    protected String getPrefix(String fragment) {
+        int n = fragment.indexOf(":");
+        if (n > 0) {
+            String tmp = fragment.substring(n + 1).trim();
+            if (tmp.startsWith("\"")) {
+                return trimQuotes(tmp, "\"");
+            } else if (tmp.startsWith("'")) {
+                return trimQuotes(tmp, "'");
+            }
+            return tmp;
+        }
+        return null;
+    }
+
+    private String trimQuotes(String value, String ch) {
+        int i = value.indexOf(ch);
+        int j = value.lastIndexOf(ch);
+        if (i == j) {
+            return null;
+        }
+        String prefix = value.substring(i + 1, j).trim();
+        return 0 <= prefix.indexOf(ch) ? null : prefix;
     }
 }
