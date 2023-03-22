@@ -62,7 +62,7 @@ public class Settings {
             public static final String ENV_DEFAULT_KEY = "com.xliic.openapi.settings.platform.scan.default.env";
             public static final String ENV_SECRETS_KEY = "com.xliic.openapi.settings.platform.scan.secrets.env";
 
-            private static final String DEFAULT_IMAGE_VALUE = "42crunch/scand-agent:v2.0.0-rc01";
+            private static final String DEFAULT_IMAGE_VALUE = "42crunch/scand-agent:v2.0.0-rc05";
 
             public static void init() {
                 if (!settings.isValueSet(IMAGE) || !DEFAULT_IMAGE_VALUE.equals(settings.getValue(IMAGE))) {
