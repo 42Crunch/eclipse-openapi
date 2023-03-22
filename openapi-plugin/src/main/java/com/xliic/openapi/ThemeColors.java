@@ -46,7 +46,7 @@ public class ThemeColors {
 		registerColor("checkboxBackground", "#ffffff", "#3c3c3c", "#3c3c3c");
 		registerColor("checkboxBorder", "#cecece", "#dee2e6", "#dee2e6");
 		registerColor("checkboxForeground", "#000000", "#f0f0f0", "#f0f0f0");
-		registerColor("listActiveSelectionBackground", "#252526", "#04395e", "#04395e");
+		registerColor("listActiveSelectionBackground", "#0060c0", "#04395e", "#04395e");
 		registerColor("listActiveSelectionForeground", "#ffffff", "#ffffff", "#ffffff");
 		registerColor("tabBorder", "#f3f3f3", "#252526", "#252526");
         registerColor("tabActiveBackground", "#ffffff", "#1e1e1e", "#1e1e1e");
