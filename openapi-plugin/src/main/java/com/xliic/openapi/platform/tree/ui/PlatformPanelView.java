@@ -24,11 +24,11 @@ public class PlatformPanelView extends PanelViewPart {
     private static final String FAVORITE_STATE_PATH = "com.xliic.openapi.platform.tree.PlatformFavoriteState";
 
     public PlatformPanelView() {
-        super(ToolWindowId.OPEN_API_PLATFORM);
+        super(ToolWindowId.PLATFORM);
     }
 
     @Override
-    protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
+    protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent, @NotNull ViewPartHandler handler) {
         return new PlatformPanel(project, window, parent);
     }
 

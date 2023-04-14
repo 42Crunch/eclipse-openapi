@@ -20,8 +20,11 @@ public class JCEFDictionaryPanelView extends PanelViewPart {
     }
 
     @Override
-    public Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
-        return new JCEFDictionaryPanel(project, window, parent);
+    public Disposable createPanel(@NotNull Project project,
+                                  @NotNull ToolWindow window,
+                                  @NotNull Composite parent,
+                                  @NotNull ViewPartHandler handler) {
+        return new JCEFDictionaryPanel(project, window, parent, handler);
     }
 
     @Override

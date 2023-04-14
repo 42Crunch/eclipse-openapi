@@ -1,22 +1,17 @@
 package com.xliic.openapi.tryit.payload;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.Payload;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.Utils;
 
-public class TryItOperation implements Payload {
+public class TryItOperation {
 
     @NotNull
     private String oas;
@@ -30,11 +25,9 @@ public class TryItOperation implements Payload {
     private String preferredBodyValue;
     @Nullable
     private String preferredExamplePointer;
-    @NotNull
-    private final TryItConfig config;
     private int offset;
     @NotNull
-    private final PsiFile psiFile;
+    private PsiFile psiFile;
 
     public TryItOperation(@NotNull PsiFile psiFile, @NotNull String path, @NotNull String method, int offset) {
         this.psiFile = psiFile;
@@ -44,12 +37,11 @@ public class TryItOperation implements Payload {
         this.preferredMediaType = null;
         this.preferredBodyValue = null;
         this.preferredExamplePointer = null;
-        this.config = new TryItConfig();
         this.offset = offset;
     }
 
-    public void setOas(@NotNull BundleResult bundle) {
-        oas = TryItUtils.extractSingleOperation(path, method, bundle);
+    public void updateOas(@NotNull String oas) {
+        this.oas = oas;
         if (preferredExamplePointer != null) {
             Node root = Utils.getJsonAST(oas);
             if (root != null) {
@@ -61,6 +53,15 @@ public class TryItOperation implements Payload {
                 }
             }
         }
+    }
+
+    public void setOas(@NotNull BundleResult bundle) {
+        updateOas(TryItUtils.extractSingleOperation(path, method, bundle));
+    }
+
+    @NotNull
+    public String getOas() {
+        return oas;
     }
 
     public void setPreferredMediaType(@Nullable String preferredMediaType) {
@@ -84,6 +85,10 @@ public class TryItOperation implements Payload {
         return psiFile;
     }
 
+    public void setPsiFile(@NotNull PsiFile psiFile) {
+        this.psiFile = psiFile;
+    }
+
     @NotNull
     public String getPath() {
         return path;
@@ -94,20 +99,15 @@ public class TryItOperation implements Payload {
         return method;
     }
 
-    @Override
-    @NotNull
-    public Map<String, Object> getProperties() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("oas", Utils.deserialize(oas, Collections.EMPTY_MAP));
-        result.put("path", path);
-        result.put("method", method);
-        if (preferredMediaType != null) {
-            result.put("preferredMediaType", preferredMediaType);
-        }
-        if (preferredBodyValue != null) {
-            result.put("preferredBodyValue", Utils.deserialize(preferredBodyValue, preferredBodyValue));
-        }
-        result.put("config", config.getProperties());
-        return result;
+    public @Nullable String getPreferredMediaType() {
+        return preferredMediaType;
+    }
+
+    public @Nullable String getPreferredBodyValue() {
+        return preferredBodyValue;
+    }
+
+    public void setPreferredBodyValue(@Nullable String preferredBodyValue) {
+        this.preferredBodyValue = preferredBodyValue;
     }
 }

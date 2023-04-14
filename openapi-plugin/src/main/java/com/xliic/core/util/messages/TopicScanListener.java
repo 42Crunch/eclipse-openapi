@@ -1,16 +1,15 @@
 package com.xliic.core.util.messages;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.openapi.platform.scan.Environment;
-import com.xliic.openapi.platform.scan.Preferences;
+import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.ScanListener;
 import com.xliic.openapi.platform.scan.payload.ScanOperation;
 import com.xliic.openapi.platform.scan.payload.ScanReport;
+import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItResponse;
 
@@ -30,10 +29,8 @@ public class TopicScanListener<L> extends Topic<L> {
         } else if (funcId == 1) {
             listener.showScanReport((ScanReport) args.get(0));
         } else if (funcId == 2) {
-            listener.scanLastOperation();
-        } else if (funcId == 3) {
             listener.showOperationResponse((TryItResponse) args.get(0));
-        } else if (funcId == 4) {
+        } else if (funcId == 3) {
             listener.showOperationError((TryItError) args.get(0));
         }
     }
@@ -54,18 +51,13 @@ public class TopicScanListener<L> extends Topic<L> {
             }
 
             @Override
-            public void scanLastOperation() {
-                eventBroker.send(getTopic(), getArgs(2, Collections.emptyList()));
-            }
-
-            @Override
             public void showOperationResponse(@NotNull TryItResponse payload) {
-                eventBroker.send(getTopic(), getArgs(3, List.of(payload)));
+                eventBroker.send(getTopic(), getArgs(2, List.of(payload)));
             }
 
             @Override
             public void showOperationError(@NotNull TryItError payload) {
-                eventBroker.send(getTopic(), getArgs(4, List.of(payload)));
+                eventBroker.send(getTopic(), getArgs(3, List.of(payload)));
             }
         };
     }

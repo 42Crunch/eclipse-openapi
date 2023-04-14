@@ -41,6 +41,7 @@ import com.xliic.openapi.services.api.IDictionaryService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.utils.WindowUtils;
 
 public final class DictionaryService implements IDictionaryService, SettingsListener, Disposable {
 
@@ -95,7 +96,7 @@ public final class DictionaryService implements IDictionaryService, SettingsList
             @Override
             public void onCode200ASTResponse(@NotNull Node node) {
                 Node target = node.find("/list");
-                if (target != null && !target.getChildren().isEmpty()) {
+                if (target != null) {
                     DictionaryReloadCallback callback = () -> {
                         if (redraw) {
                             createOrActiveDictionaryWindow(project, register);
@@ -118,6 +119,7 @@ public final class DictionaryService implements IDictionaryService, SettingsList
                         }
                     }
                     dictionaries.add(new DataDictionary(STANDARD_ID, STANDARD_ID, STANDARD_DESC, project, counter, callback));
+                    Collections.sort(dictionaries);
                     counter.set(dictionaries.size());
                     for (DataDictionary dd : dictionaries) {
                         PlatformAPIs.getDataDictionaryFormats(dd.getId(), dd);
@@ -189,8 +191,8 @@ public final class DictionaryService implements IDictionaryService, SettingsList
             if (toolWindow == null && !register) {
                 return;
             }
-            Utils.activateToolWindow(project, PLATFORM_DICTIONARY);
-            project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadDictionary();
+            WindowUtils.activateToolWindow(project, PLATFORM_DICTIONARY, () ->
+                project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadDictionary(getDictionaries()));
         }, ModalityState.NON_MODAL);
     }
 

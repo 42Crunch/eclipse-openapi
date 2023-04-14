@@ -13,6 +13,6 @@ public class ProjectView {
     }
 
     public void refresh() {
-        // todo
+        // Stub
     }
 }

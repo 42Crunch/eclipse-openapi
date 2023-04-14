@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationInfo;
 
+import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -18,10 +19,17 @@ public class AuditAPIs {
 
     private static final String TOKEN_URL = "https://stateless.42crunch.com/api/v1/anon/token";
     private static final String ASSESS_URL = "https://stateless.42crunch.com/api/v1/anon/assess/vscode";
+    private static final String ARTICLES_URL = "https://platform.42crunch.com/kdb/audit-with-yaml.json";
     private static final String USER_AGENT = "Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     public static class Sync {
+
+        @NotNull
+        public static Response getKDB() throws IOException {
+            Request request = getRequestBuilder(ARTICLES_URL).build();
+            return client.newCall(request).execute();
+        }
 
         @NotNull
         public static Response getAuditReport(@NotNull String token, @NotNull String fileName, @NotNull String text) throws IOException {
@@ -44,6 +52,12 @@ public class AuditAPIs {
             return client.newCall(request).execute();
         }
     }
+
+    public static void getKDB(@NotNull Callback callback) throws IOException {
+        Request request = getRequestBuilder(ARTICLES_URL).build();
+        client.newCall(request).enqueue(callback);
+    }
+
     private static Request.Builder getRequestBuilder(String url) {
         return new Request.Builder()
                 .url(url)

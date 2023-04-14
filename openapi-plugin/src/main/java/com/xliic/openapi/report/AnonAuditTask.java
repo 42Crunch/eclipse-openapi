@@ -56,6 +56,7 @@ public class AnonAuditTask extends Task.Backgroundable {
                 callback.reject("Failed to bundle for audit, check OpenAPI file for errors");
                 return;
             }
+            AuditService.getInstance(project).downloadArticles(progress);
             String text = bundle.getJsonText();
             String token = PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
             if (token == null) {
@@ -102,7 +103,7 @@ public class AnonAuditTask extends Task.Backgroundable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            callback.reject(ERROR_MSG + e.getMessage());
+            callback.reject(e instanceof AuditService.KdbException ? e.getMessage() : ERROR_MSG + e);
         } finally {
             progress.cancel();
         }

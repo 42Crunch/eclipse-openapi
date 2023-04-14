@@ -176,7 +176,7 @@
             icon="icons/tryitPanel.png"
             id="com.xliic.openapi.tryit.jcef.ui.JCEFTryItPanelView"
             inject="true"
-            name="Tty It">
+            name="Try It">
       </view>  
       <view
             allowMultiple="false"
@@ -186,7 +186,16 @@
             id="com.xliic.openapi.platform.scan.jcef.ui.JCEFScanPanelView"
             inject="true"
             name="Scan">
-      </view>        
+      </view>  
+      <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class="com.xliic.openapi.environment.jcef.ui.JCEFEnvPanelView"
+            icon="icons/envPanel.png"
+            id="com.xliic.openapi.environment.jcef.ui.JCEFEnvPanelView"
+            inject="true"
+            name="Environment">
+      </view>              
    </extension>
 
 	<extension point="org.eclipse.ui.services">
@@ -218,10 +227,6 @@
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ExtRefServiceFactory">
      		<service serviceClass="com.xliic.openapi.services.api.IExtRefService"></service>
 		</serviceFactory>
-
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.KDBServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IKDBService"></service>
-		</serviceFactory>
 		
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.PlatformServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.api.IPlatformService"></service>
@@ -242,6 +247,14 @@
 		<serviceFactory factoryClass="com.xliic.openapi.services.factory.TerminalServiceFactory">
 			<service serviceClass="com.xliic.openapi.services.api.ITerminalService"></service>
 		</serviceFactory>
+		
+		<serviceFactory factoryClass="com.xliic.openapi.environment.EnvServiceFactory">
+			<service serviceClass="com.xliic.openapi.environment.IEnvService"></service>
+		</serviceFactory>	
+
+		<serviceFactory factoryClass="com.xliic.openapi.preferences.PrefsServiceFactory">
+			<service serviceClass="com.xliic.openapi.preferences.IPrefsService"></service>
+		</serviceFactory>	
 		
 	</extension>
 

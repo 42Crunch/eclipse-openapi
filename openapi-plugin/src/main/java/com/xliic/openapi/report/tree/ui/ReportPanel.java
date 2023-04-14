@@ -22,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.actionSystem.AnJAction;
-import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
@@ -30,7 +29,6 @@ import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
-import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Audit;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.report.tree.ReportColoredTreeCellRenderer;
@@ -49,11 +47,9 @@ import com.xliic.openapi.report.tree.filter.ShowWarningsAction;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.FileListener;
-import com.xliic.openapi.topic.WindowListener;
-import com.xliic.openapi.utils.Utils;
 
 @SuppressWarnings("serial")
-public class ReportPanel extends JPanel implements FileListener, WindowListener, AuditListener, Disposable {
+public class ReportPanel extends JPanel implements FileListener, AuditListener, Disposable {
 
     private final Project project;
     private final ToolWindow toolWindow;
@@ -88,16 +84,7 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
         cleanTree();
 
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
-        project.getMessageBus().connect().subscribe(WindowListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(AuditListener.TOPIC, this);
-
-        // Panel may be created lazily
-        AuditService auditService = AuditService.getInstance(project);
-        for (VirtualFile file : FileEditorManager.getInstance(project).getOpenFiles()) {
-            if (auditService.getAuditReport(file.getPath()) != null) {
-                handleAuditReportReady(file);
-            }
-        }
     }
 
     @Override
@@ -128,22 +115,6 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
 
     public FilterState getFilterState() {
         return filterState;
-    }
-
-    @Override
-    public void handleToolWindowRegistered(@NotNull String id) {
-        if (ToolWindowId.OPEN_API_REPORT.equals(id)) {
-            if (toolWindow.isVisible()) {
-                toolWindow.hide(null);
-            }
-        }
-    }
-
-    @Override
-    public void handleToolWindowOpened(@NotNull String id) {
-        if (ToolWindowId.OPEN_API_REPORT.equals(id) && toolWindow.isVisible()) {
-            refreshProblems(Utils.getSelectedFile(project));
-        }
     }
 
     @Override
@@ -335,7 +306,7 @@ public class ReportPanel extends JPanel implements FileListener, WindowListener,
         }
     }
 
-    private void refreshProblems(VirtualFile file) {
+    public void refreshProblems(@NotNull VirtualFile file) {
         if (file != null) {
             AuditService auditService = AuditService.getInstance(project);
             Audit report = auditService.getAuditReport(file.getPath());

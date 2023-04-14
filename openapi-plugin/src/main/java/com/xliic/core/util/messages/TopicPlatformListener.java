@@ -7,6 +7,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.platform.PlatformListener;
+import com.xliic.openapi.platform.dictionary.types.DataDictionary;
 
 public class TopicPlatformListener<L> extends Topic<L> {
 
@@ -24,9 +25,7 @@ public class TopicPlatformListener<L> extends Topic<L> {
         } else if (funcId == 1) {
             listener.auditReportForAPIUpdated((String) args.get(0), (float) args.get(1), (boolean) args.get(2));
         } else if (funcId == 2) {
-            listener.reloadDictionary();
-        } else if (funcId == 3) {
-            listener.collectionsLoaded();
+            listener.reloadDictionary((List<DataDictionary>) args.get(0));
         }
     }
 
@@ -47,13 +46,8 @@ public class TopicPlatformListener<L> extends Topic<L> {
             }
 
             @Override
-            public void reloadDictionary() {
-                eventBroker.send(getTopic(), getArgs(2, Collections.emptyList()));
-            }
-
-            @Override
-            public void collectionsLoaded() {
-                eventBroker.send(getTopic(), getArgs(3, Collections.emptyList()));
+            public void reloadDictionary(@NotNull List<DataDictionary> dictionaries) {
+                eventBroker.send(getTopic(), getArgs(2, List.of(dictionaries)));
             }
         };
     }

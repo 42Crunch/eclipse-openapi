@@ -1,9 +1,6 @@
 package com.xliic.openapi.report;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.xliic.core.util.ImmutableMap;
+import org.jetbrains.annotations.NotNull;
 
 public class Summary {
 
@@ -11,10 +8,12 @@ public class Summary {
     private final boolean errors;
     private final boolean invalid;
 
+    @NotNull
     private final Grade data;
+    @NotNull
     private final Grade security;
 
-    public Summary(boolean errors, boolean invalid, Grade data, Grade security) {
+    public Summary(boolean errors, boolean invalid, @NotNull Grade data, @NotNull Grade security) {
         this.errors = errors;
         this.invalid = invalid;
         this.data = data;
@@ -22,14 +21,23 @@ public class Summary {
         all = data.getValue() + security.getValue();
     }
 
-    public Map<String, Object> getProperties() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("datavalidation", ImmutableMap.of("value", data.getValue(), "max", data.getMax()));
-        result.put("security", ImmutableMap.of("value", security.getValue(), "max", security.getMax()));
-        result.put("oasconformance", ImmutableMap.of("value", 0, "max", 0));
-        result.put("all", all);
-        result.put("errors", errors);
-        result.put("invalid", invalid);
-        return result;
+    public int getAll() {
+        return all;
+    }
+
+    public boolean isErrors() {
+        return errors;
+    }
+
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public @NotNull Grade getData() {
+        return data;
+    }
+
+    public @NotNull Grade getSecurity() {
+        return security;
     }
 }

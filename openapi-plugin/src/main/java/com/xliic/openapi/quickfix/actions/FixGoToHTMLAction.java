@@ -12,7 +12,7 @@ import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.topic.AuditListener;
-import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.utils.WindowUtils;
 
 public class FixGoToHTMLAction extends FixAction {
 
@@ -33,7 +33,7 @@ public class FixGoToHTMLAction extends FixAction {
         ApplicationManager.getApplication().invokeLater(() -> {
             // Eclipse Development Note
             // Activate as the view may be not visible now
-            Utils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
+            WindowUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
             project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleViewDetails(file.getVirtualFile(), issues);
         });
     }

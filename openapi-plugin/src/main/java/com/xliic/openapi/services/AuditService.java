@@ -2,12 +2,14 @@ package com.xliic.openapi.services;
 
 import static com.xliic.openapi.OpenApiBundle.message;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
@@ -17,6 +19,7 @@ import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
@@ -28,19 +31,28 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAuditTask;
 import com.xliic.openapi.report.AnonAuditTask;
 import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.AuditAPIs;
 import com.xliic.openapi.report.Issue;
 import com.xliic.openapi.services.api.IAuditService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
-import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.utils.NetUtils;
+import com.xliic.openapi.utils.WindowUtils;
+
+import okhttp3.Call;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public final class AuditService implements IAuditService, Disposable {
 
     private static final int MAX_PLATFORM_AUDIT_LIMIT = 10;
     public static final String RUNNING_SECURITY_AUDIT = "Running API contract security audit";
+    public static final String LOADING_KDB_ARTICLES = "Loading API contract security audit KDB articles";
 
     private final Project project;
+    @Nullable
+    private volatile String articles = null;
     private final Map<String, Audit> cache = new HashMap<>();
     private final Map<String, Boolean> pendingAudits = new HashMap<>();
 
@@ -53,8 +65,59 @@ public final class AuditService implements IAuditService, Disposable {
         void reject(@NotNull String error);
     }
 
+    @SuppressWarnings("serial")
+    public static class KdbException extends Exception {
+        public KdbException(String message) {
+            super(message);
+        }
+    }
+
     public static AuditService getInstance(@NotNull Project project) {
         return project.getService(AuditService.class);
+    }
+
+    public @Nullable String getArticles() {
+        return articles;
+    }
+
+    public void setArticles(@Nullable String articles) {
+        this.articles = articles;
+    }
+
+    public void downloadArticles(@NotNull ProgressIndicator progress) throws KdbException {
+        if (getArticles() == null) {
+            try {
+                String newKdb = NetUtils.getKDB();
+                if (newKdb == null) {
+                    throw new KdbException("Failed to read articles.json");
+                } else {
+                    setArticles(newKdb);
+                }
+            } catch (IOException e) {
+                throw new KdbException("Failed to read articles.json: " + e);
+            }
+        }
+    }
+
+    public void downloadArticlesAsync() {
+        try {
+            AuditAPIs.getKDB(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                }
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    try (ResponseBody body = response.body()) {
+                        if (response.code() == 200) {
+                            if (body != null) {
+                                setArticles(body.string().trim());
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (IOException ignored) {
+        }
     }
 
     public boolean isFileBeingAudited(@NotNull String fileName) {
@@ -133,22 +196,23 @@ public final class AuditService implements IAuditService, Disposable {
             }
         }
         ApplicationManager.getApplication().invokeAndWait(() -> {
-            Utils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
-            Utils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT);
-            if (!issues.isEmpty()) {
-                project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleIssuesFixed(issues);
-            }
-            project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
-            FileEditorManager.getInstance(project).openEditor(new OpenFileDescriptor(project, file), true);
-            List<Issue> hiddenIssues = newReport.getHiddenIssues();
-            if (!hiddenIssues.isEmpty()) {
-                StringBuilder sb = new StringBuilder();
-                for (Issue issue : hiddenIssues) {
-                    sb.append(message("openapi.audit.issue.bad.location", issue.getId(), issue.getPointer()));
-                    sb.append(" ");
+            WindowUtils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
+            WindowUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT, () -> {
+                if (!issues.isEmpty()) {
+                    project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleIssuesFixed(issues);
                 }
-                MsgUtils.warning(project, message("openapi.audit.issues.notification", sb.toString()), true);
-            }
+                project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
+                FileEditorManager.getInstance(project).openEditor(new OpenFileDescriptor(project, file), true);
+                List<Issue> hiddenIssues = newReport.getHiddenIssues();
+                if (!hiddenIssues.isEmpty()) {
+                    StringBuilder sb = new StringBuilder();
+                    for (Issue issue : hiddenIssues) {
+                        sb.append(message("openapi.audit.issue.bad.location", issue.getId(), issue.getPointer()));
+                        sb.append(" ");
+                    }
+                    MsgUtils.warning(project, message("openapi.audit.issues.notification", sb.toString()), true);
+                }
+            });
         }, ModalityState.NON_MODAL);
     }
 

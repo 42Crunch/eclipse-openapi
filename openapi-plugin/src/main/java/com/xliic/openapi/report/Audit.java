@@ -2,7 +2,6 @@ package com.xliic.openapi.report;
 
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,13 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.editor.Document;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.Payload;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.services.ExtRefService;
-import com.xliic.openapi.utils.Utils;
 
-public class Audit implements Payload {
+public class Audit {
 
     private Summary summary;
     private final List<Issue> issues;
@@ -81,6 +76,10 @@ public class Audit implements Payload {
 
     public void setShowAsHTML(boolean showAsHTML) {
         this.showAsHTML = showAsHTML;
+    }
+
+    public Map<String, List<Issue>> getFileNameToIssuesMap() {
+        return fileNameToIssuesMap;
     }
 
     public void removeIssues(@NotNull List<Issue> issuesToRemove) {
@@ -144,57 +143,6 @@ public class Audit implements Payload {
 
     public List<Issue> getHiddenIssues() {
         return hiddenIssues;
-    }
-
-    public Map<String, Object> getSummaryProperties() {
-        Map<String, Object> result = getSummary().getProperties();
-        result.put("documentUri", Utils.getURI(auditFileName));
-        return result;
-    }
-
-    public Map<String, Map<String, Object>> getFilesProperties() {
-        String from = Utils.getURI(auditFileName);
-        Map<String, Map<String, Object>> result = new HashMap<>();
-        ExtRefService extRefService = ExtRefService.getInstance(project);
-        for (String fileName : fileNameToIssuesMap.keySet()) {
-            String to;
-            Map<String, Object> props = new HashMap<>();
-            ExtRef extRef = extRefService.getExtRefByFile(fileName);
-            if (extRef == null) {
-                String relative;
-                to = Utils.getURI(fileName);
-                if (from.equals(to)) {
-                    relative = Paths.get(auditFileName).getFileName().toString();
-                } else {
-                    relative = Utils.getRelativePathFromTo(from, to);
-                }
-                props.put("relative", relative);
-            } else {
-                to = extRef.getInternalURI();
-                props.put("relative", extRef.getUrl().toString());
-            }
-            result.put(to, props);
-        }
-        return result;
-    }
-
-    public Map<String, List<Map<String, Object>>> getIssuesProperties() {
-        Map<String, List<Map<String, Object>>> result = new HashMap<>();
-        ExtRefService extRefService = ExtRefService.getInstance(project);
-        for (Map.Entry<String, List<Issue>> entry : fileNameToIssuesMap.entrySet()) {
-            List<Map<String, Object>> issues = new LinkedList<>();
-            for (Issue issue : entry.getValue()) {
-                issues.add(issue.getProperties());
-            }
-            String fileName = entry.getKey();
-            ExtRef extRef = extRefService.getExtRefByFile(fileName);
-            if (extRef == null) {
-                result.put(Utils.getURI(fileName), issues);
-            } else {
-                result.put(extRef.getInternalURI(), issues);
-            }
-        }
-        return result;
     }
 
     public List<Integer> getIssueIds(VirtualFile file, List<Issue> issues) {
@@ -291,15 +239,6 @@ public class Audit implements Payload {
                 }
             }
         }
-        return result;
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("summary", getSummaryProperties());
-        result.put("files", getFilesProperties());
-        result.put("issues", getIssuesProperties());
         return result;
     }
 }

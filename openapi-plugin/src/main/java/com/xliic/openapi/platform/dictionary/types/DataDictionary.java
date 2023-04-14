@@ -2,9 +2,6 @@ package com.xliic.openapi.platform.dictionary.types;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,12 +9,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
-import com.xliic.openapi.Payload;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.callback.SuccessASTResponseCallback;
 import com.xliic.openapi.platform.dictionary.DictionaryReloadCallback;
 
-public class DataDictionary extends SuccessASTResponseCallback implements Payload, Comparable<DataDictionary> {
+public class DataDictionary extends SuccessASTResponseCallback implements Comparable<DataDictionary> {
 
     public static final String STANDARD_ID = "standard";
     public static final String STANDARD_DESC = "Default standard formats";
@@ -66,17 +62,6 @@ public class DataDictionary extends SuccessASTResponseCallback implements Payloa
     @NotNull
     public Map<String, DataFormat> getFormats() {
         return formats;
-    }
-
-    @NotNull
-    public Map<String, Map<String, Object>> getFormatsProperties() {
-        List<String> keys = new LinkedList<>(formats.keySet());
-        Collections.sort(keys);
-        Map<String, Map<String, Object>> result = new LinkedHashMap<>();
-        for (String key : keys) {
-            result.put(key, formats.get(key).getProperties());
-        }
-        return result;
     }
 
     @Override
@@ -130,15 +115,5 @@ public class DataDictionary extends SuccessASTResponseCallback implements Payloa
     @Override
     public int compareTo(@NotNull DataDictionary o) {
         return getName().compareTo(o.getName());
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("id", id);
-        result.put("name", name);
-        result.put("description", description);
-        result.put("formats", getFormatsProperties());
-        return result;
     }
 }

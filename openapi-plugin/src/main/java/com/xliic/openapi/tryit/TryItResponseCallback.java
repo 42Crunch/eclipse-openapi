@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
-
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
+import com.xliic.openapi.platform.scan.ScanListener;
 import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItResponse;
 
@@ -21,18 +22,32 @@ import okhttp3.ResponseBody;
 
 public class TryItResponseCallback implements Callback {
 
+    @NotNull
     protected final Project project;
+    @Nullable
+    protected final String id;
+    protected final boolean tryIt;
 
-    public TryItResponseCallback(@NotNull Project project) {
+    public TryItResponseCallback(@NotNull Project project, @Nullable String id, boolean tryIt) {
         this.project = project;
+        this.id = id;
+        this.tryIt = tryIt;
     }
 
-    protected void showOperationResponse(@NotNull TryItResponse tryItResponse) {
-        project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationResponse(tryItResponse);
+    private void showOperationResponse(@NotNull TryItResponse tryItResponse) {
+        if (tryIt) {
+            project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationResponse(tryItResponse);
+        } else {
+            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showOperationResponse(tryItResponse);
+        }
     }
 
-    protected void showOperationError(@NotNull TryItError payload) {
-        project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationError(payload);
+    private void showOperationError(@NotNull TryItError payload) {
+        if (tryIt) {
+            project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationError(payload);
+        } else {
+            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showOperationError(payload);
+        }
     }
 
     @Override
@@ -47,12 +62,12 @@ public class TryItResponseCallback implements Callback {
         }
         try (ResponseBody body = response.body()) {
             if (body != null) {
-                TryItResponse tryItResponse = new TryItResponse(httpVersion, statusCode, statusMessage, headers, body.string());
-                SwingUtilities.invokeLater(() -> showOperationResponse(tryItResponse));
+                TryItResponse tryItResponse = new TryItResponse(httpVersion, statusCode, statusMessage, headers, body.string(), id);
+                ApplicationManager.getApplication().invokeLater(() -> showOperationResponse(tryItResponse));
             }
         } catch (IOException e) {
-            TryItError payload = new TryItError(e.getMessage(), false);
-            SwingUtilities.invokeLater(() -> showOperationError(payload));
+            TryItError payload = new TryItError(e.getMessage(), id, false);
+            ApplicationManager.getApplication().invokeLater(() -> showOperationError(payload));
         }
     }
     @Override
@@ -65,7 +80,7 @@ public class TryItResponseCallback implements Callback {
     }
 
     public void onFailure(@NotNull String msg, boolean sslError) {
-        TryItError payload = new TryItError(msg, sslError);
-        SwingUtilities.invokeLater(() -> showOperationError(payload));
+        TryItError payload = new TryItError(msg, id, sslError);
+        ApplicationManager.getApplication().invokeLater(() -> showOperationError(payload));
     }
 }

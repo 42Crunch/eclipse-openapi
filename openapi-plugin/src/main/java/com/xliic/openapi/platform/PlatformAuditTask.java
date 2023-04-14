@@ -47,6 +47,7 @@ public class PlatformAuditTask extends Task.Backgroundable {
         String text = bundle.getJsonText();
         String apiId = null;
         try {
+            AuditService.getInstance(project).downloadArticles(progress);
             PlatformAPI api = ScanUtils.createTempApi(text);
             apiId = api.getId();
             Node fullReport = new PlatformReportPuller(project, apiId, PAUSE, PULL_REPORT_DURATION).get();
@@ -58,8 +59,12 @@ public class PlatformAuditTask extends Task.Backgroundable {
             callback.complete(report);
         } catch (Exception e) {
             e.printStackTrace();
-            String msg = e.getMessage();
-            callback.reject(msg.equals(ScanUtils.LIMIT_REACHED_MSG) ? msg : ERROR_MSG + msg);
+            if (e instanceof AuditService.KdbException) {
+                callback.reject(e.getMessage());
+            } else {
+                String msg = e.getMessage();
+                callback.reject(msg.equals(ScanUtils.LIMIT_REACHED_MSG) ? msg : ERROR_MSG + msg);
+            }
         } finally {
             if (apiId != null) {
                 ScanUtils.deleteAPI(apiId);

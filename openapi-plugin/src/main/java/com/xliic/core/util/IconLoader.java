@@ -73,6 +73,8 @@ public class IconLoader {
             return new Icon(OpenAPIImages.Scan);
         } else if (path.startsWith("/icons/scanPanel")) {
             return new Icon(OpenAPIImages.ScanPanel);
+        } else if (path.startsWith("/icons/envPanel")) {
+            return new Icon(OpenAPIImages.EnvPanel);
         }
         return new Icon(ImageDescriptor.getMissingImageDescriptor());
     }
