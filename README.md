@@ -25,7 +25,11 @@ Both OAS v2 and v3 are supported.
       - [Individual fixes](#individual-fixes)
       - [Bulk fixes](#bulk-fixes)
   - [Integration with 42Crunch Platform](#integration-with-42crunch-platform)
+  - [Platform Data Dictionary](#platform-data-dictionary)
+  - [Try it](#try-it)
+  - [Scan](#scan)
   - [Known issues](#known-issues)
+  - [Version compatibility](#version-compatibility)
   - [Feedback](#feedback)
 
 ## Quick start
@@ -172,12 +176,111 @@ Then you can work with the platform using the tree view
 
 ![Platform structure in Eclipse](docs/images/Img_platform_structure.jpg)
 
+## Platform Data Dictionary
+
+You can use OpenAPI extension to work with Data Dictionary if integration with [42Crunch Platform](https://platform.42crunch.com/) is enabled.
+
+There is a Data Dictionary node in the platform tree. Click on it will open the panel with information about all configured dictionaries and formats.
+
+If platform format mismatches existing properties there are errors with possible fixes become available.
+
+![Data dictionary in Eclipse](docs/images/Img_dd_overview.jpg)
+
+As you typing OpenAPI format values starting with o: the context-sensitive list of available options is displayed.
+
+![Data dictionary completion in Eclipse](docs/images/Img_dd_overview_completion.jpg)
+
+It is possible to fix all format issues using the right click context menu in the editor.
+
+![Data dictionary fix in Eclipse](docs/images/Img_dd_overview_fix_global.jpg)
+
+If file contains format issues, then a user can be asked to choose whether it should be fixed or not before the following actions:
+
+1. Security audit 
+2. Uploading file to the platform
+
+![Data dictionary fix dialog in Eclipse](docs/images/Img_dd_overview_fix_global_ask.jpg)
+
+This behavior can be changed in the preferences menu.
+
+![Data dictionary pre fix options in Eclipse](docs/images/Img_dd_overview_fix_global_option.jpg)
+
+## Try it
+
+You can use OpenAPI extension to send requests to the servers for a specific operation in the path.
+
+If the OpenAPI file is valid this option can be run in the context menu:
+
+![Try it overview in Eclipse](docs/images/Img_tryit_overview.jpg)
+
+The following panel is available where you can choose the server and set headers or/and body parameters.
+
+![Try it overview panel in Eclipse](docs/images/Img_tryit_overview_panel.jpg)
+
+The response contains headers, body, status and if it is successful there is an option to generate a schema based on the response.
+
+![Try it overview response in Eclipse](docs/images/Img_tryit_overview_response.jpg)
+
+In case of HTTPS requests there is an option to ignore certificate errors
+
+![Try it overview ssl in Eclipse](docs/images/Img_tryit_overview_ssl.jpg)
+
+It is available both in the try it panel and in the plugin preferences
+
+## Scan
+
+You can use OpenAPI extension to perform platform scan for a specific path.
+
+If the OpenAPI file is valid this option can be run in the context menu:
+
+![Try it overview in Eclipse](docs/images/Img_scan_overview.jpg)
+
+The following panel is available where you can choose the server and set headers or/and body parameters.
+
+![Try it overview panel in Eclipse](docs/images/Img_scan_overview_panel.jpg)
+
+Frequently used environment variables can be managed using the tab below.
+
+![Try it overview panel in Eclipse](docs/images/Img_scan_overview_env_panel.jpg)
+
+Before scan be sure docker is running locally. Scan results will be shown in the corresponding tab.
+
+![Try it overview panel in Eclipse](docs/images/Img_scan_overview_result_panel.jpg)
+
+Use curl buttons to copy the command to run in terminal for example.
+
+![Try it overview panel in Eclipse](docs/images/Img_scan_curl.jpg)
+
 ## Known issues
 
 - No schema validation of OpenAPI files
 - Reference completion is unavailable for external references
 - Generic Text Editor must be a default editor for json / yaml files to use QuickFixes
-- Sometimes Eclipse doesn't show the QuickFix popup, in this case use right click context menu or press **Ctrl+1** shortcut.
+- Sometimes Eclipse doesn't show the QuickFix popup, in this case use right click context menu or press **Ctrl+1** shortcut
+- Both scan and try it features are currently supported only for OpenAPI version 3.0.x
+- Scan feature does not involve Eclipse console to run curl and docker commands (as opposed to IntelliJ IDEA plugin)
+- Scan feature on Mac, Linux (or other Unix OS) requires interactive login shell capability
+
+  The following command can be used to check your environment:
+
+```bash
+$SHELL --login -c "docker run hello-world"
+```
+- Scan feature also requires the ability to run docker command without sudo.
+  On Linux the following commands can be used to setup your environment:
+
+```bash
+sudo groupadd docker 
+sudo usermod -aG docker $USER
+sudo chown root:docker /var/run/docker.sock 
+sudo chown -R root:docker /var/run/docker
+```
+  
+## Version compatibility
+
+Extension prior to version 1.40 are compatible with Eclipse 2020-12 or newer releases.
+
+Extension from version 1.40 onwards are compatible with Eclipse 2021-03 or newer releases.
 
 ## Feedback
 
