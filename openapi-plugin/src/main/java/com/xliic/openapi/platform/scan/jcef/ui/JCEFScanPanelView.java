@@ -20,8 +20,11 @@ public class JCEFScanPanelView extends PanelViewPart {
     }
 
     @Override
-    public Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent) {
-        return new JCEFScanPanel(project, window, parent);
+    public Disposable createPanel(@NotNull Project project,
+                                  @NotNull ToolWindow window,
+                                  @NotNull Composite parent,
+                                  @NotNull ViewPartHandler handler) {
+        return new JCEFScanPanel(project, window, parent, handler);
     }
 
     @Override

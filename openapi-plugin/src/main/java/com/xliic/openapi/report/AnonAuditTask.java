@@ -16,6 +16,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Puller;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;
@@ -56,6 +57,7 @@ public class AnonAuditTask extends Task.Backgroundable {
                 callback.reject("Failed to bundle for audit, check OpenAPI file for errors");
                 return;
             }
+            AuditService.getInstance(project).downloadArticles(progress);
             String text = bundle.getJsonText();
             String token = PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
             if (token == null) {
@@ -102,7 +104,7 @@ public class AnonAuditTask extends Task.Backgroundable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            callback.reject(ERROR_MSG + e.getMessage());
+            callback.reject(e instanceof AuditService.KdbException ? e.getMessage() : ERROR_MSG + e);
         } finally {
             progress.cancel();
         }

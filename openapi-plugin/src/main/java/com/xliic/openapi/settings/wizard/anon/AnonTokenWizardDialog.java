@@ -22,7 +22,7 @@ import com.xliic.core.ui.components.JTextArea;
 import com.xliic.core.ui.components.JTextComponent;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.AuditAPIs;
-import com.xliic.openapi.report.ResponseStatus;
+import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.items.Item;
 import com.xliic.openapi.settings.wizard.WizardCallback;

@@ -1,10 +1,15 @@
 package com.xliic.openapi.actions;
 
+import static com.xliic.openapi.services.AuditService.LOADING_KDB_ARTICLES;
+
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.fileChooser.FileChooserDescriptor;
 import com.xliic.core.fileChooser.FileChooserFactory;
+import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.progress.ProgressManager;
+import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -43,9 +48,19 @@ public class LoadAuditReportAction extends ProjectAction {
                 if (!StringUtils.isEmpty(text)) {
                     Node report = Utils.getJsonAST(text);
                     if (report != null && isReportValid(report)) {
-                        AuditService auditService = AuditService.getInstance(project);
-                        auditService.cleanAuditReport(currentFile);
-                        auditService.processAuditReport(currentFile, report.getChild("data"));
+                        ProgressManager.getInstance().run(new Task.Backgroundable(project, LOADING_KDB_ARTICLES, false) {
+                            @Override
+                            public void run(@NotNull ProgressIndicator progress) {
+                                try {
+                                    AuditService auditService = AuditService.getInstance(project);
+                                    auditService.downloadArticles(progress);
+                                    auditService.cleanAuditReport(currentFile);
+                                    auditService.processAuditReport(currentFile, report.getChild("data"));
+                                } catch (AuditService.KdbException e) {
+                                    MsgUtils.error(project, e.getMessage(), true);
+                                }
+                            }
+                        });
                     } else {
                         MsgUtils.error(project, REPORT_ERROR_MSG, true);
                     }

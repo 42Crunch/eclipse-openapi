@@ -10,14 +10,15 @@ public interface FileListener {
 
     Topic<FileListener> TOPIC = new TopicFileListener<>(FileListener.class, Topic.BroadcastDirection.NONE);
 
-    void handleAllFilesClosed();
+    default void handleAllFilesClosed() {}
 
-    void handleSelectedFile(@NotNull VirtualFile file);
+    default void handleSelectedFile(@NotNull VirtualFile file) {}
 
-    void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName);
+    default void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName) {}
 
-    void handleClosedFile(@NotNull VirtualFile file);
+    default void handleClosedFile(@NotNull VirtualFile file) {}
 
-    default void handleDocumentChanged(@NotNull VirtualFile file) {
-    }
+    default void handleDocumentChanged(@NotNull VirtualFile file) {}
+
+    default void handleDocumentBundled(@NotNull String fileName) {}
 }

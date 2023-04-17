@@ -90,7 +90,7 @@ public final class EclipseWorkbenchUtil {
 
     public static boolean openPerspective() {
         IWorkbenchPage page = EclipseUtil.getActivePage();
-        if (!OpenAPIPerspectiveFactory.ID.equals(page.getPerspective().getId())) {
+        if (page != null && !OpenAPIPerspectiveFactory.ID.equals(page.getPerspective().getId())) {
             IPerspectiveRegistry registry = WorkbenchPlugin.getDefault().getPerspectiveRegistry();
             IPerspectiveDescriptor perspective = registry.findPerspectiveWithId(OpenAPIPerspectiveFactory.ID);
             if (perspective != null) {

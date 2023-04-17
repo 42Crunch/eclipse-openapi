@@ -6,8 +6,8 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.report.Audit;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Audit;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.topic.AuditListener;
 
 public class TopicAuditListener<L> extends Topic<L> {
@@ -29,8 +29,6 @@ public class TopicAuditListener<L> extends Topic<L> {
             listener.handleViewDetails((VirtualFile) args.get(0), (List<Issue>) args.get(1));
         } else if (funcId == 3) {
             listener.handleIssuesFixed((List<Issue>) args.get(0));
-        } else if (funcId == 4) {
-            listener.handleKDBReady((String) args.get(0));
         }
     }
 
@@ -58,11 +56,6 @@ public class TopicAuditListener<L> extends Topic<L> {
             @Override
             public void handleIssuesFixed(@NotNull List<Issue> issues) {
                 eventBroker.send(getTopic(), getArgs(3, List.of(issues)));
-            }
-
-            @Override
-            public void handleKDBReady(@NotNull String text) {
-                eventBroker.send(getTopic(), getArgs(4, List.of(text)));
             }
         };
     }

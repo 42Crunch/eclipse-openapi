@@ -82,16 +82,7 @@ public class PlatformPanel implements PlatformListener, Disposable {
     }
 
     @Override
-    public void reloadDictionary() {
-    }
-
-    @Override
     public void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid) {
         PlatformAPIUtils.updateAuditStatus(tree, apiId, grade, isValid);
-    }
-
-    @Override
-    public void collectionsLoaded() {
-        toolWindow.updateTitleActions();
     }
 }

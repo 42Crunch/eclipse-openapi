@@ -73,7 +73,8 @@ public class PsiFile {
     }
 
     public int getTextLength() {
-        return 0; // todo
+        // Stub, value doesn't matter now
+        return 0;
     }
 
     public PsiElement toPsiElement() {

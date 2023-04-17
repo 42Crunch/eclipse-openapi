@@ -230,6 +230,7 @@ public class ScanUtils {
                     pathsMap.keySet().removeIf(key -> !path.equals(key));
                 }
                 TryItUtils.filterComponents(root, refs);
+                TryItUtils.filterDefinitions(root, refs);
                 return TryItUtils.serializeToString(root);
             }
         } catch (Exception e) {

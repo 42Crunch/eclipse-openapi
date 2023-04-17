@@ -19,7 +19,7 @@ import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.async.AsyncService;
 import com.xliic.openapi.async.AsyncTaskType;
-import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;

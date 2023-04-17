@@ -1,85 +1,46 @@
 package com.xliic.openapi.platform.dictionary.jcef;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.equo.chromium.swt.Browser;
+import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.jcef.JBCefJSQuery;
+import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
 import com.xliic.core.wm.ToolWindow;
-import com.xliic.openapi.PanelBrowser;
 import com.xliic.openapi.platform.PlatformListener;
+import com.xliic.openapi.platform.dictionary.jcef.messages.ShowDictionary;
 import com.xliic.openapi.platform.dictionary.types.DataDictionary;
 import com.xliic.openapi.services.DictionaryService;
+import com.xliic.openapi.webapp.WebApp;
 
-public class JCEFDictionaryPanel extends PanelBrowser implements PlatformListener, Disposable {
+public class JCEFDictionaryPanel extends WebApp implements PlatformListener, Disposable {
 
-    public JCEFDictionaryPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
-        super(project, toolWindow, parent, "data-dictionary");
+    public JCEFDictionaryPanel(@NotNull Project project,
+                               @NotNull ToolWindow toolWindow,
+                               @NotNull Composite parent,
+                               @NotNull ViewPartHandler handler) {
+        super(project, toolWindow, "data-dictionary", parent, handler);
         project.getMessageBus().connect().subscribe(PlatformListener.TOPIC, this);
     }
 
     @Override
-    protected @NotNull String getLoadingMessage() {
-        return "Data Dictionary";
+    protected void onLoadEnd() {
+        DictionaryService dictService = DictionaryService.getInstance(project);
+        reloadDictionary(dictService.getDictionaries());
     }
 
     @Override
-    protected @Nullable String getMainHTML(String page, String styleCss) {
-        return page.replace("${style}", styleCss);
-    }
-
-    @Override
-    protected @Nullable String getInitJS() {
-        return "window.initWebJS();";
-    }
-
-    @Override
-    protected void loadComplete() {
-        @SuppressWarnings("serial")
-        Map<String, Object> parameters = new HashMap<>() {
-            {
-                put("command", "showDictionary");
-                put("payload", getPayload());
-            }
-        };
-        sendMessage(parameters);
-    }
-
-    @Override
-    protected @Nullable Function<Object, JBCefJSQuery.Response> getBrowserFunction() {
+    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return null;
     }
 
-    private List<Map<String, Object>> getPayload() {
-        List<Map<String, Object>> payload = new LinkedList<>();
-        DictionaryService ddService = DictionaryService.getInstance(project);
-        List<DataDictionary> dictionaries = new LinkedList<>(ddService.getDictionaries());
-        Collections.sort(dictionaries);
-        for (DataDictionary dictionary : dictionaries) {
-            payload.add(dictionary.getProperties());
-        }
-        return payload;
-    }
-
     @Override
-    public void reloadAll() {
-    }
-
-    @Override
-    public void reloadDictionary() {
-        loadComplete();
-    }
-
-    @Override
-    public void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid) {
+    public void reloadDictionary(@NotNull List<DataDictionary> dictionaries) {
+        new ShowDictionary(dictionaries).send(getCefBrowser());
     }
 }

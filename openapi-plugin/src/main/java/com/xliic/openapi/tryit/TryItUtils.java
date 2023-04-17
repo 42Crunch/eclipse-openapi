@@ -44,6 +44,7 @@ public class TryItUtils {
                     pathsMap.keySet().removeIf(key -> !path.equals(key));
                 }
                 filterComponents(root, refs);
+                filterDefinitions(root, refs);
                 return serializeToString(root);
             }
         } catch (Exception e) {
@@ -86,6 +87,14 @@ public class TryItUtils {
                 }
             }
             componentsMap.keySet().removeIf(typesToRemove::contains);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void filterDefinitions(@NotNull Map<String, Object> root, @NotNull Set<String> refs) {
+        Map<String, Object> defsMap = (Map<String, Object>) root.get("definitions");
+        if (defsMap != null) {
+            defsMap.keySet().removeIf(key -> !refs.contains("#/definitions/" + key));
         }
     }
 

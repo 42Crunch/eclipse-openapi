@@ -13,7 +13,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.quickfix.managers.FixManager;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.QuickFixService;
 
 public abstract class FixAction extends IntentionAction implements IMarkerResolutionRelevance {

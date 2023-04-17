@@ -37,6 +37,7 @@ import com.xliic.openapi.listeners.BundleDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.api.IBundleService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
@@ -248,9 +249,10 @@ public class BundleService extends AsyncService implements SettingsListener, IBu
                 bundleErrorsMap.get(error.getSourceFileName()).add(error);
             }
         }
-        UIUtil.invokeLaterIfNeeded(() -> {
+        ApplicationManager.getApplication().invokeLater(() -> {
             if (!project.isDisposed()) {
                 ProjectView.getInstance(project).refresh();
+                project.getMessageBus().syncPublisher(FileListener.TOPIC).handleDocumentBundled(rootFileName);
                 PreviewService.getInstance().sendText(project.getLocationHash(), rootFileName, text);
             }
         });

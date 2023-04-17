@@ -1,5 +1,8 @@
 package com.xliic.core.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -13,22 +16,34 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.Disposable;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.Separator;
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.application.ModalityState;
 import com.xliic.core.project.Project;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
 
 public abstract class PanelViewPart extends ViewPart implements Disposable {
 
+    private static final Map<String, ViewPartHandler> LOAD_HANDLERS = new HashMap<>();
+
+    public static enum Status { INIT, READY, DISPOSED };
+
+    public interface ViewPartHandler {
+        void onReady();
+    }
+
     private final String id;
-    private final Project project;
+    protected final Project project;
 
     private ToolWindow window;
-    private Disposable panel;
+    protected Disposable panel;
     private IToolBarManager toolBarManager;
+    private volatile Status status;
 
     public PanelViewPart(@NotNull String id) {
         this.id = id;
         project = Project.getInstance();
+        status = Status.INIT;
     }
 
     @Override
@@ -54,8 +69,17 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
             window = ToolWindowManager.getInstance(project).getToolWindow(id);
             if (window != null) {
                 try {
-                    panel = createPanel(project, window, parent);
+                    panel = createPanel(project, window, parent, () -> {
+                        synchronized (status) {
+                            status = Status.READY;
+                            ViewPartHandler handler = LOAD_HANDLERS.remove(id);
+                            if (handler != null) {
+                                ApplicationManager.getApplication().invokeAndWait(handler::onReady, ModalityState.NON_MODAL);
+                            }
+                        }
+                    });
                 } catch (Throwable e) {
+                    status = Status.DISPOSED;
                     panel = null;
                     Label label = new Label(parent, SWT.NULL);
                     label.setText("Unable to initialize JCEF browser: " + e.getMessage());
@@ -71,6 +95,7 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
             }
         } else {
             createEmptyControl(parent);
+            status = Status.READY;
         }
     }
 
@@ -84,12 +109,26 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
         return window != null && panel != null;
     }
 
+    public void runWhenReady(@NotNull ViewPartHandler handler) {
+        synchronized (status) {
+            if (status == Status.READY) {
+                handler.onReady();
+            } else if (status == Status.INIT) {
+                LOAD_HANDLERS.put(id, handler);
+            } else {
+                throw new RuntimeException("View part " + id + " is disposed");
+            }
+        }
+    }
+
     @Override
     public void setFocus() {
     }
 
     @Override
     public void dispose() {
+        status = Status.DISPOSED;
+        removeContentLoadHandler(id);
         if (panel != null) {
             // It's OK even if the panel has not been subscribed
             project.getMessageBus().connect().unsubscribe(panel);
@@ -102,18 +141,29 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
         }
     }
 
-    protected void saveState(@NotNull Project project, @NotNull IMemento memento) {
-    }
+    protected void saveState(@NotNull Project project, @NotNull IMemento memento) {}
 
-    protected void restoreState(@NotNull Project project, @NotNull IMemento memento) {
-    }
+    protected void restoreState(@NotNull Project project, @NotNull IMemento memento) {}
 
-    protected void createEmptyControl(Composite parent) {
-    }
+    protected void createEmptyControl(Composite parent) {}
 
     protected boolean initControl(@NotNull Project project) {
         return true;
     }
 
-    protected abstract Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent);
+    protected abstract Disposable createPanel(@NotNull Project project,
+                                              @NotNull ToolWindow window,
+                                              @NotNull Composite parent,
+                                              @NotNull ViewPartHandler handler);
+
+    // We need to draw UI widgets after this event, not after partOpened
+    public void onViewPartBroughtToTop() {}
+
+    public static void addContentLoadHandler(@NotNull String id, @NotNull ViewPartHandler handler) {
+        LOAD_HANDLERS.put(id, handler);
+    }
+
+    public static void removeContentLoadHandler(@NotNull String id) {
+        LOAD_HANDLERS.remove(id);
+    }
 }

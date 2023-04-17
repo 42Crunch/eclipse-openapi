@@ -47,12 +47,13 @@ import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.PlatformFavoriteState;
 import com.xliic.openapi.platform.tree.ui.PlatformPanelView;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
-import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.api.IPlatformService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.utils.WindowUtils;
 
 import okhttp3.Callback;
 
@@ -165,7 +166,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
             if (PlatformConnection.isPlatformIntegrationEnabled()) {
-                ToolWindow platformWindow = manager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
+                ToolWindow platformWindow = manager.getToolWindow(ToolWindowId.PLATFORM);
                 if (platformWindow != null && !platformWindow.isDisposed()) {
                     PlatformPanelView view = (PlatformPanelView) platformWindow.getView();
                     if (view != null && !view.isReady()) {
@@ -177,7 +178,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 // perspective scope
                 createPlatformWindow(true);
             } else {
-                ToolWindow window = manager.getToolWindow(ToolWindowId.OPEN_API_PLATFORM);
+                ToolWindow window = manager.getToolWindow(ToolWindowId.PLATFORM);
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
@@ -189,7 +190,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     public void createPlatformWindow(boolean activate) {
         if (activate) {
             ApplicationManager.getApplication().invokeAndWait(() -> {
-                Utils.activateToolWindow(project, ToolWindowId.OPEN_API_PLATFORM);
+                WindowUtils.activateToolWindow(project, ToolWindowId.PLATFORM);
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
             }, ModalityState.NON_MODAL);
         }
