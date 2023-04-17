@@ -16,7 +16,7 @@ import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
-import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.WindowUtils;

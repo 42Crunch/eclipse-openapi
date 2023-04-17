@@ -11,7 +11,7 @@ import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.actions.FixBulkAction;
 import com.xliic.openapi.quickfix.actions.FixSingleAction;
 import com.xliic.openapi.quickfix.sources.FixSource;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 
 public interface IQuickFixService {
 

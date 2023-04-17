@@ -6,8 +6,8 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.report.Audit;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Audit;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.topic.AuditListener;
 
 public class TopicAuditListener<L> extends Topic<L> {

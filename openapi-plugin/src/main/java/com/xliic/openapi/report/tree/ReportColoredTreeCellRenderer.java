@@ -9,7 +9,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.ColoredTreeCellRenderer;
 import com.xliic.core.ui.SimpleTextAttributes;
 import com.xliic.core.ui.treeStructure.Tree;
-import com.xliic.openapi.report.Severity;
+import com.xliic.openapi.report.types.Severity;
 
 import icons.OpenApiIcons;
 

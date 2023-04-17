@@ -23,7 +23,7 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.managers.FixManager;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 
 public class FixSourceSchemaRefByResponseCode extends FixSource {
 

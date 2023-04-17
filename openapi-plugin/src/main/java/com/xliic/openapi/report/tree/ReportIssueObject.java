@@ -12,8 +12,8 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.Range;
-import com.xliic.openapi.report.Issue;
-import com.xliic.openapi.report.Severity;
+import com.xliic.openapi.report.types.Issue;
+import com.xliic.openapi.report.types.Severity;
 
 public class ReportIssueObject implements NavigatableErrorTreeElement {
 

@@ -47,7 +47,7 @@ import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.PlatformFavoriteState;
 import com.xliic.openapi.platform.tree.ui.PlatformPanelView;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
-import com.xliic.openapi.report.Audit;
+import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.api.IPlatformService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.AuditListener;

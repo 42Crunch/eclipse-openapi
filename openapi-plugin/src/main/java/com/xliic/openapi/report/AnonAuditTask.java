@@ -16,6 +16,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Puller;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;

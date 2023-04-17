@@ -23,7 +23,7 @@ import com.xliic.openapi.quickfix.FixTitle;
 import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 
 public class FixManagerCombined extends FixManager {
 

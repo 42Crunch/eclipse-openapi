@@ -1,4 +1,4 @@
-package com.xliic.openapi.report;
+package com.xliic.openapi.report.types;
 
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
@@ -15,6 +15,7 @@ import com.xliic.core.editor.Document;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.report.IssueComparator;
 
 public class Audit {
 

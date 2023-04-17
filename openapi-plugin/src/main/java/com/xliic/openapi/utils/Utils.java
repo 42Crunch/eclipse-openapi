@@ -51,7 +51,7 @@ import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.editor.DocumentIndent;
-import com.xliic.openapi.report.ResponseStatus;
+import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.ExtRefService;
 

@@ -44,7 +44,7 @@ import com.xliic.openapi.quickfix.sources.FixSourceEmpty;
 import com.xliic.openapi.quickfix.sources.FixSourceMostUsedByName;
 import com.xliic.openapi.quickfix.sources.FixSourceSchemaRefByResponseCode;
 import com.xliic.openapi.quickfix.sources.FixSourceSecuritySchemes;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.api.IQuickFixService;
 import com.xliic.openapi.topic.AuditListener;
 

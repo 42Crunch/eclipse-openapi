@@ -10,7 +10,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.ToolWindowId;
-import com.xliic.openapi.report.Issue;
+import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.WindowUtils;
 

@@ -1,4 +1,4 @@
-package com.xliic.openapi.report;
+package com.xliic.openapi.report.types;
 
 import com.xliic.core.codeInspection.ProblemHighlightType;
 import com.xliic.core.lang.HighlightSeverity;

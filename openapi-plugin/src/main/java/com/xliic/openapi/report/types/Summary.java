@@ -1,4 +1,4 @@
-package com.xliic.openapi.report;
+package com.xliic.openapi.report.types;
 
 import org.jetbrains.annotations.NotNull;
 
