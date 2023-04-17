@@ -117,11 +117,21 @@ public final class ScanService implements IScanService, SettingsListener {
     @Override
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
-            if (!PlatformConnection.isPlatformIntegrationEnabled()) {
-                ToolWindowManager manager = ToolWindowManager.getInstance(project);
+            ToolWindowManager manager = ToolWindowManager.getInstance(project);
+            String prevApiKey = (String) prevData.get(Settings.Platform.Credentials.API_KEY);
+            boolean wasPltDisabled = prevApiKey != null && prevApiKey.isEmpty();
+            boolean isPltEnabled = PlatformConnection.isPlatformIntegrationEnabled();
+            boolean isPltTurnedOn = isPltEnabled && wasPltDisabled;
+            if (isPltTurnedOn || !isPltEnabled) {
                 ToolWindow window = manager.getToolWindow(SCAN);
                 if (window != null && !window.isDisposed()) {
                     window.remove();
+                }
+                scanTaskInProgress = false;
+                if (isPltTurnedOn) {
+                    ApplicationManager.getApplication().invokeAndWait(() -> {
+                        WindowUtils.activateToolWindow(project, SCAN);
+                    }, ModalityState.NON_MODAL);
                 }
             }
         }

@@ -12,6 +12,7 @@ import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.dictionary.jcef.JCEFDictionaryPanel;
+import com.xliic.openapi.platform.tree.ui.PlatformPanelView;
 
 public class JCEFDictionaryPanelView extends PanelViewPart {
 
@@ -29,7 +30,7 @@ public class JCEFDictionaryPanelView extends PanelViewPart {
 
     @Override
     public void createEmptyControl(Composite parent) {
-        new Label(parent, SWT.NULL).setText("42Crunch Platform Credentials are not defined");
+        new Label(parent, SWT.NULL).setText(PlatformPanelView.CREDENTIALS_NA_TEXT);
     }
 
     @Override

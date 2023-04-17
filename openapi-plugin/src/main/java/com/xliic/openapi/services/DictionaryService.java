@@ -207,14 +207,22 @@ public final class DictionaryService implements IDictionaryService, SettingsList
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            if (PlatformConnection.isPlatformIntegrationEnabled()) {
-                reload(false);
-            } else {
+            String prevApiKey = (String) prevData.get(Settings.Platform.Credentials.API_KEY);
+            boolean wasPltDisabled = prevApiKey != null && prevApiKey.isEmpty();
+            boolean isPltEnabled = PlatformConnection.isPlatformIntegrationEnabled();
+            boolean isPltTurnedOn = isPltEnabled && wasPltDisabled;
+            if (isPltTurnedOn || !isPltEnabled) {
                 ToolWindow window = manager.getToolWindow(PLATFORM_DICTIONARY);
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
-                dispose();
+                cache.clear();
+                dictionaries.clear();
+                if (isPltTurnedOn) {
+                    reload(true);
+                }
+            } else {
+                reload(false);
             }
         }
     }
