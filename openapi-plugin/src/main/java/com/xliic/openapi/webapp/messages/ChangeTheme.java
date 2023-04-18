@@ -1,6 +1,5 @@
 package com.xliic.openapi.webapp.messages;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -9,13 +8,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.swing.UIManager;
-
 import org.eclipse.e4.ui.css.swt.theme.ITheme;
 import org.eclipse.e4.ui.css.swt.theme.IThemeEngine;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.ui.UIManager;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
@@ -54,18 +53,22 @@ public class ChangeTheme extends WebAppConsume {
         }
     }
 
-    public ChangeTheme() {
+    @NotNull
+    private final UIManager manager;
+
+    public ChangeTheme(@NotNull UIManager manager) {
         super("changeTheme");
+        this.manager = manager;
     }
 
     @Override
     protected @NotNull Map<String, Object> getPayload() {
-        return getChangeThemePayload();
+        return getChangeThemePayload(manager);
     }
 
-    public static Map<String, Object> getChangeThemePayload() {
+    public static Map<String, Object> getChangeThemePayload(@NotNull UIManager manager) {
         Map<String, Object> payload = new HashMap<>();
-        String kind = getKind();
+        String kind = getKind(manager);
         payload.put("kind", kind);
         Map<String, Object> colors = new HashMap<>();
         String themeId = getCurrentScheme().getId();
@@ -75,18 +78,24 @@ public class ChangeTheme extends WebAppConsume {
             // Get all colors from the default theme
             setColors(KIND_DEFAULT_THEMES.get(kind), colors);
         }
-        //updateColor("foreground", "Panel.foreground", colors);
-        // Light theme in IDEA has grey Panel.background, skip it here
-//        if (!isWhiteBackgroundTheme(themeId)) {
-//            updateColor("background", "Panel.background", colors);
-//            updateColor("sidebarBackground", "Panel.background", colors);
-//        }
+        if (isCustomBackgroundTheme(themeId) && !"light".equals(kind)) {
+            updateColor("background", "Panel.background", colors, manager);
+            updateColor("sidebarBackground", "Panel.background", colors, manager);
+        }
         payload.put("theme", colors);
         return payload;
     }
 
+	private static boolean isCustomBackgroundTheme(String themeId) {
+        return !isWhiteBackgroundTheme(themeId) && !isDarkBackgroundTheme(themeId);
+    }
+
     private static boolean isWhiteBackgroundTheme(String themeId) {
         return "org.eclipse.e4.ui.css.theme.e4_default".equals(themeId) || "org.eclipse.e4.ui.css.theme.e4_classic".equals(themeId);
+    }
+
+	private static boolean isDarkBackgroundTheme(String themeId) {
+        return "org.eclipse.e4.ui.css.theme.e4_dark".equals(themeId) || "org.eclipse.e4.ui.css.theme.high-contrast".equals(themeId);
     }
 
     private static void setColors(String themeId, Map<String, Object> colors) {
@@ -95,8 +104,8 @@ public class ChangeTheme extends WebAppConsume {
         }
     }
 
-    private static void updateColor(String key, String uiKey, Map<String, Object> colors) {
-        Color color = UIManager.getColor(uiKey);
+    private static void updateColor(String key, String uiKey, Map<String, Object> colors, UIManager manager) {
+        Color color = manager.getColor(uiKey);
         if (color != null) {
             colors.put(key, toHex(color));
         }
@@ -107,12 +116,12 @@ public class ChangeTheme extends WebAppConsume {
         return themeEngine.getActiveTheme();
     }
 
-    private static String getKind() {
+    private static String getKind(UIManager manager) {
         String kind = getKindFromScheme(getCurrentScheme());
         if (kind != null) {
             return kind;
         }
-        Color color = UIManager.getColor("Panel.background");
+        Color color = manager.getColor("Panel.background");
         if (color != null) {
             int grey = (int) ((color.getRed() + color.getGreen() + color.getBlue()) / 3.0);
             return 100 <= grey ? "light" : (grey <= 10 ? "highContrast" : "dark");

@@ -15,7 +15,7 @@ public class Color {
     }
 
     public org.eclipse.swt.graphics.Color getSwtGraphicsColor() {
-        return getColor(isDarkTheme() ? darkRGB : rgb);
+        return getColor(UIManager.isDarkTheme() ? darkRGB : rgb);
     }
 
     private org.eclipse.swt.graphics.Color getColor(int hex) {
@@ -23,10 +23,5 @@ public class Color {
         int g = (hex & 0xFF00) >> 8;
         int b = (hex & 0xFF);
         return new org.eclipse.swt.graphics.Color(new RGB(r, g, b));
-    }
-
-    private static boolean isDarkTheme() {
-        String name = UIManager.getLookAndFeel().getName();
-        return name.contains("Darcula") || name.contains("High contrast");
     }
 }

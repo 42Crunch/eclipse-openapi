@@ -4,9 +4,11 @@ import java.io.InputStream;
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.equo.middleware.api.handler.IResponseHandler;
 import com.equo.middleware.api.resource.Request;
+import com.xliic.core.ui.UIManager;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.ChangeTheme;
@@ -20,9 +22,16 @@ public class SchemeHandlerFactory implements IResponseHandler {
 
     @NotNull
     private final String indexHTML;
+    @Nullable
+    private UIManager manager;
 
     public SchemeHandlerFactory() {
         indexHTML = NetUtils.getWebAppResource(getClass(), "index.html");
+        manager = null;
+    }
+
+    public void setUIManager(@NotNull UIManager manager) {
+        this.manager = manager;
     }
 
     private ResourceHandler create(@NotNull String url) {
@@ -44,13 +53,13 @@ public class SchemeHandlerFactory implements IResponseHandler {
         String page = indexHTML.replace("${style-css}", STYLE_CSS_URL);
         page = page.replace("${index-script}", HTTP_SCHEMA_PREFIX + resourceId + ".js");
         page = page.replace("window.__EclipseJTools.postMessage", getBrowserFunctionName(resourceId));
-        return page.replace("$theme", "" + Utils.serialize(ChangeTheme.getChangeThemePayload(), true));
+        return page.replace("$theme", "" + Utils.serialize(ChangeTheme.getChangeThemePayload(manager), true));
     }
 
     @Override
     public InputStream getResponseData(Request request, Map<String, String> headers) {
       String url = request.getUrl();
-      if (url == null) {
+      if (url == null || manager == null) {
           return null;
       }
       ResourceHandler resourceHandler = create(url);

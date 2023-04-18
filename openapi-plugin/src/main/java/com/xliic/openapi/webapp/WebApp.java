@@ -18,6 +18,7 @@ import com.xliic.core.ide.ui.LafManager;
 import com.xliic.core.ide.ui.LafManagerListener;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
+import com.xliic.core.ui.UIManager;
 import com.xliic.core.ui.jcef.CefLoadHandlerAdapter;
 import com.xliic.core.ui.jcef.JBCefBrowser;
 import com.xliic.core.wm.ToolWindow;
@@ -72,7 +73,10 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
             cefApp.registerSchemeHandlerFactory("http", DOMAIN, SCHEME_HANDLER_FACTORY);
             regShFactory = false;
         }
-        loadURL(HTTP_SCHEMA_PREFIX + resourceId + ".html");
+        ApplicationManager.getApplication().invokeAndWait(() -> {
+            SCHEME_HANDLER_FACTORY.setUIManager(UIManager.getInstance());
+            loadURL(HTTP_SCHEMA_PREFIX + resourceId + ".html");
+        });
     }
 
     @Nullable
@@ -90,6 +94,8 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
 
     @Override
     public void lookAndFeelChanged(@NotNull LafManager source) {
-        new ChangeTheme().send(getCefBrowser());
+        ApplicationManager.getApplication().invokeAndWait(() -> {
+            new ChangeTheme(UIManager.getInstance()).send(getCefBrowser());
+        });
     }
 }
