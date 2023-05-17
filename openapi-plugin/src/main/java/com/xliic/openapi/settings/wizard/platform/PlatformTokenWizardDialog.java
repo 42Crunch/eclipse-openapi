@@ -14,6 +14,7 @@ import com.xliic.core.ui.DocumentAdapter;
 import com.xliic.core.ui.DocumentEvent;
 import com.xliic.core.ui.components.JTextComponent;
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.settings.items.Item;
 import com.xliic.openapi.settings.items.ItemPlatformCredentials;
@@ -45,7 +46,7 @@ public class PlatformTokenWizardDialog extends WizardDialog {
     @Override
     protected void applySettings(@NotNull Set<String> keys) {
         keys.add(API_KEY);
-        PlatformConnection.setPlatformAPIKey(component.getText());
+        SecurityPropertiesComponent.getInstance().getValue(API_KEY, "");
 
     }
 

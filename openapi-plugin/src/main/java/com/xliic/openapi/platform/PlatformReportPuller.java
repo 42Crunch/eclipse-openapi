@@ -62,7 +62,7 @@ public class PlatformReportPuller extends Puller<Node> {
 
     @Override
     @NotNull
-    protected String error() {
-        return "Failed to get assessment report";
+    protected Exception timeout() {
+        return new Exception("Failed to get assessment report");
     }
 }

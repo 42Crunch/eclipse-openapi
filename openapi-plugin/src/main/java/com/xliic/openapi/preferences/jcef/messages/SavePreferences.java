@@ -34,7 +34,7 @@ public class SavePreferences extends WebAppProduce {
         if (payload instanceof Map) {
             Object value = cache.get(PSI_FILE_PATH);
             if (value != null) {
-                PsiFile psiFile = Utils.getPsiFile(project, (String) value);
+                PsiFile psiFile = Utils.findPsiFile(project, (String) value);
                 if (psiFile != null) {
                     VirtualFile file = psiFile.getVirtualFile();
                     if (file != null) {

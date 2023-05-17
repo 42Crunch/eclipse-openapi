@@ -1,9 +1,11 @@
 package com.xliic.openapi.platform.scan;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.util.messages.Topic;
 import com.xliic.core.util.messages.TopicScanListener;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.payload.ScanOperation;
 import com.xliic.openapi.platform.scan.payload.ScanReport;
@@ -22,4 +24,10 @@ public interface ScanListener {
     default void showOperationResponse(@NotNull TryItResponse payload) {}
 
     default void showOperationError(@NotNull TryItError payload) {}
+
+    default void showGeneralError(@NotNull String message, @Nullable String code, @Nullable String details) {}
+
+    default void startScan(@NotNull VirtualFile file) {}
+
+    default void sendLogMessage(@NotNull String level, @NotNull String message) {}
 }

@@ -28,6 +28,11 @@ public class PlatformAPIs {
             Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
             return client.newCall(request).execute();
         }
+        
+        public static Response testConnection() throws IOException {
+            Request request = getRequestBuilder("api/v2/collections?page=1&perPage=1").build();
+            return client.newCall(request).execute();
+        }
     }
 
     public static void listCollections(Callback callback) {

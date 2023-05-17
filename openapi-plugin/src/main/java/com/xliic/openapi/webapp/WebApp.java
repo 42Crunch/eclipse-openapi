@@ -27,7 +27,7 @@ import com.xliic.openapi.webapp.scheme.SchemeHandlerFactory;
 
 public abstract class WebApp extends JBCefBrowser implements LafManagerListener {
 
-    private static final SchemeHandlerFactory SCHEME_HANDLER_FACTORY = new SchemeHandlerFactory();
+	private static final SchemeHandlerFactory SCHEME_HANDLER_FACTORY = new SchemeHandlerFactory();
     private static final String DOM_CONTENT_LOADED_JS = "window.fireDOMContentLoaded();";
     private static boolean regShFactory = true;
 
@@ -37,6 +37,8 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
     protected final ToolWindow window;
     @NotNull
     protected final String resourceId;
+    @Nullable
+    protected UIManager manager;
 
     @NotNull
     private final CefLoadHandlerAdapter loadHandler;
@@ -61,8 +63,9 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
             public void onLoadingStateChange(JBCefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
                 if (!isLoading) {
                     browser.executeJavaScript(DOM_CONTENT_LOADED_JS, browser.getURL(), 0);
-                    WebApp.this.onLoadEnd();
+                    new ChangeTheme(manager).send(getCefBrowser());
                     ApplicationManager.getApplication().getMessageBus().connect().subscribe(LafManagerListener.TOPIC, lafListener);
+                    WebApp.this.onLoadEnd();
                     handler.onReady();
                 }
             }
@@ -74,7 +77,8 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
             regShFactory = false;
         }
         ApplicationManager.getApplication().invokeAndWait(() -> {
-            SCHEME_HANDLER_FACTORY.setUIManager(UIManager.getInstance());
+        	manager = UIManager.getInstance();
+            SCHEME_HANDLER_FACTORY.setUIManager(manager);
             loadURL(HTTP_SCHEMA_PREFIX + resourceId + ".html");
         });
     }
@@ -95,7 +99,7 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
     @Override
     public void lookAndFeelChanged(@NotNull LafManager source) {
         ApplicationManager.getApplication().invokeAndWait(() -> {
-            new ChangeTheme(UIManager.getInstance()).send(getCefBrowser());
+            new ChangeTheme(manager).send(getCefBrowser());
         });
     }
 }

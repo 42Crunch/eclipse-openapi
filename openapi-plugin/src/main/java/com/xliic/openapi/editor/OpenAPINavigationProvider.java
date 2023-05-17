@@ -10,7 +10,6 @@ import com.xliic.core.navigation.DirectNavigationProvider;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiElement;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
@@ -35,17 +34,17 @@ public class OpenAPINavigationProvider implements DirectNavigationProvider {
             Node target = result.getSecond();
             VirtualFile refFile = result.getFirst();
             if (target == null) {
-                return PsiManager.getInstance(project).findFile(refFile).toPsiElement();
+                return Utils.findPsiFile(project, refFile).toPsiElement();
             } else {
                 if (ExtRef.isExtRef(ref)) {
-                    PsiFile psiFile = PsiManager.getInstance(project).findFile(refFile);
+                    PsiFile psiFile = Utils.findPsiFile(project, refFile);
                     if (psiFile != null) {
                         return psiFile.findElementAt(target.getRange().getStartOffset());
                     }
                 } else {
                     // Platform files are temp files which never indexed
                     if (TempFileUtils.isPlatformFile(refFile)) {
-                        PsiFile psiFile = PsiManager.getInstance(project).findFile(refFile);
+                        PsiFile psiFile = Utils.findPsiFile(project, refFile);
                         if (psiFile != null) {
                             return psiFile.findElementAt(target.getRange().getStartOffset());
                         }

@@ -15,7 +15,6 @@ import com.xliic.core.fileEditor.TextEditor;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.Icon;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
@@ -23,7 +22,7 @@ import com.xliic.openapi.quickfix.managers.FixManager;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.utils.Utils;
 
-public class FixSnippetAction extends AnJAction implements DumbAware {
+public class FixSnippetAction extends AnJAction implements DumbAware { 
 
     private final FixManager provider;
 
@@ -64,7 +63,7 @@ public class FixSnippetAction extends AnJAction implements DumbAware {
         if (project != null) {
             VirtualFile file = Utils.getSelectedOpenAPIFile(project);
             if (file != null) {
-                return PsiManager.getInstance(project).findFile(file);
+                return Utils.findPsiFile(project, file);
             }
         }
         return null;

@@ -43,7 +43,7 @@ public class CreateSchemaCommand extends WebAppProduce {
             TryItOperation operation = (TryItOperation) cache.get(TRY_IT_OPERATION);
             if (operation != null) {
                 String filePath = operation.getPsiFile().getVirtualFile().getPath();
-                PsiFile psiFile = Utils.getPsiFile(project, filePath);
+                PsiFile psiFile = Utils.findPsiFile(project, filePath);
                 if (psiFile != null) {
                     TryItFixManager provider = new TryItFixManager(psiFile, (Node) payload);
                     ApplicationManager.getApplication().invokeLater(() -> {

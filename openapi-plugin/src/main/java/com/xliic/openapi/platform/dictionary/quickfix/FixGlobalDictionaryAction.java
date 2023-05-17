@@ -14,7 +14,6 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
@@ -56,7 +55,7 @@ public class FixGlobalDictionaryAction extends ProjectAction {
     }
 
     public void actionPerformed(@NotNull Project project, @NotNull VirtualFile currentFile, @NotNull ActionCallback callback) {
-        PsiFile psiFile = PsiManager.getInstance(project).findFile(currentFile);
+        PsiFile psiFile = Utils.findPsiFile(project, currentFile);
         if (psiFile != null) {
             List<DictionaryUpdate> updates = getDictionaryUpdates(project, currentFile);
             // All containers have been processed

@@ -1,5 +1,10 @@
 package com.xliic.openapi.tryit.jcef;
 
+import static com.xliic.openapi.settings.Settings.TryIt.INSECURE_SSL_HOSTNAMES;
+
+import java.util.Map;
+import java.util.Set;
+
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,6 +18,8 @@ import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.bundler.BundleResult;
+import com.xliic.openapi.config.jcef.messages.LoadConfig;
+import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.environment.EnvListener;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.environment.jcef.messages.LoadEnv;
@@ -21,6 +28,7 @@ import com.xliic.openapi.preferences.jcef.messages.LoadPreferences;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.topic.FileListener;
+import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.TryItListener;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.tryit.jcef.messages.ShowHttpError;
@@ -32,7 +40,7 @@ import com.xliic.openapi.tryit.payload.TryItResponse;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.WebApp;
 
-public class JCEFTryItPanel extends WebApp implements FileListener, TryItListener, EnvListener, Disposable {
+public class JCEFTryItPanel extends WebApp implements FileListener, TryItListener, EnvListener, SettingsListener, Disposable {
 
     public static final String TRY_IT_OPERATION = "com.xliic.openapi.tryit.jcef.JCEFTryItPanel[TryItOperation]";
 
@@ -44,6 +52,7 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(TryItListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(EnvListener.TOPIC, this);
+        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
     @Override
@@ -57,6 +66,7 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
         if (!prefs.isEmpty()) {
             new LoadPreferences(prefs).send(getCefBrowser());
         }
+        new LoadConfig(new Config()).send(getCefBrowser());
         cache.put(TRY_IT_OPERATION, payload);
         cache.put(SavePreferences.PSI_FILE_PATH, payload.getPsiFile().getVirtualFile().getPath());
         new TryOperation(payload).send(getCefBrowser());
@@ -83,7 +93,7 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
         if (operation != null) {
             String filePath = operation.getPsiFile().getVirtualFile().getPath();
             if (filePath.equals(oldFileName)) {
-                PsiFile psiFile = Utils.getPsiFile(project, newFile.getPath());
+                PsiFile psiFile = Utils.findPsiFile(project, newFile.getPath());
                 if (psiFile != null) {
                     operation.setPsiFile(psiFile);
                 }
@@ -111,6 +121,13 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
+        if (keys.contains(INSECURE_SSL_HOSTNAMES)) {
+            new LoadConfig(new Config()).send(getCefBrowser());
         }
     }
 }

@@ -27,7 +27,6 @@ import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.EclipseWorkbenchUtil;
@@ -151,7 +150,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                     boolean showAsProblems = report == null || report.isShowAsProblems();
                     Audit newReport = new Audit(project, file.getPath(), reportNode, true, showAsHTML, showAsProblems);
                     auditService.setAuditReport(file.getPath(), newReport);
-                    PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+                    PsiFile psiFile = Utils.findPsiFile(project, file);
                     if (psiFile != null) {
                         DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
                     }

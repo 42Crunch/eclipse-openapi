@@ -23,7 +23,6 @@ import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ToolWindowId;
@@ -38,6 +37,7 @@ import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.NetUtils;
+import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
 
 import okhttp3.Call;
@@ -181,7 +181,7 @@ public final class AuditService implements IAuditService, Disposable {
         Audit newReport = ApplicationManager.getApplication().runReadAction((Computable<Audit>) () -> {
             Audit report = new Audit(project, file.getPath(), response, false);
             setAuditReport(file.getPath(), report);
-            PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+            PsiFile psiFile = Utils.findPsiFile(project, file);
             if (psiFile != null) {
                 DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
             }

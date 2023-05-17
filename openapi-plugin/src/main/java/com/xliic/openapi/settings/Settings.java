@@ -16,10 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xliic.core.credentialStore.CredentialAttributes;
-import com.xliic.core.credentialStore.CredentialAttributesKt;
 import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.openapi.platform.PlatformConnection;
 
 public class Settings {
 
@@ -34,7 +31,9 @@ public class Settings {
             public static final String API_KEY = "com.xliic.openapi.settings.platform.apikey";
 
             public static void init() {
-                PlatformConnection.setDefaultPlatformURL();
+                if (StringUtils.isEmpty(settings.getValue(URL))) {
+                    settings.setValue(URL, "https://platform.42crunch.com");
+                }
             }
         }
 
@@ -61,16 +60,55 @@ public class Settings {
             public static final String SERVICES = "com.xliic.openapi.settings.platform.scan.services";
             public static final String ENV_DEFAULT_KEY = "com.xliic.openapi.settings.platform.scan.default.env";
             public static final String ENV_SECRETS_KEY = "com.xliic.openapi.settings.platform.scan.secrets.env";
-
             private static final String DEFAULT_IMAGE_VALUE = "42crunch/scand-agent:v2.0.0-rc05";
+            public static final String RUNTIME = "com.xliic.openapi.settings.platform.scan.runtime";
+            public static final String RUNTIME_DOCKER = "docker";
+
+            public static class Docker {
+
+                public static final String REPLACE_LOCALHOST = "com.xliic.openapi.settings.platform.scan.docker.replace.localhost";
+                public static final String USE_HOST_NETWORK = "com.xliic.openapi.settings.platform.scan.docker.use.host.network";
+
+                public static void init() {
+                    if (!settings.isValueSet(REPLACE_LOCALHOST)) {
+                        settings.setValue(REPLACE_LOCALHOST, true);
+                    }
+                    if (!settings.isValueSet(USE_HOST_NETWORK)) {
+                        settings.setValue(USE_HOST_NETWORK, true);
+                    }
+                }
+            }
+
+            public static class ScandMgr {
+
+                public static final String URL = "com.xliic.openapi.settings.platform.scan.scand.url";
+                public static final String AUTH = "com.xliic.openapi.settings.platform.scan.scand.auth";
+                public static final String HEADER = "com.xliic.openapi.settings.platform.scan.scand.header";
+                public static final String AUTH_NONE = "none";
+                public static final String AUTH_HEADER = "header";
+
+                public static void init() {
+                    if (!settings.isValueSet(URL)) {
+                        settings.setValue(URL, "");
+                    }
+                    if (!settings.isValueSet(AUTH)) {
+                        settings.setValue(AUTH, AUTH_NONE);
+                    }
+                }
+            }
 
             public static void init() {
-                if (!settings.isValueSet(IMAGE) || !DEFAULT_IMAGE_VALUE.equals(settings.getValue(IMAGE))) {
+                if (!settings.isValueSet(IMAGE)) {
                     settings.setValue(IMAGE, DEFAULT_IMAGE_VALUE);
                 }
                 if (!settings.isValueSet(SERVICES)) {
                     settings.setValue(SERVICES, "");
                 }
+                if (!settings.isValueSet(RUNTIME)) {
+                    settings.setValue(RUNTIME, RUNTIME_DOCKER);
+                }
+                ScandMgr.init();
+                Docker.init();
             }
         }
     }
@@ -160,11 +198,6 @@ public class Settings {
         SortOutlines.init();
         Preview.init();
         Audit.init();
-    }
-
-    @NotNull
-    public static CredentialAttributes createCredentialAttributes(@NotNull String key) {
-        return new CredentialAttributes(CredentialAttributesKt.generateServiceName("xliic", key));
     }
 
     @Nullable
