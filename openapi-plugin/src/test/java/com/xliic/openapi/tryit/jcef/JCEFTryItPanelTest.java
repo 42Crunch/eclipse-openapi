@@ -1,21 +1,27 @@
 package com.xliic.openapi.tryit.jcef;
 
+import static com.xliic.openapi.TestUtils.loadFile;
+
+import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.openapi.utils.Utils;
+
 import junit.framework.TestCase;
-
-import java.io.FileNotFoundException;
-import java.util.*;
-
-import static com.xliic.openapi.TestUtils.loadFile;
 
 public class JCEFTryItPanelTest extends TestCase {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public void testTryItOperation() throws FileNotFoundException, JsonProcessingException {
+    @SuppressWarnings("serial")
+	public void testTryItOperation() throws FileNotFoundException, JsonProcessingException {
 
         String oas = loadFile("test/testData/tryit/jcef/oas.json");
         String preferredBodyValue = "bah";
@@ -47,7 +53,8 @@ public class JCEFTryItPanelTest extends TestCase {
         assertEquals(expectedObj, actualObj);
     }
 
-    public void testTryItOperationWithPreferredBodyValue() throws FileNotFoundException, JsonProcessingException {
+    @SuppressWarnings("serial")
+	public void testTryItOperationWithPreferredBodyValue() throws FileNotFoundException, JsonProcessingException {
 
         String oas = loadFile("test/testData/tryit/jcef/oas.json");
         String preferredBodyValue = loadFile("test/testData/tryit/jcef/preferredBodyValue.json");

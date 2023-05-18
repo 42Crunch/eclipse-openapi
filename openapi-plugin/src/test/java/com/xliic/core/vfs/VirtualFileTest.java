@@ -1,12 +1,9 @@
-package com.xliic.openapi;
+package com.xliic.core.vfs;
 
 import static org.apache.commons.lang.RandomStringUtils.random;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
-
-import com.xliic.core.vfs.VirtualFile;
 
 import junit.framework.TestCase;
 
@@ -15,7 +12,8 @@ public class VirtualFileTest extends TestCase {
 	private File file;
 	private String name;
 
-    public void setUp() {
+    @Override
+	public void setUp() {
     	name = "tc_" + random(15, true, false).toLowerCase();
     	file = new File(name);
     }
@@ -63,7 +61,8 @@ public class VirtualFileTest extends TestCase {
     	assertEquals(false, y.isValid());
     }
 
-    public void tearDown() {
+    @Override
+	public void tearDown() {
     	if (file.exists()) {
     		file.delete();
     	}

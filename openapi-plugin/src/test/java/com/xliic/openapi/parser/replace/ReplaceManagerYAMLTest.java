@@ -1,20 +1,22 @@
 package com.xliic.openapi.parser.replace;
 
-import junit.framework.*;
+import static com.xliic.openapi.parser.replace.ReplaceManager.replace;
 
 import java.util.LinkedList;
 
-import static com.xliic.openapi.parser.replace.ReplaceManager.replace;
+import junit.framework.TestCase;
 
 public class ReplaceManagerYAMLTest extends TestCase {
 
-    public void testReplaceValue() {
+    @SuppressWarnings("serial")
+	public void testReplaceValue() {
         assertEquals("foo: baz", replace("foo: bar", new LinkedList<>() {{
             add(new Replacement("/foo", "baz"));
         }}, false));
     }
 
-    public void testQuotedReplaceValue() {
+    @SuppressWarnings("serial")
+	public void testQuotedReplaceValue() {
         assertEquals("foo: \"baz\"", replace("foo: \"bar\"", new LinkedList<>() {{
             add(new Replacement("/foo", "baz"));
         }}, false));
@@ -23,7 +25,8 @@ public class ReplaceManagerYAMLTest extends TestCase {
         }}, false));
     }
 
-    public void testUnquotedReplaceValue() {
+    @SuppressWarnings("serial")
+	public void testUnquotedReplaceValue() {
         assertEquals("foo: true", replace("foo: false", new LinkedList<>() {{
             add(new Replacement("/foo", "true"));
         }}, false));
@@ -32,20 +35,23 @@ public class ReplaceManagerYAMLTest extends TestCase {
         }}, false));
     }
 
-    public void testMultipleReplacements() {
+    @SuppressWarnings("serial")
+	public void testMultipleReplacements() {
         assertEquals("boom: baz", replace("foo: bar", new LinkedList<>() {{
             add(new Replacement("/foo", "baz"));
             add(new Replacement("/foo", "boom", true));
         }}, false));
     }
 
-    public void testReplaceFlowValue() {
+    @SuppressWarnings("serial")
+	public void testReplaceFlowValue() {
         assertEquals("foo: {\"bar\": \"boom\"}", replace("foo: {\"bar\": \"baz\"}", new LinkedList<>() {{
             add(new Replacement("/foo/bar", "boom"));
         }}, false));
     }
 
-    public void testReplaceFlowArrayValue() {
+    @SuppressWarnings("serial")
+	public void testReplaceFlowArrayValue() {
         assertEquals("foo: [\"boom\", \"baz\"]", replace("foo: [\"bar\", \"baz\"]", new LinkedList<>() {{
             add(new Replacement("/foo/0", "boom"));
         }}, false));
@@ -54,25 +60,29 @@ public class ReplaceManagerYAMLTest extends TestCase {
         }}, false));
     }
 
-    public void testReplaceKey() {
+    @SuppressWarnings("serial")
+	public void testReplaceKey() {
         assertEquals("baz: bar", replace("foo: bar", new LinkedList<>() {{
             add(new Replacement("/foo", "baz", true));
         }}, false));
     }
 
-    public void testReplaceQuotedKey() {
+    @SuppressWarnings("serial")
+	public void testReplaceQuotedKey() {
         assertEquals("\"300\": bar", replace("\"200\": bar", new LinkedList<>() {{
             add(new Replacement("/200", "300", true));
         }}, false));
     }
 
-    public void testReplaceFlowKey() {
+    @SuppressWarnings("serial")
+	public void testReplaceFlowKey() {
         assertEquals("foo: {\"boom\": \"baz\"}", replace("foo: {\"bar\": \"baz\"}", new LinkedList<>() {{
             add(new Replacement("/foo/bar", "boom", true));
         }}, false));
     }
 
-    public void testReplaceValueInArray() {
+    @SuppressWarnings("serial")
+	public void testReplaceValueInArray() {
         String from = "foo: one\nbar:\n- one\n- two\nbaz: three";
         assertEquals("foo: one\nbar:\n- one\n- baz\nbaz: three", replace(from, new LinkedList<>() {{
             add(new Replacement("/bar/1", "baz"));

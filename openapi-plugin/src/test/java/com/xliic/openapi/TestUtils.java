@@ -1,16 +1,21 @@
 package com.xliic.openapi;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.ParserYamlAST;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.JsonNode;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.parser.ast.node.YamlNode;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.stream.Stream;
-import java.nio.file.Paths;
 
 public class TestUtils {
 
@@ -41,7 +46,8 @@ public class TestUtils {
         return loadFile(fileName, EOL_LF);
     }
 
-    public static String loadFile(String fileName, String eol) throws FileNotFoundException {
+    @SuppressWarnings("resource")
+	public static String loadFile(String fileName, String eol) throws FileNotFoundException {
     	String joinPath = CURRENT_PATH.endsWith("src") ? "/" : "/src/";
         File file = new File(CURRENT_PATH + joinPath + fileName);
         InputStream inputStream = new FileInputStream(file);

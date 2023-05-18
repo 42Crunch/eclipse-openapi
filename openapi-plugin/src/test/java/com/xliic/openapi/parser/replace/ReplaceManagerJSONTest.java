@@ -1,19 +1,21 @@
 package com.xliic.openapi.parser.replace;
 
-import junit.framework.TestCase;
+import static com.xliic.openapi.parser.replace.ReplaceManager.replace;
 
 import java.util.LinkedList;
 
-import static com.xliic.openapi.parser.replace.ReplaceManager.replace;
+import junit.framework.TestCase;
 
 public class ReplaceManagerJSONTest extends TestCase {
 
-    public void testReplaceValue() {
+    @SuppressWarnings("serial")
+	public void testReplaceValue() {
         assertEquals("{\"foo\": \"baz\"}", replace("{\"foo\": \"bar\"}", new LinkedList<>() {{
             add(new Replacement("/foo", "baz"));
         }}, true));
     }
 
+    @SuppressWarnings("serial")
     public void testUnquotedReplaceValue() {
         assertEquals("{\"foo\": true}", replace("{\"foo\": false}", new LinkedList<>() {{
             add(new Replacement("/foo", "true"));
@@ -23,6 +25,7 @@ public class ReplaceManagerJSONTest extends TestCase {
         }}, true));
     }
 
+    @SuppressWarnings("serial")
     public void testMultipleReplacements() {
         assertEquals("{\"boom\": \"baz\"}", replace("{\"foo\": \"bar\"}", new LinkedList<>() {{
             add(new Replacement("/foo", "baz"));
@@ -30,6 +33,7 @@ public class ReplaceManagerJSONTest extends TestCase {
         }}, true));
     }
 
+    @SuppressWarnings("serial")
     public void testReplaceValueInArray() {
         assertEquals("{\"foo\": [\"boom\", \"baz\"]}",
                 replace("{\"foo\": [\"bar\", \"baz\"]}", new LinkedList<>() {{
@@ -41,6 +45,7 @@ public class ReplaceManagerJSONTest extends TestCase {
         }}, true));
     }
 
+    @SuppressWarnings("serial")
     public void testReplaceKey() {
         assertEquals("{\"baz\": \"bar\"}", replace("{\"foo\": \"bar\"}", new LinkedList<>() {{
             add(new Replacement("/foo", "baz", true));

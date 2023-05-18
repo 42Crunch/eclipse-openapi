@@ -1,14 +1,20 @@
 package com.xliic.openapi.parser.ast;
 
-import com.xliic.openapi.TestUtils;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.parser.ast.node.YamlNode;
-import junit.framework.TestCase;
+import static com.xliic.openapi.TestUtils.EOL_CRLF;
+import static com.xliic.openapi.TestUtils.EOL_LF;
+import static com.xliic.openapi.TestUtils.getTextInRange;
+import static com.xliic.openapi.TestUtils.isValidTextRangeEnding;
+import static com.xliic.openapi.TestUtils.loadFile;
+import static com.xliic.openapi.TestUtils.loadYaml;
+import static com.xliic.openapi.TestUtils.parseYaml;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import static com.xliic.openapi.TestUtils.*;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.parser.ast.node.YamlNode;
+
+import junit.framework.TestCase;
 
 public class YamlNodeTest extends TestCase {
 
