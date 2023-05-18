@@ -42,7 +42,7 @@ public class NetUtils {
     }
 
     @Nullable
-    public static RequestBody getJsonRequestBody(@NotNull Map<String, String> parameters) {
+    public static RequestBody getJsonRequestBody(@NotNull Map<String, Object> parameters) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String json = objectMapper.writeValueAsString(parameters);
@@ -63,6 +63,27 @@ public class NetUtils {
             }
         }
         return null;
+    }
+
+    @NotNull
+    public static Node getBodyNodeRequireNonNull(@NotNull Response response) throws Exception {
+        if (response.code() != 200) {
+            throw new Exception("Unexpected response code " + response.code());
+        }
+        try (ResponseBody body = response.body()) {
+            if (body == null) {
+                throw new Exception("Unexpected response body");
+            }
+            String text = body.string();
+            if (text.isEmpty()) {
+                throw new Exception("Unexpected response body content");
+            }
+            Node node = Utils.getJsonAST(text);
+            if (node == null) {
+                throw new Exception("Unexpected response body format");
+            }
+            return node;
+        }
     }
 
     @Nullable

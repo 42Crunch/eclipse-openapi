@@ -1,36 +1,37 @@
-import { a as $, l as w, t as S, b as C, s as E, T as d, d as l, j as e, r as F, e as k, R as T, P as L, m as V, F as j, f as A, g as M } from "./ThemeStyles.913963d7.js";
-import { e as P, i as h, c as R, f as v, S as D, h as N, u as W, g as B, F as H, j as K, $ as O, T as I, a as q, b as z, l as G } from "./TrashCan.1f959ccc.js";
-import { s as o } from "./styled-components.browser.esm.f0e51c1d.js";
-import { S as J } from "./ExclamationCircle.3bd1d8d7.js";
-import "./useDispatch.091a853c.js";
-const Q = {
-  theme: S,
-  env: P
-}, U = (r, t) => $({
-  reducer: Q,
-  middleware: (n) => n().prepend(r.middleware).concat(w),
+import { a as j, l as y, t as $, b as w, s as E, T as d, j as e, r as S, d as C, R as F, P as k, m as T, e as L, f as V } from "./ThemeStyles.c0d84d2f.js";
+import { e as A, c as x, S as R, u as M, d as P, $ as D, T as N, a as W, b as B, l as H } from "./TrashCan.5b3df73f.js";
+import { s as o } from "./styled-components.browser.esm.5667ec00.js";
+import { a as K, c as p, u as O, d as I, F as q } from "./index.esm.97fc0c41.js";
+import { S as z } from "./ExclamationCircle.a44a5fc9.js";
+import "./useDispatch.43a2a81a.js";
+const G = {
+  theme: $,
+  env: A
+}, J = (r, t) => j({
+  reducer: G,
+  middleware: (n) => n().prepend(r.middleware).concat(y),
   preloadedState: {
     theme: t
   }
-}), g = C(), X = g.startListening;
-function Y(r) {
+}), f = w(), Q = f.startListening;
+function U(r) {
   return E({
-    saveEnv: () => X({
-      actionCreator: h,
-      effect: async (n, s) => {
+    saveEnv: () => Q({
+      actionCreator: x,
+      effect: async (n, a) => {
         r.postMessage({
           command: "saveEnv",
           payload: n.payload
         });
       }
     })
-  }), g;
+  }), f;
 }
-function Z({ name: r, remove: t }) {
-  const { control: n } = R(), {
-    field: s,
+function X({ name: r, remove: t }) {
+  const { control: n } = K(), {
+    field: a,
     fieldState: { error: i }
-  } = v({
+  } = p({
     name: `${r}.key`,
     control: n,
     rules: {
@@ -39,52 +40,52 @@ function Z({ name: r, remove: t }) {
         message: "Only the alphanumeric characters or the underscore"
       }
     }
-  }), { field: a } = v({
+  }), { field: s } = p({
     name: `${r}.value`,
     control: n
   });
-  return /* @__PURE__ */ l(_, { children: [
-    /* @__PURE__ */ l(ee, { children: [
-      /* @__PURE__ */ e(re, { type: "text", ...s }),
-      /* @__PURE__ */ e(ne, { type: "text", ...a }),
-      /* @__PURE__ */ e(
-        te,
+  return /* @__PURE__ */ e.jsxs(Y, { children: [
+    /* @__PURE__ */ e.jsxs(Z, { children: [
+      /* @__PURE__ */ e.jsx(_, { type: "text", ...a }),
+      /* @__PURE__ */ e.jsx(ee, { type: "text", ...s }),
+      /* @__PURE__ */ e.jsx(
+        re,
         {
           onClick: (c) => {
             c.preventDefault(), c.stopPropagation(), t();
           },
-          children: /* @__PURE__ */ e(D, {})
+          children: /* @__PURE__ */ e.jsx(R, {})
         }
       )
     ] }),
-    i && /* @__PURE__ */ l(ae, { children: [
-      /* @__PURE__ */ e(J, {}),
+    i && /* @__PURE__ */ e.jsxs(ne, { children: [
+      /* @__PURE__ */ e.jsx(z, {}),
       "  ",
       i.message
     ] })
   ] });
 }
-const _ = o.div`
+const Y = o.div`
   margin-bottom: 10px;
-`, ee = o.div`
+`, Z = o.div`
   display: flex;
   &:hover > :last-child {
     visibility: visible;
   }
-`, re = o.input`
+`, _ = o.input`
   flex: 1;
   border: none;
   background: transparent;
   border-bottom: 1px solid var(${d.border});
   color: var(${d.foreground});
   margin-right: 10px;
-`, ne = o.input`
+`, ee = o.input`
   flex: 2;
   border: none;
   background: transparent;
   border-bottom: 1px solid var(${d.border});
   color: var(${d.foreground});
-`, te = o.button`
+`, re = o.button`
   background: none;
   border: none;
   padding: 0;
@@ -97,14 +98,14 @@ const _ = o.div`
   > svg {
     fill: var(${d.foreground});
   }
-`, ae = o.div`
+`, ne = o.div`
   padding: 4px;
   display: flex;
 `;
-function oe({ append: r }) {
-  return /* @__PURE__ */ l(se, { children: [
-    /* @__PURE__ */ e(
-      ie,
+function te({ append: r }) {
+  return /* @__PURE__ */ e.jsxs(se, { children: [
+    /* @__PURE__ */ e.jsx(
+      oe,
       {
         placeholder: "name",
         value: "",
@@ -113,68 +114,68 @@ function oe({ append: r }) {
         }
       }
     ),
-    /* @__PURE__ */ e(de, {})
+    /* @__PURE__ */ e.jsx(ae, {})
   ] });
 }
 const se = o.div`
   display: flex;
-`, ie = o.input`
+`, oe = o.input`
   flex: 1;
   background: transparent;
   border: none;
   border-bottom: 1px solid var(${d.border});
   color: var(${d.foreground});
   margin-right: 10px;
-`, de = o.div`
+`, ae = o.div`
   flex: 2;
   border: none;
   background: transparent;
   border-bottom: 1px solid var(${d.border});
   margin-right: 1.5em;
 `;
-function le({
+function ie({
   name: r,
   data: t
 }) {
-  const n = N(), s = ue(t), i = W({
-    defaultValues: s,
+  const n = M(), a = ce(t), i = O({
+    defaultValues: a,
     mode: "onChange"
-  }), { handleSubmit: a, control: c } = i;
-  function p(m) {
-    const u = me(m);
-    n(h({ name: r, environment: u }));
+  }), { handleSubmit: s, control: c } = i;
+  function m(u) {
+    const l = le(u);
+    n(x({ name: r, environment: l }));
   }
-  const { fields: b, append: x, remove: y } = B({
+  const { fields: h, append: b, remove: g } = I({
     control: c,
     name: "values"
   });
-  return /* @__PURE__ */ e(H, { ...i, children: /* @__PURE__ */ l(ce, { onChange: a(p), children: [
-    b.map((m, u) => /* @__PURE__ */ e("div", { children: /* @__PURE__ */ e(
-      Z,
+  return /* @__PURE__ */ e.jsx(q, { ...i, children: /* @__PURE__ */ e.jsxs(de, { onChange: s(m), children: [
+    h.map((u, l) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
+      X,
       {
-        name: `values.${u}`,
+        name: `values.${l}`,
         remove: () => {
-          y(u), a(p)();
+          g(l), s(m)();
         }
       }
-    ) }, m.id)),
-    /* @__PURE__ */ e("div", { children: /* @__PURE__ */ e(oe, { append: x }) })
+    ) }, u.id)),
+    /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(te, { append: b }) })
   ] }) });
 }
-const ce = o.form`
+const de = o.form`
   padding: 8px;
 `;
-function ue(r) {
-  return { values: Object.entries(r).map(([n, s]) => ({ key: n, value: s })) };
+function ce(r) {
+  return { values: Object.entries(r).map(([n, a]) => ({ key: n, value: a })) };
 }
-function me(r) {
+function le(r) {
   const t = {};
   for (const n of r.values)
     t[n.key] = n.value;
   return t;
 }
-function pe() {
-  const { data: r, ready: t } = K((a) => a.env), [n, s] = F.useState("default"), i = [
+function ue() {
+  const { data: r, ready: t } = P((s) => s.env), [n, a] = S.useState("default"), i = [
     {
       id: "default",
       title: "Default",
@@ -186,27 +187,27 @@ function pe() {
       secret: !0
     }
   ];
-  return t ? /* @__PURE__ */ e(f, { children: /* @__PURE__ */ l(O, { value: n, onValueChange: s, children: [
-    /* @__PURE__ */ e(I, { children: i.map((a) => /* @__PURE__ */ e(q, { value: a.id, children: a.title }, a.id)) }),
-    i.map((a) => /* @__PURE__ */ e(z, { value: a.id, children: /* @__PURE__ */ e(le, { name: a.id, data: r[a.id] }) }, a.id))
-  ] }) }) : /* @__PURE__ */ e(f, { children: "Loading environment data..." });
+  return t ? /* @__PURE__ */ e.jsx(v, { children: /* @__PURE__ */ e.jsxs(D, { value: n, onValueChange: a, children: [
+    /* @__PURE__ */ e.jsx(N, { children: i.map((s) => /* @__PURE__ */ e.jsx(W, { value: s.id, children: s.title }, s.id)) }),
+    i.map((s) => /* @__PURE__ */ e.jsx(B, { value: s.id, children: /* @__PURE__ */ e.jsx(ie, { name: s.id, data: r[s.id] }) }, s.id))
+  ] }) }) : /* @__PURE__ */ e.jsx(v, { children: "Loading environment data..." });
 }
-const f = o.div`
+const v = o.div`
   margin: 4px;
-`, ve = {
-  changeTheme: M,
-  loadEnv: G
+`, me = {
+  changeTheme: V,
+  loadEnv: H
 };
-function fe() {
-  return /* @__PURE__ */ l(j, { children: [
-    /* @__PURE__ */ e(A, {}),
-    /* @__PURE__ */ e(pe, {})
+function pe() {
+  return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+    /* @__PURE__ */ e.jsx(L, {}),
+    /* @__PURE__ */ e.jsx(ue, {})
   ] });
 }
-function he(r, t) {
-  const n = U(Y(r), t);
-  k(document.getElementById("root")).render(
-    /* @__PURE__ */ e(T.StrictMode, { children: /* @__PURE__ */ e(L, { store: n, children: /* @__PURE__ */ e(fe, {}) }) })
-  ), window.addEventListener("message", V(n, ve));
+function ve(r, t) {
+  const n = J(U(r), t);
+  C(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(F.StrictMode, { children: /* @__PURE__ */ e.jsx(k, { store: n, children: /* @__PURE__ */ e.jsx(pe, {}) }) })
+  ), window.addEventListener("message", T(n, me));
 }
-window.renderWebView = he;
+window.renderWebView = ve;

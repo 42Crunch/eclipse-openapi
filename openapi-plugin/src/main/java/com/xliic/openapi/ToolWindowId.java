@@ -14,7 +14,8 @@ public class ToolWindowId {
     public static final String TRY_IT = "com.xliic.openapi.tryit.jcef.ui.JCEFTryItPanelView";
     public static final String SCAN = "com.xliic.openapi.platform.scan.jcef.ui.JCEFScanPanelView";
     public static final String ENV = "com.xliic.openapi.environment.jcef.ui.JCEFEnvPanelView";
+    public static final String CONFIG = "com.xliic.openapi.config.jcef.ui.JCEFConfigPanelView";
 
     public static final Set<String> WEB_APP_IDS = new HashSet<>(
-            Arrays.asList(OPEN_API_HTML_REPORT, PLATFORM_DICTIONARY, TRY_IT, SCAN, ENV));
+            Arrays.asList(OPEN_API_HTML_REPORT, PLATFORM_DICTIONARY, TRY_IT, SCAN, ENV, CONFIG));
 }

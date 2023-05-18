@@ -23,7 +23,6 @@ import com.xliic.core.ide.projectView.ProjectView;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectLocator;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.vfs.LocalFileSystem;
@@ -133,7 +132,7 @@ public class BundleService extends AsyncService implements SettingsListener, IBu
             VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(rootFileName));
             if (file != null) {
                 ApplicationManager.getApplication().runReadAction(() -> {
-                    PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+                    PsiFile psiFile = Utils.findPsiFile(project, file);
                     if (psiFile != null) {
                         DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
                     }

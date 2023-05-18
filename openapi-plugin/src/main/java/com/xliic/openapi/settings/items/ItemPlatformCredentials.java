@@ -9,6 +9,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.utils.NetUtils;
 
@@ -56,7 +57,7 @@ public class ItemPlatformCredentials extends Item {
     @Override
     public void reset() {
         login.setText(settings.getValue(URL));
-        password.setText(PlatformConnection.getPlatformAPIKey());
+        password.setText(SecurityPropertiesComponent.getInstance().getValue(API_KEY, ""));
     }
 
     @Override
@@ -68,8 +69,8 @@ public class ItemPlatformCredentials extends Item {
         }
         if (isPasswordChanged()) {
             keys.add(API_KEY);
-            prevData.put(API_KEY, PlatformConnection.getPlatformAPIKey());
-            PlatformConnection.setPlatformAPIKey(password.getText());
+            prevData.put(API_KEY, SecurityPropertiesComponent.getInstance().getValue(API_KEY, ""));
+            SecurityPropertiesComponent.getInstance().getValue(API_KEY, "");
         }
     }
 
@@ -77,6 +78,6 @@ public class ItemPlatformCredentials extends Item {
         return !login.getText().equals(settings.getValue(URL));
     }
     private boolean isPasswordChanged() {
-        return !password.getText().equals(PlatformConnection.getPlatformAPIKey());
+        return !password.getText().equals(SecurityPropertiesComponent.getInstance().getValue(API_KEY, ""));
     }
 }

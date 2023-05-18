@@ -15,9 +15,6 @@ public interface OpenApiIcons {
     Icon PropertyNode = findIcon("property.svg");
     Icon AddSnippet = findIcon("add.svg");
     Icon ExtRef = findIcon("extref.svg");
-    Icon MonitorStart = findIcon("monitor_start.png");
-    Icon MonitorStop = findIcon("monitor_stop.png");
-    Icon MonitorSizes = findIcon("monitor_sizes.png");
     Icon Json = findIcon("json.svg");
     Icon Yaml = findIcon("yaml.svg");
     Icon ReportError = findIcon("reportError.svg");
@@ -49,6 +46,8 @@ public interface OpenApiIcons {
     Icon TryItPanel = findIcon("tryitPanel.svg");
     Icon Scan = findIcon("scan.svg");
     Icon ScanPanel = findIcon("scanPanel.svg");
+    Icon Config = findIcon("config.svg");
+    Icon ConfigPanel = findIcon("configPanel.svg");
 
     private static Icon findIcon(@NotNull String name) {
         return IconLoader.findIcon("/icons/" + name, OpenApiIcons.class);

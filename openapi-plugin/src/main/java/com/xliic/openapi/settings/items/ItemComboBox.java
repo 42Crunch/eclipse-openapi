@@ -18,12 +18,22 @@ public class ItemComboBox extends Item {
 
     @Override
     public boolean isModified() {
-        return component.getSelectedIndex() != getIndex(settings.getValue(key));
+        String value = settings.getValue(key);
+        if (value == null) {
+            return false;
+        }
+        return component.getSelectedIndex() != getIndex(value);
     }
 
     @Override
     public void reset() {
-        component.setSelectedIndex(getIndex(settings.getValue(key)));
+        String value = settings.getValue(key);
+        if (value == null) {
+            component.setSelectedIndex(0);
+        } else {
+            int index = getIndex(value);
+            component.setSelectedIndex(index == -1 ? 0 : index);
+        }
     }
 
     @Override

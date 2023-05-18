@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.scan.task;
 
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
+
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,13 +23,12 @@ public class ScanTask extends Task.Backgroundable {
     private final Callback callback;
 
     public interface Callback {
-        void setDone(@NotNull String oas, @NotNull String config);
-
-        void setRejected(@NotNull String error);
+        void setDone(@NotNull String oas, @NotNull String config, boolean isNewApi);
+        void setRejected(@NotNull Exception ex);
     }
 
     public ScanTask(@NotNull Project project, @NotNull String path, @NotNull BundleResult bundle, @NotNull Callback callback) {
-        super(project, "Initializing scan", false, 5);
+        super(project, "Initializing scan", false);
         this.path = path;
         this.bundle = bundle;
         this.callback = callback;
@@ -38,7 +39,12 @@ public class ScanTask extends Task.Backgroundable {
         String apiId = null;
         try {
             String oas = ScanUtils.extractSinglePath(path, bundle);
-            apiId = ScanUtils.getTempAPI(getProject(), oas, progress);
+
+            progress.setText("Creating temp API");
+            apiId = ScanUtils.createTempAPI(oas);
+
+            progress.setText(RUNNING_SECURITY_AUDIT);
+            ScanUtils.auditTempAPI(getProject(), apiId);
 
             progress.setText("Creating default scan configuration");
             ScanUtils.createDefaultScanConfig(apiId);
@@ -48,14 +54,14 @@ public class ScanTask extends Task.Backgroundable {
 
             progress.setText("Reading scan configuration");
             ScanConfiguration config = ScanUtils.readScanConfig(configs.get(0).getId());
-            callback.setDone(oas, config.getConfig());
+            callback.setDone(oas, config.getConfig(), config.isNewApi());
 
         } catch (Exception e) {
             e.printStackTrace();
-            callback.setRejected(e.getMessage());
+            callback.setRejected(e);
         } finally {
             if (apiId != null) {
-                progress.setText("Deleting platform temporary api");
+                progress.setText("Deleting temp API");
                 ScanUtils.deleteAPI(apiId);
             }
             progress.cancel();

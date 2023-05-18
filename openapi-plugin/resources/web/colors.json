@@ -78,6 +78,10 @@
 					"value": "#e7e7e7"
 				},
 				{
+					"id": "inputPlaceholderForeground",
+					"value": "#767676"
+				},
+				{
 					"id": "tabBorder",
 					"value": "#f3f3f3"
 				},
@@ -249,6 +253,10 @@
 					"value": "#444444"
 				},
 				{
+					"id": "inputPlaceholderForeground",
+					"value": "#a6a6a6"
+				},
+				{
 					"id": "tabBorder",
 					"value": "#252526"
 				},
@@ -418,6 +426,10 @@
 				{
 					"id": "inputBorder",
 					"value": "#6fc3df"
+				},
+				{
+					"id": "inputPlaceholderForeground",
+					"value": "rgba(255, 255, 255, 0.7)"
 				},
 				{
 					"id": "tabBorder",

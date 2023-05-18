@@ -66,6 +66,11 @@
         id="com.xliic.openapi.actions.PlatformUploadAction"
         name="Save To Platform">
   </command>
+  <command
+        defaultHandler="com.xliic.openapi.config.ConfigAction"
+        id="com.xliic.openapi.config.ConfigAction"
+        name="Open Settings">
+  </command>
 	</extension>
 	
 	<extension point="org.eclipse.ui.handlers">
@@ -195,7 +200,16 @@
             id="com.xliic.openapi.environment.jcef.ui.JCEFEnvPanelView"
             inject="true"
             name="Environment">
-      </view>              
+      </view>
+      <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class="com.xliic.openapi.config.jcef.ui.JCEFConfigPanelView"
+            icon="icons/configPanel.png"
+            id="com.xliic.openapi.config.jcef.ui.JCEFConfigPanelView"
+            inject="true"
+            name="Settings">
+      </view>   
    </extension>
 
 	<extension point="org.eclipse.ui.services">
@@ -254,6 +268,10 @@
 
 		<serviceFactory factoryClass="com.xliic.openapi.preferences.PrefsServiceFactory">
 			<service serviceClass="com.xliic.openapi.preferences.IPrefsService"></service>
+		</serviceFactory>	
+
+		<serviceFactory factoryClass="com.xliic.openapi.config.ConfigServiceFactory">
+			<service serviceClass="com.xliic.openapi.config.IConfigService"></service>
 		</serviceFactory>	
 		
 	</extension>
@@ -325,6 +343,11 @@
          <menu
                id="com.xliic.openapi.menu"
                label="OpenAPI">
+            <command
+                  commandId="com.xliic.openapi.config.ConfigAction"
+                  icon="icons/config.png"
+                  style="push">
+            </command>
             <command
                   commandId="com.xliic.openapi.actions.SecurityAuditAction"
                   icon="icons/42crunch_icon.png"

@@ -1,26 +1,21 @@
 package com.xliic.openapi.platform.scan;
 
-import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
-
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.actionSystem.DefaultActionGroup;
-import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.Puller;
@@ -35,7 +30,6 @@ import com.xliic.openapi.platform.tree.actions.PlatformCreateNewCollectionAction
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
-import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.NetUtils;
 
@@ -53,39 +47,17 @@ public class ScanUtils {
             "Please contact support@42crunch.com to upgrade your account.";
 
     @NotNull
-    public static String getTempAPI(@NotNull Project project, @NotNull String oas, @NotNull ProgressIndicator progressIndicator) throws Exception {
-        progressIndicator.setText("Creating temporary platform API");
+    public static String createTempAPI(@NotNull String oas) throws Exception {
         PlatformAPI api = ScanUtils.createTempApi(oas);
-        String apiId = api.getId();
-        progressIndicator.setText(RUNNING_SECURITY_AUDIT);
-        Node fullReport = new PlatformReportPuller(project, apiId, PAUSE, PULL_REPORT_DURATION).get();
-        Node report = PlatformUtils.getAssessmentReportNode(fullReport);
-        if (report == null || !"valid".equals(report.getChildValue("openapiState"))) {
-            throw new Exception("Security audit report is not valid");
-        }
-        return apiId;
+        return api.getId();
     }
 
-    @Nullable
-    public static String getServices() {
-        PropertiesComponent settings = PropertiesComponent.getInstance();
-        String services = settings.getValue(Settings.Platform.Scan.SERVICES);
-        if (!StringUtils.isEmpty(services)) {
-            // Favour services specified in the configuration, else try to derive services from the platformUrl
-            return services;
+    public static void auditTempAPI(@NotNull Project project, @NotNull String apiId) throws Exception {
+        Node fullReport = new PlatformReportPuller(project, apiId, PAUSE, PULL_REPORT_DURATION).get();
+        Node report = PlatformUtils.getAssessmentReportNode(fullReport);
+        if (!"valid".equals(Objects.requireNonNull(report).getChildValue("openapiState"))) {
+            throw new ScanGeneralError(report);
         }
-        String url = settings.getValue(Settings.Platform.Credentials.URL);
-        if (!StringUtils.isEmpty(url)) {
-            try {
-                String host = NetUtils.getDomainName(url);
-                if (host != null && host.toLowerCase().startsWith("platform")) {
-                    return host.replaceFirst("platform", "services") + ":8001";
-                }
-                return "services." + host + ":8001";
-            } catch (URISyntaxException ignored) {
-            }
-        }
-        return null;
     }
 
     public static void deleteAPI(@NotNull String apiId) {
@@ -108,18 +80,21 @@ public class ScanUtils {
         throw new Exception("Failed to create default scan configuration");
     }
 
-    public static void createScanConfig(@NotNull String apiId, @NotNull String name, @NotNull String config) throws Exception {
-        try (Response response = ScanAPIs.createScanConfig(apiId, name, config)) {
-            Node body = NetUtils.getBodyNode(response);
-            if (body != null) {
-                String value = body.getChildValue("id");
-                if (value != null) {
-                    return;
-                }
-            }
-        }
-        throw new Exception("Failed to create " + name + " scan configuration");
-    }
+    public static void createScanConfig(@NotNull String apiId,
+            @NotNull String name,
+            @NotNull String config,
+            boolean isNewApi) throws Exception {
+		try (Response response = ScanAPIs.createScanConfig(apiId, name, config, isNewApi)) {
+			Node body = NetUtils.getBodyNode(response);
+			if (body != null) {
+				String value = body.getChildValue("id");
+				if (value != null) {
+					return;
+				}
+			}
+		}
+		throw new Exception("Failed to create " + name + " scan configuration");
+	}
 
     @NotNull
     public static ScanConfiguration readScanConfig(@NotNull String configId) throws Exception {
@@ -161,8 +136,8 @@ public class ScanUtils {
             }
 
             @Override
-            protected @NotNull String error() {
-                return "Failed to get docker scan report";
+            protected @NotNull Exception timeout() {
+                return new Exception("Failed to get docker scan report");
             }
         }.get();
         return reports.get(0).getTaskId();
@@ -186,8 +161,8 @@ public class ScanUtils {
             }
 
             @Override
-            protected @NotNull String error() {
-                return "Failed to get scan configurations";
+            protected @NotNull Exception timeout() {
+                return new Exception("Timed out while waiting for the scan config for API ID: " + apiId);
             }
         }.get();
     }

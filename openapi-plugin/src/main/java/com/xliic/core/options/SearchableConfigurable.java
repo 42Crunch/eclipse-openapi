@@ -1,6 +1,7 @@
 package com.xliic.core.options;
 
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -13,10 +14,12 @@ import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.module.Module;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.components.JComponent;
+import com.xliic.openapi.OpenAPIImages;
 
 public abstract class SearchableConfigurable extends PreferencePage implements IWorkbenchPreferencePage {
 
     protected final PropertiesComponent settings;
+    protected static final Image CONFIG_IMG = OpenAPIImages.Config.createImage();
 
     public SearchableConfigurable(@Nullable Module module, @NotNull Project project) {
         super();

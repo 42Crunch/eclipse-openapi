@@ -50,10 +50,16 @@ public class SchemeHandlerFactory implements IResponseHandler {
 
     @NotNull
     private String getResourceIndexHTML(@NotNull String resourceId) {
-        String page = indexHTML.replace("${style-css}", STYLE_CSS_URL);
+        String page;
+        if ("audit".equals(resourceId)) {
+            page = indexHTML.replace("${style-css}", STYLE_CSS_URL);
+        } else {
+            page = indexHTML.replace("<link href=\"${style-css}\" rel=\"stylesheet\">", "");
+        }
         page = page.replace("${index-script}", HTTP_SCHEMA_PREFIX + resourceId + ".js");
+        String themePayload = Utils.serialize(ChangeTheme.getChangeThemePayload(manager), true);
         page = page.replace("window.__EclipseJTools.postMessage", getBrowserFunctionName(resourceId));
-        return page.replace("$theme", "" + Utils.serialize(ChangeTheme.getChangeThemePayload(manager), true));
+        return page.replace("$theme", themePayload == null ? "" : themePayload);
     }
 
     @Override

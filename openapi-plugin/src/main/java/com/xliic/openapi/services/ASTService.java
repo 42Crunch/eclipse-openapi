@@ -24,7 +24,6 @@ import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.jsonSchema.ide.JsonSchemaService;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
@@ -190,7 +189,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         if (root != null) {
             dfsParsedTree(file.getPath(), root);
             ApplicationManager.getApplication().invokeLater(() -> {
-                PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+                PsiFile psiFile = Utils.findPsiFile(project, file);
                 if (psiFile != null) {
                     DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
                 }
@@ -227,7 +226,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         auditService.update(file);
         boolean finalUpdateSchemas = updateSchemas;
         ApplicationManager.getApplication().invokeLater(() -> {
-            PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+            PsiFile psiFile = Utils.findPsiFile(project, file);
             if (psiFile != null) {
                 DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
             }

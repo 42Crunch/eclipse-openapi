@@ -55,9 +55,13 @@ public class OpenAPIImages {
 
     public static final ImageDescriptor EnvPanel;
 
+    public static final ImageDescriptor Config;
+    public static final ImageDescriptor ConfigPanel;
+
     private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
 
     static {
+
         PanelNode = createImageDescriptor("icons/listFiles.png");
         PropertyNode = createImageDescriptor("icons/property.png");
         AddSnippet = createImageDescriptor("icons/add.png");
@@ -100,11 +104,11 @@ public class OpenAPIImages {
 
         TryIt = createImageDescriptor("/icons/tryit.png");
         TryItPanel = createImageDescriptor("/icons/tryitPanel.png");
-
         Scan = createImageDescriptor("/icons/scan.png");
         ScanPanel = createImageDescriptor("/icons/scanPanel.png");
-
         EnvPanel = createImageDescriptor("/icons/envPanel.png");
+        Config = createImageDescriptor("/icons/config.png");
+        ConfigPanel = createImageDescriptor("/icons/configPanel.png");
     }
 
     private static ImageDescriptor createImageDescriptor(String path) {

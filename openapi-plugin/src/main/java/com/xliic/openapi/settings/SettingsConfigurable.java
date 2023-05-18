@@ -36,7 +36,6 @@ import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.settings.Settings.Audit;
 import com.xliic.openapi.settings.Settings.ExtRef;
 import com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit;
-import com.xliic.openapi.settings.Settings.Platform.Scan;
 import com.xliic.openapi.settings.Settings.Preview;
 import com.xliic.openapi.settings.Settings.SortOutlines;
 import com.xliic.openapi.settings.Settings.TryIt;
@@ -44,10 +43,8 @@ import com.xliic.openapi.settings.items.Item;
 import com.xliic.openapi.settings.items.ItemCheckBox;
 import com.xliic.openapi.settings.items.ItemComboBox;
 import com.xliic.openapi.settings.items.ItemHostsTable;
-import com.xliic.openapi.settings.items.ItemPlatformCredentials;
 import com.xliic.openapi.settings.items.ItemPort;
 import com.xliic.openapi.settings.items.ItemTextArea;
-import com.xliic.openapi.settings.items.ItemTextField;
 import com.xliic.openapi.settings.table.ApprovedHostsEditor;
 import com.xliic.openapi.settings.table.InsecureSslHostsEditor;
 import com.xliic.openapi.settings.table.host.HostNameTableEditor;
@@ -57,13 +54,6 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
 
     // 42Crunch Platform Credentials
     private JPanel platformPanel;
-    private JTextField platformURLField;
-    private JTextField platformApiKeyField;
-
-    // 42Crunch scan
-    private JPanel platformScanPanel;
-    private JTextField platformScanImage;
-    private JTextField platformScanServices;
 
     // Data dictionary
     private JPanel dictPanel;
@@ -111,22 +101,11 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         parent.setLayout(gridLayout);
         parent.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        platformPanel = new JPanel("42Crunch Platform Credentials", parent, SWT.NONE, 2);
-        new Label(platformPanel.getComposite(), SWT.NULL).setText("Platform URL");
-        platformURLField = new JTextField(platformPanel);
-        new Label(platformPanel.getComposite(), SWT.NULL).setText("API Token");
-        platformApiKeyField = new JTextField(platformPanel);
-        platformApiKeyField.setEchoChar();
-        items.add(new ItemPlatformCredentials(platformURLField, platformApiKeyField));
-
-        platformScanPanel = new JPanel("42Crunch Platform Conformance Scan", parent, SWT.NONE, 2);
-        new Label(platformScanPanel.getComposite(), SWT.NULL).setText("Docker image");
-        platformScanImage = new JTextField(platformScanPanel);
-        new Label(platformScanPanel.getComposite(), SWT.NULL).setText("Services");
-        platformScanServices = new JTextField(platformScanPanel);
-        platformScanServices.setToolTipText("Format hostname:port");
-        items.add(new ItemTextField(platformScanImage, Scan.IMAGE));
-        items.add(new ItemTextField(platformScanServices, Scan.SERVICES));
+        platformPanel = new JPanel("42Crunch Platform", parent, SWT.NONE, 2);
+        Label infoIco = new Label(platformPanel.getComposite(), SWT.NULL);
+        infoIco.setImage(CONFIG_IMG);
+        Label info = new Label(platformPanel.getComposite(), SWT.NULL);
+        info.setText("Settings can be configured in Tools / OpenAPI (Swagger) Editor / Configure Settings...");
 
         dictPanel = new JPanel("Data Dictionary", parent, SWT.NONE, 2);
         new Label(dictPanel.getComposite(), SWT.NULL).setText("Update document to match Data Dictionary definitions before runing Security Audit");

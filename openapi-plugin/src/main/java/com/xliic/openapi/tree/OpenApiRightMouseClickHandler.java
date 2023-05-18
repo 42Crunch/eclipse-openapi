@@ -21,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.actionSystem.DefaultActionGroup;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import com.xliic.core.psi.PsiManager;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.vfs.VirtualFile;
@@ -57,7 +56,7 @@ public class OpenApiRightMouseClickHandler {
         if ((treeNode == null) || (file == null) || TempFileUtils.isExtRefFile(file)) {
             return;
         }
-        PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+        PsiFile psiFile = Utils.findPsiFile(project, file);
         if (psiFile == null) {
             return;
         }

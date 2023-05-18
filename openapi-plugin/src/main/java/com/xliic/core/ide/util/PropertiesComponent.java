@@ -1,10 +1,16 @@
 package com.xliic.core.ide.util;
 
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.HEADER;
+
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.Assert;
@@ -13,12 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.util.ArrayUtilRt;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
-import com.xliic.openapi.settings.Settings.Audit;
-import com.xliic.openapi.settings.Settings.ExtRef;
-import com.xliic.openapi.settings.Settings.Platform;
-import com.xliic.openapi.settings.Settings.Preview;
-import com.xliic.openapi.settings.Settings.SortOutlines;
-import com.xliic.openapi.settings.Settings.TryIt;
+import com.xliic.openapi.settings.Settings;
 
 public class PropertiesComponent {
 
@@ -34,28 +35,20 @@ public class PropertiesComponent {
     }
 
     public PropertiesComponent() {
-        store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
+        List<String> keys = new LinkedList<>();
+        Set<String> securityKeys = Set.copyOf(List.of(API_KEY, HEADER));
+        addSettingsKeys(Settings.class, keys, securityKeys);
+    	store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
         cache = new Hashtable<>();
-        cache.put(Audit.EMAIL, store.getString(Audit.EMAIL));
-        cache.put(Audit.TOKEN, store.getString(Audit.TOKEN));
-        cache.put(ExtRef.APPROVED_HOSTNAMES, store.getString(ExtRef.APPROVED_HOSTNAMES));
-        cache.put(TryIt.INSECURE_SSL_HOSTNAMES, store.getString(TryIt.INSECURE_SSL_HOSTNAMES));
-        cache.put(Preview.PORT, store.getString(Preview.PORT));
-        cache.put(Preview.RENDERER, store.getString(Preview.RENDERER));
-        cache.put(SortOutlines.ABC_SORT, store.getString(SortOutlines.ABC_SORT));
-        cache.put(Platform.Credentials.URL, store.getString(Platform.Credentials.URL));
-        cache.put(Platform.Dictionary.PreAudit.CHOICE, store.getString(Platform.Dictionary.PreAudit.CHOICE));
+        for (String key : keys) {
+        	cache.put(key, store.getString(key));
+        	// System.out.println(">>> key = " + key + " value = " + cache.get(key));
+        }
     }
 
     // We store everything as strings to know if a property is set or not
     public boolean isValueSet(@NotNull String name) {
-        Object value = cache.get(name);
-        if (value == null) {
-            return false;
-        } else if (value instanceof String) {
-            return !StringUtils.isEmpty((String) value);
-        }
-        return false;
+        return cache.get(name) != null;
     }
 
     // Boolean
@@ -94,6 +87,11 @@ public class PropertiesComponent {
         return cache.containsKey(name) ? (String) cache.get(name) : store.getString(name);
     }
 
+    public String getValue(@NotNull String name, @NotNull String defaultValue) {
+    	String value = getValue(name);
+        return value == null ? defaultValue : value;
+    }
+
     public void unsetValue(@NotNull String name) {
         setValue(name, StringUtils.EMPTY);
     }
@@ -124,5 +122,30 @@ public class PropertiesComponent {
     public List<String> getList(@NotNull String name) {
         String values = getValue(name);
         return StringUtils.isEmpty(values) ? Collections.emptyList() : List.of(values.split(ARRAY_DELIMETER));
+    }
+
+    private static void addSettingsKeys(Class<?> rootClass, List<String> keys, Set<String> securityKeys) {
+        Field[] fields = rootClass.getDeclaredFields();
+        for (Field field : fields) {
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+                try {
+                    Object value = field.get(null);
+                    if (value instanceof String) {
+                        String strValue = (String) value;
+                        if (isKey(strValue) && !securityKeys.contains(strValue)) {
+                            keys.add((String) value);
+                        }
+                    }
+                } catch (IllegalAccessException ignored) {
+                }
+            }
+        }
+        for (Class<?> innerClass : rootClass.getClasses()) {
+            addSettingsKeys(innerClass, keys, securityKeys);
+        }
+    }
+
+    private static boolean isKey(String value) {
+        return value.startsWith("openapi.") || value.startsWith("com.xliic.openapi.settings");
     }
 }

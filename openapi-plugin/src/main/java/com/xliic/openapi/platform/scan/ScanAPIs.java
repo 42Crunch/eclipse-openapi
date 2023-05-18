@@ -3,9 +3,14 @@ package com.xliic.openapi.platform.scan;
 import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Objects;
+
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +25,18 @@ public class ScanAPIs {
 
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
+    public static class Sync {
+        public static boolean http2Ping(@NotNull String services) throws IOException {
+            URL url = new URL("https://" + services);
+            SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            try (SSLSocket socket = (SSLSocket) sslSocketFactory.createSocket()) {
+                socket.connect(new InetSocketAddress(url.getHost(), url.getPort()), 5000);
+                socket.startHandshake();
+                return socket.isConnected();
+            }
+        }
+    }
+
     @NotNull
     public static Response listScanReports(@NotNull String apiId) throws IOException {
         Request request = PlatformAPIs.getRequestBuilder(String.format("api/v2/apis/%s/scanReports", apiId)).build();
@@ -33,15 +50,22 @@ public class ScanAPIs {
     }
 
     @NotNull
-    public static Response createScanConfig(@NotNull String apiId, @NotNull String name, @NotNull String config) throws IOException {
-        @SuppressWarnings("serial")
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
-            put("name", name);
-            put("scanConfiguration", config);
-        }}));
-        Request request = PlatformAPIs.getRequestBuilder(String.format("api/v2/apis/%s/scanConfigurations", apiId)).post(body).build();
-        return client.newCall(request).execute();
-    }
+    public static Response createScanConfig(@NotNull String apiId,
+            								@NotNull String name,
+            								@NotNull String config,
+            								boolean isNewApi) throws IOException {
+		@SuppressWarnings("serial")
+		RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
+			put("name", name);
+			if (isNewApi) {
+				put("file", config);
+			} else {
+				put("scanConfiguration", config);
+			}
+		}}));
+		Request request = PlatformAPIs.getRequestBuilder(String.format("api/v2/apis/%s/scanConfigurations", apiId)).post(body).build();
+		return client.newCall(request).execute();
+	}
 
     @NotNull
     public static Response readScanReport(@NotNull String reportId) throws IOException {

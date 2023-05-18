@@ -1,10 +1,13 @@
 package com.xliic.core.util.messages;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.ScanListener;
 import com.xliic.openapi.platform.scan.payload.ScanOperation;
@@ -32,6 +35,12 @@ public class TopicScanListener<L> extends Topic<L> {
             listener.showOperationResponse((TryItResponse) args.get(0));
         } else if (funcId == 3) {
             listener.showOperationError((TryItError) args.get(0));
+        } else if (funcId == 4) {
+            listener.showGeneralError((String) args.get(0), (String) args.get(1), (String) args.get(2));
+        } else if (funcId == 5) {
+            listener.startScan((VirtualFile) args.get(0));
+        } else if (funcId == 6) {
+            listener.sendLogMessage((String) args.get(0), (String) args.get(1));
         }
     }
 
@@ -58,6 +67,26 @@ public class TopicScanListener<L> extends Topic<L> {
             @Override
             public void showOperationError(@NotNull TryItError payload) {
                 eventBroker.send(getTopic(), getArgs(3, List.of(payload)));
+            }
+
+            @Override
+            public void showGeneralError(@NotNull String message, @Nullable String code, @Nullable String details) {
+                // List.of(...) does not accept null inputs
+                List<Object> args = new LinkedList<>();
+                args.add(message);
+                args.add(code);
+                args.add(details);
+                eventBroker.send(getTopic(), getArgs(4, args));
+            }
+
+            @Override
+            public void startScan(@NotNull VirtualFile file) {
+                eventBroker.send(getTopic(), getArgs(5, List.of(file)));
+            }
+
+            @Override
+            public void sendLogMessage(@NotNull String level, @NotNull String message) {
+                eventBroker.send(getTopic(), getArgs(6, List.of(level, message)));
             }
         };
     }

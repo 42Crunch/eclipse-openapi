@@ -43,19 +43,27 @@ public class WebAppFunction extends BrowserFunction {
                         if (producer.isPayloadAsAST()) {
                             Node node = Utils.getJsonAST((String) message);
                             if (node != null) {
-                                Node payload = node.getChild("payload");
-                                if (payload != null) {
-                                    ApplicationManager.getApplication().invokeLater(() -> producer.run(payload));
-                                }
+                            	run(producer, node.getChild("payload"));
                             }
                         } else {
-                            ApplicationManager.getApplication().invokeLater(() -> producer.run(props.get("payload")));
+                        	run(producer, props.get("payload"));
                         }
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static void run(WebAppProduce producer, Object payload) {
+        if (producer.isInsideEDT()) {
+            // Use for fast operations which require EDT context
+            ApplicationManager.getApplication().invokeLater(() -> producer.run(payload));
+        } else {
+            // Run in a separate thread to not hang the current one
+            // Otherwise web UI may be unresponsive in case of time-consuming operations in the producer
+            new Thread(() -> producer.run(payload)).start();
         }
     }
 

@@ -30,8 +30,8 @@ public abstract class Puller<T> {
     protected abstract T response(@NotNull Node body);
 
     @NotNull
-    protected String error() {
-        return "Failed to pull data in " + duration + "ms";
+    protected Exception timeout() {
+         return new Exception("Failed to pull data in " + duration + "ms");
     }
 
     @NotNull
@@ -58,6 +58,6 @@ public abstract class Puller<T> {
             }
         } catch (Throwable ignored) {
         }
-        throw new Exception(error());
+        throw timeout();
     }
 }

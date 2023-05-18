@@ -30,6 +30,8 @@ import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.ide.CopyPasteManager;
+import com.xliic.core.ide.StringSelection;
 import com.xliic.core.patterns.ElementPattern;
 import com.xliic.core.patterns.JsonElementPattern;
 import com.xliic.core.patterns.YamlElementPattern;
@@ -150,7 +152,7 @@ public class Utils {
         if (file == null) {
             return OpenApiVersion.Unknown;
         }
-        PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+        PsiFile psiFile = Utils.findPsiFile(project, file);
         if (psiFile == null) {
             return OpenApiVersion.Unknown;
         }
@@ -361,16 +363,16 @@ public class Utils {
     public static Object deserialize(@NotNull String json, @NotNull Object defaultObj) {
         try {
             return OBJECT_MAPPER.readValue(json, Map.class);
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException ignored) {
         }
         return defaultObj;
     }
 
     @Nullable
-    public static PsiFile getPsiFile(@NotNull Project project, @NotNull String filePath) {
-        VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
-        if (file != null) {
-            return PsiManager.getInstance(project).findFile(file);
+    public static Object deserialize(@NotNull String json) {
+        try {
+            return OBJECT_MAPPER.readValue(json, Map.class);
+        } catch (JsonProcessingException ignored) {
         }
         return null;
     }
@@ -387,6 +389,25 @@ public class Utils {
                 });
             }
         }
+    }
+
+    public static void onCopyIssueId(@NotNull String id) {
+        try {
+            CopyPasteManager.getInstance().setContents(new StringSelection(id));
+        } catch (Exception ignore) {
+        }
+    }
+
+    @Nullable
+    public static PsiFile findPsiFile(@NotNull Project project, @NotNull String filePath) {
+        VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
+        return file != null ? findPsiFile(project, file) : null;
+    }
+
+    @Nullable
+    public static PsiFile findPsiFile(@NotNull Project project, @NotNull VirtualFile file) {
+        // If the virtual file is invalid findFile rises unexpected exception
+        return file.isValid() ? PsiManager.getInstance(project).findFile(file) : null;
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {

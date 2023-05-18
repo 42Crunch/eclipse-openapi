@@ -1,25 +1,22 @@
 package com.xliic.openapi.platform;
 
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
+
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationInfo;
-import com.xliic.core.credentialStore.CredentialAttributes;
-import com.xliic.core.credentialStore.CredentialAttributesKt;
-import com.xliic.core.credentialStore.Credentials;
-import com.xliic.core.ide.passwordSafe.PasswordSafe;
 import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.SecurityPropertiesComponent;
 
 public class PlatformConnection {
 
-    private static final String USER_AGENT = "Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
+    public static final String USER_AGENT = "Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
     private static final Pattern UUID_REGEX = Pattern
             .compile("^((ide_)|(api_))?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
-
-    private static final CredentialAttributes credentialAttributes = createCredentialAttributes();
 
     private final String apiToken;
     private final String userAgent;
@@ -34,11 +31,11 @@ public class PlatformConnection {
     }
 
     public static boolean isPlatformIntegrationEnabled() {
-        String url = PropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.URL);
+        String url = PropertiesComponent.getInstance().getValue(URL);
         if (StringUtils.isEmpty(url)) {
             return false;
         }
-        String key = getPlatformAPIKey();
+        String key = SecurityPropertiesComponent.getInstance().getValue(API_KEY, "");
         return !StringUtils.isEmpty(key);
     }
 
@@ -47,33 +44,12 @@ public class PlatformConnection {
     }
 
     public static PlatformConnection getOptions() {
-        String platformURL = PropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.URL);
+        String platformURL = PropertiesComponent.getInstance().getValue(URL);
         if (!StringUtils.isEmpty(platformURL) && platformURL.endsWith("/")) {
             platformURL = StringUtils.strip(platformURL, "/");
         }
-        String apiToken = getPlatformAPIKey();
+        String apiToken = SecurityPropertiesComponent.getInstance().getValue(API_KEY, "");
         return new PlatformConnection(apiToken, USER_AGENT, "", platformURL);
-    }
-
-    public static void setDefaultPlatformURL() {
-        String platformURL = PropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.URL);
-        if (StringUtils.isEmpty(platformURL)) {
-            PropertiesComponent.getInstance().setValue(Settings.Platform.Credentials.URL, "https://platform.42crunch.com");
-        }
-    }
-
-    private static CredentialAttributes createCredentialAttributes() {
-        return new CredentialAttributes(CredentialAttributesKt.generateServiceName("xliic", Settings.Platform.Credentials.API_KEY));
-    }
-
-    public static String getPlatformAPIKey() {
-        String password = PasswordSafe.getInstance().getPassword(credentialAttributes);
-        return StringUtils.isEmpty(password) ? StringUtils.EMPTY : password;
-    }
-
-    public static void setPlatformAPIKey(String apiKey) {
-        Credentials credentials = new Credentials("username", apiKey);
-        PasswordSafe.getInstance().set(credentialAttributes, credentials);
     }
 
     public String getApiToken() {
