@@ -154,7 +154,10 @@ public final class PlatformService implements IPlatformService, SettingsListener
                     if (psiFile != null) {
                         DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
                     }
-                    SwingUtilities.invokeLater(() -> project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file));
+                    SwingUtilities.invokeLater(() -> {
+                    	project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(report);
+                    	project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
+                    });
                 });
             }
         }
@@ -193,7 +196,6 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
             }, ModalityState.NON_MODAL);
         }
-        EclipseUtil.createTempProject();
     }
 
     public void addListener(@NotNull VirtualFile file) {

@@ -6,7 +6,7 @@ import java.util.Map;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
@@ -81,8 +81,9 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
                 } catch (Throwable e) {
                     status = Status.DISPOSED;
                     panel = null;
-                    Label label = new Label(parent, SWT.NULL);
-                    label.setText("Unable to initialize JCEF browser: " + e.getMessage());
+                    Text text = new Text(parent, SWT.READ_ONLY | SWT.WRAP);
+                    text.setText("Failed to initialize view " + id + ": " + e.getMessage());
+                    text.setEditable(false);
                 }
                 for (AnJAction action : window.getTitleActions()) {
                     if (action instanceof Separator) {

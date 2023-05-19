@@ -61,6 +61,9 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
             }
             AuditService auditService = AuditService.getInstance(project);
             Audit prevReport = auditService.getAuditReport(file.getPath());
+            if (prevReport != null) {
+                project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(prevReport);
+            }
             Audit report = ApplicationManager.getApplication().runReadAction((Computable<Audit>) () -> {
                 try {
                     boolean newShowAsHTML;
