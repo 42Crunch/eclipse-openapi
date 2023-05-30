@@ -20,6 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.SecurityPropertiesComponent;
+import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
@@ -78,6 +81,7 @@ public class SaveConfig extends WebAppProduce {
                 }
             }
             if (!updatedKeys.isEmpty() && !project.isDisposed()) {
+                addPlatformTurnOnOffKeys(updatedKeys, prevData);
                 project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(updatedKeys, prevData);
             }
         }
@@ -111,4 +115,23 @@ public class SaveConfig extends WebAppProduce {
             prevData.put(key, value);
         }
     }
+
+    private void addPlatformTurnOnOffKeys(Set<String> updatedKeys, Map<String, Object> prevData) {
+        final String prevApiKey = (String) prevData.get(Settings.Platform.Credentials.API_KEY);
+        boolean wasPltEnabled = !prevApiKey.isEmpty();
+        boolean nowPltEnabled = PlatformConnection.isPlatformIntegrationEnabled();
+        if (nowPltEnabled && !wasPltEnabled) {
+            updatedKeys.add(Platform.TURNED_ON);
+            return;
+        }
+        if (!nowPltEnabled && wasPltEnabled) {
+            updatedKeys.add(Platform.TURNED_OFF);
+            return;
+        }
+    }
 }
+
+
+
+
+

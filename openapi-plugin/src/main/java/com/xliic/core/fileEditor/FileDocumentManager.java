@@ -70,4 +70,14 @@ public class FileDocumentManager {
         }
         return null;
     }
+
+    @Nullable
+    public IEditorInput getEditorInput(@NotNull VirtualFile file) {
+        for (IEditorInput input : EclipseUtil.getAllSupportedEditorInputs()) {
+            if (file.equals(EclipseUtil.getVirtualFile(input))) {
+                return input;
+            }
+        }
+        return null;
+    }
 }

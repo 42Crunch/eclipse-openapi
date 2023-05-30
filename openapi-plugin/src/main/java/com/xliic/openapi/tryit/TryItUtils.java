@@ -5,6 +5,8 @@ import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -117,10 +119,23 @@ public class TryItUtils {
     }
 
     public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull DefaultActionGroup actions) {
+        List<TryItOperation> payloads = new LinkedList<>();
+        setActionsForOperation(psiFile, op, payloads);
+        payloads.forEach(payload -> {
+            String type = payload.getPreferredMediaType();
+            if (payload.getPreferredMediaType() == null) {
+                actions.add(new TryItAction("Try it", payload));
+            } else {
+                actions.add(new TryItAction("Try it " + payload.getPreferredExampleName() + " example as " + type, payload));
+            }
+        });
+    }
+
+    public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull List<TryItOperation> payloads) {
         String pathName = op.getParent().getKey();
         String operationName = op.getKey();
         int textOffset = op.getRange().getOffset();
-        actions.add(new TryItAction("Try it", new TryItOperation(psiFile, pathName, operationName, textOffset)));
+        payloads.add(new TryItOperation(psiFile, pathName, operationName, textOffset));
         Node requestBody = op.getChild("requestBody");
         if (requestBody != null) {
             Node content = requestBody.getChild("content");
@@ -133,7 +148,8 @@ public class TryItUtils {
                             TryItOperation payload = new TryItOperation(psiFile, pathName, operationName, example.getRange().getOffset());
                             payload.setPreferredMediaType(type);
                             payload.setPreferredExamplePointer(example.getJsonPointer());
-                            actions.add(new TryItAction("Try it " + example.getKey() + " example as " + type, payload));
+                            payload.setPreferredExampleName(example.getKey());
+                            payloads.add(payload);
                         }
                     }
                 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -214,11 +215,17 @@ public class ScanUtils {
         return text;
     }
 
-    public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull DefaultActionGroup actions) {
+    public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull List<ScanOperation> payloads) {
         String pathName = op.getParent().getKey();
         String operationName = op.getKey();
         int textOffset = op.getRange().getOffset();
-        actions.add(new ScanAction("Scan", new ScanOperation(psiFile, pathName, operationName, textOffset)));
+        payloads.add(new ScanOperation(psiFile, pathName, operationName, textOffset));
+    }
+
+    public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull DefaultActionGroup actions) {
+        List<ScanOperation> payloads = new LinkedList<>();
+        setActionsForOperation(psiFile, op, payloads);
+        payloads.forEach(payload -> actions.add(new ScanAction("Scan", payload)));
     }
 
     private static String findOrCreateTempCollection() throws Exception {

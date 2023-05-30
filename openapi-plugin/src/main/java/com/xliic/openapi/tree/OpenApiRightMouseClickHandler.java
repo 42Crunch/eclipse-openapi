@@ -25,7 +25,7 @@ import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.inlined.InlinedDfsHandler;
 import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.QuickFixService;
@@ -108,36 +108,17 @@ public class OpenApiRightMouseClickHandler {
     }
 
     private static boolean isPath(BaseNode path) {
-        return path instanceof SimpleNode && isPath(path.getNode());
-    }
-
-    private static boolean isPath(Node path) {
-        return path != null && path.getDepth() == 2 && PATHS.equals(path.getParent().getKey());
+        return path instanceof SimpleNode && InlinedDfsHandler.isPath(path.getNode());
     }
 
     private static boolean isOperation(DefaultMutableTreeNode opNode) {
         BaseNode op = (BaseNode) opNode.getUserObject();
-        return op instanceof SimpleNode && isOperation(op.getNode());
-    }
-
-    private static boolean isOperation(Node op) {
-        return op != null && op.getDepth() == 3 && isPath(op.getParent());
+        return op instanceof SimpleNode && InlinedDfsHandler.isOperation(op.getNode());
     }
 
     private static boolean isOperationId(DefaultMutableTreeNode opIdNode) {
         BaseNode opId = (BaseNode) opIdNode.getUserObject();
         BaseNode opIds = opId.getParent();
-        return opIds instanceof PanelNode && OPERATION_ID.equals(opIds.getName()) && isOperation(opId.getNode().getParent());
+        return opIds instanceof PanelNode && OPERATION_ID.equals(opIds.getName()) && InlinedDfsHandler.isOperation(opId.getNode().getParent());
     }
 }
-
-
-
-
-
-
-
-
-
-
-

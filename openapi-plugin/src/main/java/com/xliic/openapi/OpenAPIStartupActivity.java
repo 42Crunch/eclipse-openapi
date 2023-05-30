@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.project.Project;
 import com.xliic.core.startup.StartupActivity;
 import com.xliic.openapi.environment.EnvService;
+import com.xliic.openapi.inlined.AnnotationService;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.DictionaryService;
@@ -32,6 +33,7 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         DictionaryService.getInstance(project).subscribe();
         ScanService.getInstance(project).subscribe();
         EnvService.getInstance(project).subscribe();
+        AnnotationService.getInstance(project).subscribe();
         // Platform
         PlatformService platformService = PlatformService.getInstance(project);
         if (PlatformConnection.isPlatformIntegrationEnabled()) {

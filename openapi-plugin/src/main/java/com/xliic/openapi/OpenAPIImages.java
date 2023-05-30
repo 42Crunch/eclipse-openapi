@@ -49,9 +49,11 @@ public class OpenAPIImages {
 
     public static final ImageDescriptor TryIt;
     public static final ImageDescriptor TryItPanel;
+    public static final ImageDescriptor TryItAnno;
 
     public static final ImageDescriptor Scan;
     public static final ImageDescriptor ScanPanel;
+    public static final ImageDescriptor ScanAnno;
 
     public static final ImageDescriptor EnvPanel;
 
@@ -104,8 +106,10 @@ public class OpenAPIImages {
 
         TryIt = createImageDescriptor("/icons/tryit.png");
         TryItPanel = createImageDescriptor("/icons/tryitPanel.png");
+        TryItAnno = createImageDescriptor("/icons/tryitAnno.png");
         Scan = createImageDescriptor("/icons/scan.png");
         ScanPanel = createImageDescriptor("/icons/scanPanel.png");
+        ScanAnno = createImageDescriptor("/icons/scanAnno.png");
         EnvPanel = createImageDescriptor("/icons/envPanel.png");
         Config = createImageDescriptor("/icons/config.png");
         ConfigPanel = createImageDescriptor("/icons/configPanel.png");

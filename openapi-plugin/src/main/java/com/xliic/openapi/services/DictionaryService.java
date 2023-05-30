@@ -30,7 +30,6 @@ import com.xliic.core.wm.ToolWindowManager;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
-import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.callback.SuccessASTResponseCallback;
 import com.xliic.openapi.platform.dictionary.DictionaryReloadCallback;
@@ -39,6 +38,7 @@ import com.xliic.openapi.platform.dictionary.types.DataDictionary;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.services.api.IDictionaryService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
@@ -206,21 +206,17 @@ public final class DictionaryService implements IDictionaryService, SettingsList
     @Override
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
-            ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            String prevApiKey = (String) prevData.get(Settings.Platform.Credentials.API_KEY);
-            boolean wasPltDisabled = prevApiKey != null && prevApiKey.isEmpty();
-            boolean isPltEnabled = PlatformConnection.isPlatformIntegrationEnabled();
-            boolean isPltTurnedOn = isPltEnabled && wasPltDisabled;
-            if (isPltTurnedOn || !isPltEnabled) {
-                ToolWindow window = manager.getToolWindow(PLATFORM_DICTIONARY);
+            if (keys.contains(Platform.TURNED_OFF)) {
+                cache.clear();
+                dictionaries.clear();
+                ToolWindow window = ToolWindowManager.getInstance(project).getToolWindow(PLATFORM_DICTIONARY);
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
+            } else if (keys.contains(Platform.TURNED_ON)) {
                 cache.clear();
                 dictionaries.clear();
-                if (isPltTurnedOn) {
-                    reload(true);
-                }
+                reload(true);
             } else {
                 reload(false);
             }
