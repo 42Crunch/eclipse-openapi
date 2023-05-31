@@ -99,7 +99,7 @@ public class Editor {
 
     public IAnnotationModel getModel() {
         ITextEditor editor = getTextEditor();
-        return editor.getDocumentProvider().getAnnotationModel(editor.getEditorInput());
+        return editor == null ? null : editor.getDocumentProvider().getAnnotationModel(editor.getEditorInput());
     }
 
     public ISourceViewer getSourceViewer() {

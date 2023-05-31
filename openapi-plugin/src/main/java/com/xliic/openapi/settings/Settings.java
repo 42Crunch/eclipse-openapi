@@ -25,6 +25,9 @@ public class Settings {
 
     public static class Platform {
 
+        public static final String TURNED_ON = "com.xliic.openapi.settings.platform.tuned.on";
+        public static final String TURNED_OFF = "com.xliic.openapi.settings.platform.tuned.off";
+
         public static class Credentials {
 
             public static final String URL = "com.xliic.openapi.settings.platform.url";
@@ -132,6 +135,17 @@ public class Settings {
         }
     }
 
+    public static class InlinedAnnotations {
+
+        public static final String ENABLE_FLAG = "com.xliic.openapi.settings.inlined.annotations.enable.flag";
+
+        public static void init() {
+            if (!settings.isValueSet(ENABLE_FLAG)) {
+                settings.setValue(ENABLE_FLAG, true);
+            }
+        }
+    }
+
     public static class Preview {
 
         public static final String PORT = "com.xliic.openapi.settings.preview.port";
@@ -196,6 +210,7 @@ public class Settings {
         Platform.Credentials.init();
         Platform.Dictionary.PreAudit.init();
         SortOutlines.init();
+        InlinedAnnotations.init();
         Preview.init();
         Audit.init();
     }

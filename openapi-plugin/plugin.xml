@@ -274,6 +274,10 @@
 			<service serviceClass="com.xliic.openapi.config.IConfigService"></service>
 		</serviceFactory>	
 		
+		<serviceFactory factoryClass="com.xliic.openapi.inlined.AnnotationServiceFactory">
+			<service serviceClass="com.xliic.openapi.inlined.IAnnotationService"></service>
+		</serviceFactory>	
+		
 	</extension>
 
    <extension

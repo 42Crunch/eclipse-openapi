@@ -1,7 +1,6 @@
 package com.xliic.core.psi;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
@@ -22,7 +21,7 @@ public class PsiManager {
         return psiManager;
     }
 
-    @Nullable
+    @NotNull
     public PsiFile findFile(@NotNull VirtualFile file) {
         return new PsiFile(project, file);
     }

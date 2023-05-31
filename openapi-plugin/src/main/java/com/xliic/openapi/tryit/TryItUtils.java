@@ -5,6 +5,8 @@ import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +23,9 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.tryit.payload.TryItOperation;
 
 public class TryItUtils {
+
+    public static final Set<String> OPERATIONS = new HashSet<>(
+            Arrays.asList("get", "put", "post", "delete", "options", "head", "patch"));
 
     @NotNull
     public static String extractSingleOperation(@NotNull String path, @NotNull String method, @NotNull BundleResult bundle) {
@@ -117,10 +122,23 @@ public class TryItUtils {
     }
 
     public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull DefaultActionGroup actions) {
+        List<TryItOperation> payloads = new LinkedList<>();
+        setActionsForOperation(psiFile, op, payloads);
+        payloads.forEach(payload -> {
+            String type = payload.getPreferredMediaType();
+            if (payload.getPreferredMediaType() == null) {
+                actions.add(new TryItAction("Try it", payload));
+            } else {
+                actions.add(new TryItAction("Try it " + payload.getPreferredExampleName() + " example as " + type, payload));
+            }
+        });
+    }
+
+    public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull List<TryItOperation> payloads) {
         String pathName = op.getParent().getKey();
         String operationName = op.getKey();
         int textOffset = op.getRange().getOffset();
-        actions.add(new TryItAction("Try it", new TryItOperation(psiFile, pathName, operationName, textOffset)));
+        payloads.add(new TryItOperation(psiFile, pathName, operationName, textOffset));
         Node requestBody = op.getChild("requestBody");
         if (requestBody != null) {
             Node content = requestBody.getChild("content");
@@ -130,10 +148,14 @@ public class TryItUtils {
                     if (examples != null) {
                         String type = contentType.getKey();
                         for (Node example : examples.getChildren()) {
-                            TryItOperation payload = new TryItOperation(psiFile, pathName, operationName, example.getRange().getOffset());
-                            payload.setPreferredMediaType(type);
-                            payload.setPreferredExamplePointer(example.getJsonPointer());
-                            actions.add(new TryItAction("Try it " + example.getKey() + " example as " + type, payload));
+                            Node exampleValueNode = example.getChild("value");
+                            if (exampleValueNode != null) {
+                                TryItOperation payload = new TryItOperation(psiFile, pathName, operationName, example.getRange().getOffset());
+                                payload.setPreferredMediaType(type);
+                                payload.setPreferredExamplePointer(exampleValueNode.getJsonPointer());
+                                payload.setPreferredExampleName(example.getKey());
+                                payloads.add(payload);
+                            }
                         }
                     }
                 }

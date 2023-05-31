@@ -25,6 +25,8 @@ public class TryItOperation {
     private String preferredBodyValue;
     @Nullable
     private String preferredExamplePointer;
+    @Nullable
+    private String preferredExampleName;
     private int offset;
     @NotNull
     private PsiFile psiFile;
@@ -109,5 +111,13 @@ public class TryItOperation {
 
     public void setPreferredBodyValue(@Nullable String preferredBodyValue) {
         this.preferredBodyValue = preferredBodyValue;
+    }
+
+    public @Nullable String getPreferredExampleName() {
+        return preferredExampleName;
+    }
+
+    public void setPreferredExampleName(@Nullable String preferredExampleName) {
+        this.preferredExampleName = preferredExampleName;
     }
 }

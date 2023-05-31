@@ -45,6 +45,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -77,6 +78,15 @@ public class EclipseUtil {
             return (ISourceViewer) editorPart.getAdapter(ITextOperationTarget.class);
         }
         return null;
+    }
+
+    @Nullable
+    public static ISourceViewer getSourceViewer(@NotNull VirtualFile file) {
+        IEditorInput input = FileDocumentManager.getInstance().getEditorInput(file);
+        if (input == null) {
+            return null;
+        }
+        return getSourceViewer(input);
     }
 
     @Nullable

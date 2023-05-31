@@ -35,6 +35,7 @@ import com.xliic.core.ui.components.JTextField;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.settings.Settings.Audit;
 import com.xliic.openapi.settings.Settings.ExtRef;
+import com.xliic.openapi.settings.Settings.InlinedAnnotations;
 import com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit;
 import com.xliic.openapi.settings.Settings.Preview;
 import com.xliic.openapi.settings.Settings.SortOutlines;
@@ -70,6 +71,10 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
     // Sort outlines
     private JPanel sortPanel;
     private JCheckBox sortCheckbox;
+
+    // Inlined annotations
+    private JPanel inlinedPanel;
+    private JCheckBox inlinedCheckbox;
 
     // Preview
     private JPanel previewPanel;
@@ -126,6 +131,10 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         sortPanel = new JPanel("Sort Outlines", parent, SWT.NONE, 1);
         sortCheckbox = new JCheckBox("Alphabetically sort contents of OpenAPI explorer outlines", sortPanel);
         items.add(new ItemCheckBox(sortCheckbox, SortOutlines.ABC_SORT));
+
+        inlinedPanel = new JPanel("Inlined Annoptations", parent, SWT.NONE, 1);
+        inlinedCheckbox = new JCheckBox("Enable annotations", inlinedPanel);
+        items.add(new ItemCheckBox(inlinedCheckbox, InlinedAnnotations.ENABLE_FLAG));
 
         previewPanel = new JPanel("Preview", parent, SWT.NONE, 2);
         new Label(previewPanel.getComposite(), SWT.NULL).setText("Default Preview Renderer");

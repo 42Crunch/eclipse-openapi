@@ -39,6 +39,7 @@ import com.xliic.openapi.preferences.PrefsService;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.api.IScanService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.MsgUtils;
@@ -172,22 +173,17 @@ public final class ScanService implements IScanService, SettingsListener, Dispos
     @Override
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
-            ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            String prevApiKey = (String) prevData.get(Settings.Platform.Credentials.API_KEY);
-            boolean wasPltDisabled = prevApiKey != null && prevApiKey.isEmpty();
-            boolean isPltEnabled = PlatformConnection.isPlatformIntegrationEnabled();
-            boolean isPltTurnedOn = isPltEnabled && wasPltDisabled;
-            if (isPltTurnedOn || !isPltEnabled) {
-                ToolWindow window = manager.getToolWindow(SCAN);
+            if (keys.contains(Platform.TURNED_OFF)) {
+                scanTaskInProgress = false;
+                ToolWindow window = ToolWindowManager.getInstance(project).getToolWindow(SCAN);
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
+            } else if (keys.contains(Platform.TURNED_ON)) {
                 scanTaskInProgress = false;
-                if (isPltTurnedOn) {
-                    ApplicationManager.getApplication().invokeAndWait(() -> {
-                        WindowUtils.activateToolWindow(project, SCAN);
-                    }, ModalityState.NON_MODAL);
-                }
+                ApplicationManager.getApplication().invokeAndWait(() -> {
+                    WindowUtils.activateToolWindow(project, SCAN);
+                }, ModalityState.NON_MODAL);
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.xliic.openapi.services;
 
-import static com.xliic.openapi.platform.dictionary.types.DataFormat.FORMAT;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
 
@@ -8,7 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,16 +23,19 @@ import com.xliic.core.jsonSchema.ide.JsonSchemaService;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.DfsHandler;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.async.AsyncService;
 import com.xliic.openapi.async.AsyncTask;
+import com.xliic.openapi.inlined.AnnotationService;
+import com.xliic.openapi.inlined.InlinedDfsHandler;
 import com.xliic.openapi.listeners.TreeDocumentListener;
 import com.xliic.openapi.parser.ast.ParserAST;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.ParserYamlAST;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.platform.dictionary.DictionaryDfsHandler;
 import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.utils.Utils;
@@ -50,6 +51,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     private final Map<String, OpenApiVersion> versionCache;
     private final Map<String, TreeDocumentListener> astListenersMap;
     private final Set<String> knownOpenAPIFiles;
+    private final List<DfsHandler<?>> dfsHandlers;
 
     private final ParserJsonAST parserJsonAST = new ParserJsonAST();
     private final ParserYamlAST parserYamlAST = new ParserYamlAST();
@@ -76,6 +78,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         bundleService = BundleService.getInstance(project);
         quickFixService = QuickFixService.getInstance();
         counter = 0;
+        dfsHandlers = List.of(new DictionaryDfsHandler(project), new InlinedDfsHandler(project));
     }
 
     public static ASTService getInstance(@NotNull Project project) {
@@ -152,6 +155,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
                     auditService.removeAuditReport(file.getPath());
                     quickFixService.handleAuditReportRemoved(file.getPath());
                     knownOpenAPIFiles.remove(file.getPath());
+                    AnnotationService.getInstance(project).uninstall(file);
                     project.getMessageBus().syncPublisher(FileListener.TOPIC).handleClosedFile(file);
                 }
             });
@@ -186,8 +190,8 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     protected void treeDfs(AsyncTask task) {
         VirtualFile file = task.getFile();
         Node root = cache.get(file.getPath());
+        runDfs(file.getPath(), root);
         if (root != null) {
-            dfsParsedTree(file.getPath(), root);
             ApplicationManager.getApplication().invokeLater(() -> {
                 PsiFile psiFile = Utils.findPsiFile(project, file);
                 if (psiFile != null) {
@@ -201,10 +205,9 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         final String fileName = file.getPath();
         Node root = getRootNodeFromFile(fileName);
         putInCache(fileName, root);
-        dfsParsedTree(fileName, root);
         boolean updateSchemas = false;
         if (root != null) {
-            OpenApiVersion version = Utils.getOpenAPIVersion(root);
+            OpenApiVersion version = getOpenAPIVersion(fileName);
             if (version == OpenApiVersion.Unknown) {
                 updateSchemas = knownOpenAPIFiles.contains(fileName);
                 knownOpenAPIFiles.remove(fileName);
@@ -213,6 +216,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
                 knownOpenAPIFiles.add(fileName);
             }
         }
+        runDfs(fileName, root);
         if (!astListenersMap.containsKey(fileName)) {
             ApplicationManager.getApplication().runReadAction(() -> {
                 Document document = FileDocumentManager.getInstance().getDocument(file);
@@ -327,37 +331,29 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         return (version == null) ? OpenApiVersion.Unknown : version;
     }
 
-    private void dfsParsedTree(@NotNull String fileName, @Nullable Node root) {
-        if (PlatformConnection.isPlatformIntegrationEnabled()) {
-            DictionaryService ddService = DictionaryService.getInstance(project);
-            if (!ddService.getDictionaries().isEmpty()) {
-                if (root == null || (getOpenAPIVersion(fileName) == OpenApiVersion.Unknown)) {
-                    ddService.removeFormatNodes(fileName);
-                } else {
-                    List<Node> targets = new LinkedList<>();
-                    dfs(root, targets);
-                    if (targets.isEmpty()) {
-                        ddService.removeFormatNodes(fileName);
-                    } else {
-                        ddService.setFormatNodes(fileName, targets);
-                    }
-                }
-            }
+    private void runDfs(String fileName, Node root) {
+        OpenApiVersion version = getOpenAPIVersion(fileName);
+        dfsHandlers.forEach(handler -> handler.init(fileName, version));
+        if (root == null) {
+            dfsHandlers.forEach(handler -> handler.finish(false));
+            return;
         }
+        dfs(root);
+        dfsHandlers.forEach(handler -> handler.finish(true));
     }
 
-    private static void dfs(Node node, List<Node> targets) {
-        if (FORMAT.equals(node.getKey()) && node.getTypedValue() instanceof String && !isNodeInExample(node.getJsonPointer())) {
-            targets.add(node);
-        } else {
+    private void dfs(Node node) {
+        boolean visitNext = false;
+        for (DfsHandler<?> handler : dfsHandlers) {
+            if (handler.visit(node)) {
+                visitNext = true;
+            }
+        }
+        if (visitNext) {
             for (Node child : node.getChildren()) {
-                dfs(child, targets);
+                dfs(child);
             }
         }
-    }
-
-    private static boolean isNodeInExample(String pointer) {
-        return pointer.contains("/example/") || pointer.contains("/examples/") || pointer.contains("/x-42c-sample/");
     }
 
     @Override
