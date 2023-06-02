@@ -53,10 +53,12 @@ public final class AnnotationService implements IAnnotationService, SettingsList
         String path = file.getPath();
         InlinedAnnotationSupport support = cache.get(path);
         if (support == null) {
-            support = new InlinedAnnotationSupport();
-            cache.put(path, support);
-            ISourceViewer sourceViewer = EclipseUtil.getSourceViewer(file);
-            support.install(sourceViewer, createAnnotationPainter(sourceViewer));
+        	ISourceViewer viewer = EclipseUtil.getSourceViewer(file);
+        	if (viewer != null) {
+                support = new InlinedAnnotationSupport();
+                support.install(viewer, createAnnotationPainter(viewer));
+                cache.put(path, support);
+        	}
         }
     }
 
