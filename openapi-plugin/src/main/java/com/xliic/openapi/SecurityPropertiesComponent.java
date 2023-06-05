@@ -1,5 +1,8 @@
 package com.xliic.openapi;
 
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.HEADER;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +50,11 @@ public class SecurityPropertiesComponent implements Disposable {
 
     public void setValue(@NotNull String key, @NotNull String value) {
         PasswordSafe.getInstance().set(getCredentialAttrsByKey(key), new Credentials("", value));
+    }
+
+    public void cleanAll() {
+        setValue(API_KEY, "");
+        setValue(HEADER, "");
     }
 
     @Override

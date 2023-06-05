@@ -34,6 +34,7 @@ import org.osgi.framework.Version;
 
 import com.xliic.core.actionSystem.AnActionUpdater;
 import com.xliic.core.codeHighlighting.HighlightingManager;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectManagerListener;
 import com.xliic.core.util.EclipseUtil;
@@ -69,6 +70,8 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
 
     public OpenAPIAbstractUIPlugin() {
         plugin = this;
+        // Uncomment to test as if using clear workspace
+        // cleanAllPluginProperties();
         startupActivity = new OpenAPIStartupActivity();
         highlightingManager = HighlightingManager.getInstance(project);
         partListener = new OpenAPIPartListener(project);
@@ -241,5 +244,11 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                 }
             }
         }
+    }
+
+    @SuppressWarnings("unused")
+    private static void cleanAllPluginProperties() {
+        PropertiesComponent.getInstance().cleanAll();
+        SecurityPropertiesComponent.getInstance().cleanAll();
     }
 }

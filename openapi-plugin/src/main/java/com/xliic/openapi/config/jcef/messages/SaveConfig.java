@@ -21,7 +21,6 @@ import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.platform.PlatformConnection;
-import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr;
 import com.xliic.openapi.topic.SettingsListener;
@@ -117,16 +116,18 @@ public class SaveConfig extends WebAppProduce {
     }
 
     private void addPlatformTurnOnOffKeys(Set<String> updatedKeys, Map<String, Object> prevData) {
-        final String prevApiKey = (String) prevData.get(Settings.Platform.Credentials.API_KEY);
-        boolean wasPltEnabled = !prevApiKey.isEmpty();
-        boolean nowPltEnabled = PlatformConnection.isPlatformIntegrationEnabled();
-        if (nowPltEnabled && !wasPltEnabled) {
-            updatedKeys.add(Platform.TURNED_ON);
-            return;
-        }
-        if (!nowPltEnabled && wasPltEnabled) {
-            updatedKeys.add(Platform.TURNED_OFF);
-            return;
+        if (updatedKeys.contains(Platform.Credentials.API_KEY)) {
+            final String prevApiKey = (String) prevData.get(Platform.Credentials.API_KEY);
+            boolean wasPltEnabled = prevApiKey != null && !prevApiKey.isEmpty();
+            boolean nowPltEnabled = PlatformConnection.isPlatformIntegrationEnabled();
+            if (nowPltEnabled && !wasPltEnabled) {
+                updatedKeys.add(Platform.TURNED_ON);
+                return;
+            }
+            if (!nowPltEnabled && wasPltEnabled) {
+                updatedKeys.add(Platform.TURNED_OFF);
+                return;
+            }
         }
     }
 }

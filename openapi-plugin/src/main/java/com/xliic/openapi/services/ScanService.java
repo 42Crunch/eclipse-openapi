@@ -179,11 +179,6 @@ public final class ScanService implements IScanService, SettingsListener, Dispos
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
-            } else if (keys.contains(Platform.TURNED_ON)) {
-                scanTaskInProgress = false;
-                ApplicationManager.getApplication().invokeAndWait(() -> {
-                    WindowUtils.activateToolWindow(project, SCAN);
-                }, ModalityState.NON_MODAL);
             }
         }
     }

@@ -2,7 +2,7 @@
 <feature
       id="com.xliic.openapi"
       label="OpenAPI (Swagger) Editor"
-      version="1.0.54"
+      version="1.0.55"
       provider-name="42Crunch"
       plugin="openapi-plugin">
 
@@ -703,7 +703,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
          id="openapi-plugin"
          download-size="0"
          install-size="0"
-         version="1.0.54"
+         version="1.0.55"
          unpack="false"/>
 
    <plugin
