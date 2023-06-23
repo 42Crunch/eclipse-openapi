@@ -1,6 +1,7 @@
 package com.xliic.openapi.report;
 
 import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
+import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
 import static com.xliic.openapi.utils.Utils.getStatus;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Puller;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
@@ -38,6 +40,8 @@ public class AnonAuditTask extends Task.Backgroundable {
     private final Project project;
     @NotNull
     private final VirtualFile file;
+    @Nullable
+    private final AuditOperation operation;
     @NotNull
     private final AuditService.Callback callback;
 
@@ -45,6 +49,15 @@ public class AnonAuditTask extends Task.Backgroundable {
         super(project, RUNNING_SECURITY_AUDIT, false);
         this.project = project;
         this.file = file;
+        operation = null;
+        this.callback = callback;
+    }
+
+    public AnonAuditTask(@NotNull Project project, @NotNull AuditOperation operation, @NotNull AuditService.Callback callback) {
+        super(project, RUNNING_SECURITY_AUDIT, false);
+        this.project = project;
+        this.file = operation.getPsiFile().getVirtualFile();
+        this.operation = operation;
         this.callback = callback;
     }
 
@@ -58,7 +71,7 @@ public class AnonAuditTask extends Task.Backgroundable {
                 return;
             }
             AuditService.getInstance(project).downloadArticles(progress);
-            String text = bundle.getJsonText();
+            String text = operation == null ? bundle.getJsonText() : extractSingleOperation(operation.getPath(), operation.getMethod(), bundle);
             String token = PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
             if (token == null) {
                 callback.reject("Security audit token is not set");
@@ -83,7 +96,7 @@ public class AnonAuditTask extends Task.Backgroundable {
                 }
                 ResponseStatus status = getStatus(body);
                 if (status == ResponseStatus.PROCESSED) {
-                    callback.complete(body.getChild("report"));
+                    callback.complete(body.getChildRequireNonNull("report"), null, null);
                 } else if (status == ResponseStatus.IN_PROGRESS) {
                     progress.setText("Processing takes longer than expected, please wait");
                     String respToken = body.getChildValue("token");
@@ -97,7 +110,7 @@ public class AnonAuditTask extends Task.Backgroundable {
                             return getStatus(body) == ResponseStatus.PROCESSED ? body.getChild("report") : null;
                         }
                     }.get();
-                    callback.complete(report);
+                    callback.complete(report, null, null);
                 } else {
                     callback.reject(ERROR_MSG + " unexpected status " + body.getChildValue("status"));
                 }

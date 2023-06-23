@@ -26,13 +26,13 @@ public class PlatformAPICallback extends SuccessASTResponseWithFailureDecoratorC
         List<PlatformAPI> apis = new LinkedList<>();
         if (list != null) {
             for (Node item : list.getChildren()) {
-                Node desc = item.getChild("desc");
-                String id = desc.getChild("id").getValue();
-                String name = desc.getChild("name").getValue();
-                boolean isJson = !Boolean.parseBoolean(desc.getChild("yaml").getValue());
-                Node assessment = item.getChild("assessment");
-                float grade = Float.parseFloat(assessment.getChild("grade").getValue());
-                boolean isValid = Boolean.parseBoolean(assessment.getChild("isValid").getValue());
+                Node desc = item.getChildRequireNonNull("desc");
+                String id = desc.getChildValueRequireNonNull("id");
+                String name = desc.getChildValueRequireNonNull("name");
+                boolean isJson = !Boolean.parseBoolean(desc.getChildValueRequireNonNull("yaml"));
+                Node assessment = item.getChildRequireNonNull("assessment");
+                float grade = Float.parseFloat(assessment.getChildValueRequireNonNull("grade"));
+                boolean isValid = Boolean.parseBoolean(assessment.getChildValueRequireNonNull("isValid"));
                 apis.add(new PlatformAPI(id, name, grade, isValid, isJson));
             }
         }

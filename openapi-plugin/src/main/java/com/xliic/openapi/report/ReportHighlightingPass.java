@@ -3,6 +3,7 @@ package com.xliic.openapi.report;
 import static com.xliic.core.codeInsight.HighlightInfo.newHighlightInfo;
 import static com.xliic.core.codeInsight.SeverityRegistrar.getSeverityRegistrar;
 import static com.xliic.core.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
+import static com.xliic.openapi.report.AuditUtils.getHighlightInfoLabel;
 import static com.xliic.openapi.report.types.Severity.getHighlightSeverity;
 import static com.xliic.openapi.report.types.Severity.getProblemHighlightType;
 
@@ -22,6 +23,7 @@ import com.xliic.core.codeInsight.QuickFixAction;
 import com.xliic.core.codeInsight.UpdateHighlightersUtil;
 import com.xliic.core.codeInspection.ProblemHighlightType;
 import com.xliic.core.editor.Editor;
+import com.xliic.core.editor.RangeMarker;
 import com.xliic.core.lang.HighlightSeverity;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.psi.PsiFile;
@@ -95,8 +97,8 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
             actions.add(new FixGoToHTMLAction(pointerIssues));
             // Create single fixes
             for (Issue issue : pointerIssues) {
-                String label = issue.getHighlightInfoLabel();
-                TextRange range = issue.getTextRange();
+                String label = getHighlightInfoLabel(issue);
+                TextRange range = getTextRange(issue);
                 ProblemHighlightType type = getProblemHighlightType(issue.getSeverity());
                 HighlightSeverity severity = getHighlightSeverity(issue.getSeverity());
                 HighlightInfoType infoType = getHighlightInfoType(type, severity, getSeverityRegistrar(myProject));
@@ -144,5 +146,10 @@ public class ReportHighlightingPass extends TextEditorHighlightingPass {
         if (myDocument != null) {
             UpdateHighlightersUtil.setHighlightersToEditor(myProject, myDocument, 0, psiFile.getTextLength(), highlights, getColorsScheme(), getId());
         }
+    }
+
+    private static TextRange getTextRange(Issue issue) {
+        RangeMarker marker = issue.getRangeMarker();
+        return new TextRange(marker.getStartOffset(), marker.getEndOffset());
     }
 }

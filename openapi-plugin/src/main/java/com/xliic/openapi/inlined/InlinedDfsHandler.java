@@ -4,8 +4,6 @@ import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
 import static com.xliic.openapi.platform.PlatformConnection.isPlatformIntegrationEnabled;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,11 +18,11 @@ import com.xliic.openapi.DfsHandler;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.ScanUtils;
-import com.xliic.openapi.platform.scan.payload.ScanOperation;
+import com.xliic.openapi.report.AuditUtils;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
 import com.xliic.openapi.tryit.TryItUtils;
-import com.xliic.openapi.tryit.payload.TryItOperation;
 import com.xliic.openapi.utils.Utils;
+
 public class InlinedDfsHandler extends DfsHandler<Object> {
 
     @NotNull
@@ -56,14 +54,11 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
             return false;
         }
         if (isOperation(node)) {
-            List<TryItOperation> payloads = new LinkedList<>();
-            TryItUtils.setActionsForOperation(psiFile, node, payloads);
-            data.addAll(payloads);
+            TryItUtils.setActionsForOperation(psiFile, node, data);
             if (isPlatformIntegrationEnabled) {
-                List<ScanOperation> payloads2 = new LinkedList<>();
-                ScanUtils.setActionsForOperation(psiFile, node, payloads2);
-                data.addAll(payloads2);
+                ScanUtils.setActionsForOperation(psiFile, node, data);
             }
+            AuditUtils.setActionsForOperation(psiFile, node, data);
         }
         return true;
     }

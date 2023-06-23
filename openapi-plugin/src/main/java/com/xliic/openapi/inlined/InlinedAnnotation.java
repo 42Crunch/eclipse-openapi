@@ -22,26 +22,32 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.platform.scan.payload.ScanOperation;
+import com.xliic.openapi.report.payload.AuditOperation;
+import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.ScanService;
 import com.xliic.openapi.services.TryItService;
+import com.xliic.openapi.settings.Credentials;
+import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.tryit.payload.TryItOperation;
 
 public class InlinedAnnotation extends LineHeaderAnnotation {
 
     private static final Image TRYIT_ICON = OpenAPIImages.TryItAnno.createImage();
     private static final Image SCAN_ICON = OpenAPIImages.ScanAnno.createImage();
+    private static final Image AUDIT_ICON = OpenAPIImages.AuditAnno.createImage();
 
     private static final String TRYIT_TEXT = "TryIt";
     private static final String SCAN_TEXT = "Scan";
+    private static final String AUDIT_TEXT = "Audit";
 
     private static final int NOT_SET_ID = -1;
     private static final int TRYIT_ID = 0;
     private static final int SCAN_ID = 1;
+    private static final int AUDIT_ID = 2;
 
     private int width;
     private int annoId = NOT_SET_ID;
-    private final int annotationsNumber;
     private final List<Integer> bounds;
 
     @NotNull
@@ -50,6 +56,8 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
     private final TryItOperation top;
     @Nullable
     private final ScanOperation sop;
+    @NotNull
+    private final AuditOperation aop;
 
     @NotNull
     private Consumer<MouseEvent> action = e -> {
@@ -62,13 +70,14 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
                              @NotNull Position position,
                              @NotNull ISourceViewer viewer,
                              @NotNull TryItOperation payload,
-                             @Nullable ScanOperation payload2) {
+                             @Nullable ScanOperation payload2,
+                             @NotNull AuditOperation payload3) {
         super(position, viewer);
         this.project = project;
         this.top = payload;
         this.sop = payload2;
-        annotationsNumber = (sop == null) ? 1 : 2;
-        bounds = new ArrayList<>(annotationsNumber + 1);
+        this.aop = payload3;
+        bounds = new ArrayList<>(4);
     }
 
     private void actionPerformed(int annotationId) {
@@ -82,20 +91,36 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
                 tryItService.createOrActiveTryItWindow(top);
             }
         } else if (annotationId == SCAN_ID) {
-            VirtualFile file = sop.getPsiFile().getVirtualFile();
-            ScanService scanService = ScanService.getInstance(project);
-            scanService.scanActionPerformed(file, sop);
+            if (sop != null) {
+                VirtualFile file = sop.getPsiFile().getVirtualFile();
+                ScanService scanService = ScanService.getInstance(project);
+                scanService.scanActionPerformed(file, sop);
+            }
+        } else if (annotationId == AUDIT_ID) {
+            VirtualFile file = aop.getPsiFile().getVirtualFile();
+            AuditService auditService = AuditService.getInstance(project);
+            Credentials.Type type = Credentials.getCredentialsType();
+            if (type == null) {
+                Credentials.configureCredentials(project, new WizardCallback() {
+                    @Override
+                    public void complete() {
+                        auditService.actionPerformed(project, file, aop, Credentials.getCredentialsType());
+                    }
+                });
+            } else {
+                auditService.actionPerformed(project, file, aop, type);
+            }
         }
     }
 
     private int getAnnotationId(int x) {
-        for (int i = 1 ; i < bounds.size() - 1 ; i++) {
+        for (int i = 1 ; i < bounds.size() ; i++) {
             int xi = bounds.get(i);
             if (x <= xi) {
                 return i - 1;
             }
         }
-        return annotationsNumber - 1;
+        return NOT_SET_ID;
     }
 
     private boolean isOutsideWidget(int x) {
@@ -142,12 +167,16 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
         x += fm.getLeading();
         bounds.add(x);
         double chWidth = fm.getAverageCharacterWidth();
-        int x0 = addAnnotation(gc, TRYIT_ICON, TRYIT_TEXT, TRYIT_ID, color, x, y, chWidth);
-        bounds.add(x0);
+        int shift = addAnnotation(gc, TRYIT_ICON, TRYIT_TEXT, TRYIT_ID, color, x, y, chWidth);
+        bounds.add(shift);
         if (sop != null) {
-            int x1 = addAnnotation(gc, SCAN_ICON, SCAN_TEXT, SCAN_ID, color, x0, y, chWidth);
-            bounds.add(x1);
+            shift = addAnnotation(gc, SCAN_ICON, SCAN_TEXT, SCAN_ID, color, shift, y, chWidth);
+            bounds.add(shift);
+        } else {
+            bounds.add(shift);
         }
+        shift = addAnnotation(gc, AUDIT_ICON, AUDIT_TEXT, AUDIT_ID, color, shift, y, chWidth);
+        bounds.add(shift);
         return bounds.get(bounds.size() - 1) - bounds.get(0);
     }
 

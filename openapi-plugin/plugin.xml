@@ -1,135 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
+
+    <extension
+        point="org.eclipse.ui.preferencePages">
+        <page
             name="OpenAPI (Swagger) Editor"
             class="com.xliic.openapi.settings.SettingsConfigurable"
             id="com.xliic.openapi.settings.SettingsConfigurable">
-      </page>
-   </extension>
-   
-	<extension
-		 point="org.eclipse.ui.genericeditor.contentAssistProcessors">
-	  <contentAssistProcessor
-		class="com.xliic.openapi.editor.OpenAPIContentAssistProcessor"
-		contentType="org.eclipse.core.runtime.text">
-	  </contentAssistProcessor>
- 	  <contentAssistProcessor
-		class="com.xliic.openapi.platform.dictionary.completion.DictionaryContentAssistProcessor"
-		contentType="org.eclipse.core.runtime.text">
-	  </contentAssistProcessor>
-	</extension>
-   
-       <extension point="org.eclipse.ui.commands">
-		<command
-			id="com.xliic.openapi.gotoCommand"
-			name="Go to Definition" />
-		
-		<command
-			id="com.xliic.openapi.actions.LoadAuditReportAction"
-			name="Load Security Audit Report from File" />
-			
-		<command
-			id="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
-			name="Update Data Dictionary Properties in File" />
-			
-  <command
-        defaultHandler="com.xliic.openapi.actions.SecurityAuditAction"
-        id="com.xliic.openapi.actions.SecurityAuditAction"
-        name="Perform Security Audit">
-  </command>
-  <command
-        defaultHandler="com.xliic.openapi.preview.actions.PreviewAction"
-        id="com.xliic.openapi.preview.actions.PreviewAction"
-        name="Show OpenAPI Preview">
-  </command>
-  <command
-        defaultHandler="com.xliic.openapi.preview.actions.PreviewSwaggerUIAction"
-        id="com.xliic.openapi.preview.actions.PreviewSwaggerUIAction"
-        name="SwaggerUI">
-  </command>
-  <command
-        defaultHandler="com.xliic.openapi.preview.actions.PreviewReDocAction"
-        id="com.xliic.openapi.preview.actions.PreviewReDocAction"
-        name="ReDoc">
-  </command>
-  <command
-        defaultHandler="com.xliic.openapi.actions.ExtRefReloadAction"
-        id="com.xliic.openapi.actions.ExtRefReloadAction"
-        name="Reload Remote References">
-  </command>
-  <command
-        defaultHandler="com.xliic.openapi.actions.PlatformUploadAction"
-        id="com.xliic.openapi.actions.PlatformUploadAction"
-        name="Save To Platform">
-  </command>
-  <command
-        defaultHandler="com.xliic.openapi.config.ConfigAction"
-        id="com.xliic.openapi.config.ConfigAction"
-        name="Open Settings">
-  </command>
-	</extension>
-	
-	<extension point="org.eclipse.ui.handlers">
-		<handler
-			commandId="com.xliic.openapi.gotoCommand"
-			class="com.xliic.openapi.actions.GoToDefinitionAction" />
-		<handler
-			commandId="com.xliic.openapi.actions.LoadAuditReportAction"
-			class="com.xliic.openapi.actions.LoadAuditReportAction" />
-		<handler
-			commandId="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
-			class="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction" />
-	</extension>    
-	
-   <extension
-         point="org.eclipse.ui.menus">
+        </page>
+    </extension>
 
-     <menuContribution
-                locationURI="popup:org.eclipse.ui.popup.any?before=undo">
-                <command
-                        commandId="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
-                        id="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
-                        label="Update Data Dictionary Properties in File"
-                        icon="icons/platform-data-dictionary.png"
-                        style="push">
-                </command>
-     </menuContribution>
-     
-     <menuContribution
-                locationURI="popup:org.eclipse.ui.popup.any?before=undo">
-                <command
-                        commandId="com.xliic.openapi.actions.LoadAuditReportAction"
-                        id="com.xliic.openapi.actions.LoadAuditReportActionId"
-                        label="Load Security Audit Report from File"
-                        icon="icons/42crunch_icon.png"
-                        style="push">
-                </command>
-     </menuContribution>
-              
-     <menuContribution
-                locationURI="popup:org.eclipse.ui.popup.any?before=undo">
-                <command
-                        commandId="com.xliic.openapi.gotoCommand"
-                        id="com.xliic.openapi.gotoCommandId"
-                        label="Go to Definition"
-                        icon="icons/goto.png"
-                        style="push">
-                </command>
-     </menuContribution>
+    <extension
+        point="org.eclipse.ui.genericeditor.contentAssistProcessors">
+        <contentAssistProcessor
+            class="com.xliic.openapi.editor.OpenAPIContentAssistProcessor"
+            contentType="org.eclipse.core.runtime.text">
+        </contentAssistProcessor>
+        <contentAssistProcessor
+            class="com.xliic.openapi.platform.dictionary.completion.DictionaryContentAssistProcessor"
+            contentType="org.eclipse.core.runtime.text">
+        </contentAssistProcessor>
+    </extension>
 
-   </extension>
-   
+    <extension
+        point="org.eclipse.ui.commands">
+        <command
+            id="com.xliic.openapi.gotoCommand"
+            name="Go to Definition" />
+        <command
+            id="com.xliic.openapi.actions.LoadAuditReportAction"
+            name="Load Security Audit Report from File" />
+        <command
+            id="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
+            name="Update Data Dictionary Properties in File" />
+        <command
+            defaultHandler="com.xliic.openapi.actions.SecurityAuditAction"
+            id="com.xliic.openapi.actions.SecurityAuditAction"
+            name="Perform Security Audit">
+        </command>
+        <command
+            defaultHandler="com.xliic.openapi.preview.actions.PreviewAction"
+            id="com.xliic.openapi.preview.actions.PreviewAction"
+            name="Show OpenAPI Preview">
+        </command>
+        <command
+            defaultHandler="com.xliic.openapi.preview.actions.PreviewSwaggerUIAction"
+            id="com.xliic.openapi.preview.actions.PreviewSwaggerUIAction"
+            name="SwaggerUI">
+        </command>
+        <command
+            defaultHandler="com.xliic.openapi.preview.actions.PreviewReDocAction"
+            id="com.xliic.openapi.preview.actions.PreviewReDocAction"
+            name="ReDoc">
+        </command>
+        <command
+            defaultHandler="com.xliic.openapi.actions.ExtRefReloadAction"
+            id="com.xliic.openapi.actions.ExtRefReloadAction"
+            name="Reload Remote References">
+        </command>
+        <command
+            defaultHandler="com.xliic.openapi.actions.PlatformUploadAction"
+            id="com.xliic.openapi.actions.PlatformUploadAction"
+            name="Save To Platform">
+        </command>
+        <command
+            defaultHandler="com.xliic.openapi.config.ConfigAction"
+            id="com.xliic.openapi.config.ConfigAction"
+            name="Open Settings">
+        </command>
+        <!-- List of internal actions
+        <command
+            defaultHandler="com.xliic.openapi.actions.internal.ClearAllPropsAction"
+            id="com.xliic.openapi.actions.internal.ClearAllPropsAction"
+            name="Clear All Properties">
+        </command>
+        <command
+            defaultHandler="com.xliic.openapi.actions.internal.ClearTempAPIsAction"
+            id="com.xliic.openapi.actions.internal.ClearTempAPIsAction"
+            name="Create and Clear Temp APIs">
+        </command>
+        -->
+    </extension>
+
+    <extension point="org.eclipse.ui.handlers">
+        <handler
+            commandId="com.xliic.openapi.gotoCommand"
+            class="com.xliic.openapi.actions.GoToDefinitionAction" />
+        <handler
+            commandId="com.xliic.openapi.actions.LoadAuditReportAction"
+            class="com.xliic.openapi.actions.LoadAuditReportAction" />
+        <handler
+            commandId="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
+            class="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction" />
+    </extension>
+
    <extension
-         point="org.eclipse.ui.views">
-      <category
+        point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?before=undo">
+            <command
+                commandId="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
+                id="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
+                label="Update Data Dictionary Properties in File"
+                icon="icons/platform-data-dictionary.png"
+                style="push">
+            </command>
+        </menuContribution>
+        <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?before=undo">
+            <command
+                commandId="com.xliic.openapi.actions.LoadAuditReportAction"
+                id="com.xliic.openapi.actions.LoadAuditReportActionId"
+                label="Load Security Audit Report from File"
+                icon="icons/42crunch_icon.png"
+                style="push">
+            </command>
+        </menuContribution>
+        <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?before=undo">
+            <command
+                commandId="com.xliic.openapi.gotoCommand"
+                id="com.xliic.openapi.gotoCommandId"
+                label="Go to Definition"
+                icon="icons/goto.png"
+                style="push">
+            </command>
+        </menuContribution>
+   </extension>
+
+   <extension
+        point="org.eclipse.ui.views">
+        <category
             id="eclipse-openapi"
             name="OpenAPI">
-      </category>
-      <view
+        </category>
+        <view
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.tree.ui.OpenAPIFileTreePanelView"
@@ -137,8 +143,8 @@
             id="com.xliic.openapi.tree.ui.OpenAPITreeView"
             inject="true"
             name="OpenAPI">
-      </view>
-      <view
+        </view>
+        <view
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.report.tree.ui.ReportPanelView"
@@ -146,8 +152,8 @@
             id="com.xliic.openapi.report.tree.ui.ReportPanelView"
             inject="true"
             name="Audit Problems">
-      </view>
-      <view
+        </view>
+        <view
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.report.jcef.ui.JCEFReportPanelView"
@@ -155,8 +161,8 @@
             id="com.xliic.openapi.report.jcef.ui.JCEFReportPanelView"
             inject="true"
             name="API Security Audit">
-      </view>
-      <view
+        </view>
+        <view
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
@@ -164,8 +170,8 @@
             id="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
             inject="true"
             name="42Crunch">
-      </view>
-      <view
+        </view>
+        <view
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.platform.dictionary.jcef.ui.JCEFDictionaryPanelView"
@@ -173,8 +179,8 @@
             id="com.xliic.openapi.platform.dictionary.jcef.ui.JCEFDictionaryPanelView"
             inject="true"
             name="Data Dictionary">
-      </view>
-      <view
+        </view>
+        <view
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.tryit.jcef.ui.JCEFTryItPanelView"
@@ -182,8 +188,8 @@
             id="com.xliic.openapi.tryit.jcef.ui.JCEFTryItPanelView"
             inject="true"
             name="Try It">
-      </view>  
-      <view
+        </view>
+        <view
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.platform.scan.jcef.ui.JCEFScanPanelView"
@@ -191,8 +197,8 @@
             id="com.xliic.openapi.platform.scan.jcef.ui.JCEFScanPanelView"
             inject="true"
             name="Scan">
-      </view>  
-      <view
+        </view>
+        <view
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.environment.jcef.ui.JCEFEnvPanelView"
@@ -200,8 +206,8 @@
             id="com.xliic.openapi.environment.jcef.ui.JCEFEnvPanelView"
             inject="true"
             name="Environment">
-      </view>
-      <view
+        </view>
+        <view
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.config.jcef.ui.JCEFConfigPanelView"
@@ -209,225 +215,222 @@
             id="com.xliic.openapi.config.jcef.ui.JCEFConfigPanelView"
             inject="true"
             name="Settings">
-      </view>   
-   </extension>
+        </view>
+    </extension>
 
-	<extension point="org.eclipse.ui.services">
-		
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.AuditServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IAuditService"></service>
-		</serviceFactory>
-		
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.PreviewServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IPreviewService"></service>
-		</serviceFactory>
+    <extension
+        point="org.eclipse.ui.services">
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.AuditServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.IAuditService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.PreviewServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.IPreviewService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.BundleServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.IBundleService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.ASTServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.IASTService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.QuickFixServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.IQuickFixService"></service>
+        </serviceFactory>
+          <serviceFactory factoryClass="com.xliic.openapi.services.factory.PlaceHolderServiceFactory">
+             <service serviceClass="com.xliic.openapi.services.api.IPlaceHolderService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.ExtRefServiceFactory">
+             <service serviceClass="com.xliic.openapi.services.api.IExtRefService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.PlatformServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.IPlatformService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.DictionaryServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.IDictionaryService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.TryItServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.ITryItService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.ScanServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.IScanService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.services.factory.TerminalServiceFactory">
+            <service serviceClass="com.xliic.openapi.services.api.ITerminalService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.environment.EnvServiceFactory">
+            <service serviceClass="com.xliic.openapi.environment.IEnvService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.preferences.PrefsServiceFactory">
+            <service serviceClass="com.xliic.openapi.preferences.IPrefsService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.config.ConfigServiceFactory">
+            <service serviceClass="com.xliic.openapi.config.IConfigService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.inlined.AnnotationServiceFactory">
+            <service serviceClass="com.xliic.openapi.inlined.IAnnotationService"></service>
+        </serviceFactory>
+    </extension>
 
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.BundleServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IBundleService"></service>
-		</serviceFactory>
-		
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ASTServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IASTService"></service>
-		</serviceFactory>
-		
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.QuickFixServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IQuickFixService"></service>
-		</serviceFactory>
-		
-  	    <serviceFactory factoryClass="com.xliic.openapi.services.factory.PlaceHolderServiceFactory">
-     		<service serviceClass="com.xliic.openapi.services.api.IPlaceHolderService"></service>
-		</serviceFactory>
-		
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ExtRefServiceFactory">
-     		<service serviceClass="com.xliic.openapi.services.api.IExtRefService"></service>
-		</serviceFactory>
-		
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.PlatformServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IPlatformService"></service>
-		</serviceFactory>
-		
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.DictionaryServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IDictionaryService"></service>
-		</serviceFactory>
-		
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.TryItServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.ITryItService"></service>
-		</serviceFactory>
-		
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.ScanServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.IScanService"></service>
-		</serviceFactory>
-
-		<serviceFactory factoryClass="com.xliic.openapi.services.factory.TerminalServiceFactory">
-			<service serviceClass="com.xliic.openapi.services.api.ITerminalService"></service>
-		</serviceFactory>
-		
-		<serviceFactory factoryClass="com.xliic.openapi.environment.EnvServiceFactory">
-			<service serviceClass="com.xliic.openapi.environment.IEnvService"></service>
-		</serviceFactory>	
-
-		<serviceFactory factoryClass="com.xliic.openapi.preferences.PrefsServiceFactory">
-			<service serviceClass="com.xliic.openapi.preferences.IPrefsService"></service>
-		</serviceFactory>	
-
-		<serviceFactory factoryClass="com.xliic.openapi.config.ConfigServiceFactory">
-			<service serviceClass="com.xliic.openapi.config.IConfigService"></service>
-		</serviceFactory>	
-		
-		<serviceFactory factoryClass="com.xliic.openapi.inlined.AnnotationServiceFactory">
-			<service serviceClass="com.xliic.openapi.inlined.IAnnotationService"></service>
-		</serviceFactory>	
-		
-	</extension>
-
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
+    <extension
+        point="org.eclipse.ui.newWizards">
+        <category
             name="OpenAPI"
             id="com.xliic.openapi.wizard">
-      </category>
-      <wizard
+        </category>
+        <wizard
             category="com.xliic.openapi.wizard"
             class="com.xliic.openapi.wizard.OpenAPICreationWizardJson3"
             icon="icons/json.png"
             id="com.xliic.openapi.wizard.json.v3"
             name="JSON OpenAPI 3.0">
-      </wizard>
-      <wizard
+        </wizard>
+        <wizard
             category="com.xliic.openapi.wizard"
             class="com.xliic.openapi.wizard.OpenAPICreationWizardJson2"
             icon="icons/json.png"
             id="com.xliic.openapi.wizard.json.v2"
             name="JSON OpenAPI 2.0">
-      </wizard>
-      <wizard
+        </wizard>
+        <wizard
             category="com.xliic.openapi.wizard"
             class="com.xliic.openapi.wizard.OpenAPICreationWizardYaml3"
             icon="icons/text.png"
             id="com.xliic.openapi.wizard.yaml.v3"
             name="YAML OpenAPI 3.0">
-      </wizard>
-      <wizard
+        </wizard>
+        <wizard
             category="com.xliic.openapi.wizard"
             class="com.xliic.openapi.wizard.OpenAPICreationWizardYaml2"
             icon="icons/text.png"
             id="com.xliic.openapi.wizard.yaml.v2"
             name="YAML OpenAPI 2.0">
-      </wizard>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
+        </wizard>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.perspectives">
+        <perspective
             class="com.xliic.openapi.OpenAPIPerspectiveFactory"
             icon="icons/icon_api_16.png"
             id="com.xliic.openapi.OpenAPIPerspectiveFactory"
             name="OpenAPI">
-      </perspective>
-   </extension>
-   
-   <extension
-         point="org.eclipse.ui.ide.markerResolution">
-      <markerResolutionGenerator
+        </perspective>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.ide.markerResolution">
+        <markerResolutionGenerator
             class="com.xliic.openapi.hover.OpenAPIMarkerResolutionGenerator"
             markerType="org.eclipse.core.resources.problemmarker">
-      </markerResolutionGenerator>
-   </extension>
+        </markerResolutionGenerator>
+    </extension>
 
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup
+    <extension
+        point="org.eclipse.ui.startup">
+        <startup
             class="com.xliic.openapi.EarlyStartup">
-      </startup>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
+        </startup>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.menus">
+        <menuContribution
             allPopups="false"
             locationURI="menu:org.eclipse.ui.main.menu?after=help">
-         <menu
-               id="com.xliic.openapi.menu"
-               label="OpenAPI">
-            <command
-                  commandId="com.xliic.openapi.config.ConfigAction"
-                  icon="icons/config.png"
-                  style="push">
-            </command>
-            <command
-                  commandId="com.xliic.openapi.actions.SecurityAuditAction"
-                  icon="icons/42crunch_icon.png"
-                  style="push">
-            </command>
             <menu
-                  icon="icons/preview.png"
-                  id="com.xliic.openapi.preview.menu"
-                  label="Show OpenAPI Preview">
-               <command
-                     commandId="com.xliic.openapi.preview.actions.PreviewSwaggerUIAction"
-                     icon="icons/renderer.png"
-                     id="com.xliic.openapi.actions.PreviewSwaggerUIAction"
-                     label="SwaggerUI"
-                     style="push"
-                     tooltip="Show OpenAPI Preview">
-               </command>
-               <command
-                     commandId="com.xliic.openapi.preview.actions.PreviewReDocAction"
-                     icon="icons/renderer.png"
-                     id="com.xliic.openapi.actions.PreviewReDocAction"
-                     label="ReDoc"
-                     style="push"
-                     tooltip="Show OpenAPI Preview">
-               </command>
+                id="com.xliic.openapi.menu"
+                label="OpenAPI">
+                <command
+                    commandId="com.xliic.openapi.config.ConfigAction"
+                    icon="icons/config.png"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.actions.SecurityAuditAction"
+                    icon="icons/42crunch_icon.png"
+                    style="push">
+                </command>
+                <menu
+                    icon="icons/preview.png"
+                    id="com.xliic.openapi.preview.menu"
+                    label="Show OpenAPI Preview">
+                    <command
+                        commandId="com.xliic.openapi.preview.actions.PreviewSwaggerUIAction"
+                        icon="icons/renderer.png"
+                        id="com.xliic.openapi.actions.PreviewSwaggerUIAction"
+                        label="SwaggerUI"
+                        style="push"
+                        tooltip="Show OpenAPI Preview">
+                    </command>
+                    <command
+                        commandId="com.xliic.openapi.preview.actions.PreviewReDocAction"
+                        icon="icons/renderer.png"
+                        id="com.xliic.openapi.actions.PreviewReDocAction"
+                        label="ReDoc"
+                        style="push"
+                        tooltip="Show OpenAPI Preview">
+                    </command>
+                </menu>
+                <command
+                    commandId="com.xliic.openapi.actions.ExtRefReloadAction"
+                    icon="icons/extref.png"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.actions.PlatformUploadAction"
+                    icon="icons/platform-save.png"
+                    style="push">
+                </command>
+                <!-- List of internal actions
+                <command
+                    commandId="com.xliic.openapi.actions.internal.ClearTempAPIsAction"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.actions.internal.ClearAllPropsAction"
+                    style="push">
+                </command> 
+                -->
             </menu>
-            <command
-                  commandId="com.xliic.openapi.actions.ExtRefReloadAction"
-                  icon="icons/extref.png"
-                  style="push">
-            </command>
-            <command
-                  commandId="com.xliic.openapi.actions.PlatformUploadAction"
-                  icon="icons/platform-save.png"
-                  style="push">
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
+        </menuContribution>
+        <menuContribution
             allPopups="false"
             locationURI="toolbar:org.eclipse.ui.main.toolbar">
-         <toolbar
-               id="com.xliic.openapi.toolbar"
-               label="OpenAPI">
-            <command
-                  commandId="com.xliic.openapi.actions.SecurityAuditAction"
-                  icon="icons/42crunch_icon.png"
-                  style="push">
-            </command>
-            <command
-                  commandId="com.xliic.openapi.preview.actions.PreviewAction"
-                  icon="icons/preview.png"
-                  style="push">
-            </command>
-            <command
-                  commandId="com.xliic.openapi.actions.ExtRefReloadAction"
-                  icon="icons/extref.png"
-                  style="push">
-            </command>
-            <command
-                  commandId="com.xliic.openapi.actions.PlatformUploadAction"
-                  icon="icons/platform-save.png"
-                  style="push">
-            </command>
-         </toolbar>
-      </menuContribution>
-   </extension>
-   
-   <extension point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
-      <hyperlinkDetector
+            <toolbar
+                id="com.xliic.openapi.toolbar"
+                label="OpenAPI">
+                <command
+                    commandId="com.xliic.openapi.actions.SecurityAuditAction"
+                    icon="icons/42crunch_icon.png"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.preview.actions.PreviewAction"
+                    icon="icons/preview.png"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.actions.ExtRefReloadAction"
+                    icon="icons/extref.png"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.actions.PlatformUploadAction"
+                    icon="icons/platform-save.png"
+                    style="push">
+                </command>
+            </toolbar>
+        </menuContribution>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+        <hyperlinkDetector
             activate="true"
             class="com.xliic.openapi.hyperlink.OpenAPIHyperlinkDetector"
             id="com.xliic.openapi.hyperlink.OpenAPIHyperlinkDetector"
             name="OpenAPI"
             targetId="org.eclipse.ui.genericeditor.GenericEditor">
-      </hyperlinkDetector>
-   </extension>
-	
+        </hyperlinkDetector>
+    </extension>
+
 </plugin>

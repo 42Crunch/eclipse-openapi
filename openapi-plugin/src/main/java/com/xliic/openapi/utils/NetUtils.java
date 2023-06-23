@@ -65,6 +65,19 @@ public class NetUtils {
         return null;
     }
 
+    @Nullable
+    public static Object getBodyObject(@NotNull Response response) {
+        try (ResponseBody body = response.body()) {
+            if (response.code() == 200 && body != null) {
+                try {
+                    return Utils.deserialize(body.string());
+                } catch (IOException ignored) {
+                }
+            }
+        }
+        return null;
+    }
+
     @NotNull
     public static Node getBodyNodeRequireNonNull(@NotNull Response response) throws Exception {
         if (response.code() != 200) {

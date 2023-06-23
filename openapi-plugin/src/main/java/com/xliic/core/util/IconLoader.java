@@ -67,10 +67,14 @@ public class IconLoader {
             return new Icon(OpenAPIImages.Dictionary);
         } else if (path.startsWith("/icons/tryit")) {
             return new Icon(OpenAPIImages.TryIt);
+        } else if (path.startsWith("/icons/tryitAnno")) {
+            return new Icon(OpenAPIImages.TryItAnno);
         } else if (path.startsWith("/icons/tryitPanel")) {
             return new Icon(OpenAPIImages.TryItPanel);
         } else if (path.startsWith("/icons/scan")) {
             return new Icon(OpenAPIImages.Scan);
+        } else if (path.startsWith("/icons/scanAnno")) {
+            return new Icon(OpenAPIImages.ScanAnno);
         } else if (path.startsWith("/icons/scanPanel")) {
             return new Icon(OpenAPIImages.ScanPanel);
         } else if (path.startsWith("/icons/envPanel")) {
@@ -79,6 +83,10 @@ public class IconLoader {
             return new Icon(OpenAPIImages.Config);
         } else if (path.startsWith("/icons/configPanel")) {
             return new Icon(OpenAPIImages.ConfigPanel);
+        } else if (path.startsWith("/icons/auditAnno")) {
+            return new Icon(OpenAPIImages.AuditAnno);
+        } else if (path.startsWith("/icons/audit")) {
+            return new Icon(OpenAPIImages.Audit);
         }
         return new Icon(ImageDescriptor.getMissingImageDescriptor());
     }

@@ -1,5 +1,6 @@
 package com.xliic.core.util.messages;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -29,6 +30,10 @@ public class TopicAuditListener<L> extends Topic<L> {
             listener.handleViewDetails((VirtualFile) args.get(0), (List<Issue>) args.get(1));
         } else if (funcId == 3) {
             listener.handleIssuesFixed((List<Issue>) args.get(0));
+        } else if (funcId == 4) {
+            listener.startAudit();
+        } else if (funcId == 5) {
+            listener.showGeneralError();
         }
     }
 
@@ -56,6 +61,16 @@ public class TopicAuditListener<L> extends Topic<L> {
             @Override
             public void handleIssuesFixed(@NotNull List<Issue> issues) {
                 eventBroker.send(getTopic(), getArgs(3, List.of(issues)));
+            }
+
+            @Override
+            public void startAudit() {
+                eventBroker.send(getTopic(), getArgs(4, Collections.EMPTY_LIST));
+            }
+
+            @Override
+            public void showGeneralError() {
+                eventBroker.send(getTopic(), getArgs(5, Collections.EMPTY_LIST));
             }
         };
     }

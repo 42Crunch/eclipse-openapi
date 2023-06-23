@@ -5,20 +5,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.psi.PsiFile;
+import com.xliic.openapi.Operation;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.Utils;
 
-public class TryItOperation {
+public class TryItOperation extends Operation {
 
-    @NotNull
-    private String oas;
-    @NotNull
-    private final String path;
-    @NotNull
-    private final String method;
     @Nullable
     private String preferredMediaType;
     @Nullable
@@ -27,23 +22,17 @@ public class TryItOperation {
     private String preferredExamplePointer;
     @Nullable
     private String preferredExampleName;
-    private int offset;
-    @NotNull
-    private PsiFile psiFile;
 
     public TryItOperation(@NotNull PsiFile psiFile, @NotNull String path, @NotNull String method, int offset) {
-        this.psiFile = psiFile;
-        this.oas = "";
-        this.path = path;
-        this.method = method;
-        this.preferredMediaType = null;
-        this.preferredBodyValue = null;
-        this.preferredExamplePointer = null;
-        this.offset = offset;
+        super(psiFile, path, method, offset);
+        preferredMediaType = null;
+        preferredBodyValue = null;
+        preferredExamplePointer = null;
+        preferredExampleName = null;
     }
 
     public void updateOas(@NotNull String oas) {
-        this.oas = oas;
+        setOas(oas);
         if (preferredExamplePointer != null) {
             Node root = Utils.getJsonAST(oas);
             if (root != null) {
@@ -58,12 +47,7 @@ public class TryItOperation {
     }
 
     public void setOas(@NotNull BundleResult bundle) {
-        updateOas(TryItUtils.extractSingleOperation(path, method, bundle));
-    }
-
-    @NotNull
-    public String getOas() {
-        return oas;
+        setOas(TryItUtils.extractSingleOperation(path, method, bundle));
     }
 
     public void setPreferredMediaType(@Nullable String preferredMediaType) {
@@ -72,33 +56,6 @@ public class TryItOperation {
 
     public void setPreferredExamplePointer(@Nullable String preferredExamplePointer) {
         this.preferredExamplePointer = preferredExamplePointer;
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
-    }
-
-    public int getOffset() {
-        return offset;
-    }
-
-    @NotNull
-    public PsiFile getPsiFile() {
-        return psiFile;
-    }
-
-    public void setPsiFile(@NotNull PsiFile psiFile) {
-        this.psiFile = psiFile;
-    }
-
-    @NotNull
-    public String getPath() {
-        return path;
-    }
-
-    @NotNull
-    public String getMethod() {
-        return method;
     }
 
     public @Nullable String getPreferredMediaType() {

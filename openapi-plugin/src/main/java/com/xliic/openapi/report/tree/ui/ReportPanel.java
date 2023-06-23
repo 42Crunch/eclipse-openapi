@@ -149,7 +149,7 @@ public class ReportPanel extends JPanel implements FileListener, AuditListener, 
     public void handleAuditReportReady(@NotNull VirtualFile file) {
         AuditService auditService = AuditService.getInstance(project);
         Audit data = auditService.getAuditReport(file.getPath());
-        if (!data.isPlatform() || data.isShowAsProblems()) {
+        if (!data.isDownloaded() || data.getDisplayOptions().isShowInProblemsList()) {
             addIssues(data.getIssues());
             toolWindow.show(null);
             // Navigate to the report tree node
@@ -311,7 +311,6 @@ public class ReportPanel extends JPanel implements FileListener, AuditListener, 
             AuditService auditService = AuditService.getInstance(project);
             Audit report = auditService.getAuditReport(file.getPath());
             if (report != null && !fileNameToTreeNodeMap.containsKey(report.getAuditFileName())) {
-                report.setShowAsProblems(true);
                 handleAuditReportReady(file);
             }
         }

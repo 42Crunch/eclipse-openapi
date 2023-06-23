@@ -132,8 +132,8 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         sortCheckbox = new JCheckBox("Alphabetically sort contents of OpenAPI explorer outlines", sortPanel);
         items.add(new ItemCheckBox(sortCheckbox, SortOutlines.ABC_SORT));
 
-        inlinedPanel = new JPanel("Inlined Annoptations", parent, SWT.NONE, 1);
-        inlinedCheckbox = new JCheckBox("Enable annotations", inlinedPanel);
+        inlinedPanel = new JPanel("Annotations", parent, SWT.NONE, 1);
+        inlinedCheckbox = new JCheckBox("Show TryIt/Audit/Scan Inlined Annotations", inlinedPanel);
         items.add(new ItemCheckBox(inlinedCheckbox, InlinedAnnotations.ENABLE_FLAG));
 
         previewPanel = new JPanel("Preview", parent, SWT.NONE, 2);

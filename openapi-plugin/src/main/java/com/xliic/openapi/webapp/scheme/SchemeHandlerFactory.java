@@ -18,7 +18,6 @@ public class SchemeHandlerFactory implements IResponseHandler {
     // Domain for local UI debug 127.0.0.1:8887
     public static final String DOMAIN = "openapi.xliic.com";
     public static final String HTTP_SCHEMA_PREFIX = "http://" + DOMAIN + "/";
-    private static final String STYLE_CSS_URL = HTTP_SCHEMA_PREFIX + "style.css";
 
     @NotNull
     private final String indexHTML;
@@ -41,8 +40,6 @@ public class SchemeHandlerFactory implements IResponseHandler {
                 return new ResourceHandler(getResourceIndexHTML(resourceId));
             } else if (url.endsWith(".js")) {
                 return new ResourceHandler("application/javascript", url.replace(HTTP_SCHEMA_PREFIX, ""));
-            } else if (STYLE_CSS_URL.equals(url)) {
-                return new ResourceHandler("text/css", "style.css");
             }
         }
         return null;
@@ -50,13 +47,7 @@ public class SchemeHandlerFactory implements IResponseHandler {
 
     @NotNull
     private String getResourceIndexHTML(@NotNull String resourceId) {
-        String page;
-        if ("audit".equals(resourceId)) {
-            page = indexHTML.replace("${style-css}", STYLE_CSS_URL);
-        } else {
-            page = indexHTML.replace("<link href=\"${style-css}\" rel=\"stylesheet\">", "");
-        }
-        page = page.replace("${index-script}", HTTP_SCHEMA_PREFIX + resourceId + ".js");
+        String page = indexHTML.replace("${index-script}", HTTP_SCHEMA_PREFIX + resourceId + ".js");
         String themePayload = Utils.serialize(ChangeTheme.getChangeThemePayload(manager), true);
         page = page.replace("window.__EclipseJTools.postMessage", getBrowserFunctionName(resourceId));
         return page.replace("$theme", themePayload == null ? "" : themePayload);

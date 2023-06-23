@@ -139,7 +139,6 @@ public final class ScanService implements IScanService, SettingsListener, Dispos
                 public void setDone(@NotNull String oas, @NotNull String config, boolean isNewApi) {
                     myIsNewApi = isNewApi;
                     payload.setOas(oas);
-                    payload.setRawOas(oas);
                     payload.setConfig(config);
                     resetFailedFileAndReport(file.getPath());
                     createOrActiveScanWindow(payload);

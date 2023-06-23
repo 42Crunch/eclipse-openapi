@@ -17,6 +17,7 @@ import com.xliic.openapi.report.jcef.messages.LoadKdb;
 import com.xliic.openapi.report.jcef.messages.ShowFullReport;
 import com.xliic.openapi.report.jcef.messages.ShowNoReport;
 import com.xliic.openapi.report.jcef.messages.ShowPartialReport;
+import com.xliic.openapi.report.jcef.messages.StartAudit;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.AuditService;
@@ -41,6 +42,16 @@ public class JCEFReportPanel extends WebApp implements FileListener, AuditListen
     }
 
     @Override
+    public void startAudit() {
+        new StartAudit().send(getCefBrowser());
+    }
+
+    @Override
+    public void showGeneralError() {
+        reportNotAvailable();
+    }
+
+    @Override
     public void onLoadEnd() {
         VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file != null) {
@@ -50,7 +61,10 @@ public class JCEFReportPanel extends WebApp implements FileListener, AuditListen
 
     @Override
     public void handleAllFilesClosed() {
-        reportNotAvailable();
+        Audit report = (Audit) cache.get(AUDIT_REPORT);
+        if (report != null && !report.isDownloaded()) {
+            reportNotAvailable();
+        }
     }
 
     @Override
@@ -69,12 +83,17 @@ public class JCEFReportPanel extends WebApp implements FileListener, AuditListen
         AuditService auditService = AuditService.getInstance(project);
         VirtualFile selectedFile = Utils.getSelectedOpenAPIFile(project);
         if (selectedFile != null) {
-            Audit audit = auditService.getAuditReport(selectedFile.getPath());
-            if (audit != null) {
-                update(audit, auditService.getArticles());
+            Audit report = auditService.getAuditReport(selectedFile.getPath());
+            if (report != null) {
+                update(report, auditService.getArticles());
             }
         } else {
-            reportNotAvailable();
+            Audit report = (Audit) cache.get(AUDIT_REPORT);
+            if (report != null) {
+                if (report.getAuditFileName().equals(file.getPath()) || !report.isDownloaded()) {
+                    reportNotAvailable();
+                }
+            }
         }
     }
 
@@ -93,7 +112,7 @@ public class JCEFReportPanel extends WebApp implements FileListener, AuditListen
     public void handleAuditReportReady(@NotNull VirtualFile file) {
         AuditService auditService = AuditService.getInstance(project);
         Audit report = auditService.getAuditReport(file.getPath());
-        if (!report.isPlatform() || report.isShowAsHTML()) {
+        if (!report.isDownloaded() || report.getDisplayOptions().isShowInBrowser()) {
             update(report, auditService.getArticles());
             window.show(null);
         }
@@ -113,16 +132,16 @@ public class JCEFReportPanel extends WebApp implements FileListener, AuditListen
     @Override
     public void handleSelectedFile(@NotNull VirtualFile file) {
         AuditService auditService = AuditService.getInstance(project);
-        Audit audit = auditService.getAuditReport(file.getPath());
-        if (audit != null) {
-            if (audit.isPlatform()) {
-                if (audit.isShowAsHTML()) {
-                    update(audit, auditService.getArticles());
+        Audit report = auditService.getAuditReport(file.getPath());
+        if (report != null) {
+            if (report.isDownloaded()) {
+                if (report.getDisplayOptions().isShowInBrowser()) {
+                    update(report, auditService.getArticles());
                 } else {
                     reportNotAvailable();
                 }
             } else {
-                update(audit, auditService.getArticles());
+                update(report, auditService.getArticles());
             }
         } else if (auditService.isNotAuditParticipantFile(file.getPath())) {
             reportNotAvailable();
@@ -136,9 +155,6 @@ public class JCEFReportPanel extends WebApp implements FileListener, AuditListen
     }
 
     private void update(Audit report, VirtualFile file, List<Integer> ids, String kdb) {
-        if (!report.isShowAsHTML()) {
-            report.setShowAsHTML(true);
-        }
         new LoadKdb(kdb).send(getCefBrowser());
         new ShowPartialReport(project, report, file, ids).send(getCefBrowser());
         cache.put(AUDIT_REPORT, report);

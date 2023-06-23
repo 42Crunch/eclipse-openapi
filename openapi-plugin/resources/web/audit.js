@@ -1,656 +1,1463 @@
-import { c as E, a as O, l as k, u as D, t as Z, b as Q, i as G, s as U, r as I, j as M, T as a, d as f, R as v, P as W, m as R, e as B, f as P } from "./ThemeStyles.c0d84d2f.js";
-import { u as J } from "./useDispatch.43a2a81a.js";
-const l = {
-  display: "loading",
-  summary: {
-    documentUri: "",
-    subdocumentUris: [],
-    errors: !1,
-    invalid: !1,
-    all: 0,
-    datavalidation: { max: 0, value: 0 },
-    security: { max: 0, value: 0 },
-    oasconformance: { max: 0, value: 0 }
+import { c as se, a as ae, u as le, l as de, t as ce, b as pe, i as ue, s as xe, d as c, T as d, j as e, r as j, U as he, e as ve, R as ge, P as fe, m as me, f as je, g as be } from "./styled-components.browser.esm.b4077a0f.js";
+import { r as ye, s as $e, R as we, a as Ce } from "./Router.bc058529.js";
+import { C as Se, S as L, a as ke, b as X, c as Y, d as Te, e as J } from "./Xmark.97e9c535.js";
+import { u as Ae } from "./index.esm.2e24c5a3.js";
+import { $ as Ie, T as Le, a as G, b as N } from "./Tabs.d6340d43.js";
+import { S as C } from "./ExclamationCircle.20b20ea3.js";
+import { S as Z } from "./TriangleExclamation.3c1770d3.js";
+import { S as ee } from "./AngleUp.51e58661.js";
+import { P as T } from "./Select.aaac1f78.js";
+import { B as De, S as Pe } from "./Banner.440bd815.js";
+import "./downshift.esm.c45abd85.js";
+const Re = {
+  audit: {
+    filename: "",
+    files: {},
+    issues: {},
+    minimalReport: !1,
+    valid: !0,
+    summary: {
+      documentUri: "",
+      subdocumentUris: [],
+      errors: !1,
+      invalid: !1,
+      all: 0,
+      datavalidation: { max: 0, value: 0 },
+      security: { max: 0, value: 0 },
+      oasconformance: { max: 0, value: 0 }
+    }
   },
-  all: [],
-  selected: [],
-  kdb: {}
-}, T = E({
+  tab: "priority",
+  issues: [],
+  filtered: [],
+  stats: {
+    byIssue: [],
+    byGroup: te([])
+  },
+  kdb: {},
+  issueTitles: [],
+  filter: {},
+  sqgTodo: !1
+}, ie = se({
   name: "audit",
-  initialState: l,
+  initialState: Re,
   reducers: {
-    showFullReport: (i, o) => {
-      i.display = "full", i.summary = o.payload.summary, i.all = i.selected = x(o.payload);
+    startAudit: (i, t) => {
     },
-    showPartialReport: (i, o) => {
-      const e = x(o.payload.report), c = o.payload.ids.map((t) => `${o.payload.uri}-${t}`);
-      i.display = "partial", i.summary = o.payload.report.summary, i.all = e, i.selected = e.filter((t) => c.includes(t.key));
+    showFullReport: (i, { payload: t }) => {
+      i.audit.filename !== t.filename && (i.tab = "priority", i.filter = {}, i.sqgTodo = !1), (t.compliance === void 0 || t.compliance.acceptance === "yes") && (i.sqgTodo = !1), i.audit = t, $(i);
     },
-    goToFullReport: (i) => {
-      i.display = "full", i.selected = i.all;
+    showPartialReport: (i, {
+      payload: { report: t, uri: n, ids: o }
+    }) => {
+      i.audit = t, i.filter = { ids: o }, i.tab = "issues", i.sqgTodo = !1, $(i);
+    },
+    loadKdb: (i, { payload: t }) => {
+      i.kdb = t, $(i);
+    },
+    changeTab: (i, t) => {
+      i.tab = t.payload;
+    },
+    changeFilter: (i, { payload: t }) => {
+      i.filter = t, $(i);
+    },
+    setSqgTodo: (i, { payload: t }) => {
+      i.sqgTodo = t, i.filter = {}, $(i);
     },
     showNoReport: (i) => {
-      i.display = "no-report", i.summary = l.summary, i.all = [], i.selected = [];
     },
-    loadKdb: (i, o) => {
-      i.kdb = o.payload;
+    goToLine: (i, t) => {
     },
-    goToLine: (i, o) => {
+    copyIssueId: (i, t) => {
     },
-    copyIssueId: (i, o) => {
-    },
-    openLink: (i, o) => {
+    openLink: (i, t) => {
     }
   }
 });
-function x(i) {
-  return Object.entries(i.issues).map(([e, c]) => c.map((t, N) => ({
-    ...t,
-    key: `${e}-${N}`,
-    filename: i.files[t.documentUri].relative
-  }))).reduce((e, c) => e.concat(c), []);
+function $(i) {
+  const { issues: t, filtered: n, stats: o, titles: s } = ze(
+    i.sqgTodo ? i.audit.todo : i.audit.issues,
+    i.audit.files,
+    i.kdb,
+    i.filter
+  );
+  i.issues = t, i.filtered = n, i.stats = o, i.issueTitles = s;
 }
-const {
-  showFullReport: C,
-  showPartialReport: w,
-  goToFullReport: y,
-  showNoReport: z,
-  loadKdb: X,
-  goToLine: p,
-  copyIssueId: A,
-  openLink: S
-} = T.actions, H = T.reducer, F = {
-  audit: H,
-  theme: Z
-}, V = (i, o) => O({
-  reducer: F,
-  middleware: (e) => e().prepend(i.middleware).concat(k),
-  preloadedState: {
-    theme: o
-  }
-}), K = () => J(), u = D, m = Q(), r = m.startListening;
-function _(i) {
-  const o = {
-    goToLine: () => r({
-      actionCreator: p,
-      effect: async (e, c) => {
-        i.postMessage({
-          command: "goToLine",
-          payload: e.payload
-        });
-      }
-    }),
-    copyIssueId: () => r({
-      actionCreator: A,
-      effect: async (e, c) => {
-        i.postMessage({
-          command: "copyIssueId",
-          payload: e.payload
-        });
-      }
-    }),
-    openLink: () => r({
-      actionCreator: S,
-      effect: async (e, c) => {
-        i.postMessage({
-          command: "openLink",
-          payload: e.payload
-        });
-      }
-    })
-  };
-  return r({
-    matcher: G(C, w, z, y),
-    effect: async (e, c) => {
-      window.scrollTo(0, 0);
+function ze(i, t, n, o) {
+  const s = Be(i, t, n), l = Ve(s, n), r = Me(l), p = Fe(s, o);
+  return { issues: s, filtered: p, stats: l, titles: r };
+}
+function Fe(i, t) {
+  const n = (a, g) => t.ids === void 0 || t.ids.includes(g), o = (a) => t.domain === void 0 || a.domain === (t == null ? void 0 : t.domain), s = (a) => t.group === void 0 || a.group === (t == null ? void 0 : t.group), l = (a) => (t == null ? void 0 : t.rule) === void 0 || a.id === t.rule, r = t.severity !== void 0 ? L.indexOf(t.severity) + 1 : 0, p = (a) => t.severity === void 0 || a.criticality >= r;
+  return i.filter((a, g) => n(a, g) && o(a) && s(a) && l(a) && p(a));
+}
+function Be(i, t, n) {
+  return Object.entries(i).map(([s, l]) => l.map((r, p) => ({
+    ...r,
+    domain: n[r.id].group,
+    group: n[r.id].subgroup,
+    filename: t[r.documentUri].relative
+  }))).reduce((s, l) => s.concat(l), []);
+}
+function Ve(i, t) {
+  const n = {};
+  for (const l of i)
+    n[l.id] || (n[l.id] = []), n[l.id].push(l);
+  const o = Object.keys(n).map((l) => ({
+    id: l,
+    kdb: t[l] || qe,
+    title: t[l].title.text.replace(/^<h1>|<\/h1>$/g, ""),
+    domain: n[l][0].domain,
+    score: n[l].reduce((r, p) => r + p.score, 0),
+    criticality: Math.max(...n[l].map((r) => r.criticality)),
+    displayScore: Oe(n[l].reduce((r, p) => r + p.score, 0)),
+    count: n[l].length,
+    important: n[l].some((r) => r.criticality >= ke.Low)
+  })), s = te(i);
+  return { byIssue: o, byGroup: s };
+}
+function te(i) {
+  var o, s;
+  const t = { info: 0, low: 0, medium: 0, high: 0, critical: 0 }, n = {
+    oasconformance: {
+      validation: { ...t },
+      semantics: { ...t },
+      bestpractices: { ...t }
+    },
+    datavalidation: {
+      parameters: { ...t },
+      paths: { ...t },
+      schema: { ...t },
+      responseheader: { ...t },
+      responsedefinition: { ...t }
+    },
+    security: {
+      authentication: { ...t },
+      authorization: { ...t },
+      transport: { ...t }
     }
-  }), U(o), m;
-}
-const h = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMy4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA1NjYuOTMgMTkyLjIyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1NjYuOTMgMTkyLjIyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDojMkQyRDJEO30NCgkuc3Qxe2ZpbGw6IzdGNDg4RTt9DQoJLnN0MntmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xNjMuMjIsOTYuMTRjMC0xMi44Nyw0LjA3LTIyLjcsMTIuMi0yOS40OWM4LjEzLTYuOCwxNy43MS0xMC4xOSwyOC43Mi0xMC4xOWM4Ljg1LDAsMTYuNDcsMS45MSwyMi44NSw1LjcxDQoJVjc3LjNjLTUuNzctNC4xMi0xMi42MS02LjE4LTIwLjU0LTYuMThjLTcuMzEsMC0xMy41NCwyLjAzLTE4LjY4LDYuMWMtNS4xNSw0LjA3LTcuNzIsMTAuMTctNy43MiwxOC4zDQoJYzAsNy45MywyLjU1LDEzLjk4LDcuNjQsMTguMTRjNS4xLDQuMTcsMTEuMjUsNi4yNSwxOC40NSw2LjI1YzcuODIsMCwxNS4wMy0xLjksMjEuNjItNS43MXYxNS4yOWMtNy4xLDMuNC0xNS4yOSw1LjEtMjQuNTUsNS4xDQoJYy0xMC44MSwwLTIwLjE4LTMuMzItMjguMS05Ljk2QzE2Ny4xOCwxMTcuOTksMTYzLjIyLDEwOC40OSwxNjMuMjIsOTYuMTR6Ii8+DQo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjQ2LjE0LDcwLjY2YzIuODgtNC42Myw3LjE1LTguMjMsMTIuODItMTAuODFjNS42Ni0yLjU3LDExLjc5LTMuNTUsMTguMzgtMi45M3YxNi4yMQ0KCWMtNi41OS0wLjkzLTEyLjU2LTAuMDUtMTcuOTEsMi42MmMtNS4zNSwyLjY4LTkuMTYsNi42NC0xMS40MywxMS44OXY0NC45NGgtMTYuNTJWNTguNDZoMTQuNjdWNzAuNjZ6Ii8+DQo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMzE2LjgxLDU3Ljg4aDE2LjUydjc0LjEyaC0xNC42N3YtMTAuMTljLTYuNzksOC4xMy0xNS4zOSwxMi4yLTI1Ljc5LDEyLjJjLTkuNTcsMC0xNy4wNi0yLjc4LTIyLjQ3LTguMzQNCgljLTUuNC01LjU2LTguMTEtMTIuODctOC4xMS0yMS45M1Y1Ny44OGgxNi41MnY0My43YzAsMTEuODQsNS43NiwxNy43NiwxNy4yOSwxNy43NmM4LjEzLDAsMTUuMDMtNC4xMiwyMC42OS0xMi4zNVY1Ny44OHoiLz4NCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zNTIuMjMsNjguMDhjNi44LTguMTMsMTUuMzktMTIuMiwyNS43OS0xMi4yYzkuMjcsMCwxNi42OCwyLjgxLDIyLjI0LDguNDJjNS41Niw1LjYxLDguMzQsMTIuODksOC4zNCwyMS44NQ0KCXY0NS44NmgtMTYuNTJ2LTQzLjdjMC01Ljc2LTEuNi0xMC4xNy00Ljc5LTEzLjJjLTMuMTktMy4wNC03LjM2LTQuNTYtMTIuNTEtNC41NmMtOC4xMywwLTE1LjAzLDQuMTItMjAuNjksMTIuMzV2NDkuMTFoLTE2LjUyDQoJVjU3Ljg4aDE0LjY3VjY4LjA4eiIvPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTQxMS4zNyw5NS41NmMwLTEyLjg3LDQuMDctMjIuNywxMi4yLTI5LjQ5YzguMTMtNi44LDE3LjcxLTEwLjE5LDI4LjcyLTEwLjE5YzguODUsMCwxNi40NywxLjkxLDIyLjg1LDUuNzENCgl2MTUuMTNjLTUuNzctNC4xMi0xMi42MS02LjE4LTIwLjU0LTYuMThjLTcuMzEsMC0xMy41NCwyLjAzLTE4LjY4LDYuMWMtNS4xNSw0LjA3LTcuNzIsMTAuMTctNy43MiwxOC4zDQoJYzAsNy45MywyLjU1LDEzLjk4LDcuNjQsMTguMTRzMTEuMjUsNi4yNSwxOC40NSw2LjI1YzcuODIsMCwxNS4wMy0xLjksMjEuNjItNS43MXYxNS4yOWMtNy4xLDMuNC0xNS4yOSw1LjEtMjQuNTUsNS4xDQoJYy0xMC44MSwwLTIwLjE4LTMuMzItMjguMTEtOS45NkM0MTUuMzMsMTE3LjQxLDQxMS4zNywxMDcuOTIsNDExLjM3LDk1LjU2eiIvPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTQ3OS42MiwyMy45MWgxNi41MnY0Mi4xNmM2LjU5LTYuOCwxNC41Ny0xMC4xOSwyMy45NC0xMC4xOWM5LjI3LDAsMTYuNjgsMi44MSwyMi4yNCw4LjQyDQoJYzUuNTYsNS42MSw4LjM0LDEyLjg5LDguMzQsMjEuODV2NDUuODZoLTE2LjUydi00My43YzAtNS43Ni0xLjYtMTAuMTctNC43OS0xMy4yYy0zLjE5LTMuMDQtNy4zNi00LjU2LTEyLjUxLTQuNTYNCgljLTguMTMsMC0xNS4wMyw0LjEyLTIwLjY5LDEyLjM1djQ5LjExaC0xNi41MlYyMy45MXoiLz4NCjxwb2x5Z29uIGNsYXNzPSJzdDEiIHBvaW50cz0iMTU0Ljk0LDEzNi43MSAxNTQuOTQsNTMuMjYgODIuNjcsMTEuNTQgMTAuNCw1My4yNiAxMC40LDEzNi43MSA4Mi42NywxNzguNDQgIi8+DQo8cGF0aCBjbGFzcz0ic3QyIiBkPSJNNzEuMDIsNzcuMDRoMTEuNjF2NDMuODhoMC4xNHY5LjgzaC0wLjE0djEzLjhINzEuNzJ2LTEzLjhIMzUuMDl2LTkuNjNMNzEuMDIsNzcuMDR6IE03MS43MiwxMjAuOTFWOTEuNDINCglsLTI0LjA0LDI5LjQ5SDcxLjcyeiIvPg0KPHBhdGggY2xhc3M9InN0MiIgZD0iTTgyLjA2LDU3LjFjNi42OC00LjU3LDE0LjE2LTYuODUsMjIuNDQtNi44NWM3LjA4LDAsMTIuODEsMS42NCwxNy4xNyw0LjkxYzQuMzcsMy4yOCw2LjU1LDcuOTYsNi41NSwxNC4wNQ0KCWMwLDUuMDUtMS42OCw5LjM2LTUuMDUsMTIuOTNjLTMuMzcsMy41Ny03Ljk1LDcuMDctMTMuNzUsMTAuNDdjLTAuNDUsMC4yOC0xLjI5LDAuNzktMi41LDEuNTRjLTEuMjIsMC43NS0yLjA4LDEuMjgtMi41OSwxLjU5DQoJYy0wLjUxLDAuMzEtMS4yOSwwLjc5LTIuMzMsMS40M2MtMS4wNSwwLjY0LTEuODIsMS4xMi0yLjMzLDEuNDNjLTAuNTEsMC4zMS0xLjE3LDAuNzktMiwxLjQzYy0wLjgyLDAuNjQtMS40MywxLjE4LTEuODIsMS42Mg0KCWMtMC4zOSwwLjQ0LTAuODUsMC45OC0xLjM4LDEuNjJjLTAuNTMsMC42NC0wLjksMS4yMy0xLjEzLDEuNzdjLTAuMjMsMC41NC0wLjQ0LDEuMTUtMC42NCwxLjgzYy0wLjIsMC42OC0wLjMsMS4zNS0wLjMsMi4wMw0KCWwzNi4xOS0wLjF2MTAuMjNoLTQ4Ljh2LTUuMTZjMC04LjYsMy42NC0xNS43NSwxMC45Mi0yMS40NGMyLjAzLTEuNTMsNS44NC0zLjk5LDExLjQxLTcuMzljNS42MS0zLjIyLDkuMjItNS41NiwxMC44My03LjAxDQoJYzIuNjUtMi41OCwzLjk3LTUuNDYsMy45Ny04LjY0YzAtMi45MS0xLjE4LTUuMTMtMy41Mi02LjY1Yy0yLjM1LTEuNTItNS42NC0yLjI4LTkuODgtMi4yOGMtNy4zNSwwLTE0LjQ5LDIuNTItMjEuNDQsNy41NFY1Ny4xeiIvPg0KPC9zdmc+DQo=", b = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8c3ZnDQogICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iDQogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIg0KICAgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIg0KICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyINCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyINCiAgIHhtbG5zOnNvZGlwb2RpPSJodHRwOi8vc29kaXBvZGkuc291cmNlZm9yZ2UubmV0L0RURC9zb2RpcG9kaS0wLmR0ZCINCiAgIHhtbG5zOmlua3NjYXBlPSJodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy9uYW1lc3BhY2VzL2lua3NjYXBlIg0KICAgdmVyc2lvbj0iMS4xIg0KICAgaWQ9IkxheWVyXzEiDQogICB4PSIwcHgiDQogICB5PSIwcHgiDQogICB2aWV3Qm94PSIwIDAgNTY2LjkzIDE5Mi4yMiINCiAgIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDU2Ni45MyAxOTIuMjI7Ig0KICAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSINCiAgIHNvZGlwb2RpOmRvY25hbWU9ImxvZ28uc3ZnIg0KICAgaW5rc2NhcGU6ZXhwb3J0LWZpbGVuYW1lPSIvVXNlcnMvYW50b24vRG93bmxvYWRzLzQyY19zdGFuZGFyZC5wbmciDQogICBpbmtzY2FwZTpleHBvcnQteGRwaT0iMjQuODc5OTk5Ig0KICAgaW5rc2NhcGU6ZXhwb3J0LXlkcGk9IjI0Ljg3OTk5OSINCiAgIGlua3NjYXBlOnZlcnNpb249IjEuMC4yIChlODZjODcwOCwgMjAyMS0wMS0xNSkiPjxtZXRhZGF0YQ0KICAgaWQ9Im1ldGFkYXRhMTQzIj48cmRmOlJERj48Y2M6V29yaw0KICAgICAgIHJkZjphYm91dD0iIj48ZGM6Zm9ybWF0PmltYWdlL3N2Zyt4bWw8L2RjOmZvcm1hdD48ZGM6dHlwZQ0KICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz48ZGM6dGl0bGU+PC9kYzp0aXRsZT48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMNCiAgIGlkPSJkZWZzMTQxIiAvPjxzb2RpcG9kaTpuYW1lZHZpZXcNCiAgIHBhZ2Vjb2xvcj0iI2ZmZmZmZiINCiAgIGJvcmRlcmNvbG9yPSIjNjY2NjY2Ig0KICAgYm9yZGVyb3BhY2l0eT0iMSINCiAgIG9iamVjdHRvbGVyYW5jZT0iMTAiDQogICBncmlkdG9sZXJhbmNlPSIxMCINCiAgIGd1aWRldG9sZXJhbmNlPSIxMCINCiAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwIg0KICAgaW5rc2NhcGU6cGFnZXNoYWRvdz0iMiINCiAgIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTQ0MCINCiAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9Ijg1NSINCiAgIGlkPSJuYW1lZHZpZXcxMzkiDQogICBzaG93Z3JpZD0iZmFsc2UiDQogICBpbmtzY2FwZTp6b29tPSIwLjk2NzQ5MTU4Ig0KICAgaW5rc2NhcGU6Y3g9IjExNy41NzIwOCINCiAgIGlua3NjYXBlOmN5PSI5My4wMDkxOTgiDQogICBpbmtzY2FwZTp3aW5kb3cteD0iMCINCiAgIGlua3NjYXBlOndpbmRvdy15PSIyMyINCiAgIGlua3NjYXBlOndpbmRvdy1tYXhpbWl6ZWQ9IjEiDQogICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJMYXllcl8xIiAvPg0KPHN0eWxlDQogICB0eXBlPSJ0ZXh0L2NzcyINCiAgIGlkPSJzdHlsZTExOCI+DQoJLnN0MHtmaWxsOiMyRDJEMkQ7fQ0KCS5zdDF7ZmlsbDojN0Y0ODhFO30NCgkuc3Qye2ZpbGw6I0ZGRkZGRjt9DQo8L3N0eWxlPg0KPHBhdGgNCiAgIGNsYXNzPSJzdDAiDQogICBkPSJNMTYzLjIyLDk2LjE0YzAtMTIuODcsNC4wNy0yMi43LDEyLjItMjkuNDljOC4xMy02LjgsMTcuNzEtMTAuMTksMjguNzItMTAuMTljOC44NSwwLDE2LjQ3LDEuOTEsMjIuODUsNS43MSAgVjc3LjNjLTUuNzctNC4xMi0xMi42MS02LjE4LTIwLjU0LTYuMThjLTcuMzEsMC0xMy41NCwyLjAzLTE4LjY4LDYuMWMtNS4xNSw0LjA3LTcuNzIsMTAuMTctNy43MiwxOC4zICBjMCw3LjkzLDIuNTUsMTMuOTgsNy42NCwxOC4xNGM1LjEsNC4xNywxMS4yNSw2LjI1LDE4LjQ1LDYuMjVjNy44MiwwLDE1LjAzLTEuOSwyMS42Mi01LjcxdjE1LjI5Yy03LjEsMy40LTE1LjI5LDUuMS0yNC41NSw1LjEgIGMtMTAuODEsMC0yMC4xOC0zLjMyLTI4LjEtOS45NkMxNjcuMTgsMTE3Ljk5LDE2My4yMiwxMDguNDksMTYzLjIyLDk2LjE0eiINCiAgIGlkPSJwYXRoMTIwIg0KICAgc3R5bGU9ImZpbGw6I2ZmZmZmZjtmaWxsLW9wYWNpdHk6MSIgLz4NCjxwYXRoDQogICBjbGFzcz0ic3QwIg0KICAgZD0iTTI0Ni4xNCw3MC42NmMyLjg4LTQuNjMsNy4xNS04LjIzLDEyLjgyLTEwLjgxYzUuNjYtMi41NywxMS43OS0zLjU1LDE4LjM4LTIuOTN2MTYuMjEgIGMtNi41OS0wLjkzLTEyLjU2LTAuMDUtMTcuOTEsMi42MmMtNS4zNSwyLjY4LTkuMTYsNi42NC0xMS40MywxMS44OXY0NC45NGgtMTYuNTJWNTguNDZoMTQuNjdWNzAuNjZ6Ig0KICAgaWQ9InBhdGgxMjIiDQogICBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxIiAvPg0KPHBhdGgNCiAgIGNsYXNzPSJzdDAiDQogICBkPSJNMzE2LjgxLDU3Ljg4aDE2LjUydjc0LjEyaC0xNC42N3YtMTAuMTljLTYuNzksOC4xMy0xNS4zOSwxMi4yLTI1Ljc5LDEyLjJjLTkuNTcsMC0xNy4wNi0yLjc4LTIyLjQ3LTguMzQgIGMtNS40LTUuNTYtOC4xMS0xMi44Ny04LjExLTIxLjkzVjU3Ljg4aDE2LjUydjQzLjdjMCwxMS44NCw1Ljc2LDE3Ljc2LDE3LjI5LDE3Ljc2YzguMTMsMCwxNS4wMy00LjEyLDIwLjY5LTEyLjM1VjU3Ljg4eiINCiAgIGlkPSJwYXRoMTI0Ig0KICAgc3R5bGU9ImZpbGw6I2ZmZmZmZjtmaWxsLW9wYWNpdHk6MSIgLz4NCjxwYXRoDQogICBjbGFzcz0ic3QwIg0KICAgZD0iTTM1Mi4yMyw2OC4wOGM2LjgtOC4xMywxNS4zOS0xMi4yLDI1Ljc5LTEyLjJjOS4yNywwLDE2LjY4LDIuODEsMjIuMjQsOC40MmM1LjU2LDUuNjEsOC4zNCwxMi44OSw4LjM0LDIxLjg1ICB2NDUuODZoLTE2LjUydi00My43YzAtNS43Ni0xLjYtMTAuMTctNC43OS0xMy4yYy0zLjE5LTMuMDQtNy4zNi00LjU2LTEyLjUxLTQuNTZjLTguMTMsMC0xNS4wMyw0LjEyLTIwLjY5LDEyLjM1djQ5LjExaC0xNi41MiAgVjU3Ljg4aDE0LjY3VjY4LjA4eiINCiAgIGlkPSJwYXRoMTI2Ig0KICAgc3R5bGU9ImZpbGw6I2ZmZmZmZjtmaWxsLW9wYWNpdHk6MSIgLz4NCjxwYXRoDQogICBjbGFzcz0ic3QwIg0KICAgZD0iTTQxMS4zNyw5NS41NmMwLTEyLjg3LDQuMDctMjIuNywxMi4yLTI5LjQ5YzguMTMtNi44LDE3LjcxLTEwLjE5LDI4LjcyLTEwLjE5YzguODUsMCwxNi40NywxLjkxLDIyLjg1LDUuNzEgIHYxNS4xM2MtNS43Ny00LjEyLTEyLjYxLTYuMTgtMjAuNTQtNi4xOGMtNy4zMSwwLTEzLjU0LDIuMDMtMTguNjgsNi4xYy01LjE1LDQuMDctNy43MiwxMC4xNy03LjcyLDE4LjMgIGMwLDcuOTMsMi41NSwxMy45OCw3LjY0LDE4LjE0czExLjI1LDYuMjUsMTguNDUsNi4yNWM3LjgyLDAsMTUuMDMtMS45LDIxLjYyLTUuNzF2MTUuMjljLTcuMSwzLjQtMTUuMjksNS4xLTI0LjU1LDUuMSAgYy0xMC44MSwwLTIwLjE4LTMuMzItMjguMTEtOS45NkM0MTUuMzMsMTE3LjQxLDQxMS4zNywxMDcuOTIsNDExLjM3LDk1LjU2eiINCiAgIGlkPSJwYXRoMTI4Ig0KICAgc3R5bGU9ImZpbGw6I2ZmZmZmZjtmaWxsLW9wYWNpdHk6MSIgLz4NCjxwYXRoDQogICBjbGFzcz0ic3QwIg0KICAgZD0iTTQ3OS42MiwyMy45MWgxNi41MnY0Mi4xNmM2LjU5LTYuOCwxNC41Ny0xMC4xOSwyMy45NC0xMC4xOWM5LjI3LDAsMTYuNjgsMi44MSwyMi4yNCw4LjQyICBjNS41Niw1LjYxLDguMzQsMTIuODksOC4zNCwyMS44NXY0NS44NmgtMTYuNTJ2LTQzLjdjMC01Ljc2LTEuNi0xMC4xNy00Ljc5LTEzLjJjLTMuMTktMy4wNC03LjM2LTQuNTYtMTIuNTEtNC41NiAgYy04LjEzLDAtMTUuMDMsNC4xMi0yMC42OSwxMi4zNXY0OS4xMWgtMTYuNTJWMjMuOTF6Ig0KICAgaWQ9InBhdGgxMzAiDQogICBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxIiAvPg0KPHBvbHlnb24NCiAgIGNsYXNzPSJzdDEiDQogICBwb2ludHM9IjE1NC45NCwxMzYuNzEgMTU0Ljk0LDUzLjI2IDgyLjY3LDExLjU0IDEwLjQsNTMuMjYgMTAuNCwxMzYuNzEgODIuNjcsMTc4LjQ0ICINCiAgIGlkPSJwb2x5Z29uMTMyIiAvPg0KPHBhdGgNCiAgIGNsYXNzPSJzdDIiDQogICBkPSJNNzEuMDIsNzcuMDRoMTEuNjF2NDMuODhoMC4xNHY5LjgzaC0wLjE0djEzLjhINzEuNzJ2LTEzLjhIMzUuMDl2LTkuNjNMNzEuMDIsNzcuMDR6IE03MS43MiwxMjAuOTFWOTEuNDIgIGwtMjQuMDQsMjkuNDlINzEuNzJ6Ig0KICAgaWQ9InBhdGgxMzQiIC8+DQo8cGF0aA0KICAgY2xhc3M9InN0MiINCiAgIGQ9Ik04Mi4wNiw1Ny4xYzYuNjgtNC41NywxNC4xNi02Ljg1LDIyLjQ0LTYuODVjNy4wOCwwLDEyLjgxLDEuNjQsMTcuMTcsNC45MWM0LjM3LDMuMjgsNi41NSw3Ljk2LDYuNTUsMTQuMDUgIGMwLDUuMDUtMS42OCw5LjM2LTUuMDUsMTIuOTNjLTMuMzcsMy41Ny03Ljk1LDcuMDctMTMuNzUsMTAuNDdjLTAuNDUsMC4yOC0xLjI5LDAuNzktMi41LDEuNTRjLTEuMjIsMC43NS0yLjA4LDEuMjgtMi41OSwxLjU5ICBjLTAuNTEsMC4zMS0xLjI5LDAuNzktMi4zMywxLjQzYy0xLjA1LDAuNjQtMS44MiwxLjEyLTIuMzMsMS40M2MtMC41MSwwLjMxLTEuMTcsMC43OS0yLDEuNDNjLTAuODIsMC42NC0xLjQzLDEuMTgtMS44MiwxLjYyICBjLTAuMzksMC40NC0wLjg1LDAuOTgtMS4zOCwxLjYyYy0wLjUzLDAuNjQtMC45LDEuMjMtMS4xMywxLjc3Yy0wLjIzLDAuNTQtMC40NCwxLjE1LTAuNjQsMS44M2MtMC4yLDAuNjgtMC4zLDEuMzUtMC4zLDIuMDMgIGwzNi4xOS0wLjF2MTAuMjNoLTQ4Ljh2LTUuMTZjMC04LjYsMy42NC0xNS43NSwxMC45Mi0yMS40NGMyLjAzLTEuNTMsNS44NC0zLjk5LDExLjQxLTcuMzljNS42MS0zLjIyLDkuMjItNS41NiwxMC44My03LjAxICBjMi42NS0yLjU4LDMuOTctNS40NiwzLjk3LTguNjRjMC0yLjkxLTEuMTgtNS4xMy0zLjUyLTYuNjVjLTIuMzUtMS41Mi01LjY0LTIuMjgtOS44OC0yLjI4Yy03LjM1LDAtMTQuNDksMi41Mi0yMS40NCw3LjU0VjU3LjF6Ig0KICAgaWQ9InBhdGgxMzYiIC8+DQo8L3N2Zz4NCg==";
-function $({
-  openLink: i,
-  themeKind: o
-}) {
-  const [e, c] = I.useState(!1), t = () => {
-    c(!e);
-  }, N = (j) => {
-    i(j.currentTarget.href), j.preventDefault(), j.stopPropagation();
   };
-  return /* @__PURE__ */ M.jsx("div", { className: "c_header", children: /* @__PURE__ */ M.jsxs("div", { className: "d-flex justify-content-between", children: [
-    /* @__PURE__ */ M.jsxs("div", { children: [
-      /* @__PURE__ */ M.jsx("span", { className: "font-weight-bold", style: { display: "inline-block", height: "100%" }, children: "Powered by" }),
-      /* @__PURE__ */ M.jsx("span", { children: /* @__PURE__ */ M.jsx("a", { href: "https://www.42crunch.com", onClick: N, children: /* @__PURE__ */ M.jsx("img", { src: o === "light" ? h : b }) }) })
-    ] }),
-    /* @__PURE__ */ M.jsx("div", { children: /* @__PURE__ */ M.jsxs("div", { className: "dropdown", children: [
-      /* @__PURE__ */ M.jsx("button", { className: "dropbtn", onClick: t, children: "Learn More" }),
-      /* @__PURE__ */ M.jsxs("div", { className: e ? "dropdown-content show" : "dropdown-content", children: [
-        /* @__PURE__ */ M.jsx("a", { href: "https://42crunch.com/api-security-audit/", onClick: N, children: "API Contract Security Audit" }),
-        /* @__PURE__ */ M.jsx("a", { href: "https://42crunch.com/api-conformance-scan/", onClick: N, children: "API Contract Conformance Scan" }),
-        /* @__PURE__ */ M.jsx("a", { href: "https://42crunch.com/micro-api-firewall-protection/", onClick: N, children: "API Protection" })
-      ] })
-    ] }) })
-  ] }) });
+  for (const l of i) {
+    const r = l.domain, p = l.group, a = Se[l.criticality];
+    r !== void 0 && p !== void 0 && //@ts-ignore
+    ((s = (o = n[r]) == null ? void 0 : o[p]) == null ? void 0 : s[a]) !== void 0 && n[r][p][a]++;
+  }
+  return n;
 }
-function q({ openLink: i }) {
-  const o = (c) => {
-    i(c.currentTarget.href), c.preventDefault(), c.stopPropagation();
-  }, e = D((c) => c.audit.summary);
-  return e.all === 0 && e.invalid ? /* @__PURE__ */ M.jsxs(M.Fragment, { children: [
-    /* @__PURE__ */ M.jsx("h1", { children: "Failed to perform security audit, the OpenAPI file is invalid or too large." }),
-    /* @__PURE__ */ M.jsx("div", { children: /* @__PURE__ */ M.jsxs("small", { children: [
-      "Please submit your feedback for the security audit",
-      " ",
-      /* @__PURE__ */ M.jsx("a", { onClick: o, href: "https://github.com/42Crunch/vscode-openapi/issues", children: "here" })
-    ] }) })
-  ] }) : /* @__PURE__ */ M.jsxs("div", { className: "c_roundedbox", children: [
-    /* @__PURE__ */ M.jsxs("h1", { children: [
-      "Security audit score: ",
-      /* @__PURE__ */ M.jsxs("span", { children: [
-        e.all,
-        " / 100"
-      ] })
-    ] }),
-    /* @__PURE__ */ M.jsx("div", { className: "progress-bar-holder", children: /* @__PURE__ */ M.jsx("div", { className: "progress-bar bar-red", style: { width: `${e.all}%` } }) }),
-    /* @__PURE__ */ M.jsxs("h3", { children: [
-      "Security:",
-      " ",
-      /* @__PURE__ */ M.jsxs("span", { children: [
-        e.security.value,
-        " / ",
-        e.security.max
-      ] })
-    ] }),
-    /* @__PURE__ */ M.jsxs("h3", { children: [
-      "Data validation:",
-      " ",
-      /* @__PURE__ */ M.jsxs("span", { children: [
-        e.datavalidation.value,
-        " / ",
-        e.datavalidation.max
-      ] })
-    ] }),
-    /* @__PURE__ */ M.jsx("div", { children: /* @__PURE__ */ M.jsxs("small", { children: [
-      "Please submit your feedback for the security audit",
-      " ",
-      /* @__PURE__ */ M.jsx("a", { onClick: o, href: "https://github.com/42Crunch/vscode-openapi/issues", children: "here" })
-    ] }) })
-  ] });
-}
-function MM({
-  openLink: i,
-  themeKind: o
-}) {
-  const [e, c] = I.useState(!1), t = (j) => {
-    i(j.currentTarget.href), j.preventDefault(), j.stopPropagation();
-  }, N = () => {
-    c(!e);
-  };
-  return /* @__PURE__ */ M.jsx("div", { className: "c_footer", children: /* @__PURE__ */ M.jsxs("div", { className: "d-flex justify-content-between", children: [
-    /* @__PURE__ */ M.jsxs("div", { children: [
-      /* @__PURE__ */ M.jsx("span", { className: "font-weight-bold", style: { display: "inline-block", height: "100%" }, children: "Powered by" }),
-      /* @__PURE__ */ M.jsx("span", { children: /* @__PURE__ */ M.jsx("a", { href: "https://www.42crunch.com", onClick: t, children: /* @__PURE__ */ M.jsx("img", { src: o === "light" ? h : b }) }) })
-    ] }),
-    /* @__PURE__ */ M.jsx("div", { children: /* @__PURE__ */ M.jsxs("div", { className: "dropdown", children: [
-      /* @__PURE__ */ M.jsx("button", { className: "dropbtn", onClick: N, children: "Learn More" }),
-      /* @__PURE__ */ M.jsxs("div", { className: e ? "dropdown-content show" : "dropdown-content", children: [
-        /* @__PURE__ */ M.jsx("a", { href: "https://42crunch.com/api-security-audit/", onClick: t, children: "API Contract Security Audit" }),
-        /* @__PURE__ */ M.jsx("a", { href: "https://42crunch.com/api-conformance-scan/", onClick: t, children: "API Contract Conformance Scan" }),
-        /* @__PURE__ */ M.jsx("a", { href: "https://42crunch.com/micro-api-firewall-protection/", onClick: t, children: "API Protection" })
-      ] })
-    ] }) })
-  ] }) });
-}
-function iM({
-  articleId: i,
-  kdb: o,
-  lang: e,
-  openLink: c
-}) {
-  const t = (s) => {
-    s.stopPropagation(), s.preventDefault(), c(s.target.href);
-  }, N = I.useRef(null);
-  I.useEffect(() => {
-    const s = N.current.querySelectorAll("a");
-    return s.forEach((L) => {
-      L.addEventListener("click", t);
-    }), () => {
-      s.forEach((L) => {
-        L.removeEventListener("click", t);
-      });
-    };
+function Me(i) {
+  return i.byIssue.map((t) => ({ value: t.id, label: t.title })).sort((t, n) => {
+    const o = t.value.toLowerCase(), s = n.value.toLowerCase();
+    return o < s ? -1 : o > s ? 1 : 0;
   });
-  const j = o[i] || oM, g = [
-    j ? j.description.text : "",
-    d(j.example, e),
-    d(j.exploit, e),
-    d(j.remediation, e)
-  ].join("");
-  return /* @__PURE__ */ M.jsx("div", { ref: N, dangerouslySetInnerHTML: { __html: g } });
 }
-function d(i, o) {
-  return !i || !i.sections ? "" : i.sections.map((e) => {
-    if (e.text)
-      return e.text;
-    if (e.code)
-      return `<pre>${e.code[o]}</pre>`;
-  }).join("");
+function Oe(i) {
+  const t = Math.abs(Math.round(i));
+  return i === 0 ? "0" : t >= 1 ? t.toString() : "less than 1";
 }
-const oM = {
+const qe = {
+  title: {
+    text: "<h1>Article not found</h1>"
+  },
   description: {
     text: `<p>Whoops! Looks like there has been an oversight and we are missing a page for this issue.</p>
            <p><a href="https://apisecurity.io/contact-us/">Let us know</a> the title of the issue, and we make sure to add it to the encyclopedia.</p>`
   }
-}, eM = (i) => /* @__PURE__ */ I.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", width: "1em", height: "1em", ...i }, /* @__PURE__ */ I.createElement("path", { d: "M6.101 359.293L25.9 379.092c4.686 4.686 12.284 4.686 16.971 0L224 198.393l181.13 180.698c4.686 4.686 12.284 4.686 16.971 0l19.799-19.799c4.686-4.686 4.686-12.284 0-16.971L232.485 132.908c-4.686-4.686-12.284-4.686-16.971 0L6.101 342.322c-4.687 4.687-4.687 12.285 0 16.971z" })), cM = (i) => /* @__PURE__ */ I.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", width: "1em", height: "1em", ...i }, /* @__PURE__ */ I.createElement("path", { d: "M441.9 167.3l-19.8-19.8c-4.7-4.7-12.3-4.7-17 0L224 328.2 42.9 147.5c-4.7-4.7-12.3-4.7-17 0L6.1 167.3c-4.7 4.7-4.7 12.3 0 17l209.4 209.4c4.7 4.7 12.3 4.7 17 0l209.4-209.4c4.7-4.7 4.7-12.3 0-17z" }));
-function tM({
-  kdb: i,
-  issue: o,
-  goToLine: e,
-  copyIssueId: c,
-  openLink: t
+}, {
+  startAudit: oe,
+  showFullReport: F,
+  showPartialReport: B,
+  showNoReport: V,
+  loadKdb: Ge,
+  goToLine: M,
+  copyIssueId: O,
+  openLink: S,
+  changeTab: m,
+  changeFilter: u,
+  setSqgTodo: Ne
+} = ie.actions, Ee = ie.reducer, He = {
+  audit: Ee,
+  theme: ce,
+  router: ye
+}, Ue = (i, t) => ae({
+  reducer: He,
+  middleware: (n) => n().prepend(i.middleware).concat(de),
+  preloadedState: {
+    theme: t
+  }
+}), x = () => Ae(), h = le, ne = pe(), w = ne.startListening;
+function We(i, t) {
+  const n = {
+    goToLine: () => w({
+      actionCreator: M,
+      effect: async (o, s) => {
+        i.postMessage({
+          command: "goToLine",
+          payload: o.payload
+        });
+      }
+    }),
+    copyIssueId: () => w({
+      actionCreator: O,
+      effect: async (o, s) => {
+        i.postMessage({
+          command: "copyIssueId",
+          payload: o.payload
+        });
+      }
+    }),
+    openLink: () => w({
+      actionCreator: S,
+      effect: async (o, s) => {
+        i.postMessage({
+          command: "openLink",
+          payload: o.payload
+        });
+      }
+    })
+  };
+  return w({
+    matcher: ue(F, B, V),
+    effect: async (o, s) => {
+      window.scrollTo(0, 0);
+    }
+  }), $e(w, t), xe(n), ne;
+}
+function Ke() {
+  const i = h((n) => n.audit.audit.summary), t = x();
+  return /* @__PURE__ */ e.jsx(_e, { children: /* @__PURE__ */ e.jsxs(Qe, { children: [
+    /* @__PURE__ */ e.jsxs(
+      "div",
+      {
+        onClick: (n) => {
+          n.preventDefault(), n.stopPropagation(), t(m("issues")), t(u({}));
+        },
+        children: [
+          /* @__PURE__ */ e.jsx("div", { children: "Global score" }),
+          /* @__PURE__ */ e.jsxs("div", { children: [
+            i.all,
+            "/100"
+          ] }),
+          /* @__PURE__ */ e.jsx("div", {})
+        ]
+      }
+    ),
+    /* @__PURE__ */ e.jsxs(
+      "div",
+      {
+        onClick: (n) => {
+          n.preventDefault(), n.stopPropagation(), t(m("issues")), t(u({ domain: "security" }));
+        },
+        children: [
+          /* @__PURE__ */ e.jsx("div", { children: "Security score" }),
+          /* @__PURE__ */ e.jsxs("div", { children: [
+            i.security.value,
+            "/",
+            i.security.max
+          ] }),
+          /* @__PURE__ */ e.jsx("div", {})
+        ]
+      }
+    ),
+    /* @__PURE__ */ e.jsxs(
+      "div",
+      {
+        onClick: (n) => {
+          n.preventDefault(), n.stopPropagation(), t(m("issues")), t(u({ domain: "datavalidation" }));
+        },
+        children: [
+          /* @__PURE__ */ e.jsx("div", { children: "Data validation score" }),
+          /* @__PURE__ */ e.jsxs("div", { children: [
+            i.datavalidation.value,
+            "/",
+            i.datavalidation.max
+          ] }),
+          /* @__PURE__ */ e.jsx("div", {})
+        ]
+      }
+    )
+  ] }) });
+}
+const _e = c.div`
+  margin: 8px;
+`, Qe = c.div`
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  & > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    border: 1px solid var(${d.border});
+    border-radius: 2px;
+    cursor: pointer;
+    &:hover {
+      background-color: var(${d.computedOne});
+    }
+    & > div:nth-child(1) {
+      font-weight: 700;
+      font-size: 12px;
+    }
+    & > div:nth-child(2) {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    & > div:nth-child(3) {
+      font-size: 12px;
+    }
+  }
+`, D = (i) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...i, children: /* @__PURE__ */ e.jsx("path", { d: "M476.3 0c-6.365 0-13.01 1.35-19.34 4.233-45.69 20.86-79.56 27.94-107.8 27.94-59.96 0-94.81-31.86-163.9-31.87-34.63 0-77.87 8.003-137.2 32.05V24C48 10.75 37.25 0 24 0S0 10.75 0 24v464c0 13.3 10.75 24 24 24s24-10.75 24-24V384c53.59-23.86 96.02-31.81 132.8-31.81 73.63 0 124.9 31.78 198.6 31.78 31.91 0 68.02-5.971 111.1-23.09 13.6-4.98 21.5-16.48 21.5-28.78V30.73C512 11.1 495.3 0 476.3 0zM464 319.8c-30.31 10.82-58.08 16.1-84.6 16.1-30.8 0-58.31-7-87.44-14.41-32.01-8.141-68.29-17.37-111.1-17.37-42.35 0-85.99 9.09-132.8 27.73V84.14l18.03-7.301c47.39-19.2 86.38-28.54 119.2-28.54 28.24.004 49.12 6.711 73.31 14.48 25.38 8.148 54.13 17.39 90.58 17.39 35.43 0 72.24-8.496 114.9-26.61V319.8z" }) }), k = (i) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 512", width: "1em", height: "1em", ...i, children: /* @__PURE__ */ e.jsx("path", { d: "M173 131.5c56.2-56.23 147.3-56.23 203.5 0C430 185 432.9 270.9 383 327.9l-5.3 6.1c-8.8 10-23.9 11-33.9 2.3s-11-23.9-2.3-33.9l5.4-6.1c33.2-38 31.3-95.2-4.4-130.9-37.4-38.3-98.1-38.3-136.4 0L93.63 278.7c-37.44 37.5-37.44 98.2 0 135.6 35.67 34.8 92.97 37.6 130.87 4.4l6.2-5.4c9.9-8.7 25.1-7.7 33.8 2.3 8.8 9.9 7.7 25.1-2.2 33.8l-6.2 5.4c-57 49.8-142.9 47-196.41-6.6-56.185-56.1-56.185-148.1 0-203.4L173 131.5zm294 249c-56.2 56.2-147.3 56.2-203.5 0-54.4-54.4-56.4-139.4-6.6-196.4l4.7-5.4c8.7-10 23.9-11 33.9-2.3s11 23.9 2.3 33.9l-4.7 5.4c-33.3 38-31.3 95.2 4.3 130.9 37.5 37.4 98.2 37.4 135.7 0l113.3-113.3c37.4-37.5 37.4-98.2 0-135.6-35.7-35.68-93-37.59-130.9-4.35l-6.2 5.35c-9.9 8.7-25.1 7.7-33.8-2.26-8.8-9.97-7.7-25.14 2.2-33.86l6.2-5.36c57-49.872 142.9-47.01 196.4 6.54 56.2 56.14 56.2 147.24 0 203.44L467 380.5z" }) });
+function P({
+  children: i
 }) {
-  const [N, j] = I.useState(!1), g = () => j(!N), s = o.displayScore !== "0" ? `Score impact: ${o.displayScore}` : "", L = o.filename.toLowerCase().endsWith(".yaml") || o.filename.toLowerCase().endsWith("yml") ? "yaml" : "json";
-  return /* @__PURE__ */ M.jsxs("div", { className: "c_roundedbox_section", children: [
-    /* @__PURE__ */ M.jsxs("h2", { onClick: g, style: { cursor: "pointer" }, children: [
-      N ? /* @__PURE__ */ M.jsx(
-        eM,
-        {
-          style: {
-            width: 16,
-            height: 16,
-            marginRight: 6,
-            fill: `var(${a.foreground})`
-          }
-        }
-      ) : /* @__PURE__ */ M.jsx(
-        cM,
-        {
-          style: {
-            width: 16,
-            height: 16,
-            marginRight: 6,
-            fill: `var(${a.foreground})`
-          }
-        }
-      ),
-      o.description
+  const [t, n] = j.useState(!0);
+  return /* @__PURE__ */ e.jsxs(Xe, { children: [
+    /* @__PURE__ */ e.jsxs(Ye, { collapsed: t, onClick: () => n(!t), children: [
+      /* @__PURE__ */ e.jsx("div", { children: t ? /* @__PURE__ */ e.jsx(Z, {}) : /* @__PURE__ */ e.jsx(ee, {}) }),
+      /* @__PURE__ */ e.jsxs("div", { children: [
+        i[0],
+        i[1]
+      ] })
     ] }),
-    /* @__PURE__ */ M.jsx("p", { children: /* @__PURE__ */ M.jsxs("small", { children: [
-      "Issue ID:",
-      " ",
-      /* @__PURE__ */ M.jsx(
-        "span",
-        {
-          className: "issue-id",
-          onClick: (n) => {
-            c(o.id);
-          },
-          children: o.id
-        }
-      )
-    ] }) }),
-    /* @__PURE__ */ M.jsx("p", { children: /* @__PURE__ */ M.jsxs("small", { children: [
-      /* @__PURE__ */ M.jsxs(
-        "a",
-        {
-          className: "focus-line",
-          href: "#",
-          onClick: (n) => {
-            e(o.documentUri, o.lineNo, o.pointer), n.preventDefault(), n.stopPropagation();
-          },
-          children: [
-            o.filename,
-            ":",
-            o.lineNo + 1
-          ]
-        }
-      ),
-      ". Severity: ",
-      LM[o.criticality],
-      ". ",
-      s
-    ] }) }),
-    N && /* @__PURE__ */ M.jsx(iM, { kdb: i, articleId: o.id, lang: L, openLink: t })
+    !t && /* @__PURE__ */ e.jsx(Je, { children: i[2] })
   ] });
 }
-const LM = {
-  5: "Critical",
-  4: "High",
-  3: "Medium",
-  2: "Low",
-  1: "Info"
-};
-function NM({ goToFullReport: i }) {
-  return /* @__PURE__ */ M.jsx("h6", { children: /* @__PURE__ */ M.jsx(
-    "a",
+const Xe = c.div`
+  margin: 8px;
+  border: 1px solid var(${d.border});
+`, Ye = c.div`
+  display: flex;
+  cursor: pointer;
+  padding: 10px 10px 10px 0px;
+  background-color: var(${d.computedOne});
+  & > div:first-child {
+    padding-left: 4px;
+    padding-right: 8px;
+    > svg {
+      fill: var(${d.foreground});
+    }
+  }
+  border-left: 5px solid transparent;
+  ${({ collapsed: i }) => !i && `border-bottom: 1px solid var(${d.border});
+    border-left: 5px solid var(${d.badgeBackground});`}
+`, R = c.div`
+  font-weight: 600;
+`, y = c.div`
+  margin-top: 8px;
+  display: flex;
+  font-size: 90%;
+  align-items: center;
+  gap: 16px;
+`, v = c.div`
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+  & > svg {
+    margin-right: 4px;
+    fill: var(${d.foreground});
+  }
+`, Je = c.div`
+  background-color: var(${d.computedOne});
+`;
+function z({
+  article: i,
+  lang: t,
+  openLink: n
+}) {
+  const o = (r) => {
+    r.stopPropagation(), r.preventDefault(), n(r.target.href);
+  }, s = j.useRef(null);
+  j.useEffect(() => {
+    const r = s.current.querySelectorAll("a");
+    return r.forEach((p) => {
+      p.addEventListener("click", o);
+    }), () => {
+      r.forEach((p) => {
+        p.removeEventListener("click", o);
+      });
+    };
+  });
+  const l = [
+    i ? i.description.text : "",
+    A(i.example, t),
+    A(i.exploit, t),
+    A(i.remediation, t)
+  ].join("");
+  return /* @__PURE__ */ e.jsx(Ze, { ref: s, dangerouslySetInnerHTML: { __html: l } });
+}
+function A(i, t) {
+  return !i || !i.sections ? "" : i.sections.map((n) => {
+    if (n.text)
+      return n.text;
+    if (n.code)
+      return `<pre>${n.code[t]}</pre>`;
+  }).join("");
+}
+const Ze = c.div`
+  padding: 8px;
+  weight: 500;
+  font-size: var(${d.fontSize});
+
+  > h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: var(${d.fontSize});
+  }
+
+  & code {
+    color: var(${d.foreground});
+    font-family: monospace;
+  }
+
+  > pre {
+    background-color: var(${d.computedOne});
+    padding: 8px 4px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+`;
+function E({ issueId: i, issues: t }) {
+  const n = x(), [o, s] = j.useState(!1), l = t.filter((a) => a.id === i), r = o ? l.length : 4, p = l.slice(0, r);
+  return p.sort((a, g) => {
+    const q = a.filename.localeCompare(g.filename);
+    return q === 0 ? a.lineNo - g.lineNo : q;
+  }), /* @__PURE__ */ e.jsxs(ei, { children: [
+    /* @__PURE__ */ e.jsxs("h2", { children: [
+      l.length,
+      " results with this issue"
+    ] }),
+    /* @__PURE__ */ e.jsx("div", { children: p.map((a) => /* @__PURE__ */ e.jsxs(ii, { children: [
+      /* @__PURE__ */ e.jsx(k, {}),
+      /* @__PURE__ */ e.jsxs(
+        "a",
+        {
+          href: "#",
+          onClick: (g) => {
+            g.preventDefault(), g.stopPropagation(), n(
+              M({
+                uri: a.documentUri,
+                line: a.lineNo,
+                pointer: a.pointer
+              })
+            );
+          },
+          children: [
+            a.filename,
+            ":",
+            a.lineNo + 1
+          ]
+        }
+      )
+    ] }, `${a.filename}:${a.lineNo}`)) }),
+    !o && l.length > p.length && /* @__PURE__ */ e.jsxs(
+      "a",
+      {
+        href: "#",
+        onClick: (a) => {
+          a.preventDefault(), a.stopPropagation(), s(!0);
+        },
+        children: [
+          "Show ",
+          l.length - p.length,
+          " more"
+        ]
+      }
+    ),
+    o && /* @__PURE__ */ e.jsx(
+      "a",
+      {
+        href: "#",
+        onClick: (a) => {
+          a.preventDefault(), a.stopPropagation(), s(!1);
+        },
+        children: "Show less"
+      }
+    )
+  ] });
+}
+const ei = c.div`
+  padding-top: 8px;
+  padding-left: 8px;
+  > h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: var(${d.fontSize});
+  }
+  > div {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+`, ii = c.div`
+  display: flex;
+  align-items: center;
+  margin: 4px;
+  gap: 4px;
+  > svg {
+    fill: var(${d.foreground});
+  }
+`;
+function ti() {
+  const {
+    stats: i,
+    issues: t,
+    audit: { filename: n }
+  } = h((r) => r.audit), o = x(), s = i.byIssue.filter((r) => r.important).slice().sort((r, p) => p.count - r.count).slice(0, 4), l = i.byIssue.filter((r) => r.important).slice().sort((r, p) => p.score - r.score).slice(0, 4);
+  return /* @__PURE__ */ e.jsxs(oi, { children: [
+    /* @__PURE__ */ e.jsx(H, { children: "Most common issues" }),
+    s.map((r, p) => /* @__PURE__ */ e.jsxs(P, { children: [
+      /* @__PURE__ */ e.jsx(R, { children: r.title }),
+      /* @__PURE__ */ e.jsx(y, { children: /* @__PURE__ */ e.jsxs(y, { children: [
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(C, {}),
+          " ",
+          X[r.criticality]
+        ] }),
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(D, {}),
+          " Score impact: ",
+          r.displayScore
+        ] }),
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(k, {}),
+          " ",
+          r.count,
+          " result(s)"
+        ] }),
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(Y, {}),
+          " ",
+          /* @__PURE__ */ e.jsx(
+            "a",
+            {
+              href: "#",
+              onClick: (a) => {
+                a.preventDefault(), a.stopPropagation(), o(O(r.id));
+              },
+              children: "Issue ID"
+            }
+          )
+        ] })
+      ] }) }),
+      /* @__PURE__ */ e.jsxs("div", { children: [
+        /* @__PURE__ */ e.jsx(E, { issueId: r.id, issues: t }),
+        /* @__PURE__ */ e.jsx(
+          z,
+          {
+            lang: n.toLowerCase().endsWith("json") ? "json" : "yaml",
+            article: r.kdb,
+            openLink: (a) => o(S(a))
+          }
+        )
+      ] })
+    ] }, `issue-${p}`)),
+    /* @__PURE__ */ e.jsx(H, { children: "Opportunities" }),
+    l.map((r, p) => /* @__PURE__ */ e.jsxs(P, { children: [
+      /* @__PURE__ */ e.jsx(R, { children: r.title }),
+      /* @__PURE__ */ e.jsx(y, { children: /* @__PURE__ */ e.jsxs(y, { children: [
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(C, {}),
+          " Count ",
+          r.count
+        ] }),
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(D, {}),
+          " Score impact: ",
+          r.displayScore
+        ] }),
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(k, {}),
+          " ",
+          r.count,
+          " result(s)"
+        ] })
+      ] }) }),
+      /* @__PURE__ */ e.jsxs("div", { children: [
+        /* @__PURE__ */ e.jsx(E, { issueId: r.id, issues: t }),
+        /* @__PURE__ */ e.jsx(
+          z,
+          {
+            lang: n.toLowerCase().endsWith("json") ? "json" : "yaml",
+            article: r.kdb,
+            openLink: (a) => o(S(a))
+          }
+        )
+      ] })
+    ] }, `issue-${p}`))
+  ] });
+}
+const oi = c.div`
+  position: relative;
+`, H = c.div`
+  margin: 14px;
+  font-size: 12px;
+  font-weight: 500;
+`;
+function ni({
+  filters: i,
+  onClick: t
+}) {
+  return /* @__PURE__ */ e.jsx(
+    ri,
     {
-      className: "go-full-report",
-      href: "#",
-      onClick: (o) => {
-        i(), o.preventDefault(), o.stopPropagation();
+      onClick: (n) => {
+        n.preventDefault(), n.stopPropagation(), t();
       },
-      children: "Go back to full report"
+      children: /* @__PURE__ */ e.jsxs(ai, { children: [
+        /* @__PURE__ */ e.jsx(Te, {}),
+        i !== 0 && /* @__PURE__ */ e.jsx(si, { children: i })
+      ] })
+    }
+  );
+}
+const ri = c.div`
+  width: 34px;
+  height: 26px;
+  position: relative;
+`, si = c.div`
+  position: absolute;
+  left: 18px;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  width: 16px;
+  height: 16px;
+  color: var(${d.buttonForeground});
+  background-color: var(${d.buttonBackground});
+  font-size: 12px;
+`, ai = c.button`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(${d.buttonForeground});
+  border: none;
+  ${({ waiting: i }) => i && "gap: 8px;"}
+
+  > span {
+    flex: 1;
+  }
+  > svg {
+    height: 16px;
+    width: 16px;
+    fill: var(${d.foreground});
+  }
+`;
+function li() {
+  const i = h((o) => o.audit.filter), t = x(), n = [
+    { label: "All", value: "all" },
+    { label: "Critical", value: "critical" },
+    { label: "High", value: "high" },
+    { label: "Medium", value: "medium" },
+    { label: "Low", value: "low" },
+    { label: "Info", value: "info" }
+  ];
+  return /* @__PURE__ */ e.jsx(di, { children: /* @__PURE__ */ e.jsx(
+    T,
+    {
+      label: "Severity",
+      options: n,
+      placeholder: "All",
+      onSelectedItemChange: (o) => {
+        o && o.value !== "all" ? t(u({ ...i, severity: o == null ? void 0 : o.value })) : t(u({ ...i, severity: void 0 }));
+      },
+      selected: (i == null ? void 0 : i.severity) || "all"
     }
   ) });
 }
-const jM = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8c3ZnDQogICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iDQogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIg0KICAgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIg0KICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyINCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyINCiAgIHhtbG5zOnNvZGlwb2RpPSJodHRwOi8vc29kaXBvZGkuc291cmNlZm9yZ2UubmV0L0RURC9zb2RpcG9kaS0wLmR0ZCINCiAgIHhtbG5zOmlua3NjYXBlPSJodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy9uYW1lc3BhY2VzL2lua3NjYXBlIg0KICAgaWQ9IkxheWVyXzEiDQogICBkYXRhLW5hbWU9IkxheWVyIDEiDQogICB2aWV3Qm94PSIwIDAgMTYgMTYiDQogICB2ZXJzaW9uPSIxLjEiDQogICBzb2RpcG9kaTpkb2NuYW1lPSI0MmNydW5jaF9pY29uLnN2ZyINCiAgIHdpZHRoPSIxNiINCiAgIGhlaWdodD0iMTYiDQogICBpbmtzY2FwZTp2ZXJzaW9uPSIxLjByYzEgKDA5OTYwZDYsIDIwMjAtMDQtMDkpIj4NCiAgPG1ldGFkYXRhDQogICAgIGlkPSJtZXRhZGF0YTI1Ij4NCiAgICA8cmRmOlJERj4NCiAgICAgIDxjYzpXb3JrDQogICAgICAgICByZGY6YWJvdXQ9IiI+DQogICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0Pg0KICAgICAgICA8ZGM6dHlwZQ0KICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPg0KICAgICAgICA8ZGM6dGl0bGU+bG9nb19pY29uPC9kYzp0aXRsZT4NCiAgICAgIDwvY2M6V29yaz4NCiAgICA8L3JkZjpSREY+DQogIDwvbWV0YWRhdGE+DQogIDxzb2RpcG9kaTpuYW1lZHZpZXcNCiAgICAgaW5rc2NhcGU6ZG9jdW1lbnQtcm90YXRpb249IjAiDQogICAgIHBhZ2Vjb2xvcj0iI2ZmZmZmZiINCiAgICAgYm9yZGVyY29sb3I9IiM2NjY2NjYiDQogICAgIGJvcmRlcm9wYWNpdHk9IjEiDQogICAgIG9iamVjdHRvbGVyYW5jZT0iMTAiDQogICAgIGdyaWR0b2xlcmFuY2U9IjEwIg0KICAgICBndWlkZXRvbGVyYW5jZT0iMTAiDQogICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwIg0KICAgICBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIg0KICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjE0NDAiDQogICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9Ijg1NSINCiAgICAgaWQ9Im5hbWVkdmlldzIzIg0KICAgICBzaG93Z3JpZD0iZmFsc2UiDQogICAgIGlua3NjYXBlOnpvb209IjE2Ig0KICAgICBpbmtzY2FwZTpjeD0iMi43Mjc1OTMyIg0KICAgICBpbmtzY2FwZTpjeT0iMTMuNDAzNzQyIg0KICAgICBpbmtzY2FwZTp3aW5kb3cteD0iMCINCiAgICAgaW5rc2NhcGU6d2luZG93LXk9IjIzIg0KICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIwIg0KICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJMYXllcl8xIiAvPg0KICA8ZGVmcw0KICAgICBpZD0iZGVmczEyIj4NCiAgICA8c3R5bGUNCiAgICAgICBpZD0ic3R5bGUxMCI+LmNscy0xe2ZpbGw6IzdlNDg4Zjt9LmNscy0ye2ZpbGw6I2ZmZjt9PC9zdHlsZT4NCiAgPC9kZWZzPg0KICA8dGl0bGUNCiAgICAgaWQ9InRpdGxlMTQiPmxvZ29faWNvbjwvdGl0bGU+DQogIDxwb2x5Z29uDQogICAgIGNsYXNzPSJjbHMtMSINCiAgICAgcG9pbnRzPSIwLDIwNC44OSA3MC4yLDI0NS40MiAxNDAuNCwyMDQuODkgMTQwLjQsMTIzLjgzIDcwLjIsODMuMyAwLDEyMy44MyAiDQogICAgIGlkPSJwb2x5Z29uMTYiDQogICAgIHRyYW5zZm9ybT0ibWF0cml4KDAuMDk3OTgyMDgsMCwwLDAuMDk3OTgyMDgsMS4xMjE2NTgsLTguMTA0MzM0NykiIC8+DQogIDx0ZXh0DQogICAgIHg9Ii0yMjYuMTg5OTkiDQogICAgIHk9Ii0yOTcuOTI0MDEiDQogICAgIGlkPSJ0ZXh0MTgiIC8+DQogIDxwYXRoDQogICAgIHN0eWxlPSJzdHJva2Utd2lkdGg6MC4wOTQ1Ig0KICAgICBjbGFzcz0iY2xzLTIiDQogICAgIGQ9Ik0gMTAuODc2NTgsMTEuNDQzMTMgQSAxLjc4MzIxNSwxLjc4MzIxNSAwIDAgMSAxMC4zNDQ1NDUsMTEuMzYzNzUgMS41NjMwMywxLjU2MzAzIDAgMCAxIDkuODgwNTUsMTEuMTMxMjggMS4wNzI1NzUsMS4wNzI1NzUgMCAwIDEgOS41NDg4NTUsMTAuNzIzMDQgMS4zMjg2NywxLjMyODY3IDAgMCAxIDkuNDI1MDYsMTAuMTM4MDg1IHEgMCwtMC42OTM2MzEgMC40MjYxOTUsLTEuMDQ4OTUxIGEgMS41NDc5MSwxLjU0NzkxIDAgMCAxIDEuMDI1MzI1LC0wLjM1NTMyIDEuNjI4MjM1LDEuNjI4MjM1IDAgMCAxIDEuMDI5MTA1LDAuMzI0MTM1IFYgOC4yMTc4NDQgYSAyLjU4NDU3NSwyLjU4NDU3NSAwIDAgMCAtMS4xNTg1NywtMC4yNjM2NTUgdiAwIGwgLTIuNTg3NDEsMC4wMDc1NiBhIDAuNTEzMTM1LDAuNTEzMTM1IDAgMCAxIDAuMDIwNzksLTAuMTQ1NTMgMS4xODU5NzUsMS4xODU5NzUgMCAwIDEgMC4wNDUzNiwtMC4xMzA0MSAwLjU0MjQzLDAuNTQyNDMgMCAwIDEgMC4wODEyNywtMC4xMjY2MyBxIDAuMDU2NywtMC4wNjg5ODUgMC4wOTQ1LC0wLjExNjIzNSBBIDEuMDM5NSwxLjAzOTUgMCAwIDEgOC41MzIwMzUsNy4zMjY3MDkgMS42NzczNzUsMS42NzczNzUgMCAwIDEgOC42NzQ3Myw3LjIyNDY0OSBsIDAuMTY3MjY1LC0wLjEwMjA2IDAuMTY2MzIsLTAuMTAyMDYgMC4xODksLTAuMTEzNCAwLjE3ODYwNSwtMC4xMDk2MiBhIDQuNDMxMTA1LDQuNDMxMTA1IDAgMCAwIDAuOTgzNzQ1LC0wLjc0OTM4NSAxLjMwMDMyLDEuMzAwMzIgMCAwIDAgMC4zNjA5OSwtMC45MjUxNTUgcSAwLC0wLjY1Mjk5NSAtMC40NzI1LC0xLjAwNDUzNSAtMC40NzI1LC0wLjM1MTU0IC0xLjIyODUsLTAuMzUxNTQgYSAyLjc3OTI0NSwyLjc3OTI0NSAwIDAgMCAtMS42MDY1LDAuNDg5NTEgdiAwLjc3Njc5IFEgOC4xNTg3Niw0LjQ5MzU5OSA4Ljk0NTk0NSw0LjQ5MzU5OSBhIDEuMjk0NjUsMS4yOTQ2NSAwIDAgMSAwLjcwNTkxNSwwLjE2MzQ4NSAwLjUzMjAzNSwwLjUzMjAzNSAwIDAgMSAwLjI1MjMxNSwwLjQ3MjUgMC44NTA1LDAuODUwNSAwIDAgMSAtMC4yODM1LDAuNjE3MDg1IDUuMzk5NzMsNS4zOTk3MyAwIDAgMSAtMC43NzM5NTUsMC41MDA4NSBRIDguMjQ4NTM1LDYuNjExMzQ0IDguMDMxMTg1LDYuNzc1Nzc0IEEgMi4wNzksMi4wNzkgMCAwIDAgNy40NTQ3MzUsNy40NDc2NjkgViA1LjY3OTU3NCBIIDYuNjI0MDggTCA0LjA2MjE4NSw4LjgzMTE0OSB2IDAuNjg4OTA1IGggMi42MTc2NSB2IDAuOTg2NTgxIGggMC43ODQzNSBWIDkuNTE5MTA5IEggNy40NzQ1OCBWIDguODEzMTk0IEggNy40NjQxODUgViA4LjY3OTk0OSBoIDEuNTQ3OTEgYSAxLjk5MjA2LDEuOTkyMDYgMCAwIDAgLTAuMjk2NzMsMC40ODM4NCAyLjM3OTUxLDIuMzc5NTEgMCAwIDAgLTAuMTg5LDAuOTcyNDA2IDIuMTczNSwyLjE3MzUgMCAwIDAgMC4xODksMC45Mjc5OSAxLjczMTI0LDEuNzMxMjQgMCAwIDAgMC41MTEyNDUsMC42NjE1IDIuMzg0MjM1LDIuMzg0MjM1IDAgMCAwIDAuNzA3ODA1LDAuMzc4IDIuNTUxNSwyLjU1MTUgMCAwIDAgMC44MTA4MSwwLjEyOTQ2NSAyLjcwMDgxLDIuNzAwODEgMCAwIDAgMS4xOTI1OSwtMC4yNjQ2IHYgLTAuODYzNzMgcSAtMC4zNzk4OSwwLjMzODMxIC0xLjA2MTIzNSwwLjMzODMxIHogTSA2LjY3OTgzNSw4LjgxMzE5NCBIIDQuOTYwODggTCA2LjY3OTgzNSw2LjcwNDg5OSBaIg0KICAgICBpZD0icGF0aDIwIg0KICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIiAvPg0KPC9zdmc+DQo=";
-function sM() {
-  return /* @__PURE__ */ M.jsxs(M.Fragment, { children: [
-    /* @__PURE__ */ M.jsx("h1", { children: "No security audit report available for this file" }),
-    /* @__PURE__ */ M.jsxs("p", { children: [
-      "Please click the ",
-      /* @__PURE__ */ M.jsx("img", { src: jM, style: { width: 16, height: 16 } }),
-      " button to run OpenAPI Security Audit"
-    ] })
-  ] });
+const di = c.div`
+  width: 264px;
+`;
+function ci() {
+  const i = x();
+  return /* @__PURE__ */ e.jsxs(
+    pi,
+    {
+      onClick: (t) => {
+        i(u({})), t.preventDefault(), t.stopPropagation();
+      },
+      children: [
+        /* @__PURE__ */ e.jsx(J, {}),
+        " ",
+        /* @__PURE__ */ e.jsx("span", { children: "Reset filters" })
+      ]
+    }
+  );
 }
-function IM() {
-  return /* @__PURE__ */ M.jsx(M.Fragment, { children: /* @__PURE__ */ M.jsx("h1", { children: "Loading security audit report..." }) });
-}
-function gM() {
-  const i = u((L) => L.audit.kdb), o = u((L) => L.audit.display), e = u((L) => L.audit.selected), c = u((L) => L.theme), t = K(), N = (L, n, Y) => t(p({ uri: L, line: n, pointer: Y })), j = (L) => t(A(L)), g = (L) => t(S(L)), s = (c == null ? void 0 : c.kind) === "dark" ? "dark" : "light";
-  return /* @__PURE__ */ M.jsxs(M.Fragment, { children: [
-    /* @__PURE__ */ M.jsx("style", { type: "text/css", children: nM }),
-    /* @__PURE__ */ M.jsxs("div", { className: s === "dark" ? "vscode-dark" : "", children: [
-      o !== "no-report" && /* @__PURE__ */ M.jsx($, { openLink: g, themeKind: s }),
-      o === "full" && /* @__PURE__ */ M.jsx(q, { openLink: g }),
-      o === "no-report" && /* @__PURE__ */ M.jsx(sM, {}),
-      o === "loading" && /* @__PURE__ */ M.jsx(IM, {}),
-      e.map((L) => /* @__PURE__ */ M.jsx(
-        tM,
-        {
-          kdb: i,
-          issue: L,
-          goToLine: N,
-          copyIssueId: j,
-          openLink: g
-        },
-        L.key
-      )),
-      o === "full" && e.length === 0 && /* @__PURE__ */ M.jsx("h3", { children: "No issues found in this file" }),
-      o === "partial" && /* @__PURE__ */ M.jsx(NM, { goToFullReport: () => t(y()) }),
-      o !== "no-report" && /* @__PURE__ */ M.jsx(MM, { openLink: g, themeKind: s })
-    ] })
-  ] });
-}
-const nM = `body {
-  background-color: var(--xliic-background);
-  color: var(--xliic-foreground);
-  margin: 0 10px !important;
-}
-
-#root small {
- font-size: 0.8em;
-}
-
-#root {
-  font-size: 0.8em;
-}
-
-#root h1 {
-  font-size: 1.5em;
-  font-weight: 600;
-}
-
-#root h2 {
-  font-size: 1.2em;
-  font-weight: 600;
-}
-
-#root h3 {
-  font-size: 1em;
-  font-weight: 600;
-}
-
-pre {
-  white-space: pre-wrap;
-}
-
-.c_header {
-  background-color: #f1f1f1;
-  margin-bottom: 20px;
-  margin-left: -20px;
-  margin-right: -20px;
-  padding: 10px 20px 10px 20px;
-  top: 0px;
-  border-bottom: 1px solid #bbb;
-  color: black;
-  font-size: 14px;
-  z-index: 10;
-}
-
-.c_footer {
-  background-color: #f1f1f1;
-
-  padding: 20px 20px 20px 20px;
-  margin-left: -20px;
-  margin-right: -20px;
-  bottom: 0px;
-  border-top: 1px solid #bbb;
-  color: black;
-  font-size: 14px;
-}
-.bottom-menu ul {
-  margin: 0px;
-  padding: 0px;
-}
-.bottom-menu li {
-  float: left;
-  list-style: none;
-  font-weight: bold;
-  margin-right: 10px;
-}
-.bottom-menu li a {
-  text-decoration: none;
-}
-.c_header span img,
-.c_footer span img {
-  width: 100px;
-  margin-left: 10px;
-}
-
-.font-weight-bold {
-  font-weight: bold;
-}
-
-.c_roundedbox {
-  padding: 20px;
-  border: 1px solid #c4c4c4;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.c_roundedbox_section {
-  padding: 10px;
-  border: 1px solid #c4c4c4;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.c_roundedbox_section > h2:first-child {
-  margin-block-start: 0;
-}
-
-.c_roundedbox_section > p:last-child {
-  margin-block-end: 0;
-}
-
-.c_roundedbox_section h1 {
-  margin-top: 0px;
-}
-.c_roundedbox h1 {
-  margin-top: 0px;
-}
-.c_roundedbox h1 span, .c_roundedbox h3 span {
-  border: 1px solid #c4c4c4;
-  border-radius: 5px;
-  padding: 2px 5px 2px 5px;
-}
-
-.progress-bar-holder {
-  height: 10px;
-  width: 100%;
-  background-color: #c4c4c4;
-  position: relative;
-  border-radius: 10px;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-
-.progress-bar {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  height: 100%;
-  background-color: #000;
-  border-radius: 10px;
-}
-.bar-red {
-  background-color: #ff1d5a;
-}
-.bar-yellow {
-  background-color: #ffb01d;
-}
-.bar-green {
-  background-color: #7bd21e;
-}
-.issue-id {
-  border: 1px solid #c4c4c4;
-  border-radius: 5px;
-  padding: 2px 8px 3px 8px;
-  background-color: #b1b0b0;
-  color: #fff;
+const pi = c.div`
+  width: 264px;
+  height: 50px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  > svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
+`;
+function ui() {
+  const { issueTitles: i, filter: t } = h((o) => o.audit), n = x();
+  return /* @__PURE__ */ e.jsx(xi, { children: /* @__PURE__ */ e.jsx(
+    T,
+    {
+      label: "Rules",
+      options: [{ label: "All", value: "all" }, ...i],
+      placeholder: "All",
+      onSelectedItemChange: (o) => {
+        o && o.value !== "all" ? n(u({ ...t, rule: o == null ? void 0 : o.value })) : n(u({ ...t, rule: void 0 }));
+      },
+      selected: (t == null ? void 0 : t.severity) || "all"
+    }
+  ) });
 }
-
-.dropbtn {
-  background-color: #ffffff;
-  color: #313131;
-  padding: 10px 20px 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border: 1px solid #bbb;
-  border-radius: 5px;
+const xi = c.div`
+  width: 264px;
+`;
+function hi() {
+  const i = h((o) => o.audit.filter), t = x(), n = [
+    { label: "All", value: "all" },
+    { label: "Security", value: "security" },
+    { label: "Data validation", value: "datavalidation" },
+    { label: "OpenAPI format requirements", value: "oasconformance" }
+  ];
+  return /* @__PURE__ */ e.jsx(vi, { children: /* @__PURE__ */ e.jsx(
+    T,
+    {
+      label: "Category",
+      options: n,
+      placeholder: "All",
+      onSelectedItemChange: (o) => {
+        o && o.value !== "all" ? t(u({ ...i, domain: o == null ? void 0 : o.value })) : t(u({ ...i, domain: void 0 }));
+      },
+      selected: (i == null ? void 0 : i.domain) || "all"
+    }
+  ) });
 }
-
-.dropbtn:hover,
-.dropbtn:focus {
-  background-color: #9d73aa;
-  color: #ffffff;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0px;
-  background-color: #f1f1f1;
-  min-width: 260px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  border-radius: 0px 0px 10px 10px;
-}
-.dropdown-content-f {
-  display: none;
-  position: absolute;
-  right: 0px;
-  top: -120px;
-  background-color: #f1f1f1;
-  min-width: 260px;
-  box-shadow: -2px -5px 16px 0px rgb(0 0 0 / 20%);
-  z-index: 1;
-  border-radius: 10px 10px 0px 0px;
-}
-.dropdown-content-f a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-.show {
-  display: block;
-}
-
-.vscode-dark .c_header,
-.vscode-high-contrast .c_header {
-  background-color: #1e1e1e;
-  color: #f3f3f3;
-  border-bottom: 1px solid #bbb;
-}
-
-.vscode-dark .c_footer,
-.vscode-high-contrast .c_footer {
-  background-color: #1e1e1e;
-  color: #f3f3f3;
-}
-
-.vscode-dark .dropbtn {
-  background-color: #835194;
-  color: #ffffff;
-  border: 1px solid #835194;
-}
-
-.vscode-high-contrast .dropbtn {
-  background-color: #1e1e1e;
-  color: #ffffff;
-  border: 1px solid #1e1e1e;
-}
-
-.vscode-dark .dropdown-content,
-.vscode-high-contrast .dropdown-content {
-  background-color: #1e1e1e;
-}
-
-.vscode-dark .dropdown-content a,
-.vscode-high-contrast .dropdown-content a {
-  color: white;
-}
-
-.vscode-dark .dropdown-content a:hover,
-.vscode-high-contrast .dropdown-content a:hover {
-  background-color: #3c3b3b;
-}
-
-.vscode-dark .issue-id {
-  border: 1px solid #834e93;
-  background-color: #834c8f;
-  color: #fff;
-}
-
-.vscode-high-contrast .issue-id {
-  background-color: #1e1e1e;
-}`;
-const uM = {
-  showFullReport: C,
-  showPartialReport: w,
-  showNoReport: z,
-  loadKdb: X,
-  changeTheme: P
+const vi = c.div`
+  width: 264px;
+`, gi = {
+  security: [
+    { label: "All", value: "all" },
+    { label: "Authentication", value: "authentication" },
+    { label: "Authorization", value: "authorization" },
+    { label: "Transport", value: "transport" }
+  ],
+  oasconformance: [
+    { label: "All", value: "all" },
+    { label: "Structure", value: "validation" },
+    { label: "Structure", value: "semantics" },
+    { label: "Best practices", value: "bestpractices" }
+  ],
+  datavalidation: [
+    { label: "All", value: "all" },
+    { label: "Parameters", value: "parameters" },
+    { label: "Paths", value: "paths" },
+    { label: "Schema", value: "schema" },
+    { label: "Response headers", value: "responseheader" },
+    { label: "Response definition", value: "responsedefinition" }
+  ]
 };
-function rM() {
-  return /* @__PURE__ */ M.jsxs(M.Fragment, { children: [
-    /* @__PURE__ */ M.jsx(B, {}),
-    /* @__PURE__ */ M.jsx(gM, {})
+function fi() {
+  const i = h((o) => o.audit.filter), t = x(), n = i.domain !== void 0 ? gi[i.domain] : [];
+  return /* @__PURE__ */ e.jsx(mi, { children: /* @__PURE__ */ e.jsx(
+    T,
+    {
+      label: "Group",
+      options: n,
+      placeholder: "All",
+      onSelectedItemChange: (o) => {
+        o && o.value !== "all" ? t(u({ ...i, group: o == null ? void 0 : o.value })) : t(u({ ...i, group: void 0 }));
+      },
+      selected: (i == null ? void 0 : i.group) || "all"
+    }
+  ) });
+}
+const mi = c.div`
+  width: 264px;
+`;
+function ji() {
+  const { filtered: i, filter: t } = h((p) => p.audit), n = x(), [o, s] = j.useState(!0), r = ["rule", "domain", "group", "severity"].filter((p) => t && t[p] !== void 0).length;
+  return /* @__PURE__ */ e.jsxs(bi, { children: [
+    t.ids !== void 0 && /* @__PURE__ */ e.jsxs(U, { children: [
+      /* @__PURE__ */ e.jsxs("div", { children: [
+        i.length,
+        " issues"
+      ] }),
+      /* @__PURE__ */ e.jsxs(
+        $i,
+        {
+          onClick: (p) => {
+            n(u({})), p.preventDefault(), p.stopPropagation();
+          },
+          children: [
+            /* @__PURE__ */ e.jsx(J, {}),
+            " ",
+            /* @__PURE__ */ e.jsx("span", { children: "Reset filters" })
+          ]
+        }
+      )
+    ] }),
+    t.ids === void 0 && /* @__PURE__ */ e.jsxs(U, { children: [
+      /* @__PURE__ */ e.jsxs("div", { children: [
+        i.length,
+        " issues"
+      ] }),
+      /* @__PURE__ */ e.jsx(ni, { filters: r, onClick: () => s(!o) })
+    ] }),
+    !o && /* @__PURE__ */ e.jsxs(yi, { children: [
+      /* @__PURE__ */ e.jsx(hi, {}),
+      /* @__PURE__ */ e.jsx(fi, {}),
+      /* @__PURE__ */ e.jsx(li, {}),
+      /* @__PURE__ */ e.jsx(ui, {}),
+      /* @__PURE__ */ e.jsx(ci, {})
+    ] })
   ] });
 }
-function dM(i, o) {
-  const e = V(_(i), o);
-  f(document.getElementById("root")).render(
-    /* @__PURE__ */ M.jsx(v.StrictMode, { children: /* @__PURE__ */ M.jsx(W, { store: e, children: /* @__PURE__ */ M.jsx(rM, {}) }) })
-  ), window.addEventListener("message", R(e, uM));
+const bi = c.div`
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`, U = c.div`
+  margin: 6px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  > div:first-child {
+    font-weight: 700;
+  }
+`, yi = c.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 8px;
+  > div {
+    width: 264px;
+  }
+`, $i = c.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  > svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
+`;
+function wi() {
+  const {
+    kdb: i,
+    filtered: t,
+    audit: { filename: n }
+  } = h((s) => s.audit), o = x();
+  return /* @__PURE__ */ e.jsxs(Ci, { children: [
+    /* @__PURE__ */ e.jsx(ji, {}),
+    t.map((s, l) => /* @__PURE__ */ e.jsxs(P, { children: [
+      /* @__PURE__ */ e.jsx(R, { children: s.description }),
+      /* @__PURE__ */ e.jsx(y, { children: /* @__PURE__ */ e.jsxs(y, { children: [
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(C, {}),
+          " ",
+          X[s.criticality]
+        ] }),
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(D, {}),
+          " Score Impact ",
+          s.displayScore
+        ] }),
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(k, {}),
+          /* @__PURE__ */ e.jsxs(
+            "a",
+            {
+              href: "#",
+              onClick: (r) => {
+                r.preventDefault(), r.stopPropagation(), o(
+                  M({
+                    uri: s.documentUri,
+                    line: s.lineNo,
+                    pointer: s.pointer
+                  })
+                );
+              },
+              children: [
+                s.filename,
+                ":",
+                s.lineNo + 1
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ e.jsxs(v, { children: [
+          /* @__PURE__ */ e.jsx(Y, {}),
+          /* @__PURE__ */ e.jsx(
+            "a",
+            {
+              href: "#",
+              onClick: (r) => {
+                r.preventDefault(), r.stopPropagation(), o(O(s.id));
+              },
+              children: "Issue ID"
+            }
+          )
+        ] })
+      ] }) }),
+      /* @__PURE__ */ e.jsx(
+        z,
+        {
+          lang: n.toLowerCase().endsWith("json") ? "json" : "yaml",
+          article: i[s.id],
+          openLink: (r) => {
+            o(S(r));
+          }
+        }
+      )
+    ] }, `issue-${l}`))
+  ] });
 }
-window.renderWebView = dM;
+const Ci = c.div``;
+function Si({
+  value: i,
+  onChange: t
+}) {
+  return /* @__PURE__ */ e.jsx(
+    ki,
+    {
+      active: i,
+      onClick: (n) => {
+        n.preventDefault(), n.stopPropagation(), t(!i);
+      },
+      children: /* @__PURE__ */ e.jsx(Ti, { active: i })
+    }
+  );
+}
+const ki = c.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 34px;
+  height: 17px;
+  border-radius: 30px;
+  border: 1px solid var(${d.border});
+  ${({ active: i }) => i ? `background-color: var(${d.buttonBackground}); justify-content: end;` : `background-color: var(${d.background}); justify-content: start;`}
+`, Ti = c.div`
+  width: 12px;
+  height: 12px;
+  border-radius: 12px;
+  margin-right: 2px;
+  margin-left: 2px;
+  ${({ active: i }) => i ? `background-color: var(${d.buttonForeground}); border: 1px solid var(${d.buttonForeground});` : `background-color: var(${d.border}); border: 1px solid var(${d.border});`}
+`;
+function Ai({
+  isOpen: i,
+  style: t,
+  onClick: n
+}) {
+  return i ? /* @__PURE__ */ e.jsx(
+    ee,
+    {
+      onClick: n,
+      style: {
+        cursor: "pointer",
+        fill: `var(${d.foreground})`,
+        ...t
+      }
+    }
+  ) : /* @__PURE__ */ e.jsx(
+    Z,
+    {
+      onClick: n,
+      style: {
+        cursor: "pointer",
+        fill: `var(${d.foreground})`,
+        ...t
+      }
+    }
+  );
+}
+function Ii({
+  sqgs: i,
+  selected: t,
+  onSelect: n
+}) {
+  return /* @__PURE__ */ e.jsx(Li, { children: i.map((o, s) => /* @__PURE__ */ e.jsx(
+    Di,
+    {
+      selected: o.id === t,
+      onClick: (l) => {
+        l.preventDefault(), l.stopPropagation(), t !== o.id && n(s);
+      },
+      children: o.name
+    },
+    o.id
+  )) });
+}
+const Li = c.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+`, Di = c.div`
+  display: flex;
+  height: 28px;
+  min-width: 100px;
+  border-radius: 16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border: 1px solid var(${d.border});
+  color: var(${d.foreground});
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+
+  ${({ selected: i }) => i ? `background-color: var(${d.computedTwo});` : `background-color: var(${d.computedOne});`}
+`;
+function Pi({ sqg: i, summary: t }) {
+  const n = i.directives.minimumAssessmentScores;
+  return i.directives.subcategoryRules, i.directives.issueRules, /* @__PURE__ */ e.jsxs(Ri, { children: [
+    /* @__PURE__ */ e.jsx("h4", { children: "Minimum acceptable score" }),
+    /* @__PURE__ */ e.jsxs(zi, { children: [
+      /* @__PURE__ */ e.jsx("div", { children: "Score" }),
+      /* @__PURE__ */ e.jsx("div", { children: "current" }),
+      /* @__PURE__ */ e.jsx("div", { children: "Minimum acceptable" })
+    ] }),
+    /* @__PURE__ */ e.jsxs(I, { children: [
+      /* @__PURE__ */ e.jsx("div", { children: "Global score" }),
+      /* @__PURE__ */ e.jsx(b, { highlight: t.all < n.global, children: t.all }),
+      /* @__PURE__ */ e.jsx(b, { children: n.global })
+    ] }),
+    /* @__PURE__ */ e.jsxs(I, { children: [
+      /* @__PURE__ */ e.jsx("div", { children: "Security score" }),
+      /* @__PURE__ */ e.jsx(b, { highlight: t.security.value < n.security, children: t.security.value }),
+      /* @__PURE__ */ e.jsx(b, { children: n.security })
+    ] }),
+    /* @__PURE__ */ e.jsxs(I, { children: [
+      /* @__PURE__ */ e.jsx("div", { children: "Data validation score" }),
+      /* @__PURE__ */ e.jsx(b, { highlight: t.datavalidation.value < n.dataValidation, children: t.datavalidation.value }),
+      /* @__PURE__ */ e.jsx(b, { children: n.dataValidation })
+    ] })
+  ] });
+}
+const Ri = c.div``, zi = c.div`
+  display: flex;
+  background-color: var(${d.computedTwo});
+  border-radius: 2px;
+  padding: 8px;
+  > div {
+    flex: 1;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 12px;
+  }
+`, I = c.div`
+  display: flex;
+  > div {
+    flex: 1;
+    margin: 8px;
+  }
+`, b = c.div`
+  ${({ highlight: i }) => i && "font-weight: 700;"}
+`;
+function Fi({ sqg: i, stats: t }) {
+  const n = x(), o = i.directives.subcategoryRules, s = t.byGroup, l = {
+    security: [
+      {
+        name: "Authentication",
+        domain: "security",
+        group: "authentication",
+        level: o.security.authentication,
+        violations: f(o.security.authentication, s.security.authentication)
+      },
+      {
+        name: "Authorization",
+        domain: "security",
+        group: "authorization",
+        level: o.security.authorization,
+        violations: f(o.security.authorization, s.security.authorization)
+      },
+      {
+        name: "Transport",
+        domain: "security",
+        group: "transport",
+        level: o.security.transport,
+        violations: f(o.security.transport, s.security.transport)
+      }
+    ],
+    data: [
+      {
+        name: "Paths",
+        domain: "datavalidation",
+        group: "paths",
+        level: o.dataValidation.paths,
+        violations: f(o.dataValidation.paths, s.datavalidation.paths)
+      },
+      {
+        name: "Parameters",
+        domain: "datavalidation",
+        group: "parameters",
+        level: o.dataValidation.parameters,
+        violations: f(
+          o.dataValidation.parameters,
+          t.byGroup.datavalidation.parameters
+        )
+      },
+      {
+        name: "Schema",
+        domain: "datavalidation",
+        group: "schema",
+        level: o.dataValidation.schema,
+        violations: f(o.dataValidation.schema, s.datavalidation.schema)
+      },
+      {
+        name: "Response Definition",
+        domain: "datavalidation",
+        group: "responsedefinition",
+        level: o.dataValidation.responseDefinition,
+        violations: f(
+          o.dataValidation.responseDefinition,
+          s.datavalidation.responsedefinition
+        )
+      },
+      {
+        name: "Response Headers",
+        domain: "datavalidation",
+        group: "responseheader",
+        level: o.dataValidation.responseHeaders,
+        violations: f(
+          o.dataValidation.responseHeaders,
+          s.datavalidation.responseheader
+        )
+      }
+    ]
+  };
+  return /* @__PURE__ */ e.jsxs(Bi, { children: [
+    /* @__PURE__ */ e.jsx("h4", { children: "Allowed issue security levels" }),
+    /* @__PURE__ */ e.jsxs(Vi, { children: [
+      /* @__PURE__ */ e.jsx("div", { children: "Category" }),
+      /* @__PURE__ */ e.jsx("div", { children: "threshold" }),
+      /* @__PURE__ */ e.jsx("div", { children: "issues found" })
+    ] }),
+    /* @__PURE__ */ e.jsx(W, { children: "Security" }),
+    l.security.filter((r) => r.violations.length > 0).map((r, p) => /* @__PURE__ */ e.jsxs(K, { children: [
+      /* @__PURE__ */ e.jsx("div", { children: r.name }),
+      /* @__PURE__ */ e.jsx("div", { children: r.level }),
+      /* @__PURE__ */ e.jsx(
+        "a",
+        {
+          href: "#",
+          onClick: (a) => {
+            a.stopPropagation(), a.preventDefault(), n(m("issues")), n(
+              u({
+                severity: r.violations[0].level,
+                domain: r.domain,
+                group: r.group
+              })
+            );
+          },
+          children: r.violations.map((a) => `${a.level} ${a.count}`).join(", ")
+        }
+      )
+    ] }, p)),
+    /* @__PURE__ */ e.jsx(W, { children: "Data validation" }),
+    l.data.filter((r) => r.violations.length > 0).map((r, p) => /* @__PURE__ */ e.jsxs(K, { children: [
+      /* @__PURE__ */ e.jsx("div", { children: r.name }),
+      /* @__PURE__ */ e.jsx("div", { children: r.level }),
+      /* @__PURE__ */ e.jsx(
+        "a",
+        {
+          href: "#",
+          onClick: (a) => {
+            a.stopPropagation(), a.preventDefault(), n(m("issues")), n(
+              u({
+                severity: r.violations[0].level,
+                domain: r.domain,
+                group: r.group
+              })
+            );
+          },
+          children: r.violations.map((a) => `${a.level} ${a.count}`).join(", ")
+        }
+      )
+    ] }, p))
+  ] });
+}
+const Bi = c.div`
+  > div {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+`, Vi = c.div`
+  display: flex;
+  background-color: var(${d.computedTwo});
+  border-radius: 2px;
+  padding: 8px;
+  > div {
+    flex: 1;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 12px;
+  }
+`, W = c.div`
+  display: flex;
+  background-color: var(${d.computedOne});
+  border-radius: 2px;
+  padding: 8px;
+`, K = c.div`
+  display: flex;
+  > a,
+  div {
+    flex: 1;
+    text-transform: capitalize;
+    margin: 8px;
+  }
+`;
+function f(i, t) {
+  const n = L.indexOf(i), o = [];
+  for (const s of L.slice(n))
+    t[s] > 0 && o.push({ level: s, count: t[s] });
+  return o;
+}
+function Mi({ sqg: i, stats: t }) {
+  const n = x(), o = i.directives.issueRules, l = t.byIssue.filter((r) => o.includes(r.id));
+  return l.length === 0 ? null : /* @__PURE__ */ e.jsxs(Oi, { children: [
+    /* @__PURE__ */ e.jsx("h4", { children: "Forbidden issues with problem found" }),
+    l.map((r) => /* @__PURE__ */ e.jsx(
+      "a",
+      {
+        href: "#",
+        onClick: (p) => {
+          p.preventDefault(), p.stopPropagation(), n(m("issues")), n(u({ rule: r.id }));
+        },
+        children: r.title
+      }
+    ))
+  ] });
+}
+const Oi = c.div`
+  > div {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+`;
+function qi({
+  compliance: i,
+  summary: t,
+  stats: n
+}) {
+  const [o, s] = j.useState(0), l = i.sqgsDetail[o];
+  return /* @__PURE__ */ e.jsxs(Gi, { children: [
+    /* @__PURE__ */ e.jsx(
+      Ii,
+      {
+        sqgs: i.sqgsDetail,
+        onSelect: s,
+        selected: i.sqgsDetail[o].id
+      }
+    ),
+    /* @__PURE__ */ e.jsx(Pi, { sqg: l, summary: t }),
+    /* @__PURE__ */ e.jsx(Fi, { sqg: l, stats: n }),
+    /* @__PURE__ */ e.jsx(Mi, { sqg: l, stats: n })
+  ] });
+}
+const Gi = c.div`
+  padding: 8px;
+  color: var(${d.foreground});
+  background-color: var(${d.background});
+  border-top: 1px solid var(${d.errorBorder});
+`;
+function Ni() {
+  const { compliance: i, summary: t } = h((a) => a.audit.audit), n = h((a) => a.audit.stats), o = h((a) => a.audit.sqgTodo), s = x(), l = (a) => {
+    s(Ne(a));
+  }, [r, p] = j.useState(!1);
+  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Ui, { children: /* @__PURE__ */ e.jsx(De, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Ei, { children: [
+    /* @__PURE__ */ e.jsxs(Hi, { children: [
+      /* @__PURE__ */ e.jsx(C, {}),
+      /* @__PURE__ */ e.jsx("div", { children: "Security quality gates failed" }),
+      /* @__PURE__ */ e.jsx(Si, { value: o, onChange: l }),
+      "Show only SQG to-do list",
+      /* @__PURE__ */ e.jsx(
+        Ai,
+        {
+          isOpen: r,
+          onClick: () => p(!r),
+          style: { width: 14, height: 14 }
+        }
+      )
+    ] }),
+    r && /* @__PURE__ */ e.jsx(qi, { compliance: i, summary: t, stats: n })
+  ] });
+}
+const Ei = c.div`
+  margin: 8px;
+  border-radius: 2px;
+  border: 1px solid var(${d.errorBorder});
+  background-color: var(${d.errorBackground});
+  color: var(${d.errorForeground});
+`, Hi = c.div`
+  display: flex;
+  padding: 8px;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  > svg {
+    fill: var(${d.errorForeground});
+  }
+  > div:nth-child(2) {
+    flex: 1;
+  }
+`, Ui = c.div`
+  margin: 8px;
+`;
+function Wi() {
+  return /* @__PURE__ */ e.jsx(Ki, { children: /* @__PURE__ */ e.jsxs(_i, { children: [
+    /* @__PURE__ */ e.jsx(C, {}),
+    /* @__PURE__ */ e.jsx("div", { children: "Your API has structural or semantic issues in its OpenAPI format. Fix these issues first and run Security Audit again to get the full audit report." })
+  ] }) });
+}
+const Ki = c.div`
+  margin: 8px;
+  border-radius: 2px;
+  border: 1px solid var(${d.errorBorder});
+  background-color: var(${d.errorBackground});
+  color: var(${d.errorForeground});
+`, _i = c.div`
+  display: flex;
+  padding: 8px;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  > svg {
+    fill: var(${d.errorForeground});
+  }
+  > div:nth-child(2) {
+    flex: 1;
+  }
+`;
+function _() {
+  const { tab: i, audit: t } = h((s) => s.audit), n = x(), o = (s) => {
+    n(m(s));
+  };
+  return /* @__PURE__ */ e.jsxs(Qi, { children: [
+    t.valid === !1 && /* @__PURE__ */ e.jsx(Wi, {}),
+    /* @__PURE__ */ e.jsx(Ke, {}),
+    /* @__PURE__ */ e.jsx(Ni, {}),
+    /* @__PURE__ */ e.jsxs(Ie, { value: i, onValueChange: o, children: [
+      /* @__PURE__ */ e.jsxs(Le, { children: [
+        /* @__PURE__ */ e.jsx(G, { value: "priority", children: "Priority" }),
+        /* @__PURE__ */ e.jsx(G, { value: "issues", children: "Issues" })
+      ] }),
+      /* @__PURE__ */ e.jsx(N, { value: "priority", children: /* @__PURE__ */ e.jsx(ti, {}) }),
+      /* @__PURE__ */ e.jsx(N, { value: "issues", children: /* @__PURE__ */ e.jsx(wi, {}) })
+    ] })
+  ] });
+}
+const Qi = c.div``;
+function Xi() {
+  return /* @__PURE__ */ e.jsxs(Yi, { children: [
+    /* @__PURE__ */ e.jsx(Pe, {}),
+    "There is no Security Audit report available for this file"
+  ] });
+}
+const Yi = c.div`
+  display: flex;
+  margin: 8px;
+  padding: 8px;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(${d.border});
+  font-size: 14px;
+  > svg {
+    color: var(${d.foreground});
+  }
+`;
+function Ji() {
+  return /* @__PURE__ */ e.jsxs(Zi, { children: [
+    /* @__PURE__ */ e.jsxs(et, { children: [
+      /* @__PURE__ */ e.jsx("div", {}),
+      /* @__PURE__ */ e.jsx("div", {}),
+      /* @__PURE__ */ e.jsx("div", {})
+    ] }),
+    /* @__PURE__ */ e.jsx(it, {})
+  ] });
+}
+const Zi = c.div`
+  padding: 8px;
+  display: flex;
+  flex-flow: column;
+  gap: 8px;
+`, re = he`
+  0% {
+    background-color: var(${d.computedOne});
+  }
+  100% {
+    background-color: var(${d.computedTwo});
+  }
+`, et = c.div`
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  & > div {
+    flex: 1;
+    display: flex;
+    height: 100px;
+    flex-direction: column;
+    border: 1px solid var(${d.border});
+    animation: ${re} 1s linear infinite alternate;
+  }
+`, it = c.div`
+  border: 1px solid var(${d.border});
+  height: 15rem;
+  animation: ${re} 1s linear infinite alternate;
+`, Q = [
+  {
+    id: "start-audit",
+    title: "Audit is starting",
+    element: /* @__PURE__ */ e.jsx(Ji, {}),
+    when: oe
+  },
+  {
+    id: "no-report",
+    title: "No Audit Report",
+    element: /* @__PURE__ */ e.jsx(Xi, {}),
+    when: V
+  },
+  {
+    id: "audit-report",
+    title: "Security Audit",
+    element: /* @__PURE__ */ e.jsx(_, {}),
+    when: F
+  },
+  {
+    id: "audit-report",
+    title: "Security Audit",
+    element: /* @__PURE__ */ e.jsx(_, {}),
+    when: B
+  }
+], tt = {
+  startAudit: oe,
+  showFullReport: F,
+  showPartialReport: B,
+  showNoReport: V,
+  loadKdb: Ge,
+  changeTheme: be
+};
+function ot() {
+  return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+    /* @__PURE__ */ e.jsx(je, {}),
+    /* @__PURE__ */ e.jsx(Ce, {})
+  ] });
+}
+function nt(i, t) {
+  const n = Ue(We(i, Q), t);
+  ve(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(ge.StrictMode, { children: /* @__PURE__ */ e.jsx(fe, { store: n, children: /* @__PURE__ */ e.jsx(we.Provider, { value: Q, children: /* @__PURE__ */ e.jsx(ot, {}) }) }) })
+  ), window.addEventListener("message", me(n, tt));
+}
+window.renderWebView = nt;

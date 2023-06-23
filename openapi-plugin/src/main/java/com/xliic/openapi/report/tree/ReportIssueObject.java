@@ -1,5 +1,7 @@
 package com.xliic.openapi.report.tree;
 
+import static com.xliic.openapi.report.AuditUtils.getAuditOfText;
+import static com.xliic.openapi.report.AuditUtils.getScoreText;
 import static com.xliic.openapi.utils.Utils.getOpenFileDescriptor;
 
 import java.io.File;
@@ -42,11 +44,15 @@ public class ReportIssueObject implements NavigatableErrorTreeElement {
     }
 
     public String getLabel() {
-        return issue.getLabel();
+        return issue.getDescription() + getScoreText(issue);
     }
 
     public String getLabelLocation() {
-        return issue.getLabelLocation();
+        return " " + getAuditOfText(issue) + " " + rangeToString(issue.getRange());
+    }
+
+    private static String rangeToString(Range range) {
+        return "[" + (range.getLine() + 1) + ", " + (range.getColumn() + 1) + "]";
     }
 
     public Range getRange() {

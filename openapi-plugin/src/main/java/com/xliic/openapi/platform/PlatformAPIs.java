@@ -7,6 +7,8 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Objects;
 
+import org.jetbrains.annotations.NotNull;
+
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -18,19 +20,37 @@ public class PlatformAPIs {
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     public static class Sync {
-        public static Response readApi(String apiId, boolean spec) throws IOException {
+        public static Response readApi(@NotNull String apiId, boolean spec) throws IOException {
             Request request = getRequestBuilder(String.format("api/v1/apis/%s?specfile=%b", apiId, spec)).build();
             return client.newCall(request).execute();
         }
 
-        public static Response readAuditReport(String apiId) throws IOException {
+        public static Response readAuditReport(@NotNull String apiId) throws IOException {
             //noinspection SpellCheckingInspection
             Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
             return client.newCall(request).execute();
         }
-        
+
         public static Response testConnection() throws IOException {
             Request request = getRequestBuilder("api/v2/collections?page=1&perPage=1").build();
+            return client.newCall(request).execute();
+        }
+
+        @NotNull
+        public static Response readAuditCompliance(@NotNull String taskId) throws IOException {
+            Request request = getRequestBuilder(String.format("api/v2/sqgs/audit/reportComplianceStatus/%s?readSqg=true&readReport=false", taskId)).build();
+            return client.newCall(request).execute();
+        }
+
+        @NotNull
+        public static Response readAuditReportSqgTodo(@NotNull String taskId) throws IOException {
+            Request request = getRequestBuilder(String.format("api/v2/sqgs/audit/todo/%s", taskId)).build();
+            return client.newCall(request).execute();
+        }
+
+        @NotNull
+        public static Response listApis(@NotNull String collectionId) throws IOException {
+            Request request = getRequestBuilder(String.format("api/v1/collections/%s/apis?withTags=true&perPage=0", collectionId)).build();
             return client.newCall(request).execute();
         }
     }

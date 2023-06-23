@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,6 +14,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.util.ImmutableMap;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.report.types.Audit;
+import com.xliic.openapi.report.types.AuditCompliance;
 import com.xliic.openapi.report.types.Grade;
 import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.report.types.Summary;
@@ -41,9 +43,20 @@ public class ShowFullReport extends WebAppConsume {
     @NotNull
     public static Map<String, Object> getAuditPayload(@NotNull Project project, @NotNull Audit report) {
         Map<String, Object> result = new HashMap<>();
+        result.put("filename", FilenameUtils.getName(report.getAuditFileName()));
         result.put("summary", getSummaryProperties(report));
         result.put("files", getFilesProperties(project, report));
         result.put("issues", getIssuesProperties(project, report));
+        result.put("minimalReport", report.isMinimalReport());
+        result.put("valid", report.isValid());
+        AuditCompliance compliance = report.getCompliance();
+        if (compliance != null) {
+            result.put("compliance", compliance.getData());
+        }
+        Audit todoReport = report.getTodoReport();
+        if (todoReport != null) {
+            result.put("todo", getIssuesProperties(project, todoReport));
+        }
         return result;
     }
 
@@ -92,12 +105,12 @@ public class ShowFullReport extends WebAppConsume {
     private static Map<String, List<Map<String, Object>>> getIssuesProperties(Project project, Audit report) {
         Map<String, List<Map<String, Object>>> result = new HashMap<>();
         ExtRefService extRefService = ExtRefService.getInstance(project);
-        for (Map.Entry<String, List<Issue>> entry : report.getFileNameToIssuesMap().entrySet()) {
+        Map<String, List<Issue>> issuesMap = report.getFileNameToIssuesMap();
+        for (String fileName : issuesMap.keySet()) {
             List<Map<String, Object>> issues = new LinkedList<>();
-            for (Issue issue : entry.getValue()) {
-                issues.add(issue.getProperties());
+            for (Issue issue : issuesMap.get(fileName)) {
+                issues.add(getProperties(issue));
             }
-            String fileName = entry.getKey();
             ExtRef extRef = extRefService.getExtRefByFile(fileName);
             if (extRef == null) {
                 result.put(Utils.getURI(fileName), issues);
@@ -105,6 +118,23 @@ public class ShowFullReport extends WebAppConsume {
                 result.put(extRef.getInternalURI(), issues);
             }
         }
+        return result;
+    }
+
+    private static Map<String, Object> getProperties(Issue issue) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("id", issue.getId());
+        result.put("description", issue.getDescription());
+        result.put("pointer", issue.getPointer());
+        result.put("score", issue.getScore());
+        result.put("displayScore", issue.getDisplayScore());
+        result.put("criticality", issue.getCriticality());
+        if (issue.getUri() == null) {
+            result.put("documentUri", Utils.getURI(issue.getFileName()));
+        } else {
+            result.put("documentUri", ExtRef.getInternalURI(issue.getUri()));
+        }
+        result.put("lineNo", issue.getRange().getLine());
         return result;
     }
 }

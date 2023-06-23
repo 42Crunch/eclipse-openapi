@@ -47,7 +47,7 @@ public class PlatformAudit implements ProgressAware {
     }
 
     public String getName() {
-        return "Security Audit: " + (ready() ? Issue.transformScore(grade) : "N/A");
+        return "Security Audit: " + (ready() ? Issue.getReadableScore(grade) : "N/A");
     }
 
     public boolean ready() {
