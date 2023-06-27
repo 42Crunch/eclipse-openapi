@@ -26,6 +26,8 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
     public void runActivity(@NotNull Project project) {
         // Set default properties values
         Settings.initProperties();
+        // Download and cache KDB articles to boost first security audit
+        AuditService.getInstance(project).downloadArticlesAsync();
         // Load quickfix configuration
         QuickFixService.getInstance().load();
         // Subscribe for events
@@ -35,14 +37,10 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         EnvService.getInstance(project).subscribe();
         AnnotationService.getInstance(project).subscribe();
         // Platform
-        PlatformService platformService = PlatformService.getInstance(project);
         if (PlatformConnection.isPlatformIntegrationEnabled()) {
-            platformService.createPlatformWindow(false);
-            DictionaryService ddService = DictionaryService.getInstance(project);
-            ddService.reload(false);
+            PlatformService.getInstance(project).createPlatformWindow(false);
+            DictionaryService.getInstance(project).reload(false);
         }
-        // Download and cache KDB articles to boost first security audit
-        AuditService.getInstance(project).downloadArticlesAsync();
     }
 
     public static boolean isMyPluginTempDir(@NotNull String dirName) {

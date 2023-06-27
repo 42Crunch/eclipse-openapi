@@ -22,8 +22,10 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.Operation;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.platform.scan.payload.ScanOperation;
+import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
 import com.xliic.openapi.settings.Settings.Platform;
@@ -81,19 +83,19 @@ public final class AnnotationService implements IAnnotationService, SettingsList
         InlinedAnnotationSupport support = cache.get(file.getPath());
         if (support != null) {
             Set<Integer> offsets = new HashSet<>();
-            Map<Integer, TryItOperation> map1 = new HashMap<>();
-            Map<Integer, ScanOperation> map2 = new HashMap<>();
+            Map<Integer, TryItOperation> tmap = new HashMap<>();
+            Map<Integer, ScanOperation> smap = new HashMap<>();
+            Map<Integer, AuditOperation> amap = new HashMap<>();
             for (Object payload : payloads) {
-                if (payload instanceof TryItOperation) {
-                    TryItOperation po = (TryItOperation) payload;
-                    int offset = po.getOffset();
-                    map1.put(offset, po);
-                    offsets.add(offset);
+                Operation op = (Operation) payload;
+                int offset = op.getOffset();
+                offsets.add(offset);
+                if (op instanceof TryItOperation) {
+                    tmap.put(offset, (TryItOperation) op);
                 } else if (payload instanceof ScanOperation) {
-                    ScanOperation po = (ScanOperation) payload;
-                    int offset = po.getOffset();
-                    map2.put(offset, po);
-                    offsets.add(offset);
+                    smap.put(offset, (ScanOperation) op);
+                } else if (payload instanceof AuditOperation) {
+                    amap.put(offset, (AuditOperation) op);
                 }
             }
             Set<AbstractInlinedAnnotation> annotations = new HashSet<>();
@@ -102,7 +104,7 @@ public final class AnnotationService implements IAnnotationService, SettingsList
                 Position pos = new Position(offset, 1);
                 AbstractInlinedAnnotation an = support.findExistingAnnotation(pos);
                 if (an == null) {
-                    an = new InlinedAnnotation(project, pos, viewer, map1.get(offset), map2.get(offset));
+                    an = new InlinedAnnotation(project, pos, viewer, tmap.get(offset), smap.get(offset), amap.get(offset));
                 }
                 annotations.add(an);
             }

@@ -36,6 +36,7 @@ import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.ParserYamlAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.dictionary.DictionaryDfsHandler;
+import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.utils.Utils;
@@ -111,28 +112,27 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
 
     @Override
     protected void beforeFileOpened(AsyncTask task) {
-        VirtualFile file = task.getFile();
-        if (file != null) {
-            // No real document content change has happened
-            // This call must not fire the document change event
-            parse(file, false);
-        }
+        // No real document content change has happened
+        // This call must not fire the document change event
+        parse(task.getFile(), false);
     }
 
     @Override
     protected void documentChanged(AsyncTask task) {
-        VirtualFile file = task.getFile();
-        if (file != null) {
-            parse(file, true);
-        }
+        parse(task.getFile(), true);
     }
 
     @Override
     protected void selectionChanged(AsyncTask task) {
         treeDfs(task);
+        VirtualFile file = task.getFile();
+        Audit report = AuditService.getInstance(project).getAuditReport(file.getPath());
+        if (report != null && report.isDownloaded()) {
+            report.getDisplayOptions().setShowInProblemsList(true);
+        }
         ApplicationManager.getApplication().invokeLater(() -> {
             if (!project.isDisposed()) {
-                project.getMessageBus().syncPublisher(FileListener.TOPIC).handleSelectedFile(task.getFile());
+                project.getMessageBus().syncPublisher(FileListener.TOPIC).handleSelectedFile(file);
             }
         });
     }
@@ -140,26 +140,25 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     @Override
     protected void beforeFileClosed(AsyncTask task) {
         VirtualFile file = task.getFile();
-        if (file != null) {
-            TreeDocumentListener treeListener = astListenersMap.remove(file.getPath());
-            if (treeListener != null) {
-                ApplicationManager.getApplication().runReadAction(() -> {
-                    Document document = FileDocumentManager.getInstance().getDocument(file);
-                    if (document != null) {
-                        document.removeDocumentListener(treeListener);
-                    }
-                });
-            }
-            ApplicationManager.getApplication().invokeLater(() -> {
-                if (!project.isDisposed()) {
-                    auditService.removeAuditReport(file.getPath());
-                    quickFixService.handleAuditReportRemoved(file.getPath());
-                    knownOpenAPIFiles.remove(file.getPath());
-                    AnnotationService.getInstance(project).uninstall(file);
-                    project.getMessageBus().syncPublisher(FileListener.TOPIC).handleClosedFile(file);
+        TreeDocumentListener treeListener = astListenersMap.remove(file.getPath());
+        if (treeListener != null) {
+            ApplicationManager.getApplication().runReadAction(() -> {
+                Document document = FileDocumentManager.getInstance().getDocument(file);
+                if (document != null) {
+                    document.removeDocumentListener(treeListener);
                 }
             });
         }
+        ApplicationManager.getApplication().invokeLater(() -> {
+            if (!project.isDisposed()) {
+                String filePath = file.getPath();
+                auditService.removeAuditReport(filePath);
+                quickFixService.handleAuditReportRemoved(filePath);
+                knownOpenAPIFiles.remove(filePath);
+                AnnotationService.getInstance(project).uninstall(file);
+                project.getMessageBus().syncPublisher(FileListener.TOPIC).handleClosedFile(file);
+            }
+        });
     }
 
     @Override

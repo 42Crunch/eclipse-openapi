@@ -55,7 +55,7 @@ public class LoadAuditReportAction extends ProjectAction {
                                     AuditService auditService = AuditService.getInstance(project);
                                     auditService.downloadArticles(progress);
                                     auditService.cleanAuditReport(currentFile);
-                                    auditService.processAuditReport(currentFile, report.getChild("data"));
+                                    auditService.processAuditReport(currentFile, report.getChildRequireNonNull("data"));
                                 } catch (AuditService.KdbException e) {
                                     MsgUtils.error(project, e.getMessage(), true);
                                 }

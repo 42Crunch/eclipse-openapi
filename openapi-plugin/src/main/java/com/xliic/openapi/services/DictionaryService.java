@@ -24,6 +24,7 @@ import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.application.ModalityState;
 import com.xliic.core.project.Project;
+import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
@@ -106,6 +107,7 @@ public final class DictionaryService implements IDictionaryService, SettingsList
                             ASTService astService = ASTService.getInstance(project);
                             astService.runAsyncTask(project, AsyncTaskType.RUN_TREE_DFS, file);
                         }
+                        EclipseWorkbenchUtil.updateActionBarsInSWTThread();
                     };
                     for (Node child : target.getChildren()) {
                         try {

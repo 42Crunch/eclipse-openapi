@@ -1,8 +1,10 @@
-import { c as v, a as j, l as g, u as b, t as h, r as f, T as l, j as e, d as y, R as S, P as $, m as w, e as D, f as I } from "./ThemeStyles.c0d84d2f.js";
-import { s as o } from "./styled-components.browser.esm.5667ec00.js";
-import { S as O, D as p } from "./datetime.69f0f9cf.js";
-import { S as E } from "./AngleDown.23d22323.js";
-import { S as M } from "./SearchSidebar.6f41a085.js";
+import { c as v, a as g, l as j, u as b, t as h, r as f, d as o, T as l, j as e, e as y, R as S, P as $, m as w, f as D, g as I } from "./styled-components.browser.esm.b4077a0f.js";
+import { D as u } from "./datetime.eb6ea7e1.js";
+import { S as O } from "./TriangleExclamation.3c1770d3.js";
+import { S as E } from "./AngleUp.51e58661.js";
+import { S as M } from "./SearchSidebar.79113c10.js";
+import "./index.module.be22a077.js";
+import "./index.module.827db8cc.js";
 const F = {
   dictionaries: [],
   formats: []
@@ -18,9 +20,9 @@ const F = {
           name: a.name,
           description: a.description
         });
-        for (const u of Object.values(a.formats))
+        for (const p of Object.values(a.formats))
           d.push({
-            ...u,
+            ...p,
             dictionaryId: a.id
           });
       }
@@ -30,9 +32,9 @@ const F = {
 }), { showDictionary: T } = m.actions, P = m.reducer, k = {
   theme: h,
   formats: P
-}, C = (i) => j({
+}, C = (i) => g({
   reducer: k,
-  middleware: (n) => n().prepend().concat(g),
+  middleware: (n) => n().prepend().concat(j),
   preloadedState: {
     theme: i
   }
@@ -45,14 +47,14 @@ function A({ format: i }) {
   const [n, r] = L();
   return /* @__PURE__ */ e.jsxs(N, { children: [
     /* @__PURE__ */ e.jsxs(U, { collapsed: !n, onClick: r, children: [
-      /* @__PURE__ */ e.jsx("div", { children: n ? /* @__PURE__ */ e.jsx(O, {}) : /* @__PURE__ */ e.jsx(E, {}) }),
+      /* @__PURE__ */ e.jsx("div", { children: n ? /* @__PURE__ */ e.jsx(E, {}) : /* @__PURE__ */ e.jsx(O, {}) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
         /* @__PURE__ */ e.jsx(V, { children: i.name }),
         /* @__PURE__ */ e.jsxs(G, { children: [
           "Last updated on",
           " ",
-          p.fromSeconds(parseInt(i.lastUpdate, 10)).toLocaleString(
-            p.DATETIME_MED
+          u.fromSeconds(parseInt(i.lastUpdate, 10)).toLocaleString(
+            u.DATETIME_MED
           )
         ] })
       ] })
@@ -73,16 +75,16 @@ function R(i) {
     5: "Critical"
   }[i.sensitivity] || "Unknown";
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(s, { label: "Name", value: i.name }),
-    /* @__PURE__ */ e.jsx(s, { label: "Type", value: i.type }),
-    i.format && /* @__PURE__ */ e.jsx(s, { label: "Format", value: i.format }),
-    /* @__PURE__ */ e.jsx(s, { label: "Read only", value: `${i.readOnly}` }),
-    /* @__PURE__ */ e.jsx(s, { label: "Write only", value: `${i.writeOnly}` }),
-    /* @__PURE__ */ e.jsx(s, { label: "Nullable", value: `${i.writeOnly}` }),
-    /* @__PURE__ */ e.jsx(s, { label: "GDPR-PII", value: i.pii }),
-    /* @__PURE__ */ e.jsx(s, { label: "Object Identifier", value: i.objectIdentifier }),
-    /* @__PURE__ */ e.jsx(s, { label: "Sensitivity", value: r }),
-    /* @__PURE__ */ e.jsx(s, { label: "Example", value: `${i.example}` })
+    /* @__PURE__ */ e.jsx(t, { label: "Name", value: i.name }),
+    /* @__PURE__ */ e.jsx(t, { label: "Type", value: i.type }),
+    i.format && /* @__PURE__ */ e.jsx(t, { label: "Format", value: i.format }),
+    /* @__PURE__ */ e.jsx(t, { label: "Read only", value: `${i.readOnly}` }),
+    /* @__PURE__ */ e.jsx(t, { label: "Write only", value: `${i.writeOnly}` }),
+    /* @__PURE__ */ e.jsx(t, { label: "Nullable", value: `${i.writeOnly}` }),
+    /* @__PURE__ */ e.jsx(t, { label: "GDPR-PII", value: i.pii }),
+    /* @__PURE__ */ e.jsx(t, { label: "Object Identifier", value: i.objectIdentifier }),
+    /* @__PURE__ */ e.jsx(t, { label: "Sensitivity", value: r }),
+    /* @__PURE__ */ e.jsx(t, { label: "Example", value: `${i.example}` })
   ] });
 }
 function W(i) {
@@ -90,27 +92,27 @@ function W(i) {
 }
 function z({ format: i }) {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(s, { label: "Pattern", value: i.pattern }),
-    /* @__PURE__ */ e.jsx(s, { label: "Min length", value: `${i.minLength}` }),
-    /* @__PURE__ */ e.jsx(s, { label: "Max length", value: `${i.maxLength}` })
+    /* @__PURE__ */ e.jsx(t, { label: "Pattern", value: i.pattern }),
+    /* @__PURE__ */ e.jsx(t, { label: "Min length", value: `${i.minLength}` }),
+    /* @__PURE__ */ e.jsx(t, { label: "Max length", value: `${i.maxLength}` })
   ] });
 }
 function B({ format: i }) {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(s, { label: "Enum", value: i.enum.join(", ") }),
-    /* @__PURE__ */ e.jsx(s, { label: "Default", value: i.default })
+    /* @__PURE__ */ e.jsx(t, { label: "Enum", value: i.enum.join(", ") }),
+    /* @__PURE__ */ e.jsx(t, { label: "Default", value: i.default })
   ] });
 }
 function H({ format: i }) {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(s, { label: "Minimum", value: i.minimum }),
-    /* @__PURE__ */ e.jsx(s, { label: "Maximum", value: i.maximum }),
-    /* @__PURE__ */ e.jsx(s, { label: "Exclusive minimum", value: `${i.exclusiveMinimum}` }),
-    /* @__PURE__ */ e.jsx(s, { label: "Exclusive maximum", value: `${i.exclusiveMaximum}` }),
-    /* @__PURE__ */ e.jsx(s, { label: "Multiple Of", value: `${i.multipleOf}` })
+    /* @__PURE__ */ e.jsx(t, { label: "Minimum", value: i.minimum }),
+    /* @__PURE__ */ e.jsx(t, { label: "Maximum", value: i.maximum }),
+    /* @__PURE__ */ e.jsx(t, { label: "Exclusive minimum", value: `${i.exclusiveMinimum}` }),
+    /* @__PURE__ */ e.jsx(t, { label: "Exclusive maximum", value: `${i.exclusiveMaximum}` }),
+    /* @__PURE__ */ e.jsx(t, { label: "Multiple Of", value: `${i.multipleOf}` })
   ] });
 }
-function s({ label: i, value: n }) {
+function t({ label: i, value: n }) {
   return /* @__PURE__ */ e.jsxs(J, { children: [
     /* @__PURE__ */ e.jsx("div", { children: i }),
     /* @__PURE__ */ e.jsx("div", { children: n })
@@ -162,11 +164,11 @@ const N = o.div`
   }
 `;
 function K() {
-  var u;
-  const i = x((t) => t.formats.formats), n = x((t) => t.formats.dictionaries);
-  if (((u = n == null ? void 0 : n[0]) == null ? void 0 : u.id) === void 0)
+  var p;
+  const i = x((s) => s.formats.formats), n = x((s) => s.formats.dictionaries);
+  if (((p = n == null ? void 0 : n[0]) == null ? void 0 : p.id) === void 0)
     return null;
-  const r = n.filter((t) => t.id === "standard").map((t) => ({ ...t, label: t.name })), d = n.filter((t) => t.id !== "standard").map((t) => ({ ...t, label: t.name })), a = [
+  const r = n.filter((s) => s.id === "standard").map((s) => ({ ...s, label: s.name })), d = n.filter((s) => s.id !== "standard").map((s) => ({ ...s, label: s.name })), a = [
     { title: "Organization standard dictionary", items: r },
     { title: "Organization named dictionaries", items: d }
   ];
@@ -174,7 +176,7 @@ function K() {
     M,
     {
       sections: a,
-      render: (t) => i.filter((c) => c.dictionaryId === t).map((c) => /* @__PURE__ */ e.jsx(A, { format: c }, `${c.dictionaryId}-${c.name}`))
+      render: (s) => i.filter((c) => c.dictionaryId === s).map((c) => /* @__PURE__ */ e.jsx(A, { format: c }, `${c.dictionaryId}-${c.name}`))
     }
   );
 }

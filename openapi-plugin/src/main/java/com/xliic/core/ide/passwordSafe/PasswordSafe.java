@@ -29,8 +29,7 @@ public class PasswordSafe {
 
     public void set(@NotNull CredentialAttributes credentialAttributes, @NotNull Credentials credentials) {
         String value = credentials.getPassword();
-        String name = credentialAttributes.getServiceName();
-        ISecurePreferences node = root.node(name);
+        ISecurePreferences node = root.node(credentialAttributes.getServiceName());
         if (value == null) {
             node.remove(NODE_ID);
         } else {
@@ -44,12 +43,21 @@ public class PasswordSafe {
 
     @Nullable
     public String getPassword(@NotNull CredentialAttributes credentialAttributes) {
-        String name = credentialAttributes.getServiceName();
-        ISecurePreferences node = root.node(name);
+        ISecurePreferences node = root.node(credentialAttributes.getServiceName());
         try {
             return node.get(NODE_ID, null);
         } catch (StorageException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Nullable
+    public String tryIsPasswordOk(@NotNull CredentialAttributes credentialAttributes) {
+        try {
+            root.node(credentialAttributes.getServiceName()).get(NODE_ID, null);
+        } catch (Exception e) {
+            return e.getMessage();
         }
         return null;
     }

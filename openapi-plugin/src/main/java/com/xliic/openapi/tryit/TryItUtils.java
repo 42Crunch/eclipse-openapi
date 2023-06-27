@@ -122,19 +122,20 @@ public class TryItUtils {
     }
 
     public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull DefaultActionGroup actions) {
-        List<TryItOperation> payloads = new LinkedList<>();
+        List<Object> payloads = new LinkedList<>();
         setActionsForOperation(psiFile, op, payloads);
-        payloads.forEach(payload -> {
-            String type = payload.getPreferredMediaType();
-            if (payload.getPreferredMediaType() == null) {
-                actions.add(new TryItAction("Try it", payload));
+        payloads.forEach(p -> {
+            TryItOperation tp = (TryItOperation) p;
+            String type = tp.getPreferredMediaType();
+            if (tp.getPreferredMediaType() == null) {
+                actions.add(new TryItAction("Try it", tp));
             } else {
-                actions.add(new TryItAction("Try it " + payload.getPreferredExampleName() + " example as " + type, payload));
+                actions.add(new TryItAction("Try it " + tp.getPreferredExampleName() + " example as " + type, tp));
             }
         });
     }
 
-    public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull List<TryItOperation> payloads) {
+    public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull List<Object> payloads) {
         String pathName = op.getParent().getKey();
         String operationName = op.getKey();
         int textOffset = op.getRange().getOffset();

@@ -27,7 +27,9 @@ import com.xliic.openapi.webapp.scheme.SchemeHandlerFactory;
 
 public abstract class WebApp extends JBCefBrowser implements LafManagerListener {
 
+    @NotNull
 	private static final SchemeHandlerFactory SCHEME_HANDLER_FACTORY = new SchemeHandlerFactory();
+    @NotNull
     private static final String DOM_CONTENT_LOADED_JS = "window.fireDOMContentLoaded();";
     private static boolean regShFactory = true;
 
@@ -57,14 +59,14 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
         this.window = window;
         this.resourceId = resourceId;
         fun = getBrowserFunction(getBrowser(), SchemeHandlerFactory.getBrowserFunctionName(resourceId));
-        final LafManagerListener lafListener = this;
+        final WebApp thisApp = this;
         loadHandler = new CefLoadHandlerAdapter() {
             @Override
             public void onLoadingStateChange(JBCefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
                 if (!isLoading) {
                     browser.executeJavaScript(DOM_CONTENT_LOADED_JS, browser.getURL(), 0);
                     new ChangeTheme(manager).send(getCefBrowser());
-                    ApplicationManager.getApplication().getMessageBus().connect().subscribe(LafManagerListener.TOPIC, lafListener);
+                    ApplicationManager.getApplication().getMessageBus().connect().subscribe(LafManagerListener.TOPIC, thisApp);
                     WebApp.this.onLoadEnd();
                     handler.onReady();
                 }

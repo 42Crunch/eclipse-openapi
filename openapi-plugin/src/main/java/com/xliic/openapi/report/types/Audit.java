@@ -1,7 +1,5 @@
 package com.xliic.openapi.report.types;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,37 +8,52 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.editor.Document;
-import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.report.IssueComparator;
 
 public class Audit {
 
-    private Summary summary;
-    private final List<Issue> issues;
-    private final List<Issue> hiddenIssues;
-    private final Map<String, List<Issue>> fileNameToIssuesMap;
+    @NotNull
     private String auditFileName;
-    private final Project project;
-    private final boolean platform;
-    private boolean showAsHTML;
-    private boolean showAsProblems;
+    private final boolean downloaded;
+    @Nullable
+    private AuditCompliance compliance;
+    @Nullable
+    private Audit todoReport;
+    @NotNull
+    private AuditDisplayOptions displayOptions = AuditDisplayOptions.DEFAULT_OPTIONS;
 
-    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response, boolean platform, boolean showAsHTML,
-            boolean showAsProblems) {
+    @NotNull
+    private Summary summary = Summary.DEFAULT_SUMMARY;
+    @NotNull
+    private final List<Issue> issues = new LinkedList<>();
+    @NotNull
+    private final List<Issue> hiddenIssues = new LinkedList<>();
+    @NotNull
+    private final Map<String, List<Issue>> fileNameToIssuesMap = new HashMap<>();
+    private boolean minimalReport;
+    private boolean valid;
 
-        this.project = project;
+    public Audit(@NotNull String auditFileName, boolean downloaded) {
         this.auditFileName = auditFileName;
-        this.platform = platform;
-        this.showAsHTML = showAsHTML;
-        this.showAsProblems = showAsProblems;
-        issues = new LinkedList<>();
-        hiddenIssues = new LinkedList<>();
-        read(response);
-        fileNameToIssuesMap = new HashMap<>();
+        this.downloaded = downloaded;
+    }
+
+    public void finalizeInReadAction() {
+        hiddenIssues.clear();
+        for (Issue issue : issues) {
+            issue.finalizeInReadAction();
+            if (issue.getRangeMarker() == null) {
+                hiddenIssues.add(issue);
+            }
+        }
+        if (!hiddenIssues.isEmpty()) {
+            issues.removeAll(hiddenIssues);
+        }
+        fileNameToIssuesMap.clear();
         for (Issue issue : issues) {
             if (issue.getFileName() != null) {
                 if (!fileNameToIssuesMap.containsKey(issue.getFileName())) {
@@ -49,37 +62,45 @@ public class Audit {
                 fileNameToIssuesMap.get(issue.getFileName()).add(issue);
             }
         }
+        if (todoReport != null) {
+            todoReport.setTodoReport(null);
+            todoReport.finalizeInReadAction();
+        }
     }
 
-    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response) {
-        this(project, auditFileName, response, false, true, true);
+    void setCompliance(@Nullable AuditCompliance compliance) {
+        this.compliance = compliance;
     }
 
-    public Audit(@NotNull Project project, @NotNull String auditFileName, @NotNull Node response, boolean platform) {
-        this(project, auditFileName, response, platform, true, true);
+    void setTodoReport(@Nullable Audit todoReport) {
+        this.todoReport = todoReport;
     }
 
-    public boolean isPlatform() {
-        return platform;
+    void setSummary(@NotNull Summary summary) {
+        this.summary = summary;
     }
 
-    public boolean isShowAsHTML() {
-        return showAsHTML;
+    void addIssues(@NotNull List<Issue> issues) {
+        this.issues.addAll(issues);
     }
 
-    public boolean isShowAsProblems() {
-        return showAsProblems;
+    void setMinimalReport(boolean minimalReport) {
+        this.minimalReport = minimalReport;
     }
 
-    public void setShowAsProblems(boolean showAsProblems) {
-        this.showAsProblems = showAsProblems;
+    void setValid(boolean valid) {
+        this.valid = valid;
     }
 
-    public void setShowAsHTML(boolean showAsHTML) {
-        this.showAsHTML = showAsHTML;
+    void setDisplayOptions(@NotNull AuditDisplayOptions displayOptions) {
+        this.displayOptions = displayOptions;
     }
 
-    public Map<String, List<Issue>> getFileNameToIssuesMap() {
+    public @NotNull AuditDisplayOptions getDisplayOptions() {
+        return displayOptions;
+    }
+
+    public @NotNull Map<String, List<Issue>> getFileNameToIssuesMap() {
         return fileNameToIssuesMap;
     }
 
@@ -90,12 +111,33 @@ public class Audit {
         }
     }
 
+    @Nullable
     public List<Issue> removeIssuesForFile(@NotNull String fileName) {
         issues.removeAll(fileNameToIssuesMap.get(fileName));
         return fileNameToIssuesMap.remove(fileName);
     }
 
-    public void handleFileNameChanged(VirtualFile newFile, String oldFileName) {
+    public boolean isMinimalReport() {
+        return minimalReport;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public boolean isDownloaded() {
+        return downloaded;
+    }
+
+    public @Nullable AuditCompliance getCompliance() {
+        return compliance;
+    }
+
+    public @Nullable Audit getTodoReport() {
+        return todoReport;
+    }
+
+    public void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName) {
         if (Objects.equals(auditFileName, oldFileName)) {
             auditFileName = newFile.getPath();
         }
@@ -107,26 +149,27 @@ public class Audit {
         }
     }
 
-    public String getAuditFileName() {
+    public @NotNull String getAuditFileName() {
         return auditFileName;
     }
 
-    public Set<String> getParticipantFileNames() {
+    public @NotNull Set<String> getParticipantFileNames() {
         return fileNameToIssuesMap.keySet();
     }
 
-    public boolean hasAuditParticipantFileName(String fileName) {
+    public boolean hasAuditParticipantFileName(@NotNull String fileName) {
         return fileNameToIssuesMap.containsKey(fileName);
     }
 
-    public List<Issue> getIssuesForAuditParticipantFileName(String fileName) {
+    @NotNull
+    public List<Issue> getIssuesForAuditParticipantFileName(@NotNull String fileName) {
         if (fileNameToIssuesMap.containsKey(fileName)) {
             return fileNameToIssuesMap.get(fileName);
         }
         return new LinkedList<>();
     }
 
-    public void updateRangeMarkers(String fileName, Document document, Node root) {
+    public void updateRangeMarkers(@NotNull String fileName, @NotNull Document document, @NotNull Node root) {
         if (hasAuditParticipantFileName(fileName)) {
             for (Issue issue : getIssuesForAuditParticipantFileName(fileName)) {
                 issue.updateRangeMarkers(document, root);
@@ -134,19 +177,20 @@ public class Audit {
         }
     }
 
-    public Summary getSummary() {
+    public @NotNull Summary getSummary() {
         return summary;
     }
 
-    public List<Issue> getIssues() {
+    public @NotNull List<Issue> getIssues() {
         return issues;
     }
 
-    public List<Issue> getHiddenIssues() {
+    public @NotNull List<Issue> getHiddenIssues() {
         return hiddenIssues;
     }
 
-    public List<Integer> getIssueIds(VirtualFile file, List<Issue> issues) {
+    @NotNull
+    public List<Integer> getIssueIds(@NotNull VirtualFile file, @NotNull List<Issue> issues) {
         List<Integer> ids = new LinkedList<>();
         List<Issue> fileIssues = fileNameToIssuesMap.get(file.getPath());
         for (Issue issue : issues) {
@@ -156,90 +200,5 @@ public class Audit {
             }
         }
         return ids;
-    }
-
-    private void read(Node report) {
-        Grade dataGrade = new Grade(0, 70);
-        Grade securityGrade = new Grade(0, 30);
-        if (report == null) {
-            summary = new Summary(false, true, dataGrade, securityGrade);
-            return;
-        }
-        Node child = report.getChild("openapiState");
-        if (child != null) {
-            if ("fileInvalid".equals(child.getValue())) {
-                summary = new Summary(false, true, dataGrade, securityGrade);
-                return;
-            }
-        }
-        List<String> pointers = new LinkedList<>();
-        for (Node o : report.getChild("index").getChildren()) {
-            pointers.add(o.getValue());
-        }
-        child = report.getChild("data");
-        if (child != null) {
-            issues.addAll(transformIssues(child, pointers, 5));
-            child = child.getChild("score");
-            Number value = (child == null) ? 0 : Float.parseFloat(child.getValue());
-            dataGrade = new Grade(Math.round(value.floatValue()), 70);
-        }
-        child = report.getChild("security");
-        if (child != null) {
-            issues.addAll(transformIssues(child, pointers, 5));
-            child = child.getChild("score");
-            Number value = (child == null) ? 0 : Float.parseFloat(child.getValue());
-            securityGrade = new Grade(Math.round(value.floatValue()), 30);
-        }
-        child = report.getChild("warnings");
-        if (child != null) {
-            issues.addAll(transformIssues(child, pointers, 1));
-        }
-        boolean hasGradeErrors = false;
-        child = report.getChild("semanticErrors");
-        if (child != null) {
-            issues.addAll(transformIssues(child, pointers, 5));
-            hasGradeErrors = true;
-        }
-        child = report.getChild("validationErrors");
-        if (child != null) {
-            issues.addAll(transformIssues(child, pointers, 5));
-            hasGradeErrors = true;
-        }
-        issues.sort(new IssueComparator());
-        summary = new Summary(hasGradeErrors, false, dataGrade, securityGrade);
-    }
-
-    private List<Issue> transformIssues(Node context, List<String> pointers, int defaultCriticality) {
-
-        List<Issue> result = new LinkedList<>();
-        Node issues = context.getChild("issues");
-        if (issues != null) {
-            for (Node child : issues.getChildren()) {
-                String id = child.getKey();
-                for (Node subIssueItem : child.getChild("issues").getChildren()) {
-
-                    String pointer = pointers.get(Integer.parseInt(subIssueItem.getChildValue("pointer")));
-
-                    String description = subIssueItem.getChildValue("specificDescription");
-                    if (isEmpty(description)) {
-                        description = child.getChildValue("description");
-                    }
-
-                    String scoreStr = subIssueItem.getChildValue("score");
-                    float score = isEmpty(scoreStr) ? 0 : Math.abs(Float.parseFloat(scoreStr));
-
-                    String criticalityStr = subIssueItem.getChildValue("criticality");
-                    int criticality = isEmpty(criticalityStr) ? defaultCriticality : Integer.parseInt(criticalityStr);
-
-                    Issue issue = new Issue(project, auditFileName, id, description, pointer, score, criticality, platform);
-                    if (issue.getRangeMarker() == null) {
-                        hiddenIssues.add(issue);
-                    } else {
-                        result.add(issue);
-                    }
-                }
-            }
-        }
-        return result;
     }
 }

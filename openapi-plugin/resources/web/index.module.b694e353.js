@@ -1,14 +1,14 @@
-import { i as _, r as n } from "./ThemeStyles.c0d84d2f.js";
-import { A as R, i as w, r as I, w as O, y as A, z as D, a as T, d as q, f as B, $ as y, g as x, b as H, o as K } from "./index.module.a5a23f10.js";
-import { _ as g } from "./index.esm.97fc0c41.js";
+import { i as _, r as n, _ as v } from "./styled-components.browser.esm.b4077a0f.js";
+import { d as R, a as I, r as w, t as O, f as q, g as D } from "./ProgressButton.26aa5f1e.js";
+import { $ as T, a as A, e as B, d as y, f as x, i as H, q as K } from "./index.module.827db8cc.js";
 function W(e, t) {
   return () => e({
-    matcher: _(R, w, I),
+    matcher: _(R, I, w),
     effect: async (o, a) => {
       const {
-        config: { data: c }
+        config: { data: c, hasErrors: r }
       } = a.getState();
-      t.postMessage({ command: "saveConfig", payload: c });
+      r ? console.log("not saving config, has errors") : t.postMessage({ command: "saveConfig", payload: c });
     }
   });
 }
@@ -29,7 +29,7 @@ function Y(e, t) {
 }
 function Z(e, t) {
   return () => e({
-    actionCreator: A,
+    actionCreator: q,
     effect: async (o, a) => {
       const c = a.getState();
       t.postMessage({
@@ -66,29 +66,29 @@ function L(e) {
     e
   ]);
 }
-const E = "Checkbox", [N, te] = T(E), [z, X] = N(E), j = /* @__PURE__ */ n.forwardRef((e, t) => {
-  const { __scopeCheckbox: o, name: a, checked: c, defaultChecked: d, required: p, disabled: f, value: u = "on", onCheckedChange: $, ...h } = e, [s, m] = n.useState(null), S = q(
+const E = "Checkbox", [N, te] = T(E), [X, j] = N(E), z = /* @__PURE__ */ n.forwardRef((e, t) => {
+  const { __scopeCheckbox: o, name: a, checked: c, defaultChecked: r, required: p, disabled: f, value: u = "on", onCheckedChange: b, ...h } = e, [d, m] = n.useState(null), S = A(
     t,
-    (r) => m(r)
-  ), C = n.useRef(!1), k = s ? !!s.closest("form") : !0, [l = !1, v] = B({
+    (s) => m(s)
+  ), C = n.useRef(!1), k = d ? !!d.closest("form") : !0, [l = !1, g] = B({
     prop: c,
-    defaultProp: d,
-    onChange: $
+    defaultProp: r,
+    onChange: b
   }), P = n.useRef(l);
   return n.useEffect(() => {
-    const r = s == null ? void 0 : s.form;
-    if (r) {
-      const b = () => v(P.current);
-      return r.addEventListener("reset", b), () => r.removeEventListener("reset", b);
+    const s = d == null ? void 0 : d.form;
+    if (s) {
+      const $ = () => g(P.current);
+      return s.addEventListener("reset", $), () => s.removeEventListener("reset", $);
     }
   }, [
-    s,
-    v
-  ]), /* @__PURE__ */ n.createElement(z, {
+    d,
+    g
+  ]), /* @__PURE__ */ n.createElement(X, {
     scope: o,
     state: l,
     disabled: f
-  }, /* @__PURE__ */ n.createElement(y.button, g({
+  }, /* @__PURE__ */ n.createElement(y.button, v({
     type: "button",
     role: "checkbox",
     "aria-checked": i(l) ? "mixed" : l,
@@ -99,16 +99,16 @@ const E = "Checkbox", [N, te] = T(E), [z, X] = N(E), j = /* @__PURE__ */ n.forwa
     value: u
   }, h, {
     ref: S,
-    onKeyDown: x(e.onKeyDown, (r) => {
-      r.key === "Enter" && r.preventDefault();
+    onKeyDown: x(e.onKeyDown, (s) => {
+      s.key === "Enter" && s.preventDefault();
     }),
-    onClick: x(e.onClick, (r) => {
-      v(
-        (b) => i(b) ? !0 : !b
-      ), k && (C.current = r.isPropagationStopped(), C.current || r.stopPropagation());
+    onClick: x(e.onClick, (s) => {
+      g(
+        ($) => i($) ? !0 : !$
+      ), k && (C.current = s.isPropagationStopped(), C.current || s.stopPropagation());
     })
   })), k && /* @__PURE__ */ n.createElement(J, {
-    control: s,
+    control: d,
     bubbles: !C.current,
     name: a,
     value: u,
@@ -120,12 +120,12 @@ const E = "Checkbox", [N, te] = T(E), [z, X] = N(E), j = /* @__PURE__ */ n.forwa
     }
   }));
 }), F = "CheckboxIndicator", G = /* @__PURE__ */ n.forwardRef((e, t) => {
-  const { __scopeCheckbox: o, forceMount: a, ...c } = e, d = X(F, o);
+  const { __scopeCheckbox: o, forceMount: a, ...c } = e, r = j(F, o);
   return /* @__PURE__ */ n.createElement(H, {
-    present: a || i(d.state) || d.state === !0
-  }, /* @__PURE__ */ n.createElement(y.span, g({
-    "data-state": M(d.state),
-    "data-disabled": d.disabled ? "" : void 0
+    present: a || i(r.state) || r.state === !0
+  }, /* @__PURE__ */ n.createElement(y.span, v({
+    "data-state": M(r.state),
+    "data-disabled": r.disabled ? "" : void 0
   }, c, {
     ref: t,
     style: {
@@ -134,26 +134,26 @@ const E = "Checkbox", [N, te] = T(E), [z, X] = N(E), j = /* @__PURE__ */ n.forwa
     }
   })));
 }), J = (e) => {
-  const { control: t, checked: o, bubbles: a = !0, ...c } = e, d = n.useRef(null), p = L(o), f = K(t);
+  const { control: t, checked: o, bubbles: a = !0, ...c } = e, r = n.useRef(null), p = L(o), f = K(t);
   return n.useEffect(() => {
-    const u = d.current, $ = window.HTMLInputElement.prototype, s = Object.getOwnPropertyDescriptor($, "checked").set;
-    if (p !== o && s) {
+    const u = r.current, b = window.HTMLInputElement.prototype, d = Object.getOwnPropertyDescriptor(b, "checked").set;
+    if (p !== o && d) {
       const m = new Event("click", {
         bubbles: a
       });
-      u.indeterminate = i(o), s.call(u, i(o) ? !1 : o), u.dispatchEvent(m);
+      u.indeterminate = i(o), d.call(u, i(o) ? !1 : o), u.dispatchEvent(m);
     }
   }, [
     p,
     o,
     a
-  ]), /* @__PURE__ */ n.createElement("input", g({
+  ]), /* @__PURE__ */ n.createElement("input", v({
     type: "checkbox",
     "aria-hidden": !0,
     defaultChecked: i(o) ? !1 : o
   }, c, {
     tabIndex: -1,
-    ref: d,
+    ref: r,
     style: {
       ...e.style,
       ...f,
@@ -170,7 +170,7 @@ function i(e) {
 function M(e) {
   return i(e) ? "indeterminate" : e ? "checked" : "unchecked";
 }
-const oe = j, ne = G;
+const oe = z, ne = G;
 export {
   oe as $,
   ne as a,

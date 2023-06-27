@@ -1,5 +1,7 @@
 package com.xliic.openapi.quickfix.managers;
 
+import static com.xliic.openapi.report.AuditUtils.getHighlightInfoLabel;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +92,7 @@ public class FixManagerCombined extends FixManager {
     @Override
     public boolean isResponsibleFor(@NotNull String pointer, @NotNull String label) {
         for (Issue issue : fixToIssueMap.values()) {
-            if (pointer.equals(issue.getPointer()) && label.equals(issue.getHighlightInfoLabel())) {
+            if (pointer.equals(issue.getPointer()) && label.equals(getHighlightInfoLabel(issue))) {
                 return true;
             }
         }

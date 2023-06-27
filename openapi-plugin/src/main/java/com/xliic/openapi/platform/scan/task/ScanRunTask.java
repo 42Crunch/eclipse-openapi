@@ -62,11 +62,13 @@ public abstract class ScanRunTask extends Task.Backgroundable {
     @Override
     public void run(@NotNull ProgressIndicator progress) {
         String apiId = null;
+        String collectionId = null;
         try {
             logger.info("Starting API Conformance scan");
 
             progress.setText("Creating temp API");
-            apiId = ScanUtils.createTempAPI(runConfig.getRawOas());
+            collectionId = ScanUtils.findOrCreateTempCollection();
+            apiId = ScanUtils.createTempAPI(collectionId, runConfig.getRawOas());
             logger.info("Created temp API " + apiId + ", waiting for Security Audit");
 
             progress.setText(RUNNING_SECURITY_AUDIT);
@@ -113,6 +115,9 @@ public abstract class ScanRunTask extends Task.Backgroundable {
             if (apiId != null) {
                 progress.setText("Deleting temp API");
                 ScanUtils.deleteAPI(apiId);
+            }
+            if (collectionId != null) {
+                ScanUtils.clearTempApis(collectionId);
             }
             progress.cancel();
         }

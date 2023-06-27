@@ -49,15 +49,15 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
     @Override
     public void onCode200ASTResponse(@NotNull Node node) {
         try {
-            Node desc = node.getChild("desc");
-            String id = desc.getChild("id").getValue();
+            Node desc = node.getChildRequireNonNull("desc");
+            String id = desc.getChildValueRequireNonNull("id");
             Date date = PlatformUtils.getLastAssessmentDate(node.getChild("assessment"));
             if (date != null) {
                 PlatformService platformService = PlatformService.getInstance(project);
                 platformService.setAssessmentLastDate(id, date);
             }
-            boolean isJson = !Boolean.parseBoolean(desc.getChild("yaml").getValue());
-            String specFile = desc.getChild("specfile").getValue();
+            boolean isJson = !Boolean.parseBoolean(desc.getChildValueRequireNonNull("yaml"));
+            String specFile = desc.getChildValueRequireNonNull("specfile");
             byte[] decodedBytes = Base64.getDecoder().decode(specFile);
             String text = QuickFix.formatFixText(new String(decodedBytes), isJson);
             String platformUrl = PlatformConnection.getOptions().getPlatformUrl();

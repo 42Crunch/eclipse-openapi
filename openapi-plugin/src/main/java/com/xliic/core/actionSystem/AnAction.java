@@ -23,7 +23,7 @@ public abstract class AnAction extends AbstractHandler {
         }
     }
 
-    public abstract void update(@NotNull AnActionEvent event);
+    protected void update(@NotNull AnActionEvent event) {}
 
-    public abstract void actionPerformed(@NotNull AnActionEvent event);
+    protected abstract void actionPerformed(@NotNull AnActionEvent event);
 }

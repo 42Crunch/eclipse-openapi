@@ -30,7 +30,10 @@ public class PlatformPanelView extends PanelViewPart {
     }
 
     @Override
-    protected Disposable createPanel(@NotNull Project project, @NotNull ToolWindow window, @NotNull Composite parent, @NotNull ViewPartHandler handler) {
+    protected Disposable createPanel(@NotNull Project project,
+                                     @NotNull ToolWindow window,
+                                     @NotNull Composite parent,
+                                     @NotNull ViewPartHandler handler) {
         return new PlatformPanel(project, window, parent);
     }
 

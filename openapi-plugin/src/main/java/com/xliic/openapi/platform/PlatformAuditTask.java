@@ -1,8 +1,10 @@
 package com.xliic.openapi.platform;
 
 import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
+import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
@@ -13,6 +15,10 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
+import com.xliic.openapi.report.AuditUtils;
+import com.xliic.openapi.report.payload.AuditOperation;
+import com.xliic.openapi.report.types.AuditCompliance;
+import com.xliic.openapi.report.types.AuditToDoReport;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 
@@ -26,6 +32,8 @@ public class PlatformAuditTask extends Task.Backgroundable {
     private final Project project;
     @NotNull
     private final VirtualFile file;
+    @Nullable
+    private final AuditOperation operation;
     @NotNull
     private final AuditService.Callback callback;
 
@@ -33,6 +41,15 @@ public class PlatformAuditTask extends Task.Backgroundable {
         super(project, RUNNING_SECURITY_AUDIT, false);
         this.project = project;
         this.file = file;
+        operation = null;
+        this.callback = callback;
+    }
+
+    public PlatformAuditTask(@NotNull Project project, @NotNull AuditOperation operation, @NotNull AuditService.Callback callback) {
+        super(project, RUNNING_SECURITY_AUDIT, false);
+        this.project = project;
+        this.file = operation.getPsiFile().getVirtualFile();
+        this.operation = operation;
         this.callback = callback;
     }
 
@@ -44,11 +61,13 @@ public class PlatformAuditTask extends Task.Backgroundable {
             callback.reject("Failed to bundle for audit, check OpenAPI file for errors");
             return;
         }
-        String text = bundle.getJsonText();
+        String text = operation == null ? bundle.getJsonText() : extractSingleOperation(operation.getPath(), operation.getMethod(), bundle);
         String apiId = null;
+        String collectionId = null;
         try {
             AuditService.getInstance(project).downloadArticles(progress);
-            PlatformAPI api = ScanUtils.createTempApi(text);
+            collectionId = ScanUtils.findOrCreateTempCollection();
+            PlatformAPI api = ScanUtils.createTempApi(collectionId, text);
             apiId = api.getId();
             Node fullReport = new PlatformReportPuller(project, apiId, PAUSE, PULL_REPORT_DURATION).get();
             Node report = PlatformUtils.getAssessmentReportNode(fullReport);
@@ -56,7 +75,10 @@ public class PlatformAuditTask extends Task.Backgroundable {
                 callback.reject(ERROR_MSG + "format is not valid");
                 return;
             }
-            callback.complete(report);
+            String tid = fullReport.getChildValueRequireNonNull("tid");
+            AuditCompliance compliance = AuditUtils.readAuditCompliance(tid);
+            AuditToDoReport todoReport = AuditUtils.readAuditReportSqgTodo(tid);
+            callback.complete(report, compliance, todoReport);
         } catch (Exception e) {
             e.printStackTrace();
             if (e instanceof AuditService.KdbException) {
@@ -68,6 +90,9 @@ public class PlatformAuditTask extends Task.Backgroundable {
         } finally {
             if (apiId != null) {
                 ScanUtils.deleteAPI(apiId);
+            }
+            if (collectionId != null) {
+                ScanUtils.clearTempApis(collectionId);
             }
             progress.cancel();
         }

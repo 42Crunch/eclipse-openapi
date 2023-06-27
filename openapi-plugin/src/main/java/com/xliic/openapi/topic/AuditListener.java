@@ -21,4 +21,8 @@ public interface AuditListener {
     default void handleViewDetails(@NotNull VirtualFile file, @NotNull List<Issue> issues) {}
 
     default void handleIssuesFixed(@NotNull List<Issue> issues) {}
+
+    default void startAudit() {}
+
+    default void showGeneralError() {}
 }

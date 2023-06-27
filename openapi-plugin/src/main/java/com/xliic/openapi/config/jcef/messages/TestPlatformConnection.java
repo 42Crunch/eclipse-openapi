@@ -1,11 +1,14 @@
 package com.xliic.openapi.config.jcef.messages;
 
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+
 import java.io.IOException;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
+import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.config.ConfigListener;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -20,6 +23,10 @@ public class TestPlatformConnection extends TestConnection {
 
     @Override
     protected @Nullable String preTestAssert() {
+        String error = SecurityPropertiesComponent.getInstance().tryIsSecurePreferencesOk(API_KEY);
+        if (error != null) {
+            return error;
+        }
         return PlatformConnection.isPlatformIntegrationEnabled() ? null : "no credentials";
     }
 

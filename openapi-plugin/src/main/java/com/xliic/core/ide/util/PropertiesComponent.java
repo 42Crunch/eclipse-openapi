@@ -107,14 +107,16 @@ public class PropertiesComponent {
         return StringUtils.isEmpty(values) ? Collections.emptyList() : List.of(values.split(ARRAY_DELIMETER));
     }
 
-    public void cleanAll() {
+    public void cleanAll(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         for (String key : cache.keySet()) {
+            prevData.put(key, getValue(key));
             store.setToDefault(key);
             cache.put(key, store.getString(key));
+            keys.add(key);
         }
     }
 
-    private static List<String> getPropertiesKeys() {
+    public static List<String> getPropertiesKeys() {
         List<String> keys = new LinkedList<>();
         addPropertiesKeys(Settings.class, keys, Set.copyOf(List.of(API_KEY, HEADER, TURNED_ON, TURNED_OFF)));
         return keys;

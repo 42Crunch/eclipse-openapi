@@ -45,7 +45,6 @@ import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.Pair;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.wm.ToolWindowManager;
 import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
@@ -157,10 +156,6 @@ public class Utils {
             return OpenApiVersion.Unknown;
         }
         return getOpenAPIVersion(psiFile.toPsiElement().getNode());
-    }
-
-    public static boolean isToolWindowRegistered(@NotNull Project project, @NotNull String toolWindowId) {
-        return ToolWindowManager.getInstance(project).getToolWindow(toolWindowId) != null;
     }
 
     public static OpenApiFileType getFileType(PsiFile file) {

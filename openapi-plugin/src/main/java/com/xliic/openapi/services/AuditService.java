@@ -1,6 +1,8 @@
 package com.xliic.openapi.services;
 
 import static com.xliic.openapi.OpenApiBundle.message;
+import static com.xliic.openapi.ToolWindowId.OPEN_API_HTML_REPORT;
+import static com.xliic.openapi.ToolWindowId.OPEN_API_REPORT;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,21 +21,31 @@ import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.ui.DialogWrapper;
+import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAuditTask;
+import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction;
+import com.xliic.openapi.platform.dictionary.quickfix.PreAuditDialog;
 import com.xliic.openapi.report.AnonAuditTask;
 import com.xliic.openapi.report.AuditAPIs;
+import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.report.types.Audit;
+import com.xliic.openapi.report.types.AuditBuilder;
+import com.xliic.openapi.report.types.AuditCompliance;
+import com.xliic.openapi.report.types.AuditToDoReport;
 import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.api.IAuditService;
 import com.xliic.openapi.settings.Credentials;
+import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.NetUtils;
@@ -50,18 +62,24 @@ public final class AuditService implements IAuditService, Disposable {
     public static final String RUNNING_SECURITY_AUDIT = "Running API contract security audit";
     public static final String LOADING_KDB_ARTICLES = "Loading API contract security audit KDB articles";
 
+    @NotNull
     private final Project project;
     @Nullable
     private volatile String articles = null;
+    @NotNull
     private final Map<String, Audit> cache = new HashMap<>();
+    @NotNull
     private final Map<String, Boolean> pendingAudits = new HashMap<>();
+    @NotNull
+    private final AuditBuilder auditBuilder;
 
     public AuditService(@NotNull Project project) {
         this.project = project;
+        auditBuilder = new AuditBuilder(project, false);
     }
 
     public interface Callback {
-        void complete(@NotNull Node report);
+        void complete(@NotNull Node report, @Nullable AuditCompliance compliance, @Nullable AuditToDoReport todoReport);
         void reject(@NotNull String error);
     }
 
@@ -84,17 +102,20 @@ public final class AuditService implements IAuditService, Disposable {
         this.articles = articles;
     }
 
+    public void downloadArticles() throws KdbException {
+        if (getArticles() == null) {
+            setKDB();
+        }
+    }
+
     public void downloadArticles(@NotNull ProgressIndicator progress) throws KdbException {
         if (getArticles() == null) {
+            String progressText = progress.getText();
+            progress.setText(LOADING_KDB_ARTICLES);
             try {
-                String newKdb = NetUtils.getKDB();
-                if (newKdb == null) {
-                    throw new KdbException("Failed to read articles.json");
-                } else {
-                    setArticles(newKdb);
-                }
-            } catch (IOException e) {
-                throw new KdbException("Failed to read articles.json: " + e);
+                setKDB();
+            } finally {
+                progress.setText(progressText);
             }
         }
     }
@@ -146,30 +167,6 @@ public final class AuditService implements IAuditService, Disposable {
         return Boolean.TRUE.equals(pendingAudits.get(file.getPath()));
     }
 
-    public void runAudit(@NotNull Project project, @NotNull VirtualFile file, @NotNull Credentials.Type type) {
-        final Callback callback = new Callback() {
-            @Override
-            public void complete(@NotNull Node report) {
-                pendingAudits.remove(file.getPath());
-                processAuditReport(file, report);
-            }
-            @Override
-            public void reject(@NotNull String error) {
-                pendingAudits.remove(file.getPath());
-                MsgUtils.error(project, error, true);
-            }
-        };
-        if (type == Credentials.Type.Anon) {
-            cleanAuditReport(file);
-            pendingAudits.put(file.getPath(), Boolean.TRUE);
-            ProgressManager.getInstance().run(new AnonAuditTask(project, file, callback));
-        } else if (type == Credentials.Type.Platform) {
-            cleanAuditReport(file);
-            pendingAudits.put(file.getPath(), Boolean.TRUE);
-            ProgressManager.getInstance().run(new PlatformAuditTask(project, file, callback));
-        }
-    }
-
     public void cleanAuditReport(@NotNull VirtualFile file) {
         Audit report = removeAuditReport(file.getPath());
         if (report != null) {
@@ -178,26 +175,38 @@ public final class AuditService implements IAuditService, Disposable {
     }
 
     public void processAuditReport(@NotNull VirtualFile file, @NotNull Node response) {
-        Audit newReport = ApplicationManager.getApplication().runReadAction((Computable<Audit>) () -> {
-            Audit report = new Audit(project, file.getPath(), response, false);
-            setAuditReport(file.getPath(), report);
+        processAuditReport(file, response, null, null);
+    }
+
+    public void processAuditReport(@NotNull VirtualFile file,
+            @NotNull Node response,
+            @Nullable AuditCompliance compliance,
+            @Nullable AuditToDoReport todoReport) {
+
+        Audit newReport = auditBuilder.setFileName(file.getPath()).setCompliance(compliance).setToDoReport(todoReport).build(response);
+        setAuditReport(file.getPath(), newReport);
+        ApplicationManager.getApplication().runReadAction((Computable<Void>) () -> {
+            newReport.finalizeInReadAction();
             PsiFile psiFile = Utils.findPsiFile(project, file);
             if (psiFile != null) {
                 DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
             }
-            return report;
+            return null;
         });
         List<Issue> issues = new LinkedList<>();
         for (String fileName : newReport.getParticipantFileNames()) {
             for (Audit report : getAuditReportsForAuditParticipantFileName(fileName)) {
                 if (report != newReport) {
-                    issues.addAll(report.removeIssuesForFile(fileName));
+                    List<Issue> removedIssues = report.removeIssuesForFile(fileName);
+                    if (removedIssues != null) {
+                        issues.addAll(removedIssues);
+                    }
                 }
             }
         }
         ApplicationManager.getApplication().invokeAndWait(() -> {
-            WindowUtils.activateToolWindow(project, ToolWindowId.OPEN_API_REPORT);
-            WindowUtils.activateToolWindow(project, ToolWindowId.OPEN_API_HTML_REPORT, () -> {
+            WindowUtils.activateToolWindow(project, OPEN_API_REPORT);
+            WindowUtils.activateToolWindow(project, OPEN_API_HTML_REPORT, () -> {
                 if (!issues.isEmpty()) {
                     project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleIssuesFixed(issues);
                 }
@@ -270,13 +279,13 @@ public final class AuditService implements IAuditService, Disposable {
         return reports;
     }
 
-    public void setAuditReport(@NotNull String fileName, @NotNull Audit audit) {
-        if (audit.isPlatform() && audit.isShowAsHTML()) {
+    public void setAuditReport(@NotNull String fileName, @NotNull Audit report) {
+        if (report.isDownloaded()) {
             List<String> keys = new LinkedList<>();
             for (Map.Entry<String, Audit> entry : cache.entrySet()) {
                 String key = entry.getKey();
-                Audit report = entry.getValue();
-                if (report.isPlatform() && report.isShowAsHTML()) {
+                Audit cacheReport = entry.getValue();
+                if (cacheReport.isDownloaded()) {
                     keys.add(key);
                 }
             }
@@ -284,7 +293,7 @@ public final class AuditService implements IAuditService, Disposable {
                 cache.remove(keys.get((int) Math.round((keys.size() - 1) * Math.random())));
             }
         }
-        cache.put(fileName, audit);
+        cache.put(fileName, report);
     }
 
     public Audit removeAuditReport(@NotNull String fileName) {
@@ -298,5 +307,116 @@ public final class AuditService implements IAuditService, Disposable {
             }
         }
         return true;
+    }
+
+    public void actionPerformed(@NotNull Project project, @NotNull VirtualFile file, @NotNull Credentials.Type type) {
+        actionPerformed(project, file, null, type);
+    }
+
+    public void actionPerformed(@NotNull Project project,
+                                @NotNull VirtualFile file,
+                                @Nullable AuditOperation payload,
+                                @NotNull Credentials.Type type) {
+        if (!PlatformConnection.isPlatformIntegrationEnabled()) {
+            runAudit(project, file, payload, type);
+            return;
+        }
+        PropertiesComponent settings = PropertiesComponent.getInstance();
+        String value = settings.getValue(Settings.Platform.Dictionary.PreAudit.CHOICE);
+        if (Settings.Platform.Dictionary.PreAudit.ASK.equals(value)) {
+            FixGlobalDictionaryAction action = new FixGlobalDictionaryAction();
+            if (action.update(project, file)) {
+                PreAuditDialog dialog = new PreAuditDialog(project);
+                dialog.show();
+                int code = dialog.getExitCode();
+                if (code == DialogWrapper.OK_EXIT_CODE) {
+                    updateAndRunAudit(action, project, file, payload, type);
+                } else if (code == PreAuditDialog.NO_EXIT_CODE) {
+                    runAudit(project, file, payload, type);
+                } else if (code == PreAuditDialog.ALWAYS_EXIT_CODE) {
+                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
+                    updateAndRunAudit(action, project, file, payload, type);
+                } else if (code == PreAuditDialog.NEVER_EXIT_CODE) {
+                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
+                    runAudit(project, file, payload, type);
+                }
+            } else {
+                runAudit(project, file, payload, type);
+            }
+        } else if (Settings.Platform.Dictionary.PreAudit.ALWAYS.equals(value)) {
+            FixGlobalDictionaryAction action = new FixGlobalDictionaryAction();
+            if (action.update(project, file)) {
+                updateAndRunAudit(action, project, file, payload, type);
+            } else {
+                runAudit(project, file, payload, type);
+            }
+        } else {
+            runAudit(project, file, payload, type);
+        }
+    }
+
+    private void updateAndRunAudit(FixGlobalDictionaryAction action,
+                                   Project project,
+                                   VirtualFile file,
+                                   AuditOperation payload,
+                                   Credentials.Type type) {
+        action.actionPerformed(project, file, new ActionCallback() {
+            @Override
+            public void setDone() {
+                runAudit(project, file, payload, type);
+            }
+        });
+    }
+
+    private void runAudit(Project project, VirtualFile file, AuditOperation payload, Credentials.Type type) {
+        final Callback callback = new Callback() {
+            @Override
+            public void complete(@NotNull Node report, @Nullable AuditCompliance compliance, @Nullable AuditToDoReport todoReport) {
+                pendingAudits.remove(file.getPath());
+                processAuditReport(file, report, compliance, todoReport);
+            }
+            @Override
+            public void reject(@NotNull String error) {
+                pendingAudits.remove(file.getPath());
+                ApplicationManager.getApplication().invokeAndWait(() ->
+                        project.getMessageBus().syncPublisher(AuditListener.TOPIC).showGeneralError(), ModalityState.NON_MODAL);
+                MsgUtils.error(project, error, true);
+            }
+        };
+        if (type == Credentials.Type.Anon) {
+            cleanAuditReport(file);
+            pendingAudits.put(file.getPath(), Boolean.TRUE);
+            AnonAuditTask task = payload == null ? new AnonAuditTask(project, file, callback) :
+                    new AnonAuditTask(project, payload, callback);
+            startAudit();
+            ProgressManager.getInstance().run(task);
+        } else if (type == Credentials.Type.Platform) {
+            cleanAuditReport(file);
+            pendingAudits.put(file.getPath(), Boolean.TRUE);
+            PlatformAuditTask task = payload == null ? new PlatformAuditTask(project, file, callback) :
+                    new PlatformAuditTask(project, payload, callback) ;
+            startAudit();
+            ProgressManager.getInstance().run(task);
+        }
+    }
+
+    private void startAudit() {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            WindowUtils.activate(project, OPEN_API_HTML_REPORT);
+            project.getMessageBus().syncPublisher(AuditListener.TOPIC).startAudit();
+        });
+    }
+
+    private void setKDB() throws KdbException {
+        try {
+            String newKdb = NetUtils.getKDB();
+            if (newKdb == null) {
+                throw new KdbException("Failed to read articles.json");
+            } else {
+                setArticles(newKdb);
+            }
+        } catch (IOException e) {
+            throw new KdbException("Failed to read articles.json: " + e);
+        }
     }
 }

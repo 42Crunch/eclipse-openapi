@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -46,7 +47,10 @@ import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.PlatformFavoriteState;
 import com.xliic.openapi.platform.tree.ui.PlatformPanelView;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
+import com.xliic.openapi.report.AuditUtils;
 import com.xliic.openapi.report.types.Audit;
+import com.xliic.openapi.report.types.AuditBuilder;
+import com.xliic.openapi.report.types.AuditDisplayOptions;
 import com.xliic.openapi.services.api.IPlatformService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.AuditListener;
@@ -60,14 +64,24 @@ public final class PlatformService implements IPlatformService, SettingsListener
 
     private static final String CONFIRMATION = "Are you sure you want to update remote API?";
 
+    @NotNull
     private final Project project;
+    @NotNull
     private final List<Task.Backgroundable> auditBkgTasks;
+    @NotNull
     private final Map<String, Boolean> modificationsMap;
+    @NotNull
     private final Map<String, PlatformDocumentListener> listenersMap;
+    @NotNull
     private final Map<String, Date> assessmentLastDates;
+    @NotNull
     private final Map<DefaultMutableTreeNode, Callback> treeAsyncCallbacksMap;
+    @NotNull
     private final PlatformReopener reopener;
+    @NotNull
     private PlatformFavoriteState favoriteState = new PlatformFavoriteState();
+    @NotNull
+    private final AuditBuilder auditBuilder;
 
     public PlatformService(@NotNull Project project) {
         this.project = project;
@@ -77,6 +91,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
         assessmentLastDates = new HashMap<>();
         treeAsyncCallbacksMap = new ConcurrentHashMap<>();
         reopener = new PlatformReopener(project);
+        auditBuilder = new AuditBuilder(project, true);
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
@@ -133,11 +148,11 @@ public final class PlatformService implements IPlatformService, SettingsListener
 
     public void platformAuditReady(@NotNull String apiId, @Nullable VirtualFile file, @Nullable Node node) {
         if (node != null) {
-            Node assessment = node.find("/attr/data");
-            float grade = Float.parseFloat(assessment.getChild("grade").getValue());
-            boolean isValid = Boolean.parseBoolean(assessment.getChild("isValid").getValue());
-            SwingUtilities
-                    .invokeLater(() -> project.getMessageBus().syncPublisher(PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
+            Node assessment = Objects.requireNonNull(node.find("/attr/data"));
+            float grade = Float.parseFloat(assessment.getChildValueRequireNonNull("grade"));
+            boolean isValid = Boolean.parseBoolean(assessment.getChildValueRequireNonNull("isValid"));
+            SwingUtilities.invokeLater(() ->
+                project.getMessageBus().syncPublisher(PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
             if (file != null) {
                 AuditService auditService = AuditService.getInstance(project);
                 Audit report = auditService.getAuditReport(file.getPath());
@@ -145,17 +160,34 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 if (reportNode == null) {
                     return;
                 }
+                String tid = node.getChildValueRequireNonNull("tid");
+                try {
+                    auditBuilder.setCompliance(AuditUtils.readAuditCompliance(tid));
+                } catch (Exception e) {
+                    auditBuilder.setCompliance(null);
+                    e.printStackTrace();
+                }
+                try {
+                    auditBuilder.setToDoReport(AuditUtils.readAuditReportSqgTodo(tid));
+                } catch (Exception e) {
+                    auditBuilder.setToDoReport(null);
+                    e.printStackTrace();
+                }
+                boolean showInBrowser = report == null || report.getDisplayOptions().isShowInBrowser();
+                boolean showInProblemsList = report == null || report.getDisplayOptions().isShowInProblemsList();
+                AuditDisplayOptions options = new AuditDisplayOptions(showInBrowser, showInProblemsList);
+                Audit newReport = auditBuilder.setFileName(file.getPath()).setAuditDisplayOptions(options).build(reportNode);
+                auditService.setAuditReport(file.getPath(), newReport);
                 ApplicationManager.getApplication().runReadAction(() -> {
-                    boolean showAsHTML = report == null || report.isShowAsHTML();
-                    boolean showAsProblems = report == null || report.isShowAsProblems();
-                    Audit newReport = new Audit(project, file.getPath(), reportNode, true, showAsHTML, showAsProblems);
-                    auditService.setAuditReport(file.getPath(), newReport);
+                    newReport.finalizeInReadAction();
                     PsiFile psiFile = Utils.findPsiFile(project, file);
                     if (psiFile != null) {
                         DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
                     }
                     SwingUtilities.invokeLater(() -> {
-                    	project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(report);
+                        if (report != null) {
+                            project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(report);
+                        }
                     	project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportReady(file);
                     });
                 });

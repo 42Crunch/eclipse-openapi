@@ -10,10 +10,13 @@ import com.xliic.core.vfs.VirtualFile;
 
 public class AsyncTask {
 
-    @SuppressWarnings("unused")
+    @NotNull
     private final Project project;
+    @NotNull
     private final VirtualFile file;
+    @NotNull
     private final AsyncTaskType type;
+    @NotNull
     private final Map<String, Object> data;
 
     public AsyncTask(@NotNull Project project, @NotNull AsyncTaskType type, @NotNull VirtualFile file) {
@@ -30,11 +33,11 @@ public class AsyncTask {
         this.data = data;
     }
 
-    public AsyncTaskType getType() {
+    public @NotNull AsyncTaskType getType() {
         return type;
     }
 
-    public VirtualFile getFile() {
+    public @NotNull VirtualFile getFile() {
         return file;
     }
 

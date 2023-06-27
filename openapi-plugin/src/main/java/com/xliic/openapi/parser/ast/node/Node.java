@@ -57,6 +57,7 @@ public abstract class Node implements Comparable<Node> {
         return Range.getHighLightRange(node);
     }
 
+    @Nullable
     public Node getChild(String key) {
         for (Node node : getChildren()) {
             if (node.getKey().equals(key)) {
@@ -66,17 +67,23 @@ public abstract class Node implements Comparable<Node> {
         return null;
     }
 
+    @NotNull
+    public Node getChildRequireNonNull(String key) {
+        return Objects.requireNonNull(getChild(key), "Node " + key + " is null");
+    }
+
     @Nullable
     public String getChildValue(String key) {
         Node result = getChild(key);
         return (result == null) ? null : result.getValue();
     }
-    
+
     @NotNull
     public String getChildValueRequireNonNull(@NotNull String key) {
-        return Objects.requireNonNull(getChildValue(key), "Property " + key + " is null");
+        return Objects.requireNonNull(getChildValue(key), "Prop " + key + " is null");
     }
 
+    @Nullable
     public Object getChildTypedValue(String key) {
         Node result = getChild(key);
         return (result == null) ? null : result.getTypedValue();
@@ -151,10 +158,12 @@ public abstract class Node implements Comparable<Node> {
         return null;
     }
 
+    @Nullable
     public Node find(String pointer) {
         return find(pointer, 0);
     }
 
+    @Nullable
     public Node find(String pointer, int offset) {
         if (parent != null) {
             pointer = getJsonPointer() + pointer;

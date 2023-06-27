@@ -37,11 +37,13 @@ public class ScanTask extends Task.Backgroundable {
     @Override
     public void run(@NotNull ProgressIndicator progress) {
         String apiId = null;
+        String collectionId = null;
         try {
             String oas = ScanUtils.extractSinglePath(path, bundle);
 
             progress.setText("Creating temp API");
-            apiId = ScanUtils.createTempAPI(oas);
+            collectionId = ScanUtils.findOrCreateTempCollection();
+            apiId = ScanUtils.createTempAPI(collectionId, oas);
 
             progress.setText(RUNNING_SECURITY_AUDIT);
             ScanUtils.auditTempAPI(getProject(), apiId);
@@ -63,6 +65,9 @@ public class ScanTask extends Task.Backgroundable {
             if (apiId != null) {
                 progress.setText("Deleting temp API");
                 ScanUtils.deleteAPI(apiId);
+            }
+            if (collectionId != null) {
+                ScanUtils.clearTempApis(collectionId);
             }
             progress.cancel();
         }

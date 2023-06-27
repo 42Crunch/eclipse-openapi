@@ -27,6 +27,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.inlined.InlinedDfsHandler;
 import com.xliic.openapi.platform.scan.ScanUtils;
+import com.xliic.openapi.report.AuditUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.tree.node.BaseNode;
@@ -101,9 +102,11 @@ public class OpenApiRightMouseClickHandler {
         } else if (isOperation(treeNode)) {
             TryItUtils.setActionsForOperation(psiFile, node.getNode(), actions);
             ScanUtils.setActionsForOperation(psiFile, node.getNode(), actions);
+            AuditUtils.setActionsForOperation(psiFile, node.getNode(), actions);
         } else if (isOperationId(treeNode)) {
             TryItUtils.setActionsForOperation(psiFile, node.getNode().getParent(), actions);
             ScanUtils.setActionsForOperation(psiFile, node.getNode().getParent(), actions);
+            AuditUtils.setActionsForOperation(psiFile, node.getNode(), actions);
         }
     }
 

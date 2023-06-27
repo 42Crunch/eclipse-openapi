@@ -5,6 +5,7 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.HEADER;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,10 +18,9 @@ import com.xliic.core.ide.passwordSafe.PasswordSafe;
 
 public class SecurityPropertiesComponent implements Disposable {
 
-    @NotNull
     private static final SecurityPropertiesComponent COMPONENT = new SecurityPropertiesComponent();
+    private static final String XLIIC = "xliic";
 
-    @NotNull
     private final Map<String, CredentialAttributes> attributes = new HashMap<>();
 
     @NotNull
@@ -32,7 +32,7 @@ public class SecurityPropertiesComponent implements Disposable {
         if (attributes.containsKey(key)) {
             return attributes.get(key);
         }
-        CredentialAttributes attr = new CredentialAttributes(CredentialAttributesKt.generateServiceName("xliic", key));
+        CredentialAttributes attr = new CredentialAttributes(CredentialAttributesKt.generateServiceName(XLIIC, key));
         attributes.put(key, attr);
         return attr;
     }
@@ -52,9 +52,18 @@ public class SecurityPropertiesComponent implements Disposable {
         PasswordSafe.getInstance().set(getCredentialAttrsByKey(key), new Credentials("", value));
     }
 
-    public void cleanAll() {
+    public void cleanAll(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
+        prevData.put(API_KEY, getValue(API_KEY));
         setValue(API_KEY, "");
+        keys.add(API_KEY);
+        prevData.put(HEADER, getValue(HEADER));
         setValue(HEADER, "");
+        keys.add(HEADER);
+    }
+
+    @Nullable
+    public String tryIsSecurePreferencesOk(@NotNull String key) {
+        return PasswordSafe.getInstance().tryIsPasswordOk(getCredentialAttrsByKey(key));
     }
 
     @Override

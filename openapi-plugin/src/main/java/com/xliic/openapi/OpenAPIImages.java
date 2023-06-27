@@ -56,6 +56,8 @@ public class OpenAPIImages {
     public static final ImageDescriptor ScanAnno;
 
     public static final ImageDescriptor EnvPanel;
+    public static final ImageDescriptor Audit;
+    public static final ImageDescriptor AuditAnno;
 
     public static final ImageDescriptor Config;
     public static final ImageDescriptor ConfigPanel;
@@ -111,6 +113,8 @@ public class OpenAPIImages {
         ScanPanel = createImageDescriptor("/icons/scanPanel.png");
         ScanAnno = createImageDescriptor("/icons/scanAnno.png");
         EnvPanel = createImageDescriptor("/icons/envPanel.png");
+        Audit = createImageDescriptor("/icons/audit.png");
+        AuditAnno = createImageDescriptor("/icons/auditAnno.png");
         Config = createImageDescriptor("/icons/config.png");
         ConfigPanel = createImageDescriptor("/icons/configPanel.png");
     }

@@ -22,6 +22,7 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.Puller;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.PlatformReportPuller;
 import com.xliic.openapi.platform.callback.PlatformCollectionCallback;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
@@ -44,12 +45,15 @@ public class ScanUtils {
     private static final int PULL_SCAN_CONFIG_DURATION = 30000;
     private static final int PULL_SCAN_REPORT_DURATION = 10000;
     private static final int PULL_REPORT_DURATION = 60000;
+    private static final String TMP_PREFIX = "tmp-";
+    public static final int TEMP_API_CLEAN_TIMEOUT = 160000;
+
     public static final String LIMIT_REACHED_MSG = "You have reached your maximum number of APIs. " +
             "Please contact support@42crunch.com to upgrade your account.";
 
     @NotNull
-    public static String createTempAPI(@NotNull String oas) throws Exception {
-        PlatformAPI api = ScanUtils.createTempApi(oas);
+    public static String createTempAPI(@NotNull String collectionId, @NotNull String oas) throws Exception {
+        PlatformAPI api = ScanUtils.createTempApi(collectionId, oas);
         return api.getId();
     }
 
@@ -169,9 +173,8 @@ public class ScanUtils {
     }
 
     @NotNull
-    public static PlatformAPI createTempApi(@NotNull String text) throws Exception {
-        String collectionId = findOrCreateTempCollection();
-        String apiName = "tmp-" + API_TEMP_NAME_DATE_FORMATTER.format(new Date());
+    public static PlatformAPI createTempApi(@NotNull String collectionId, @NotNull String text) throws Exception {
+        String apiName = TMP_PREFIX + API_TEMP_NAME_DATE_FORMATTER.format(new Date());
         try (Response response = ScanAPIs.createAPI(collectionId, apiName, text)) {
             Node body = NetUtils.getBodyNodeIgnoreCode(response);
             if (body != null) {
@@ -186,6 +189,28 @@ public class ScanUtils {
             }
         }
         throw new Exception("Failed to create temporary api " + apiName);
+    }
+
+    public static void clearTempApis(@NotNull String collectionId) {
+        // Check if any of the old apis have to be deleted
+        final long current = new Date().getTime();
+        try (Response response = PlatformAPIs.Sync.listApis(collectionId)) {
+            Node body = NetUtils.getBodyNodeRequireNonNull(response);
+            Node list = body.find("/list");
+            if (list != null) {
+                for (Node item : list.getChildren()) {
+                    Node desc = item.getChildRequireNonNull("desc");
+                    String name = desc.getChildValueRequireNonNull("name");
+                    if (name.startsWith(TMP_PREFIX)) {
+                        Date date = API_TEMP_NAME_DATE_FORMATTER.parse(name.replace(TMP_PREFIX, ""));
+                        if (current - date.getTime() > TEMP_API_CLEAN_TIMEOUT) {
+                            ScanUtils.deleteAPI(desc.getChildValueRequireNonNull("id"));
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        }
     }
 
     @NotNull
@@ -215,7 +240,7 @@ public class ScanUtils {
         return text;
     }
 
-    public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull List<ScanOperation> payloads) {
+    public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull List<Object> payloads) {
         String pathName = op.getParent().getKey();
         String operationName = op.getKey();
         int textOffset = op.getRange().getOffset();
@@ -223,12 +248,14 @@ public class ScanUtils {
     }
 
     public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull DefaultActionGroup actions) {
-        List<ScanOperation> payloads = new LinkedList<>();
+        List<Object> payloads = new LinkedList<>();
         setActionsForOperation(psiFile, op, payloads);
-        payloads.forEach(payload -> actions.add(new ScanAction("Scan", payload)));
+        payloads.forEach(p -> {
+            actions.add(new ScanAction("Scan", (ScanOperation) p));
+        });
     }
 
-    private static String findOrCreateTempCollection() throws Exception {
+    public static String findOrCreateTempCollection() throws Exception {
         try (Response searchResponse = ScanAPIs.searchCollections(COLLECTION_TEMP_NAME)) {
             Node searchBody = NetUtils.getBodyNode(searchResponse);
             if (searchBody != null) {
