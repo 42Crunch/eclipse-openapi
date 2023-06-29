@@ -29,10 +29,11 @@ import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
 import com.xliic.openapi.settings.Settings.Platform;
+import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.payload.TryItOperation;
 
-public final class AnnotationService implements IAnnotationService, SettingsListener, Disposable {
+public final class AnnotationService implements IAnnotationService, FileListener, SettingsListener, Disposable {
 
     private final Project project;
     private final Map<String, InlinedAnnotationSupport> cache = new HashMap<>();
@@ -119,6 +120,13 @@ public final class AnnotationService implements IAnnotationService, SettingsList
     }
 
     @Override
+    public void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName) {
+        if (cache.containsKey(oldFileName)) {
+            cache.put(newFile.getPath(), cache.remove(oldFileName));
+        }
+    }
+
+    @Override
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (project.isDisposed()) {
             return;
@@ -128,10 +136,10 @@ public final class AnnotationService implements IAnnotationService, SettingsList
             if (isAnnotationsEnabled) {
                 requestDfs();
             } else {
-                cleanAnnotations();
+                dropAllSupport();
             }
         } else if (keys.contains(Platform.TURNED_ON) || keys.contains(Platform.TURNED_OFF)) {
-            cleanAnnotations();
+            dropAllSupport();
             requestDfs();
         }
     }
@@ -142,9 +150,15 @@ public final class AnnotationService implements IAnnotationService, SettingsList
         return painter;
     }
 
-    private void cleanAnnotations() {
-        for (InlinedAnnotationSupport support: cache.values()) {
-            support.updateAnnotations(new HashSet<>());
+    // Uninstall support, but leave file keys in the cache to be able to request DFS later
+    // If we simply run support.updateAnnotations(new HashSet<>()) this may lead to visual overlapping
+    private void dropAllSupport() {
+        for (String filePath : cache.keySet()) {
+            InlinedAnnotationSupport support = cache.get(filePath);
+            if (support != null) {
+                support.uninstall();
+                cache.put(filePath, null);
+            }
         }
     }
 

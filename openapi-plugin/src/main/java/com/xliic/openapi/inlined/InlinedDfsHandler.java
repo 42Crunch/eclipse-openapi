@@ -4,6 +4,8 @@ import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
 import static com.xliic.openapi.platform.PlatformConnection.isPlatformIntegrationEnabled;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -71,12 +73,14 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
             if (annotationService.isAnnotationSupportInstalled(file)) {
                 annotationService.updateAnnotations(psiFile, data);
             } else {
+                // Copy data to avoid list modification exception in the closure below
+                final List<Object> copy = new LinkedList<>(data);
                 ApplicationManager.getApplication().runReadAction(() -> {
                     if (version == OpenApiVersion.Unknown) {
                         annotationService.uninstall(file);
                     } else {
                         annotationService.install(file);
-                        annotationService.updateAnnotations(psiFile, data);
+                        annotationService.updateAnnotations(psiFile, copy);
                     }
                 });
             }

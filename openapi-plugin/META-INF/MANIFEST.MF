@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse-openapi
 Bundle-SymbolicName: openapi-plugin;singleton:=true
-Bundle-Version: 1.0.56
+Bundle-Version: 1.0.57
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.13.700",
