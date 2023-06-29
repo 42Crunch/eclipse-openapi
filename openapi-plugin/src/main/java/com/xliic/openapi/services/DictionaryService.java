@@ -215,10 +215,6 @@ public final class DictionaryService implements IDictionaryService, SettingsList
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
-            } else if (keys.contains(Platform.TURNED_ON)) {
-                cache.clear();
-                dictionaries.clear();
-                reload(true);
             } else {
                 reload(false);
             }

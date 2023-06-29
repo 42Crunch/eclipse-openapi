@@ -9,13 +9,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.DocumentAdapter;
 import com.xliic.core.ui.DocumentEvent;
 import com.xliic.core.ui.components.JTextComponent;
 import com.xliic.core.ui.components.JTextField;
 import com.xliic.openapi.SecurityPropertiesComponent;
+import com.xliic.openapi.config.ConfigListener;
+import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.settings.items.Item;
 import com.xliic.openapi.settings.items.ItemPlatformCredentials;
 import com.xliic.openapi.settings.wizard.WizardCallback;
@@ -46,8 +50,10 @@ public class PlatformTokenWizardDialog extends WizardDialog {
     @Override
     protected void applySettings(@NotNull Set<String> keys) {
         keys.add(API_KEY);
-        SecurityPropertiesComponent.getInstance().getValue(API_KEY, "");
-
+        keys.add(Platform.TURNED_ON);
+        SecurityPropertiesComponent.getInstance().setValue(API_KEY, component.getText());
+        ApplicationManager.getApplication().invokeAndWait(() ->
+            project.getMessageBus().syncPublisher(ConfigListener.TOPIC).loadConfig(new Config()));
     }
 
     @Override

@@ -130,7 +130,7 @@ public final class AnnotationService implements IAnnotationService, SettingsList
             } else {
                 cleanAnnotations();
             }
-        } else if ((keys.contains(Platform.TURNED_ON) || keys.contains(Platform.TURNED_OFF))) {
+        } else if (keys.contains(Platform.TURNED_ON) || keys.contains(Platform.TURNED_OFF)) {
             cleanAnnotations();
             requestDfs();
         }
