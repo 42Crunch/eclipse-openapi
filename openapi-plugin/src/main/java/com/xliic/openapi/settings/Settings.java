@@ -63,7 +63,7 @@ public class Settings {
             public static final String SERVICES = "com.xliic.openapi.settings.platform.scan.services";
             public static final String ENV_DEFAULT_KEY = "com.xliic.openapi.settings.platform.scan.default.env";
             public static final String ENV_SECRETS_KEY = "com.xliic.openapi.settings.platform.scan.secrets.env";
-            private static final String DEFAULT_IMAGE_VALUE = "42crunch/scand-agent:v2.0.0-rc05";
+            private static final String DEFAULT_IMAGE_VALUE = "42crunch/scand-agent:v2.0.0";
             public static final String RUNTIME = "com.xliic.openapi.settings.platform.scan.runtime";
             public static final String RUNTIME_DOCKER = "docker";
 

@@ -57,6 +57,7 @@ public class LoadConfig extends WebAppConsume {
         result.put("scandManager", scandManager);
 
         result.put("insecureSslHostnames", Settings.getValues(Settings.TryIt.INSECURE_SSL_HOSTNAMES));
+        result.put("platform", config.getPlatform());
         return result;
     }
 }

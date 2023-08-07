@@ -102,9 +102,9 @@ public abstract class ScanRunTask extends Task.Backgroundable {
             runScan(progress, image, services, token, env);
 
             progress.setText("Waiting for scan report");
-            String reportId = ScanUtils.waitForScanReport(apiId);
+            String reportId = ScanUtils.waitForScanReport(apiId, isNewApi);
             progress.setText("Reading scan report");
-            ScanReport report = ScanUtils.readScanReport(reportId);
+            ScanReport report = ScanUtils.readScanReport(reportId, isNewApi);
             callback.setDone(report);
 
         } catch (Exception e) {

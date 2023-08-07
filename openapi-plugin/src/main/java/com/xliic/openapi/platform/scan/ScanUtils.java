@@ -43,7 +43,7 @@ public class ScanUtils {
     private static final SimpleDateFormat API_TEMP_NAME_DATE_FORMATTER = new SimpleDateFormat("HHmmssddMMyyyy");
     private static final int PAUSE = 1000;
     private static final int PULL_SCAN_CONFIG_DURATION = 30000;
-    private static final int PULL_SCAN_REPORT_DURATION = 10000;
+    private static final int PULL_SCAN_REPORT_DURATION = 30000;
     private static final int PULL_REPORT_DURATION = 60000;
     private static final String TMP_PREFIX = "tmp-";
     public static final int TEMP_API_CLEAN_TIMEOUT = 160000;
@@ -113,18 +113,18 @@ public class ScanUtils {
     }
 
     @NotNull
-    public static ScanReport readScanReport(@NotNull String reportId) throws Exception {
+    public static ScanReport readScanReport(@NotNull String reportId, boolean isNewApi) throws Exception {
         try (Response response = ScanAPIs.readScanReport(reportId)) {
             Node body = NetUtils.getBodyNode(response);
             if (body != null) {
-                return ScanReport.getInstance(body);
+                return ScanReport.getInstance(body, isNewApi);
             }
         }
         throw new Exception("Failed to read docker scan report");
     }
 
     @NotNull
-    public static String waitForScanReport(@NotNull String apiId) throws Exception {
+    public static String waitForScanReport(@NotNull String apiId, boolean isNewApi) throws Exception {
         List<ScanReport> reports = new Puller<List<ScanReport>>(PAUSE, PULL_SCAN_REPORT_DURATION) {
             @Override
             protected @NotNull Response send() throws IOException {
@@ -137,7 +137,7 @@ public class ScanUtils {
                 if (list == null || list.getChildren().isEmpty()) {
                     return null;
                 }
-                return list.getChildren().stream().map(ScanReport::getInstance).collect(Collectors.toList());
+                return list.getChildren().stream().map(node -> ScanReport.getInstance(node, isNewApi)).collect(Collectors.toList());
             }
 
             @Override

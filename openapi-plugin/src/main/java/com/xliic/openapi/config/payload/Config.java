@@ -6,6 +6,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ide.util.PropertiesComponent;
+import com.xliic.core.util.SystemInfoRt;
 import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.settings.Settings;
 
@@ -25,6 +26,8 @@ public class Config {
     private final ScandManagerConnection scandManager;
     @NotNull
     private final List<String> insecureSslHostnames;
+    @NotNull
+    private final String platform;
 
     public Config() {
         PropertiesComponent props = PropertiesComponent.getInstance();
@@ -35,6 +38,7 @@ public class Config {
         platformServices = new PlatformServices();
         scandManager = new ScandManagerConnection();
         insecureSslHostnames = new LinkedList<>(Settings.getValues(Settings.TryIt.INSECURE_SSL_HOSTNAMES));
+        platform = getPlatformArch();
     }
 
     public @NotNull String getPlatformUrl() {
@@ -63,5 +67,26 @@ public class Config {
 
     public @NotNull List<String> getInsecureSslHostnames() {
         return insecureSslHostnames;
+    }
+
+    public @NotNull String getPlatform() {
+        return platform;
+    }
+
+    private String getPlatformArch() {
+        if (SystemInfoRt.isWindows) {
+            return "win32";
+        } else if (SystemInfoRt.isLinux) {
+            return "linux";
+        } else if (SystemInfoRt.isMac) {
+            return "darwin";
+        } else if (SystemInfoRt.isFreeBSD) {
+            return "freebsd";
+        } else if (SystemInfoRt.isSolaris) {
+            return "sunos";
+        } else if (SystemInfoRt.isUnix) {
+            return "aix";
+        }
+        return "";
     }
 }

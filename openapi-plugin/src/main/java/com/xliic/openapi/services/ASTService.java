@@ -192,9 +192,11 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         runDfs(file.getPath(), root);
         if (root != null) {
             ApplicationManager.getApplication().invokeLater(() -> {
-                PsiFile psiFile = Utils.findPsiFile(project, file);
-                if (psiFile != null) {
-                    DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
+                if (!project.isDisposed()) {
+                    PsiFile psiFile = Utils.findPsiFile(project, file);
+                    if (psiFile != null) {
+                        DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
+                    }
                 }
             });
         }
@@ -229,15 +231,17 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         auditService.update(file);
         boolean finalUpdateSchemas = updateSchemas;
         ApplicationManager.getApplication().invokeLater(() -> {
-            PsiFile psiFile = Utils.findPsiFile(project, file);
-            if (psiFile != null) {
-                DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
-            }
-            if (finalUpdateSchemas) {
-                JsonSchemaService.Impl.get(project).reset();
-            }
-            if (documentChanged && !project.isDisposed()) {
-                project.getMessageBus().syncPublisher(FileListener.TOPIC).handleDocumentChanged(file);
+            if (!project.isDisposed()) {
+                PsiFile psiFile = Utils.findPsiFile(project, file);
+                if (psiFile != null) {
+                    DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
+                }
+                if (finalUpdateSchemas) {
+                    JsonSchemaService.Impl.get(project).reset();
+                }
+                if (documentChanged && !project.isDisposed()) {
+                    project.getMessageBus().syncPublisher(FileListener.TOPIC).handleDocumentChanged(file);
+                }
             }
         });
     }

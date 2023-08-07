@@ -147,10 +147,7 @@ public class BundleService extends AsyncService implements SettingsListener, IBu
 
     @Override
     protected void beforeFileClosed(AsyncTask task) {
-        VirtualFile file = task.getFile();
-        if (file != null) {
-            remove(file.getPath());
-        }
+        remove(task.getFile().getPath());
     }
 
     @Override

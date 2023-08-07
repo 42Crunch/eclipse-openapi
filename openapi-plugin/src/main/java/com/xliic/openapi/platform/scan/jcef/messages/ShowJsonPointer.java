@@ -1,7 +1,6 @@
 package com.xliic.openapi.platform.scan.jcef.messages;
 
 import java.io.File;
-import java.net.URI;
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,27 +25,13 @@ public class ShowJsonPointer extends WebAppProduce {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void run(@Nullable Object payload) {
-        if (payload instanceof Map) {
-            Map<String, Object> map = (Map<String, Object>) payload;
-            String uri = (String) map.get("document");
-            if (uri != null) {
-                String filePath = URI.create(uri).getPath();
+        if (payload instanceof String) {
+            String filePath = (String) cache.get(SavePreferences.PSI_FILE_PATH);
+            if (filePath != null) {
                 VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
-                if (file == null) {
-                    // The file might have been renamed or even deleted, thus its uri from web app is invalid
-                    // Get cache file path value as it is always up-to-date
-                    filePath = (String) cache.get(SavePreferences.PSI_FILE_PATH);
-                    if (filePath != null) {
-                        file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
-                    }
-                }
                 if (file != null) {
-                    String pointer = (String) map.get("jsonPointer");
-                    if (pointer != null) {
-                        Utils.goToPointerInFile(project, file, pointer);
-                    }
+                    Utils.goToPointerInFile(project, file, (String) payload);
                 }
             }
         }
