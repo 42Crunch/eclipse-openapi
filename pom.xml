@@ -40,16 +40,22 @@
 		</repository>
 
 		<repository>
-            <id>chromium-swt-ce</id>
+            <id>Equo-Chromium SWT</id>
             <layout>p2</layout>
-  			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/swt/106.0.2/repository</url>
+  			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/swt/106.0.13/repository</url>
 		</repository> 
 
 		<repository>
-			<id>chromium-cef-ce</id>
+			<id>Equo-Chromium CEF</id>
             <layout>p2</layout>
-            <url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/106.0.2/repository</url>
+            <url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/106.0.13/repository</url>
         </repository>
+		
+		<repository>
+			<id>Equo-Chromium CEF (ARM)</id>
+			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/106.0.13-arm/repository</url>
+			<layout>p2</layout>
+		</repository>
 
 	</repositories>
 
@@ -119,6 +125,16 @@
 							<os>macosx</os>
 							<ws>cocoa</ws>
 							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>aarch64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>aarch64</arch>
 						</environment>
 					</environments>
 				</configuration>
