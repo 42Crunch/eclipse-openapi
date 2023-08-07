@@ -9,6 +9,9 @@
    <feature id="com.equo.chromium.cef.feature">
       <category name="openapi-edit"/>
    </feature>
+   <feature id="com.equo.chromium.cef.arm.feature">
+      <category name="openapi-edit"/>
+   </feature>
    <feature id="com.equo.chromium.feature">
       <category name="openapi-edit"/>
    </feature>
