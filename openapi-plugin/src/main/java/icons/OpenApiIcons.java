@@ -41,6 +41,7 @@ public interface OpenApiIcons {
     Icon PlatformOAS = findIcon("platform-oas.svg");
     Icon PlatformAuditVerified = findIcon("platform-audit-verified.svg");
     Icon PlatformAuditUnverified = findIcon("platform-audit-unverified.svg");
+    Icon PlatformFileSymLink = findIcon("file-symlink-file.svg");
     Icon Dictionary = findIcon("platform-data-dictionary.png");
     Icon TryIt = findIcon("tryit.svg");
     Icon TryItPanel = findIcon("tryitPanel.svg");

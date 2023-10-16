@@ -17,6 +17,7 @@ import com.xliic.openapi.platform.tree.node.PlatformDataDictionary;
 import com.xliic.openapi.platform.tree.node.PlatformOAS;
 import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 import com.xliic.openapi.platform.tree.node.PlatformRootFavorite;
+import com.xliic.openapi.platform.tree.node.PlatformTechOAS;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformErrorDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformFilterDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
@@ -55,6 +56,9 @@ public class PlatformColoredTreeCellRenderer extends ColoredTreeCellRenderer {
             PlatformCollection pco = (PlatformCollection) valueObj;
             append(pco.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
             setIcon(pco.isLocked() ? OpenApiIcons.PlatformFolderLocked : OpenApiIcons.PlatformFolder);
+            if (pco.isCheckedOut()) {
+                append(" [checked out]", SimpleTextAttributes.GRAYED_BOLD_ATTRIBUTES);
+            }
         } else if (valueObj instanceof PlatformAPI) {
             PlatformAPI pao = (PlatformAPI) valueObj;
             append(pao.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
@@ -78,12 +82,19 @@ public class PlatformColoredTreeCellRenderer extends ColoredTreeCellRenderer {
         } else if (valueObj instanceof PlatformOAS) {
             PlatformOAS poo = (PlatformOAS) valueObj;
             append(poo.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
+            if (poo.isReadOnly()) {
+                append(" (read only)", SimpleTextAttributes.GRAYED_ATTRIBUTES);
+            }
             if (poo.isInProgress()) {
                 append(" " + CommonBundle.getLoadingTreeNodeText(), SimpleTextAttributes.GRAYED_ATTRIBUTES);
                 setIcon(AnimatedIcon.Default.INSTANCE);
             } else {
                 setIcon(OpenApiIcons.PlatformOAS);
             }
+        } else if (valueObj instanceof PlatformTechOAS) {
+            PlatformTechOAS poo = (PlatformTechOAS) valueObj;
+            append(poo.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
+            setIcon(OpenApiIcons.PlatformFileSymLink);
         } else if (valueObj instanceof PlatformLoadMoreDecorator) {
             PlatformLoadMoreDecorator lmd = (PlatformLoadMoreDecorator) valueObj;
             append(lmd.getName(), SimpleTextAttributes.REGULAR_ATTRIBUTES);

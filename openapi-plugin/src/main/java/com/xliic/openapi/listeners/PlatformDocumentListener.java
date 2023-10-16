@@ -26,7 +26,7 @@ public class PlatformDocumentListener extends DocumentListener {
         VirtualFile file = FileDocumentManager.getInstance().getFile(event.getDocument());
         if (file != null && !event.isWholeTextReplaced()) {
             PlatformService platformService = PlatformService.getInstance(project);
-            platformService.setFileIsModified(file, true);
+            platformService.setFileDirty(file, true);
         }
     }
 }

@@ -25,6 +25,8 @@ import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.TempFileUtils;
 import com.xliic.openapi.utils.Utils;
 
+import static com.xliic.openapi.platform.tree.utils.PlatformAPIUtils.isReadOnly;
+
 public class PlatformOASCallback extends SuccessASTResponseCallback {
 
     private final Tree tree;
@@ -51,6 +53,7 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
         try {
             Node desc = node.getChildRequireNonNull("desc");
             String id = desc.getChildValueRequireNonNull("id");
+            String technicalName = desc.getChildValueRequireNonNull("technicalName");
             Date date = PlatformUtils.getLastAssessmentDate(node.getChild("assessment"));
             if (date != null) {
                 PlatformService platformService = PlatformService.getInstance(project);
@@ -69,7 +72,8 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
             if (file != null) {
                 LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
                 PlatformService platformService = PlatformService.getInstance(project);
-                platformService.setFileIsModified(file, false);
+                platformService.setFileReadOnly(file, isReadOnly(id, technicalName));
+                platformService.setFileDirty(file, false);
                 PlatformAPIs.readAuditReport(id, new PlatformAuditCallback(project, file, tree, progressDMTN, showAsHTML, openInEditor));
             } else {
                 PlatformUtils.setInProgress(tree, progressDMTN, false);

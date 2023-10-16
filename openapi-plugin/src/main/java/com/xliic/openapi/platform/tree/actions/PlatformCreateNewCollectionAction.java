@@ -56,9 +56,11 @@ public class PlatformCreateNewCollectionAction extends AnJAction implements Dumb
 
     @NotNull
     public static PlatformCollection getPlatformCollection(@NotNull Node node) {
-        String id = node.getChild("desc").getChild("id").getValue();
-        String name = node.getChild("desc").getChild("name").getValue();
-        boolean locked = !Boolean.parseBoolean(node.getChild("summary").getChild("writeApis").getValue());
-        return new PlatformCollection(id, name, locked);
+        Node desc = node.getChildRequireNonNull("desc");
+        String id = desc.getChildValueRequireNonNull("id");
+        String name = desc.getChildValueRequireNonNull("name");
+        String technicalName = desc.getChildValueRequireNonNull("technicalName");
+        boolean locked = !Boolean.parseBoolean(node.getChildRequireNonNull("summary").getChildValueRequireNonNull("writeApis"));
+        return new PlatformCollection(id, name, locked, technicalName);
     }
 }

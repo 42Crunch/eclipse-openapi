@@ -35,6 +35,7 @@ import com.xliic.openapi.platform.tree.node.core.Paginator;
 import com.xliic.openapi.platform.tree.node.core.ProgressAware;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformFilterDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
+import com.xliic.openapi.services.GitService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.utils.Utils;
 
@@ -146,6 +147,7 @@ public class PlatformUtils {
         // Set it before reload to ask model to take care of non leaf children
         tree.expandPath(TreePathUtil.pathToTreeNode(favoriteCollections));
         tree.expandPath(TreePathUtil.pathToTreeNode(cloudCollections));
+        GitService.getInstance(project).refresh();
         model.reload();
     }
 

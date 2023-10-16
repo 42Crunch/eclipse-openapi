@@ -57,4 +57,6 @@ Bundle-ClassPath: .,
  libs/websocket-client-9.4.49.v20220914.jar,
  libs/websocket-common-9.4.49.v20220914.jar,
  libs/websocket-server-9.4.49.v20220914.jar,
- libs/websocket-servlet-9.4.49.v20220914.jar
+ libs/websocket-servlet-9.4.49.v20220914.jar,
+ libs/org.eclipse.jgit-4.6.0.201612231935-r.jar,
+ libs/slf4j-api-1.7.5.jar

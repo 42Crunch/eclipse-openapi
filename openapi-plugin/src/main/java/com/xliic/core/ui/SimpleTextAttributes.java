@@ -19,6 +19,7 @@ public final class SimpleTextAttributes extends Styler {
     public static final SimpleTextAttributes REGULAR_BOLD_ATTRIBUTES = new SimpleTextAttributes(STYLE_BOLD, null);
     public static final SimpleTextAttributes GRAYED_ATTRIBUTES = new SimpleTextAttributes(STYLE_PLAIN, JBColor.GRAY);
     public static final SimpleTextAttributes GRAY_ITALIC_ATTRIBUTES = new SimpleTextAttributes(STYLE_ITALIC, JBColor.GRAY);
+    public static final SimpleTextAttributes GRAYED_BOLD_ATTRIBUTES = new SimpleTextAttributes(STYLE_BOLD, JBColor.GRAY);
 
     private static final Font FONT_BOLD = getFont(SWT.BOLD);
     private static final Font FONT_ITALIC = getFont(SWT.ITALIC);

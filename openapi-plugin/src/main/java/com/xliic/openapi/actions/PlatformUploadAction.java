@@ -45,7 +45,7 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
             return;
         }
         PlatformService platformService = PlatformService.getInstance(project);
-        event.getPresentation().setEnabled(platformService.isPlatformFileModified(file));
+        event.getPresentation().setEnabled(platformService.isFileDirty(file) && !platformService.isFileReadOnly(file));
     }
 
     @Override
@@ -112,7 +112,7 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
 
     private void runSaveToPlatform(Project project, VirtualFile file) {
         PlatformService platformService = PlatformService.getInstance(project);
-        if (platformService.isPlatformFileModified(file)) {
+        if (platformService.isFileDirty(file)) {
             platformService.saveToPlatform(file, true);
         }
     }

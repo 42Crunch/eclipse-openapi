@@ -10,7 +10,6 @@ public class OpenAPIProjectManagerListener extends ProjectManagerListener {
 
     @Override
     public void projectClosingBeforeSave(@NotNull Project project) {
-        PlatformService platformService = PlatformService.getInstance(project);
-        platformService.clearPlatformFileModifications();
+    	PlatformService.getInstance(project).projectClosingBeforeSave();
     }
 }

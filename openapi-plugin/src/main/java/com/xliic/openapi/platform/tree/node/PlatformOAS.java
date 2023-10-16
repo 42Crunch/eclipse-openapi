@@ -12,12 +12,14 @@ public class PlatformOAS implements ProgressAware {
 
     private final String id;
     private final boolean isJson;
+    private final boolean readOnly;
 
     private volatile boolean inProgress;
 
-    public PlatformOAS(@NotNull String id, boolean isJson) {
+    public PlatformOAS(@NotNull String id, boolean isJson, boolean readOnly) {
         this.id = id;
         this.isJson = isJson;
+        this.readOnly = readOnly;
     }
 
     public String getName() {
@@ -44,5 +46,9 @@ public class PlatformOAS implements ProgressAware {
 
     public VirtualFile getVirtualFile() {
         return TempFileUtils.getPlatformVirtualFile(id, isJson);
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
     }
 }
