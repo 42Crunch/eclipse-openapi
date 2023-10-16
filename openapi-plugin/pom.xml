@@ -29,6 +29,7 @@
     <snakeyaml.version>1.30</snakeyaml.version>
     <javax.servlet.api.version>3.1.0</javax.servlet.api.version>
 	<jetty.version>9.4.49.v20220914</jetty.version>
+	<ant.style.path.matcher.version>1.0.0</ant.style.path.matcher.version>
   </properties>
   
   <dependencies>
@@ -389,6 +390,15 @@
 		      <outputDirectory>libs</outputDirectory>    
 			</artifactItem>
             
+			<artifactItem>
+		      <groupId>io.github.azagniotov</groupId>
+		      <artifactId>ant-style-path-matcher</artifactId>
+		      <version>${ant.style.path.matcher.version}</version>
+		      <type>jar</type>
+		      <overWrite>false</overWrite>
+		      <outputDirectory>libs</outputDirectory>    
+			</artifactItem>
+			
           </artifactItems>
         </configuration>
       </plugin>
