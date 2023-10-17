@@ -10,11 +10,10 @@ import com.xliic.core.project.Project;
 import com.xliic.openapi.utils.MsgUtils;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public abstract class SuccessResponseCallback implements Callback {
+public abstract class SuccessResponseCallback implements EnqueueCallback {
 
     protected final Project project;
 
@@ -24,8 +23,12 @@ public abstract class SuccessResponseCallback implements Callback {
 
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        MsgUtils.error(project, FAILED_TO_CONNECT + e, true);
-        e.printStackTrace();
+        onFailure(FAILED_TO_CONNECT + e);
+    }
+
+    @Override
+    public void onFailure(@NotNull String reason) {
+        MsgUtils.error(project, reason, true);
     }
 
     public abstract void onCode200Response();

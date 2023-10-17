@@ -42,7 +42,7 @@ public class SaveConfig extends WebAppProduce {
     private final Map<String, Object> prevData = new HashMap<>();
 
     public SaveConfig(@NotNull Project project) {
-        super("saveConfig");
+    	super("saveConfig", 1000);
         this.project = project;
     }
 

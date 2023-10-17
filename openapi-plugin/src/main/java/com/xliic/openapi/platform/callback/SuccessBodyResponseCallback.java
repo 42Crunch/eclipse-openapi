@@ -9,11 +9,10 @@ import com.xliic.core.project.Project;
 import com.xliic.openapi.utils.MsgUtils;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public abstract class SuccessBodyResponseCallback implements Callback {
+public abstract class SuccessBodyResponseCallback implements EnqueueCallback {
 
     public static final String FAILED_TO_CONNECT = "Failed to connect: ";
 
@@ -35,6 +34,7 @@ public abstract class SuccessBodyResponseCallback implements Callback {
         e.printStackTrace();
     }
 
+    @Override
     public void onFailure(@NotNull String reason) {
         if (showDialogOnFailure) {
             MsgUtils.error(project, reason, true);
