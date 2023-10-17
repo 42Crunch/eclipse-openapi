@@ -1,6 +1,6 @@
 package com.xliic.openapi.report.types;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.util.LinkedList;
 import java.util.List;

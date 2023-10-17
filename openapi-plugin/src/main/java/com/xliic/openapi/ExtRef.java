@@ -4,7 +4,7 @@ import static com.xliic.openapi.quickfix.QuickFix.formatFixText;
 import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
-import static org.apache.commons.lang.RandomStringUtils.random;
+import static org.apache.commons.lang3.RandomStringUtils.random;
 
 import java.io.IOException;
 import java.net.URI;

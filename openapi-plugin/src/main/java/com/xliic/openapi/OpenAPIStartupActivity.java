@@ -1,6 +1,6 @@
 package com.xliic.openapi;
 
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;

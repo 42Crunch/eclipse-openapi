@@ -1,6 +1,6 @@
 package com.xliic.openapi.report.tree.filter;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class FilterState {
 

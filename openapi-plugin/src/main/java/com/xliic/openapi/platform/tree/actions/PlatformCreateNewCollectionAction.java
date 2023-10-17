@@ -1,6 +1,6 @@
 package com.xliic.openapi.platform.tree.actions;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.actionSystem.AnJAction;
