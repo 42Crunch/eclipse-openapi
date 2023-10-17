@@ -31,18 +31,20 @@ public class PlatformCollectionCallback extends SuccessASTResponseWithFailureDec
         List<PlatformCollection> collections = new LinkedList<>();
         if (list != null) {
             for (Node item : list.getChildren()) {
-                String id, name;
+                String id, name, technicalName;
                 Node desc = item.getChild("desc");
                 if (desc == null) {
-                    id = item.getChild("id").getValue();
-                    name = item.getChild("name").getValue();
+                    id = item.getChildValueRequireNonNull("id");
+                    name = item.getChildValueRequireNonNull("name");
+                    technicalName = item.getChildValueRequireNonNull("technicalName");
                 } else {
-                    id = desc.getChild("id").getValue();
-                    name = desc.getChild("name").getValue();
+                    id = desc.getChildValueRequireNonNull("id");
+                    name = desc.getChildValueRequireNonNull("name");
+                    technicalName = desc.getChildValueRequireNonNull("technicalName");
                 }
                 Node summary = item.getChild("summary");
-                boolean locked = summary != null && !Boolean.parseBoolean(summary.getChild("writeApis").getValue());
-                collections.add(new PlatformCollection(id, name, locked));
+                boolean locked = summary != null && !Boolean.parseBoolean(summary.getChildValueRequireNonNull("writeApis"));
+                collections.add(new PlatformCollection(id, name, locked, technicalName));
             }
         }
         return collections;

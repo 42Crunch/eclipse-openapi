@@ -15,6 +15,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.PlaceHolderService;
+import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.utils.TempFileUtils;
 
 public class OpenApiFileEditorManagerListener implements FileEditorManagerListener {
@@ -37,7 +38,7 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
             return;
         }
         if (isOpenAPIFileType(file)) {
-            if (isExtRefFile(file)) {
+            if (isExtRefFile(file) || PlatformService.getInstance(project).isFileReadOnly(file)) {
                 Document document = FileDocumentManager.getInstance().getDocument(file);
                 if (document != null) {
                     document.setReadOnly(true);

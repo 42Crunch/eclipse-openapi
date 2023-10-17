@@ -9,19 +9,25 @@ public abstract class WebAppProduce {
     private final String name;
     private final boolean payloadAsAST;
     private final boolean insideEDT;
+    private final int rate;
 
     public WebAppProduce(@NotNull String name) {
         this(name, false);
     }
 
-    public WebAppProduce(@NotNull String name, boolean payloadAsAST) {
-        this(name, payloadAsAST, true);
+    public WebAppProduce(@NotNull String name, int rate) {
+        this(name, false, true, rate);
     }
 
-    public WebAppProduce(@NotNull String name, boolean payloadAsAST, boolean insideEDT) {
+    public WebAppProduce(@NotNull String name, boolean payloadAsAST) {
+        this(name, payloadAsAST, true, -1);
+    }
+
+    public WebAppProduce(@NotNull String name, boolean payloadAsAST, boolean insideEDT, int rate) {
         this.name = name;
         this.payloadAsAST = payloadAsAST;
         this.insideEDT = insideEDT;
+        this.rate = rate;
     }
 
     @NotNull
@@ -35,6 +41,10 @@ public abstract class WebAppProduce {
 
     public boolean isInsideEDT() {
         return insideEDT;
+    }
+
+    public int getRate() {
+        return rate;
     }
 
     public abstract void run(@Nullable Object payload);

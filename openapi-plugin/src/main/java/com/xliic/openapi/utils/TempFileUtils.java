@@ -88,6 +88,7 @@ public class TempFileUtils {
 
     private static VirtualFile createTempFile(@NotNull VirtualFile tmpFile, @NotNull String text) throws FileNotFoundException, IOException {
         Charset charset = tmpFile.getCharset();
+        tmpFile.setReadOnly(false);
         try (OutputStream stream = new FileOutputStream(tmpFile.getPath(), false)) {
             stream.write(text.getBytes(charset));
             return tmpFile;

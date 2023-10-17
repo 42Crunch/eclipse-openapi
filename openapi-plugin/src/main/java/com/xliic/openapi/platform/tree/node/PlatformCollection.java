@@ -1,35 +1,48 @@
 package com.xliic.openapi.platform.tree.node;
 
+import java.util.Objects;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.project.Project;
+import com.xliic.openapi.GitRepoProps;
 import com.xliic.openapi.platform.tree.node.core.Filter;
 import com.xliic.openapi.platform.tree.node.core.Paginator;
 
+import static com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils.getGitRepoPropsIfCollectionCheckedOut;
+
 public class PlatformCollection implements Paginator, Filter {
 
+    @NotNull
     private final String id;
     private final boolean locked;
+    @NotNull
     private String name;
     private volatile boolean childrenUnavailable;
-
+    @NotNull
+    private final String technicalName;
+    @Nullable
+    private GitRepoProps gitProps;
     private int pageSize = Paginator.PAGE_SIZE;
     private String filterName;
 
-    public PlatformCollection(String id, String name, boolean locked) {
+    public PlatformCollection(@NotNull String id, @NotNull String name, boolean locked, @NotNull String technicalName) {
         this.id = id;
         this.name = name;
         this.locked = locked;
+        this.technicalName = technicalName;
         childrenUnavailable = true;
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
         this.name = name;
     }
 
@@ -37,8 +50,12 @@ public class PlatformCollection implements Paginator, Filter {
         return locked;
     }
 
-    public String getId() {
+    public @NotNull String getId() {
         return id;
+    }
+
+    public @NotNull String getTechnicalName() {
+        return technicalName;
     }
 
     public boolean isChildrenUnavailable() {
@@ -74,6 +91,21 @@ public class PlatformCollection implements Paginator, Filter {
     @Override
     public boolean isActive() {
         return !StringUtils.isEmpty(filterName);
+    }
+
+    public boolean isCheckedOut() {
+        return gitProps != null;
+    }
+
+    public @Nullable GitRepoProps getGitProps() {
+        return gitProps;
+    }
+
+    public boolean updateGitProps(@NotNull Project project) {
+        GitRepoProps newGitProps = getGitRepoPropsIfCollectionCheckedOut(project, technicalName);
+        boolean result = Objects.equals(gitProps, newGitProps);
+        gitProps = newGitProps;
+        return !result;
     }
 
     @Override

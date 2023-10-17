@@ -10,6 +10,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.DefaultTreeModel;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.platform.PlatformAPIs;
+import com.xliic.openapi.platform.callback.EnqueueCallback;
 import com.xliic.openapi.platform.callback.PlatformAPICallback;
 import com.xliic.openapi.platform.callback.PlatformCollectionCallback;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
@@ -74,7 +75,7 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
             PlatformService platformService = PlatformService.getInstance(project);
             Map<DefaultMutableTreeNode, Callback> callbacks = platformService.getTreeAsyncCallbacks();
             if (rco.isChildrenUnavailable() && !callbacks.containsKey(parentDMTN)) {
-                Callback callback = new PlatformCollectionCallback(project, tree, parentDMTN);
+            	EnqueueCallback callback = new PlatformCollectionCallback(project, tree, parentDMTN);
                 PlatformAPIs.listCollections(callback);
                 callbacks.put(parentDMTN, callback);
                 parentDMTN.removeAllChildren();
@@ -92,7 +93,7 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
             PlatformService platformService = PlatformService.getInstance(project);
             Map<DefaultMutableTreeNode, Callback> callbacks = platformService.getTreeAsyncCallbacks();
             if (pco.isChildrenUnavailable() && !callbacks.containsKey(parentDMTN)) {
-                Callback callback = new PlatformAPICallback(project, tree, parentDMTN);
+            	EnqueueCallback callback = new PlatformAPICallback(project, tree, parentDMTN);
                 PlatformAPIs.listApis(pco.getId(), callback);
                 callbacks.put(parentDMTN, callback);
                 parentDMTN.removeAllChildren();

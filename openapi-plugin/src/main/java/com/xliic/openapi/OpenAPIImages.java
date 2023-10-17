@@ -38,6 +38,7 @@ public class OpenAPIImages {
     public static final ImageDescriptor PlatformFolderLocked;
     public static final ImageDescriptor PlatformAPI;
     public static final ImageDescriptor PlatformSave;
+    public static final ImageDescriptor PlatformFileSymLink;
 
     public static final ImageDescriptor PlatformOAS;
     public static final ImageDescriptor PlatformAuditVerified;
@@ -97,7 +98,8 @@ public class OpenAPIImages {
         PlatformFolderLocked = createImageDescriptor("/icons/platform-folder-locked.png");
         PlatformAPI = createImageDescriptor("/icons/platform-api.png");
         PlatformSave = createImageDescriptor("/icons/platform-save.png");
-
+        PlatformFileSymLink = createImageDescriptor("/icons/file-symlink-file.png");
+        
         PlatformOAS = createImageDescriptor("/icons/platform-oas.png");
         PlatformAuditVerified = createImageDescriptor("/icons/platform-audit-verified.png");
         PlatformAuditUnverified = createImageDescriptor("/icons/platform-audit-unverified.png");

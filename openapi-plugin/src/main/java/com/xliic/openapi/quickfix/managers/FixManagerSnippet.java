@@ -12,7 +12,7 @@ import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
@@ -27,6 +27,7 @@ import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.tree.node.BaseNode;
 import com.xliic.openapi.tree.node.SimpleNode;
 
+@SuppressWarnings("deprecation")
 public class FixManagerSnippet extends FixManager {
 
     private final String title;

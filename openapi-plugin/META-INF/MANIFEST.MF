@@ -29,7 +29,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  target/classes/,
  libs/annotations-23.0.0.jar,
- libs/commons-lang-2.6.jar,
  libs/commons-io-2.11.0.jar,
  libs/commons-collections4-4.4.jar,
  libs/gson-2.9.1.jar,
@@ -57,4 +56,8 @@ Bundle-ClassPath: .,
  libs/websocket-client-9.4.49.v20220914.jar,
  libs/websocket-common-9.4.49.v20220914.jar,
  libs/websocket-server-9.4.49.v20220914.jar,
- libs/websocket-servlet-9.4.49.v20220914.jar
+ libs/websocket-servlet-9.4.49.v20220914.jar,
+ libs/org.eclipse.jgit-4.6.0.201612231935-r.jar,
+ libs/slf4j-api-1.7.5.jar,
+ libs/ant-style-path-matcher-1.0.0.jar,
+ libs/commons-lang3-3.12.0.jar

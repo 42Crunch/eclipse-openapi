@@ -2,7 +2,7 @@ package com.xliic.openapi.actions;
 
 import static com.xliic.openapi.services.AuditService.LOADING_KDB_ARTICLES;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.fileChooser.FileChooserDescriptor;

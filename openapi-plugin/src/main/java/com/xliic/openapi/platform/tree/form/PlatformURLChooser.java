@@ -2,7 +2,7 @@ package com.xliic.openapi.platform.tree.form;
 
 import java.net.URISyntaxException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;

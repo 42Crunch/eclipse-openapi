@@ -69,7 +69,9 @@ public final class PlatformService implements IPlatformService, SettingsListener
     @NotNull
     private final List<Task.Backgroundable> auditBkgTasks;
     @NotNull
-    private final Map<String, Boolean> modificationsMap;
+    private final Map<String, Boolean> fileIsDirtyMap = new ConcurrentHashMap<>();
+    @NotNull
+    private final Map<String, Boolean> fileReadOnlyMap = new ConcurrentHashMap<>();
     @NotNull
     private final Map<String, PlatformDocumentListener> listenersMap;
     @NotNull
@@ -86,7 +88,6 @@ public final class PlatformService implements IPlatformService, SettingsListener
     public PlatformService(@NotNull Project project) {
         this.project = project;
         auditBkgTasks = Collections.synchronizedList(new LinkedList<>());
-        modificationsMap = new ConcurrentHashMap<>();
         listenersMap = new HashMap<>();
         assessmentLastDates = new HashMap<>();
         treeAsyncCallbacksMap = new ConcurrentHashMap<>();
@@ -231,7 +232,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     }
 
     public void addListener(@NotNull VirtualFile file) {
-        modificationsMap.put(file.getPath(), false);
+    	fileIsDirtyMap.put(file.getPath(), false);
         if (!listenersMap.containsKey(file.getPath())) {
             PlatformDocumentListener listener = new PlatformDocumentListener(project);
             listenersMap.put(file.getPath(), listener);
@@ -245,7 +246,8 @@ public final class PlatformService implements IPlatformService, SettingsListener
     }
 
     public void removeListener(@NotNull VirtualFile file) {
-        modificationsMap.remove(file.getPath());
+        fileReadOnlyMap.remove(file.getPath());
+        fileIsDirtyMap.remove(file.getPath());
         PlatformDocumentListener listener = listenersMap.remove(file.getPath());
         if (listener != null) {
             ApplicationManager.getApplication().runReadAction(() -> {
@@ -257,17 +259,24 @@ public final class PlatformService implements IPlatformService, SettingsListener
         }
     }
 
-    public void setFileIsModified(@NotNull VirtualFile file, boolean isModified) {
-        modificationsMap.put(file.getPath(), isModified);
+    public void setFileDirty(@NotNull VirtualFile file, boolean dirty) {
+        fileIsDirtyMap.put(file.getPath(), dirty);
     }
 
-    public boolean isPlatformFileModified(@NotNull VirtualFile file) {
-        Boolean isModified = modificationsMap.get(file.getPath());
-        return isModified != null ? isModified : false;
+    public void setFileReadOnly(@NotNull VirtualFile file, boolean readonly) {
+        fileReadOnlyMap.put(file.getPath(), readonly);
     }
 
-    public void clearPlatformFileModifications() {
-        modificationsMap.clear();
+    public boolean isFileDirty(@NotNull VirtualFile file) {
+        return fileIsDirtyMap.getOrDefault(file.getPath(), false);
+    }
+
+    public boolean isFileReadOnly(@NotNull VirtualFile file) {
+        return fileReadOnlyMap.getOrDefault(file.getPath(), false);
+    }
+
+    public void projectClosingBeforeSave() {
+        fileIsDirtyMap.clear();
     }
 
     public void saveToPlatform(@NotNull VirtualFile file, boolean updateFileIsModified) {
@@ -284,7 +293,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                             @Override
                             public void onCode200Response() {
                                 if (updateFileIsModified) {
-                                    setFileIsModified(file, false);
+                                	setFileDirty(file, false);
                                     EclipseWorkbenchUtil.updateActionBarsInSWTThread();
                                 }
                                 waitForPlatformAudit(apiId, file);
@@ -297,13 +306,16 @@ public final class PlatformService implements IPlatformService, SettingsListener
     }
 
     public void sheduleToReopenPlatformFile(@NotNull VirtualFile deadFile) {
+        fileReadOnlyMap.remove(deadFile.getPath());
+        fileIsDirtyMap.remove(deadFile.getPath());
         reopener.sheduleToReopenPlatformFile(deadFile);
     }
 
     @Override
     public void dispose() {
         project.getMessageBus().connect().unsubscribe(this);
-        modificationsMap.clear();
+        fileIsDirtyMap.clear();
+        fileReadOnlyMap.clear();
         listenersMap.clear();
         auditBkgTasks.clear();
         treeAsyncCallbacksMap.clear();

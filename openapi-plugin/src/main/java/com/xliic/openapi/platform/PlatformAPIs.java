@@ -1,19 +1,18 @@
 package com.xliic.openapi.platform;
 
-import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
+import com.xliic.openapi.platform.callback.EnqueueCallback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Objects;
 
-import org.jetbrains.annotations.NotNull;
-
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 public class PlatformAPIs {
 
@@ -38,7 +37,8 @@ public class PlatformAPIs {
 
         @NotNull
         public static Response readAuditCompliance(@NotNull String taskId) throws IOException {
-            Request request = getRequestBuilder(String.format("api/v2/sqgs/audit/reportComplianceStatus/%s?readSqg=true&readReport=false", taskId)).build();
+            Request request = getRequestBuilder(
+                    String.format("api/v2/sqgs/audit/reportComplianceStatus/%s?readSqg=true&readReport=false", taskId)).build();
             return client.newCall(request).execute();
         }
 
@@ -55,118 +55,176 @@ public class PlatformAPIs {
         }
     }
 
-    public static void listCollections(Callback callback) {
-        Request request = getRequestBuilder(String.format("api/v2/collections?listOption=%s&perPage=%d", "ALL", 0)).build();
-        client.newCall(request).enqueue(callback);
+    public static void listCollections(@NotNull EnqueueCallback callback) {
+        try {
+            Request request = getRequestBuilder(String.format("api/v2/collections?listOption=%s&perPage=%d", "ALL", 0)).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
-    public static void listApis(String collectionId, Callback callback) {
-        Request request = getRequestBuilder(String.format("api/v1/collections/%s/apis?withTags=true&perPage=0", collectionId)).build();
-        client.newCall(request).enqueue(callback);
+    public static void listApis(@NotNull String collectionId, @NotNull EnqueueCallback callback) {
+        try {
+            Request request = getRequestBuilder(String.format("api/v1/collections/%s/apis?withTags=true&perPage=0", collectionId)).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
-    public static void readApi(String apiId, boolean spec, Callback callback) {
-        Request request = getRequestBuilder(String.format("api/v1/apis/%s?specfile=%b", apiId, spec)).build();
-        client.newCall(request).enqueue(callback);
+    public static void readApi(@NotNull String apiId, boolean spec, @NotNull EnqueueCallback callback) {
+        try {
+            Request request = getRequestBuilder(String.format("api/v1/apis/%s?specfile=%b", apiId, spec)).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
-    public static void readAuditReport(String apiId, Callback callback) {
-        // noinspection SpellCheckingInspection
-        Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
-        client.newCall(request).enqueue(callback);
-    }
-
-    @SuppressWarnings("serial")
-    public static void updateCollection(String collectionId, String name, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
-            {
-                put("name", name);
-            }
-        }));
-        Request request = getRequestBuilder(String.format("api/v1/collections/%s", collectionId)).put(body).build();
-        client.newCall(request).enqueue(callback);
-    }
-
-    @SuppressWarnings("serial")
-    public static void updateAPIContent(String apiId, String text, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
-            {
-                put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
-            }
-        }));
-        Request request = getRequestBuilder(String.format("api/v1/apis/%s", apiId)).put(body).build();
-        client.newCall(request).enqueue(callback);
+    public static void readAuditReport(@NotNull String apiId, @NotNull EnqueueCallback callback) {
+        try {
+            //noinspection SpellCheckingInspection
+            Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
     @SuppressWarnings("serial")
-    public static void updateAPI(String apiId, String name, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
-            {
-                put("name", name);
-            }
-        }));
-        Request request = getRequestBuilder(String.format("api/v1/apis/%s", apiId)).put(body).build();
-        client.newCall(request).enqueue(callback);
-    }
-
-    public static void deleteCollection(String collectionId, Callback callback) {
-        Request request = getRequestBuilder(String.format("api/v1/collections/%s", collectionId)).delete().build();
-        client.newCall(request).enqueue(callback);
-    }
-
-    public static void deleteAPI(String apiId, Callback callback) {
-        Request request = getRequestBuilder(String.format("api/v1/apis/%s", apiId)).delete().build();
-        client.newCall(request).enqueue(callback);
+	public static void updateCollection(@NotNull String collectionId, String name, @NotNull EnqueueCallback callback) {
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
+            put("name", name);
+        }}));
+        try {
+            Request request = getRequestBuilder(String.format("api/v1/collections/%s", collectionId)).put(body).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
     @SuppressWarnings("serial")
-    public static void createCollection(String name, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
-            {
-                put("name", name);
-            }
-        }));
-        Request request = getRequestBuilder("api/v1/collections").post(body).build();
-        client.newCall(request).enqueue(callback);
+	public static void updateAPIContent(@NotNull String apiId, String text, @NotNull EnqueueCallback callback) {
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
+            put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
+        }}));
+        try {
+            Request request = getRequestBuilder(String.format("api/v1/apis/%s", apiId)).put(body).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
     @SuppressWarnings("serial")
-    public static void createAPI(String collectionId, String name, String text, Callback callback) {
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {
-            {
-                put("cid", collectionId);
-                put("name", name);
-                put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
-            }
-        }));
-        Request request = getRequestBuilder("api/v2/apis").post(body).build();
-        client.newCall(request).enqueue(callback);
+	public static void updateAPI(@NotNull String apiId, @NotNull String name, @NotNull EnqueueCallback callback) {
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
+            put("name", name);
+        }}));
+        try {
+            Request request = getRequestBuilder(String.format("api/v1/apis/%s", apiId)).put(body).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
-    public static void getApiNamingConvention(Callback callback) {
-        Request request = getRequestBuilder("api/v1/organizations/me/settings/apiNamingConvention").build();
-        client.newCall(request).enqueue(callback);
+    public static void deleteCollection(@NotNull String collectionId, @NotNull EnqueueCallback callback) {
+        try {
+            Request request = getRequestBuilder(String.format("api/v1/collections/%s", collectionId)).delete().build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
-    public static void getCollectionNamingConvention(Callback callback) {
-        Request request = getRequestBuilder("api/v1/organizations/me/settings/collectionNamingConvention").build();
-        client.newCall(request).enqueue(callback);
+    public static void deleteAPI(@NotNull String apiId, @NotNull EnqueueCallback callback) {
+        try {
+            Request request = getRequestBuilder(String.format("api/v1/apis/%s", apiId)).delete().build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
-    public static void getDataDictionaries(Callback callback) {
-        Request request = getRequestBuilder("api/v2/dataDictionaries").build();
-        client.newCall(request).enqueue(callback);
+    @SuppressWarnings("serial")
+	public static void createCollection(@NotNull String name, @NotNull EnqueueCallback callback) {
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
+            put("name", name);
+        }}));
+        try {
+            Request request = getRequestBuilder("api/v1/collections").post(body).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
-    public static void getDataDictionaryFormats(String dictionaryId, Callback callback) {
-        Request request = getRequestBuilder(String.format("api/v2/dataDictionaries/%s/formats", dictionaryId)).build();
-        client.newCall(request).enqueue(callback);
+    @SuppressWarnings("serial")
+	public static void createAPI(@NotNull String collectionId, @NotNull String name, @NotNull String text, @NotNull EnqueueCallback callback) {
+        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
+            put("cid", collectionId);
+            put("name", name);
+            put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
+        }}));
+        try {
+            Request request = getRequestBuilder("api/v2/apis").post(body).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
     }
 
-    public static Request.Builder getRequestBuilder(String url) {
+    public static void getApiNamingConvention(@NotNull EnqueueCallback callback) {
+        try {
+            Request request = getRequestBuilder("api/v1/organizations/me/settings/apiNamingConvention").build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
+    }
+
+    public static void getCollectionNamingConvention(@NotNull EnqueueCallback callback) {
+        try {
+            Request request = getRequestBuilder("api/v1/organizations/me/settings/collectionNamingConvention").build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
+    }
+
+    public static void getDataDictionaries(@NotNull EnqueueCallback callback) {
+        try {
+            Request request = getRequestBuilder("api/v2/dataDictionaries").build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
+    }
+
+    public static void getDataDictionaryFormats(String dictionaryId, EnqueueCallback callback) {
+        try {
+            Request request = getRequestBuilder(String.format("api/v2/dataDictionaries/%s/formats", dictionaryId)).build();
+            client.newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
+    }
+
+    public static Request.Builder getRequestBuilder(String url) throws IOException {
         PlatformConnection options = PlatformConnection.getOptions();
-        return new Request.Builder().url(String.format("%s/%s", options.getPlatformUrl(), url)).addHeader("X-API-KEY", options.getApiToken())
-                .addHeader("X-42C-IDE", Boolean.TRUE.toString()).addHeader("Accept", "application/json")
-                .addHeader("User-Agent", options.getUserAgent()).addHeader("Referer", options.getReferer());
+        try {
+            return new Request.Builder()
+                    .url(String.format("%s/%s", options.getPlatformUrl(), url))
+                    .addHeader("X-API-KEY", options.getApiToken())
+                    .addHeader("X-42C-IDE", Boolean.TRUE.toString())
+                    .addHeader("Accept", "application/json")
+                    .addHeader("User-Agent", options.getUserAgent())
+                    .addHeader("Referer", options.getReferer());
+        } catch (Exception e) {
+            throw new IOException(e.getMessage());
+        }
     }
 }

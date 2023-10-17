@@ -129,7 +129,7 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
                 }
             });
         } finally {
-            PlatformUtils.setInProgress(tree, progressDMTN, false);
+        	ApplicationManager.getApplication().invokeLater(() -> PlatformUtils.setInProgress(tree, progressDMTN, false));
         }
     }
 }

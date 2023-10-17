@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;

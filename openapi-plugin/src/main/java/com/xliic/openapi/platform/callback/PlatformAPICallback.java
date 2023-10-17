@@ -29,11 +29,12 @@ public class PlatformAPICallback extends SuccessASTResponseWithFailureDecoratorC
                 Node desc = item.getChildRequireNonNull("desc");
                 String id = desc.getChildValueRequireNonNull("id");
                 String name = desc.getChildValueRequireNonNull("name");
+                String technicalName = desc.getChildValueRequireNonNull("technicalName");
                 boolean isJson = !Boolean.parseBoolean(desc.getChildValueRequireNonNull("yaml"));
                 Node assessment = item.getChildRequireNonNull("assessment");
                 float grade = Float.parseFloat(assessment.getChildValueRequireNonNull("grade"));
                 boolean isValid = Boolean.parseBoolean(assessment.getChildValueRequireNonNull("isValid"));
-                apis.add(new PlatformAPI(id, name, grade, isValid, isJson));
+                apis.add(new PlatformAPI(id, name, grade, isValid, isJson, technicalName));
             }
         }
         SwingUtilities.invokeLater(() -> PlatformAPIUtils.addAll(project, tree, parentDMTN, apis));

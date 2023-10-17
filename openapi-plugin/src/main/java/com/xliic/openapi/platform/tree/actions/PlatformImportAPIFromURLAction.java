@@ -2,7 +2,9 @@ package com.xliic.openapi.platform.tree.actions;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringUtils;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.Gson;
@@ -33,17 +35,26 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
 
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
+    @NotNull
     private final Project project;
+    @NotNull
     private final Tree tree;
+    @NotNull
     private final String collectionId;
+    @NotNull
+    private final DefaultMutableTreeNode subRootDn;
 
-    public PlatformImportAPIFromURLAction(@NotNull Project project, @NotNull Tree tree, @NotNull String collectionId) {
+    public PlatformImportAPIFromURLAction(@NotNull Project project,
+                                          @NotNull Tree tree,
+                                          @NotNull String collectionId,
+                                          @NotNull DefaultMutableTreeNode subRootDn) {
         super("Import API from URL", "Import API from URL", null);
         this.project = project;
         this.tree = tree;
         this.collectionId = collectionId;
+        this.subRootDn = subRootDn;
     }
-
+    
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
         final PlatformURLChooser chooser = new PlatformURLChooser(project, TITLE, "");
@@ -83,7 +94,7 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
                         if (StringUtils.isEmpty(name)) {
                             name = Utils.getFileNameFromURL(href, "defaultAPI");
                         }
-                        PlatformAPIs.createAPI(collectionId, name, text, new PlatformImportAPICallback(project, tree, collectionId, name));
+                        PlatformAPIs.createAPI(collectionId, name, text, new PlatformImportAPICallback(project, tree, collectionId, name, subRootDn));
                     }
                 } catch (IOException e) {
                     MsgUtils.error(project, e.getMessage(), true);

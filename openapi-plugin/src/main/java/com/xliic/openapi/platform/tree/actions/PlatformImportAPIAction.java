@@ -1,6 +1,8 @@
 package com.xliic.openapi.platform.tree.actions;
 
-import org.apache.commons.lang.StringUtils;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.actionSystem.AnJAction;
@@ -22,15 +24,24 @@ import com.xliic.openapi.utils.Utils;
 
 public class PlatformImportAPIAction extends AnJAction implements DumbAware {
 
+    @NotNull
     private final Project project;
+    @NotNull
     private final Tree tree;
+    @NotNull
     private final String collectionId;
+    @NotNull
+    private final DefaultMutableTreeNode subRootDn;
 
-    public PlatformImportAPIAction(@NotNull Project project, @NotNull Tree tree, @NotNull String collectionId) {
+    public PlatformImportAPIAction(@NotNull Project project,
+                                   @NotNull Tree tree,
+                                   @NotNull String collectionId,
+                                   @NotNull DefaultMutableTreeNode subRootDn) {
         super("Import API", "Import API", null);
         this.project = project;
         this.tree = tree;
         this.collectionId = collectionId;
+        this.subRootDn = subRootDn;
     }
 
     @Override
@@ -48,15 +59,18 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
                     if (text != null) {
                         String name = "";
                         Node root = Utils.getJsonAST(text);
-                        Node titleNode = root.find("/info/title");
-                        if (titleNode != null) {
-                            name = titleNode.getValue();
+                        if (root != null) {
+                            Node titleNode = root.find("/info/title");
+                            if (titleNode != null) {
+                                name = titleNode.getValue();
+                            }
                         }
                         if (StringUtils.isEmpty(name)) {
                             name = file.getName();
                             name = name.substring(0, name.lastIndexOf('.'));
                         }
-                        PlatformAPIs.createAPI(collectionId, name, text, new PlatformImportAPICallback(project, tree, collectionId, name));
+                        PlatformAPIs.createAPI(collectionId, name, text,
+                                new PlatformImportAPICallback(project, tree, collectionId, name, subRootDn));
                     }
                 } else {
                     SwingUtilities.invokeLater(() -> {

@@ -13,11 +13,17 @@ import com.xliic.core.application.ApplicationManager;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
+import com.xliic.openapi.webapp.messages.WebAppProduceData;
+import com.xliic.openapi.webapp.messages.WebAppRateThread;
 
 public class WebAppFunction extends BrowserFunction {
 
+    @NotNull
     private final ObjectMapper mapper = new ObjectMapper();
+    @NotNull
     private final Map<String, WebAppProduce> producers = new HashMap<>();
+    @NotNull
+    private final Map<WebAppProduce, WebAppProduceData> buffer = new HashMap<>();
 
     public WebAppFunction(Browser browser, String name) {
         super(browser, name);
@@ -40,19 +46,32 @@ public class WebAppFunction extends BrowserFunction {
                 if (command != null) {
                     WebAppProduce producer = producers.get(command);
                     if (producer != null) {
-                        if (producer.isPayloadAsAST()) {
-                            Node node = Utils.getJsonAST((String) message);
-                            if (node != null) {
-                            	run(producer, node.getChild("payload"));
+                        if (producer.getRate() > 0) {
+                            synchronized (producer) {
+                                WebAppProduceData prevData = buffer.put(producer, new WebAppProduceData((String) message, props));
+                                if (prevData == null) {
+                                    new WebAppRateThread(producer, buffer).start();
+                                }
                             }
                         } else {
-                        	run(producer, props.get("payload"));
+                            run(producer, props, (String) message);
                         }
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void run(@NotNull WebAppProduce producer, @NotNull Map<String, String> props, @NotNull String message) {
+        if (producer.isPayloadAsAST()) {
+            Node node = Utils.getJsonAST(message);
+            if (node != null) {
+                run(producer, node.getChild("payload"));
+            }
+        } else {
+            run(producer, props.get("payload"));
         }
     }
 

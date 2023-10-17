@@ -1,6 +1,6 @@
 package com.xliic.core.vfs;
 
-import static org.apache.commons.lang.RandomStringUtils.random;
+import static org.apache.commons.lang3.RandomStringUtils.random;
 
 import java.io.File;
 import java.io.IOException;

@@ -63,6 +63,8 @@ public class IconLoader {
             return new Icon(OpenAPIImages.Reset);
         } else if (path.startsWith("/icons/text")) {
             return new Icon(OpenAPIImages.File);
+        } else if (path.startsWith("/icons/file-symlink-file")) {
+            return new Icon(OpenAPIImages.PlatformFileSymLink);
         } else if (path.startsWith("/icons/platform-data-dictionary")) {
             return new Icon(OpenAPIImages.Dictionary);
         } else if (path.startsWith("/icons/tryit")) {

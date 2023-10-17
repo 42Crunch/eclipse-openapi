@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
