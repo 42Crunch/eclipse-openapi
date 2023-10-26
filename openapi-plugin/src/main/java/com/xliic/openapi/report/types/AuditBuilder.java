@@ -64,7 +64,9 @@ public class AuditBuilder {
     }
 
     public Audit build(@NotNull Node reportNode) {
-        return build(reportNode, false);
+        Audit result = build(reportNode, false);
+        clear();
+        return result;
     }
 
     public Audit build(@NotNull Node reportNode, boolean skipToDo) {
@@ -73,20 +75,6 @@ public class AuditBuilder {
         if (isStateInvalid(reportNode)) {
             return report;
         }
-        List<String> pointers = getPointers(reportNode);
-        if (pointers.isEmpty()) {
-            return report;
-        }
-        Objects.requireNonNull(issueBuilder).setPointers(pointers);
-        List<Issue> issues = new LinkedList<>();
-        for (String key : KEYS) {
-            Node node = reportNode.getChild(key);
-            if (node != null) {
-                issues.addAll(issueBuilder.build(node, "warnings".equals(key) ? 1 : 5));
-            }
-        }
-        issues.sort(ISSUE_COMPARATOR);
-        report.addIssues(issues);
         Grade dataGrade = getGrade(reportNode.getChild("data"), Grade.DEF_DATA_GRADE);
         Grade securityGrade = getGrade(reportNode.getChild("security"), Grade.DEF_SECURITY_GRADE);
         report.setSummary(new Summary(hasGradeErrors(reportNode), dataGrade, securityGrade));
@@ -101,7 +89,21 @@ public class AuditBuilder {
             }
         }
         report.setDisplayOptions(displayOptions);
-        clear();
+        // Successful report with 100% score may not contain any pointers
+        List<String> pointers = getPointers(reportNode);
+        if (pointers.isEmpty()) {
+            return report;
+        }
+        Objects.requireNonNull(issueBuilder).setPointers(pointers);
+        List<Issue> issues = new LinkedList<>();
+        for (String key : KEYS) {
+            Node node = reportNode.getChild(key);
+            if (node != null) {
+                issues.addAll(issueBuilder.build(node, "warnings".equals(key) ? 1 : 5));
+            }
+        }
+        issues.sort(ISSUE_COMPARATOR);
+        report.addIssues(issues);
         return report;
     }
 
