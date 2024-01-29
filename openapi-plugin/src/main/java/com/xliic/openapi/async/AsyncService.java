@@ -1,12 +1,14 @@
 package com.xliic.openapi.async;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
-import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.concurrency.JobScheduler;
 import com.xliic.core.project.Project;
@@ -31,8 +33,7 @@ public abstract class AsyncService implements Runnable {
     public void run() {
         try {
             safeRun();
-        } catch (Throwable t) {
-            t.printStackTrace();
+        } catch (Throwable ignored) {
         }
     }
 
@@ -43,30 +44,49 @@ public abstract class AsyncService implements Runnable {
                 copyQueue = new LinkedHashSet<>(queue);
                 queue.clear();
             }
+            // Init callbacks only if necessary
+            List<AsyncCallback> callbacks = null;
             for (AsyncTask task : copyQueue) {
                 try {
                     AsyncTaskType type = task.getType();
-                    if (isActive() && (type == AsyncTaskType.BEFORE_FILE_OPENED)) {
-                        beforeFileOpened(task);
-                    } else if (isActive() && (type == AsyncTaskType.DOCUMENT_CHANGED)) {
-                        documentChanged(task);
-                    } else if (isActive() && (type == AsyncTaskType.SELECTION_CHANGED)) {
-                        selectionChanged(task);
-                    } else if (isActive() && (type == AsyncTaskType.BEFORE_FILE_CLOSED)) {
-                        beforeFileClosed(task);
-                    } else if (isActive() && (type == AsyncTaskType.ALL_FILES_CLOSED)) {
-                        allFilesClosed(task);
-                    } else if (isActive() && (type == AsyncTaskType.REFACTOR_RENAME)) {
-                        refactorRename(task);
-                    } else if (isActive() && (type == AsyncTaskType.RUN_TREE_DFS)) {
-                        treeDfs(task);
+                    if (isActive()) {
+                        if (type == AsyncTaskType.BEFORE_FILE_OPENED) {
+                            beforeFileOpened(task);
+                        } else if (type == AsyncTaskType.DOCUMENT_CHANGED) {
+                            documentChanged(task);
+                        } else if (type == AsyncTaskType.SELECTION_CHANGED) {
+                            selectionChanged(task);
+                        } else if (type == AsyncTaskType.BEFORE_FILE_CLOSED) {
+                            beforeFileClosed(task);
+                        } else if (type == AsyncTaskType.ALL_FILES_CLOSED) {
+                            allFilesClosed(task);
+                        } else if (type == AsyncTaskType.REFACTOR_RENAME) {
+                            refactorRename(task);
+                        } else if (type == AsyncTaskType.RUN_TREE_DFS) {
+                            treeDfs(task);
+                        } else if (type == AsyncTaskType.RUN_COMPLETE_CALLBACK) {
+                            AsyncCallback callback = task.getCallback();
+                            if (callback != null) {
+                                if (callbacks == null) {
+                                    callbacks = new LinkedList<>();
+                                }
+                                callbacks.add(task.getCallback());
+                            }
+                        }
                     }
-                } catch (Throwable t) {
-                    t.printStackTrace();
+                } catch (Throwable ignored) {
                 }
             }
             if (isActive()) {
                 onRunComplete();
+                if (callbacks != null) {
+                    for (AsyncCallback callback : callbacks) {
+                        try {
+                            callback.run();
+                        } catch (Throwable ignored) {
+                        }
+                    }
+                }
             }
         }
     }
@@ -80,6 +100,12 @@ public abstract class AsyncService implements Runnable {
     public void runAsyncTask(@NotNull Project project, @NotNull AsyncTaskType type, @NotNull VirtualFile file, @NotNull Map<String, Object> data) {
         synchronized (queue) {
             queue.add(new AsyncTask(project, type, file, data));
+        }
+    }
+
+    public void runAsyncTask(@NotNull Project project, @NotNull VirtualFile file, @NotNull AsyncCallback callback) {
+        synchronized (queue) {
+            queue.add(new AsyncTask(project, file, callback));
         }
     }
 
@@ -104,7 +130,6 @@ public abstract class AsyncService implements Runnable {
     }
 
     protected void dispose() {
-        project.dispose();
         active = false;
         queue.clear();
         scheduledFuture.cancel(true);

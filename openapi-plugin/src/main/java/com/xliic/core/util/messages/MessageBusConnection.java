@@ -58,4 +58,8 @@ public class MessageBusConnection {
             unsubscribe(handler);
         }
     }
+    
+    public void disconnect() {
+    	// todo:
+    }
 }

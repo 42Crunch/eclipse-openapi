@@ -1,10 +1,11 @@
-import { c as v, a as g, l as j, u as b, t as h, r as f, d as o, T as l, j as e, e as y, R as S, P as $, m as w, f as D, g as I } from "./styled-components.browser.esm.b4077a0f.js";
-import { D as u } from "./datetime.eb6ea7e1.js";
-import { S as O } from "./TriangleExclamation.3c1770d3.js";
-import { S as E } from "./AngleUp.51e58661.js";
-import { S as M } from "./SearchSidebar.79113c10.js";
-import "./index.module.be22a077.js";
-import "./index.module.827db8cc.js";
+import { c as v, a as g, l as j, b, t as h, f, e as o, T as l, j as e, g as y, R as S, P as $, m as w, k as I, o as D } from "./webapp.yF4PwBss.js";
+import { D as u } from "./datetime.8rVZUDtl.js";
+import { S as O } from "./AngleDown.N2mqK8v1.js";
+import { S as E } from "./AngleUp.PYBxLDue.js";
+import { S as M } from "./SearchSidebar.aKH26EwG.js";
+import "./index.OmGcbm4r.js";
+import "./index.g1E2Oywa.js";
+import "./TriangleExclamation.Nw9fuWhx.js";
 const F = {
   dictionaries: [],
   formats: []
@@ -29,11 +30,11 @@ const F = {
       i.dictionaries = r, i.formats = d;
     }
   }
-}), { showDictionary: T } = m.actions, P = m.reducer, k = {
+}), { showDictionary: T } = m.actions, k = m.reducer, P = {
   theme: h,
-  formats: P
+  formats: k
 }, C = (i) => g({
-  reducer: k,
+  reducer: P,
   middleware: (n) => n().prepend().concat(j),
   preloadedState: {
     theme: i
@@ -169,24 +170,24 @@ function K() {
   if (((p = n == null ? void 0 : n[0]) == null ? void 0 : p.id) === void 0)
     return null;
   const r = n.filter((s) => s.id === "standard").map((s) => ({ ...s, label: s.name })), d = n.filter((s) => s.id !== "standard").map((s) => ({ ...s, label: s.name })), a = [
-    { title: "Organization standard dictionary", items: r },
-    { title: "Organization named dictionaries", items: d }
+    { id: "standard", title: "Organization standard dictionary", items: r },
+    { id: "named", title: "Organization named dictionaries", items: d }
   ];
   return /* @__PURE__ */ e.jsx(
     M,
     {
       sections: a,
-      render: (s) => i.filter((c) => c.dictionaryId === s).map((c) => /* @__PURE__ */ e.jsx(A, { format: c }, `${c.dictionaryId}-${c.name}`))
+      render: (s) => i.filter((c) => c.dictionaryId === (s == null ? void 0 : s.itemId)).map((c) => /* @__PURE__ */ e.jsx(A, { format: c }, `${c.dictionaryId}-${c.name}`))
     }
   );
 }
 const Q = {
-  changeTheme: I,
+  changeTheme: D,
   showDictionary: T
 };
 function X() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(D, {}),
+    /* @__PURE__ */ e.jsx(I, {}),
     /* @__PURE__ */ e.jsx(K, {})
   ] });
 }

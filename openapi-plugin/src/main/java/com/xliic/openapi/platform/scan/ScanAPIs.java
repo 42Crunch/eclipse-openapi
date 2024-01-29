@@ -7,6 +7,7 @@ import java.net.InetSocketAddress;
 import java.net.URL;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import javax.net.ssl.SSLSocket;
@@ -112,11 +113,15 @@ public class ScanAPIs {
     }
 
     @NotNull
-    public static Response createAPI(@NotNull String collectionId, @NotNull String name, @NotNull String text) throws IOException {
+    public static Response createAPI(@NotNull String collectionId,
+                                     @NotNull String name,
+                                     @NotNull String text,
+                                     @NotNull List<String> tags) throws IOException {
         @SuppressWarnings("serial")
-        RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
+		RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("cid", collectionId);
             put("name", name);
+            put("tags", tags);
             put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
         }}));
         Request request = PlatformAPIs.getRequestBuilder("api/v2/apis").post(body).build();

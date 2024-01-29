@@ -27,7 +27,10 @@ public class Settings {
 
         public static final String TURNED_ON = "com.xliic.openapi.settings.platform.tuned.on";
         public static final String TURNED_OFF = "com.xliic.openapi.settings.platform.tuned.off";
-
+        public static final String MANDATORY_TAGS = "com.xliic.openapi.settings.platform.mandatory.tags";
+        public static final String TEMP_COLLECTION_NAME = "com.xliic.openapi.settings.platform.temp.collection.name";
+        public static final String COLLECTION_NAMING_CONVENTION = "com.xliic.openapi.settings.platform.collection.naming.convention";
+        
         public static class Credentials {
 
             public static final String URL = "com.xliic.openapi.settings.platform.url";
@@ -66,7 +69,8 @@ public class Settings {
             private static final String DEFAULT_IMAGE_VALUE = "42crunch/scand-agent:v2.0.0";
             public static final String RUNTIME = "com.xliic.openapi.settings.platform.scan.runtime";
             public static final String RUNTIME_DOCKER = "docker";
-
+            public static final String RUNTIME_CLI = "cli";
+            
             public static class Docker {
 
                 public static final String REPLACE_LOCALHOST = "com.xliic.openapi.settings.platform.scan.docker.replace.localhost";
@@ -174,6 +178,18 @@ public class Settings {
         }
     }
 
+    public static class CliAst {
+
+        public static final String REPOSITORY = "com.xliic.openapi.settings.cli.ast.repository";
+        public static final String DEFAULT_REPOSITORY = "https://repo.42crunch.com/downloads";
+
+        public static void init() {
+            if (!settings.isValueSet(REPOSITORY)) {
+                settings.setValue(REPOSITORY, DEFAULT_REPOSITORY);
+            }
+        }
+    }
+    
     public static class Audit {
 
         public static final String EMAIL = "openapi.generate.token.email.key";
@@ -193,7 +209,7 @@ public class Settings {
     public static Set<String> getValues(@NotNull String key) {
         Set<String> result = new HashSet<>();
         List<String> values = settings.getList(key);
-        if ((values == null) || (values.size() == 0)) {
+        if ((values == null) || values.isEmpty()) {
             return result;
         } else {
             for (String host : values) {
@@ -213,6 +229,7 @@ public class Settings {
         InlinedAnnotations.init();
         Preview.init();
         Audit.init();
+        CliAst.init();
     }
 
     @Nullable

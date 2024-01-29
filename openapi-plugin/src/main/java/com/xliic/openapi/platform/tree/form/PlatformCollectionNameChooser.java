@@ -6,8 +6,11 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.NamingConvention;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessASTResponseCallback;
+
+import static com.xliic.openapi.platform.NamingConvention.DEFAULT_COLLECTION_NAMING_PATTERN;
 
 public class PlatformCollectionNameChooser extends PlatformNameChooser {
 
@@ -22,10 +25,10 @@ public class PlatformCollectionNameChooser extends PlatformNameChooser {
         PlatformAPIs.getCollectionNamingConvention(new SuccessASTResponseCallback(project, false) {
             @Override
             public void onCode200ASTResponse(@NotNull Node node) {
-                String pattern = node.getChildValue("pattern");
-                String description = node.getChildValue("description");
-                String example = node.getChildValue("example");
-                convention = new PlatformNameConvention(pattern, description, example);
+                String pattern = node.getChildValueOrEmpty("pattern");
+                String description = node.getChildValueOrEmpty("description");
+                String example = node.getChildValueOrEmpty("example");
+                convention = new NamingConvention(pattern, description, example);
                 SwingUtilities.invokeLater(() -> enable(convention.getExample()));
             }
 
@@ -37,7 +40,7 @@ public class PlatformCollectionNameChooser extends PlatformNameChooser {
     }
 
     @Override
-    protected String getDefaultPattern() {
-        return "^[\\w _.\\/:-]{1,2048}$";
+    protected @NotNull String getDefaultPattern() {
+        return DEFAULT_COLLECTION_NAMING_PATTERN;
     }
 }

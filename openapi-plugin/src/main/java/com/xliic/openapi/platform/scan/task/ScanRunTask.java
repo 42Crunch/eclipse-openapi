@@ -1,13 +1,5 @@
 package com.xliic.openapi.platform.scan.task;
 
-import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
@@ -15,13 +7,14 @@ import com.xliic.core.project.Project;
 import com.xliic.openapi.config.payload.PlatformServices;
 import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.environment.Environment;
-import com.xliic.openapi.platform.scan.ScanConfiguration;
-import com.xliic.openapi.platform.scan.ScanGeneralError;
-import com.xliic.openapi.platform.scan.ScanLogger;
-import com.xliic.openapi.platform.scan.ScanRunConfig;
-import com.xliic.openapi.platform.scan.ScanUtils;
-import com.xliic.openapi.platform.scan.payload.ScanReport;
+import com.xliic.openapi.platform.scan.*;
+import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Settings;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class ScanRunTask extends Task.Backgroundable {
 
@@ -33,21 +26,19 @@ public abstract class ScanRunTask extends Task.Backgroundable {
     protected final ScanRunConfig runConfig;
     @NotNull
     protected final Callback callback;
-    protected final boolean isNewApi;
     @NotNull
     protected final ScanLogger logger;
 
     public interface Callback {
-        void setDone(@NotNull ScanReport report);
+        void setDone(@NotNull String scanConfPath, @NotNull ScanReport report);
         void setRejected(@NotNull Exception ex);
     }
 
-    public ScanRunTask(@NotNull Project project, @NotNull ScanRunConfig runConfig, @NotNull Callback callback, boolean isNewApi) {
-        super(project, "Running scan", false, 8);
+    public ScanRunTask(@NotNull Project project, @NotNull ScanRunConfig runConfig, @NotNull Callback callback) {
+        super(project, "Running scan", false);
         this.project = project;
         this.runConfig = runConfig;
         this.callback = callback;
-        this.isNewApi = isNewApi;
         logger = new ScanLogger(project);
     }
 
@@ -59,29 +50,24 @@ public abstract class ScanRunTask extends Task.Backgroundable {
 
     protected void dispose(@NotNull ProgressIndicator progress) {}
 
+    protected void log(@NotNull ProgressIndicator progress, @NotNull String message) {
+        progress.setText(message);
+        logger.info(message);
+    }
+
     @Override
     public void run(@NotNull ProgressIndicator progress) {
         String apiId = null;
         String collectionId = null;
         try {
-            logger.info("Starting API Conformance scan");
-
-            progress.setText("Creating temp API");
+            log(progress, "Starting API Conformance scan");
             collectionId = ScanUtils.findOrCreateTempCollection();
             apiId = ScanUtils.createTempAPI(collectionId, runConfig.getRawOas());
-            logger.info("Created temp API " + apiId + ", waiting for Security Audit");
-
-            progress.setText(RUNNING_SECURITY_AUDIT);
+            log(progress, "Created temp API " + apiId + ", waiting for Security Audit");
             ScanUtils.auditTempAPI(getProject(), apiId);
-            logger.info("Security Audit check is successfull");
-
-            progress.setText("Creating scan configuration");
-            ScanUtils.createScanConfig(apiId, DEFAULT_CONFIG_NAME, runConfig.getConfig(), isNewApi);
-
-            progress.setText("Downloading scan configurations");
+            log(progress, "Security Audit check is successfull");
+            ScanUtils.createScanConfig(apiId, DEFAULT_CONFIG_NAME, runConfig.getEncodedConfig(), true);
             List<ScanConfiguration> configs = ScanUtils.getScanConfigs(apiId);
-
-            progress.setText("Reading scan configuration");
             ScanConfiguration config = ScanUtils.readScanConfig(configs.get(0).getId());
             String token = config.getToken();
             String image = PropertiesComponent.getInstance().getValue(Settings.Platform.Scan.IMAGE, "");
@@ -98,22 +84,17 @@ public abstract class ScanRunTask extends Task.Backgroundable {
             for (Map.Entry<String, String> entry : runConfig.getEnv().entrySet()) {
                 env.put(entry.getKey(), myEnv.replace(entry.getValue()));
             }
-
             runScan(progress, image, services, token, env);
-
-            progress.setText("Waiting for scan report");
-            String reportId = ScanUtils.waitForScanReport(apiId, isNewApi);
-            progress.setText("Reading scan report");
-            ScanReport report = ScanUtils.readScanReport(reportId, isNewApi);
-            callback.setDone(report);
+            String reportId = ScanUtils.waitForScanReport(apiId);
+            ScanReport report = ScanUtils.readScanReport(runConfig.getPath(), runConfig.getMethod(), runConfig.getRawOas(), reportId);
+            log(progress, "Finished API Conformance Scan");
+            callback.setDone(runConfig.getScanConfPath(), report);
 
         } catch (Exception e) {
-            e.printStackTrace();
             dispose(progress);
             callback.setRejected(e);
         } finally {
             if (apiId != null) {
-                progress.setText("Deleting temp API");
                 ScanUtils.deleteAPI(apiId);
             }
             if (collectionId != null) {

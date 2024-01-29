@@ -11,6 +11,7 @@ import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
+import com.xliic.core.util.messages.MessageBusConnection;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.dictionary.jcef.messages.ShowDictionary;
@@ -24,8 +25,7 @@ public class JCEFDictionaryPanel extends WebApp implements PlatformListener, Dis
                                @NotNull ToolWindow toolWindow,
                                @NotNull Composite parent,
                                @NotNull ViewPartHandler handler) {
-        super(project, toolWindow, "data-dictionary", parent, handler);
-        project.getMessageBus().connect().subscribe(PlatformListener.TOPIC, this);
+        super(project, toolWindow.getId(), "data-dictionary", parent, handler);
     }
 
     @Override
@@ -39,6 +39,11 @@ public class JCEFDictionaryPanel extends WebApp implements PlatformListener, Dis
         return null;
     }
 
+    @Override
+    protected void subscribe(@NotNull MessageBusConnection connection) {
+        connection.subscribe(PlatformListener.TOPIC, this);
+    }
+    
     @Override
     public void reloadDictionary(@NotNull List<DataDictionary> dictionaries) {
         new ShowDictionary(dictionaries).send(getCefBrowser());

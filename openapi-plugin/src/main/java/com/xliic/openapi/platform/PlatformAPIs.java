@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
@@ -51,6 +52,24 @@ public class PlatformAPIs {
         @NotNull
         public static Response listApis(@NotNull String collectionId) throws IOException {
             Request request = getRequestBuilder(String.format("api/v1/collections/%s/apis?withTags=true&perPage=0", collectionId)).build();
+            return client.newCall(request).execute();
+        }
+        
+        @NotNull
+        public static Response getCollectionNamingConvention() throws IOException {
+            Request request = getRequestBuilder("api/v1/organizations/me/settings/collectionNamingConvention").build();
+            return client.newCall(request).execute();
+        }
+
+        @NotNull
+        public static Response getApiNamingConvention() throws IOException {
+            Request request = getRequestBuilder("api/v1/organizations/me/settings/apiNamingConvention").build();
+            return client.newCall(request).execute();
+        }
+
+        @NotNull
+        public static Response getTags() throws IOException {
+            Request request = getRequestBuilder("api/v2/tags").build();
             return client.newCall(request).execute();
         }
     }
@@ -163,10 +182,15 @@ public class PlatformAPIs {
     }
 
     @SuppressWarnings("serial")
-	public static void createAPI(@NotNull String collectionId, @NotNull String name, @NotNull String text, @NotNull EnqueueCallback callback) {
+    public static void createAPI(@NotNull String collectionId,
+                                 @NotNull String name,
+                                 @NotNull String text,
+                                 @NotNull List<String> tags,
+                                 @NotNull EnqueueCallback callback) {
         RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("cid", collectionId);
             put("name", name);
+            put("tags", tags);
             put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
         }}));
         try {

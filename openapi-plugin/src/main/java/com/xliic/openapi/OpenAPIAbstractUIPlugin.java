@@ -38,6 +38,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectManagerListener;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.EclipseWorkbenchUtil;
+import com.xliic.core.util.MUtils;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.listeners.OpenAPIBulkFileListener;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
@@ -53,6 +54,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
     public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";
     public static final String IGNORE_SHOW_PERSPECTIVE_ONCE = "openapi.ignore.show.perspective.once1";
     private static final String PLATFORM_MULE_PRODUCT_NAME = "Anypoint Studio";
+    private static final String DEBUG_PROPERTY = "com.xliic.openapi.debug";
 
     private static OpenAPIAbstractUIPlugin plugin;
     private static Project project = Project.getInstance();
@@ -66,9 +68,11 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
     private boolean isMuleIDE;
     private Version version;
     private String pluginId;
+    private final boolean pluginDebugMode;
 
     public OpenAPIAbstractUIPlugin() {
         plugin = this;
+        pluginDebugMode = "true".equals(System.getProperty(DEBUG_PROPERTY));
         startupActivity = new OpenAPIStartupActivity();
         highlightingManager = HighlightingManager.getInstance(project);
         partListener = new OpenAPIPartListener(project);
@@ -87,6 +91,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, actionUpdater);
     }
 
+    // Runs after start method
     public void runAsEarlyStartup() {
         IWorkbench workbench = PlatformUI.getWorkbench();
         workbench.getDisplay().asyncExec(new Runnable() {
@@ -109,8 +114,10 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                     }
                 }
                 setPreference();
+                EclipseUtil.closeAllWebPages();
                 handleEditorsAtStartup();
                 handleTempFilesAtStartup();
+                MUtils.activateMenuInternalActions(pluginDebugMode);
                 EclipseWorkbenchUtil.updateActionBars();
             }
         });
@@ -225,16 +232,16 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
             for (IEditorReference ref : page.getEditorReferences()) {
                 try {
                     VirtualFile file = EclipseUtil.getVirtualFile(ref.getEditorInput());
-                    if (TempFileUtils.isExtRefFile(file)) {
-                        page.closeEditor(ref.getEditor(true), false);
-                    } else if (isPlatformIntegrationEnabled() && TempFileUtils.isPlatformFile(file)) {
-                        PlatformService platformService = PlatformService.getInstance(project);
-                        // Eclipse Development Note
-                        // Closing editor will schedule file closing routine in AST thread
-                        // Only when it is finished we can continue with reopening, so here only
-                        // schedule it
-                        platformService.sheduleToReopenPlatformFile(file);
-                        page.closeEditor(ref.getEditor(true), false);
+                    if (file != null) {
+	                    if (TempFileUtils.isExtRefFile(file)) {
+	                        page.closeEditor(ref.getEditor(true), false);
+	                    } else if (isPlatformIntegrationEnabled() && TempFileUtils.isPlatformFile(file)) {
+	                        PlatformService platformService = PlatformService.getInstance(project);
+	                        // Closing editor will schedule file closing routine in AST thread
+	                        // Only when it is finished we can continue with reopening, so here only schedule it
+	                        platformService.sheduleToReopenPlatformFile(file);
+	                        page.closeEditor(ref.getEditor(true), false);
+                        }
                     }
                 } catch (PartInitException e) {
                     e.printStackTrace();

@@ -5,6 +5,7 @@ import static com.xliic.openapi.services.AuditService.LOADING_KDB_ARTICLES;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.fileChooser.FileChooserDescriptor;
 import com.xliic.core.fileChooser.FileChooserFactory;
 import com.xliic.core.progress.ProgressIndicator;
@@ -54,7 +55,9 @@ public class LoadAuditReportAction extends ProjectAction {
                                 try {
                                     AuditService auditService = AuditService.getInstance(project);
                                     auditService.downloadArticles(progress);
-                                    auditService.cleanAuditReport(currentFile);
+                                    ApplicationManager.getApplication().invokeAndWait(() -> {
+                                        auditService.cleanAuditReport(currentFile);
+                                    });
                                     auditService.processAuditReport(currentFile, report.getChildRequireNonNull("data"));
                                 } catch (AuditService.KdbException e) {
                                     MsgUtils.error(project, e.getMessage(), true);

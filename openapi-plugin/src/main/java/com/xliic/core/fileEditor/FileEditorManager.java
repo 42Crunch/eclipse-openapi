@@ -21,12 +21,13 @@ import com.xliic.core.vfs.VirtualFile;
 @SuppressWarnings("restriction")
 public class FileEditorManager {
 
-    private final Project project;
+    private final Project project;   
+
 
     public FileEditorManager(Project project) {
         this.project = project;
     }
-
+    
     @NotNull
     public List<FileEditor> openEditor(@NotNull OpenFileDescriptor descriptor, boolean focusEditor) {
         descriptor.navigate(focusEditor);

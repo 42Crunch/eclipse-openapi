@@ -1,5 +1,6 @@
 package com.xliic.core.util.messages;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,11 +8,10 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.ScanListener;
-import com.xliic.openapi.platform.scan.payload.ScanOperation;
-import com.xliic.openapi.platform.scan.payload.ScanReport;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
+import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItResponse;
@@ -28,7 +28,7 @@ public class TopicScanListener<L> extends Topic<L> {
         ScanListener listener = (ScanListener) handler;
         List<Object> args = (List<Object>) data;
         if (funcId == 0) {
-            listener.scanOperation((ScanOperation) args.get(0), (Environment) args.get(1), (Preferences) args.get(2));
+            listener.showScanConfOperation((ScanConfOperation) args.get(0), (Environment) args.get(1), (Preferences) args.get(2));
         } else if (funcId == 1) {
             listener.showScanReport((ScanReport) args.get(0));
         } else if (funcId == 2) {
@@ -38,7 +38,7 @@ public class TopicScanListener<L> extends Topic<L> {
         } else if (funcId == 4) {
             listener.showGeneralError((String) args.get(0), (String) args.get(1), (String) args.get(2));
         } else if (funcId == 5) {
-            listener.startScan((VirtualFile) args.get(0));
+            listener.startScan();
         } else if (funcId == 6) {
             listener.sendLogMessage((String) args.get(0), (String) args.get(1));
         }
@@ -50,7 +50,7 @@ public class TopicScanListener<L> extends Topic<L> {
         return (T) new ScanListener() {
 
             @Override
-            public void scanOperation(@NotNull ScanOperation payload, @NotNull Environment env, @NotNull Preferences prefs) {
+            public void showScanConfOperation(@NotNull ScanConfOperation payload, @NotNull Environment env, @NotNull Preferences prefs) {
                 eventBroker.send(getTopic(), getArgs(0, List.of(payload, env, prefs)));
             }
 
@@ -80,8 +80,8 @@ public class TopicScanListener<L> extends Topic<L> {
             }
 
             @Override
-            public void startScan(@NotNull VirtualFile file) {
-                eventBroker.send(getTopic(), getArgs(5, List.of(file)));
+            public void startScan() {
+                eventBroker.send(getTopic(), getArgs(5, Collections.EMPTY_LIST));
             }
 
             @Override

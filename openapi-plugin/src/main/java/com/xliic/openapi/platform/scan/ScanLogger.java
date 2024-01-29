@@ -38,4 +38,9 @@ public class ScanLogger {
         ApplicationManager.getApplication().invokeLater(() ->
                 project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage("fatal", message));
     }
+    
+    public void log(@NotNull String level, @NotNull String message) {
+        ApplicationManager.getApplication().invokeLater(() ->
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(level, message));
+    }
 }

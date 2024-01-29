@@ -10,6 +10,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.Permissions;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessBodyResponseCallback;
 import com.xliic.openapi.platform.tree.form.PlatformCollectionNameChooser;
@@ -60,7 +61,8 @@ public class PlatformCreateNewCollectionAction extends AnJAction implements Dumb
         String id = desc.getChildValueRequireNonNull("id");
         String name = desc.getChildValueRequireNonNull("name");
         String technicalName = desc.getChildValueRequireNonNull("technicalName");
-        boolean locked = !Boolean.parseBoolean(node.getChildRequireNonNull("summary").getChildValueRequireNonNull("writeApis"));
-        return new PlatformCollection(id, name, locked, technicalName);
+        Permissions permissions = Permissions.get(node.getChildRequireNonNull("summary"));
+        boolean locked = !permissions.isWriteApis();
+        return new PlatformCollection(id, name, locked, technicalName, permissions);
     }
 }

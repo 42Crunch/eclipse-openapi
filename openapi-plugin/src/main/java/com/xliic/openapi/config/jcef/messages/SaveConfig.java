@@ -17,10 +17,12 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr;
 import com.xliic.openapi.topic.SettingsListener;
@@ -42,7 +44,8 @@ public class SaveConfig extends WebAppProduce {
     private final Map<String, Object> prevData = new HashMap<>();
 
     public SaveConfig(@NotNull Project project) {
-    	super("saveConfig", 1000);
+        // Accessing security storage is slow operation, do not use avoid EDT
+        super("saveConfig", false, false, 1000);
         this.project = project;
     }
 
@@ -79,9 +82,12 @@ public class SaveConfig extends WebAppProduce {
                     secureUpdateIfNotEqual(ScandMgr.HEADER, Utils.serialize(header, true));
                 }
             }
+            updateIfNotEqual(Settings.Platform.TEMP_COLLECTION_NAME, "platformTemporaryCollectionName", map);
+            updateIfNotEqual(Settings.Platform.MANDATORY_TAGS, "platformMandatoryTags", map);
             if (!updatedKeys.isEmpty() && !project.isDisposed()) {
                 addPlatformTurnOnOffKeys(updatedKeys, prevData);
-                project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(updatedKeys, prevData);
+                ApplicationManager.getApplication().invokeLater(() ->
+                	project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(updatedKeys, prevData));
             }
         }
     }

@@ -30,14 +30,15 @@ public class SendHttpRequest extends WebAppProduce {
             Map<String, Object> map = (Map<String, Object>) payload;
             Map<String, Object> config = (Map<String, Object>) map.get("config");
             Map<String, Object> https =  (Map<String, Object>) config.get("https");
-            String url = (String) map.get("url");
-            String method = (String) map.get("method");
-            Map<String, String> headers = (Map<String, String>) map.get("headers");
+            Map<String, Object> request = (Map<String, Object>) map.get("request");
+            String url = (String) request.get("url");
+            String method = (String) request.get("method");
+            Map<String, String> headers = (Map<String, String>) request.get("headers");
             boolean rejectUnauthorized = (Boolean) https.get("rejectUnauthorized");
-            Object body = map.get("body");
+            Object body = request.get("body");
             String id = (String) map.get("id");
-            TryItRequest request = TryItRequest.getInstance(url, method, headers, body, id, rejectUnauthorized);
-            TryItService.getInstance(project).send(request, new TryItResponseCallback(project, request.getId(), tryIt));
+            TryItRequest tryItRequest = TryItRequest.getInstance(url, method, headers, body, id, rejectUnauthorized);
+            TryItService.getInstance(project).send(tryItRequest, new TryItResponseCallback(project, tryItRequest.getId(), tryIt));
         }
     }
 }

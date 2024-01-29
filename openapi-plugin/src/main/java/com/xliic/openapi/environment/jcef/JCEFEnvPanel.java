@@ -9,6 +9,7 @@ import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
+import com.xliic.core.util.messages.MessageBusConnection;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.environment.EnvListener;
 import com.xliic.openapi.environment.EnvService;
@@ -22,13 +23,17 @@ public class JCEFEnvPanel extends WebApp implements EnvListener, Disposable {
                         @NotNull ToolWindow toolWindow,
                         @NotNull Composite parent,
                         @NotNull ViewPartHandler handler) {
-        super(project, toolWindow, "environment", parent, handler);
-        project.getMessageBus().connect().subscribe(EnvListener.TOPIC, this);
+        super(project, toolWindow.getId(), "environment", parent, handler);
     }
 
     @Override
     protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return new JCEFEnvFunction(project, browser, name);
+    }
+    
+    @Override
+    protected void subscribe(@NotNull MessageBusConnection connection) {
+        connection.subscribe(EnvListener.TOPIC, this);
     }
 
     @Override

@@ -697,6 +697,8 @@ For more information on this, and how to apply and follow the GNU AGPL, see
       <import plugin="org.eclipse.osgi.services"/>
       <import plugin="org.eclipse.e4.ui.css.swt.theme"/>
       <import plugin="org.eclipse.e4.core.services"/>
+      <import plugin="org.eclipse.jface.notifications"/>
+      <import plugin="org.eclipse.e4.ui.model.workbench"/>
    </requires>
 
    <plugin

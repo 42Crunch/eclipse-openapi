@@ -38,14 +38,16 @@ public class TryItResponse {
 
     public Map<String, Object> getProperties() {
         Map<String, Object> result = new HashMap<>();
-        result.put("httpVersion", httpVersion);
-        result.put("statusCode", statusCode);
-        result.put("statusMessage", statusMessage);
-        result.put("headers", headers);
-        result.put("body", body == null ? "" : body);
         if (id != null) {
             result.put("id", id);
         }
+        Map<String, Object> response = new HashMap<>();
+        response.put("httpVersion", httpVersion);
+        response.put("statusCode", statusCode);
+        response.put("statusMessage", statusMessage);
+        response.put("headers", headers);
+        response.put("body", body == null ? "" : body);
+        result.put("response", response);
         return result;
     }
 

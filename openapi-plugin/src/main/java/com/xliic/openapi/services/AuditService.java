@@ -24,18 +24,19 @@ import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
+import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.ui.DialogWrapper;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.CliDownloader;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAuditTask;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction;
 import com.xliic.openapi.platform.dictionary.quickfix.PreAuditDialog;
-import com.xliic.openapi.report.AnonAuditTask;
 import com.xliic.openapi.report.AuditAPIs;
 import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.report.types.Audit;
@@ -43,6 +44,8 @@ import com.xliic.openapi.report.types.AuditBuilder;
 import com.xliic.openapi.report.types.AuditCompliance;
 import com.xliic.openapi.report.types.AuditToDoReport;
 import com.xliic.openapi.report.types.Issue;
+import com.xliic.openapi.report.task.AuditAnonTask;
+import com.xliic.openapi.report.task.AuditCliTask;
 import com.xliic.openapi.services.api.IAuditService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
@@ -365,7 +368,7 @@ public final class AuditService implements IAuditService, Disposable {
             public void setDone() {
                 runAudit(project, file, payload, type);
             }
-        });
+        }, true);
     }
 
     private void runAudit(Project project, VirtualFile file, AuditOperation payload, Credentials.Type type) {
@@ -378,32 +381,38 @@ public final class AuditService implements IAuditService, Disposable {
             @Override
             public void reject(@NotNull String error) {
                 pendingAudits.remove(file.getPath());
-                ApplicationManager.getApplication().invokeAndWait(() ->
-                        project.getMessageBus().syncPublisher(AuditListener.TOPIC).showGeneralError(), ModalityState.NON_MODAL);
-                MsgUtils.error(project, error, true);
+                ApplicationManager.getApplication().invokeLater(() ->
+                        project.getMessageBus().syncPublisher(AuditListener.TOPIC).cancelAudit());
+                MsgUtils.notifyError(project, error);
             }
         };
+        boolean isFullAudit = payload == null;
         if (type == Credentials.Type.Anon) {
-            cleanAuditReport(file);
-            pendingAudits.put(file.getPath(), Boolean.TRUE);
-            AnonAuditTask task = payload == null ? new AnonAuditTask(project, file, callback) :
-                    new AnonAuditTask(project, payload, callback);
-            startAudit();
-            ProgressManager.getInstance().run(task);
+            startAuditTask(file, isFullAudit ? new AuditAnonTask(project, file, callback) : new AuditAnonTask(project, payload, callback));
         } else if (type == Credentials.Type.Platform) {
-            cleanAuditReport(file);
-            pendingAudits.put(file.getPath(), Boolean.TRUE);
-            PlatformAuditTask task = payload == null ? new PlatformAuditTask(project, file, callback) :
-                    new PlatformAuditTask(project, payload, callback) ;
-            startAudit();
-            ProgressManager.getInstance().run(task);
+            startAuditTask(file, isFullAudit ? new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
+        } else if (type == Credentials.Type.Cli) {
+            new CliDownloader(project).download(new CliDownloader.Callback() {
+                @Override
+                public void complete() {
+                    startAuditTask(file, isFullAudit ? new AuditCliTask(project, file, callback) : new AuditCliTask(project, payload, callback));
+                }
+                @Override
+                public void reject(@NotNull String error) {
+                    callback.reject(error);
+                }
+            });
         }
     }
 
-    private void startAudit() {
+    private void startAuditTask(VirtualFile file, Task.Backgroundable task) {
         ApplicationManager.getApplication().invokeLater(() -> {
-            WindowUtils.activate(project, OPEN_API_HTML_REPORT);
-            project.getMessageBus().syncPublisher(AuditListener.TOPIC).startAudit();
+            cleanAuditReport(file);
+            pendingAudits.put(file.getPath(), Boolean.TRUE);
+            WindowUtils.activateToolWindow(project, OPEN_API_HTML_REPORT, () -> {
+                project.getMessageBus().syncPublisher(AuditListener.TOPIC).startAudit();
+                ProgressManager.getInstance().run(task);
+            });
         });
     }
 

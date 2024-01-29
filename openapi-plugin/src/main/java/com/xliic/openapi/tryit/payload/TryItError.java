@@ -28,9 +28,12 @@ public class TryItError {
 
     public Map<String, Object> getProperties() {
         Map<String, Object> result = new HashMap<>();
-        result.put("message", getMessage());
-        result.put("code", code);
-        result.put("sslError", sslError);
+        result.put("id", id);
+        Map<String, Object> error = new HashMap<>();
+        error.put("message", getMessage());
+        error.put("code", code);
+        error.put("sslError", sslError);
+        result.put("error", error);
         return result;
     }
 

@@ -1,90 +1,91 @@
-import { a as j, l as y, t as $, b as w, s as E, d as a, T as d, j as e, r as S, e as C, R as F, P as k, m as T, f as L, g as V } from "./styled-components.browser.esm.b4077a0f.js";
-import { e as A, a as x, S as R, u as M, b as P, l as D } from "./slice.9806eb76.js";
-import { $ as N, T as W, a as B, b as H } from "./Tabs.d6340d43.js";
-import { b as K, d as p, a as O, e as I, F as q } from "./index.esm.2e24c5a3.js";
-import { S as z } from "./ExclamationCircle.20b20ea3.js";
-const G = {
-  theme: $,
-  env: A
-}, J = (r, t) => j({
-  reducer: G,
-  middleware: (n) => n().prepend(r.middleware).concat(y),
+import { a as E, l as y, t as w, d as S, s as C, e as o, T as s, j as e, g as $, R as F, P as k, m as V, k as A, o as R } from "./webapp.yF4PwBss.js";
+import { e as M, f, u as L, h as N, l as T } from "./index.lcFuHH3z.js";
+import { T as _ } from "./Tabs.fwjiQaQD.js";
+import { u as P, a as p, d as D, b as G, F as W } from "./index.esm.Shro8ov1.js";
+import { S as H } from "./ExclamationCircle.i2K0Pqn4.js";
+import { m as K, n as X, S as B } from "./variables.uoOWHIbL.js";
+const I = {
+  theme: w,
+  env: M
+}, O = (n, t) => E({
+  reducer: I,
+  middleware: (r) => r().prepend(n.middleware).concat(y),
   preloadedState: {
     theme: t
   }
-}), f = w(), Q = f.startListening;
-function U(r) {
-  return E({
-    saveEnv: () => Q({
-      actionCreator: x,
-      effect: async (n, o) => {
-        r.postMessage({
+}), g = S(), q = g.startListening;
+function z(n) {
+  return C({
+    saveEnv: () => q({
+      actionCreator: f,
+      effect: async (r, a) => {
+        n.postMessage({
           command: "saveEnv",
-          payload: n.payload
+          payload: r.payload
         });
       }
     })
-  }), f;
+  }), g;
 }
-function X({ name: r, remove: t }) {
-  const { control: n } = K(), {
-    field: o,
+function J({ name: n, remove: t }) {
+  const { control: r } = P(), {
+    field: a,
     fieldState: { error: i }
   } = p({
-    name: `${r}.key`,
-    control: n,
+    name: `${n}.key`,
+    control: r,
     rules: {
       pattern: {
-        value: /^\w+$/,
-        message: "Only the alphanumeric characters or the underscore"
+        value: K(),
+        message: X
       }
     }
-  }), { field: s } = p({
-    name: `${r}.value`,
-    control: n
+  }), { field: d } = p({
+    name: `${n}.value`,
+    control: r
   });
-  return /* @__PURE__ */ e.jsxs(Y, { children: [
-    /* @__PURE__ */ e.jsxs(Z, { children: [
-      /* @__PURE__ */ e.jsx(_, { type: "text", ...o }),
-      /* @__PURE__ */ e.jsx(ee, { type: "text", ...s }),
+  return /* @__PURE__ */ e.jsxs(Q, { children: [
+    /* @__PURE__ */ e.jsxs(U, { children: [
+      /* @__PURE__ */ e.jsx(Y, { type: "text", ...a }),
+      /* @__PURE__ */ e.jsx(Z, { type: "text", ...d }),
       /* @__PURE__ */ e.jsx(
-        re,
+        ee,
         {
           onClick: (l) => {
             l.preventDefault(), l.stopPropagation(), t();
           },
-          children: /* @__PURE__ */ e.jsx(R, {})
+          children: /* @__PURE__ */ e.jsx(B, {})
         }
       )
     ] }),
     i && /* @__PURE__ */ e.jsxs(ne, { children: [
-      /* @__PURE__ */ e.jsx(z, {}),
+      /* @__PURE__ */ e.jsx(H, {}),
       "  ",
       i.message
     ] })
   ] });
 }
-const Y = a.div`
+const Q = o.div`
   margin-bottom: 10px;
-`, Z = a.div`
+`, U = o.div`
   display: flex;
   &:hover > :last-child {
     visibility: visible;
   }
-`, _ = a.input`
+`, Y = o.input`
   flex: 1;
   border: none;
   background: transparent;
-  border-bottom: 1px solid var(${d.border});
-  color: var(${d.foreground});
+  border-bottom: 1px solid var(${s.border});
+  color: var(${s.foreground});
   margin-right: 10px;
-`, ee = a.input`
+`, Z = o.input`
   flex: 2;
   border: none;
   background: transparent;
-  border-bottom: 1px solid var(${d.border});
-  color: var(${d.foreground});
-`, re = a.button`
+  border-bottom: 1px solid var(${s.border});
+  color: var(${s.foreground});
+`, ee = o.button`
   background: none;
   border: none;
   padding: 0;
@@ -95,118 +96,120 @@ const Y = a.div`
   justify-content: center;
   visibility: hidden;
   > svg {
-    fill: var(${d.foreground});
+    fill: var(${s.foreground});
   }
-`, ne = a.div`
+`, ne = o.div`
   padding: 4px;
   display: flex;
 `;
-function te({ append: r }) {
-  return /* @__PURE__ */ e.jsxs(se, { children: [
+function re({ append: n }) {
+  return /* @__PURE__ */ e.jsxs(te, { children: [
     /* @__PURE__ */ e.jsx(
-      ae,
+      oe,
       {
         placeholder: "name",
         value: "",
         onChange: (t) => {
-          r({ key: t.target.value, value: "" }, { shouldFocus: !0 });
+          n({ key: t.target.value, value: "" }, { shouldFocus: !0 });
         }
       }
     ),
-    /* @__PURE__ */ e.jsx(oe, {})
+    /* @__PURE__ */ e.jsx(se, {})
   ] });
 }
-const se = a.div`
+const te = o.div`
   display: flex;
-`, ae = a.input`
+`, oe = o.input`
   flex: 1;
   background: transparent;
   border: none;
-  border-bottom: 1px solid var(${d.border});
-  color: var(${d.foreground});
+  border-bottom: 1px solid var(${s.border});
+  color: var(${s.foreground});
   margin-right: 10px;
-`, oe = a.div`
+`, se = o.div`
   flex: 2;
   border: none;
   background: transparent;
-  border-bottom: 1px solid var(${d.border});
+  border-bottom: 1px solid var(${s.border});
   margin-right: 1.5em;
 `;
-function ie({
-  name: r,
+function v({
+  name: n,
   data: t
 }) {
-  const n = M(), o = le(t), i = O({
-    defaultValues: o,
+  const r = L(), a = ie(t), i = D({
+    defaultValues: a,
     mode: "onChange"
-  }), { handleSubmit: s, control: l } = i;
-  function m(u) {
-    const c = ce(u);
-    n(x({ name: r, environment: c }));
+  }), { handleSubmit: d, control: l } = i;
+  function u(m) {
+    const c = de(m);
+    r(f({ name: n, environment: c }));
   }
-  const { fields: b, append: h, remove: g } = I({
+  const { fields: h, append: b, remove: j } = G({
     control: l,
     name: "values"
   });
-  return /* @__PURE__ */ e.jsx(q, { ...i, children: /* @__PURE__ */ e.jsxs(de, { onChange: s(m), children: [
-    b.map((u, c) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
-      X,
+  return /* @__PURE__ */ e.jsx(W, { ...i, children: /* @__PURE__ */ e.jsxs(ae, { onChange: d(u), children: [
+    h.map((m, c) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
+      J,
       {
         name: `values.${c}`,
         remove: () => {
-          g(c), s(m)();
+          j(c), d(u)();
         }
       }
-    ) }, u.id)),
-    /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(te, { append: h }) })
+    ) }, m.id)),
+    /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(re, { append: b }) })
   ] }) });
 }
-const de = a.form`
+const ae = o.form`
   padding: 8px;
 `;
-function le(r) {
-  return { values: Object.entries(r).map(([n, o]) => ({ key: n, value: o })) };
+function ie(n) {
+  return { values: Object.entries(n).map(([r, a]) => ({ key: r, value: a })) };
 }
-function ce(r) {
+function de(n) {
   const t = {};
-  for (const n of r.values)
-    t[n.key] = n.value;
+  for (const r of n.values)
+    t[r.key] = r.value;
   return t;
 }
-function ue() {
-  const { data: r, ready: t } = P((s) => s.env), [n, o] = S.useState("default"), i = [
+function le() {
+  const { data: n, ready: t } = N((r) => r.env);
+  return t ? /* @__PURE__ */ e.jsx(x, { children: /* @__PURE__ */ e.jsx(
+    _,
     {
-      id: "default",
-      title: "Default",
-      secret: !1
-    },
-    {
-      id: "secrets",
-      title: "Secrets",
-      secret: !0
+      tabs: [
+        {
+          id: "default",
+          title: "Default",
+          content: /* @__PURE__ */ e.jsx(v, { name: "default", data: n.default })
+        },
+        {
+          id: "secrets",
+          title: "Secrets",
+          content: /* @__PURE__ */ e.jsx(v, { name: "secrets", data: n.secrets })
+        }
+      ]
     }
-  ];
-  return t ? /* @__PURE__ */ e.jsx(v, { children: /* @__PURE__ */ e.jsxs(N, { value: n, onValueChange: o, children: [
-    /* @__PURE__ */ e.jsx(W, { children: i.map((s) => /* @__PURE__ */ e.jsx(B, { value: s.id, children: s.title }, s.id)) }),
-    i.map((s) => /* @__PURE__ */ e.jsx(H, { value: s.id, children: /* @__PURE__ */ e.jsx(ie, { name: s.id, data: r[s.id] }) }, s.id))
-  ] }) }) : /* @__PURE__ */ e.jsx(v, { children: "Loading environment data..." });
+  ) }) : /* @__PURE__ */ e.jsx(x, { children: "Loading environment data..." });
 }
-const v = a.div`
+const x = o.div`
   margin: 4px;
-`, me = {
-  changeTheme: V,
-  loadEnv: D
+`, ce = {
+  changeTheme: R,
+  loadEnv: T
 };
-function pe() {
+function me() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(L, {}),
-    /* @__PURE__ */ e.jsx(ue, {})
+    /* @__PURE__ */ e.jsx(A, {}),
+    /* @__PURE__ */ e.jsx(le, {})
   ] });
 }
-function ve(r, t) {
-  const n = J(U(r), t);
-  C(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(F.StrictMode, { children: /* @__PURE__ */ e.jsx(k, { store: n, children: /* @__PURE__ */ e.jsx(pe, {}) }) })
-  ), window.addEventListener("message", T(n, me));
+function ue(n, t) {
+  const r = O(z(n), t);
+  $(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(F.StrictMode, { children: /* @__PURE__ */ e.jsx(k, { store: r, children: /* @__PURE__ */ e.jsx(me, {}) }) })
+  ), window.addEventListener("message", V(r, ce));
 }
-window.renderWebView = ve;
+window.renderWebView = ue;

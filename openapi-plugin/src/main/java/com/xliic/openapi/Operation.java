@@ -60,4 +60,24 @@ public class Operation {
     public String getMethod() {
         return method;
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Operation operation = (Operation) o;
+        if (offset != operation.offset) return false;
+        if (!path.equals(operation.path)) return false;
+        if (!method.equals(operation.method)) return false;
+        return psiFile.equals(operation.psiFile);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = path.hashCode();
+        result = 31 * result + method.hashCode();
+        result = 31 * result + offset;
+        result = 31 * result + psiFile.hashCode();
+        return result;
+    }
 }

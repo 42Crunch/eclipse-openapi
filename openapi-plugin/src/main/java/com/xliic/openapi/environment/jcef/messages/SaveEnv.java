@@ -15,7 +15,8 @@ public class SaveEnv extends WebAppProduce {
     private final Project project;
 
     public SaveEnv(@NotNull Project project) {
-        super("saveEnv");
+        // Setting values in security storage is slow and not recommended in EDT
+        super("saveEnv", false, false);
         this.project = project;
     }
 

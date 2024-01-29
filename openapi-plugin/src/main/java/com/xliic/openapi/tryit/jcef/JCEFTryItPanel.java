@@ -15,6 +15,7 @@ import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
+import com.xliic.core.util.messages.MessageBusConnection;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.bundler.BundleResult;
@@ -48,11 +49,7 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
                           @NotNull ToolWindow toolWindow,
                           @NotNull Composite parent,
                           @NotNull ViewPartHandler handler) {
-        super(project, toolWindow, "tryit", parent, handler);
-        project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
-        project.getMessageBus().connect().subscribe(TryItListener.TOPIC, this);
-        project.getMessageBus().connect().subscribe(EnvListener.TOPIC, this);
-        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
+        super(project, toolWindow.getId(), "tryit", parent, handler);
     }
 
     @Override
@@ -60,6 +57,14 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
         return new JCEFTryItFunction(project, cache, browser, name);
     }
 
+    @Override
+    protected void subscribe(@NotNull MessageBusConnection connection) {
+        connection.subscribe(FileListener.TOPIC, this);
+        connection.subscribe(TryItListener.TOPIC, this);
+        connection.subscribe(EnvListener.TOPIC, this);
+        connection.subscribe(SettingsListener.TOPIC, this);
+    }
+    
     @Override
     public void tryOperation(@NotNull TryItOperation payload, @NotNull Preferences prefs, @NotNull Environment env) {
         updateEnv(env);

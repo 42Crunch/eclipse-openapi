@@ -24,5 +24,7 @@ public interface AuditListener {
 
     default void startAudit() {}
 
+    default void cancelAudit() {}
+    
     default void showGeneralError() {}
 }

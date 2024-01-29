@@ -10,20 +10,32 @@ import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.settings.wizard.anon.AnonEmailWizardDialog;
 import com.xliic.openapi.settings.wizard.platform.PlatformURLWizardDialog;
+import com.xliic.openapi.utils.CliUtils;
+
+import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
 
 public class Credentials {
 
-    public enum Type { Anon, Platform }
+    public enum Type { Anon, Platform, Cli }
 
-    @Nullable
-    public static Type getCredentialsType() {
-        if (!StringUtils.isEmpty(getAnonCredentials())) {
-            return Type.Anon;
+    public static boolean hasCredentialsType() {
+        return !StringUtils.isEmpty(getAnonCredentials()) || PlatformConnection.isPlatformIntegrationEnabled();
+    }
+
+    @NotNull
+    public static Type getCredentialsType(@NotNull Project project) {
+        boolean hasCli = CliUtils.hasCli();
+        String anondCredentials = getAnonCredentials();
+        if (hasCli && StringUtils.isEmpty(anondCredentials)) {
+            notifyTokenNotFound(project, "platform connection");
+        }
+        if (!StringUtils.isEmpty(anondCredentials) && hasCli) {
+            return Type.Cli;
         }
         if (PlatformConnection.isPlatformIntegrationEnabled()) {
             return Type.Platform;
         }
-        return null;
+        return Type.Anon;
     }
 
     public static void configureCredentials(@NotNull Project project, @NotNull WizardCallback callback) {
@@ -37,7 +49,8 @@ public class Credentials {
         }
     }
 
-    private static String getAnonCredentials() {
+    @Nullable
+    public static String getAnonCredentials() {
         return PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
     }
 }

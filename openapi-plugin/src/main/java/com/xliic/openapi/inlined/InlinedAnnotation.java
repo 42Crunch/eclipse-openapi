@@ -21,11 +21,11 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.bundler.BundleResult;
-import com.xliic.openapi.platform.scan.payload.ScanOperation;
+import com.xliic.openapi.platform.scan.config.ScanConfService;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.ScanService;
 import com.xliic.openapi.services.TryItService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.wizard.WizardCallback;
@@ -55,7 +55,7 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
     @NotNull
     private final TryItOperation top;
     @Nullable
-    private final ScanOperation sop;
+    private final ScanConfOperation sop;
     @NotNull
     private final AuditOperation aop;
 
@@ -70,7 +70,7 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
                              @NotNull Position position,
                              @NotNull ISourceViewer viewer,
                              @NotNull TryItOperation payload,
-                             @Nullable ScanOperation payload2,
+                             @Nullable ScanConfOperation payload2,
                              @NotNull AuditOperation payload3) {
         super(position, viewer);
         this.project = project;
@@ -93,18 +93,18 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
         } else if (annotationId == SCAN_ID) {
             if (sop != null) {
                 VirtualFile file = sop.getPsiFile().getVirtualFile();
-                ScanService scanService = ScanService.getInstance(project);
-                scanService.scanActionPerformed(file, sop);
+                ScanConfService scanConfService = ScanConfService.getInstance(project);
+                scanConfService.scanConfActionPerformed(file, sop);
             }
         } else if (annotationId == AUDIT_ID) {
             VirtualFile file = aop.getPsiFile().getVirtualFile();
             AuditService auditService = AuditService.getInstance(project);
-            Credentials.Type type = Credentials.getCredentialsType();
+            Credentials.Type type = Credentials.getCredentialsType(project);
             if (type == null) {
                 Credentials.configureCredentials(project, new WizardCallback() {
                     @Override
                     public void complete() {
-                        auditService.actionPerformed(project, file, aop, Credentials.getCredentialsType());
+                        auditService.actionPerformed(project, file, aop, Credentials.getCredentialsType(project));
                     }
                 });
             } else {

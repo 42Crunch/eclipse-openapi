@@ -50,6 +50,6 @@ public class OpenAPIPerspectiveFactory implements IPerspectiveFactory {
         d.addView(ToolWindowId.TRY_IT);
         d.addView(ToolWindowId.SCAN);
         d.addView(ToolWindowId.ENV);
-        d.addView(ToolWindowId.CONFIG);
+        //d.addView(ToolWindowId.CONFIG);
     }
 }

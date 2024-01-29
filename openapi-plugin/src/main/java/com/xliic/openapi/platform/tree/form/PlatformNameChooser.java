@@ -13,18 +13,19 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.DialogWrapper;
 import com.xliic.core.ui.ValidationInfo;
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.platform.NamingConvention;
 
 public abstract class PlatformNameChooser extends DialogWrapper {
 
     protected JTextField myValueEditor;
-    protected PlatformNameConvention convention;
+    @Nullable
+    protected NamingConvention convention = null;
     protected final String currentName;
 
     public PlatformNameChooser(@NotNull Project project, @NotNull String title, @NotNull String currentName) {
         super(project, 1);
         setTitle(title);
         this.currentName = currentName;
-        convention = null;
         init();
     }
 
@@ -45,15 +46,10 @@ public abstract class PlatformNameChooser extends DialogWrapper {
     @Override
     protected ValidationInfo doValidate() {
         try {
-            if (convention != null) {
-                String pattern = convention.getPattern();
-                if (!StringUtils.isEmpty(pattern)) {
-                    if (!Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(getValue()).find()) {
-                        String example = convention.getExample();
-                        String description = convention.getDescription();
-                        return new ValidationInfo(getMessage(description, example), myValueEditor);
-                    }
-                }
+            if (convention != null && !convention.match((getValue()))) {
+                String example = convention.getExample();
+                String description = convention.getDescription();
+                return new ValidationInfo(getMessage(description, example), myValueEditor);
             }
             String defaultPattern = getDefaultPattern();
             if (!StringUtils.isEmpty(defaultPattern)) {
@@ -67,6 +63,7 @@ public abstract class PlatformNameChooser extends DialogWrapper {
         return null;
     }
 
+    @NotNull
     protected abstract String getDefaultPattern();
 
     protected void enable() {

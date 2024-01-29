@@ -39,16 +39,15 @@ public class SecurityAuditAction extends ProjectAction {
             bundleService.notifyOfErrors(rootFileName);
             return;
         }
-        Credentials.Type type = Credentials.getCredentialsType();
-        if (type == null) {
+        if (Credentials.hasCredentialsType()) {
+            auditService.actionPerformed(project, file, Credentials.getCredentialsType(project));
+        } else {
             Credentials.configureCredentials(project, new WizardCallback() {
                 @Override
                 public void complete() {
-                    auditService.actionPerformed(project, file, Credentials.getCredentialsType());
+                    auditService.actionPerformed(project, file, Credentials.getCredentialsType(project));
                 }
             });
-        } else {
-            auditService.actionPerformed(project, file, type);
         }
     }
 }

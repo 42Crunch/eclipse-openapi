@@ -21,7 +21,7 @@ import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
 import com.xliic.core.ui.UIManager;
 import com.xliic.core.ui.jcef.CefLoadHandlerAdapter;
 import com.xliic.core.ui.jcef.JBCefBrowser;
-import com.xliic.core.wm.ToolWindow;
+import com.xliic.core.util.messages.MessageBusConnection;
 import com.xliic.openapi.webapp.messages.ChangeTheme;
 import com.xliic.openapi.webapp.scheme.SchemeHandlerFactory;
 
@@ -36,9 +36,11 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
     @NotNull
     protected final Project project;
     @NotNull
-    protected final ToolWindow window;
+    protected final String myId;
     @NotNull
     protected final String resourceId;
+    @NotNull
+    private final MessageBusConnection connection;
     @Nullable
     protected UIManager manager;
 
@@ -50,13 +52,13 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
     protected final Map<String, Object> cache = new HashMap<>();
 
     public WebApp(@NotNull Project project,
-                  @NotNull ToolWindow window,
+    	          @NotNull String id,
                   @NotNull String resourceId,
                   @NotNull Composite parent,
                   @NotNull ViewPartHandler handler) {
         super(parent);
         this.project = project;
-        this.window = window;
+        this.myId = id;
         this.resourceId = resourceId;
         fun = getBrowserFunction(getBrowser(), SchemeHandlerFactory.getBrowserFunctionName(resourceId));
         final WebApp thisApp = this;
@@ -72,6 +74,8 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
                 }
             }
         };
+        connection = project.getMessageBus().connect();
+        subscribe(connection);
         getJBCefClient().addLoadHandler(loadHandler);
         CefApp cefApp = CefApp.getInstance();
         if (regShFactory && cefApp != null) {
@@ -87,13 +91,14 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
 
     @Nullable
     protected abstract BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name);
-
+    protected abstract void subscribe(@NotNull MessageBusConnection connection);
     protected void onLoadEnd() {}
 
     @Override
     public void dispose() {
         super.dispose();
         cache.clear();
+        connection.disconnect();
         getJBCefClient().removeLoadHandler(loadHandler);
         // Browser function is already disposed by chromium
     }
@@ -103,5 +108,9 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
         ApplicationManager.getApplication().invokeAndWait(() -> {
             new ChangeTheme(manager).send(getCefBrowser());
         });
+    }
+    
+    public String getId() {
+        return myId;
     }
 }
