@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,8 +37,16 @@ public class WindowUtils {
 		ApplicationManager.getApplication().invokeLater(() -> {
 			List<IWorkbenchPage> pages = EclipseUtil.getAllSupportedPages();
 			if (pages.isEmpty()) {
+				// No editors are opened
+				IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				if (window != null) {
+					IWorkbenchPage page = window.getActivePage();
+					if (page != null) {
+						openWebEditorOnPage(page, input, resourceId);	
+					}
+				}
 				return;
-			}		
+			}
 			IEditorPart editor = null;
 			for (IWorkbenchPage page : pages) {
 				editor = page.findEditor(input);
@@ -46,14 +56,7 @@ public class WindowUtils {
 					return;
 				}
 			}
-	    	if (!WebFileEditorPart.isTabsLimitOk(resourceId)) {
-	    		return;
-	    	}	    	
-			try {
-				pages.get(0).openEditor(input, EDITOR_ID);
-			} catch (PartInitException e) {
-				e.printStackTrace();
-			}
+			openWebEditorOnPage(pages.get(0), input, resourceId);
 		});
     }
 
@@ -100,5 +103,16 @@ public class WindowUtils {
         if (!window.isActive()) {
             window.activate(null);
         }
+    }
+
+    private static void openWebEditorOnPage(@NotNull IWorkbenchPage page, @NotNull WebFileEditorInput input, @NotNull String resourceId) {
+    	if (!WebFileEditorPart.isTabsLimitOk(resourceId)) {
+    		return;
+    	}
+		try {
+			page.openEditor(input, EDITOR_ID);
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
     }
 }

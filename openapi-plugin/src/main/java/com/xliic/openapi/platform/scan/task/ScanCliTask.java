@@ -46,12 +46,12 @@ public class ScanCliTask extends Task.Backgroundable {
     @Nullable
     private VirtualFile scanTmpDir = null;
 
-    public ScanCliTask(@NotNull Project project, @NotNull ScanRunConfig runConfig, @NotNull ScanRunTask.Callback callback) {
+    public ScanCliTask(@NotNull Project project, @NotNull String tabId, @NotNull ScanRunConfig runConfig, @NotNull ScanRunTask.Callback callback) {
         super(project, "Running Conformance Scan using 42c-ast binary", false);
         this.project = project;
         this.runConfig = runConfig;
         this.callback = callback;
-        logger = new ScanLogger(project);
+        logger = new ScanLogger(project, tabId);
     }
 
     @Override

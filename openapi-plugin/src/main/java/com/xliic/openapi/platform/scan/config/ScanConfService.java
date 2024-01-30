@@ -158,7 +158,7 @@ public final class ScanConfService implements IScanConfService, Disposable {
         Preferences prefs = PrefsService.getInstance(project).getPreferences(file);
         Environment myEnv = EnvService.getInstance(project).getEnv();
         WindowUtils.openWebTab(project, "scanconf", alias, () -> {
-            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showScanConfOperation(payload, myEnv, prefs);
+            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showScanConfOperation(alias, payload, myEnv, prefs);
             if (turnedOff) {
                 turnOnVcsShowConfirmation(project);
             }

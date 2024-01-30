@@ -68,6 +68,8 @@ public final class ScanService implements IScanService, Disposable {
                 return;
             }
         }
+        String scanConfPath = config.getScanConfPath();
+        String tabId = "Scan report " + ScanConfigUtils.getAlias(scanConfPath);
         ScanDockerTask.Callback callback = new ScanDockerTask.Callback() {
             @Override
             public void setDone(@NotNull String scanConfPath, @NotNull ScanReport report) {
@@ -84,28 +86,26 @@ public final class ScanService implements IScanService, Disposable {
                     if (ge.getReport() != null) {
                         saveFailedFileAndReport(ge.getReport());
                     }
-                    showGeneralError(ge.getMessage(), ge.getCode(), ge.getDetails());
+                    showGeneralError(tabId, ge.getMessage(), ge.getCode(), ge.getDetails());
                 } else {
-                    showGeneralError(e.getMessage(), null, null);
+                    showGeneralError(tabId, e.getMessage(), null, null);
                 }
             }
         };
-        String scanConfPath = config.getScanConfPath();
-        String tabId = "Scan report " + ScanConfigUtils.getAlias(scanConfPath);
         String token = PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
         scanTaskInProgress = true;
         WindowUtils.openWebTab(project, "scan", tabId, () -> {
-            project.getMessageBus().syncPublisher(ScanListener.TOPIC).startScan();
+            project.getMessageBus().syncPublisher(ScanListener.TOPIC).startScan(tabId);
             if (hasCli && !StringUtils.isEmpty(token)) {
-                ProgressManager.getInstance().run(new ScanCliTask(project, config, callback));
+                ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, callback));
             } else {
                 if (hasCli) {
                     notifyTokenNotFound(project, "docker");
                 }
                 if (useScandMgr) {
-                    ProgressManager.getInstance().run(new ScanJobTask(project, config, callback));
+                    ProgressManager.getInstance().run(new ScanJobTask(project, tabId, config, callback));
                 } else {
-                    ProgressManager.getInstance().run(new ScanDockerTask(project, config, callback));
+                    ProgressManager.getInstance().run(new ScanDockerTask(project, tabId, config, callback));
                 }
             }
         });
@@ -114,7 +114,7 @@ public final class ScanService implements IScanService, Disposable {
     private void showScanResultsTab(String scanConfPath, ScanReport report) {
         String id = "Scan report " + getAlias(scanConfPath);
         WindowUtils.openWebTab(project, "scan", id, () -> {
-            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showScanReport(report);
+            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showScanReport(id, report);
         });
     }
 
@@ -160,8 +160,8 @@ public final class ScanService implements IScanService, Disposable {
         saveFailedFileAndReport(filePath, null);
     }
 
-    private void showGeneralError(String message, String code, String details) {
+    private void showGeneralError(String toId, String message, String code, String details) {
         ApplicationManager.getApplication().invokeAndWait(() ->
-                project.getMessageBus().syncPublisher(ScanListener.TOPIC).showGeneralError(message, code, details));
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).showGeneralError(toId, message, code, details));
     }
 }

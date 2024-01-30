@@ -21,8 +21,8 @@ public class ScanDockerTask extends ScanRunTask {
 
 	private static final String DEFAULT_SHELL = "sh";
 
-    public ScanDockerTask(@NotNull Project project, @NotNull ScanRunConfig runConfig, @NotNull Callback callback) {
-        super(project, runConfig, callback);
+    public ScanDockerTask(@NotNull Project project, @NotNull String tabId, @NotNull ScanRunConfig runConfig, @NotNull Callback callback) {
+        super(project, tabId, runConfig, callback);
     }
 
     @Override

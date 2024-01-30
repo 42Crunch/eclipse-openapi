@@ -27,14 +27,12 @@ public class WebFileEditorInput implements IEditorInput {
 
 	@Override
 	public ImageDescriptor getImageDescriptor() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return "WelcomeEditorInput";
+		return "WebFileEditorInput " + file.getId();
 	}
 
 	@Override
@@ -44,7 +42,6 @@ public class WebFileEditorInput implements IEditorInput {
 
 	@Override
 	public String getToolTipText() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

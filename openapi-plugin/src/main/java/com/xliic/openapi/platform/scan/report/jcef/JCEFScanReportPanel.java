@@ -4,6 +4,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.swt.widgets.Composite;
@@ -45,7 +46,7 @@ public class JCEFScanReportPanel extends WebFileEditor implements FileListener, 
 
     @Override
     protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
-        return new JCEFScanReportFunction(project, cache, browser, name);
+        return new JCEFScanReportFunction(project, myId, cache, browser, name);
     }
     
     @Override
@@ -57,27 +58,42 @@ public class JCEFScanReportPanel extends WebFileEditor implements FileListener, 
     }
 
     @Override
-    public void startScan() {
+    public void startScan(@NotNull String toId) {
+        if (!Objects.equals(toId, myId)) {
+            return;
+        }
         new StartScan().send(getCefBrowser());
     }
 
     @Override
-    public void showScanReport(@NotNull ScanReport report) {
+    public void showScanReport(@NotNull String toId, @NotNull ScanReport report) {
+        if (!Objects.equals(toId, myId)) {
+            return;
+        }
         new ShowScanReport(report).send(getCefBrowser());
     }
 
     @Override
-    public void showOperationResponse(@NotNull TryItResponse payload) {
+    public void showOperationResponse(@NotNull String toId, @NotNull TryItResponse payload) {
+        if (!Objects.equals(toId, myId)) {
+            return;
+        }
         new ShowHttpResponse(payload).send(getCefBrowser());
     }
 
     @Override
-    public void showOperationError(@NotNull TryItError error) {
+    public void showOperationError(@NotNull String toId, @NotNull TryItError error) {
+        if (!Objects.equals(toId, myId)) {
+            return;
+        }
         new ShowHttpError(error).send(getCefBrowser());
     }
 
     @Override
-    public void showGeneralError(@NotNull String message, @Nullable String code, @Nullable String details) {
+    public void showGeneralError(@NotNull String toId, @NotNull String message, @Nullable String code, @Nullable String details) {
+        if (!Objects.equals(toId, myId)) {
+            return;
+        }
         new ShowGeneralError(message, code, details).send(getCefBrowser());
     }
 
@@ -102,7 +118,10 @@ public class JCEFScanReportPanel extends WebFileEditor implements FileListener, 
     }
 
     @Override
-    public void sendLogMessage(@NotNull String level, @NotNull String message) {
+    public void sendLogMessage(@NotNull String toId, @NotNull String level, @NotNull String message) {
+        if (!Objects.equals(toId, myId)) {
+            return;
+        }
         new ShowLog(level, ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT), message).send(getCefBrowser());
     }
 

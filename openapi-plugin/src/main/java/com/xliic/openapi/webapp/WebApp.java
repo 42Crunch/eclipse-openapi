@@ -98,7 +98,7 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
     public void dispose() {
         super.dispose();
         cache.clear();
-        connection.disconnect();
+        connection.disconnect(this);
         getJBCefClient().removeLoadHandler(loadHandler);
         // Browser function is already disposed by chromium
     }

@@ -212,7 +212,6 @@ public class TempFileUtils {
         return new File(FileUtil.getTempDirectory(), PLUGIN_TEMP_DIR);
     }
     
-    // todo
     @NotNull
     public static VirtualFile createTempDirectory(@NotNull Project project, @NotNull String prefix) throws IOException {
          VirtualFile file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () -> {
@@ -229,17 +228,4 @@ public class TempFileUtils {
         }
         return file;
     }
-
-    // todo
-//    private static boolean isMyPluginTempDir(@NotNull String dirName) {
-//        return PLUGIN_TEMP_DIR.equals(dirName);
-//    }
-//
-//    private static boolean isPluginTempDirTemplate(@NotNull String dirName) {
-//        if (dirName.contains("_")) {
-//            String[] items = dirName.split("_");
-//            return (items.length == 2) && XLIIC_PREFIX.equals(items[0]) && (items[1].length() == FileUtils.LENGTH);
-//        }
-//        return false;
-//    }
 }

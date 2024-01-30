@@ -54,7 +54,7 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
 
     @Override
     protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
-        return new JCEFTryItFunction(project, cache, browser, name);
+        return new JCEFTryItFunction(project, myId, cache, browser, name);
     }
 
     @Override

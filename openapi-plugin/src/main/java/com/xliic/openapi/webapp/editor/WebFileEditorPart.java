@@ -119,5 +119,8 @@ public class WebFileEditorPart extends EditorPart {
 	public void dispose() {
 		super.dispose();
 		decrementOpenedTabs(webFile.getResourceId());
+		if (webEditor instanceof WebFileEditor) {
+			((WebFileEditor) webEditor).dispose();
+		}
 	}
 }

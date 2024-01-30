@@ -16,11 +16,15 @@ import com.xliic.openapi.webapp.WebAppFunction;
 
 public class JCEFScanReportFunction extends WebAppFunction {
 
-    public JCEFScanReportFunction(@NotNull Project project, Map<String, Object> cache, Browser browser, String name) {
+    public JCEFScanReportFunction(@NotNull Project project,
+    							  @NotNull String id, 
+    							  @NotNull Map<String, Object> cache,
+    							  @NotNull Browser browser, 
+    							  @NotNull String name) {
         super(browser, name);
         add(new ShowEnvWindow(project));
         add(new SavePreferences(project, cache));
-        add(new SendHttpRequest(project, false));
+        add(new SendHttpRequest(project, id, false));
         add(new SendCurlRequest());
         add(new ShowJsonPointer(project, cache));
         add(new ShowAuditReport(project, cache));

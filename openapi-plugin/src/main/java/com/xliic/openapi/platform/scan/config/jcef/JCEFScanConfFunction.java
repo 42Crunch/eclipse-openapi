@@ -14,12 +14,16 @@ import java.util.Map;
 
 public class JCEFScanConfFunction extends WebAppFunction {
 
-    public JCEFScanConfFunction(@NotNull Project project, Map<String, Object> cache, Browser browser, String name) {
+    public JCEFScanConfFunction(@NotNull Project project, 
+    		                    @NotNull String id, 
+    		                    @NotNull Map<String, Object> cache, 
+    		                    @NotNull Browser browser, 
+    		                    @NotNull String name) {
         super(browser, name);
         add(new RunScan(project, cache));
         add(new SaveScanConf(project, cache));
         add(new ShowEnvWindow(project));
         add(new SavePreferences(project, cache));
-        add(new SendHttpRequest(project, false));
+        add(new SendHttpRequest(project, id, false));
     }
 }

@@ -222,7 +222,7 @@ public class PlatformUtils {
                 String example = body.getChildValueOrEmpty("example");
                 return new NamingConvention(pattern, description, example);
             }
-        } catch (IOException ignored) {
+        } catch (Exception ignored) {
         }
         return new NamingConvention();
     }
@@ -237,7 +237,7 @@ public class PlatformUtils {
                 String example = body.getChildValueOrEmpty("example");
                 return new NamingConvention(pattern, description, example);
             }
-        } catch (IOException ignored) {
+        } catch (Exception ignored) {
         }
         return new NamingConvention();
     }

@@ -15,11 +15,14 @@ public class SendHttpRequest extends WebAppProduce {
 
     @NotNull
     private final Project project;
+    @NotNull 
+    private final String senderId;
     private final boolean tryIt;
 
-    public SendHttpRequest(@NotNull Project project, boolean tryIt) {
+    public SendHttpRequest(@NotNull Project project, @NotNull String senderId, boolean tryIt) {
         super("sendHttpRequest");
         this.project = project;
+        this.senderId = senderId;
         this.tryIt = tryIt;
     }
 
@@ -38,7 +41,7 @@ public class SendHttpRequest extends WebAppProduce {
             Object body = request.get("body");
             String id = (String) map.get("id");
             TryItRequest tryItRequest = TryItRequest.getInstance(url, method, headers, body, id, rejectUnauthorized);
-            TryItService.getInstance(project).send(tryItRequest, new TryItResponseCallback(project, tryItRequest.getId(), tryIt));
+            TryItService.getInstance(project).send(tryItRequest, new TryItResponseCallback(project, senderId, tryItRequest.getId(), tryIt));
         }
     }
 }

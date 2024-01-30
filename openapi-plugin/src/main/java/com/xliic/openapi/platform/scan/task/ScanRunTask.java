@@ -10,15 +10,24 @@ import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.*;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.utils.Utils;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
+
 public abstract class ScanRunTask extends Task.Backgroundable {
 
     private static final String DEFAULT_CONFIG_NAME = "updated";
+    private static final String SCAN42C_HOST = "SCAN42C_HOST";
+    private static final String LOCALHOST = "localhost";
+    private static final String HTTP_LOCALHOST = "http://" + LOCALHOST;
+    private static final String HTTPS_LOCALHOST = "https://" + LOCALHOST;
+    private static final String HOST_DOCKER_INTERNAL = "host.docker.internal";
 
     @NotNull
     protected final Project project;
@@ -34,12 +43,12 @@ public abstract class ScanRunTask extends Task.Backgroundable {
         void setRejected(@NotNull Exception ex);
     }
 
-    public ScanRunTask(@NotNull Project project, @NotNull ScanRunConfig runConfig, @NotNull Callback callback) {
+    public ScanRunTask(@NotNull Project project, @NotNull String tabId, @NotNull ScanRunConfig runConfig, @NotNull Callback callback) {
         super(project, "Running scan", false);
         this.project = project;
         this.runConfig = runConfig;
         this.callback = callback;
-        logger = new ScanLogger(project);
+        logger = new ScanLogger(project, tabId);
     }
 
     protected abstract void runScan(@NotNull ProgressIndicator progress,
@@ -83,6 +92,19 @@ public abstract class ScanRunTask extends Task.Backgroundable {
             Map<String, String> env = new HashMap<>();
             for (Map.Entry<String, String> entry : runConfig.getEnv().entrySet()) {
                 env.put(entry.getKey(), myEnv.replace(entry.getValue()));
+            }
+            // WA
+            String host = env.get(SCAN42C_HOST);
+            if (host != null) {
+            	host = host.toLowerCase();
+            	if (host.startsWith(HTTP_LOCALHOST) || host.startsWith(HTTPS_LOCALHOST)) {
+                	if (PropertiesComponent.getInstance().getBoolean(REPLACE_LOCALHOST)) {
+                		String os = Utils.getOs();
+                		if ("darwin".equals(os) || "win32".equals(os)) {
+                        	env.put(SCAN42C_HOST, host.replace(LOCALHOST, HOST_DOCKER_INTERNAL));
+                		}
+                	}
+            	}
             }
             runScan(progress, image, services, token, env);
             String reportId = ScanUtils.waitForScanReport(apiId);
