@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT_CLI;
 import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
 import static com.xliic.openapi.utils.MsgUtils.notifyLimit;
 
@@ -40,7 +40,7 @@ public class AuditCliTask extends Task.Backgroundable {
     private final AuditService.Callback callback;
 
     public AuditCliTask(@NotNull Project project, @NotNull VirtualFile file, @NotNull AuditService.Callback callback) {
-        super(project, RUNNING_SECURITY_AUDIT, false);
+        super(project, RUNNING_SECURITY_AUDIT_CLI, false);
         this.project = project;
         this.file = file;
         operation = null;
@@ -48,7 +48,7 @@ public class AuditCliTask extends Task.Backgroundable {
     }
 
     public AuditCliTask(@NotNull Project project, @NotNull AuditOperation operation, @NotNull AuditService.Callback callback) {
-        super(project, RUNNING_SECURITY_AUDIT, false);
+        super(project, RUNNING_SECURITY_AUDIT_CLI, false);
         this.project = project;
         this.file = operation.getPsiFile().getVirtualFile();
         this.operation = operation;

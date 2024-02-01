@@ -63,6 +63,7 @@ public final class AuditService implements IAuditService, Disposable {
 
     private static final int MAX_PLATFORM_AUDIT_LIMIT = 10;
     public static final String RUNNING_SECURITY_AUDIT = "Running API contract security audit";
+    public static final String RUNNING_SECURITY_AUDIT_CLI = "Running Security Audit using 42Crunch CLI";
     public static final String LOADING_KDB_ARTICLES = "Loading API contract security audit KDB articles";
 
     @NotNull
