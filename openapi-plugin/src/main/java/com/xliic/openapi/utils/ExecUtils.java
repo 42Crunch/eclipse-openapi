@@ -56,6 +56,11 @@ public class ExecUtils {
             }
             return builder.toString();
         }
+
+        @Override
+        public String getMessage() {
+            return toString();
+        }
     }
 
     @NotNull
