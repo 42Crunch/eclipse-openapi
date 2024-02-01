@@ -15,9 +15,13 @@ import com.xliic.openapi.webapp.WebAppFunction;
 
 public class JCEFTryItFunction extends WebAppFunction {
 
-    public JCEFTryItFunction(@NotNull Project project, Map<String, Object> cache, Browser browser, String name) {
+    public JCEFTryItFunction(@NotNull Project project, 
+    		                 @NotNull String id,
+    		                 @NotNull Map<String, Object> cache, 
+    		                 @NotNull Browser browser, 
+    		                 @NotNull String name) {
         super(browser, name);
-        add(new SendHttpRequest(project, true));
+        add(new SendHttpRequest(project, id, true));
         add(new CreateSchemaCommand(project, cache));
         add(new SaveConfig());
         add(new ShowEnvWindow(project));

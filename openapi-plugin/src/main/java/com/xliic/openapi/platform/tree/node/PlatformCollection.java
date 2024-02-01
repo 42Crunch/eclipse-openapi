@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
 import com.xliic.openapi.GitRepoProps;
+import com.xliic.openapi.platform.Permissions;
 import com.xliic.openapi.platform.tree.node.core.Filter;
 import com.xliic.openapi.platform.tree.node.core.Paginator;
 
@@ -22,20 +23,23 @@ public class PlatformCollection implements Paginator, Filter {
     private final boolean locked;
     @NotNull
     private String name;
+    @NotNull
+    private final Permissions permissions;
     private volatile boolean childrenUnavailable;
     @NotNull
-    private final String technicalName;
+    private final String techName;
     @Nullable
     private GitRepoProps gitProps;
     private int pageSize = Paginator.PAGE_SIZE;
     private String filterName;
 
-    public PlatformCollection(@NotNull String id, @NotNull String name, boolean locked, @NotNull String technicalName) {
+    public PlatformCollection(@NotNull String id, @NotNull String name, boolean locked, @NotNull String techName, @NotNull Permissions permissions) {
         this.id = id;
         this.name = name;
         this.locked = locked;
-        this.technicalName = technicalName;
+        this.techName = techName;
         childrenUnavailable = true;
+        this.permissions = permissions;
     }
 
     public @NotNull String getName() {
@@ -55,9 +59,13 @@ public class PlatformCollection implements Paginator, Filter {
     }
 
     public @NotNull String getTechnicalName() {
-        return technicalName;
+        return techName;
     }
 
+    public @NotNull Permissions getPermissions() {
+        return permissions;
+    }
+    
     public boolean isChildrenUnavailable() {
         return childrenUnavailable;
     }
@@ -102,7 +110,7 @@ public class PlatformCollection implements Paginator, Filter {
     }
 
     public boolean updateGitProps(@NotNull Project project) {
-        GitRepoProps newGitProps = getGitRepoPropsIfCollectionCheckedOut(project, technicalName);
+        GitRepoProps newGitProps = getGitRepoPropsIfCollectionCheckedOut(project, techName);
         boolean result = Objects.equals(gitProps, newGitProps);
         gitProps = newGitProps;
         return !result;

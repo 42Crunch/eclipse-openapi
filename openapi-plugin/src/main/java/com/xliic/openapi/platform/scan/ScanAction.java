@@ -8,18 +8,18 @@ import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
-import com.xliic.openapi.platform.scan.payload.ScanOperation;
+import com.xliic.openapi.platform.scan.config.ScanConfService;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.ScanService;
 
 import icons.OpenApiIcons;
 
 public class ScanAction extends AnJAction implements DumbAware {
 
     @NotNull
-    private final ScanOperation payload;
+    private final ScanConfOperation payload;
 
-    public ScanAction(@NotNull String name, @NotNull ScanOperation payload) {
+    public ScanAction(@NotNull String name, @NotNull ScanConfOperation payload) {
         super(name, "", OpenApiIcons.Scan);
         this.payload = payload;
     }
@@ -37,7 +37,7 @@ public class ScanAction extends AnJAction implements DumbAware {
     public void actionPerformed(@NotNull AnJActionEvent event) {
         Project project = event.getProject();
         VirtualFile file = payload.getPsiFile().getVirtualFile();
-        ScanService scanService = ScanService.getInstance(project);
-        scanService.scanActionPerformed(file, payload);
+        ScanConfService scanConfService = ScanConfService.getInstance(project);
+        scanConfService.scanConfActionPerformed(file, payload);
     }
 }

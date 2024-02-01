@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.actionSystem.AnJAction;
@@ -160,6 +161,11 @@ public class OpenApiFileTreePanel implements FileListener, SettingsListener, Dis
             setRoot(model, null, file.getPath());
             setNoOpenAPITreeBackGround();
         }
+    }
+
+    @Nullable
+    public String getModelFileName() {
+    	return modelFileName;
     }
 
     @Override

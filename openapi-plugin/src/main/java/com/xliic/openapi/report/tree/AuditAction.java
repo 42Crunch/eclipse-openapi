@@ -40,12 +40,12 @@ public class AuditAction extends AnJAction implements DumbAware {
         Project project = event.getProject();
         VirtualFile file = payload.getPsiFile().getVirtualFile();
         AuditService auditService = AuditService.getInstance(project);
-        Credentials.Type type = Credentials.getCredentialsType();
+        Credentials.Type type = Credentials.getCredentialsType(project);
         if (type == null) {
             Credentials.configureCredentials(project, new WizardCallback() {
                 @Override
                 public void complete() {
-                    auditService.actionPerformed(project, file, payload, Credentials.getCredentialsType());
+                    auditService.actionPerformed(project, file, payload, Credentials.getCredentialsType(project));
                 }
             });
         } else {

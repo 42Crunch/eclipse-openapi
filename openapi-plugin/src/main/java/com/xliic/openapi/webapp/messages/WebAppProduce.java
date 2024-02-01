@@ -22,6 +22,10 @@ public abstract class WebAppProduce {
     public WebAppProduce(@NotNull String name, boolean payloadAsAST) {
         this(name, payloadAsAST, true, -1);
     }
+    
+    public WebAppProduce(@NotNull String name, boolean payloadAsAST, boolean insideEDT) {
+        this(name, payloadAsAST, insideEDT, -1);
+    }
 
     public WebAppProduce(@NotNull String name, boolean payloadAsAST, boolean insideEDT, int rate) {
         this.name = name;

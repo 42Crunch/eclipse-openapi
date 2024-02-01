@@ -26,6 +26,7 @@ import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.utils.Utils;
 
@@ -51,15 +52,15 @@ public class FixGlobalDictionaryAction extends ProjectAction {
 
     @Override
     public void actionPerformed(@NotNull Project project, @NotNull VirtualFile currentFile) {
-        actionPerformed(project, currentFile, new ActionCallback());
+        actionPerformed(project, currentFile, new ActionCallback(), false);
     }
 
-    public void actionPerformed(@NotNull Project project, @NotNull VirtualFile currentFile, @NotNull ActionCallback callback) {
+    public void actionPerformed(@NotNull Project project, @NotNull VirtualFile currentFile, @NotNull ActionCallback callback, boolean waitBundle) {
         PsiFile psiFile = Utils.findPsiFile(project, currentFile);
         if (psiFile != null) {
             List<DictionaryUpdate> updates = getDictionaryUpdates(project, currentFile);
             // All containers have been processed
-            if (updates.size() > 0) {
+            if (!updates.isEmpty()) {
                 Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
                 if (editor != null) {
                     List<FixItem> result = new LinkedList<>();
@@ -70,7 +71,11 @@ public class FixGlobalDictionaryAction extends ProjectAction {
                     DocumentUpdater documentUpdater = new DocumentUpdater(editor, psiFile);
                     WriteCommandAction.runWriteCommandAction(project, () -> {
                         documentUpdater.process(result);
-                        callback.setDone();
+                        if (waitBundle) {
+                            BundleService.getInstance(project).runAsyncTask(project, currentFile , callback::setDone);
+                        } else {
+                            callback.setDone();
+                        }
                     });
                 }
             }

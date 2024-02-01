@@ -13,7 +13,6 @@ import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.config.payload.PlatformServices;
 import com.xliic.openapi.config.payload.ScandManagerConnection;
-import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class LoadConfig extends WebAppConsume {
@@ -56,8 +55,15 @@ public class LoadConfig extends WebAppConsume {
         scandManager.put("header", configScandManager.getHeader());
         result.put("scandManager", scandManager);
 
-        result.put("insecureSslHostnames", Settings.getValues(Settings.TryIt.INSECURE_SSL_HOSTNAMES));
+        result.put("insecureSslHostnames", config.getInsecureSslHostnames());
         result.put("platform", config.getPlatform());
+        result.put("cli", config.getCliProps());
+        result.put("repository", config.getRepository());
+        
+        result.put("platformCollectionNamingConvention", config.getPlatformCollectionNamingConvention().getPayload());
+        result.put("platformTemporaryCollectionName", config.getPlatformTempCollectionName());
+        result.put("platformMandatoryTags", config.getPlatformMandatoryTags());
+
         return result;
     }
 }

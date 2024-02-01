@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.io.IOException;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -38,7 +39,12 @@ import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
 import com.xliic.openapi.services.GitService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.platform.NamingConvention;
+import com.xliic.openapi.platform.PlatformAPIs;
+import com.xliic.openapi.platform.Tag;
+import com.xliic.openapi.utils.NetUtils;
 
+import okhttp3.Response;
 import okhttp3.Callback;
 
 public class PlatformUtils {
@@ -204,5 +210,56 @@ public class PlatformUtils {
         } catch (ParseException ignored) {
         }
         return null;
+    }
+    
+    @NotNull
+    public static NamingConvention getCollectionNamingConvention() {
+        try (Response response = PlatformAPIs.Sync.getCollectionNamingConvention()) {
+            Node body = NetUtils.getBodyNode(response);
+            if (body != null) {
+                String pattern = body.getChildValueOrEmpty("pattern");
+                String description = body.getChildValueOrEmpty("description");
+                String example = body.getChildValueOrEmpty("example");
+                return new NamingConvention(pattern, description, example);
+            }
+        } catch (Exception ignored) {
+        }
+        return new NamingConvention();
+    }
+    
+    @NotNull
+    public static NamingConvention getApiNamingConvention() {
+        try (Response response = PlatformAPIs.Sync.getApiNamingConvention()) {
+            Node body = NetUtils.getBodyNode(response);
+            if (body != null) {
+                String pattern = body.getChildValueOrEmpty("pattern");
+                String description = body.getChildValueOrEmpty("description");
+                String example = body.getChildValueOrEmpty("example");
+                return new NamingConvention(pattern, description, example);
+            }
+        } catch (Exception ignored) {
+        }
+        return new NamingConvention();
+    }
+
+    @NotNull
+    public static List<Tag> getTags() {
+        List<Tag> tags = new LinkedList<>();
+        try (Response response = PlatformAPIs.Sync.getTags()) {
+            Node body = NetUtils.getBodyNode(response);
+            if (body != null) {
+                Node list = body.find("/list");
+                if (list != null) {
+                    for (Node item : list.getChildren()) {
+                        String categoryName = item.getChildValueOrEmpty("categoryName");
+                        String tagName = item.getChildValueOrEmpty("tagName");
+                        String tagId = item.getChildValueOrEmpty("tagId");
+                        tags.add(new Tag(categoryName, tagName, tagId));
+                    }
+                }
+            }
+        } catch (IOException ignored) {
+        }
+        return tags;
     }
 }

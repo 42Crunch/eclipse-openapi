@@ -49,6 +49,8 @@ import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.webapp.editor.WebFileEditorInput;
+import com.xliic.openapi.webapp.editor.WebVirtualFile;
 
 public class EclipseUtil {
 
@@ -168,8 +170,7 @@ public class EclipseUtil {
     @NotNull
     public static List<IEditorInput> getAllSupportedActiveEditorInputs() {
         List<IEditorInput> inputs = new LinkedList<>();
-        IWorkbench workbench = PlatformUI.getWorkbench();
-        IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
         for (IWorkbenchWindow window : windows) {
             for (IWorkbenchPage page : window.getPages()) {
                 for (IEditorReference ref : page.getEditorReferences()) {
@@ -188,12 +189,35 @@ public class EclipseUtil {
         }
         return inputs;
     }
+    
+    
+    @Nullable
+    public static IEditorPart getEditorPart(@NotNull WebVirtualFile webFile) {
+        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+        for (IWorkbenchWindow window : windows) {
+            for (IWorkbenchPage page : window.getPages()) {           	
+                for (IEditorReference ref : page.getEditorReferences()) {
+                    try {
+                        IEditorInput input = ref.getEditorInput();
+                        if (input instanceof WebFileEditorInput) {
+                        	WebFileEditorInput wei = (WebFileEditorInput) input;
+                        	if (webFile.equals(wei.getVirtualFile())) {
+                        		return ref.getEditor(false);
+                        	}
+                        }
+                    } catch (PartInitException e) {
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
 
     @NotNull
     public static List<IEditorInput> getAllSupportedEditorInputs() {
         List<IEditorInput> inputs = new LinkedList<>();
-        IWorkbench workbench = PlatformUI.getWorkbench();
-        IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
         for (IWorkbenchWindow window : windows) {
             for (IWorkbenchPage page : window.getPages()) {
                 for (IEditorReference ref : page.getEditorReferences()) {
@@ -213,8 +237,7 @@ public class EclipseUtil {
     @NotNull
     public static List<IWorkbenchPage> getAllSupportedPages() {
         List<IWorkbenchPage> pages = new LinkedList<>();
-        IWorkbench workbench = PlatformUI.getWorkbench();
-        IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
         for (IWorkbenchWindow window : windows) {
             for (IWorkbenchPage page : window.getPages()) {
                 for (IEditorReference ref : page.getEditorReferences()) {
@@ -228,6 +251,23 @@ public class EclipseUtil {
             }
         }
         return pages;
+    }
+
+    @NotNull
+    public static void closeAllWebPages() {
+        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+        for (IWorkbenchWindow window : windows) {
+            for (IWorkbenchPage page : window.getPages()) {
+                for (IEditorReference ref : page.getEditorReferences()) {
+                    try {
+                        if (ref.getEditorInput() instanceof WebFileEditorInput) {
+                            page.closeEditor(ref.getEditor(false), false);
+                        }
+                    } catch (PartInitException e) {
+                    }
+                }
+            }
+        }
     }
 
     @Nullable

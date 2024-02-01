@@ -107,7 +107,7 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
             public void setDone() {
                 SwingUtilities.invokeLater(() -> runSaveToPlatform(project, file));
             }
-        });
+        }, false);
     }
 
     private void runSaveToPlatform(Project project, VirtualFile file) {

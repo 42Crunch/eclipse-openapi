@@ -8,24 +8,28 @@ import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
-import com.xliic.core.wm.ToolWindow;
+import com.xliic.core.util.messages.MessageBusConnection;
 import com.xliic.openapi.config.ConfigListener;
 import com.xliic.openapi.config.jcef.messages.LoadConfig;
+import com.xliic.openapi.config.jcef.messages.ShowCliDownload;
+import com.xliic.openapi.config.jcef.messages.ShowCliTest;
 import com.xliic.openapi.config.jcef.messages.ShowOverlordConnectionTest;
 import com.xliic.openapi.config.jcef.messages.ShowPlatformConnectionTest;
 import com.xliic.openapi.config.jcef.messages.ShowScandManagerConnectionTest;
 import com.xliic.openapi.config.payload.Config;
-import com.xliic.openapi.webapp.WebApp;
+import com.xliic.openapi.config.payload.Progress;
+import com.xliic.openapi.webapp.editor.WebFileEditor;
+import com.xliic.openapi.webapp.editor.WebVirtualFile;
 
-public class JCEFConfigPanel extends WebApp implements ConfigListener, Disposable {
+public class JCEFConfigPanel extends WebFileEditor implements ConfigListener, Disposable {
 
-    public JCEFConfigPanel(@NotNull Project project,
-            			   @NotNull ToolWindow toolWindow,
-            			   @NotNull Composite parent,
-            			   @NotNull ViewPartHandler handler) {
-    	super(project, toolWindow, "config", parent, handler);
-        project.getMessageBus().connect().subscribe(ConfigListener.TOPIC, this);
+    public JCEFConfigPanel(@NotNull Project project, @NotNull Composite parent, @NotNull WebVirtualFile file) {
+        super(project, parent, file);
+    }
+
+    @Override
+    protected void subscribe(@NotNull MessageBusConnection connection) {
+        connection.subscribe(ConfigListener.TOPIC, this);
     }
 
     @Override
@@ -56,5 +60,20 @@ public class JCEFConfigPanel extends WebApp implements ConfigListener, Disposabl
     @Override
     public void showScandManagerConnectionTest(boolean success, @NotNull String message) {
         new ShowScandManagerConnectionTest(success, message).send(getCefBrowser());
+    }
+    
+    @Override
+    public void showCliDownload(boolean success, @Nullable String value) {
+        new ShowCliDownload(success, value).send(getCefBrowser());
+    }
+
+    @Override
+    public void showCliDownload(@NotNull Progress progress) {
+        new ShowCliDownload(progress).send(getCefBrowser());
+    }
+
+    @Override
+    public void showCliTest(boolean success, @Nullable String value) {
+        new ShowCliTest(success, value).send(getCefBrowser());
     }
 }

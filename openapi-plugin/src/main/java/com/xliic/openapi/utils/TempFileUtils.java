@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
@@ -23,17 +24,22 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.command.WriteCommandAction;
+import com.xliic.core.project.Project;
+import com.xliic.core.util.Computable;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.ResourceUtil;
 import com.xliic.core.util.io.FileUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenAPIStartupActivity;
 import com.xliic.openapi.platform.PlatformConnection;
 
 public class TempFileUtils {
 
+    public static final String XLIIC_PREFIX = "xliic";
+    public static final String PLUGIN_TEMP_DIR = FileUtils.getRandomDirName(XLIIC_PREFIX);
+    private static final int LENGTH = 10;
     private static final String PROJECT_TMP_DIR = "tmp-xliic";
     private static final String PLATFORM_SUB_DIR = "platform";
     private static final String EXT_REF_SUB_DIR = "refs";
@@ -96,12 +102,11 @@ public class TempFileUtils {
     }
 
     public static File createPluginTempDirIfMissing() throws IOException {
-        String tempDir = OpenAPIStartupActivity.PluginTempDir;
-        File dir = new File(FileUtil.getTempDirectory(), tempDir);
+        File dir = new File(FileUtil.getTempDirectory(), PLUGIN_TEMP_DIR);
         if (dir.exists()) {
             return dir;
         } else {
-            return FileUtil.createTempDirectory(tempDir, "", true);
+            return FileUtil.createTempDirectory(PLUGIN_TEMP_DIR, "", true);
         }
     }
 
@@ -136,13 +141,17 @@ public class TempFileUtils {
         PlatformConnection options = PlatformConnection.getOptions();
         try {
             String domain = NetUtils.getDomainName(options.getPlatformUrl());
-            path = Paths.get(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir, domain, id + (isJson ? ".json" : ".yaml"));
+            path = Paths.get(FileUtil.getTempDirectory(), getPluginTempDir(), domain, id + (isJson ? ".json" : ".yaml"));
         } catch (URISyntaxException e) {
-            path = Paths.get(FileUtil.getTempDirectory(), OpenAPIStartupActivity.PluginTempDir, id);
+            path = Paths.get(FileUtil.getTempDirectory(), getPluginTempDir(), id);
         }
         return LocalFileSystem.getInstance().findFileByIoFile(path.toFile());
     }
 
+    private static String getPluginTempDir() {
+        return XLIIC_PREFIX + "_" + RandomStringUtils.random(LENGTH, true, false).toLowerCase();
+    }
+    
     private static boolean isTempFileInSubDir(@NotNull VirtualFile file, @NotNull String subDir) {
         if (PLATFORM_SUB_DIR.equals(subDir)) {
             try {
@@ -197,5 +206,26 @@ public class TempFileUtils {
         } catch (IOException e) {
         }
         return null;
+    }
+    
+    private static File getPluginTempFile() {
+        return new File(FileUtil.getTempDirectory(), PLUGIN_TEMP_DIR);
+    }
+    
+    @NotNull
+    public static VirtualFile createTempDirectory(@NotNull Project project, @NotNull String prefix) throws IOException {
+         VirtualFile file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () -> {
+             try {
+                 createPluginTempDirIfMissing();
+                 Path target = Paths.get(getPluginTempFile().getPath(), FileUtils.getRandomDirName(prefix));
+                 return VfsUtil.createDirectoryIfMissing(target.toString());
+             } catch (Exception e) {
+                 return null;
+             }
+        });
+        if (file == null) {
+            throw new IOException("Failed to create temp dir with prefix " + prefix);
+        }
+        return file;
     }
 }

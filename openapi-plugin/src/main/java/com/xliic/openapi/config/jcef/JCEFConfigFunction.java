@@ -6,6 +6,9 @@ import org.jetbrains.annotations.NotNull;
 
 import com.equo.chromium.swt.Browser;
 import com.xliic.core.project.Project;
+import com.xliic.openapi.config.jcef.messages.CliDownload;
+import com.xliic.openapi.config.jcef.messages.CliTest;
+import com.xliic.openapi.config.jcef.messages.OpenLink;
 import com.xliic.openapi.config.jcef.messages.SaveConfig;
 import com.xliic.openapi.config.jcef.messages.TestOverlordConnection;
 import com.xliic.openapi.config.jcef.messages.TestPlatformConnection;
@@ -20,5 +23,8 @@ public class JCEFConfigFunction extends WebAppFunction {
         add(new TestPlatformConnection(project));
         add(new TestOverlordConnection(project));
         add(new TestScandManagerConnection(project));
+        add(new CliDownload(project));
+        add(new CliTest(project));
+        add(new OpenLink());
     }
 }

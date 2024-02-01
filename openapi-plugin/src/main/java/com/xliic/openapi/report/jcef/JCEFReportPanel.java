@@ -11,8 +11,10 @@ import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
+import com.xliic.core.util.messages.MessageBusConnection;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
+import com.xliic.openapi.report.jcef.messages.CancelAudit;
 import com.xliic.openapi.report.jcef.messages.LoadKdb;
 import com.xliic.openapi.report.jcef.messages.ShowFullReport;
 import com.xliic.openapi.report.jcef.messages.ShowNoReport;
@@ -28,22 +30,35 @@ import com.xliic.openapi.webapp.WebApp;
 
 public class JCEFReportPanel extends WebApp implements FileListener, AuditListener, Disposable {
 
+    @NotNull
+    private final ToolWindow window;
+    
     private static final String AUDIT_REPORT = "com.xliic.openapi.report.jcef.JCEFReportPanel[AuditReport]";
 
     public JCEFReportPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent, @NotNull ViewPartHandler handler) {
-        super(project, toolWindow, "audit", parent, handler);
-        project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
-        project.getMessageBus().connect().subscribe(AuditListener.TOPIC, this);
+        super(project, toolWindow.getId(), "audit", parent, handler);
+        this.window = toolWindow;
     }
 
     @Override
     protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return new JCEFReportFunction(project, browser, name);
     }
+    
+    @Override
+    protected void subscribe(@NotNull MessageBusConnection connection) {
+        connection.subscribe(FileListener.TOPIC, this);
+        connection.subscribe(AuditListener.TOPIC, this);
+    }
 
     @Override
     public void startAudit() {
         new StartAudit().send(getCefBrowser());
+    }
+
+    @Override
+    public void cancelAudit() {
+        new CancelAudit().send(getCefBrowser());
     }
 
     @Override

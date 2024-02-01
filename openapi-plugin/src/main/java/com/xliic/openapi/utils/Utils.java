@@ -10,6 +10,8 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -43,6 +45,7 @@ import com.xliic.core.psi.PsiManager;
 import com.xliic.core.util.Computable;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.Pair;
+import com.xliic.core.util.SystemInfoRt;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
@@ -98,7 +101,15 @@ public class Utils {
         }
         return new OpenFileDescriptor(project, file, range.getOffset(), range.getLength());
     }
+    
+    public static void refreshFile(@NotNull String filePath) {
+        VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
+        if (file != null) {
+            LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
+        }
+    }
 
+    @Nullable
     public static String getTextFromFile(@NotNull VirtualFile file) {
         Document document = FileDocumentManager.getInstance().getDocument(file);
         if (document == null) {
@@ -112,6 +123,7 @@ public class Utils {
         return null;
     }
 
+    @Nullable
     public static String getTextFromFile(@NotNull File ioFile) {
         VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(ioFile);
         if (file != null) {
@@ -120,6 +132,7 @@ public class Utils {
         return null;
     }
 
+    @Nullable
     public static String getTextFromFile(@NotNull String fileName, boolean inReadAction) {
         if (inReadAction) {
             return ApplicationManager.getApplication().runReadAction((Computable<String>) () -> getTextFromFile(new File(fileName)));
@@ -403,6 +416,52 @@ public class Utils {
     public static PsiFile findPsiFile(@NotNull Project project, @NotNull VirtualFile file) {
         // If the virtual file is invalid findFile rises unexpected exception
         return file.isValid() ? PsiManager.getInstance(project).findFile(file) : null;
+    }
+    
+    @NotNull
+    public static String getOs() {
+        if (SystemInfoRt.isWindows) {
+            return "win32";
+        } else if (SystemInfoRt.isLinux) {
+            return "linux";
+        } else if (SystemInfoRt.isMac) {
+            return "darwin";
+        } else if (SystemInfoRt.isFreeBSD) {
+            return "freebsd";
+        } else if (SystemInfoRt.isSolaris) {
+            return "sunos";
+        } else if (SystemInfoRt.isUnix) {
+            return "aix";
+        }
+        return "";
+    }
+
+    @NotNull
+    public static String getOsArch() {
+        return System.getProperty("os.arch").toLowerCase(Locale.ENGLISH);
+    }
+
+    public static void turnOnVcsShowConfirmation(@NotNull Project project) {
+//        ProjectLevelVcsManagerEx vcsManager = ProjectLevelVcsManagerEx.getInstanceEx(project);
+//        if (vcsManager != null) {
+//            PersistentVcsShowConfirmationOption option = vcsManager.getConfirmation(VcsConfiguration.StandardConfirmation.ADD);
+//            option.setValue(VcsShowConfirmationOption.Value.SHOW_CONFIRMATION);
+//        }
+    }
+
+    public static boolean turnOffVcsShowConfirmation(@NotNull Project project) {
+//        String os = Utils.getOs();
+//        if ("darwin".equals(os)) {
+//            ProjectLevelVcsManagerEx vcsManager = ProjectLevelVcsManagerEx.getInstanceEx(project);
+//            if (vcsManager != null) {
+//                PersistentVcsShowConfirmationOption option = vcsManager.getConfirmation(VcsConfiguration.StandardConfirmation.ADD);
+//                if (option.getValue() == VcsShowConfirmationOption.Value.SHOW_CONFIRMATION) {
+//                    option.setValue(VcsShowConfirmationOption.Value.DO_NOTHING_SILENTLY);
+//                    return true;
+//                }
+//            }
+//        }
+        return false;
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {

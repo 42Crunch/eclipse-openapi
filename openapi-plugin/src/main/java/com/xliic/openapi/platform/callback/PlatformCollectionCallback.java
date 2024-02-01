@@ -11,6 +11,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.Permissions;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
 
@@ -43,8 +44,9 @@ public class PlatformCollectionCallback extends SuccessASTResponseWithFailureDec
                     technicalName = desc.getChildValueRequireNonNull("technicalName");
                 }
                 Node summary = item.getChild("summary");
-                boolean locked = summary != null && !Boolean.parseBoolean(summary.getChildValueRequireNonNull("writeApis"));
-                collections.add(new PlatformCollection(id, name, locked, technicalName));
+                Permissions permissions = Permissions.get(summary == null ? item : summary);
+                boolean locked = !permissions.isWriteApis();
+                collections.add(new PlatformCollection(id, name, locked, technicalName, permissions));
             }
         }
         return collections;

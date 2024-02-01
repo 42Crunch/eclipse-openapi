@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.common.Workspace;
 import com.xliic.common.WorkspaceContent;
@@ -36,12 +37,16 @@ import com.xliic.openapi.services.ExtRefService;
 public class BundleResult {
 
     private String json;
+    @NotNull
     private final String rootFileName;
     private Mapping mapping;
     private Exception exception;
+    @NotNull
     private final Set<String> bundleFiles = new HashSet<>();
+    @NotNull
     private final Set<URI> externalURIs = new HashSet<>();
     private Node bundleNode;
+    @NotNull
     private final Project project;
     private OpenApiVersion version;
 
@@ -138,10 +143,12 @@ public class BundleResult {
         return (version == OpenApiVersion.V2) || (version == OpenApiVersion.V3);
     }
 
+    @NotNull
     public String getFile() {
         return rootFileName;
     }
 
+    @NotNull
     public Set<String> getBundledFiles() {
         return bundleFiles;
     }
@@ -155,6 +162,7 @@ public class BundleResult {
         return false;
     }
 
+    @NotNull
     public Set<String> getActiveURLs() {
         Set<String> activeURLs = new HashSet<>();
         for (URI uri : externalURIs) {
@@ -170,6 +178,7 @@ public class BundleResult {
         return exception == null;
     }
 
+    @NotNull
     public String getExceptionReason() {
         return isBundleComplete() ? StringUtils.EMPTY : exception.getMessage();
     }
@@ -178,6 +187,7 @@ public class BundleResult {
         return json;
     }
 
+    @NotNull
     public Set<BundleError> getBundleErrors() {
         Set<BundleError> result;
         if (exception instanceof BundlingException) {
@@ -197,6 +207,7 @@ public class BundleResult {
         return result;
     }
 
+    @NotNull
     public BundleLocation getBundleLocation(String pointer) {
         try {
             // For pointers to entities in the main file which don't resolve to an external
@@ -212,6 +223,7 @@ public class BundleResult {
         }
     }
 
+    @Nullable
     public Node getAST() {
         if (isBundleComplete()) {
             if (bundleNode == null) {

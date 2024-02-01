@@ -12,6 +12,15 @@
     </extension>
 
     <extension
+         point="org.eclipse.ui.editors">  
+      <editor
+            name="WebFileEditorPart"
+            class="com.xliic.openapi.webapp.editor.WebFileEditorPart"
+            id="com.xliic.openapi.webapp.editor.WebFileEditorPart">
+      </editor>
+    </extension>
+   
+    <extension
         point="org.eclipse.ui.genericeditor.contentAssistProcessors">
         <contentAssistProcessor
             class="com.xliic.openapi.editor.OpenAPIContentAssistProcessor"
@@ -69,7 +78,6 @@
             id="com.xliic.openapi.config.ConfigAction"
             name="Open Settings">
         </command>
-        <!-- List of internal actions
         <command
             defaultHandler="com.xliic.openapi.actions.internal.ClearAllPropsAction"
             id="com.xliic.openapi.actions.internal.ClearAllPropsAction"
@@ -80,13 +88,21 @@
             id="com.xliic.openapi.actions.internal.ClearTempAPIsAction"
             name="Create and Clear Temp APIs">
         </command>
-
         <command
-            defaultHandler="com.xliic.openapi.actions.internal.ShowGitPropertiesAction"
-            id="com.xliic.openapi.actions.internal.ShowGitPropertiesAction"
-            name="Show Git Properties">
+            defaultHandler="com.xliic.openapi.actions.internal.GetIDEInfoAction"
+            id="com.xliic.openapi.actions.internal.GetIDEInfoAction"
+            name="Show IDE Info">
         </command>
-        -->
+        <command
+            defaultHandler="com.xliic.openapi.actions.internal.ShowNotifications"
+            id="com.xliic.openapi.actions.internal.ShowNotifications"
+            name="Show Notifications">
+        </command>
+        <command
+            defaultHandler="com.xliic.openapi.actions.internal.CloseWebEditors"
+            id="com.xliic.openapi.actions.internal.CloseWebEditors"
+            name="Close Web Editors">
+        </command>
     </extension>
 
     <extension point="org.eclipse.ui.handlers">
@@ -198,29 +214,11 @@
         <view
             allowMultiple="false"
             category="eclipse-openapi"
-            class="com.xliic.openapi.platform.scan.jcef.ui.JCEFScanPanelView"
-            icon="icons/scanPanel.png"
-            id="com.xliic.openapi.platform.scan.jcef.ui.JCEFScanPanelView"
-            inject="true"
-            name="Scan">
-        </view>
-        <view
-            allowMultiple="false"
-            category="eclipse-openapi"
             class="com.xliic.openapi.environment.jcef.ui.JCEFEnvPanelView"
             icon="icons/envPanel.png"
             id="com.xliic.openapi.environment.jcef.ui.JCEFEnvPanelView"
             inject="true"
             name="Environment">
-        </view>
-        <view
-            allowMultiple="false"
-            category="eclipse-openapi"
-            class="com.xliic.openapi.config.jcef.ui.JCEFConfigPanelView"
-            icon="icons/configPanel.png"
-            id="com.xliic.openapi.config.jcef.ui.JCEFConfigPanelView"
-            inject="true"
-            name="Settings">
         </view>
     </extension>
 
@@ -256,8 +254,11 @@
         <serviceFactory factoryClass="com.xliic.openapi.services.factory.TryItServiceFactory">
             <service serviceClass="com.xliic.openapi.services.api.ITryItService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.ScanServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.IScanService"></service>
+        <serviceFactory factoryClass="com.xliic.openapi.platform.scan.ScanServiceFactory">
+            <service serviceClass="com.xliic.openapi.platform.scan.IScanService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.platform.scan.config.ScanConfServiceFactory">
+            <service serviceClass="com.xliic.openapi.platform.scan.config.IScanConfService"></service>
         </serviceFactory>
         <serviceFactory factoryClass="com.xliic.openapi.services.factory.TerminalServiceFactory">
             <service serviceClass="com.xliic.openapi.services.api.ITerminalService"></service>
@@ -389,7 +390,6 @@
                     icon="icons/platform-save.png"
                     style="push">
                 </command>
-                <!-- List of internal actions
                 <command
                     commandId="com.xliic.openapi.actions.internal.ClearTempAPIsAction"
                     style="push">
@@ -398,12 +398,18 @@
                     commandId="com.xliic.openapi.actions.internal.ClearAllPropsAction"
                     style="push">
                 </command> 
-
                 <command
-                    commandId="com.xliic.openapi.actions.internal.ShowGitPropertiesAction"
+                    commandId="com.xliic.openapi.actions.internal.GetIDEInfoAction"
                     style="push">
                 </command>
-                -->
+                <command
+                    commandId="com.xliic.openapi.actions.internal.ShowNotifications"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.actions.internal.CloseWebEditors"
+                    style="push">
+                </command>
             </menu>
         </menuContribution>
         <menuContribution

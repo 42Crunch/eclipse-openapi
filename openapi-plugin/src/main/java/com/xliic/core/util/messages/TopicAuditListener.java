@@ -33,6 +33,8 @@ public class TopicAuditListener<L> extends Topic<L> {
         } else if (funcId == 4) {
             listener.startAudit();
         } else if (funcId == 5) {
+            listener.cancelAudit();
+        } else if (funcId == 6) {
             listener.showGeneralError();
         }
     }
@@ -67,10 +69,15 @@ public class TopicAuditListener<L> extends Topic<L> {
             public void startAudit() {
                 eventBroker.send(getTopic(), getArgs(4, Collections.EMPTY_LIST));
             }
+            
+            @Override
+            public void cancelAudit() {
+                eventBroker.send(getTopic(), getArgs(5, Collections.EMPTY_LIST));
+            }
 
             @Override
             public void showGeneralError() {
-                eventBroker.send(getTopic(), getArgs(5, Collections.EMPTY_LIST));
+                eventBroker.send(getTopic(), getArgs(6, Collections.EMPTY_LIST));
             }
         };
     }

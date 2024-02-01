@@ -21,6 +21,9 @@ import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
+import java.util.List;
+
+import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
 
 public class PlatformImportAPIAction extends AnJAction implements DumbAware {
 
@@ -69,8 +72,13 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
                             name = file.getName();
                             name = name.substring(0, name.lastIndexOf('.'));
                         }
-                        PlatformAPIs.createAPI(collectionId, name, text,
-                                new PlatformImportAPICallback(project, tree, collectionId, name, subRootDn));
+                        try {
+                            List<String> tagIds = getTagIds();
+                            PlatformAPIs.createAPI(collectionId, name, text, tagIds,
+                                    new PlatformImportAPICallback(project, tree, collectionId, name, subRootDn));
+                        } catch (Exception e) {
+                            MsgUtils.error(project, e.getMessage(), true);
+                        }
                     }
                 } else {
                     SwingUtilities.invokeLater(() -> {

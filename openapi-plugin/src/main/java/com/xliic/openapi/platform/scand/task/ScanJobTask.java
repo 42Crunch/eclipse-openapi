@@ -17,8 +17,8 @@ public class ScanJobTask extends ScanRunTask {
 
     private String jobName;
 
-    public ScanJobTask(@NotNull Project project, @NotNull ScanRunConfig runConfig, @NotNull ScanDockerTask.Callback callback, boolean isNewApi) {
-        super(project, runConfig, callback, isNewApi);
+    public ScanJobTask(@NotNull Project project, @NotNull String tabId, @NotNull ScanRunConfig runConfig, @NotNull ScanDockerTask.Callback callback) {
+        super(project, tabId, runConfig, callback);
         jobName = null;
     }
 

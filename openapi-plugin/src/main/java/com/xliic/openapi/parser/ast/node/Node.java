@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.snakeyaml.engine.v2.api.DumpSettings;
@@ -81,6 +82,20 @@ public abstract class Node implements Comparable<Node> {
     @NotNull
     public String getChildValueRequireNonNull(@NotNull String key) {
         return Objects.requireNonNull(getChildValue(key), "Prop " + key + " is null");
+    }
+
+    @NotNull
+    public String getChildValueOrEmpty(@NotNull String key) {
+        return Objects.requireNonNullElse(getChildValue(key), "");
+    }
+
+    @NotNull
+    public Boolean getBooleanChildValue(@NotNull String key) {
+        String value = getChildValue(key);
+        if (StringUtils.isEmpty(value)) {
+            return false;
+        }
+        return Boolean.parseBoolean(value);
     }
 
     @Nullable

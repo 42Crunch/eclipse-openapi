@@ -26,10 +26,13 @@ public class TryItResponseCallback implements Callback {
     protected final Project project;
     @Nullable
     protected final String id;
+    @NotNull
+    private final String senderId;
     protected final boolean tryIt;
 
-    public TryItResponseCallback(@NotNull Project project, @Nullable String id, boolean tryIt) {
+    public TryItResponseCallback(@NotNull Project project, @NotNull String senderId, @Nullable String id, boolean tryIt) {
         this.project = project;
+        this.senderId = senderId;
         this.id = id;
         this.tryIt = tryIt;
     }
@@ -38,7 +41,7 @@ public class TryItResponseCallback implements Callback {
         if (tryIt) {
             project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationResponse(tryItResponse);
         } else {
-            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showOperationResponse(tryItResponse);
+            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showOperationResponse(senderId, tryItResponse);
         }
     }
 
@@ -46,7 +49,7 @@ public class TryItResponseCallback implements Callback {
         if (tryIt) {
             project.getMessageBus().syncPublisher(TryItListener.TOPIC).showOperationError(payload);
         } else {
-            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showOperationError(payload);
+            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showOperationError(senderId, payload);
         }
     }
 

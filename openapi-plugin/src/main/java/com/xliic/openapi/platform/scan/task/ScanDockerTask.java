@@ -14,15 +14,15 @@ import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.SystemInfoRt;
 import com.xliic.openapi.platform.scan.ScanRunConfig;
-import com.xliic.openapi.services.ScanService;
+import com.xliic.openapi.platform.scan.ScanService;
 import com.xliic.openapi.services.TerminalService;
 
 public class ScanDockerTask extends ScanRunTask {
 
 	private static final String DEFAULT_SHELL = "sh";
 
-    public ScanDockerTask(@NotNull Project project, @NotNull ScanRunConfig runConfig, @NotNull Callback callback, boolean isNewApi) {
-        super(project, runConfig, callback, isNewApi);
+    public ScanDockerTask(@NotNull Project project, @NotNull String tabId, @NotNull ScanRunConfig runConfig, @NotNull Callback callback) {
+        super(project, tabId, runConfig, callback);
     }
 
     @Override

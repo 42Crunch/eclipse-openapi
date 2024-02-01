@@ -24,7 +24,6 @@ import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Operation;
 import com.xliic.openapi.async.AsyncTaskType;
-import com.xliic.openapi.platform.scan.payload.ScanOperation;
 import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
@@ -32,6 +31,7 @@ import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.payload.TryItOperation;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 
 public final class AnnotationService implements IAnnotationService, FileListener, SettingsListener, Disposable {
 
@@ -85,7 +85,7 @@ public final class AnnotationService implements IAnnotationService, FileListener
         if (support != null) {
             Set<Integer> offsets = new HashSet<>();
             Map<Integer, TryItOperation> tmap = new HashMap<>();
-            Map<Integer, ScanOperation> smap = new HashMap<>();
+            Map<Integer, ScanConfOperation> smap = new HashMap<>();
             Map<Integer, AuditOperation> amap = new HashMap<>();
             for (Object payload : payloads) {
                 Operation op = (Operation) payload;
@@ -93,8 +93,8 @@ public final class AnnotationService implements IAnnotationService, FileListener
                 offsets.add(offset);
                 if (op instanceof TryItOperation) {
                     tmap.put(offset, (TryItOperation) op);
-                } else if (payload instanceof ScanOperation) {
-                    smap.put(offset, (ScanOperation) op);
+                } else if (payload instanceof ScanConfOperation) {
+                    smap.put(offset, (ScanConfOperation) op);
                 } else if (payload instanceof AuditOperation) {
                     amap.put(offset, (AuditOperation) op);
                 }
