@@ -4,6 +4,7 @@ import static com.xliic.openapi.settings.Settings.Platform.TURNED_OFF;
 import static com.xliic.openapi.settings.Settings.Platform.TURNED_ON;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.HEADER;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.ENV_SECRETS_KEY;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -118,7 +119,7 @@ public class PropertiesComponent {
 
     public static List<String> getPropertiesKeys() {
         List<String> keys = new LinkedList<>();
-        addPropertiesKeys(Settings.class, keys, Set.copyOf(List.of(API_KEY, HEADER, TURNED_ON, TURNED_OFF)));
+        addPropertiesKeys(Settings.class, keys, Set.copyOf(List.of(API_KEY, ENV_SECRETS_KEY, HEADER, TURNED_ON, TURNED_OFF)));
         return keys;
     }
 

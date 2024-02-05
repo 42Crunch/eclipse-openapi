@@ -2,6 +2,7 @@ package com.xliic.openapi.settings;
 
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
+import static com.xliic.openapi.platform.scan.ScanUtils.COLLECTION_TEMP_NAME;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -118,6 +119,12 @@ public class Settings {
                 Docker.init();
             }
         }
+
+        public static void init() {
+            if (!settings.isValueSet(TEMP_COLLECTION_NAME)) {
+                settings.setValue(TEMP_COLLECTION_NAME, COLLECTION_TEMP_NAME);
+            }
+        }
     }
 
     public static class TryIt {
@@ -222,6 +229,7 @@ public class Settings {
     }
 
     public static void initProperties() {
+    	Platform.init();
         Platform.Scan.init();
         Platform.Credentials.init();
         Platform.Dictionary.PreAudit.init();
