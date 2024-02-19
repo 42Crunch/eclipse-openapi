@@ -1,16 +1,16 @@
-import { c as re, a as ae, u as le, b as de, l as ce, t as pe, r as ue, d as xe, i as he, s as ve, j as e, e as d, T as c, f as j, W as ge, g as fe, R as me, P as je, h as ye, m as be, k as we, n as $e, o as Ce } from "./webapp.yF4PwBss.js";
-import { C as Se, S as L, a as ke, b as Ae, c as Q, d as X, e as Y } from "./Xmark.PxyPpQA1.js";
-import { s as Ie } from "./listener.8dSMuVUh.js";
-import { T as Te } from "./Tabs.fwjiQaQD.js";
-import { S as C } from "./ExclamationCircle.i2K0Pqn4.js";
-import { S as J } from "./AngleDown.N2mqK8v1.js";
-import { S as Z } from "./AngleUp.PYBxLDue.js";
-import { P as A } from "./Select.bX0uI-FX.js";
-import { S as Le } from "./Switch.uJlsO18B.js";
-import { B as De, S as Pe } from "./Banner.00ED_HSB.js";
-import "./downshift.esm.qxg3byYX.js";
-import "./index.esm.Shro8ov1.js";
-import "./TriangleExclamation.Nw9fuWhx.js";
+import { c as re, a as ae, u as le, b as de, l as ce, t as pe, r as ue, d as xe, i as he, s as ve, j as e, e as d, T as c, f as j, W as ge, g as fe, R as me, P as je, h as ye, m as be, k as we, n as $e, o as Ce } from "./webapp.dStGtxDE.js";
+import { C as Se, S as L, a as ke, b as Ae, c as Q, d as X, e as Y } from "./Xmark.-0ABLRej.js";
+import { s as Ie } from "./listener.xg4HYnF3.js";
+import { T as Te } from "./Tabs.EvVwZ0qc.js";
+import { S as C } from "./ExclamationCircle.NcDeerEa.js";
+import { S as J } from "./AngleDown.1P8JpNH0.js";
+import { S as Z } from "./AngleUp.FmFQlWks.js";
+import { P as A } from "./Select.eMc73ch1.js";
+import { S as Le } from "./Switch.OXSKHmGf.js";
+import { B as De, S as Pe } from "./Banner.dtP2oOQ6.js";
+import "./downshift.esm.WyR76k9W.js";
+import "./index.esm.XbmwboKu.js";
+import "./TriangleExclamation.WaO4b29_.js";
 const Re = {
   audit: {
     filename: "",
@@ -1182,7 +1182,7 @@ function Bi({ sqg: i, stats: t }) {
   const n = x(), o = i.directives.issueRules, l = t.byIssue.filter((s) => o.includes(s.id));
   return l.length === 0 ? null : /* @__PURE__ */ e.jsxs(Vi, { children: [
     /* @__PURE__ */ e.jsx("h4", { children: "Forbidden issues with problem found" }),
-    l.map((s) => /* @__PURE__ */ e.jsx(
+    l.map((s) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
       "a",
       {
         href: "#",
@@ -1191,7 +1191,7 @@ function Bi({ sqg: i, stats: t }) {
         },
         children: s.title
       }
-    ))
+    ) }))
   ] });
 }
 const Vi = d.div`
