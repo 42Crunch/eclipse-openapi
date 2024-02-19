@@ -50,6 +50,7 @@ public interface OpenApiIcons {
     Icon Config = findIcon("config.svg");
     Icon ConfigPanel = findIcon("configPanel.svg");
     Icon Audit = findIcon("audit.svg");
+    Icon Copy = findIcon("copy.svg");
 
     private static Icon findIcon(@NotNull String name) {
         return IconLoader.findIcon("/icons/" + name, OpenApiIcons.class);

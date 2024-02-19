@@ -22,7 +22,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.application.ModalityState;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.vfs.VirtualFile;
@@ -195,7 +194,7 @@ public final class DictionaryService implements IDictionaryService, SettingsList
             }
             WindowUtils.activateToolWindow(project, PLATFORM_DICTIONARY, () ->
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadDictionary(getDictionaries()));
-        }, ModalityState.NON_MODAL);
+        });
     }
 
     @Override

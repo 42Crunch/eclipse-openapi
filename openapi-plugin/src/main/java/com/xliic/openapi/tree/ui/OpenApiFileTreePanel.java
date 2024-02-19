@@ -39,7 +39,7 @@ import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
-import com.xliic.openapi.tree.OpenAPIAlphaSortAction;
+import com.xliic.openapi.tree.actions.AbcSortAction;
 import com.xliic.openapi.tree.OpenAPIMouseMotionListener;
 import com.xliic.openapi.tree.OpenAPITreeKeyListener;
 import com.xliic.openapi.tree.OpenApiColoredTreeCellRenderer;
@@ -81,7 +81,7 @@ public class OpenApiFileTreePanel implements FileListener, SettingsListener, Dis
         converter = new DMTNConverter();
 
         List<AnJAction> titleActions = new ArrayList<>();
-        titleActions.add(new OpenAPIAlphaSortAction(project, this::sortTree));
+        titleActions.add(new AbcSortAction(project, this));
         titleActions.add(Separator.create());
 
         CommonActionsManager actionsManager = CommonActionsManager.getInstance();
@@ -242,7 +242,7 @@ public class OpenApiFileTreePanel implements FileListener, SettingsListener, Dis
         }
     }
 
-    private void sortTree(boolean sort) {
+    public void sortTree(boolean sort) {
         SortTreeModel model = (SortTreeModel) getTree().getModel();
         model.setSortABC(sort);
         List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);

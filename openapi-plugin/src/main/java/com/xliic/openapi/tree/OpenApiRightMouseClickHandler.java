@@ -3,13 +3,13 @@ package com.xliic.openapi.tree;
 import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS;
 import static com.xliic.openapi.OpenApiPanelKeys.DEFINITIONS;
 import static com.xliic.openapi.OpenApiPanelKeys.GENERAL;
-import static com.xliic.openapi.OpenApiPanelKeys.OPERATION_ID;
 import static com.xliic.openapi.OpenApiPanelKeys.PARAMETERS;
 import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
 import static com.xliic.openapi.OpenApiPanelKeys.RESPONSES;
 import static com.xliic.openapi.OpenApiPanelKeys.SECURITY;
 import static com.xliic.openapi.OpenApiPanelKeys.SECURITY_DEFINITIONS;
 import static com.xliic.openapi.OpenApiPanelKeys.SERVERS;
+import static com.xliic.openapi.OpenApiPanelKeys.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -27,19 +27,20 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.inlined.InlinedDfsHandler;
+import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.report.AuditUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.QuickFixService;
+import com.xliic.openapi.tree.actions.CopyPointerAction;
 import com.xliic.openapi.tree.node.BaseNode;
+import com.xliic.openapi.tree.node.OpIdNode;
 import com.xliic.openapi.tree.node.PanelNode;
 import com.xliic.openapi.tree.node.SimpleNode;
+import com.xliic.openapi.tree.node.TagChildNode;
 import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.Utils;
-
-import icons.OpenApiIcons;
 
 public class OpenApiRightMouseClickHandler {
 
@@ -62,6 +63,9 @@ public class OpenApiRightMouseClickHandler {
         	return;
         }
         VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
+        if (file == null) {
+            return;
+        }
         PsiFile psiFile = Utils.findPsiFile(project, file);
         if (psiFile == null) {
             return;
@@ -70,7 +74,7 @@ public class OpenApiRightMouseClickHandler {
         OpenApiVersion version = ASTService.getOpenAPIVersion(panel.getProject(), file);
         BaseNode node = (BaseNode) treeNode.getUserObject();
         QuickFixService quickFixService = QuickFixService.getInstance();
-
+        // Define what snippets to show
         if (node instanceof PanelNode) {
             if (GENERAL.equals(node.getName()) && (version == OpenApiVersion.V3)) {
                 actions.addAll(quickFixService.getSnippetFixActions(psiFile, "info", treeNode));
@@ -81,8 +85,10 @@ public class OpenApiRightMouseClickHandler {
             } else if (SECURITY.equals(node.getName())) {
                 actions.addAll(quickFixService.getSnippetFixActions(psiFile, "security", treeNode));
             } else if (COMPONENTS.equals(node.getName())) {
-                List<String> ids = Arrays.asList("componentsSchema", "componentsParameter", "componentsResponse", "componentsSecurityApiKey",
-                        "componentsSecurityBasic", "componentsSecurityJwt", "componentsSecurityOauth2Implicit");
+                List<String> ids = Arrays.asList(
+                        "componentsSchema", "componentsParameter", "componentsResponse",
+                        "componentsSecurityApiKey", "componentsSecurityBasic",
+                        "componentsSecurityJwt", "componentsSecurityOauth2Implicit");
                 actions.addAll(quickFixService.getSnippetFixActions(psiFile, ids, treeNode));
             } else if (GENERAL.equals(node.getName()) && (version == OpenApiVersion.V2)) {
                 List<String> ids = Arrays.asList("basePath", "host", "info");
@@ -98,34 +104,64 @@ public class OpenApiRightMouseClickHandler {
                 List<String> ids = Arrays.asList("securityApiKey", "securityBasic", "securityOauth2Implicit");
                 actions.addAll(quickFixService.getSnippetFixActions(psiFile, ids, treeNode));
             }
-        } else if (isPath(node)) {
-            DefaultActionGroup diffGroup = DefaultActionGroup.createPopupGroup();
-            diffGroup.getTemplatePresentation().setIcon(OpenApiIcons.AddSnippet);
-            diffGroup.addAll(quickFixService.getSnippetFixActions(psiFile, "operation", treeNode));
-            actions.add(diffGroup);
+        } else if (node instanceof SimpleNode && node.getLevel() == 2) {
+            if (COMPONENTS.equals(((SimpleNode) node).getParentName())) {
+                if (SCHEMAS.equals(node.getName())) {
+                    actions.addAll(quickFixService.getSnippetFixActions(psiFile, "componentsSchema", treeNode));
+                } else if (PARAMETERS.equals(node.getName())) {
+                    actions.addAll(quickFixService.getSnippetFixActions(psiFile, "componentsParameter", treeNode));
+                } else if (RESPONSES.equals(node.getName())) {
+                    actions.addAll(quickFixService.getSnippetFixActions(psiFile, "componentsResponse", treeNode));
+                } else if (SECURITY_SCHEMES.equals(node.getName())) {
+                    List<String> ids = Arrays.asList("componentsSecurityApiKey", "componentsSecurityBasic",
+                            "componentsSecurityJwt", "componentsSecurityOauth2Implicit");
+                    actions.addAll(quickFixService.getSnippetFixActions(psiFile, ids, treeNode));
+                }
+            }
+            if (PATHS.equals(((SimpleNode) node).getParentName())) {
+                DefaultActionGroup diffGroup = DefaultActionGroup.createPopupGroup();
+                diffGroup.addAll(quickFixService.getSnippetFixActions(psiFile, "operation", treeNode));
+                actions.add(diffGroup);
+            }
+            if (node instanceof TagChildNode) {
+                Node operation = ((TagChildNode) node).getOperation();
+                AuditUtils.setActionsForOperation(psiFile, operation, actions);
+                ScanUtils.setActionsForOperation(psiFile, operation, actions);
+                TryItUtils.setActionsForOperation(psiFile, operation, actions);
+            } else if (node instanceof OpIdNode) {
+                Node operation = ((OpIdNode) node).getOperation().getNode();
+                if (operation != null) {
+                    AuditUtils.setActionsForOperation(psiFile, operation, actions);
+                    ScanUtils.setActionsForOperation(psiFile, operation, actions);
+                    TryItUtils.setActionsForOperation(psiFile, operation, actions);
+                }
+            }
         } else if (isOperation(treeNode)) {
-            TryItUtils.setActionsForOperation(psiFile, node.getNode(), actions);
-            ScanUtils.setActionsForOperation(psiFile, node.getNode(), actions);
-            AuditUtils.setActionsForOperation(psiFile, node.getNode(), actions);
-        } else if (isOperationId(treeNode)) {
-            TryItUtils.setActionsForOperation(psiFile, node.getNode().getParent(), actions);
-            ScanUtils.setActionsForOperation(psiFile, node.getNode().getParent(), actions);
-            AuditUtils.setActionsForOperation(psiFile, node.getNode(), actions);
+            Node operation = node.getNode();
+            if (operation != null) {
+                AuditUtils.setActionsForOperation(psiFile, operation, actions);
+                ScanUtils.setActionsForOperation(psiFile, operation, actions);
+                TryItUtils.setActionsForOperation(psiFile, operation, actions);
+            }
+        }
+        if (node.isCopyEnabled()) {
+            Node target = node.getNode();
+            if (target != null) {
+                actions.add(new CopyPointerAction(target.getJsonPointer()));
+            }
         }
     }
 
-    private static boolean isPath(BaseNode path) {
-        return path instanceof SimpleNode && InlinedDfsHandler.isPath(path.getNode());
+    private static boolean isOperation(DefaultMutableTreeNode opDMTN) {
+        BaseNode op = (BaseNode) opDMTN.getUserObject();
+        return op instanceof SimpleNode && isOperation(op.getNode());
     }
 
-    private static boolean isOperation(DefaultMutableTreeNode opNode) {
-        BaseNode op = (BaseNode) opNode.getUserObject();
-        return op instanceof SimpleNode && InlinedDfsHandler.isOperation(op.getNode());
+    private static boolean isOperation(Node op) {
+        return op != null && op.getDepth() == 3 && TryItUtils.OPERATIONS.contains(op.getKey()) && isPath(op.getParent());
     }
 
-    private static boolean isOperationId(DefaultMutableTreeNode opIdNode) {
-        BaseNode opId = (BaseNode) opIdNode.getUserObject();
-        BaseNode opIds = opId.getParent();
-        return opIds instanceof PanelNode && OPERATION_ID.equals(opIds.getName()) && InlinedDfsHandler.isOperation(opId.getNode().getParent());
+    private static boolean isPath(Node path) {
+        return path != null && path.getDepth() == 2 && PATHS.equals(path.getParent().getKey());
     }
 }

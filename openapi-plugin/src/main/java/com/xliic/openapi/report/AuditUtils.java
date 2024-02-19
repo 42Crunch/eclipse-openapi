@@ -70,8 +70,6 @@ public class AuditUtils {
     public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull DefaultActionGroup actions) {
         List<Object> payloads = new LinkedList<>();
         setActionsForOperation(psiFile, op, payloads);
-        payloads.forEach(p -> {
-            actions.add(new AuditAction("Audit", (AuditOperation) p));
-        });
+        payloads.forEach(p -> actions.add(new AuditAction((AuditOperation) p)));
     }
 }

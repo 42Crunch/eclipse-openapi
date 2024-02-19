@@ -19,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.application.ModalityState;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
@@ -227,7 +226,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
             ApplicationManager.getApplication().invokeAndWait(() -> {
                 WindowUtils.activateToolWindow(project, ToolWindowId.PLATFORM);
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
-            }, ModalityState.NON_MODAL);
+            });
         }
     }
 

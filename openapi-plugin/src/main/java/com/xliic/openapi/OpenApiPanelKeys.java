@@ -16,7 +16,11 @@ public class OpenApiPanelKeys {
     public final static String DEFINITIONS = "definitions";
     public final static String SECURITY_DEFINITIONS = "securityDefinitions";
     public final static String OPERATION_ID = "operation id";
-
+    public final static String TAGS = "tags";
+    public final static String SCHEMAS = "schemas";
+    public final static String SECURITY_SCHEMES = "securitySchemes";
+    public final static String COMPONENTS_POINTER_STARTS_WITH = "/" + COMPONENTS + "/";
+    
     // Keys
     public final static String REF_KEY = "$ref";
     public final static String URL_KEY = "url";
@@ -27,8 +31,42 @@ public class OpenApiPanelKeys {
     public final static String SWAGGER_KEY = "swagger";
     public final static String OPERATION_ID_KEY = "operationId";
 
-    public final static List<String> V3_PANEL_KEYS = Arrays.asList(GENERAL, PATHS, OPERATION_ID, SERVERS, COMPONENTS, SECURITY);
+    public static final List<String> PANELS_ORDER =
+            Arrays.asList(
+                    GENERAL,
+                    TAGS,
+                    PATHS,
+                    OPERATION_ID,
+                    SERVERS,
+                    COMPONENTS,
+                    PARAMETERS,
+                    RESPONSES,
+                    DEFINITIONS,
+                    SECURITY,
+                    SECURITY_DEFINITIONS
+            );
 
-    public final static List<String> V2_PANEL_KEYS = Arrays.asList(GENERAL, PATHS, OPERATION_ID, PARAMETERS, RESPONSES, DEFINITIONS, SECURITY,
-            SECURITY_DEFINITIONS);
+    public final static List<String> V3_PANEL_KEYS =
+            Arrays.asList(
+                    GENERAL,
+                    TAGS,
+                    PATHS,
+                    OPERATION_ID,
+                    SERVERS,
+                    COMPONENTS,
+                    SECURITY
+            );
+
+    public final static List<String> V2_PANEL_KEYS =
+            Arrays.asList(
+                    GENERAL,
+                    TAGS,
+                    PATHS,
+                    OPERATION_ID,
+                    PARAMETERS,
+                    RESPONSES,
+                    DEFINITIONS,
+                    SECURITY,
+                    SECURITY_DEFINITIONS
+            );
 }

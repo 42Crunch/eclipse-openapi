@@ -6,6 +6,7 @@ import static com.xliic.openapi.OpenApiPanelKeys.GENERAL;
 import static com.xliic.openapi.OpenApiPanelKeys.NAME_KEY;
 import static com.xliic.openapi.OpenApiPanelKeys.OPERATION_ID;
 import static com.xliic.openapi.OpenApiPanelKeys.OPERATION_ID_KEY;
+import static com.xliic.openapi.OpenApiPanelKeys.TAGS;
 import static com.xliic.openapi.OpenApiPanelKeys.PARAMETERS;
 import static com.xliic.openapi.OpenApiPanelKeys.PARAMETERS_KEY;
 import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
@@ -22,20 +23,28 @@ import static com.xliic.openapi.tree.node.BaseNode.getPanelName;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.*;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.tree.node.BaseNode;
+import com.xliic.openapi.tree.node.OpIdNode;
 import com.xliic.openapi.tree.node.PanelNode;
 import com.xliic.openapi.tree.node.RootNode;
 import com.xliic.openapi.tree.node.SimpleNode;
+import com.xliic.openapi.tree.node.TagNode;
+import com.xliic.openapi.tree.node.TagChildNode;
 import com.xliic.openapi.utils.Utils;
 
 public class DMTNConverter {
+	
+    private static final Set<String> HTTP_METHODS = new HashSet<>(
+            Arrays.asList("get", "put", "post", "delete", "options", "head", "patch", "trace"));
 
     private void dfs(Node parentAST, DefaultMutableTreeNode parentDMTN, Map<String, DefaultMutableTreeNode> pointers,
             Map<String, DefaultMutableTreeNode> panels) {
@@ -64,7 +73,8 @@ public class DMTNConverter {
                     if ((level == 3) && OPERATION_ID_KEY.equals(key)) {
                         if (PATHS.equals(getPanelName((SimpleNode) childDMTN.getUserObject()))) {
                             DefaultMutableTreeNode operationIdDMTN = panels.get(OPERATION_ID);
-                            operationIdDMTN.add(createDMTN(childAST.getValue(), childAST, operationIdDMTN));
+                            BaseNode operation = (BaseNode) parentDMTN.getUserObject();
+                            operationIdDMTN.add(createOpIdDMTN(childAST.getValue(), childAST, operationIdDMTN, operation));
                         }
                     }
                     mustHaveChild = visible((SimpleNode) childDMTN.getUserObject());
@@ -102,6 +112,10 @@ public class DMTNConverter {
         return new DefaultMutableTreeNode(new SimpleNode(key, node, (BaseNode) parent.getUserObject()));
     }
 
+    private DefaultMutableTreeNode createOpIdDMTN(String key, Node node, DefaultMutableTreeNode parent, BaseNode operation) {
+        return new DefaultMutableTreeNode(new OpIdNode(key, node, (BaseNode) parent.getUserObject(), operation));
+    }
+    
     private static boolean visible(SimpleNode node) {
 
         int level = node.getLevel();
@@ -149,8 +163,84 @@ public class DMTNConverter {
             pointers.put(panelNode.getPointer(), nodeDMTN);
             panels.put(key, nodeDMTN);
             rootDMTN.add(nodeDMTN);
+            if (TAGS.equals(key)) {
+                setTags(root, nodeDMTN, pointers);
+            }
         }
         dfs(root, rootDMTN, pointers, panels);
         return rootDMTN;
+    }
+    
+    private static void setTags(Node root, DefaultMutableTreeNode tagsDMTN, Map<String, DefaultMutableTreeNode> pointers) {
+        Map<String, DefaultMutableTreeNode> tagsOpsMap = new HashMap<>();
+        // Collect all tags from all operations
+        Node paths = root.getChild("paths");
+        if (paths != null) {
+            for (Node path : paths.getChildren()) {
+                String pathName = path.getKey();
+                for (Node operation : path.getChildren()) {
+                    String opName = operation.getKey();
+                    if (!HTTP_METHODS.contains(opName)) {
+                        continue;
+                    }
+                    Node opTags = operation.getChild("tags");
+                    if (opTags != null && opTags.isArray()) {
+                        for (Node opTag : opTags.getChildren()) {
+                            String tagName = opTag.getValue();
+                            if (!tagsOpsMap.containsKey(tagName)) {
+                                Node tagNode = getTagNode(root, tagName);
+                                TagNode tag = new TagNode(tagName, tagNode, (BaseNode) tagsDMTN.getUserObject());
+                                DefaultMutableTreeNode tagDMTN = new DefaultMutableTreeNode(tag);
+                                tagsDMTN.add(tagDMTN);
+                                tagsOpsMap.put(tagName, tagDMTN);
+                                pointers.put(tag.getPointer(), tagDMTN);
+                            }
+                            DefaultMutableTreeNode tagDMTN = tagsOpsMap.get(tagName);
+                            String opId = operation.getChildValue("operationId");
+                            if (StringUtils.isEmpty(opId)) {
+                                String name = opName.toUpperCase() + " " + pathName;
+                                TagChildNode tagChild = new TagChildNode(name, opTag, (BaseNode) tagDMTN.getUserObject(), operation);
+                                DefaultMutableTreeNode tagChildDMTN = new DefaultMutableTreeNode(tagChild);
+                                tagDMTN.add(tagChildDMTN);
+                                pointers.put(tagChild.getPointer(), tagChildDMTN);
+                            } else {
+                                TagChildNode tagChild = new TagChildNode(opId, operation, (BaseNode) tagDMTN.getUserObject());
+                                DefaultMutableTreeNode tagChildDMTN = new DefaultMutableTreeNode(tagChild);
+                                tagDMTN.add(new DefaultMutableTreeNode(tagChild));
+                                pointers.put(tagChild.getPointer(), tagChildDMTN);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Collect all tags from tags object
+        Node tags = root.getChild("tags");
+        if (tags != null) {
+            for (Node tagNode : tags.getChildren()) {
+                String tagName = tagNode.getChildValue("name");
+                if (!StringUtils.isEmpty(tagName)) {
+                    if (!tagsOpsMap.containsKey(tagName)) {
+                        TagNode tag = new TagNode(tagName, tagNode, (BaseNode) tagsDMTN.getUserObject());
+                        DefaultMutableTreeNode tagDMTN = new DefaultMutableTreeNode(tag);
+                        tagsDMTN.add(tagDMTN);
+                        tagsOpsMap.put(tagName, tagDMTN);
+                        pointers.put(tag.getPointer(), tagDMTN);
+                    }
+                }
+            }
+        }
+    }
+
+    private static Node getTagNode(Node root, String tagName) {
+        Node tags = root.getChild("tags");
+        if (tags != null) {
+            for (Node tag : tags.getChildren()) {
+                if (tagName.equals(tag.getChildValue("name"))) {
+                    return tag;
+                }
+            }
+        }
+        return null;
     }
 }

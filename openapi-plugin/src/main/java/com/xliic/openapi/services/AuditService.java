@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.application.ModalityState;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
@@ -226,7 +225,7 @@ public final class AuditService implements IAuditService, Disposable {
                     MsgUtils.warning(project, message("openapi.audit.issues.notification", sb.toString()), true);
                 }
             });
-        }, ModalityState.NON_MODAL);
+        });
     }
 
     @Override

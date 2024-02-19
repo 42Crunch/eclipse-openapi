@@ -1,7 +1,8 @@
-package com.xliic.openapi.tree;
+package com.xliic.openapi.tree.actions;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.actionSystem.ToggleAction;
 import com.xliic.core.icons.AllIcons;
@@ -11,37 +12,43 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
 import com.xliic.openapi.utils.Utils;
 
-public class OpenAPIAlphaSortAction extends ToggleAction implements DumbAware {
+
+public class AbcSortAction extends ToggleAction implements DumbAware {
 
     @NotNull
     private final Project project;
     @NotNull
-    private final SortCallback callback;
+    private final OpenApiFileTreePanel panel;
+    private boolean abcSort;
 
-    public interface SortCallback {
-        void sort(boolean sort);
-    }
-
-    public OpenAPIAlphaSortAction(@NotNull Project project, @NotNull SortCallback callback) {
+    public AbcSortAction(@NotNull Project project, @NotNull OpenApiFileTreePanel panel) {
         super("Sort Alphabetically", "Sort alphabetically", AllIcons.ObjectBrowser.Sorted);
         this.project = project;
-        this.callback = callback;
+        this.panel = panel;
+        abcSort = PropertiesComponent.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override
     public final boolean isSelected(@NotNull AnJActionEvent event) {
-        return PropertiesComponent.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
+        return abcSort;
     }
 
     @Override
     public final void setSelected(@NotNull AnJActionEvent event, boolean flag) {
-        callback.sort(flag);
+        abcSort = flag;
+        panel.sortTree(abcSort);
     }
 
     @Override
-    public void update(AnJActionEvent event) {
+    public void update(@NotNull AnJActionEvent event) {
         VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file != null) {
             ASTService astService = ASTService.getInstance(project);

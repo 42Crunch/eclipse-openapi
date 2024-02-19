@@ -42,6 +42,7 @@ import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.NetUtils;
+import com.xliic.openapi.tree.actions.ScanAction;
 
 import okhttp3.Response;
 
@@ -269,9 +270,7 @@ public class ScanUtils {
     public static void setActionsForOperation(@NotNull PsiFile psiFile, @NotNull Node op, @NotNull DefaultActionGroup actions) {
         List<Object> payloads = new LinkedList<>();
         setActionsForOperation(psiFile, op, payloads);
-        payloads.forEach(p -> {
-            actions.add(new ScanAction("Scan", (ScanConfOperation) p));
-        });
+        payloads.forEach(p -> actions.add(new ScanAction((ScanConfOperation) p)));
     }
 
     public static String findOrCreateTempCollection() throws Exception {

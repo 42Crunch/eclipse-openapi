@@ -13,12 +13,14 @@ public abstract class BaseNode {
 
     protected String name;
     protected boolean hint;
-
+    protected boolean copyEnabled;
+    
     public BaseNode(@NotNull String name, Node node, BaseNode parent) {
         this.name = name;
         this.node = node;
         this.parent = parent;
         hint = false;
+        copyEnabled = false;
     }
 
     public String getName() {
@@ -59,11 +61,18 @@ public abstract class BaseNode {
 
     public static boolean showHint(BaseNode node) {
         if (node instanceof PanelNode) {
-            return !OpenApiPanelKeys.OPERATION_ID.equals(node.getName());
-        } else {
+        	String name = node.getName();
+            return !OpenApiPanelKeys.OPERATION_ID.equals(name) && !OpenApiPanelKeys.TAGS.equals(name);
+        } else if (node instanceof SimpleNode) {
             return OpenApiPanelKeys.PATHS.equals(((SimpleNode) node).getParentName());
+        } else {
+        	return false;
         }
     }
 
     public abstract int getLevel();
+    
+    public boolean isCopyEnabled() {
+        return copyEnabled;
+    }
 }

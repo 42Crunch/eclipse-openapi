@@ -10,7 +10,6 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.application.ModalityState;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.wm.ToolWindow;
@@ -62,7 +61,7 @@ public final class EnvService implements IEnvService, SettingsListener {
         ApplicationManager.getApplication().invokeAndWait(() -> {
             WindowUtils.activateToolWindow(project, ENV, () ->
                 project.getMessageBus().syncPublisher(EnvListener.TOPIC).loadEnv(getEnv()));
-        }, ModalityState.NON_MODAL);
+        });
     }
 
     @Override

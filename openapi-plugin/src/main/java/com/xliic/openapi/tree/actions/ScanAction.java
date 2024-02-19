@@ -1,7 +1,6 @@
-package com.xliic.openapi.platform.scan;
+package com.xliic.openapi.tree.actions;
 
-import org.jetbrains.annotations.NotNull;
-
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -11,33 +10,45 @@ import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.platform.scan.config.ScanConfService;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.services.BundleService;
-
 import icons.OpenApiIcons;
+import org.jetbrains.annotations.NotNull;
 
 public class ScanAction extends AnJAction implements DumbAware {
+
+    private static final String NAME = "Scan";
 
     @NotNull
     private final ScanConfOperation payload;
 
-    public ScanAction(@NotNull String name, @NotNull ScanConfOperation payload) {
-        super(name, "", OpenApiIcons.Scan);
+    public ScanAction(@NotNull ScanConfOperation payload) {
+        super(NAME, "", OpenApiIcons.Scan);
         this.payload = payload;
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override
     public void update(@NotNull AnJActionEvent event) {
         Project project = event.getProject();
-        VirtualFile file = payload.getPsiFile().getVirtualFile();
-        BundleService bundleService = BundleService.getInstance(project);
-        BundleResult bundle = bundleService.getBundle(file.getPath());
-        event.getPresentation().setEnabled(bundle != null && bundle.isBundleComplete());
+        if (project == null) {
+            event.getPresentation().setEnabled(false);
+        } else {
+            VirtualFile file = payload.getPsiFile().getVirtualFile();
+            BundleResult bundle = BundleService.getInstance(project).getBundle(file.getPath());
+            event.getPresentation().setEnabled(bundle != null && bundle.isBundleComplete());
+        }
     }
 
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
         Project project = event.getProject();
+        if (project == null) {
+            return;
+        }
         VirtualFile file = payload.getPsiFile().getVirtualFile();
-        ScanConfService scanConfService = ScanConfService.getInstance(project);
-        scanConfService.scanConfActionPerformed(file, payload);
+        ScanConfService.getInstance(project).scanConfActionPerformed(file, payload);
     }
 }

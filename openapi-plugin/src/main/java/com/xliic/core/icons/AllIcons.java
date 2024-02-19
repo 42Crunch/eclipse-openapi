@@ -19,6 +19,7 @@ public class AllIcons {
         public static final @NotNull Icon Refresh = IconLoader.findIcon("/icons/refresh.png");
         public static final @NotNull Icon CollapseAll = IconLoader.findIcon("/icons/collapseall.png");
         public static final @NotNull Icon ExpandAll = IconLoader.findIcon("/icons/expandall.png");
+        public static final @NotNull Icon Copy = IconLoader.findIcon("/icons/copy.png");
     }
 
     public static final class ObjectBrowser {

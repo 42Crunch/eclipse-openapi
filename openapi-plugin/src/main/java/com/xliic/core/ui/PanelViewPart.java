@@ -17,7 +17,6 @@ import com.xliic.core.Disposable;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.Separator;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.application.ModalityState;
 import com.xliic.core.project.Project;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
@@ -74,7 +73,7 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
                             status = Status.READY;
                             ViewPartHandler handler = LOAD_HANDLERS.remove(id);
                             if (handler != null) {
-                                ApplicationManager.getApplication().invokeAndWait(handler::onReady, ModalityState.NON_MODAL);
+                                ApplicationManager.getApplication().invokeAndWait(handler::onReady);
                             }
                         }
                     });
