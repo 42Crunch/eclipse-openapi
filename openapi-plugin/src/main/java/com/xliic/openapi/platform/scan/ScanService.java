@@ -28,7 +28,7 @@ import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.AuditListener;
-import com.xliic.openapi.utils.CliUtils;
+import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;

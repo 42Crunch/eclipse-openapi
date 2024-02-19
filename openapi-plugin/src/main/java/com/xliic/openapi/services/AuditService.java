@@ -30,7 +30,7 @@ import com.xliic.core.ui.DialogWrapper;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.CliDownloader;
+import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAuditTask;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -392,9 +392,9 @@ public final class AuditService implements IAuditService, Disposable {
         } else if (type == Credentials.Type.Platform) {
             startAuditTask(file, isFullAudit ? new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
         } else if (type == Credentials.Type.Cli) {
-            new CliDownloader(project).download(new CliDownloader.Callback() {
+            CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
                 @Override
-                public void complete() {
+                public void complete(@NotNull String cliPath) {
                     startAuditTask(file, isFullAudit ? new AuditCliTask(project, file, callback) : new AuditCliTask(project, payload, callback));
                 }
                 @Override

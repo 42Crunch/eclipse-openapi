@@ -14,7 +14,7 @@ import com.xliic.openapi.platform.scan.ScanRunConfig;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Credentials;
-import com.xliic.openapi.utils.CliUtils;
+import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.Utils;
 import org.jetbrains.annotations.NotNull;

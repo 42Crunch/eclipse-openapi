@@ -13,7 +13,7 @@ import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;
-import com.xliic.openapi.utils.CliUtils;
+import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

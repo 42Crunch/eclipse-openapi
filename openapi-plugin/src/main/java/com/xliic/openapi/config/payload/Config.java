@@ -12,7 +12,7 @@ import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.platform.NamingConvention;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.settings.Settings;
-import com.xliic.openapi.utils.CliUtils;
+import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
 

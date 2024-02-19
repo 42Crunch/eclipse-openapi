@@ -1,7 +1,9 @@
-package com.xliic.openapi.utils;
+package com.xliic.openapi.cli;
 
-import com.xliic.core.command.WriteCommandAction;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.zafarkhaja.semver.Version;
 import com.xliic.core.ide.util.PropertiesComponent;
+import com.xliic.core.command.WriteCommandAction;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.Computable;
@@ -11,15 +13,52 @@ import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
-import org.jetbrains.annotations.NotNull;
+import com.xliic.openapi.utils.ExecUtils;
+import com.xliic.openapi.utils.FileUtils;
+import com.xliic.openapi.utils.Utils;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import static com.xliic.openapi.utils.FileUtils.*;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 public class CliUtils {
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public static CliAstManifestEntry getCliUpdate(@NotNull String repository,
+                                                   @NotNull String currentVersion,
+                                                   @NotNull String platform) throws Exception {
+        try (Response response = CliAPIs.Sync.getManifest(repository)) {
+            try (ResponseBody body = response.body()) {
+                if (body != null && response.code() == 200) {
+                    List<Map<String, String>> manifest = OBJECT_MAPPER.readValue(body.string(), List.class);
+                    if (manifest != null) {
+                        Version current = Version.parse(currentVersion);
+                        for (Map<String, String> entry : manifest) {
+                            if (entry.get("architecture").equals(platform)) {
+                                Version latest = Version.parse(entry.get("version"));
+                                if (latest.isHigherThan(current)) {
+                                    return new CliAstManifestEntry(entry);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     @NotNull
     public static AuditCliResult runAuditWithCliBinary(@NotNull Project project,
@@ -77,14 +116,6 @@ public class CliUtils {
         return Settings.Platform.Scan.RUNTIME_CLI.equals(scanRuntime);
     }
 
-    public static String getCliDownloadUrl(@NotNull String repository) throws Exception {
-        return getRepoUrl(repository) + getRepoCliFilename();
-    }
-
-    private static String getRepoUrl(String repository) {
-        return repository.endsWith("/") ? repository : repository + "/";
-    }
-
     public static void ensureDirectories(@NotNull Project project) {
         String binDir = getBinDirectory();
         if (!FileUtils.exists(binDir)) {
@@ -97,24 +128,6 @@ public class CliUtils {
                 return null;
             });
         }
-    }
-
-    private static String getRepoCliFilename() throws Exception {
-        String os = Utils.getOs();
-        String arch = Utils.getOsArch();
-        if ("win32".equals(os)) {
-            return "42c-ast-windows-amd64.exe";
-        } else if ("darwin".equals(os) && ("arm64".equals(arch) || "aarch64".equals(arch))) {
-            return "42c-ast-darwin-arm64";
-        } else {
-            boolean isX64 = "x64".equals(arch) || "amd64".equals(arch) || "x86_64".equals(arch);
-            if ("darwin".equals(os) && isX64) {
-                return "42c-ast-darwin-amd64";
-            } else if ("linux".equals(os) && isX64) {
-                return "42c-ast-linux-amd64";
-            }
-        }
-        throw new Exception("Unsupported CLI environment " + os + " (" + arch +  ")");
     }
 
     private static String getCrunchDirectory() {
@@ -145,5 +158,19 @@ public class CliUtils {
 
     private static String getHomeDir() {
         return System.getProperty("user.home");
+    }
+
+    public static String getCliAstPlatform() {
+        String os = Utils.getOs();
+        if ("win32".equals(os)) {
+            return "windows-amd64";
+        } else if ("darwin".equals(os) && Utils.isArm64()) {
+            return "darwin-arm64";
+        } else if ("darwin".equals(os) && Utils.isX64()) {
+            return "darwin-amd64";
+        } else if ("linux".equals(os) && Utils.isX64()) {
+            return "linux-amd64";
+        }
+        return null;
     }
 }

@@ -1,16 +1,13 @@
 package com.xliic.openapi.platform.scan.config;
 
 import com.xliic.core.Disposable;
-import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
-import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
-import com.xliic.openapi.config.payload.Progress;
+import com.xliic.openapi.cli.CliService;
+import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.ScanListener;
@@ -26,8 +23,6 @@ import com.xliic.openapi.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import static com.xliic.openapi.settings.Settings.CliAst.DEFAULT_REPOSITORY;
-import static com.xliic.openapi.settings.Settings.CliAst.REPOSITORY;
 import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
 import static com.xliic.openapi.utils.Utils.turnOffVcsShowConfirmation;
 import static com.xliic.openapi.utils.Utils.turnOnVcsShowConfirmation;
@@ -52,43 +47,19 @@ public final class ScanConfService implements IScanConfService, Disposable {
             return;
         }
         if (CliUtils.hasCli()) {
-            String cliPath = CliUtils.getCli();
-            if (FileUtils.exists(cliPath)) {
-                createScanConf(file, payload);
-            } else {
-                final int rc = Messages.showOkCancelDialog(project, "42Crunch CLI is not found, download?",
-                        "Download", "Download", "Cancel", Messages.getQuestionIcon());
-                if (rc == Messages.OK) {
-                    scanConfTaskInProgress = true;
-                    ProgressManager.getInstance().run(new Task.Backgroundable(project, "Downloading 42Crunch CLI", false) {
-                        @Override
-                        public void run(@NotNull ProgressIndicator progress) {
-                            String repository = PropertiesComponent.getInstance().getValue(REPOSITORY, DEFAULT_REPOSITORY);
-                            if (StringUtils.isEmpty(repository)) {
-                                scanConfTaskInProgress = false;
-                                MsgUtils.notifyError(project,"Repository URL is not set");
-                                return;
-                            }
-                            try {
-                                String downloadUrl = CliUtils.getCliDownloadUrl(repository);
-                                NetUtils.download(downloadUrl, cliPath, (bytesRead, contentLength, done) -> {
-                                    if (done) {
-                                        scanConfTaskInProgress = false;
-                                        createScanConf(file, payload);
-                                    } else {
-                                        progress.setText("Downloading 42Crunch CLI: " + Progress.getPercent(bytesRead, contentLength));
-                                    }
-                                });
-                            } catch (Exception e) {
-                                ApplicationManager.getApplication().invokeLater(() -> {
-                                    scanConfTaskInProgress = false;
-                                    MsgUtils.notifyError(project, e.toString());
-                                });
-                            }
-                        }
-                    });
+            scanConfTaskInProgress = true;
+            CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
+                @Override
+                public void complete(@NotNull String cliPath) {
+                    scanConfTaskInProgress = false;
+                    createScanConf(file, payload);
                 }
-            }
+                @Override
+                public void reject(@NotNull String error) {
+                    scanConfTaskInProgress = false;
+                    MsgUtils.notifyError(project, error);
+                }
+            });
         } else {
             createScanConf(file, payload);
         }

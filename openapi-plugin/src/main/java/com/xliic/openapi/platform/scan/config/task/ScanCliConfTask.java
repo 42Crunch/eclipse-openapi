@@ -8,7 +8,7 @@ import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.report.AuditCliResult;
-import com.xliic.openapi.utils.CliUtils;
+import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;

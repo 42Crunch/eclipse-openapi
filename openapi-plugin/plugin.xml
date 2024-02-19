@@ -278,6 +278,9 @@
         <serviceFactory factoryClass="com.xliic.openapi.services.factory.GitServiceFactory">
             <service serviceClass="com.xliic.openapi.services.api.IGitService"></service>
         </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.openapi.cli.CliServiceFactory">
+            <service serviceClass="com.xliic.openapi.cli.ICliService"></service>
+        </serviceFactory>
     </extension>
 
     <extension

@@ -63,4 +63,6 @@ Bundle-ClassPath: .,
  libs/org.eclipse.jgit-4.6.0.201612231935-r.jar,
  libs/slf4j-api-1.7.5.jar,
  libs/ant-style-path-matcher-1.0.0.jar,
- libs/commons-lang3-3.12.0.jar
+ libs/commons-lang3-3.12.0.jar,
+ libs/java-semver-0.10.2.jar,
+ libs/commons-codec-1.16.1.jar

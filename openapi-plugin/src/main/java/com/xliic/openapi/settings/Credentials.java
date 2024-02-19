@@ -10,7 +10,7 @@ import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.settings.wizard.anon.AnonEmailWizardDialog;
 import com.xliic.openapi.settings.wizard.platform.PlatformURLWizardDialog;
-import com.xliic.openapi.utils.CliUtils;
+import com.xliic.openapi.cli.CliUtils;
 
 import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
 
