@@ -52,6 +52,7 @@ public class WebAppFunction extends BrowserFunction {
                                 if (prevData == null) {
                                     new WebAppRateThread(producer, buffer).start();
                                 }
+                                producer.quickRun(props.get("payload"));
                             }
                         } else {
                             run(producer, props, (String) message);

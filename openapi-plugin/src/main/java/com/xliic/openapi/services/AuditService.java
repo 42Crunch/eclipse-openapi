@@ -20,7 +20,6 @@ import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.progress.Task;
@@ -48,6 +47,7 @@ import com.xliic.openapi.report.task.AuditCliTask;
 import com.xliic.openapi.services.api.IAuditService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.NetUtils;
@@ -324,8 +324,8 @@ public final class AuditService implements IAuditService, Disposable {
             runAudit(project, file, payload, type);
             return;
         }
-        PropertiesComponent settings = PropertiesComponent.getInstance();
-        String value = settings.getValue(Settings.Platform.Dictionary.PreAudit.CHOICE);
+        SettingsService settingsService = SettingsService.getInstance();
+        String value = settingsService.getValue(Settings.Platform.Dictionary.PreAudit.CHOICE);
         if (Settings.Platform.Dictionary.PreAudit.ASK.equals(value)) {
             FixGlobalDictionaryAction action = new FixGlobalDictionaryAction();
             if (action.update(project, file)) {
@@ -337,10 +337,10 @@ public final class AuditService implements IAuditService, Disposable {
                 } else if (code == PreAuditDialog.NO_EXIT_CODE) {
                     runAudit(project, file, payload, type);
                 } else if (code == PreAuditDialog.ALWAYS_EXIT_CODE) {
-                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
+                    settingsService.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
                     updateAndRunAudit(action, project, file, payload, type);
                 } else if (code == PreAuditDialog.NEVER_EXIT_CODE) {
-                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
+                    settingsService.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
                     runAudit(project, file, payload, type);
                 }
             } else {

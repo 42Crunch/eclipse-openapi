@@ -224,6 +224,9 @@
 
     <extension
         point="org.eclipse.ui.services">
+        <serviceFactory factoryClass="com.xliic.openapi.settings.SettingsServiceFactory">
+            <service serviceClass="com.xliic.openapi.settings.ISettingsService"></service>
+        </serviceFactory>
         <serviceFactory factoryClass="com.xliic.openapi.services.factory.AuditServiceFactory">
             <service serviceClass="com.xliic.openapi.services.api.IAuditService"></service>
         </serviceFactory>

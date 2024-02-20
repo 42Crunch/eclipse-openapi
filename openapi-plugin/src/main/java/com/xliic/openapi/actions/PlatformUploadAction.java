@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.DialogWrapper;
@@ -20,6 +19,7 @@ import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.Utils;
 
 public class PlatformUploadAction extends AnAction implements DumbAware {
@@ -67,8 +67,7 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
             bundleService.notifyOfErrors(file.getPath());
             return;
         }
-        PropertiesComponent settings = PropertiesComponent.getInstance();
-        String value = settings.getValue(Settings.Platform.Dictionary.PreAudit.CHOICE);
+        String value = SettingsService.getInstance().getValue(Settings.Platform.Dictionary.PreAudit.CHOICE);
         if (Settings.Platform.Dictionary.PreAudit.ASK.equals(value)) {
             FixGlobalDictionaryAction action = new FixGlobalDictionaryAction();
             if (action.update(project, file)) {
@@ -80,10 +79,10 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
                 } else if (code == PreAuditDialog.NO_EXIT_CODE) {
                     runSaveToPlatform(project, file);
                 } else if (code == PreAuditDialog.ALWAYS_EXIT_CODE) {
-                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
+                	SettingsService.getInstance().setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
                     updateAndRunSaveToPlatform(action, project, file);
                 } else if (code == PreAuditDialog.NEVER_EXIT_CODE) {
-                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
+                	SettingsService.getInstance().setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
                     runSaveToPlatform(project, file);
                 }
             } else {

@@ -11,11 +11,11 @@ import javax.swing.tree.TreeNode;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.ui.treeStructure.DefaultTreeModel;
 import com.xliic.openapi.parser.dmtn.DMTNAlphabeticalComparator;
 import com.xliic.openapi.parser.dmtn.DMTNNaturalComparator;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tree.node.RootNode;
 
 public class SortTreeModel extends DefaultTreeModel {
@@ -27,7 +27,7 @@ public class SortTreeModel extends DefaultTreeModel {
 
     public SortTreeModel(@NotNull TreeViewer viewer, @NotNull TreeNode root, boolean asksAllowsChildren) {
         super(viewer, root, asksAllowsChildren);
-        boolean sortABC = PropertiesComponent.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
+        boolean sortABC = SettingsService.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
         comparator = getComparator(sortABC);
     }
 

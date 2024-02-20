@@ -9,8 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationInfo;
-import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.openapi.SecurityPropertiesComponent;
+import com.xliic.openapi.settings.SettingsService;
 
 public class PlatformConnection {
 
@@ -31,11 +30,11 @@ public class PlatformConnection {
     }
 
     public static boolean isPlatformIntegrationEnabled() {
-        String url = PropertiesComponent.getInstance().getValue(URL);
+        String url = SettingsService.getInstance().getValue(URL);
         if (StringUtils.isEmpty(url)) {
             return false;
         }
-        String key = SecurityPropertiesComponent.getInstance().getValue(API_KEY, "");
+        String key = SettingsService.getInstance().getValue(API_KEY, "");
         return !StringUtils.isEmpty(key);
     }
 
@@ -44,11 +43,11 @@ public class PlatformConnection {
     }
 
     public static PlatformConnection getOptions() {
-        String platformURL = PropertiesComponent.getInstance().getValue(URL);
+        String platformURL = SettingsService.getInstance().getValue(URL);
         if (!StringUtils.isEmpty(platformURL) && platformURL.endsWith("/")) {
             platformURL = StringUtils.strip(platformURL, "/");
         }
-        String apiToken = SecurityPropertiesComponent.getInstance().getValue(API_KEY, "");
+        String apiToken = SettingsService.getInstance().getValue(API_KEY, "");
         return new PlatformConnection(apiToken, USER_AGENT, "", platformURL);
     }
 

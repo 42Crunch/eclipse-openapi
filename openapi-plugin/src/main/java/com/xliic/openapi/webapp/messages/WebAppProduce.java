@@ -52,4 +52,5 @@ public abstract class WebAppProduce {
     }
 
     public abstract void run(@Nullable Object payload);
+    public void quickRun(@Nullable Object payload) {}
 }

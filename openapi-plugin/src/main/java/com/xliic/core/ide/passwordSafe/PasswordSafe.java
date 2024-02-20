@@ -7,23 +7,21 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.credentialStore.CredentialAttributes;
+import com.xliic.core.credentialStore.CredentialAttributesKt;
 import com.xliic.core.credentialStore.Credentials;
+import com.xliic.openapi.settings.SettingsService;
 
 public class PasswordSafe {
 
     private static final String NODE_ID = "token";
 
-    private static PasswordSafe manager;
-    private final ISecurePreferences root;
+    private static PasswordSafe manager = new PasswordSafe();;
+    private final ISecurePreferences root = SecurePreferencesFactory.getDefault();
 
     private PasswordSafe() {
-        root = SecurePreferencesFactory.getDefault();
     }
 
     public static PasswordSafe getInstance() {
-        if (manager == null) {
-            manager = new PasswordSafe();
-        }
         return manager;
     }
 
@@ -53,12 +51,19 @@ public class PasswordSafe {
     }
 
     @Nullable
-    public String tryIsPasswordOk(@NotNull CredentialAttributes credentialAttributes) {
+    public String tryIsPasswordOk(@NotNull String key) {
         try {
+        	CredentialAttributes credentialAttributes = new CredentialAttributes(CredentialAttributesKt.generateServiceName(SettingsService.SUBSYSTEM, key));
             root.node(credentialAttributes.getServiceName()).get(NODE_ID, null);
         } catch (Exception e) {
             return e.getMessage();
         }
         return null;
+    }
+    
+    @Nullable
+    public Credentials get(@NotNull CredentialAttributes credentialAttributes) {
+    	String value = getPassword(credentialAttributes);
+    	return value == null ? null : new Credentials("", value);
     }
 }

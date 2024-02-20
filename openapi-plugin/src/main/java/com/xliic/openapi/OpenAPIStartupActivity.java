@@ -12,19 +12,17 @@ import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.services.GitService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
-import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 
     public OpenAPIStartupActivity() {
         // Load values into cache to avoid performance issues in EDT threads
-        SecurityPropertiesComponent.getInstance().initCache();
+    	SettingsService.getInstance().loadCache();
     }
 
     @Override
     public void runActivity(@NotNull Project project) {
-        // Set default properties values
-        Settings.initProperties();
         // Download and cache KDB articles to boost first security audit
         AuditService.getInstance(project).downloadArticlesAsync();
         // Load quickfix configuration

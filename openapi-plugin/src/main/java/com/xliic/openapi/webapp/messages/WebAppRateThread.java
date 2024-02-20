@@ -25,9 +25,9 @@ public class WebAppRateThread extends Thread {
         WebAppProduceData data;
         synchronized (producer) {
             data = buffer.remove(producer);
-        }
-        if (data != null) {
-            WebAppFunction.run(producer, data.getProps(), data.getMessage());
+            if (data != null) {
+                WebAppFunction.run(producer, data.getProps(), data.getMessage());
+            }
         }
     }
 }

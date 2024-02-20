@@ -10,14 +10,14 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
-import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
 
 public final class EnvService implements IEnvService, SettingsListener {
@@ -38,18 +38,18 @@ public final class EnvService implements IEnvService, SettingsListener {
 
     @NotNull
     public Environment getEnv() {
-        String value = PropertiesComponent.getInstance().getValue(ENV_DEFAULT_KEY);
-        String password = SecurityPropertiesComponent.getInstance().getValue(ENV_SECRETS_KEY);
+        String value = SettingsService.getInstance().getValue(ENV_DEFAULT_KEY);
+        String password = SettingsService.getInstance().getValue(ENV_SECRETS_KEY);
         return new Environment(value, password);
     }
 
     public void saveEnv(@NotNull String type, @NotNull Map<String, Object> env) {
-        String value = Settings.objectToString(env);
+    	String value = Utils.serialize(env, true);
         if (value != null) {
             if (Environment.DEFAULT_KEY.equals(type)) {
-                PropertiesComponent.getInstance().setValue(ENV_DEFAULT_KEY, value);
+            	SettingsService.getInstance().setValue(ENV_DEFAULT_KEY, value);
             } else if (Environment.SECRETS_KEY.equals(type)) {
-                SecurityPropertiesComponent.getInstance().setValue(ENV_SECRETS_KEY, value);
+            	SettingsService.getInstance().setValue(ENV_SECRETS_KEY, value);
             }
         }
         ApplicationManager.getApplication().invokeAndWait(() -> {

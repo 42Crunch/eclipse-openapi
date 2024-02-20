@@ -5,10 +5,10 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 
 public class PreviewUtils {
 
@@ -32,7 +32,7 @@ public class PreviewUtils {
     }
 
     public static URL getURL(Project project, VirtualFile file, int rendererIndex) throws MalformedURLException {
-        String port = PropertiesComponent.getInstance().getValue(Settings.Preview.PORT);
+        String port = SettingsService.getInstance().getValue(Settings.Preview.PORT);
         String renderer = (rendererIndex == 0) ? RENDERER_SWAGGERUI : RENDERER_REDOC;
         String query = getQuery(project.getLocationHash(), file.getCanonicalPath(), rendererIndex);
         return new URL("http://localhost:" + port + "/" + renderer + ".html?" + query);

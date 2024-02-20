@@ -1,6 +1,7 @@
 package com.xliic.openapi.tryit.jcef.messages;
 
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tryit.payload.TryItOperation;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.WebAppConsume;
@@ -35,7 +36,7 @@ public class TryOperation extends WebAppConsume {
             result.put("preferredBodyValue", Utils.deserialize(bodyValue, bodyValue));
         }
         Map<String, List<String>> config = new HashMap<>();
-        config.put("insecureSslHostnames", new LinkedList<>(Settings.getValues(Settings.TryIt.INSECURE_SSL_HOSTNAMES)));
+        config.put("insecureSslHostnames", new LinkedList<>(SettingsService.getInstance().getSet(Settings.TryIt.INSECURE_SSL_HOSTNAMES)));
         result.put("config", config);
         return result;
     }

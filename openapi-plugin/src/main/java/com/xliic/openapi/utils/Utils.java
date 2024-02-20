@@ -356,8 +356,7 @@ public class Utils {
                  return mapper.writer(PRINTER).writeValueAsString(data);
             }
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        } catch (JsonProcessingException ignored) {
         }
         return null;
     }
@@ -365,6 +364,11 @@ public class Utils {
     @Nullable
     public static String serialize(@NotNull Object data, boolean minify) {
         return serialize(new ObjectMapper(), data, minify);
+    }
+    
+    @NotNull
+    public static String serialize(@NotNull Object data, boolean minify, @NotNull String defaultValue) {
+        return Objects.requireNonNullElse(serialize(new ObjectMapper(), data, minify), defaultValue);
     }
 
     @NotNull

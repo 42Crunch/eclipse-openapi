@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public class SaveConfig extends WebAppProduce {
@@ -20,7 +20,7 @@ public class SaveConfig extends WebAppProduce {
         if (payload instanceof Map) {
             Map<String, List<String>> map = (Map<String, List<String>>) payload;
             List<String> hostnames = map.get("insecureSslHostnames");
-            PropertiesComponent.getInstance().setList(Settings.TryIt.INSECURE_SSL_HOSTNAMES, hostnames);
+            SettingsService.getInstance().setList(Settings.TryIt.INSECURE_SSL_HOSTNAMES, hostnames);
         }
     }
 }

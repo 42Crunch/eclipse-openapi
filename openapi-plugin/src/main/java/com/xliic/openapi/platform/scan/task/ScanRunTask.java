@@ -1,6 +1,5 @@
 package com.xliic.openapi.platform.scan.task;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -10,6 +9,7 @@ import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.*;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
@@ -79,7 +79,7 @@ public abstract class ScanRunTask extends Task.Backgroundable {
             List<ScanConfiguration> configs = ScanUtils.getScanConfigs(apiId);
             ScanConfiguration config = ScanUtils.readScanConfig(configs.get(0).getId());
             String token = config.getToken();
-            String image = PropertiesComponent.getInstance().getValue(Settings.Platform.Scan.IMAGE, "");
+            String image = SettingsService.getInstance().getValue(Settings.Platform.Scan.IMAGE, "");
             if (image.isEmpty()) {
                 throw new ScanGeneralError("Scan image is not defined");
             }
@@ -98,7 +98,7 @@ public abstract class ScanRunTask extends Task.Backgroundable {
             if (host != null) {
             	host = host.toLowerCase();
             	if (host.startsWith(HTTP_LOCALHOST) || host.startsWith(HTTPS_LOCALHOST)) {
-                	if (PropertiesComponent.getInstance().getBoolean(REPLACE_LOCALHOST)) {
+                	if (SettingsService.getInstance().getBoolean(REPLACE_LOCALHOST)) {
                 		String os = Utils.getOs();
                 		if ("darwin".equals(os) || "win32".equals(os)) {
                         	env.put(SCAN42C_HOST, host.replace(LOCALHOST, HOST_DOCKER_INTERNAL));

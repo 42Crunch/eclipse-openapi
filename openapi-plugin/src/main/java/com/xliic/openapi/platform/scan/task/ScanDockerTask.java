@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.SystemInfoRt;
 import com.xliic.openapi.platform.scan.ScanRunConfig;
 import com.xliic.openapi.platform.scan.ScanService;
 import com.xliic.openapi.services.TerminalService;
+import com.xliic.openapi.settings.SettingsService;
 
 public class ScanDockerTask extends ScanRunTask {
 
@@ -37,7 +37,7 @@ public class ScanDockerTask extends ScanRunTask {
         env.put("PLATFORM_SERVICE", service);
 
         List<String> cmdList = new LinkedList<>();
-        boolean useHostNetwork = PropertiesComponent.getInstance().getBoolean(USE_HOST_NETWORK) &&
+        boolean useHostNetwork = SettingsService.getInstance().getBoolean(USE_HOST_NETWORK) &&
         		(SystemInfoRt.isLinux || SystemInfoRt.isFreeBSD);
 
         if (SystemInfoRt.isWindows) {

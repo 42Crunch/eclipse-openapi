@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.components.JTextArea;
+import com.xliic.openapi.settings.SettingsService;
 
 public class ItemTextArea extends Item {
 
@@ -19,18 +20,18 @@ public class ItemTextArea extends Item {
 
     @Override
     public boolean isModified() {
-        return !getText().equals(settings.getValue(key));
+        return !getText().equals(SettingsService.getInstance().getValue(key));
     }
 
     @Override
     public void reset() {
-        component.setText(settings.getValue(key));
+        component.setText(SettingsService.getInstance().getValue(key));
     }
 
     @Override
     public void apply(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         super.apply(keys, prevData);
-        settings.setValue(key, getText());
+        SettingsService.getInstance().setValue(key, getText());
     }
 
     private String getText() {

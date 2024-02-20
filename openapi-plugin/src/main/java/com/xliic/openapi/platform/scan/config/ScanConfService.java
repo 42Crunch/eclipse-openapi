@@ -1,7 +1,6 @@
 package com.xliic.openapi.platform.scan.config;
 
 import com.xliic.core.Disposable;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
@@ -19,6 +18,7 @@ import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.preferences.PrefsService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -109,7 +109,7 @@ public final class ScanConfService implements IScanConfService, Disposable {
             }
         } else {
             boolean hasCli = CliUtils.hasCli();
-            String token = PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
+            String token = SettingsService.getInstance().getValue(Settings.Audit.TOKEN);
             ScanConfTask task;
             if (hasCli && !StringUtils.isEmpty(token)) {
                 task = new ScanCliConfTask(project, payload.getPath(), bundle, scanConfPath, callback);

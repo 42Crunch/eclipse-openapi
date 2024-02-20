@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
@@ -27,6 +26,7 @@ import com.xliic.openapi.platform.scand.task.ScanJobTask;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.MsgUtils;
@@ -57,7 +57,7 @@ public final class ScanService implements IScanService, Disposable {
         if (scanTaskInProgress) {
             return;
         }
-        String runtime = PropertiesComponent.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
+        String runtime = SettingsService.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
         boolean useDocker = Settings.Platform.Scan.RUNTIME_DOCKER.equals(runtime);
         boolean hasCli = CliUtils.hasCli();
         boolean useScandMgr = !useDocker && !hasCli;
@@ -92,7 +92,7 @@ public final class ScanService implements IScanService, Disposable {
                 }
             }
         };
-        String token = PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
+        String token = SettingsService.getInstance().getValue(Settings.Audit.TOKEN);
         scanTaskInProgress = true;
         WindowUtils.openWebTab(project, "scan", tabId, () -> {
             project.getMessageBus().syncPublisher(ScanListener.TOPIC).startScan(tabId);

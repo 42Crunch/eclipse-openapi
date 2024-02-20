@@ -2,7 +2,6 @@ package com.xliic.openapi.cli;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zafarkhaja.semver.Version;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.command.WriteCommandAction;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
@@ -13,6 +12,7 @@ import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
@@ -112,7 +112,7 @@ public class CliUtils {
     }
 
     public static boolean hasCli() {
-        String scanRuntime = PropertiesComponent.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
+        String scanRuntime = SettingsService.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
         return Settings.Platform.Scan.RUNTIME_CLI.equals(scanRuntime);
     }
 

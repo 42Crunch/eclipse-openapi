@@ -5,9 +5,8 @@ import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.Utils;
 
 public class ScandManagerConnection {
@@ -21,13 +20,12 @@ public class ScandManagerConnection {
 
     @SuppressWarnings("unchecked")
     public ScandManagerConnection() {
-        PropertiesComponent props = PropertiesComponent.getInstance();
-        url = props.getValue(Settings.Platform.Scan.ScandMgr.URL, "");
-        auth = props.getValue(Settings.Platform.Scan.ScandMgr.AUTH, Settings.Platform.Scan.ScandMgr.AUTH_NONE);
+    	SettingsService settingsService = SettingsService.getInstance();
+        url = settingsService.getValue(Settings.Platform.Scan.ScandMgr.URL, "");
+        auth = settingsService.getValue(Settings.Platform.Scan.ScandMgr.AUTH, Settings.Platform.Scan.ScandMgr.AUTH_NONE);
         header.put("name", "");
         header.put("value", "");
-        SecurityPropertiesComponent secProps = SecurityPropertiesComponent.getInstance();
-        String propHeader = secProps.getValue(Settings.Platform.Scan.ScandMgr.HEADER);
+        String propHeader = settingsService.getValue(Settings.Platform.Scan.ScandMgr.HEADER);
         if (propHeader != null) {
             Map<String, Object> mapHeader = (Map<String, Object>) Utils.deserialize(propHeader);
             if (mapHeader != null) {

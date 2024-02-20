@@ -7,11 +7,10 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.ide.util.PropertiesComponent;
-import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.platform.NamingConvention;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
@@ -50,23 +49,23 @@ public class Config {
     }
 
     public Config(boolean loadFromPlatform) {
-        PropertiesComponent props = PropertiesComponent.getInstance();
-        platformUrl = props.getValue(Settings.Platform.Credentials.URL, "");
-        platformApiToken = SecurityPropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.API_KEY, "");
-        scanImage = props.getValue(Settings.Platform.Scan.IMAGE, "");
-        scanRuntime = props.getValue(Settings.Platform.Scan.RUNTIME, Settings.Platform.Scan.RUNTIME_DOCKER);
+    	SettingsService settingsService = SettingsService.getInstance();
+        platformUrl = settingsService.getValue(Settings.Platform.Credentials.URL, "");
+        platformApiToken = settingsService.getValue(Settings.Platform.Credentials.API_KEY, "");
+        scanImage = settingsService.getValue(Settings.Platform.Scan.IMAGE, "");
+        scanRuntime = settingsService.getValue(Settings.Platform.Scan.RUNTIME, Settings.Platform.Scan.RUNTIME_DOCKER);
         platformServices = new PlatformServices();
         scandManager = new ScandManagerConnection();
-        insecureSslHostnames = new LinkedList<>(Settings.getValues(Settings.TryIt.INSECURE_SSL_HOSTNAMES));
+        insecureSslHostnames = new LinkedList<>(settingsService.getSet(Settings.TryIt.INSECURE_SSL_HOSTNAMES));
         platform = Utils.getOs();
-        repository = props.getValue(Settings.CliAst.REPOSITORY, Settings.CliAst.DEFAULT_REPOSITORY);
-        platformTempCollectionName = props.getValue(Settings.Platform.TEMP_COLLECTION_NAME, COLLECTION_TEMP_NAME);
-        platformMandatoryTags = props.getValue(Settings.Platform.MANDATORY_TAGS, "");
+        repository = settingsService.getValue(Settings.CliAst.REPOSITORY, Settings.CliAst.DEFAULT_REPOSITORY);
+        platformTempCollectionName = settingsService.getValue(Settings.Platform.TEMP_COLLECTION_NAME, COLLECTION_TEMP_NAME);
+        platformMandatoryTags = settingsService.getValue(Settings.Platform.MANDATORY_TAGS, "");
         if (loadFromPlatform) {
             platformCollectionNamingConvention = PlatformUtils.getCollectionNamingConvention();
-            props.setValue(Settings.Platform.COLLECTION_NAMING_CONVENTION, platformCollectionNamingConvention.getStringPayload());
+            settingsService.setValue(Settings.Platform.COLLECTION_NAMING_CONVENTION, platformCollectionNamingConvention.getStringPayload());
         } else {
-            String value = props.getValue(Settings.Platform.COLLECTION_NAMING_CONVENTION, "");
+            String value = settingsService.getValue(Settings.Platform.COLLECTION_NAMING_CONVENTION, "");
             platformCollectionNamingConvention = NamingConvention.restoreFromStringPayload(value);
         }
     }

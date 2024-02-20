@@ -1,6 +1,5 @@
 package com.xliic.openapi.cli;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.progress.ProgressIndicator;
@@ -10,6 +9,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
 import com.xliic.openapi.config.jcef.messages.CliTest;
 import com.xliic.openapi.config.payload.Progress;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
@@ -49,7 +49,7 @@ public class CliService implements ICliService, Disposable {
     }
 
     public void downloadOrUpdateIfNecessary(@NotNull Project project, @NotNull Callback callback, boolean ask) {
-        String repository = PropertiesComponent.getInstance().getValue(REPOSITORY);
+        String repository = SettingsService.getInstance().getValue(REPOSITORY);
         if (StringUtils.isEmpty(repository)) {
             callback.reject("Repository URL is not set");
             return;

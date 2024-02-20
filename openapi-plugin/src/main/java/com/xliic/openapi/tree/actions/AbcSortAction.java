@@ -6,12 +6,12 @@ import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.actionSystem.ToggleAction;
 import com.xliic.core.icons.AllIcons;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
 import com.xliic.openapi.utils.Utils;
 
@@ -28,7 +28,7 @@ public class AbcSortAction extends ToggleAction implements DumbAware {
         super("Sort Alphabetically", "Sort alphabetically", AllIcons.ObjectBrowser.Sorted);
         this.project = project;
         this.panel = panel;
-        abcSort = PropertiesComponent.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
+        abcSort = SettingsService.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
     }
 
     @Override

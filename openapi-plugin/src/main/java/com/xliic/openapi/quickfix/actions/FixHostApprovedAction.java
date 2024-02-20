@@ -1,17 +1,18 @@
 package com.xliic.openapi.quickfix.actions;
 
 import java.util.Set;
+import java.util.LinkedList;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.codeInsight.IntentionAction;
 import com.xliic.core.editor.Editor;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.bundler.BundleHighlightingPass;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 
 public class FixHostApprovedAction extends IntentionAction {
 
@@ -40,10 +41,10 @@ public class FixHostApprovedAction extends IntentionAction {
 
     @Override
     public void invoke(@NotNull final Project project, Editor editor, PsiFile file, int offset) {
-        Set<String> hostnames = Settings.getValues(Settings.ExtRef.APPROVED_HOSTNAMES);
+        Set<String> hostnames = SettingsService.getInstance().getSet(Settings.ExtRef.APPROVED_HOSTNAMES);
         if (!hostnames.contains(hostname)) {
             hostnames.add(hostname);
-            PropertiesComponent.getInstance().setList(Settings.ExtRef.APPROVED_HOSTNAMES, hostnames);
+            SettingsService.getInstance().setList(Settings.ExtRef.APPROVED_HOSTNAMES, new LinkedList<>(hostnames));
             BundleService bundleService = BundleService.getInstance(project);
             bundleService.scheduleToBundleByHost(hostname);
         }

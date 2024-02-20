@@ -21,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.actionSystem.DefaultActionGroup;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.Puller;
@@ -40,6 +39,7 @@ import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.tree.actions.ScanAction;
@@ -275,7 +275,7 @@ public class ScanUtils {
 
     public static String findOrCreateTempCollection() throws Exception {
         NamingConvention namingConvention = PlatformUtils.getCollectionNamingConvention();
-        String collectionName = PropertiesComponent.getInstance().getValue(Settings.Platform.TEMP_COLLECTION_NAME, COLLECTION_TEMP_NAME);
+        String collectionName = SettingsService.getInstance().getValue(Settings.Platform.TEMP_COLLECTION_NAME, COLLECTION_TEMP_NAME);
         if (!namingConvention.match(collectionName)) {
             throw new Exception("The temporary collection name does not match the expected pattern defined in your organization. " +
                     "Please change the temporary collection name in your settings.");
@@ -334,7 +334,7 @@ public class ScanUtils {
 
     private static List<String> getMandatoryTags() throws Exception {
         List<String> tags = new LinkedList<>();
-        String platformMandatoryTags = PropertiesComponent.getInstance().getValue(Settings.Platform.MANDATORY_TAGS, "");
+        String platformMandatoryTags = SettingsService.getInstance().getValue(Settings.Platform.MANDATORY_TAGS, "");
         if (!StringUtils.isEmpty(platformMandatoryTags)) {
             if (NamingConvention.match(platformMandatoryTags, TAGS_PATTERN)) {
                 for (String tag : platformMandatoryTags.split("[\\s,]+")) {

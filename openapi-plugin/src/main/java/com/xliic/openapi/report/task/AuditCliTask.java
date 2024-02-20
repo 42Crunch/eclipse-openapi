@@ -1,6 +1,5 @@
 package com.xliic.openapi.report.task;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -13,6 +12,7 @@ import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.Utils;
 import org.jetbrains.annotations.NotNull;
@@ -67,7 +67,7 @@ public class AuditCliTask extends Task.Backgroundable {
             AuditService.getInstance(project).downloadArticles(progress);
             boolean isSingleOperationAudit = operation != null;
             String text = isSingleOperationAudit ? extractSingleOperation(operation.getPath(), operation.getMethod(), bundle) : bundle.getJsonText();
-            String token = PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
+            String token = SettingsService.getInstance().getValue(Settings.Audit.TOKEN);
             if (token == null) {
                 callback.reject("Security audit token is not set");
                 return;

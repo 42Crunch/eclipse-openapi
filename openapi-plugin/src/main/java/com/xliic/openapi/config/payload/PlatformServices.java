@@ -4,8 +4,8 @@ import java.net.URISyntaxException;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.NetUtils;
 
 public class PlatformServices {
@@ -21,8 +21,7 @@ public class PlatformServices {
     private final String auto;
 
     public PlatformServices() {
-        PropertiesComponent props = PropertiesComponent.getInstance();
-        String services = props.getValue(Settings.Platform.Scan.SERVICES, "");
+        String services = SettingsService.getInstance().getValue(Settings.Platform.Scan.SERVICES, "");
         source = services.isEmpty() ? AUTO : MANUAL;
         manual = services;
         auto = deriveServices();
@@ -46,7 +45,7 @@ public class PlatformServices {
     }
 
     private static String deriveServices() {
-        String url = PropertiesComponent.getInstance().getValue(Settings.Platform.Credentials.URL, "");
+        String url = SettingsService.getInstance().getValue(Settings.Platform.Credentials.URL, "");
         if (!url.isEmpty()) {
             try {
                 String host = NetUtils.getDomainName(url);

@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.progress.Task;
@@ -24,6 +23,7 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.AuditAPIs;
 import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.settings.items.Item;
 import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.settings.wizard.WizardDialog;
@@ -84,7 +84,7 @@ public class AnonTokenWizardDialog extends WizardDialog {
     @Override
     protected void applySettings(@NotNull Set<String> keys) {
         keys.add(Settings.Audit.TOKEN);
-        PropertiesComponent.getInstance().setValue(Settings.Audit.TOKEN, getTokenText());
+        SettingsService.getInstance().setValue(Settings.Audit.TOKEN, getTokenText());
     }
 
     @Override

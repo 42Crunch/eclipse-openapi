@@ -22,7 +22,6 @@ import com.xliic.core.actionSystem.Separator;
 import com.xliic.core.ide.CommonActionsManager;
 import com.xliic.core.ide.DefaultTreeExpander;
 import com.xliic.core.ide.TreeExpander;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.Color;
 import com.xliic.core.ui.JBColor;
@@ -37,6 +36,7 @@ import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.parser.dmtn.DMTNConverter;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tree.actions.AbcSortAction;
@@ -149,9 +149,9 @@ public class OpenApiFileTreePanel implements FileListener, SettingsListener, Dis
                 DefaultMutableTreeNode root = converter.convert(astService.getOpenAPIRootNode(file.getPath()));
                 setRoot(model, root, file.getPath());
                 setTreeBackGround(true, null);
-                if (!toolWindow.isVisible() && PropertiesComponent.getInstance().isValueSet(SHOW_PROPERTY_KEY)) {
+                if (!toolWindow.isVisible() && SettingsService.getInstance().isValueSetInIDE(SHOW_PROPERTY_KEY)) {
                     toolWindow.show(null);
-                    PropertiesComponent.getInstance().setValue(SHOW_PROPERTY_KEY, false);
+                    SettingsService.getInstance().setValue(SHOW_PROPERTY_KEY, false);
                 }
             } catch (Exception e) {
                 setRoot(model, null, file.getPath());
@@ -197,7 +197,7 @@ public class OpenApiFileTreePanel implements FileListener, SettingsListener, Dis
     @Override
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (keys.contains(Settings.SortOutlines.ABC_SORT) && !project.isDisposed()) {
-            boolean sort = PropertiesComponent.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
+            boolean sort = SettingsService.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
             sortTree(sort);
         }
     }

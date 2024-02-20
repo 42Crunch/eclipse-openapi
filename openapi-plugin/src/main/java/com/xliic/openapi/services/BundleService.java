@@ -36,6 +36,7 @@ import com.xliic.openapi.listeners.BundleDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.api.IBundleService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.MsgUtils;
@@ -418,7 +419,7 @@ public class BundleService extends AsyncService implements SettingsListener, IBu
             Object prevValue = prevData.get(Settings.ExtRef.APPROVED_HOSTNAMES);
             if (prevValue instanceof List) {
                 Set<String> prevHosts = new HashSet<>((List<String>) prevValue);
-                Set<String> hosts = Settings.getValues(Settings.ExtRef.APPROVED_HOSTNAMES);
+                Set<String> hosts = SettingsService.getInstance().getSet(Settings.ExtRef.APPROVED_HOSTNAMES);
                 if (!prevHosts.equals(hosts)) {
                     Set<String> removedHosts = new HashSet<>(prevHosts);
                     removedHosts.removeAll(hosts);

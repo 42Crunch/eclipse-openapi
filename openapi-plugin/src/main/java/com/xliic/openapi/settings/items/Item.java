@@ -5,17 +5,15 @@ import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.ui.DocumentAdapter;
 import com.xliic.core.ui.DocumentEvent;
 import com.xliic.core.ui.components.JTextComponent;
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.settings.SettingsService;
 
 public abstract class Item {
 
-    protected static final PropertiesComponent settings = PropertiesComponent.getInstance();
-
-    protected final String key;
+	protected final String key;
 
     public Item(String key) {
         this.key = key;
@@ -31,7 +29,7 @@ public abstract class Item {
 
     public void apply(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         keys.add(key);
-        prevData.put(key, settings.getValue(key));
+        prevData.put(key, SettingsService.getInstance().getValueAsObject(key));
     }
 
     protected void validate(@NotNull JTextField component) {
