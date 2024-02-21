@@ -224,65 +224,65 @@
 
     <extension
         point="org.eclipse.ui.services">
-        <serviceFactory factoryClass="com.xliic.openapi.settings.SettingsServiceFactory">
-            <service serviceClass="com.xliic.openapi.settings.ISettingsService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.ISettingsService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.AuditServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.IAuditService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IAuditService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.PreviewServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.IPreviewService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IPreviewService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.BundleServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.IBundleService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IBundleService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.ASTServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.IASTService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IASTService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.QuickFixServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.IQuickFixService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IQuickFixService"></service>
         </serviceFactory>
-          <serviceFactory factoryClass="com.xliic.openapi.services.factory.PlaceHolderServiceFactory">
-             <service serviceClass="com.xliic.openapi.services.api.IPlaceHolderService"></service>
+          <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+             <service serviceClass="com.xliic.core.services.IPlaceHolderService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.ExtRefServiceFactory">
-             <service serviceClass="com.xliic.openapi.services.api.IExtRefService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+             <service serviceClass="com.xliic.core.services.IExtRefService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.PlatformServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.IPlatformService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IPlatformService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.DictionaryServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.IDictionaryService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IDictionaryService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.TryItServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.ITryItService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.ITryItService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.platform.scan.ScanServiceFactory">
-            <service serviceClass="com.xliic.openapi.platform.scan.IScanService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IScanService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.platform.scan.config.ScanConfServiceFactory">
-            <service serviceClass="com.xliic.openapi.platform.scan.config.IScanConfService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IScanConfService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.TerminalServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.ITerminalService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.ITerminalService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.environment.EnvServiceFactory">
-            <service serviceClass="com.xliic.openapi.environment.IEnvService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IEnvService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.preferences.PrefsServiceFactory">
-            <service serviceClass="com.xliic.openapi.preferences.IPrefsService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IPrefsService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.config.ConfigServiceFactory">
-            <service serviceClass="com.xliic.openapi.config.IConfigService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IConfigService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.inlined.AnnotationServiceFactory">
-            <service serviceClass="com.xliic.openapi.inlined.IAnnotationService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IAnnotationService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.services.factory.GitServiceFactory">
-            <service serviceClass="com.xliic.openapi.services.api.IGitService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IGitService"></service>
         </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.openapi.cli.CliServiceFactory">
-            <service serviceClass="com.xliic.openapi.cli.ICliService"></service>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.ICliService"></service>
         </serviceFactory>
     </extension>
 

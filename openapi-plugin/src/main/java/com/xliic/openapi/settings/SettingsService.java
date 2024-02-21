@@ -5,6 +5,7 @@ import com.xliic.core.credentialStore.CredentialAttributesKt;
 import com.xliic.core.credentialStore.Credentials;
 import com.xliic.core.ide.passwordSafe.PasswordSafe;
 import com.xliic.core.ide.util.PropertiesComponent;
+import com.xliic.core.services.ISettingsService;
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import org.apache.commons.lang3.StringUtils;

@@ -6,6 +6,7 @@ import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
+import com.xliic.core.services.ICliService;
 import com.xliic.core.ui.Messages;
 import com.xliic.openapi.config.jcef.messages.CliTest;
 import com.xliic.openapi.config.payload.Progress;

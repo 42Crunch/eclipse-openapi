@@ -1,4 +1,4 @@
-package com.xliic.openapi.services.api;
+package com.xliic.core.services;
 
 import java.util.List;
 import java.util.Map;

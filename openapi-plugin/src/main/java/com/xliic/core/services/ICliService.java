@@ -1,4 +1,4 @@
-package com.xliic.openapi.cli;
+package com.xliic.core.services;
 
 public interface ICliService {
 }

@@ -1,4 +1,4 @@
-package com.xliic.openapi.inlined;
+package com.xliic.core.services;
 
 public interface IAnnotationService {
 }

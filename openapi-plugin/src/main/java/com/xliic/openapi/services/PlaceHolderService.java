@@ -27,6 +27,7 @@ import com.xliic.core.editor.event.EditorMouseListener;
 import com.xliic.core.editor.markup.RangeHighlighter;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.services.IPlaceHolderService;
 import com.xliic.core.ui.DoubleClickListener;
 import com.xliic.core.ui.MouseEvent;
 import com.xliic.core.ui.popup.ComponentPopupBuilder;
@@ -44,7 +45,6 @@ import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.FixItem;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
-import com.xliic.openapi.services.api.IPlaceHolderService;
 
 public class PlaceHolderService implements IPlaceHolderService, Disposable {
 

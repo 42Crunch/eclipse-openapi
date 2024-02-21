@@ -22,6 +22,7 @@ import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.services.IQuickFixService;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.actions.FixSnippetAction;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
@@ -45,7 +46,6 @@ import com.xliic.openapi.quickfix.sources.FixSourceMostUsedByName;
 import com.xliic.openapi.quickfix.sources.FixSourceSchemaRefByResponseCode;
 import com.xliic.openapi.quickfix.sources.FixSourceSecuritySchemes;
 import com.xliic.openapi.report.types.Issue;
-import com.xliic.openapi.services.api.IQuickFixService;
 import com.xliic.openapi.topic.AuditListener;
 
 import icons.OpenApiIcons;

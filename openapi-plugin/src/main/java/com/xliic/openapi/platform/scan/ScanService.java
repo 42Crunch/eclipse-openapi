@@ -16,6 +16,7 @@ import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.services.IScanService;
 import com.xliic.openapi.config.payload.ScandManagerConnection;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;

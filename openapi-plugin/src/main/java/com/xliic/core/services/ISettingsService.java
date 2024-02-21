@@ -1,4 +1,4 @@
-package com.xliic.openapi.settings;
+package com.xliic.core.services;
 
 public interface ISettingsService {
 }

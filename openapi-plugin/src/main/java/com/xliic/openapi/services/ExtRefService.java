@@ -16,9 +16,9 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.common.WorkspaceException;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
+import com.xliic.core.services.IExtRefService;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.services.api.IExtRefService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 

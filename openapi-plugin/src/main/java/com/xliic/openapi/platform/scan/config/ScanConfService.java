@@ -3,6 +3,7 @@ package com.xliic.openapi.platform.scan.config;
 import com.xliic.core.Disposable;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.services.IScanConfService;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.cli.CliService;

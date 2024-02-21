@@ -5,6 +5,7 @@ import static com.xliic.openapi.ToolWindowId.CONFIG;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
+import com.xliic.core.services.IConfigService;
 import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.utils.WindowUtils;
 

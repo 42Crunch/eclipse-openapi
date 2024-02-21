@@ -1,4 +1,4 @@
-package com.xliic.openapi.config;
+package com.xliic.core.services;
 
 public interface IConfigService {
 }

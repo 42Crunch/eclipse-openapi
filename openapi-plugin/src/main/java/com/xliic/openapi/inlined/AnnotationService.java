@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.services.IAnnotationService;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;

@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.services.IEnvService;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
 import com.xliic.openapi.platform.PlatformConnection;
