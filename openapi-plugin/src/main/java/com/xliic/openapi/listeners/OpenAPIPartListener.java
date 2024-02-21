@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
@@ -18,17 +16,13 @@ import com.xliic.core.fileEditor.FileEditorManagerEvent;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.PanelViewPart;
 import com.xliic.core.util.EclipseUtil;
-import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.editor.OpenAPIEnterTypedHandler;
 import com.xliic.openapi.services.PlaceHolderService;
 
 public class OpenAPIPartListener implements IPartListener {
 
     private IEditorInput prevInput = null;
-    private boolean forceActivation = true;
-    private IPreferenceStore store;
     private final Project project;
 
     private final OpenApiFileEditorManagerListener listener;
@@ -37,7 +31,6 @@ public class OpenAPIPartListener implements IPartListener {
 
     public OpenAPIPartListener(@NotNull Project project) {
         this.project = project;
-        store = OpenAPIAbstractUIPlugin.getInstance().getPreferenceStore();
         listener = new OpenApiFileEditorManagerListener(project);
         beforeListener = new OpenAPIFileEditorManagerBeforeListener();
         enterTypedHandlers = new HashMap<>();
@@ -56,27 +49,6 @@ public class OpenAPIPartListener implements IPartListener {
                 }
                 beforeListener.beforeFileOpened(FileEditorManager.getInstance(project), file);
                 listener.fileOpened(FileEditorManager.getInstance(project), file);
-                // When eclipse is started there may be a case where file is opened, but not
-                // activated (selected)
-                // To fix that we call activate directly below
-                // If the first file is opened manually, there will be 2 activate calls, but
-                // that's ok, we have the guard against it
-                if (forceActivation) {
-                    forceActivation = false;
-                    if (store.getBoolean(OpenAPIAbstractUIPlugin.IGNORE_SHOW_PERSPECTIVE_ONCE)) {
-                        partActivated(part);
-                    } else {
-                        store.setValue(OpenAPIAbstractUIPlugin.IGNORE_SHOW_PERSPECTIVE_ONCE, true);
-                        Display.getDefault().asyncExec(new Runnable() {
-                            @Override
-                            public void run() {
-                                EclipseWorkbenchUtil.openPerspective();
-                                partActivated(part);
-                            }
-                        });
-                    }
-
-                }
             }
         }
     }

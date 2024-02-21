@@ -25,14 +25,18 @@ public class PasswordSafe {
         return manager;
     }
 
-    public void set(@NotNull CredentialAttributes credentialAttributes, @NotNull Credentials credentials) {
-        String value = credentials.getPassword();
+    public void set(@NotNull CredentialAttributes credentialAttributes, @Nullable Credentials credentials) {
         ISecurePreferences node = root.node(credentialAttributes.getServiceName());
-        if (value == null) {
+        if (credentials == null) {
             node.remove(NODE_ID);
         } else {
             try {
-                node.put(NODE_ID, value, true);
+            	String value = credentials.getPassword();
+            	if (value == null) {
+            		node.remove(NODE_ID);
+            	} else {
+                    node.put(NODE_ID, value, true);
+            	}
             } catch (StorageException e) {
                 e.printStackTrace();
             }
@@ -53,14 +57,15 @@ public class PasswordSafe {
     @Nullable
     public String tryIsPasswordOk(@NotNull String key) {
         try {
-        	CredentialAttributes credentialAttributes = new CredentialAttributes(CredentialAttributesKt.generateServiceName(SettingsService.SUBSYSTEM, key));
+        	CredentialAttributes credentialAttributes = new CredentialAttributes(
+        			CredentialAttributesKt.generateServiceName(SettingsService.SUBSYSTEM, key));
             root.node(credentialAttributes.getServiceName()).get(NODE_ID, null);
         } catch (Exception e) {
             return e.getMessage();
         }
         return null;
     }
-    
+
     @Nullable
     public Credentials get(@NotNull CredentialAttributes credentialAttributes) {
     	String value = getPassword(credentialAttributes);

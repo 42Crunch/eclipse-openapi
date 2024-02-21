@@ -112,12 +112,14 @@ public class Settings {
         public static final String APPROVED_HOSTNAMES = "openapi.generate.token.hosts.key";
     }
 
-    public static class SortOutlines {
+    public static class Outline {
 
         public static final String ABC_SORT = "com.xliic.openapi.settings.sort.abc";
-
+        public static final String SHOW_OUTLINE_DEMO = "openapi.show.key";
+        
         static {
             DEFAULTS.put(ABC_SORT, true);
+            DEFAULTS.put(SHOW_OUTLINE_DEMO, true);
         }
     }
 

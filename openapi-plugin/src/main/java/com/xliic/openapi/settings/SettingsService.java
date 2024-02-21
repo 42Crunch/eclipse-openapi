@@ -25,9 +25,10 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.ENV_SECRETS_KEY;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.HEADER;
 import static com.xliic.openapi.settings.Settings.Platform.TURNED_OFF;
 import static com.xliic.openapi.settings.Settings.Platform.TURNED_ON;
-import static com.xliic.openapi.settings.Settings.SortOutlines.ABC_SORT;
+import static com.xliic.openapi.settings.Settings.Outline.ABC_SORT;
 import static com.xliic.openapi.settings.Settings.TryIt.INSECURE_SSL_HOSTNAMES;
 import static com.xliic.openapi.settings.Settings.InlinedAnnotations.ENABLE_FLAG;
+import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
 
 public class SettingsService implements ISettingsService, Disposable  {
 
@@ -36,7 +37,7 @@ public class SettingsService implements ISettingsService, Disposable  {
     public static final String SUBSYSTEM = "xliic";
     private static final Set<String> IGNORED_KEYS = Set.of(TURNED_ON, TURNED_OFF);
     private static final Set<String> SAFE_KEYS = Set.of(API_KEY, ENV_SECRETS_KEY, HEADER);
-    private static final Set<String> BOOLEAN_KEYS = Set.of(ABC_SORT, REPLACE_LOCALHOST, USE_HOST_NETWORK, ENABLE_FLAG);
+    private static final Set<String> BOOLEAN_KEYS = Set.of(ABC_SORT, REPLACE_LOCALHOST, USE_HOST_NETWORK, SHOW_OUTLINE_DEMO, ENABLE_FLAG);
     private static final Set<String> LIST_KEYS = Set.of(APPROVED_HOSTNAMES, INSECURE_SSL_HOSTNAMES);
 
     @NotNull
@@ -67,16 +68,17 @@ public class SettingsService implements ISettingsService, Disposable  {
                             setValue(key, (String) DEFAULTS.get(key));
                         }
                     } else if (!isValueSetInIDE(key)) {
-                        System.out.println(">>> DEF: key [" + key + "] = <" + entry.getValue() + ">");
+                        // System.out.println(">>> DEF: key [" + key + "] = <" + entry.getValue() + ">");
                         setPropertyValue(propsComp, passwdSafe, key, entry.getValue());
                     }
                 }
+                propsComp.save();
                 // Load cache
                 for (String key : keys) {
                     Object value = getPropertyValue(propsComp, passwdSafe, key);
                     if (value != null) {
                         cache.put(key, value);
-                        System.out.println(">>> key [" + key + "] = <" + value + ">");
+                        // System.out.println(">>> key [" + key + "] = <" + value + ">");
                     }
                 }
             }
@@ -93,9 +95,10 @@ public class SettingsService implements ISettingsService, Disposable  {
                 updatedKeys.add(key);
                 prevData.put(key, value);
                 setPropertyValue(propertiesComponent, passwordSafe, key, newValue);
-                System.out.println(">>> UPD: key [" + key + "] from <" + value + "> to <" + newValue + ">");
+                // System.out.println(">>> UPD: key [" + key + "] from <" + value + "> to <" + newValue + ">");
             }
         }
+        propertiesComponent.save();
     }
 
     public boolean isValueSetInIDE(@NotNull String key) {
@@ -117,6 +120,7 @@ public class SettingsService implements ISettingsService, Disposable  {
             } else {
                 PropertiesComponent.getInstance().unsetValue(key);
             }
+            PropertiesComponent.getInstance().save();
         }
     }
 
@@ -168,6 +172,7 @@ public class SettingsService implements ISettingsService, Disposable  {
             PasswordSafe.getInstance().set(getCredentialAttrs(key), new Credentials("", value));
         } else {
             PropertiesComponent.getInstance().setValue(key, value);
+            PropertiesComponent.getInstance().save();
         }
     }
 
@@ -176,7 +181,9 @@ public class SettingsService implements ISettingsService, Disposable  {
             throw new IllegalArgumentException("Boolean is unsupported for key: " + key);
         }
         setCacheValue(key, value);
-        PropertiesComponent.getInstance().setValue(key, value);
+        // Method setValue for boolean can unset the property, use direct call for string
+        PropertiesComponent.getInstance().setValue(key, ((Boolean) value).toString());
+        PropertiesComponent.getInstance().save();
     }
 
     public void setList(@NotNull String key, @Nullable List<String> value) {
@@ -189,6 +196,7 @@ public class SettingsService implements ISettingsService, Disposable  {
             setCacheValue(key, value);
         }
         PropertiesComponent.getInstance().setList(key, value);
+        PropertiesComponent.getInstance().save();
     }
 
     public @NotNull List<String> getKeys() {

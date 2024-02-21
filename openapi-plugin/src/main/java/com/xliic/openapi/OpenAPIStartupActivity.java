@@ -1,9 +1,13 @@
 package com.xliic.openapi;
 
+import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.startup.StartupActivity;
+import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.inlined.AnnotationService;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -37,6 +41,11 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         if (PlatformConnection.isPlatformIntegrationEnabled()) {
             PlatformService.getInstance(project).createPlatformWindow(false);
             DictionaryService.getInstance(project).reload(false);
+        }
+        // Show outline demo if needed
+        if (SettingsService.getInstance().getBoolean(SHOW_OUTLINE_DEMO)) {
+            ApplicationManager.getApplication().invokeAndWait(() -> EclipseWorkbenchUtil.openPerspective());
+            SettingsService.getInstance().setValue(SHOW_OUTLINE_DEMO, false);
         }
     }
 }

@@ -28,7 +28,7 @@ public class AbcSortAction extends ToggleAction implements DumbAware {
         super("Sort Alphabetically", "Sort alphabetically", AllIcons.ObjectBrowser.Sorted);
         this.project = project;
         this.panel = panel;
-        abcSort = SettingsService.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
+        abcSort = SettingsService.getInstance().getBoolean(Settings.Outline.ABC_SORT);
     }
 
     @Override

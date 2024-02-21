@@ -196,8 +196,8 @@ public class OpenApiFileTreePanel implements FileListener, SettingsListener, Dis
 
     @Override
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
-        if (keys.contains(Settings.SortOutlines.ABC_SORT) && !project.isDisposed()) {
-            boolean sort = SettingsService.getInstance().getBoolean(Settings.SortOutlines.ABC_SORT);
+        if (keys.contains(Settings.Outline.ABC_SORT) && !project.isDisposed()) {
+            boolean sort = SettingsService.getInstance().getBoolean(Settings.Outline.ABC_SORT);
             sortTree(sort);
         }
     }
