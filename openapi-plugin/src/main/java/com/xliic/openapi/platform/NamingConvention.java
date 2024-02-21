@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class NamingConvention {
 
-    public static final String DEFAULT_API_NAMING_PATTERN = "^[\\\\w _.-]{1,255}$";
+    public static final String DEFAULT_API_NAMING_PATTERN = "^[\\w _.-]{1,255}$";
     public static final String DEFAULT_COLLECTION_NAMING_PATTERN = "^[\\w _.\\/:-]{1,2048}$";
     public static final String TAGS_PATTERN = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
 
