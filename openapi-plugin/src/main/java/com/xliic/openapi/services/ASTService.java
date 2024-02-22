@@ -230,12 +230,17 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         }
         auditService.update(file);
         boolean finalUpdateSchemas = updateSchemas;
-        ApplicationManager.getApplication().invokeLater(() -> {
+        ApplicationManager.getApplication().runReadAction(() -> {
             if (!project.isDisposed()) {
                 PsiFile psiFile = Utils.findPsiFile(project, file);
                 if (psiFile != null) {
                     DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
                 }
+            }
+
+        });
+        ApplicationManager.getApplication().invokeLater(() -> {
+            if (!project.isDisposed()) {
                 if (finalUpdateSchemas) {
                     JsonSchemaService.Impl.get(project).reset();
                 }
