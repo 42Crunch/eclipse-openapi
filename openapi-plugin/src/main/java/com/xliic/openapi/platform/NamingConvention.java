@@ -51,13 +51,15 @@ public class NamingConvention {
     @NotNull
     @SuppressWarnings("unchecked")
     public static NamingConvention restoreFromStringPayload(@NotNull String payload) {
-        Map<String, Object> result = (Map<String, Object>) Utils.deserialize(payload);
-        if (result != null) {
-            String pattern = (String) result.getOrDefault("pattern", "");
-            String description = (String) result.getOrDefault("description", "");
-            String example = (String) result.getOrDefault("example", "");
-            return new NamingConvention(pattern, description, example);
-        }
+    	if (!payload.isEmpty()) {
+	        Map<String, Object> result = (Map<String, Object>) Utils.deserialize(payload);
+	        if (result != null) {
+	            String pattern = (String) result.getOrDefault("pattern", "");
+	            String description = (String) result.getOrDefault("description", "");
+	            String example = (String) result.getOrDefault("example", "");
+	            return new NamingConvention(pattern, description, example);
+	        }
+    	}
         return new NamingConvention();
     }
 

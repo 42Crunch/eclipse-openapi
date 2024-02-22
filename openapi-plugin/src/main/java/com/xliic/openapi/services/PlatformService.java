@@ -52,6 +52,7 @@ import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.report.types.AuditBuilder;
 import com.xliic.openapi.report.types.AuditDisplayOptions;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
@@ -216,6 +217,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
+                SettingsService.getInstance().unsetValue(Settings.Platform.COLLECTION_NAMING_CONVENTION);
                 EclipseUtil.removeTempProject();
             }
         }
