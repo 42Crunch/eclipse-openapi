@@ -1,9 +1,10 @@
 package com.xliic.openapi.webapp;
 
-import com.xliic.openapi.parser.ast.node.Node;
+import java.util.Objects;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class WebAppColor {
 

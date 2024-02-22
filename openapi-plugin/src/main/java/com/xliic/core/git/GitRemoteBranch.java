@@ -1,8 +1,8 @@
 package com.xliic.core.git;
 
-import java.util.Set;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.lib.Config;
 import org.jetbrains.annotations.NotNull;

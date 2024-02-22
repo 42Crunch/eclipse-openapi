@@ -1,5 +1,9 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
+
+import java.util.List;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,9 +26,6 @@ import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
-import java.util.List;
-
-import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
 
 public class PlatformImportAPIAction extends AnJAction implements DumbAware {
 

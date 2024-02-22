@@ -1,12 +1,13 @@
 package com.xliic.openapi.tryit.payload;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
+import java.util.Map;
+import java.util.Objects;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-import java.util.Objects;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class TryItRequestBodyJson extends TryItRequest {
 

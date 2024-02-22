@@ -1,9 +1,9 @@
 package com.xliic.openapi.webapp.editor;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
 import com.xliic.openapi.ToolWindowId;
-
-import org.jetbrains.annotations.NotNull;
 
 public class WebVirtualFile {
 

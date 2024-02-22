@@ -1,12 +1,18 @@
 package com.xliic.openapi.platform.dictionary.jcef.messages;
 
-import com.xliic.openapi.platform.dictionary.types.DataDictionary;
-import com.xliic.openapi.platform.dictionary.types.DataFormat;
-import com.xliic.openapi.webapp.messages.WebAppConsume;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import com.xliic.openapi.platform.dictionary.types.DataDictionary;
+import com.xliic.openapi.platform.dictionary.types.DataFormat;
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class ShowDictionary extends WebAppConsume {
 

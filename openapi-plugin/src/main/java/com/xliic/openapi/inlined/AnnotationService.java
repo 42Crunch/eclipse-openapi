@@ -24,6 +24,7 @@ import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Operation;
 import com.xliic.openapi.async.AsyncTaskType;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
@@ -32,7 +33,6 @@ import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.payload.TryItOperation;
-import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 
 public final class AnnotationService implements IAnnotationService, FileListener, SettingsListener, Disposable {
 

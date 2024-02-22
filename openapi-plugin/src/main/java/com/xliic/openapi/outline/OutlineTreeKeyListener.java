@@ -8,8 +8,8 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.KeyAdapter;
 import com.xliic.core.ui.treeStructure.KeyEvent;
 import com.xliic.core.ui.treeStructure.Tree;
-import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class OutlineTreeKeyListener extends KeyAdapter {
 

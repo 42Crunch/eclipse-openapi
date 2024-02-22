@@ -1,15 +1,16 @@
 package com.xliic.openapi.settings;
 
-import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
+import static com.xliic.openapi.platform.scan.ScanUtils.COLLECTION_TEMP_NAME;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.xliic.openapi.platform.scan.ScanUtils.COLLECTION_TEMP_NAME;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.utils.Utils;
 
 public class Settings {
 

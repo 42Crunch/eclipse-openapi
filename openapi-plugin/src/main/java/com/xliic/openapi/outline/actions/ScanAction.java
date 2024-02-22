@@ -1,5 +1,7 @@
 package com.xliic.openapi.outline.actions;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
@@ -10,8 +12,8 @@ import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.platform.scan.config.ScanConfService;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.services.BundleService;
+
 import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
 
 public class ScanAction extends AnJAction implements DumbAware {
 

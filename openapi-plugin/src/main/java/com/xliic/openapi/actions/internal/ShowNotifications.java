@@ -1,5 +1,8 @@
 package com.xliic.openapi.actions.internal;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
@@ -8,9 +11,6 @@ import com.xliic.core.notification.NotificationType;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.utils.MsgUtils;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.jetbrains.annotations.NotNull;
 
 public class ShowNotifications extends AnAction implements DumbAware {
 

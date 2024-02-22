@@ -1,5 +1,8 @@
 package com.xliic.openapi.config.jcef.messages;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.cli.CliService;
@@ -8,8 +11,6 @@ import com.xliic.openapi.config.payload.Progress;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class CliDownload extends WebAppProduce {
 

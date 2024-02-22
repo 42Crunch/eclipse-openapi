@@ -1,5 +1,10 @@
 package com.xliic.openapi.outline.actions;
 
+import static com.xliic.openapi.settings.Credentials.getCredentialsType;
+import static com.xliic.openapi.settings.Credentials.hasCredentialsType;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
@@ -12,11 +17,8 @@ import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.wizard.WizardCallback;
-import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
 
-import static com.xliic.openapi.settings.Credentials.getCredentialsType;
-import static com.xliic.openapi.settings.Credentials.hasCredentialsType;
+import icons.OpenApiIcons;
 
 public class AuditAction extends AnJAction implements DumbAware {
 

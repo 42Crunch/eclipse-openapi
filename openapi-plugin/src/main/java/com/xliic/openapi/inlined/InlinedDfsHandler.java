@@ -1,11 +1,10 @@
 package com.xliic.openapi.inlined;
 
 import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_DOCKER;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
-
 import static com.xliic.openapi.platform.PlatformConnection.isPlatformIntegrationEnabled;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_DOCKER;
 
 import java.io.File;
 import java.util.LinkedList;

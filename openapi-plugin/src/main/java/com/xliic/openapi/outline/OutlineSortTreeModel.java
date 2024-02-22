@@ -14,9 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.ui.treeStructure.DefaultTreeModel;
 import com.xliic.openapi.outline.dmtn.DMTNAlphabeticalComparator;
 import com.xliic.openapi.outline.dmtn.DMTNNaturalComparator;
+import com.xliic.openapi.outline.node.RootNode;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.outline.node.RootNode;
 
 public class OutlineSortTreeModel extends DefaultTreeModel {
 

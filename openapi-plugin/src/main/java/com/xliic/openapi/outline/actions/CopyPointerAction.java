@@ -1,13 +1,13 @@
 package com.xliic.openapi.outline.actions;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.icons.AllIcons;
 import com.xliic.core.project.DumbAware;
 import com.xliic.openapi.utils.Utils;
-
-import org.jetbrains.annotations.NotNull;
 
 public class CopyPointerAction extends AnJAction implements DumbAware {
 

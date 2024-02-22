@@ -1,12 +1,13 @@
 package com.xliic.openapi.config.jcef.messages;
 
-import com.xliic.openapi.config.payload.Progress;
-import com.xliic.openapi.webapp.messages.WebAppConsume;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.xliic.openapi.config.payload.Progress;
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class ShowCliDownload extends WebAppConsume {
 

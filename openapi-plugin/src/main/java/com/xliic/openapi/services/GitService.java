@@ -1,5 +1,20 @@
 package com.xliic.openapi.services;
 
+import static com.xliic.openapi.settings.Settings.Platform.TURNED_OFF;
+import static com.xliic.openapi.settings.Settings.Platform.TURNED_ON;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.swing.SwingUtilities;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.git.GitLocalBranch;
 import com.xliic.core.git.GitRemoteBranch;
@@ -14,14 +29,6 @@ import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.topic.SettingsListener;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.util.*;
-
-import static com.xliic.openapi.settings.Settings.Platform.TURNED_OFF;
-import static com.xliic.openapi.settings.Settings.Platform.TURNED_ON;
 
 public final class GitService implements IGitService, Disposable, GitRepositoryChangeListener, SettingsListener {
 

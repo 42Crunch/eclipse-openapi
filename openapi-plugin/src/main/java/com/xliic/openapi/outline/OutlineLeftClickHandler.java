@@ -14,9 +14,9 @@ import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.outline.node.BaseNode;
 import com.xliic.openapi.outline.ui.OutlinePanel;
+import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.utils.Utils;
 
 public class OutlineLeftClickHandler {

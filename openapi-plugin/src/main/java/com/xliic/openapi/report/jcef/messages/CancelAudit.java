@@ -1,7 +1,8 @@
 package com.xliic.openapi.report.jcef.messages;
 
-import com.xliic.openapi.webapp.messages.WebAppConsume;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class CancelAudit extends WebAppConsume {
 

@@ -1,11 +1,12 @@
 package com.xliic.openapi.webapp.messages;
 
-import com.xliic.openapi.webapp.WebAppFunction;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.webapp.WebAppFunction;
 
 public class WebAppRateThread extends Thread {
 

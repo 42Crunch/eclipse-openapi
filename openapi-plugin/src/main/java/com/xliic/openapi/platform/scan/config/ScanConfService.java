@@ -1,5 +1,12 @@
 package com.xliic.openapi.platform.scan.config;
 
+import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
+import static com.xliic.openapi.utils.Utils.turnOffVcsShowConfirmation;
+import static com.xliic.openapi.utils.Utils.turnOnVcsShowConfirmation;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
@@ -20,13 +27,10 @@ import com.xliic.openapi.preferences.PrefsService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.utils.*;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
-import static com.xliic.openapi.utils.Utils.turnOffVcsShowConfirmation;
-import static com.xliic.openapi.utils.Utils.turnOnVcsShowConfirmation;
+import com.xliic.openapi.utils.FileUtils;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.utils.WindowUtils;
 
 public final class ScanConfService implements IScanConfService, Disposable {
 

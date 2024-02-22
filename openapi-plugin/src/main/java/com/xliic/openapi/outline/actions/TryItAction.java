@@ -1,5 +1,7 @@
 package com.xliic.openapi.outline.actions;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
@@ -10,8 +12,8 @@ import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.TryItService;
 import com.xliic.openapi.tryit.payload.TryItOperation;
+
 import icons.OpenApiIcons;
-import org.jetbrains.annotations.NotNull;
 
 public class TryItAction extends AnJAction implements DumbAware {
 

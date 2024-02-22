@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
+
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -27,8 +29,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-
-import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
 
 public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAware {
 

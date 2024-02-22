@@ -1,26 +1,29 @@
 package com.xliic.openapi.platform.scan.config.task;
 
-import com.xliic.core.progress.ProgressIndicator;
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.bundler.BundleResult;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
-import com.xliic.openapi.report.AuditCliResult;
-import com.xliic.openapi.cli.CliUtils;
-import com.xliic.openapi.utils.ExecUtils;
-import com.xliic.openapi.utils.FileUtils;
-import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
+import static com.xliic.openapi.utils.FileUtils.removeDir;
+import static com.xliic.openapi.utils.FileUtils.removeFile;
+import static com.xliic.openapi.utils.FileUtils.writeFile;
+import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Objects;
 
-import static com.xliic.openapi.utils.FileUtils.*;
-import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.bundler.BundleResult;
+import com.xliic.openapi.cli.CliUtils;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
+import com.xliic.openapi.report.AuditCliResult;
+import com.xliic.openapi.utils.ExecUtils;
+import com.xliic.openapi.utils.FileUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class ScanCliConfTask extends ScanConfTask {
 

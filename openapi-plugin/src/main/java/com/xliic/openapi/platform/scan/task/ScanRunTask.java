@@ -1,24 +1,28 @@
 package com.xliic.openapi.platform.scan.task;
 
+import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.config.payload.PlatformServices;
 import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.environment.Environment;
-import com.xliic.openapi.platform.scan.*;
+import com.xliic.openapi.platform.scan.ScanConfiguration;
+import com.xliic.openapi.platform.scan.ScanGeneralError;
+import com.xliic.openapi.platform.scan.ScanLogger;
+import com.xliic.openapi.platform.scan.ScanRunConfig;
+import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.Utils;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
 
 public abstract class ScanRunTask extends Task.Backgroundable {
 

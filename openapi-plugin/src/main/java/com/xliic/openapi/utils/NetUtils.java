@@ -1,11 +1,11 @@
 package com.xliic.openapi.utils;
 
-import java.io.OutputStream;
-import java.io.FileOutputStream;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -26,11 +26,11 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.AuditAPIs;
 
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 public class NetUtils {
 	

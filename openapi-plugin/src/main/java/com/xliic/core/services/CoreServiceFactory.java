@@ -14,16 +14,16 @@ import com.xliic.openapi.preferences.PrefsService;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.services.ExtRefService;
 import com.xliic.openapi.services.GitService;
 import com.xliic.openapi.services.PlaceHolderService;
+import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.PreviewService;
 import com.xliic.openapi.services.QuickFixService;
-import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.services.PlatformService;
-import com.xliic.openapi.services.DictionaryService;
-import com.xliic.openapi.services.TryItService;
 import com.xliic.openapi.services.TerminalService;
+import com.xliic.openapi.services.TryItService;
+import com.xliic.openapi.settings.SettingsService;
 
 public class CoreServiceFactory extends AbstractServiceFactory {
 	

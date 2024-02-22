@@ -1,10 +1,11 @@
 package com.xliic.openapi.outline.node;
 
-import com.xliic.openapi.parser.ast.node.Node;
+import static com.xliic.openapi.parser.ast.ParserAST.escape;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.xliic.openapi.parser.ast.ParserAST.escape;
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class TagNode extends BaseNode {
 

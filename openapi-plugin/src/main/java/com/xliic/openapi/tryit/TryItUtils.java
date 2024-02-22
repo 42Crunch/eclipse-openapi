@@ -19,9 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.actionSystem.DefaultActionGroup;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.bundler.BundleResult;
+import com.xliic.openapi.outline.actions.TryItAction;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.tryit.payload.TryItOperation;
-import com.xliic.openapi.outline.actions.TryItAction;
 
 public class TryItUtils {
 

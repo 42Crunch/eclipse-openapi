@@ -1,8 +1,9 @@
 package com.xliic.openapi.platform.scan.config.payload;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.Operation;
-import org.jetbrains.annotations.NotNull;
 
 public class ScanConfOperation extends Operation {
 

@@ -1,9 +1,10 @@
 package com.xliic.openapi.tryit.jcef.messages;
 
-import com.xliic.openapi.tryit.payload.TryItResponse;
-import com.xliic.openapi.webapp.messages.WebAppConsume;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.tryit.payload.TryItResponse;
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class ShowHttpResponse extends WebAppConsume {
 

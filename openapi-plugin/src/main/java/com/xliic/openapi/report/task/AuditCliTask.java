@@ -1,10 +1,20 @@
 package com.xliic.openapi.report.task;
 
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT_CLI;
+import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
+import static com.xliic.openapi.utils.MsgUtils.notifyLimit;
+
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
+import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.report.AuditCliResult;
@@ -13,16 +23,7 @@ import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
-
-import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT_CLI;
-import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
-import static com.xliic.openapi.utils.MsgUtils.notifyLimit;
 
 public class AuditCliTask extends Task.Backgroundable {
 

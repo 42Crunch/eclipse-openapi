@@ -1,14 +1,15 @@
 package com.xliic.openapi.tryit.payload;
 
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 
 public class TryItRequestBodyForm extends TryItRequest {
 

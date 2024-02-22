@@ -1,9 +1,11 @@
 package com.xliic.openapi.outline.node;
 
+import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS;
+import static com.xliic.openapi.OpenApiPanelKeys.OPERATION_ID;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.parser.ast.node.Node;
-import static com.xliic.openapi.OpenApiPanelKeys.*;
 
 public class SimpleNode extends BaseNode {
 

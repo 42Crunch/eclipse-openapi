@@ -1,21 +1,21 @@
 package com.xliic.openapi.config.payload;
 
+import static com.xliic.openapi.platform.scan.ScanUtils.COLLECTION_TEMP_NAME;
+
 import java.util.HashMap;
-import java.util.Map;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.platform.NamingConvention;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
-
-import static com.xliic.openapi.platform.scan.ScanUtils.COLLECTION_TEMP_NAME;
 
 public class Config {
 

@@ -1,5 +1,9 @@
 package com.xliic.core.git;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -7,21 +11,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jgit.lib.RepositoryBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
-
-import org.jetbrains.annotations.NotNull;
 
 public class GitRepositoryManager implements Runnable {
 	

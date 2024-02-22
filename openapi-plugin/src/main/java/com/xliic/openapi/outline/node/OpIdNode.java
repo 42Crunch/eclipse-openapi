@@ -1,11 +1,12 @@
 package com.xliic.openapi.outline.node;
 
-import com.xliic.openapi.parser.ast.node.Node;
-import org.jetbrains.annotations.NotNull;
+import static com.xliic.openapi.parser.ast.ParserAST.escape;
 
 import java.util.Objects;
 
-import static com.xliic.openapi.parser.ast.ParserAST.escape;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class OpIdNode extends SimpleNode {
 

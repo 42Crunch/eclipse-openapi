@@ -1,13 +1,14 @@
 package com.xliic.openapi.tryit.payload;
 
-import okhttp3.RequestBody;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import okhttp3.RequestBody;
 
 public abstract class TryItRequest {
 

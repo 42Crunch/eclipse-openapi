@@ -9,10 +9,10 @@ import com.xliic.core.icons.AllIcons;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.outline.ui.OutlinePanel;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.outline.ui.OutlinePanel;
 import com.xliic.openapi.utils.Utils;
 
 

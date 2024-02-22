@@ -33,20 +33,20 @@ import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.outline.OutlineMouseMotionListener;
-import com.xliic.openapi.outline.OutlineTreeKeyListener;
-import com.xliic.openapi.outline.OutlineTreeCellRenderer;
 import com.xliic.openapi.outline.OutlineMouseAdapter;
+import com.xliic.openapi.outline.OutlineMouseMotionListener;
 import com.xliic.openapi.outline.OutlineSortTreeModel;
+import com.xliic.openapi.outline.OutlineTreeCellRenderer;
+import com.xliic.openapi.outline.OutlineTreeKeyListener;
+import com.xliic.openapi.outline.actions.AbcSortAction;
 import com.xliic.openapi.outline.dmtn.DMTNConverter;
+import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.outline.node.RootNode;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
-import com.xliic.openapi.outline.actions.AbcSortAction;
-import com.xliic.openapi.outline.node.BaseNode;
-import com.xliic.openapi.outline.node.RootNode;
 
 // We have to extend from JPanel to be able to register the whole stuff below as tool window component
 // By doing so we will be able to access all necessary content from anywhere through ToolWindowManager

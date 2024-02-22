@@ -1,19 +1,19 @@
 package com.xliic.openapi.config.jcef.messages;
 
-import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.project.Project;
-import com.xliic.openapi.cli.CliService;
-import com.xliic.openapi.config.ConfigListener;
-import com.xliic.openapi.cli.CliUtils;
-import com.xliic.openapi.utils.ExecUtils;
-import com.xliic.openapi.utils.FileUtils;
-import com.xliic.openapi.webapp.messages.WebAppProduce;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.project.Project;
+import com.xliic.openapi.cli.CliService;
+import com.xliic.openapi.cli.CliUtils;
+import com.xliic.openapi.config.ConfigListener;
+import com.xliic.openapi.utils.ExecUtils;
+import com.xliic.openapi.utils.FileUtils;
+import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public class CliTest extends WebAppProduce {
 

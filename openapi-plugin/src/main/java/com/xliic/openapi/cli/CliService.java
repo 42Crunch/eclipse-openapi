@@ -1,5 +1,13 @@
 package com.xliic.openapi.cli;
 
+import static com.xliic.openapi.cli.CliUtils.getCliAstPlatform;
+import static com.xliic.openapi.settings.Settings.CliAst.REPOSITORY;
+
+import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.progress.ProgressIndicator;
@@ -14,13 +22,6 @@ import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Date;
-
-import static com.xliic.openapi.cli.CliUtils.getCliAstPlatform;
-import static com.xliic.openapi.settings.Settings.CliAst.REPOSITORY;
 
 public class CliService implements ICliService, Disposable {
 

@@ -1,5 +1,14 @@
 package com.xliic.openapi.report.task;
 
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
+import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
+import static com.xliic.openapi.utils.Utils.getStatus;
+
+import java.io.IOException;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -15,15 +24,8 @@ import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.NetUtils;
+
 import okhttp3.Response;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.IOException;
-
-import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
-import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
-import static com.xliic.openapi.utils.Utils.getStatus;
 
 public class AuditAnonTask extends Task.Backgroundable {
 

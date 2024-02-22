@@ -1,34 +1,42 @@
 package com.xliic.openapi.settings;
 
+import static com.xliic.openapi.settings.Settings.DEFAULTS;
+import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOSTNAMES;
+import static com.xliic.openapi.settings.Settings.InlinedAnnotations.ENABLE_FLAG;
+import static com.xliic.openapi.settings.Settings.Outline.ABC_SORT;
+import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
+import static com.xliic.openapi.settings.Settings.Platform.TURNED_OFF;
+import static com.xliic.openapi.settings.Settings.Platform.TURNED_ON;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.ENV_SECRETS_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.HEADER;
+import static com.xliic.openapi.settings.Settings.TryIt.INSECURE_SSL_HOSTNAMES;
+
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.Disposable;
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.credentialStore.CredentialAttributes;
 import com.xliic.core.credentialStore.CredentialAttributesKt;
 import com.xliic.core.credentialStore.Credentials;
 import com.xliic.core.ide.passwordSafe.PasswordSafe;
 import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.services.ISettingsService;
-import com.xliic.core.Disposable;
-import com.xliic.core.application.ApplicationManager;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static com.xliic.openapi.settings.Settings.DEFAULTS;
-import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOSTNAMES;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.ENV_SECRETS_KEY;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.HEADER;
-import static com.xliic.openapi.settings.Settings.Platform.TURNED_OFF;
-import static com.xliic.openapi.settings.Settings.Platform.TURNED_ON;
-import static com.xliic.openapi.settings.Settings.Outline.ABC_SORT;
-import static com.xliic.openapi.settings.Settings.TryIt.INSECURE_SSL_HOSTNAMES;
-import static com.xliic.openapi.settings.Settings.InlinedAnnotations.ENABLE_FLAG;
-import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
 
 public class SettingsService implements ISettingsService, Disposable  {
 

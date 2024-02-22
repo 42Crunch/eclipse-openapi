@@ -1,7 +1,7 @@
 package com.xliic.openapi.quickfix.actions;
 
-import java.util.Set;
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 

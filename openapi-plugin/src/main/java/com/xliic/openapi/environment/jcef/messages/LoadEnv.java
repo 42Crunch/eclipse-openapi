@@ -1,9 +1,10 @@
 package com.xliic.openapi.environment.jcef.messages;
 
-import com.xliic.openapi.environment.Environment;
-import com.xliic.openapi.webapp.messages.WebAppConsume;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.environment.Environment;
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class LoadEnv extends WebAppConsume {
 

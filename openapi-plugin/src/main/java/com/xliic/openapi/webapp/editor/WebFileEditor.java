@@ -1,10 +1,10 @@
 package com.xliic.openapi.webapp.editor;
 
-import com.xliic.core.project.Project;
-import com.xliic.openapi.webapp.WebApp;
-
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.project.Project;
+import com.xliic.openapi.webapp.WebApp;
 
 public abstract class WebFileEditor extends WebApp {
 

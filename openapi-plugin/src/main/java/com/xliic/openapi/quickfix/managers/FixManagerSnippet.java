@@ -15,6 +15,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.xliic.core.psi.PsiFile;
+import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.outline.node.SimpleNode;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.parser.replace.ReplaceManager;
@@ -24,8 +26,6 @@ import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.services.ASTService;
-import com.xliic.openapi.outline.node.BaseNode;
-import com.xliic.openapi.outline.node.SimpleNode;
 
 @SuppressWarnings("deprecation")
 public class FixManagerSnippet extends FixManager {

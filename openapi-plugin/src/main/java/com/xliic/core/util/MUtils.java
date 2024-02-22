@@ -1,7 +1,7 @@
 package com.xliic.core.util;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;

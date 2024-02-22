@@ -1,8 +1,8 @@
 package com.xliic.openapi.cli;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
 
 public class CliAstManifestEntry {
 
