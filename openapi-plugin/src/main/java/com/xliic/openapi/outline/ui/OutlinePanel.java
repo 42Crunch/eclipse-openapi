@@ -47,6 +47,7 @@ import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.utils.Utils;
 
 // We have to extend from JPanel to be able to register the whole stuff below as tool window component
 // By doing so we will be able to access all necessary content from anywhere through ToolWindowManager
@@ -60,7 +61,7 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
     private final ToolWindow toolWindow;
     private final OutlineMouseMotionListener mouseMotionListener;
     private final DMTNConverter converter;
-    private Tree tree;
+    private final Tree tree;
     private String modelFileName = null;
     private final Map<String, List<String>> expandedPointers = new HashMap<>();
 
@@ -92,6 +93,11 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
 
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
+
+        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
+        if (file != null) {
+            handleSelectedFile(file);
+        }
     }
 
     public Project getProject() {
