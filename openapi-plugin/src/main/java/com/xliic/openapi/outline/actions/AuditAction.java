@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree.actions;
+package com.xliic.openapi.outline.actions;
 
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;

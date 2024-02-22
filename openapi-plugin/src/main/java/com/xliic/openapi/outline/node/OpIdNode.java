@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree.node;
+package com.xliic.openapi.outline.node;
 
 import com.xliic.openapi.parser.ast.node.Node;
 import org.jetbrains.annotations.NotNull;

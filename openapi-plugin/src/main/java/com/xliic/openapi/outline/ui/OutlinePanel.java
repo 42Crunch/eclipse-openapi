@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree.ui;
+package com.xliic.openapi.outline.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,24 +33,24 @@ import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.OpenApiBundle;
-import com.xliic.openapi.parser.dmtn.DMTNConverter;
+import com.xliic.openapi.outline.OutlineMouseMotionListener;
+import com.xliic.openapi.outline.OutlineTreeKeyListener;
+import com.xliic.openapi.outline.OutlineTreeCellRenderer;
+import com.xliic.openapi.outline.OutlineMouseAdapter;
+import com.xliic.openapi.outline.OutlineSortTreeModel;
+import com.xliic.openapi.outline.dmtn.DMTNConverter;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
-import com.xliic.openapi.tree.actions.AbcSortAction;
-import com.xliic.openapi.tree.OpenAPIMouseMotionListener;
-import com.xliic.openapi.tree.OpenAPITreeKeyListener;
-import com.xliic.openapi.tree.OpenApiColoredTreeCellRenderer;
-import com.xliic.openapi.tree.OpenApiMouseAdapter;
-import com.xliic.openapi.tree.SortTreeModel;
-import com.xliic.openapi.tree.node.BaseNode;
-import com.xliic.openapi.tree.node.RootNode;
+import com.xliic.openapi.outline.actions.AbcSortAction;
+import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.outline.node.RootNode;
 
 // We have to extend from JPanel to be able to register the whole stuff below as tool window component
 // By doing so we will be able to access all necessary content from anywhere through ToolWindowManager
-public class OpenApiFileTreePanel implements FileListener, SettingsListener, Disposable {
+public class OutlinePanel implements FileListener, SettingsListener, Disposable {
 
     private static final String SHOW_PROPERTY_KEY = "openapi.show.key";
     private static final Color ERROR_BACKGROUND = new JBColor(0xFFF2F2F2, 0x808080);
@@ -58,24 +58,24 @@ public class OpenApiFileTreePanel implements FileListener, SettingsListener, Dis
 
     private final Project project;
     private final ToolWindow toolWindow;
-    private final OpenAPIMouseMotionListener mouseMotionListener;
+    private final OutlineMouseMotionListener mouseMotionListener;
     private final DMTNConverter converter;
     private Tree tree;
     private String modelFileName = null;
     private final Map<String, List<String>> expandedPointers = new HashMap<>();
 
-    public OpenApiFileTreePanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
+    public OutlinePanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
 
         tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
         this.project = project;
         this.toolWindow = toolWindow;
         tree.setRootVisible(false);
-        tree.setModel(new SortTreeModel(tree.getViewer(), new DefaultMutableTreeNode(), false));
-        tree.setCellRenderer(new OpenApiColoredTreeCellRenderer());
-        tree.addMouseListener(new OpenApiMouseAdapter(this));
-        mouseMotionListener = new OpenAPIMouseMotionListener(project, tree);
+        tree.setModel(new OutlineSortTreeModel(tree.getViewer(), new DefaultMutableTreeNode(), false));
+        tree.setCellRenderer(new OutlineTreeCellRenderer());
+        tree.addMouseListener(new OutlineMouseAdapter(this));
+        mouseMotionListener = new OutlineMouseMotionListener(project, tree);
         tree.addMouseMotionListener(mouseMotionListener);
-        tree.addKeyListener(new OpenAPITreeKeyListener(project, tree));
+        tree.addKeyListener(new OutlineTreeKeyListener(project, tree));
         tree.setOpaque(true);
 
         converter = new DMTNConverter();
@@ -243,7 +243,7 @@ public class OpenApiFileTreePanel implements FileListener, SettingsListener, Dis
     }
 
     public void sortTree(boolean sort) {
-        SortTreeModel model = (SortTreeModel) getTree().getModel();
+        OutlineSortTreeModel model = (OutlineSortTreeModel) getTree().getModel();
         model.setSortABC(sort);
         List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
         model.reload(false);

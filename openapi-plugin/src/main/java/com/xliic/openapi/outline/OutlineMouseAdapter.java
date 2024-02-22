@@ -1,23 +1,23 @@
-package com.xliic.openapi.tree;
+package com.xliic.openapi.outline;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.treeStructure.MouseAdapter;
 import com.xliic.core.ui.treeStructure.MouseEvent;
-import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
+import com.xliic.openapi.outline.ui.OutlinePanel;
 
-public class OpenApiMouseAdapter extends MouseAdapter {
+public class OutlineMouseAdapter extends MouseAdapter {
 
-    private final OpenApiLeftMouseClickHandler leftMouseClickHandler;
-    private final OpenApiRightMouseClickHandler rightMouseClickHandler;
+    private final OutlineLeftClickHandler leftMouseClickHandler;
+    private final OutlineRightClickHandler rightMouseClickHandler;
 
-    public OpenApiMouseAdapter(@NotNull OpenApiFileTreePanel panel) {
+    public OutlineMouseAdapter(@NotNull OutlinePanel panel) {
         // Eclipse Development Note
         // Set false as not interested in double clicks
         // It will speed up single click handling process
         super(false);
-        leftMouseClickHandler = new OpenApiLeftMouseClickHandler(panel);
-        rightMouseClickHandler = new OpenApiRightMouseClickHandler(panel);
+        leftMouseClickHandler = new OutlineLeftClickHandler(panel);
+        rightMouseClickHandler = new OutlineRightClickHandler(panel);
     }
 
     @Override

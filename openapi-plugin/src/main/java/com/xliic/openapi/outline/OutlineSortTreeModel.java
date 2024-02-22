@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree;
+package com.xliic.openapi.outline;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,20 +12,20 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.treeStructure.DefaultTreeModel;
-import com.xliic.openapi.parser.dmtn.DMTNAlphabeticalComparator;
-import com.xliic.openapi.parser.dmtn.DMTNNaturalComparator;
+import com.xliic.openapi.outline.dmtn.DMTNAlphabeticalComparator;
+import com.xliic.openapi.outline.dmtn.DMTNNaturalComparator;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.tree.node.RootNode;
+import com.xliic.openapi.outline.node.RootNode;
 
-public class SortTreeModel extends DefaultTreeModel {
+public class OutlineSortTreeModel extends DefaultTreeModel {
 
     private static final DMTNNaturalComparator naturalComparator = new DMTNNaturalComparator();
     private static final DMTNAlphabeticalComparator alphabeticalComparator = new DMTNAlphabeticalComparator();
 
     private Comparator<TreeNode> comparator;
 
-    public SortTreeModel(@NotNull TreeViewer viewer, @NotNull TreeNode root, boolean asksAllowsChildren) {
+    public OutlineSortTreeModel(@NotNull TreeViewer viewer, @NotNull TreeNode root, boolean asksAllowsChildren) {
         super(viewer, root, asksAllowsChildren);
         boolean sortABC = SettingsService.getInstance().getBoolean(Settings.Outline.ABC_SORT);
         comparator = getComparator(sortABC);

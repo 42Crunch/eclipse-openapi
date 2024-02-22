@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree.actions;
+package com.xliic.openapi.outline.actions;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,7 +12,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
+import com.xliic.openapi.outline.ui.OutlinePanel;
 import com.xliic.openapi.utils.Utils;
 
 
@@ -21,10 +21,10 @@ public class AbcSortAction extends ToggleAction implements DumbAware {
     @NotNull
     private final Project project;
     @NotNull
-    private final OpenApiFileTreePanel panel;
+    private final OutlinePanel panel;
     private boolean abcSort;
 
-    public AbcSortAction(@NotNull Project project, @NotNull OpenApiFileTreePanel panel) {
+    public AbcSortAction(@NotNull Project project, @NotNull OutlinePanel panel) {
         super("Sort Alphabetically", "Sort alphabetically", AllIcons.ObjectBrowser.Sorted);
         this.project = project;
         this.panel = panel;

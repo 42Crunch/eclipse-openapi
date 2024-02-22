@@ -24,8 +24,8 @@ import com.xliic.openapi.quickfix.FixParameter;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.editor.PlaceHolder;
 import com.xliic.openapi.services.ASTService;
-import com.xliic.openapi.tree.node.BaseNode;
-import com.xliic.openapi.tree.node.SimpleNode;
+import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.outline.node.SimpleNode;
 
 @SuppressWarnings("deprecation")
 public class FixManagerSnippet extends FixManager {

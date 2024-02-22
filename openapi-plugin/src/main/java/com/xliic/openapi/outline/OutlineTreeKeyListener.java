@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree;
+package com.xliic.openapi.outline;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -9,14 +9,14 @@ import com.xliic.core.ui.treeStructure.KeyAdapter;
 import com.xliic.core.ui.treeStructure.KeyEvent;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.tree.node.BaseNode;
+import com.xliic.openapi.outline.node.BaseNode;
 
-public class OpenAPITreeKeyListener extends KeyAdapter {
+public class OutlineTreeKeyListener extends KeyAdapter {
 
     private final Tree tree;
     private final Project project;
 
-    public OpenAPITreeKeyListener(@NotNull Project project, @NotNull Tree tree) {
+    public OutlineTreeKeyListener(@NotNull Project project, @NotNull Tree tree) {
         this.project = project;
         this.tree = tree;
     }
@@ -33,7 +33,7 @@ public class OpenAPITreeKeyListener extends KeyAdapter {
                 if (obj instanceof BaseNode) {
                     Node node = ((BaseNode) obj).getNode();
                     if (node != null) {
-                        OpenApiLeftMouseClickHandler.moveToSelectedNodeInEditor(project, tree);
+                        OutlineLeftClickHandler.moveToSelectedNodeInEditor(project, tree);
                     }
                 }
             }

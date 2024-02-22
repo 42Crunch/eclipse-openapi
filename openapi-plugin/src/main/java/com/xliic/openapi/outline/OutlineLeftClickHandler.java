@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree;
+package com.xliic.openapi.outline;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -15,15 +15,15 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.Range;
-import com.xliic.openapi.tree.node.BaseNode;
-import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
+import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.outline.ui.OutlinePanel;
 import com.xliic.openapi.utils.Utils;
 
-public class OpenApiLeftMouseClickHandler {
+public class OutlineLeftClickHandler {
 
-    private final OpenApiFileTreePanel panel;
+    private final OutlinePanel panel;
 
-    public OpenApiLeftMouseClickHandler(@NotNull OpenApiFileTreePanel panel) {
+    public OutlineLeftClickHandler(@NotNull OutlinePanel panel) {
         this.panel = panel;
     }
 

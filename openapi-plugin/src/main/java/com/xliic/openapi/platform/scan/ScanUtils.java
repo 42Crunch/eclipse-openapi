@@ -42,7 +42,7 @@ import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.NetUtils;
-import com.xliic.openapi.tree.actions.ScanAction;
+import com.xliic.openapi.outline.actions.ScanAction;
 
 import okhttp3.Response;
 

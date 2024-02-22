@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree.ui;
+package com.xliic.openapi.outline.ui;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
@@ -11,9 +11,9 @@ import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.utils.Utils;
 
-public class OpenAPIFileTreePanelView extends PanelViewPart {
+public class OutlinePanelView extends PanelViewPart {
 
-    public OpenAPIFileTreePanelView() {
+    public OutlinePanelView() {
         super(ToolWindowId.OPEN_API);
     }
 
@@ -22,14 +22,14 @@ public class OpenAPIFileTreePanelView extends PanelViewPart {
                                      @NotNull ToolWindow window,
                                      @NotNull Composite parent,
                                      @NotNull ViewPartHandler handler) {
-        return new OpenApiFileTreePanel(project, window, parent);
+        return new OutlinePanel(project, window, parent);
     }
 
     @Override
     public void onViewPartBroughtToTop() {
         VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file != null) {
-            ((OpenApiFileTreePanel) panel).handleSelectedFile(file);
+            ((OutlinePanel) panel).handleSelectedFile(file);
         }
     }
 }

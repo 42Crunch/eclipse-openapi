@@ -1,4 +1,4 @@
-package com.xliic.openapi.parser.dmtn;
+package com.xliic.openapi.outline.dmtn;
 
 import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS;
 import static com.xliic.openapi.OpenApiPanelKeys.DEFINITIONS;
@@ -19,7 +19,7 @@ import static com.xliic.openapi.OpenApiPanelKeys.SERVERS;
 import static com.xliic.openapi.OpenApiPanelKeys.URL_KEY;
 import static com.xliic.openapi.OpenApiPanelKeys.V2_PANEL_KEYS;
 import static com.xliic.openapi.OpenApiPanelKeys.V3_PANEL_KEYS;
-import static com.xliic.openapi.tree.node.BaseNode.getPanelName;
+import static com.xliic.openapi.outline.node.BaseNode.getPanelName;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,13 +32,13 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.tree.node.BaseNode;
-import com.xliic.openapi.tree.node.OpIdNode;
-import com.xliic.openapi.tree.node.PanelNode;
-import com.xliic.openapi.tree.node.RootNode;
-import com.xliic.openapi.tree.node.SimpleNode;
-import com.xliic.openapi.tree.node.TagNode;
-import com.xliic.openapi.tree.node.TagChildNode;
+import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.outline.node.OpIdNode;
+import com.xliic.openapi.outline.node.PanelNode;
+import com.xliic.openapi.outline.node.RootNode;
+import com.xliic.openapi.outline.node.SimpleNode;
+import com.xliic.openapi.outline.node.TagNode;
+import com.xliic.openapi.outline.node.TagChildNode;
 import com.xliic.openapi.utils.Utils;
 
 public class DMTNConverter {

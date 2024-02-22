@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree;
+package com.xliic.openapi.outline;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,16 +14,16 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
-import com.xliic.openapi.tree.node.BaseNode;
+import com.xliic.openapi.outline.node.BaseNode;
 import com.xliic.openapi.utils.TempFileUtils;
 import com.xliic.openapi.utils.Utils;
 
-public class OpenAPIMouseMotionListener extends MouseMotionListener {
+public class OutlineMouseMotionListener extends MouseMotionListener {
 
     private final Project project;
     private final Set<TreePath> paths = new HashSet<>();
 
-    public OpenAPIMouseMotionListener(Project project, Tree tree) {
+    public OutlineMouseMotionListener(Project project, Tree tree) {
         super(tree);
         this.project = project;
     }

@@ -1,4 +1,4 @@
-package com.xliic.openapi.tree;
+package com.xliic.openapi.outline;
 
 import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS;
 import static com.xliic.openapi.OpenApiPanelKeys.DEFINITIONS;
@@ -32,21 +32,21 @@ import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.report.AuditUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.QuickFixService;
-import com.xliic.openapi.tree.actions.CopyPointerAction;
-import com.xliic.openapi.tree.node.BaseNode;
-import com.xliic.openapi.tree.node.OpIdNode;
-import com.xliic.openapi.tree.node.PanelNode;
-import com.xliic.openapi.tree.node.SimpleNode;
-import com.xliic.openapi.tree.node.TagChildNode;
-import com.xliic.openapi.tree.ui.OpenApiFileTreePanel;
+import com.xliic.openapi.outline.actions.CopyPointerAction;
+import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.outline.node.OpIdNode;
+import com.xliic.openapi.outline.node.PanelNode;
+import com.xliic.openapi.outline.node.SimpleNode;
+import com.xliic.openapi.outline.node.TagChildNode;
+import com.xliic.openapi.outline.ui.OutlinePanel;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.Utils;
 
-public class OpenApiRightMouseClickHandler {
+public class OutlineRightClickHandler {
 
-    private final OpenApiFileTreePanel panel;
+    private final OutlinePanel panel;
 
-    public OpenApiRightMouseClickHandler(@NotNull OpenApiFileTreePanel panel) {
+    public OutlineRightClickHandler(@NotNull OutlinePanel panel) {
         this.panel = panel;
     }
 
