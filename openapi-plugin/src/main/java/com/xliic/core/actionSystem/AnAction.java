@@ -26,4 +26,6 @@ public abstract class AnAction extends AbstractHandler {
     protected void update(@NotNull AnActionEvent event) {}
 
     protected abstract void actionPerformed(@NotNull AnActionEvent event);
+
+    protected abstract @NotNull ActionUpdateThread getActionUpdateThread();
 }

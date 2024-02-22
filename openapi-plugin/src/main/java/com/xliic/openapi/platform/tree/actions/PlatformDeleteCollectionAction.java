@@ -2,6 +2,7 @@ package com.xliic.openapi.platform.tree.actions;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -30,6 +31,11 @@ public class PlatformDeleteCollectionAction extends AnJAction implements DumbAwa
         this.tree = tree;
         this.collectionId = collectionId;
         this.isEmpty = isEmpty;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override

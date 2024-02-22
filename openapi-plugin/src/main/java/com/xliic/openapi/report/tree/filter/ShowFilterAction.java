@@ -2,6 +2,7 @@ package com.xliic.openapi.report.tree.filter;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.ui.SearchDialogWrapper;
@@ -20,6 +21,11 @@ public class ShowFilterAction extends AnJAction {
         this.filterState = panel.getFilterState();
     }
 
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
+    }
+    
     @Override
     public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {
         String text = filterState.getSearchText();

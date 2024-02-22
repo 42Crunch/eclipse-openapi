@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -21,6 +22,11 @@ public class PlatformRemoveFromFavoriteAction extends AnJAction implements DumbA
         super("Remove From My Favorite Collections", "Remove from my favorite collections", null);
         this.collectionId = collectionId;
         this.tree = tree;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override

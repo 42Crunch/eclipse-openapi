@@ -3,6 +3,7 @@ package com.xliic.openapi.platform.tree.actions;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -33,6 +34,11 @@ public class PlatformCreateNewCollectionAction extends AnJAction implements Dumb
         this.project = project;
         this.tree = tree;
         newName = null;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override

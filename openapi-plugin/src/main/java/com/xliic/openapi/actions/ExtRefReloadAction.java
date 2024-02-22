@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.common.WorkspaceException;
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
 import com.xliic.core.progress.ProgressIndicator;
@@ -33,6 +34,11 @@ public class ExtRefReloadAction extends AnAction implements DumbAware {
 
     private boolean refreshInProgress = false;
 
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+    
     @Override
     public void update(@NotNull AnActionEvent event) {
 

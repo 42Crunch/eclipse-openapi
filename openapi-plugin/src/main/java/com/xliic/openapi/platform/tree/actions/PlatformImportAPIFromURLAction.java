@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -55,6 +56,11 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
         this.tree = tree;
         this.collectionId = collectionId;
         this.subRootDn = subRootDn;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
     
     @Override

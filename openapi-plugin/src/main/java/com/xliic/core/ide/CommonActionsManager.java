@@ -2,6 +2,7 @@ package com.xliic.core.ide;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.icons.AllIcons;
@@ -26,6 +27,11 @@ public class CommonActionsManager {
         return new AnJAction("Expand All", "Expand All", AllIcons.Actions.ExpandAll) {
 
             @Override
+            public @NotNull ActionUpdateThread getActionUpdateThread() {
+                return ActionUpdateThread.BGT;
+            }
+
+            @Override
             public void update(AnJActionEvent event) {
                 updatePresentation(event);
             }
@@ -39,6 +45,11 @@ public class CommonActionsManager {
 
     public AnJAction createCollapseAllHeaderAction(@NotNull TreeExpander expander, @NotNull Tree tree) {
         return new AnJAction("Collapse All", "Collapse All", AllIcons.Actions.CollapseAll) {
+
+            @Override
+            public @NotNull ActionUpdateThread getActionUpdateThread() {
+                return ActionUpdateThread.BGT;
+            }
 
             @Override
             public void update(AnJActionEvent event) {

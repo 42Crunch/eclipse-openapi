@@ -7,6 +7,7 @@ import java.util.concurrent.locks.LockSupport;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
 import com.xliic.core.progress.ProgressIndicator;
@@ -30,6 +31,11 @@ public class ClearTempAPIsAction extends AnAction {
     private static final int N = 5;
     private static final int K = 2;
 
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+    
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
         Project project = anActionEvent.getProject();

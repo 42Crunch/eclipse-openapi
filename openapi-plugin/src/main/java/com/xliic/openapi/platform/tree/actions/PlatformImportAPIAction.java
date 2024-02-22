@@ -5,6 +5,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.fileChooser.FileChooserDescriptor;
@@ -45,6 +46,11 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
         this.tree = tree;
         this.collectionId = collectionId;
         this.subRootDn = subRootDn;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override

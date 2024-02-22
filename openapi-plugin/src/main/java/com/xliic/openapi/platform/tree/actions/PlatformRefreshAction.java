@@ -2,6 +2,7 @@ package com.xliic.openapi.platform.tree.actions;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.icons.AllIcons;
@@ -20,6 +21,11 @@ public class PlatformRefreshAction extends AnJAction implements DumbAware {
         super("Reload", "Reload all tree from platform", AllIcons.Actions.Refresh);
         this.project = project;
         this.tree = tree;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override

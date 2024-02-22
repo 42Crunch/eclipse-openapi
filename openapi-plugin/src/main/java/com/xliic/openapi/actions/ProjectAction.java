@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -25,6 +26,11 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
     public ProjectAction(String name, boolean performOnPlatformFiles) {
         this.name = name;
         this.performOnPlatformFiles = performOnPlatformFiles;
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override
