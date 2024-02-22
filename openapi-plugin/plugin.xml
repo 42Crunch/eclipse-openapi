@@ -84,11 +84,6 @@
             name="Clear All Properties">
         </command>
         <command
-            defaultHandler="com.xliic.openapi.actions.internal.ClearTempAPIsAction"
-            id="com.xliic.openapi.actions.internal.ClearTempAPIsAction"
-            name="Create and Clear Temp APIs">
-        </command>
-        <command
             defaultHandler="com.xliic.openapi.actions.internal.GetIDEInfoAction"
             id="com.xliic.openapi.actions.internal.GetIDEInfoAction"
             name="Show IDE Info">
@@ -394,10 +389,6 @@
                 <command
                     commandId="com.xliic.openapi.actions.PlatformUploadAction"
                     icon="icons/platform-save.png"
-                    style="push">
-                </command>
-                <command
-                    commandId="com.xliic.openapi.actions.internal.ClearTempAPIsAction"
                     style="push">
                 </command>
                 <command
