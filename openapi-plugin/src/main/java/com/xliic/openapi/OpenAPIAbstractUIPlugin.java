@@ -108,7 +108,10 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                         if (editor != null) {
                             IWorkbenchPart part = editor.getEditorSite().getPart();
                             if (part != null) {
+                            	// Listener may have missed open & activation events 
+                            	// fired before window.getPartService().addPartListener
                                 partListener.partOpened(part);
+                                partListener.partActivated(part);
                             }
                         }
                     }

@@ -12,6 +12,7 @@ public class OpenAPIImages {
     public static final ImageDescriptor AddSnippet;
     public static final ImageDescriptor CreateWizard;
     public static final ImageDescriptor Any_type;
+    public static final ImageDescriptor SecurityAudit;
 
     public static final ImageDescriptor CollapseAll;
     public static final ImageDescriptor ExpandAll;
@@ -30,7 +31,8 @@ public class OpenAPIImages {
     public static final ImageDescriptor ExtRef;
     public static final ImageDescriptor Host;
     public static final ImageDescriptor Sort;
-
+    public static final ImageDescriptor Copy;
+    
     public static final ImageDescriptor Platform;
     public static final ImageDescriptor PlatformAll;
     public static final ImageDescriptor PlatformFavorite;
@@ -72,6 +74,7 @@ public class OpenAPIImages {
         AddSnippet = createImageDescriptor("icons/add.png");
         CreateWizard = createImageDescriptor("icons/openapi-create-wizard.png");
         Any_type = createImageDescriptor("icons/any_type.png");
+    	SecurityAudit = createImageDescriptor("icons/42crunch_icon.png");
 
         CollapseAll = createImageDescriptor("icons/collapseall.png");
         ExpandAll = createImageDescriptor("icons/expandall.png");
@@ -90,6 +93,7 @@ public class OpenAPIImages {
         ExtRef = createImageDescriptor("icons/extref.png");
         Host = createImageDescriptor("icons/host.png");
         Sort = createImageDescriptor("icons/sorted.png");
+        Copy = createImageDescriptor("icons/copy.png");
 
         Platform = createImageDescriptor("/icons/icon_42crunch_platform.png");
         PlatformAll = createImageDescriptor("/icons/platform-all.png");

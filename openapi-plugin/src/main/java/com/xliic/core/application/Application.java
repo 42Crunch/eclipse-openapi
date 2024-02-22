@@ -13,8 +13,6 @@ public interface Application {
 
     void invokeAndWait(@NotNull Runnable runnable);
 
-    void invokeAndWait(@NotNull Runnable runnable, @NotNull ModalityState state);
-
     void invokeLaterOnWriteThread(@NotNull Runnable runnable);
 
     void runReadAction(@NotNull Runnable runnable);

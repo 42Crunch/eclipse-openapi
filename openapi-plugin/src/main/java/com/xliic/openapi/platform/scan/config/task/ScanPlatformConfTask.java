@@ -1,17 +1,18 @@
 package com.xliic.openapi.platform.scan.config.task;
 
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
+
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.platform.scan.ScanConfiguration;
 import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-
-import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
 
 public class ScanPlatformConfTask extends ScanConfTask {
 

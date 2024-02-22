@@ -15,23 +15,22 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.application.ModalityState;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.services.IAuditService;
 import com.xliic.core.ui.DialogWrapper;
 import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.CliDownloader;
+import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAuditTask;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -39,16 +38,16 @@ import com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction;
 import com.xliic.openapi.platform.dictionary.quickfix.PreAuditDialog;
 import com.xliic.openapi.report.AuditAPIs;
 import com.xliic.openapi.report.payload.AuditOperation;
+import com.xliic.openapi.report.task.AuditAnonTask;
+import com.xliic.openapi.report.task.AuditCliTask;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.report.types.AuditBuilder;
 import com.xliic.openapi.report.types.AuditCompliance;
 import com.xliic.openapi.report.types.AuditToDoReport;
 import com.xliic.openapi.report.types.Issue;
-import com.xliic.openapi.report.task.AuditAnonTask;
-import com.xliic.openapi.report.task.AuditCliTask;
-import com.xliic.openapi.services.api.IAuditService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.NetUtils;
@@ -226,7 +225,7 @@ public final class AuditService implements IAuditService, Disposable {
                     MsgUtils.warning(project, message("openapi.audit.issues.notification", sb.toString()), true);
                 }
             });
-        }, ModalityState.NON_MODAL);
+        });
     }
 
     @Override
@@ -325,8 +324,8 @@ public final class AuditService implements IAuditService, Disposable {
             runAudit(project, file, payload, type);
             return;
         }
-        PropertiesComponent settings = PropertiesComponent.getInstance();
-        String value = settings.getValue(Settings.Platform.Dictionary.PreAudit.CHOICE);
+        SettingsService settingsService = SettingsService.getInstance();
+        String value = settingsService.getValue(Settings.Platform.Dictionary.PreAudit.CHOICE);
         if (Settings.Platform.Dictionary.PreAudit.ASK.equals(value)) {
             FixGlobalDictionaryAction action = new FixGlobalDictionaryAction();
             if (action.update(project, file)) {
@@ -338,10 +337,10 @@ public final class AuditService implements IAuditService, Disposable {
                 } else if (code == PreAuditDialog.NO_EXIT_CODE) {
                     runAudit(project, file, payload, type);
                 } else if (code == PreAuditDialog.ALWAYS_EXIT_CODE) {
-                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
+                    settingsService.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
                     updateAndRunAudit(action, project, file, payload, type);
                 } else if (code == PreAuditDialog.NEVER_EXIT_CODE) {
-                    settings.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
+                    settingsService.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
                     runAudit(project, file, payload, type);
                 }
             } else {
@@ -393,9 +392,9 @@ public final class AuditService implements IAuditService, Disposable {
         } else if (type == Credentials.Type.Platform) {
             startAuditTask(file, isFullAudit ? new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
         } else if (type == Credentials.Type.Cli) {
-            new CliDownloader(project).download(new CliDownloader.Callback() {
+            CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
                 @Override
-                public void complete() {
+                public void complete(@NotNull String cliPath) {
                     startAuditTask(file, isFullAudit ? new AuditCliTask(project, file, callback) : new AuditCliTask(project, payload, callback));
                 }
                 @Override

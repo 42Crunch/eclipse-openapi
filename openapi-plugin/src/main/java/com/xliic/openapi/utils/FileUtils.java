@@ -1,15 +1,5 @@
 package com.xliic.openapi.utils;
 
-import com.xliic.core.command.WriteCommandAction;
-import com.xliic.core.project.Project;
-import com.xliic.core.util.Computable;
-import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VfsUtil;
-import com.xliic.core.vfs.VirtualFile;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,6 +9,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Collections;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.command.WriteCommandAction;
+import com.xliic.core.project.Project;
+import com.xliic.core.util.Computable;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VfsUtil;
+import com.xliic.core.vfs.VirtualFile;
 
 public class FileUtils {
 

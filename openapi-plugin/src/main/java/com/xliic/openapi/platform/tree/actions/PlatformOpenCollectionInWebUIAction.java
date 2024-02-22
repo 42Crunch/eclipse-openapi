@@ -2,6 +2,7 @@ package com.xliic.openapi.platform.tree.actions;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.ide.BrowserUtil;
@@ -15,6 +16,11 @@ public class PlatformOpenCollectionInWebUIAction extends AnJAction implements Du
     public PlatformOpenCollectionInWebUIAction(String collectionId) {
         super("Open In Web UI", "", null);
         this.collectionId = collectionId;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override

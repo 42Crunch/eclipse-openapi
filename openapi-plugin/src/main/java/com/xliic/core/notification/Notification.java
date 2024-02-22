@@ -1,9 +1,5 @@
 package com.xliic.core.notification;
 
-import org.jetbrains.annotations.NotNull;
-import com.xliic.core.project.Project;
-import com.xliic.openapi.OpenAPIImages;
-
 import java.util.function.Function;
 
 import org.eclipse.swt.SWT;
@@ -20,6 +16,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.project.Project;
+import com.xliic.openapi.OpenAPIImages;
 
 public class Notification {
 	

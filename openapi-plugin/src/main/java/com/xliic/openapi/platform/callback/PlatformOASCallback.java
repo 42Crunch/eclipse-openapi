@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.callback;
 
+import static com.xliic.openapi.platform.tree.utils.PlatformAPIUtils.isReadOnly;
+
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
@@ -24,8 +26,6 @@ import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.TempFileUtils;
 import com.xliic.openapi.utils.Utils;
-
-import static com.xliic.openapi.platform.tree.utils.PlatformAPIUtils.isReadOnly;
 
 public class PlatformOASCallback extends SuccessASTResponseCallback {
 

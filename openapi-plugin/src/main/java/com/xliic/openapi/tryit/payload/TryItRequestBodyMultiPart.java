@@ -1,13 +1,14 @@
 package com.xliic.openapi.tryit.payload;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class TryItRequestBodyMultiPart extends TryItRequest {
 

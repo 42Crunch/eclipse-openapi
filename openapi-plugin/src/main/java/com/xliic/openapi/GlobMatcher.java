@@ -1,7 +1,8 @@
 package com.xliic.openapi;
 
-import io.github.azagniotov.matcher.AntPathMatcher;
 import org.jetbrains.annotations.NotNull;
+
+import io.github.azagniotov.matcher.AntPathMatcher;
 
 public class GlobMatcher {
 

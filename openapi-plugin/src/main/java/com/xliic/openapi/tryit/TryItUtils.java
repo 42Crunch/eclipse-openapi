@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.actionSystem.DefaultActionGroup;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.bundler.BundleResult;
+import com.xliic.openapi.outline.actions.TryItAction;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.tryit.payload.TryItOperation;
 
@@ -86,7 +87,7 @@ public class TryItUtils {
                 if (typeMap != null) {
                     Set<String> typeKeys = componentsRefsMap.get(type);
                     typeMap.keySet().removeIf(key -> typeKeys == null || !typeKeys.contains(key));
-                    if (typeMap.size() == 0) {
+                    if (typeMap.isEmpty()) {
                         typesToRemove.add(type);
                     }
                 }

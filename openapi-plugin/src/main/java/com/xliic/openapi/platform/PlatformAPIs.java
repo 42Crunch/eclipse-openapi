@@ -1,11 +1,6 @@
 package com.xliic.openapi.platform;
 
-import com.xliic.openapi.platform.callback.EnqueueCallback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import org.jetbrains.annotations.NotNull;
+import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -13,7 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.platform.callback.EnqueueCallback;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class PlatformAPIs {
 

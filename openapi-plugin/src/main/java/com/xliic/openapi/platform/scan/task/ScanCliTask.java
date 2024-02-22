@@ -1,24 +1,11 @@
 package com.xliic.openapi.platform.scan.task;
 
-import com.xliic.core.progress.ProgressIndicator;
-import com.xliic.core.progress.Task;
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.LocalFileSystem;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.environment.EnvService;
-import com.xliic.openapi.environment.Environment;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.platform.PlatformConnection;
-import com.xliic.openapi.platform.scan.ScanLogger;
-import com.xliic.openapi.platform.scan.ScanRunConfig;
-import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
-import com.xliic.openapi.platform.scan.report.payload.ScanReport;
-import com.xliic.openapi.settings.Credentials;
-import com.xliic.openapi.utils.CliUtils;
-import com.xliic.openapi.utils.ExecUtils;
-import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
+import static com.xliic.openapi.utils.FileUtils.removeDir;
+import static com.xliic.openapi.utils.FileUtils.removeFile;
+import static com.xliic.openapi.utils.FileUtils.writeFile;
+import static com.xliic.openapi.utils.MsgUtils.notifyLimit;
+import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,10 +15,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
-import static com.xliic.openapi.utils.FileUtils.*;
-import static com.xliic.openapi.utils.MsgUtils.notifyLimit;
-import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.progress.Task;
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.LocalFileSystem;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.cli.CliUtils;
+import com.xliic.openapi.environment.EnvService;
+import com.xliic.openapi.environment.Environment;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.platform.scan.ScanLogger;
+import com.xliic.openapi.platform.scan.ScanRunConfig;
+import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
+import com.xliic.openapi.platform.scan.report.payload.ScanReport;
+import com.xliic.openapi.settings.Credentials;
+import com.xliic.openapi.utils.ExecUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class ScanCliTask extends Task.Backgroundable {
 

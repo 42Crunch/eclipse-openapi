@@ -1,16 +1,17 @@
 package com.xliic.openapi.platform.scan.config.jcef.messages;
 
-import com.xliic.core.project.Project;
-import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
-import com.xliic.openapi.utils.MsgUtils;
-import com.xliic.openapi.webapp.messages.WebAppProduce;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import static com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel.SCAN_CONF_PATH;
 
 import java.io.IOException;
 import java.util.Map;
 
-import static com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel.SCAN_CONF_PATH;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.project.Project;
+import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
+import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public class SaveScanConf extends WebAppProduce {
 

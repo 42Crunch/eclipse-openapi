@@ -1,11 +1,10 @@
 package com.xliic.openapi.inlined;
 
 import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_DOCKER;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
-
 import static com.xliic.openapi.platform.PlatformConnection.isPlatformIntegrationEnabled;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_DOCKER;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -16,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.vfs.LocalFileSystem;
@@ -28,6 +26,7 @@ import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.report.AuditUtils;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.Utils;
 
@@ -51,15 +50,15 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
         super.init(fileName, version);
         VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
         psiFile = (file == null) ? null : Utils.findPsiFile(project, file);
-        PropertiesComponent props = PropertiesComponent.getInstance();
-        boolean isAnnoEnabled = props.getBoolean(InlinedAnnotations.ENABLE_FLAG);
+        SettingsService settingsService = SettingsService.getInstance();
+        boolean isAnnoEnabled = settingsService.getBoolean(InlinedAnnotations.ENABLE_FLAG);
         runDfs = isAnnoEnabled && psiFile != null && isOpenAPI();
         boolean isPlatformIntegrationEnabled = isPlatformIntegrationEnabled();
         if (isPlatformIntegrationEnabled) {
         	isScanEnabled = true;	
         } else {
-        	if (RUNTIME_CLI.equals(props.getValue(RUNTIME, RUNTIME_DOCKER))) {
-        		isScanEnabled = !StringUtils.isEmpty(props.getValue(Settings.Audit.TOKEN));
+        	if (RUNTIME_CLI.equals(settingsService.getValue(RUNTIME, RUNTIME_DOCKER))) {
+        		isScanEnabled = !StringUtils.isEmpty(settingsService.getValue(Settings.Audit.TOKEN));
         	} else {
         		isScanEnabled = false;
         	}

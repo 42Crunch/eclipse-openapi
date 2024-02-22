@@ -24,11 +24,11 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.services.IPreviewService;
 import com.xliic.openapi.preview.PreviewCallback;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.preview.PreviewWebSocket;
 import com.xliic.openapi.preview.PreviewWebSocketHandler;
-import com.xliic.openapi.services.api.IPreviewService;
 
 public class PreviewService implements IPreviewService, Disposable {
 

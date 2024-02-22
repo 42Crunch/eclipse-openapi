@@ -79,7 +79,7 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
         getJBCefClient().addLoadHandler(loadHandler);
         CefApp cefApp = CefApp.getInstance();
         if (regShFactory && cefApp != null) {
-            cefApp.registerSchemeHandlerFactory("http", DOMAIN, SCHEME_HANDLER_FACTORY);
+            cefApp.registerSchemeHandlerFactory(SchemeHandlerFactory.PROTOCOL, DOMAIN, SCHEME_HANDLER_FACTORY);
             regShFactory = false;
         }
         ApplicationManager.getApplication().invokeAndWait(() -> {

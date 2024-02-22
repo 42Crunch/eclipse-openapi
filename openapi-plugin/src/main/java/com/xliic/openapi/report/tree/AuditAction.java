@@ -1,7 +1,11 @@
 package com.xliic.openapi.report.tree;
 
+import static com.xliic.openapi.settings.Credentials.getCredentialsType;
+import static com.xliic.openapi.settings.Credentials.hasCredentialsType;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -18,38 +22,50 @@ import icons.OpenApiIcons;
 
 public class AuditAction extends AnJAction implements DumbAware {
 
+    private static final String NAME = "Audit";
+
     @NotNull
     private final AuditOperation payload;
 
-    public AuditAction(@NotNull String name, @NotNull AuditOperation payload) {
-        super(name, "", OpenApiIcons.Audit);
+    public AuditAction(@NotNull AuditOperation payload) {
+        super(NAME, "", OpenApiIcons.SecurityAudit);
         this.payload = payload;
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override
     public void update(@NotNull AnJActionEvent event) {
         Project project = event.getProject();
-        VirtualFile file = payload.getPsiFile().getVirtualFile();
-        BundleService bundleService = BundleService.getInstance(project);
-        BundleResult bundle = bundleService.getBundle(file.getPath());
-        event.getPresentation().setEnabled(bundle != null && bundle.isBundleComplete());
+        if (project == null) {
+            event.getPresentation().setEnabled(false);
+        } else {
+            VirtualFile file = payload.getPsiFile().getVirtualFile();
+            BundleResult bundle = BundleService.getInstance(project).getBundle(file.getPath());
+            event.getPresentation().setEnabled(bundle != null && bundle.isBundleComplete());
+        }
     }
 
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
         Project project = event.getProject();
+        if (project == null) {
+            return;
+        }
         VirtualFile file = payload.getPsiFile().getVirtualFile();
         AuditService auditService = AuditService.getInstance(project);
-        Credentials.Type type = Credentials.getCredentialsType(project);
-        if (type == null) {
+        if (hasCredentialsType()) {
+            auditService.actionPerformed(project, file, payload, getCredentialsType(project));
+        } else {
             Credentials.configureCredentials(project, new WizardCallback() {
                 @Override
                 public void complete() {
-                    auditService.actionPerformed(project, file, payload, Credentials.getCredentialsType(project));
+                    auditService.actionPerformed(project, file, payload, getCredentialsType(project));
                 }
             });
-        } else {
-            auditService.actionPerformed(project, file, payload, type);
         }
     }
 }

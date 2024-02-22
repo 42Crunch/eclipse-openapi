@@ -1,7 +1,8 @@
 package com.xliic.openapi.platform;
 
-import com.xliic.openapi.parser.ast.node.Node;
 import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class Permissions {
 

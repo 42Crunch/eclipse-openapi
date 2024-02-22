@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.command.WriteCommandAction;
@@ -31,6 +32,11 @@ public class FixSnippetAction extends AnJAction implements DumbAware {
         this.provider = provider;
     }
 
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+    
     @Override
     public void update(@NotNull AnJActionEvent event) {
         PsiFile psiFile = getOpenAPIPsiFile(event);

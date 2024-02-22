@@ -1,9 +1,10 @@
 package com.xliic.openapi.report.jcef.messages;
 
-import com.xliic.openapi.webapp.messages.WebAppConsume;
+import java.util.Map;
+
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class ShowNoReport extends WebAppConsume {
 

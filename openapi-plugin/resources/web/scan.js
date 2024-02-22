@@ -1,21 +1,21 @@
-import { c as pe, b as he, a as Te, u as Oe, l as qe, t as Pe, r as Ae, d as Ne, s as He, i as Ie, e as f, T as u, f as T, j as s, g as _e, R as Me, P as De, h as Le, m as Be, k as Fe, n as Ue, o as Ye } from "./webapp.yF4PwBss.js";
-import { g as Ke, H as ze, e as We, s as Ve, b as Ge, l as Qe } from "./index.lcFuHH3z.js";
-import { S as ue, e as Je, b as Xe, c as Ze } from "./Xmark.PxyPpQA1.js";
-import { p as et, s as tt, a as st, S as H, l as nt } from "./index.klStI7S4.js";
-import { c as it, l as rt } from "./slice.WPgyTBdG.js";
-import { s as ot } from "./listener.8dSMuVUh.js";
-import { R as fe } from "./Response.e4O8t0gl.js";
-import { $ as at, a as ct, b as dt, c as lt, d as pt, e as ht } from "./index.OmGcbm4r.js";
-import { D as O } from "./datetime.8rVZUDtl.js";
-import { S as ut } from "./AngleDown.N2mqK8v1.js";
-import { S as ft } from "./AngleUp.PYBxLDue.js";
-import { S as I } from "./Check.VzTbtEKL.js";
-import { S as _ } from "./ExclamationCircle.i2K0Pqn4.js";
-import { P as xe } from "./Select.bX0uI-FX.js";
-import { T as xt } from "./Tabs.fwjiQaQD.js";
-import "./index.g1E2Oywa.js";
-import "./downshift.esm.qxg3byYX.js";
-import "./index.esm.Shro8ov1.js";
+import { c as he, b as pe, a as Te, u as qe, l as Pe, t as $e, r as Ae, d as ke, s as Ie, i as Ne, e as f, T as u, f as q, j as t, g as He, R as _e, P as Me, h as De, m as Le, k as Be, n as Fe, o as Ue } from "./webapp.dStGtxDE.js";
+import { g as Ye, H as Ke, e as ze, s as Ve, b as We, l as Ge } from "./index.CHDSKCzO.js";
+import { S as Qe, e as Je, b as Xe, c as Ze } from "./Xmark.-0ABLRej.js";
+import { p as et, s as tt, a as st, S as N, l as nt } from "./index.nE7icjwC.js";
+import { c as it, l as rt } from "./slice.MW7nD13G.js";
+import { s as ot } from "./listener.xg4HYnF3.js";
+import { R as ue } from "./Response.NrLogDFW.js";
+import { $ as at, a as ct, b as dt, c as lt, d as ht, e as pt } from "./index.3YtBeUW9.js";
+import { D as P } from "./datetime.8rVZUDtl.js";
+import { S as ut } from "./AngleDown.1P8JpNH0.js";
+import { S as ft } from "./AngleUp.FmFQlWks.js";
+import { S as H } from "./Check.NOinH2ty.js";
+import { S as _ } from "./ExclamationCircle.NcDeerEa.js";
+import { P as fe } from "./Select.eMc73ch1.js";
+import { T as xt } from "./Tabs.EvVwZ0qc.js";
+import "./index.hzKdP6cc.js";
+import "./downshift.esm.WyR76k9W.js";
+import "./index.esm.XbmwboKu.js";
 const gt = {
   oas: {
     openapi: "3.0.0",
@@ -24,7 +24,6 @@ const gt = {
   },
   rawOas: "",
   scanReport: void 0,
-  isNewScanConfig: !0,
   prefs: {
     scanServer: "",
     tryitServer: "",
@@ -40,263 +39,226 @@ const gt = {
   grouped: {},
   issues: [],
   titles: []
-}, ge = pe({
+}, xe = he({
   name: "scan",
   initialState: gt,
   reducers: {
-    startScan: (e, t) => {
+    startScan: (e, s) => {
       e.error = void 0, e.scanReport = void 0, e.waiting = !0, e.response = void 0, e.responses = {};
     },
-    scanOperation: (e, t) => {
+    scanOperation: (e, s) => {
     },
-    runScan: (e, t) => {
-      e.defaultValues = t.payload.defaultValues, e.scanReport = void 0, e.error = void 0, e.waiting = !0, e.response = void 0, e.responses = {};
+    runScan: (e, s) => {
+      e.defaultValues = s.payload.defaultValues, e.scanReport = void 0, e.error = void 0, e.waiting = !0, e.response = void 0, e.responses = {};
     },
-    showScanReport: (e, t) => {
-      const { oas: n, path: i, method: a } = t.payload, c = Ke(n, i, a), o = (c == null ? void 0 : c.operationId) === void 0 ? `${i}:${a}` : c.operationId;
-      e.operationId = o, e.oas = n, e.path = i, e.method = a;
-      const r = Rt(
-        t.payload.report,
-        e.path,
-        e.operationId
-      ), l = ae(r, e.filter), { titles: x } = M(r), { grouped: h } = M(l);
-      e.issues = r, e.titles = x, e.grouped = h, e.scanReport = t.payload.report, e.waiting = !1;
+    showScanReport: (e, s) => {
+      const { oas: n, path: i, method: r } = s.payload, d = Ye(n, i, r), a = (d == null ? void 0 : d.operationId) === void 0 ? `${i}:${r}` : d.operationId;
+      e.operationId = a, e.oas = n, e.path = i, e.method = r;
+      const o = Ct(s.payload.report, e.path, e.operationId), x = ae(o, e.filter), { titles: h } = M(o), { grouped: l } = M(x);
+      e.issues = o, e.titles = h, e.grouped = l, e.scanReport = s.payload.report, e.waiting = !1;
     },
-    changeFilter: (e, t) => {
-      if (e.filter = t.payload, e.isNewScanConfig) {
-        const n = ae(e.issues, e.filter), { grouped: i } = M(n);
-        e.grouped = i;
-      } else {
-        const n = Ct(e.issues, e.filter), { grouped: i } = Et(n);
-        e.grouped = i;
-      }
+    changeFilter: (e, s) => {
+      e.filter = s.payload;
+      const n = ae(e.issues, e.filter), { grouped: i } = M(n);
+      e.grouped = i;
     },
-    changeTab: (e, t) => {
-      e.tab = t.payload;
+    changeTab: (e, s) => {
+      e.tab = s.payload;
     },
-    showGeneralError: (e, t) => {
-      e.error = t.payload, e.waiting = !1;
+    showGeneralError: (e, s) => {
+      e.error = s.payload, e.waiting = !1;
     },
-    showHttpResponse: (e, { payload: { id: t, response: n } }) => {
-      e.responses[t] = n, e.waitings[t] = !1, delete e.errors[t];
+    showHttpResponse: (e, { payload: { id: s, response: n } }) => {
+      e.responses[s] = n, e.waitings[s] = !1, delete e.errors[s];
     },
-    showHttpError: (e, { payload: { id: t, error: n } }) => {
-      e.errors[t] = n, e.waitings[t] = !1, delete e.responses[t];
+    showHttpError: (e, { payload: { id: s, error: n } }) => {
+      e.errors[s] = n, e.waitings[s] = !1, delete e.responses[s];
     },
-    sendHttpRequest: (e, { payload: { id: t } }) => {
-      e.waitings[t] = !0;
+    sendHttpRequest: (e, { payload: { id: s } }) => {
+      e.waitings[s] = !0;
     },
-    sendCurlRequest: (e, t) => {
+    sendCurlRequest: (e, s) => {
     },
-    showJsonPointer: (e, t) => {
+    showJsonPointer: (e, s) => {
     },
-    showAuditReport: (e, t) => {
+    showAuditReport: (e, s) => {
     }
   }
 }), {
-  startScan: me,
+  startScan: ge,
   scanOperation: mt,
-  runScan: an,
+  runScan: rn,
   showScanReport: vt,
   showGeneralError: yt,
   showHttpError: jt,
   sendHttpRequest: bt,
-  sendCurlRequest: ve,
+  sendCurlRequest: me,
   showHttpResponse: St,
-  showJsonPointer: ye,
+  showJsonPointer: ve,
   showAuditReport: wt,
-  changeTab: P,
-  changeFilter: E
-} = ge.actions;
-function Ct(e, t) {
-  const n = (c) => {
-    var o;
-    return (t == null ? void 0 : t.title) === void 0 || ((o = c.test) == null ? void 0 : o.key) === t.title;
-  }, i = t.severity !== void 0 ? ue.indexOf(t.severity) + 1 : 0, a = (c) => {
-    var o, r;
-    return t.severity === void 0 || ((o = c.outcome) == null ? void 0 : o.criticality) === void 0 || ((r = c.outcome) == null ? void 0 : r.criticality) >= i;
-  };
-  return e.filter((c) => n(c) && a(c));
-}
-function Et(e) {
-  var a, c;
-  const t = {}, n = {};
-  for (const o of e) {
-    const r = (a = o.test) == null ? void 0 : a.key;
-    r !== void 0 && (t[r] === void 0 && (t[r] = [], n[r] = (c = o.test) == null ? void 0 : c.description), t[r].push(o));
+  changeTab: A,
+  changeFilter: w
+} = xe.actions;
+function Ct(e, s, n) {
+  var r, d, a, o, x;
+  const i = [];
+  for (const h of [
+    "conformanceRequestsResults",
+    "authorizationRequestsResults",
+    "customRequestsResults"
+  ]) {
+    const l = (d = (r = e == null ? void 0 : e.operations) == null ? void 0 : r[n]) == null ? void 0 : d[h];
+    l !== void 0 && i.push(...l);
   }
-  const i = Object.keys(t);
-  for (const o of i)
-    t[o].sort((r, l) => {
-      var x, h, p, g, m, v, y, j, S, w;
-      if (((x = r.outcome) == null ? void 0 : x.status) !== ((h = l.outcome) == null ? void 0 : h.status)) {
-        if (((p = r.outcome) == null ? void 0 : p.status) === "incorrect")
-          return -1;
-        if (((g = l.outcome) == null ? void 0 : g.status) === "incorrect")
-          return 1;
-        if (((m = r.outcome) == null ? void 0 : m.status) === "unexpected")
-          return -1;
-        if (((v = l.outcome) == null ? void 0 : v.status) === "unexpected")
-          return 1;
-      }
-      return ((y = r.outcome) == null ? void 0 : y.criticality) !== ((j = l.outcome) == null ? void 0 : j.criticality) ? ((S = r.outcome) == null ? void 0 : S.criticality) - ((w = l.outcome) == null ? void 0 : w.criticality) : 0;
-    });
-  return { grouped: t, titles: Object.keys(n) };
-}
-function Rt(e, t, n) {
-  var o, r, l, x;
-  const i = [], a = (r = (o = e == null ? void 0 : e.operations) == null ? void 0 : o[n]) == null ? void 0 : r.conformanceRequestsResults;
-  a !== void 0 && i.push(...a);
-  const c = e == null ? void 0 : e.methodNotAllowed;
-  for (const h of ze) {
-    const p = (x = (l = c == null ? void 0 : c[t]) == null ? void 0 : l[h]) == null ? void 0 : x.conformanceRequestsResults;
-    p !== void 0 && i.push(...p);
+  for (const h of Ke) {
+    const l = (x = (o = (a = e == null ? void 0 : e.methodNotAllowed) == null ? void 0 : a[s]) == null ? void 0 : o[h]) == null ? void 0 : x.conformanceRequestsResults;
+    l !== void 0 && i.push(...l);
   }
   return i;
 }
-function ae(e, t) {
-  const n = (c) => {
-    var o;
-    return (t == null ? void 0 : t.title) === void 0 || ((o = c.test) == null ? void 0 : o.key) === t.title;
-  }, i = t.severity !== void 0 ? ue.indexOf(t.severity) + 1 : 0, a = (c) => {
-    var o, r;
-    return t.severity === void 0 || ((o = c.outcome) == null ? void 0 : o.criticality) === void 0 || ((r = c.outcome) == null ? void 0 : r.criticality) >= i;
+function ae(e, s) {
+  const n = (d) => {
+    var a;
+    return (s == null ? void 0 : s.title) === void 0 || ((a = d.test) == null ? void 0 : a.key) === s.title;
+  }, i = s.severity !== void 0 ? Qe.indexOf(s.severity) + 1 : 0, r = (d) => {
+    var a, o;
+    return s.severity === void 0 || ((a = d.outcome) == null ? void 0 : a.criticality) === void 0 || ((o = d.outcome) == null ? void 0 : o.criticality) >= i;
   };
-  return e.filter((c) => n(c) && a(c));
+  return e.filter((d) => n(d) && r(d));
 }
 function M(e) {
-  var a, c;
-  const t = {}, n = {};
-  for (const o of e) {
-    const r = (a = o.test) == null ? void 0 : a.key;
-    r !== void 0 && (t[r] === void 0 && (t[r] = [], n[r] = (c = o.test) == null ? void 0 : c.description), t[r].push(o));
+  var r, d;
+  const s = {}, n = {};
+  for (const a of e) {
+    const o = (r = a.test) == null ? void 0 : r.key;
+    o !== void 0 && (s[o] === void 0 && (s[o] = [], n[o] = (d = a.test) == null ? void 0 : d.description), s[o].push(a));
   }
-  const i = Object.keys(t);
-  for (const o of i)
-    t[o].sort((r, l) => {
-      var x, h, p, g, m, v, y, j, S, w;
-      if (((x = r.outcome) == null ? void 0 : x.status) !== ((h = l.outcome) == null ? void 0 : h.status)) {
-        if (((p = r.outcome) == null ? void 0 : p.status) === "error")
+  const i = Object.keys(s);
+  for (const a of i)
+    s[a].sort((o, x) => {
+      var h, l, p, g, m, v, y, b, O, T;
+      if (((h = o.outcome) == null ? void 0 : h.status) !== ((l = x.outcome) == null ? void 0 : l.status)) {
+        if (((p = o.outcome) == null ? void 0 : p.status) === "error")
           return -1;
-        if (((g = l.outcome) == null ? void 0 : g.status) === "error")
+        if (((g = x.outcome) == null ? void 0 : g.status) === "error")
           return 1;
-        if (((m = r.outcome) == null ? void 0 : m.status) === "defective")
+        if (((m = o.outcome) == null ? void 0 : m.status) === "defective")
           return -1;
-        if (((v = l.outcome) == null ? void 0 : v.status) === "defective")
+        if (((v = x.outcome) == null ? void 0 : v.status) === "defective")
           return 1;
       }
-      return ((y = r.outcome) == null ? void 0 : y.criticality) !== ((j = l.outcome) == null ? void 0 : j.criticality) ? ((S = r.outcome) == null ? void 0 : S.criticality) - ((w = l.outcome) == null ? void 0 : w.criticality) : 0;
+      return ((y = o.outcome) == null ? void 0 : y.criticality) !== ((b = x.outcome) == null ? void 0 : b.criticality) ? ((O = o.outcome) == null ? void 0 : O.criticality) - ((T = x.outcome) == null ? void 0 : T.criticality) : 0;
     });
-  return { grouped: t, titles: Object.keys(n) };
+  return { grouped: s, titles: Object.keys(n) };
 }
-const kt = ge.reducer, $t = {
+const Et = xe.reducer, Rt = {
   messages: []
-}, je = pe({
+}, ye = he({
   name: "logging",
-  initialState: $t,
+  initialState: Rt,
   reducers: {
-    showLogMessage: (e, t) => {
-      e.messages.push(t.payload);
+    showLogMessage: (e, s) => {
+      e.messages.push(s.payload);
     },
     clearLogs: (e) => {
       e.messages = [];
     }
   }
-}), { showLogMessage: Tt, clearLogs: cn } = je.actions, be = he, Ot = je.reducer, qt = {
-  theme: Pe,
-  scan: kt,
+}), { showLogMessage: Ot, clearLogs: on } = ye.actions, je = pe, Tt = ye.reducer, qt = {
+  theme: $e,
+  scan: Et,
   router: Ae,
-  env: We,
+  env: ze,
   prefs: et,
   config: it,
-  logging: Ot
-}, Pt = (e, t) => Te({
+  logging: Tt
+}, Pt = (e, s) => Te({
   reducer: qt,
-  middleware: (n) => n().prepend(e.middleware).concat(qe),
+  middleware: (n) => n().prepend(e.middleware).concat(Pe),
   preloadedState: {
-    theme: t
+    theme: s
   }
-}), k = () => Oe(), $ = he, Se = Ne(), R = Se.startListening;
-function At(e, t) {
+}), E = () => qe(), R = pe, be = ke(), C = be.startListening;
+function $t(e, s) {
   const n = {
-    savePrefs: () => R({
-      matcher: Ie(tt, st),
-      effect: async (i, a) => {
-        const { prefs: c } = a.getState();
+    savePrefs: () => C({
+      matcher: Ne(tt, st),
+      effect: async (i, r) => {
+        const { prefs: d } = r.getState();
         e.postMessage({
           command: "savePrefs",
-          payload: c
+          payload: d
         });
       }
     }),
-    sendHttpRequest: () => R({
+    sendHttpRequest: () => C({
       actionCreator: bt,
-      effect: async (i, a) => {
+      effect: async (i, r) => {
         e.postMessage({
           command: "sendHttpRequest",
           payload: i.payload
         });
       }
     }),
-    sendCurlRequest: () => R({
-      actionCreator: ve,
-      effect: async (i, a) => {
+    sendCurlRequest: () => C({
+      actionCreator: me,
+      effect: async (i, r) => {
         e.postMessage({
           command: "sendCurlRequest",
           payload: i.payload
         });
       }
     }),
-    showJsonPointer: () => R({
-      actionCreator: ye,
-      effect: async (i, a) => {
+    showJsonPointer: () => C({
+      actionCreator: ve,
+      effect: async (i, r) => {
         e.postMessage({
           command: "showJsonPointer",
           payload: i.payload
         });
       }
     }),
-    showAuditReport: () => R({
+    showAuditReport: () => C({
       actionCreator: wt,
-      effect: async (i, a) => {
+      effect: async (i, r) => {
         e.postMessage({
           command: "showAuditReport",
           payload: void 0
         });
       }
     }),
-    showEnvWindow: () => R({
+    showEnvWindow: () => C({
       actionCreator: Ve,
-      effect: async (i, a) => {
+      effect: async (i, r) => {
         e.postMessage({ command: "showEnvWindow", payload: void 0 });
       }
     })
   };
-  return ot(R, t), He(n), Se;
+  return ot(C, s), Ie(n), be;
 }
-function Nt() {
-  const t = be((o) => o.logging.messages).filter((o) => o.level == "info"), n = T.useRef(null), [i, a] = T.useState(!1);
-  if (T.useEffect(() => {
+function At() {
+  const s = je((a) => a.logging.messages).filter((a) => !0), n = q.useRef(null), [i, r] = q.useState(!1);
+  if (q.useEffect(() => {
     n.current && !i && (n.current.scrollTop = n.current.scrollHeight);
-  }, [t, i]), t.length === 0)
+  }, [s, i]), s.length === 0)
     return null;
-  const c = () => {
-    const o = n.current;
-    if (o) {
-      const r = o.scrollTop, l = o.scrollHeight, x = o.clientHeight;
-      l - (r + x) < 10 ? a(!1) : a(!0);
+  const d = () => {
+    const a = n.current;
+    if (a) {
+      const o = a.scrollTop, x = a.scrollHeight, h = a.clientHeight;
+      x - (o + h) < 10 ? r(!1) : r(!0);
     }
   };
-  return /* @__PURE__ */ s.jsx(Mt, { children: /* @__PURE__ */ s.jsx(It, { ref: n, onScroll: c, children: t.map((o, r, l) => /* @__PURE__ */ s.jsxs("div", { children: [
-    /* @__PURE__ */ s.jsx(Ht, { first: r === 0, last: r === l.length - 1 }),
-    /* @__PURE__ */ s.jsx("div", { children: o.message })
-  ] }, r)) }) });
+  return /* @__PURE__ */ t.jsx(Ht, { children: /* @__PURE__ */ t.jsx(It, { ref: n, onScroll: d, children: s.map((a, o, x) => /* @__PURE__ */ t.jsxs("div", { children: [
+    /* @__PURE__ */ t.jsx(kt, { first: o === 0, last: o === x.length - 1 }),
+    /* @__PURE__ */ t.jsx("div", { children: a.message })
+  ] }, o)) }) });
 }
-function Ht({ first: e, last: t }) {
-  return /* @__PURE__ */ s.jsxs(_t, { first: e, last: t, children: [
-    /* @__PURE__ */ s.jsx("div", {}),
-    /* @__PURE__ */ s.jsx("div", {}),
-    /* @__PURE__ */ s.jsx("div", {})
+function kt({ first: e, last: s }) {
+  return /* @__PURE__ */ t.jsxs(Nt, { first: e, last: s, children: [
+    /* @__PURE__ */ t.jsx("div", {}),
+    /* @__PURE__ */ t.jsx("div", {}),
+    /* @__PURE__ */ t.jsx("div", {})
   ] });
 }
 const It = f.div`
@@ -314,7 +276,7 @@ const It = f.div`
       padding: 4px 0px 4px 4px;
     }
   }
-`, _t = f.div`
+`, Nt = f.div`
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -336,20 +298,20 @@ const It = f.div`
     width: 1px;
     ${({ last: e }) => !e && `background-color: var(${u.border});`}
   }
-`, Mt = f.div`
+`, Ht = f.div`
   padding: 8px;
   margin: 8px;
   border-radius: 2px;
   border: 1px solid var(${u.border});
 `;
-function Dt() {
-  const e = $((t) => t.scan.error);
-  return e ? /* @__PURE__ */ s.jsx(Bt, { children: /* @__PURE__ */ s.jsxs(Lt, { children: [
-    /* @__PURE__ */ s.jsx("div", { children: e.message }),
-    e.details && /* @__PURE__ */ s.jsx("div", { children: e.details })
+function _t() {
+  const e = R((s) => s.scan.error);
+  return e ? /* @__PURE__ */ t.jsx(Dt, { children: /* @__PURE__ */ t.jsxs(Mt, { children: [
+    /* @__PURE__ */ t.jsx("div", { children: e.message }),
+    e.details && /* @__PURE__ */ t.jsx("div", { children: e.details })
   ] }) }) : null;
 }
-const Lt = f.div`
+const Mt = f.div`
   border: 1px solid var(${u.errorBorder});
   color: var(${u.errorForeground});
   background-color: var(${u.errorBackground});
@@ -360,24 +322,24 @@ const Lt = f.div`
   > div {
     font-family: monospace;
   }
-`, Bt = f.div`
+`, Dt = f.div`
   padding: 8px;
 `;
-function Ft() {
-  const t = be((n) => n.logging.messages).filter((n) => n.level == "info");
-  return t.length === 0 ? null : /* @__PURE__ */ s.jsx(Yt, { children: t.map((n, i, a) => /* @__PURE__ */ s.jsxs("div", { children: [
-    /* @__PURE__ */ s.jsx(Ut, { first: i === 0, last: i === a.length - 1 }),
-    /* @__PURE__ */ s.jsx("div", { children: n.message })
+function Lt() {
+  const s = je((n) => n.logging.messages).filter((n) => !0);
+  return s.length === 0 ? null : /* @__PURE__ */ t.jsx(Ft, { children: s.map((n, i, r) => /* @__PURE__ */ t.jsxs("div", { children: [
+    /* @__PURE__ */ t.jsx(Bt, { first: i === 0, last: i === r.length - 1 }),
+    /* @__PURE__ */ t.jsx("div", { children: n.message })
   ] }, i)) });
 }
-function Ut({ first: e, last: t }) {
-  return /* @__PURE__ */ s.jsxs(Kt, { first: e, last: t, children: [
-    /* @__PURE__ */ s.jsx("div", {}),
-    /* @__PURE__ */ s.jsx("div", {}),
-    /* @__PURE__ */ s.jsx("div", {})
+function Bt({ first: e, last: s }) {
+  return /* @__PURE__ */ t.jsxs(Ut, { first: e, last: s, children: [
+    /* @__PURE__ */ t.jsx("div", {}),
+    /* @__PURE__ */ t.jsx("div", {}),
+    /* @__PURE__ */ t.jsx("div", {})
   ] });
 }
-const Yt = f.div`
+const Ft = f.div`
   color: var(${u.foreground});
   background-color: var(${u.background});
   line-break: anywhere;
@@ -391,7 +353,7 @@ const Yt = f.div`
       padding: 4px 0px 4px 4px;
     }
   }
-`, Kt = f.div`
+`, Ut = f.div`
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -414,29 +376,29 @@ const Yt = f.div`
     ${({ last: e }) => !e && `background-color: var(${u.border});`}
   }
 `;
-function d(e) {
-  e === void 0 || this.initialize(e), this.maxHeaderSize = d.maxHeaderSize;
+function c(e) {
+  e === void 0 || this.initialize(e), this.maxHeaderSize = c.maxHeaderSize;
 }
-d.prototype.initialize = function(e, t) {
+c.prototype.initialize = function(e, s) {
   this.type = e, this.state = e + "_LINE", this.info = {
     headers: [],
     upgrade: !1
   }, this.trailers = [], this.line = "", this.isChunked = !1, this.connection = "", this.headerSize = 0, this.body_bytes = null, this.isUserCall = !1, this.hadError = !1;
 };
-d.encoding = "ascii";
-d.maxHeaderSize = 80 * 1024;
-d.REQUEST = "REQUEST";
-d.RESPONSE = "RESPONSE";
-var we = d.kOnHeaders = 1, D = d.kOnHeadersComplete = 2, A = d.kOnBody = 3, L = d.kOnMessageComplete = 4;
-d.prototype[we] = d.prototype[D] = d.prototype[A] = d.prototype[L] = function() {
+c.encoding = "ascii";
+c.maxHeaderSize = 80 * 1024;
+c.REQUEST = "REQUEST";
+c.RESPONSE = "RESPONSE";
+var Se = c.kOnHeaders = 1, D = c.kOnHeadersComplete = 2, k = c.kOnBody = 3, L = c.kOnMessageComplete = 4;
+c.prototype[Se] = c.prototype[D] = c.prototype[k] = c.prototype[L] = function() {
 };
-var Ce = !0;
-Object.defineProperty(d, "kOnExecute", {
+var we = !0;
+Object.defineProperty(c, "kOnExecute", {
   get: function() {
-    return Ce = !1, 99;
+    return we = !1, 99;
   }
 });
-var Ee = d.methods = [
+var Ce = c.methods = [
   "DELETE",
   "GET",
   "HEAD",
@@ -471,103 +433,103 @@ var Ee = d.methods = [
   "LINK",
   "UNLINK",
   "SOURCE"
-], Re = Ee.indexOf("CONNECT");
-d.prototype.reinitialize = d;
-d.prototype.close = d.prototype.pause = d.prototype.resume = d.prototype.free = function() {
+], Ee = Ce.indexOf("CONNECT");
+c.prototype.reinitialize = c;
+c.prototype.close = c.prototype.pause = c.prototype.resume = c.prototype.free = function() {
 };
-d.prototype._compatMode0_11 = !1;
-d.prototype.getAsyncId = function() {
+c.prototype._compatMode0_11 = !1;
+c.prototype.getAsyncId = function() {
   return 0;
 };
-var zt = {
+var Yt = {
   REQUEST_LINE: !0,
   RESPONSE_LINE: !0,
   HEADER: !0
 };
-d.prototype.execute = function(e, t, n) {
-  if (!(this instanceof d))
+c.prototype.execute = function(e, s, n) {
+  if (!(this instanceof c))
     throw new TypeError("not a HTTPParser");
-  t = t || 0, n = typeof n == "number" ? n : e.length, this.chunk = e, this.offset = t;
-  var i = this.end = t + n;
+  s = s || 0, n = typeof n == "number" ? n : e.length, this.chunk = e, this.offset = s;
+  var i = this.end = s + n;
   try {
     for (; this.offset < i && !this[this.state](); )
       ;
-  } catch (a) {
+  } catch (r) {
     if (this.isUserCall)
-      throw a;
-    return this.hadError = !0, a;
+      throw r;
+    return this.hadError = !0, r;
   }
-  return this.chunk = null, n = this.offset - t, zt[this.state] && (this.headerSize += n, this.headerSize > (this.maxHeaderSize || d.maxHeaderSize)) ? new Error("max header size exceeded") : n;
+  return this.chunk = null, n = this.offset - s, Yt[this.state] && (this.headerSize += n, this.headerSize > (this.maxHeaderSize || c.maxHeaderSize)) ? new Error("max header size exceeded") : n;
 };
-var Wt = {
+var Kt = {
   REQUEST_LINE: !0,
   RESPONSE_LINE: !0,
   BODY_RAW: !0
 };
-d.prototype.finish = function() {
+c.prototype.finish = function() {
   if (!this.hadError) {
-    if (!Wt[this.state])
+    if (!Kt[this.state])
       return new Error("invalid state for EOF");
     this.state === "BODY_RAW" && this.userCall()(this[L]());
   }
 };
-d.prototype.consume = d.prototype.unconsume = d.prototype.getCurrentBuffer = function() {
+c.prototype.consume = c.prototype.unconsume = c.prototype.getCurrentBuffer = function() {
 };
-d.prototype.userCall = function() {
+c.prototype.userCall = function() {
   this.isUserCall = !0;
   var e = this;
-  return function(t) {
-    return e.isUserCall = !1, t;
+  return function(s) {
+    return e.isUserCall = !1, s;
   };
 };
-d.prototype.nextRequest = function() {
+c.prototype.nextRequest = function() {
   this.userCall()(this[L]()), this.reinitialize(this.type);
 };
-d.prototype.consumeLine = function() {
-  for (var e = this.end, t = this.chunk, n = this.offset; n < e; n++)
-    if (t[n] === 10) {
-      var i = this.line + t.toString(d.encoding, this.offset, n);
+c.prototype.consumeLine = function() {
+  for (var e = this.end, s = this.chunk, n = this.offset; n < e; n++)
+    if (s[n] === 10) {
+      var i = this.line + s.toString(c.encoding, this.offset, n);
       return i.charAt(i.length - 1) === "\r" && (i = i.substr(0, i.length - 1)), this.line = "", this.offset = n + 1, i;
     }
-  this.line += t.toString(d.encoding, this.offset, this.end), this.offset = this.end;
+  this.line += s.toString(c.encoding, this.offset, this.end), this.offset = this.end;
 };
-var Vt = /^([^: \t]+):[ \t]*((?:.*[^ \t])|)/, Gt = /^[ \t]+(.*[^ \t])/;
-d.prototype.parseHeader = function(e, t) {
+var zt = /^([^: \t]+):[ \t]*((?:.*[^ \t])|)/, Vt = /^[ \t]+(.*[^ \t])/;
+c.prototype.parseHeader = function(e, s) {
   if (e.indexOf("\r") !== -1)
-    throw N("HPE_LF_EXPECTED");
-  var n = Vt.exec(e), i = n && n[1];
+    throw I("HPE_LF_EXPECTED");
+  var n = zt.exec(e), i = n && n[1];
   if (i)
-    t.push(i), t.push(n[2]);
+    s.push(i), s.push(n[2]);
   else {
-    var a = Gt.exec(e);
-    a && t.length && (t[t.length - 1] && (t[t.length - 1] += " "), t[t.length - 1] += a[1]);
+    var r = Vt.exec(e);
+    r && s.length && (s[s.length - 1] && (s[s.length - 1] += " "), s[s.length - 1] += r[1]);
   }
 };
-var Qt = /^([A-Z-]+) ([^ ]+) HTTP\/(\d)\.(\d)$/;
-d.prototype.REQUEST_LINE = function() {
+var Wt = /^([A-Z-]+) ([^ ]+) HTTP\/(\d)\.(\d)$/;
+c.prototype.REQUEST_LINE = function() {
   var e = this.consumeLine();
   if (e) {
-    var t = Qt.exec(e);
-    if (t === null)
-      throw N("HPE_INVALID_CONSTANT");
-    if (this.info.method = this._compatMode0_11 ? t[1] : Ee.indexOf(t[1]), this.info.method === -1)
+    var s = Wt.exec(e);
+    if (s === null)
+      throw I("HPE_INVALID_CONSTANT");
+    if (this.info.method = this._compatMode0_11 ? s[1] : Ce.indexOf(s[1]), this.info.method === -1)
       throw new Error("invalid request method");
-    this.info.url = t[2], this.info.versionMajor = +t[3], this.info.versionMinor = +t[4], this.body_bytes = 0, this.state = "HEADER";
+    this.info.url = s[2], this.info.versionMajor = +s[3], this.info.versionMinor = +s[4], this.body_bytes = 0, this.state = "HEADER";
   }
 };
-var Jt = /^HTTP\/(\d)\.(\d) (\d{3}) ?(.*)$/;
-d.prototype.RESPONSE_LINE = function() {
+var Gt = /^HTTP\/(\d)\.(\d) (\d{3}) ?(.*)$/;
+c.prototype.RESPONSE_LINE = function() {
   var e = this.consumeLine();
   if (e) {
-    var t = Jt.exec(e);
-    if (t === null)
-      throw N("HPE_INVALID_CONSTANT");
-    this.info.versionMajor = +t[1], this.info.versionMinor = +t[2];
-    var n = this.info.statusCode = +t[3];
-    this.info.statusMessage = t[4], ((n / 100 | 0) === 1 || n === 204 || n === 304) && (this.body_bytes = 0), this.state = "HEADER";
+    var s = Gt.exec(e);
+    if (s === null)
+      throw I("HPE_INVALID_CONSTANT");
+    this.info.versionMajor = +s[1], this.info.versionMinor = +s[2];
+    var n = this.info.statusCode = +s[3];
+    this.info.statusMessage = s[4], ((n / 100 | 0) === 1 || n === 204 || n === 304) && (this.body_bytes = 0), this.state = "HEADER";
   }
 };
-d.prototype.shouldKeepAlive = function() {
+c.prototype.shouldKeepAlive = function() {
   if (this.info.versionMajor > 0 && this.info.versionMinor > 0) {
     if (this.connection.indexOf("close") !== -1)
       return !1;
@@ -575,96 +537,96 @@ d.prototype.shouldKeepAlive = function() {
     return !1;
   return !!(this.body_bytes !== null || this.isChunked);
 };
-d.prototype.HEADER = function() {
+c.prototype.HEADER = function() {
   var e = this.consumeLine();
   if (e !== void 0) {
-    var t = this.info;
+    var s = this.info;
     if (e)
-      this.parseHeader(e, t.headers);
+      this.parseHeader(e, s.headers);
     else {
-      for (var n = t.headers, i = !1, a, c = !1, o = 0; o < n.length; o += 2)
-        switch (n[o].toLowerCase()) {
+      for (var n = s.headers, i = !1, r, d = !1, a = 0; a < n.length; a += 2)
+        switch (n[a].toLowerCase()) {
           case "transfer-encoding":
-            this.isChunked = n[o + 1].toLowerCase() === "chunked";
+            this.isChunked = n[a + 1].toLowerCase() === "chunked";
             break;
           case "content-length":
-            if (a = +n[o + 1], i) {
-              if (a !== this.body_bytes)
-                throw N("HPE_UNEXPECTED_CONTENT_LENGTH");
+            if (r = +n[a + 1], i) {
+              if (r !== this.body_bytes)
+                throw I("HPE_UNEXPECTED_CONTENT_LENGTH");
             } else
-              i = !0, this.body_bytes = a;
+              i = !0, this.body_bytes = r;
             break;
           case "connection":
-            this.connection += n[o + 1].toLowerCase();
+            this.connection += n[a + 1].toLowerCase();
             break;
           case "upgrade":
-            c = !0;
+            d = !0;
             break;
         }
-      this.isChunked && i && (i = !1, this.body_bytes = null), c && this.connection.indexOf("upgrade") != -1 ? t.upgrade = this.type === d.REQUEST || t.statusCode === 101 : t.upgrade = t.method === Re, this.isChunked && t.upgrade && (this.isChunked = !1), t.shouldKeepAlive = this.shouldKeepAlive();
-      var r;
-      if (Ce ? r = this.userCall()(this[D](t)) : r = this.userCall()(this[D](
-        t.versionMajor,
-        t.versionMinor,
-        t.headers,
-        t.method,
-        t.url,
-        t.statusCode,
-        t.statusMessage,
-        t.upgrade,
-        t.shouldKeepAlive
-      )), r === 2)
+      this.isChunked && i && (i = !1, this.body_bytes = null), d && this.connection.indexOf("upgrade") != -1 ? s.upgrade = this.type === c.REQUEST || s.statusCode === 101 : s.upgrade = s.method === Ee, this.isChunked && s.upgrade && (this.isChunked = !1), s.shouldKeepAlive = this.shouldKeepAlive();
+      var o;
+      if (we ? o = this.userCall()(this[D](s)) : o = this.userCall()(this[D](
+        s.versionMajor,
+        s.versionMinor,
+        s.headers,
+        s.method,
+        s.url,
+        s.statusCode,
+        s.statusMessage,
+        s.upgrade,
+        s.shouldKeepAlive
+      )), o === 2)
         return this.nextRequest(), !0;
-      if (this.isChunked && !r)
+      if (this.isChunked && !o)
         this.state = "BODY_CHUNKHEAD";
       else {
-        if (r || this.body_bytes === 0)
-          return this.nextRequest(), t.upgrade;
+        if (o || this.body_bytes === 0)
+          return this.nextRequest(), s.upgrade;
         this.body_bytes === null ? this.state = "BODY_RAW" : this.state = "BODY_SIZED";
       }
     }
   }
 };
-d.prototype.BODY_CHUNKHEAD = function() {
+c.prototype.BODY_CHUNKHEAD = function() {
   var e = this.consumeLine();
   e !== void 0 && (this.body_bytes = parseInt(e, 16), this.body_bytes ? this.state = "BODY_CHUNK" : this.state = "BODY_CHUNKTRAILERS");
 };
-d.prototype.BODY_CHUNK = function() {
+c.prototype.BODY_CHUNK = function() {
   var e = Math.min(this.end - this.offset, this.body_bytes);
-  this.userCall()(this[A](this.chunk, this.offset, e)), this.offset += e, this.body_bytes -= e, this.body_bytes || (this.state = "BODY_CHUNKEMPTYLINE");
+  this.userCall()(this[k](this.chunk, this.offset, e)), this.offset += e, this.body_bytes -= e, this.body_bytes || (this.state = "BODY_CHUNKEMPTYLINE");
 };
-d.prototype.BODY_CHUNKEMPTYLINE = function() {
+c.prototype.BODY_CHUNKEMPTYLINE = function() {
   var e = this.consumeLine();
   e !== void 0 && (this.state = "BODY_CHUNKHEAD");
 };
-d.prototype.BODY_CHUNKTRAILERS = function() {
+c.prototype.BODY_CHUNKTRAILERS = function() {
   var e = this.consumeLine();
-  e !== void 0 && (e ? this.parseHeader(e, this.trailers) : (this.trailers.length && this.userCall()(this[we](this.trailers, "")), this.nextRequest()));
+  e !== void 0 && (e ? this.parseHeader(e, this.trailers) : (this.trailers.length && this.userCall()(this[Se](this.trailers, "")), this.nextRequest()));
 };
-d.prototype.BODY_RAW = function() {
+c.prototype.BODY_RAW = function() {
   var e = this.end - this.offset;
-  this.userCall()(this[A](this.chunk, this.offset, e)), this.offset = this.end;
+  this.userCall()(this[k](this.chunk, this.offset, e)), this.offset = this.end;
 };
-d.prototype.BODY_SIZED = function() {
+c.prototype.BODY_SIZED = function() {
   var e = Math.min(this.end - this.offset, this.body_bytes);
-  this.userCall()(this[A](this.chunk, this.offset, e)), this.offset += e, this.body_bytes -= e, this.body_bytes || this.nextRequest();
+  this.userCall()(this[k](this.chunk, this.offset, e)), this.offset += e, this.body_bytes -= e, this.body_bytes || this.nextRequest();
 };
 ["Headers", "HeadersComplete", "Body", "MessageComplete"].forEach(function(e) {
-  var t = d["kOn" + e];
-  Object.defineProperty(d.prototype, "on" + e, {
+  var s = c["kOn" + e];
+  Object.defineProperty(c.prototype, "on" + e, {
     get: function() {
-      return this[t];
+      return this[s];
     },
     set: function(n) {
-      return this._compatMode0_11 = !0, Re = "CONNECT", this[t] = n;
+      return this._compatMode0_11 = !0, Ee = "CONNECT", this[s] = n;
     }
   });
 });
-function N(e) {
-  var t = new Error("Parse Error");
-  return t.code = e, t;
+function I(e) {
+  var s = new Error("Parse Error");
+  return s.code = e, s;
 }
-function ke(e) {
+function Re(e) {
   if (e === void 0)
     return {
       httpVersion: "1.0",
@@ -672,7 +634,7 @@ function ke(e) {
       statusCode: 0
     };
   try {
-    return Xt(Ge.Buffer.from(e, "base64"));
+    return Qt(We.Buffer.from(e, "base64"));
   } catch {
     return {
       httpVersion: "1.0",
@@ -681,54 +643,54 @@ function ke(e) {
     };
   }
 }
-function Xt(e) {
-  const t = new d(d.RESPONSE);
-  let n = !1, i = 0, a, c, o = [], r = [];
-  if (t[d.kOnHeadersComplete] = function(h) {
-    h.shouldKeepAlive, h.upgrade, i = h.statusCode, h.statusMessage, a = h.versionMajor, c = h.versionMinor, o = h.headers;
-  }, t[d.kOnBody] = function(h, p, g) {
-    r.push(h.slice(p, p + g));
-  }, t[d.kOnHeaders] = function(h) {
-  }, t[d.kOnMessageComplete] = function() {
+function Qt(e) {
+  const s = new c(c.RESPONSE);
+  let n = !1, i = 0, r, d, a = [], o = [];
+  if (s[c.kOnHeadersComplete] = function(l) {
+    l.shouldKeepAlive, l.upgrade, i = l.statusCode, l.statusMessage, r = l.versionMajor, d = l.versionMinor, a = l.headers;
+  }, s[c.kOnBody] = function(l, p, g) {
+    o.push(l.slice(p, p + g));
+  }, s[c.kOnHeaders] = function(l) {
+  }, s[c.kOnMessageComplete] = function() {
     n = !0;
-  }, t.execute(e), t.finish(), !n)
+  }, s.execute(e), s.finish(), !n)
     throw new Error("Could not parse");
-  let l = r.join("");
-  const x = [];
-  for (let h = 0; h < o.length - 1; h++)
-    h % 2 === 0 && x.push([o[h], o[h + 1]]);
+  let x = o.join("");
+  const h = [];
+  for (let l = 0; l < a.length - 1; l++)
+    l % 2 === 0 && h.push([a[l], a[l + 1]]);
   return {
-    headers: x,
+    headers: h,
     statusCode: i,
-    httpVersion: `${a}.${c}`,
-    body: l
+    httpVersion: `${r}.${d}`,
+    body: x
   };
 }
-function $e({
+function Oe({
   curl: e,
-  id: t,
+  id: s,
   waiting: n
 }) {
-  const i = k();
-  return /* @__PURE__ */ s.jsx(Zt, { children: /* @__PURE__ */ s.jsxs(es, { style: { lineBreak: "anywhere", whiteSpace: "pre-line" }, children: [
-    /* @__PURE__ */ s.jsx(dt, { children: /* @__PURE__ */ s.jsxs(lt, { children: [
-      /* @__PURE__ */ s.jsx(pt, { asChild: !0, children: /* @__PURE__ */ s.jsx("span", { children: /* @__PURE__ */ s.jsx(
+  const i = E();
+  return /* @__PURE__ */ t.jsx(Jt, { children: /* @__PURE__ */ t.jsxs(Xt, { style: { lineBreak: "anywhere", whiteSpace: "pre-line" }, children: [
+    /* @__PURE__ */ t.jsx(dt, { children: /* @__PURE__ */ t.jsxs(lt, { children: [
+      /* @__PURE__ */ t.jsx(ht, { asChild: !0, children: /* @__PURE__ */ t.jsx("span", { children: /* @__PURE__ */ t.jsx(
         Je,
         {
-          onClick: (a) => {
-            a.preventDefault(), a.stopPropagation(), i(ve(e));
+          onClick: (r) => {
+            r.preventDefault(), r.stopPropagation(), i(me(e));
           }
         }
       ) }) }),
-      /* @__PURE__ */ s.jsx(ht, { children: /* @__PURE__ */ s.jsxs(ts, { sideOffset: 5, children: [
+      /* @__PURE__ */ t.jsx(pt, { children: /* @__PURE__ */ t.jsxs(Zt, { sideOffset: 5, children: [
         "Copy cURL command to the clipboard",
-        /* @__PURE__ */ s.jsx(ss, {})
+        /* @__PURE__ */ t.jsx(es, {})
       ] }) })
     ] }) }),
     e
   ] }) });
 }
-const Zt = f.div``, es = f.div`
+const Jt = f.div``, Xt = f.div`
   & > span {
     cursor: pointer;
     position: absolute;
@@ -743,76 +705,76 @@ const Zt = f.div``, es = f.div`
   position: relative;
   font-family: monospace;
   background-color: var(${u.computedOne});
-`, ts = f(at)`
+`, Zt = f(at)`
   color: var(${u.notificationsForeground});
   background-color: var(${u.notificationsBackground});
   border: 1px solid var(${u.notificationsBorder});
   border-radius: 4px;
   padding: 4px 8px;
   margin-right: 16px;
-`, ss = f(ct)`
+`, es = f(ct)`
   fill: var(${u.notificationsForeground});
 `;
-function ns({
+function ts({
   operation: e,
-  issue: t,
+  issue: s,
   responses: n,
   errors: i,
-  waitings: a
+  waitings: r
 }) {
-  var y, j;
-  const { request: c, response: o, outcome: r, happyPath: l } = t, x = !e.fuzzed;
-  let h = "N/A";
-  const p = ((y = t == null ? void 0 : t.outcome) == null ? void 0 : y.status) === "correct" ? "Yes" : "No";
-  p === "Yes" && (h = r != null && r.conformant ? "Yes" : "No");
-  const g = n["happy-path"], m = i["happy-path"], v = a["happy-path"];
-  return /* @__PURE__ */ s.jsxs(is, { children: [
-    /* @__PURE__ */ s.jsx(C, { children: /* @__PURE__ */ s.jsx("div", { style: { opacity: 1 }, children: /* @__PURE__ */ s.jsx("b", { children: "Happy Path Testing results" }) }) }),
-    /* @__PURE__ */ s.jsxs(C, { children: [
-      /* @__PURE__ */ s.jsx("div", { children: "Test Status" }),
-      /* @__PURE__ */ s.jsx("div", { children: x ? "Failed" : "Passed" })
+  var y, b;
+  const { request: d, response: a, outcome: o, happyPath: x } = s, h = !e.fuzzed;
+  let l = "N/A";
+  const p = ((y = s == null ? void 0 : s.outcome) == null ? void 0 : y.status) === "correct" ? "Yes" : "No";
+  p === "Yes" && (l = o != null && o.conformant ? "Yes" : "No");
+  const g = n["happy-path"], m = i["happy-path"], v = r["happy-path"];
+  return /* @__PURE__ */ t.jsxs(ss, { children: [
+    /* @__PURE__ */ t.jsx(S, { children: /* @__PURE__ */ t.jsx("div", { style: { opacity: 1 }, children: /* @__PURE__ */ t.jsx("b", { children: "Happy Path Testing results" }) }) }),
+    /* @__PURE__ */ t.jsxs(S, { children: [
+      /* @__PURE__ */ t.jsx("div", { children: "Test Status" }),
+      /* @__PURE__ */ t.jsx("div", { children: h ? "Failed" : "Passed" })
     ] }),
-    /* @__PURE__ */ s.jsxs(C, { children: [
-      /* @__PURE__ */ s.jsx("div", { children: "HTTP code received" }),
-      /* @__PURE__ */ s.jsxs("div", { children: [
-        o == null ? void 0 : o.httpStatusCode,
+    /* @__PURE__ */ t.jsxs(S, { children: [
+      /* @__PURE__ */ t.jsx("div", { children: "HTTP code received" }),
+      /* @__PURE__ */ t.jsxs("div", { children: [
+        a == null ? void 0 : a.httpStatusCode,
         " (Expected: ",
-        (j = l == null ? void 0 : l.httpStatusExpected) == null ? void 0 : j.join(", "),
+        (b = x == null ? void 0 : x.httpStatusExpected) == null ? void 0 : b.join(", "),
         ")"
       ] })
     ] }),
-    /* @__PURE__ */ s.jsxs(C, { children: [
-      /* @__PURE__ */ s.jsx("div", { children: "Response code found in API Contract" }),
-      /* @__PURE__ */ s.jsx("div", { children: p })
+    /* @__PURE__ */ t.jsxs(S, { children: [
+      /* @__PURE__ */ t.jsx("div", { children: "Response code found in API Contract" }),
+      /* @__PURE__ */ t.jsx("div", { children: p })
     ] }),
-    /* @__PURE__ */ s.jsxs(C, { children: [
-      /* @__PURE__ */ s.jsx("div", { children: "Response matches API Contract" }),
-      /* @__PURE__ */ s.jsx("div", { children: h })
+    /* @__PURE__ */ t.jsxs(S, { children: [
+      /* @__PURE__ */ t.jsx("div", { children: "Response matches API Contract" }),
+      /* @__PURE__ */ t.jsx("div", { children: l })
     ] }),
-    (c == null ? void 0 : c.curl) && /* @__PURE__ */ s.jsxs(C, { children: [
-      /* @__PURE__ */ s.jsx("div", { children: "Request" }),
-      /* @__PURE__ */ s.jsx("div", { children: /* @__PURE__ */ s.jsx($e, { curl: c == null ? void 0 : c.curl, id: "happy-path", waiting: v }) })
+    (d == null ? void 0 : d.curl) && /* @__PURE__ */ t.jsxs(S, { children: [
+      /* @__PURE__ */ t.jsx("div", { children: "Request" }),
+      /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(Oe, { curl: d == null ? void 0 : d.curl, id: "happy-path", waiting: v }) })
     ] }),
-    ((o == null ? void 0 : o.rawPayload) || g) && /* @__PURE__ */ s.jsxs(C, { children: [
-      /* @__PURE__ */ s.jsx("div", { children: "Response" }),
-      /* @__PURE__ */ s.jsx("div", { children: /* @__PURE__ */ s.jsx(
-        fe,
+    ((a == null ? void 0 : a.rawPayload) || g) && /* @__PURE__ */ t.jsxs(S, { children: [
+      /* @__PURE__ */ t.jsx("div", { children: "Response" }),
+      /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(
+        ue,
         {
           accented: !0,
-          response: g || ke(o.rawPayload)
+          response: g || Re(a.rawPayload)
         }
       ) })
     ] }),
-    ((r == null ? void 0 : r.error) || m) && /* @__PURE__ */ s.jsxs(C, { children: [
-      /* @__PURE__ */ s.jsx("div", { children: "Error" }),
-      /* @__PURE__ */ s.jsx("div", { children: m ? m.message : r == null ? void 0 : r.error })
+    ((o == null ? void 0 : o.error) || m) && /* @__PURE__ */ t.jsxs(S, { children: [
+      /* @__PURE__ */ t.jsx("div", { children: "Error" }),
+      /* @__PURE__ */ t.jsx("div", { children: m ? m.message : o == null ? void 0 : o.error })
     ] })
   ] });
 }
-const is = f.div`
+const ss = f.div`
   margin: 8px;
   border: 1px solid var(${u.border});
-`, C = f.div`
+`, S = f.div`
   display: flex;
   padding: 8px;
   gap: 8px;
@@ -825,91 +787,94 @@ const is = f.div`
     flex: 3;
   }
 `;
-function rs({
+function ns({
   global: e,
-  operation: t,
-  issues: n
+  operation: s,
+  issues: n,
+  scanVersion: i
 }) {
-  var r;
-  const i = k();
-  e.issues.critical, e.issues.high;
-  const a = (e.conformanceTestRequests.executed.total ?? 0) + (((r = e.methodNotAllowedTestRequests) == null ? void 0 : r.executed.total) ?? 0), c = (n == null ? void 0 : n.length) | 0, o = n.filter(
-    (l) => {
-      var x, h;
-      return ((x = l == null ? void 0 : l.outcome) == null ? void 0 : x.criticality) && ((h = l.outcome) == null ? void 0 : h.criticality) >= 4;
+  var x;
+  const r = E(), d = (e.conformanceTestRequests.executed.total ?? 0) + (e.authorizationTestRequests.executed.total ?? 0) + (e.customTestRequests.executed.total ?? 0) + (((x = e.methodNotAllowedTestRequests) == null ? void 0 : x.executed.total) ?? 0), a = (n == null ? void 0 : n.length) | 0, o = n.filter(
+    (h) => {
+      var l, p;
+      return ((l = h == null ? void 0 : h.outcome) == null ? void 0 : l.criticality) && ((p = h.outcome) == null ? void 0 : p.criticality) >= 4;
     }
   ).length;
-  return /* @__PURE__ */ s.jsxs(os, { children: [
-    /* @__PURE__ */ s.jsxs(cs, { children: [
-      /* @__PURE__ */ s.jsxs("div", { children: [
+  return /* @__PURE__ */ t.jsxs(is, { children: [
+    /* @__PURE__ */ t.jsxs(os, { children: [
+      /* @__PURE__ */ t.jsxs("div", { children: [
         "Status: ",
-        /* @__PURE__ */ s.jsx("b", { children: e.state }),
+        /* @__PURE__ */ t.jsx("b", { children: e.state }),
         " (Exit code: ",
         e.exitCode,
         ")"
       ] }),
-      /* @__PURE__ */ s.jsx("div", { children: O.fromISO(e.endDate).toLocaleString(O.DATETIME_MED) }),
-      /* @__PURE__ */ s.jsxs("div", { children: [
+      /* @__PURE__ */ t.jsx("div", { children: P.fromISO(e.endDate).toLocaleString(P.DATETIME_MED) }),
+      /* @__PURE__ */ t.jsxs("div", { children: [
         "Execution time:",
         " ",
-        O.fromISO(e.endDate).diff(O.fromISO(e.startDate)).toFormat("mm:ss.SSS")
+        P.fromISO(e.endDate).diff(P.fromISO(e.startDate)).toFormat("mm:ss.SSS")
+      ] }),
+      /* @__PURE__ */ t.jsxs("div", { children: [
+        "Scan version: ",
+        i
       ] })
     ] }),
-    /* @__PURE__ */ s.jsxs(as, { children: [
-      /* @__PURE__ */ s.jsxs(
+    /* @__PURE__ */ t.jsxs(rs, { children: [
+      /* @__PURE__ */ t.jsxs(
         "div",
         {
-          onClick: (l) => {
-            l.preventDefault(), l.stopPropagation(), i(P("tests")), i(E({}));
+          onClick: (h) => {
+            h.preventDefault(), h.stopPropagation(), r(A("tests")), r(w({}));
           },
           children: [
-            /* @__PURE__ */ s.jsxs("div", { children: [
-              a,
+            /* @__PURE__ */ t.jsxs("div", { children: [
+              d,
               " ",
-              /* @__PURE__ */ s.jsx(H, {})
+              /* @__PURE__ */ t.jsx(N, {})
             ] }),
-            /* @__PURE__ */ s.jsx("div", { children: "Executed" })
+            /* @__PURE__ */ t.jsx("div", { children: "Executed" })
           ]
         }
       ),
-      /* @__PURE__ */ s.jsxs(
+      /* @__PURE__ */ t.jsxs(
         "div",
         {
-          onClick: (l) => {
-            l.preventDefault(), l.stopPropagation(), i(P("tests")), i(E({}));
+          onClick: (h) => {
+            h.preventDefault(), h.stopPropagation(), r(A("tests")), r(w({}));
           },
           children: [
-            /* @__PURE__ */ s.jsxs("div", { children: [
-              c ?? 0,
+            /* @__PURE__ */ t.jsxs("div", { children: [
+              a ?? 0,
               " ",
-              /* @__PURE__ */ s.jsx(H, {})
+              /* @__PURE__ */ t.jsx(N, {})
             ] }),
-            /* @__PURE__ */ s.jsx("div", { children: "Issues Found" })
+            /* @__PURE__ */ t.jsx("div", { children: "Issues Found" })
           ]
         }
       ),
-      /* @__PURE__ */ s.jsxs(
+      /* @__PURE__ */ t.jsxs(
         "div",
         {
-          onClick: (l) => {
-            l.preventDefault(), l.stopPropagation(), i(P("tests")), i(E({ severity: "high" }));
+          onClick: (h) => {
+            h.preventDefault(), h.stopPropagation(), r(A("tests")), r(w({ severity: "high" }));
           },
           children: [
-            /* @__PURE__ */ s.jsxs("div", { children: [
+            /* @__PURE__ */ t.jsxs("div", { children: [
               o,
               " ",
-              /* @__PURE__ */ s.jsx(H, {})
+              /* @__PURE__ */ t.jsx(N, {})
             ] }),
-            /* @__PURE__ */ s.jsx("div", { children: "Critical/High" })
+            /* @__PURE__ */ t.jsx("div", { children: "Critical/High" })
           ]
         }
       )
     ] })
   ] });
 }
-const os = f.div`
+const is = f.div`
   margin: 8px;
-`, as = f.div`
+`, rs = f.div`
   display: flex;
   gap: 8px;
   margin-top: 8px;
@@ -923,7 +888,7 @@ const os = f.div`
     padding: 12px 8px;
     border: 1px solid var(${u.border});
   }
-`, cs = f.div`
+`, os = f.div`
   display: flex;
   border: 1px solid var(${u.border});
   padding: 4px;
@@ -933,129 +898,129 @@ const os = f.div`
     margin-left: 4px;
   }
 `;
-function ds({
+function as({
   operation: e,
-  issue: t,
+  issue: s,
   httpResponse: n,
   error: i,
-  id: a,
-  waiting: c
+  id: r,
+  waiting: d
 }) {
-  var w, B, F, U, Y, K, z, W, V, G, Q, J, X, Z, ee, te, se, ne, ie;
-  const o = k(), [r, l] = T.useState(!0), { response: x, test: h, outcome: p } = t, g = (p == null ? void 0 : p.status) === "correct", m = p == null ? void 0 : p.conformant, v = !(g && m);
-  let y = "N/A", j = "N/A";
-  const S = ((B = (w = p == null ? void 0 : p.apiResponseAnalysis) == null ? void 0 : w[0]) == null ? void 0 : B.responseKey) === "response-http-status-scan" ? "No" : "Yes";
-  return S === "Yes" && (y = ((U = (F = p == null ? void 0 : p.apiResponseAnalysis) == null ? void 0 : F[0]) == null ? void 0 : U.responseKey) === "response-body-contenttype-scan" ? "No" : "Yes"), y === "Yes" && (j = ((K = (Y = p == null ? void 0 : p.apiResponseAnalysis) == null ? void 0 : Y[0]) == null ? void 0 : K.responseKey) === "response-body-badformat-scan" ? "No" : "Yes"), /* @__PURE__ */ s.jsxs(ls, { children: [
-    /* @__PURE__ */ s.jsxs(ps, { collapsed: r, onClick: () => l(!r), children: [
-      /* @__PURE__ */ s.jsx("div", { children: r ? /* @__PURE__ */ s.jsx(ut, {}) : /* @__PURE__ */ s.jsx(ft, {}) }),
-      /* @__PURE__ */ s.jsxs("div", { children: [
-        /* @__PURE__ */ s.jsx(hs, { children: (z = t.test) == null ? void 0 : z.description }),
-        /* @__PURE__ */ s.jsxs(us, { children: [
-          v ? /* @__PURE__ */ s.jsxs(q, { children: [
-            /* @__PURE__ */ s.jsx(_, {}),
+  var T, B, F, U, Y, K, z, V, W, G, Q, J, X, Z, ee, te, se, ne, ie;
+  const a = E(), [o, x] = q.useState(!0), { response: h, test: l, outcome: p } = s, g = (p == null ? void 0 : p.status) === "correct", m = p == null ? void 0 : p.conformant, v = !(g && m);
+  let y = "N/A", b = "N/A";
+  const O = ((B = (T = p == null ? void 0 : p.apiResponseAnalysis) == null ? void 0 : T[0]) == null ? void 0 : B.responseKey) === "response-http-status-scan" ? "No" : "Yes";
+  return O === "Yes" && (y = ((U = (F = p == null ? void 0 : p.apiResponseAnalysis) == null ? void 0 : F[0]) == null ? void 0 : U.responseKey) === "response-body-contenttype-scan" ? "No" : "Yes"), y === "Yes" && (b = ((K = (Y = p == null ? void 0 : p.apiResponseAnalysis) == null ? void 0 : Y[0]) == null ? void 0 : K.responseKey) === "response-body-badformat-scan" ? "No" : "Yes"), /* @__PURE__ */ t.jsxs(cs, { children: [
+    /* @__PURE__ */ t.jsxs(ds, { collapsed: o, onClick: () => x(!o), children: [
+      /* @__PURE__ */ t.jsx("div", { children: o ? /* @__PURE__ */ t.jsx(ut, {}) : /* @__PURE__ */ t.jsx(ft, {}) }),
+      /* @__PURE__ */ t.jsxs("div", { children: [
+        /* @__PURE__ */ t.jsx(ls, { children: (z = s.test) == null ? void 0 : z.description }),
+        /* @__PURE__ */ t.jsxs(hs, { children: [
+          v ? /* @__PURE__ */ t.jsxs($, { children: [
+            /* @__PURE__ */ t.jsx(_, {}),
             " Failed",
-            t.outcome.criticality > 0 && /* @__PURE__ */ s.jsxs(s.Fragment, { children: [
+            s.outcome.criticality > 0 && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
               "/",
-              /* @__PURE__ */ s.jsxs("span", { style: { fontWeight: gs[p.criticality] }, children: [
+              /* @__PURE__ */ t.jsxs("span", { style: { fontWeight: fs[p.criticality] }, children: [
                 " ",
-                xs[p.criticality]
+                us[p.criticality]
               ] })
             ] })
-          ] }) : /* @__PURE__ */ s.jsxs(q, { children: [
-            /* @__PURE__ */ s.jsx(I, {}),
+          ] }) : /* @__PURE__ */ t.jsxs($, { children: [
+            /* @__PURE__ */ t.jsx(H, {}),
             " Passed"
           ] }),
-          v && /* @__PURE__ */ s.jsxs(s.Fragment, { children: [
-            /* @__PURE__ */ s.jsx(q, { children: g ? /* @__PURE__ */ s.jsxs(s.Fragment, { children: [
-              /* @__PURE__ */ s.jsx(I, {}),
+          v && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+            /* @__PURE__ */ t.jsx($, { children: g ? /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+              /* @__PURE__ */ t.jsx(H, {}),
               " Response code: Expected"
-            ] }) : /* @__PURE__ */ s.jsxs(s.Fragment, { children: [
-              /* @__PURE__ */ s.jsx(_, {}),
+            ] }) : /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+              /* @__PURE__ */ t.jsx(_, {}),
               " Response code: Unexpected"
             ] }) }),
-            /* @__PURE__ */ s.jsx(q, { children: m ? /* @__PURE__ */ s.jsxs(s.Fragment, { children: [
-              /* @__PURE__ */ s.jsx(I, {}),
+            /* @__PURE__ */ t.jsx($, { children: m ? /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+              /* @__PURE__ */ t.jsx(H, {}),
               " Conforms to Contract: Yes"
-            ] }) : /* @__PURE__ */ s.jsxs(s.Fragment, { children: [
-              /* @__PURE__ */ s.jsx(_, {}),
+            ] }) : /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+              /* @__PURE__ */ t.jsx(_, {}),
               " Conforms to Contract: No"
             ] }) })
           ] })
         ] })
       ] })
     ] }),
-    !r && /* @__PURE__ */ s.jsxs(fs, { children: [
-      /* @__PURE__ */ s.jsxs(b, { children: [
-        /* @__PURE__ */ s.jsx("div", { children: "HTTP code received" }),
-        /* @__PURE__ */ s.jsxs("div", { children: [
-          (W = t.response) == null ? void 0 : W.httpStatusCode,
+    !o && /* @__PURE__ */ t.jsxs(ps, { children: [
+      /* @__PURE__ */ t.jsxs(j, { children: [
+        /* @__PURE__ */ t.jsx("div", { children: "HTTP code received" }),
+        /* @__PURE__ */ t.jsxs("div", { children: [
+          (V = s.response) == null ? void 0 : V.httpStatusCode,
           " (Expected:",
           " ",
-          (G = (V = t.test) == null ? void 0 : V.httpStatusExpected) == null ? void 0 : G.join(", "),
+          (G = (W = s.test) == null ? void 0 : W.httpStatusExpected) == null ? void 0 : G.join(", "),
           ")"
         ] })
       ] }),
-      /* @__PURE__ */ s.jsxs(b, { children: [
-        /* @__PURE__ */ s.jsx("div", { children: "Response code found in API Contract" }),
-        /* @__PURE__ */ s.jsx("div", { children: S })
+      /* @__PURE__ */ t.jsxs(j, { children: [
+        /* @__PURE__ */ t.jsx("div", { children: "Response code found in API Contract" }),
+        /* @__PURE__ */ t.jsx("div", { children: O })
       ] }),
-      /* @__PURE__ */ s.jsxs(b, { children: [
-        /* @__PURE__ */ s.jsx("div", { children: "Content-Type found in API Contract" }),
-        /* @__PURE__ */ s.jsx("div", { children: y })
+      /* @__PURE__ */ t.jsxs(j, { children: [
+        /* @__PURE__ */ t.jsx("div", { children: "Content-Type found in API Contract" }),
+        /* @__PURE__ */ t.jsx("div", { children: y })
       ] }),
-      /* @__PURE__ */ s.jsxs(b, { children: [
-        /* @__PURE__ */ s.jsx("div", { children: "Response matches API Contract" }),
-        /* @__PURE__ */ s.jsx("div", { children: j })
+      /* @__PURE__ */ t.jsxs(j, { children: [
+        /* @__PURE__ */ t.jsx("div", { children: "Response matches API Contract" }),
+        /* @__PURE__ */ t.jsx("div", { children: b })
       ] }),
-      ((J = (Q = p == null ? void 0 : p.apiResponseAnalysis) == null ? void 0 : Q[0]) == null ? void 0 : J.responseDescription) && /* @__PURE__ */ s.jsxs(b, { children: [
-        /* @__PURE__ */ s.jsx("div", { children: "Response analysis" }),
-        /* @__PURE__ */ s.jsxs("div", { children: [
+      ((J = (Q = p == null ? void 0 : p.apiResponseAnalysis) == null ? void 0 : Q[0]) == null ? void 0 : J.responseDescription) && /* @__PURE__ */ t.jsxs(j, { children: [
+        /* @__PURE__ */ t.jsx("div", { children: "Response analysis" }),
+        /* @__PURE__ */ t.jsxs("div", { children: [
           " ",
           (Z = (X = p == null ? void 0 : p.apiResponseAnalysis) == null ? void 0 : X[0]) == null ? void 0 : Z.responseDescription
         ] })
       ] }),
-      /* @__PURE__ */ s.jsxs(b, { children: [
-        /* @__PURE__ */ s.jsx("div", { children: "JSON Pointer" }),
-        /* @__PURE__ */ s.jsx("div", { children: (ee = t.test) != null && ee.jsonPointer ? /* @__PURE__ */ s.jsx(
+      /* @__PURE__ */ t.jsxs(j, { children: [
+        /* @__PURE__ */ t.jsx("div", { children: "JSON Pointer" }),
+        /* @__PURE__ */ t.jsx("div", { children: (ee = s.test) != null && ee.jsonPointer ? /* @__PURE__ */ t.jsx(
           "a",
           {
             href: "#",
             onClick: (re) => {
               var oe;
-              re.preventDefault(), re.stopPropagation(), o(
-                ye(((oe = t.test) == null ? void 0 : oe.jsonPointer) + "")
+              re.preventDefault(), re.stopPropagation(), a(
+                ve(((oe = s.test) == null ? void 0 : oe.jsonPointer) + "")
                 // FIXME support indexed reports
               );
             },
-            children: (te = t.test) == null ? void 0 : te.jsonPointer
+            children: (te = s.test) == null ? void 0 : te.jsonPointer
           }
         ) : "N/A" })
       ] }),
-      ((se = t.request) == null ? void 0 : se.curl) && /* @__PURE__ */ s.jsxs(b, { children: [
-        /* @__PURE__ */ s.jsx("div", { children: "Request" }),
-        /* @__PURE__ */ s.jsx("div", { children: /* @__PURE__ */ s.jsx($e, { waiting: c, curl: t.request.curl, id: a }) })
+      ((se = s.request) == null ? void 0 : se.curl) && /* @__PURE__ */ t.jsxs(j, { children: [
+        /* @__PURE__ */ t.jsx("div", { children: "Request" }),
+        /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(Oe, { waiting: d, curl: s.request.curl, id: r }) })
       ] }),
-      i === void 0 && (n !== void 0 || ((ne = t.response) == null ? void 0 : ne.rawPayload) !== void 0) && /* @__PURE__ */ s.jsxs(b, { children: [
-        /* @__PURE__ */ s.jsx("div", { children: "Response" }),
-        /* @__PURE__ */ s.jsx("div", { children: /* @__PURE__ */ s.jsx(
-          fe,
+      i === void 0 && (n !== void 0 || ((ne = s.response) == null ? void 0 : ne.rawPayload) !== void 0) && /* @__PURE__ */ t.jsxs(j, { children: [
+        /* @__PURE__ */ t.jsx("div", { children: "Response" }),
+        /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(
+          ue,
           {
             accented: !0,
-            response: n || ke((ie = t.response) == null ? void 0 : ie.rawPayload)
+            response: n || Re((ie = s.response) == null ? void 0 : ie.rawPayload)
           }
         ) })
       ] }),
-      i && /* @__PURE__ */ s.jsxs(b, { children: [
-        /* @__PURE__ */ s.jsx("div", { children: "Error" }),
-        /* @__PURE__ */ s.jsx("div", { children: i == null ? void 0 : i.message })
+      i && /* @__PURE__ */ t.jsxs(j, { children: [
+        /* @__PURE__ */ t.jsx("div", { children: "Error" }),
+        /* @__PURE__ */ t.jsx("div", { children: i == null ? void 0 : i.message })
       ] })
     ] })
   ] });
 }
-const ls = f.div`
+const cs = f.div`
   margin: 8px;
   border: 1px solid var(${u.border});
-`, ps = f.div`
+`, ds = f.div`
   display: flex;
   cursor: pointer;
   padding: 10px 10px 10px 0px;
@@ -1070,15 +1035,15 @@ const ls = f.div`
   border-left: 5px solid transparent;
   ${({ collapsed: e }) => !e && `border-bottom: 1px solid var(${u.border});
     border-left: 5px solid var(${u.badgeBackground});`}
-`, hs = f.div`
+`, ls = f.div`
   font-weight: 600;
-`, us = f.div`
+`, hs = f.div`
   margin-top: 8px;
   display: flex;
   font-size: 90%;
   align-items: center;
   gap: 16px;
-`, q = f.div`
+`, $ = f.div`
   display: flex;
   align-items: center;
   opacity: 0.8;
@@ -1086,9 +1051,9 @@ const ls = f.div`
     margin-right: 4px;
     fill: var(${u.foreground});
   }
-`, fs = f.div`
+`, ps = f.div`
   background-color: var(${u.computedOne});
-`, b = f.div`
+`, j = f.div`
   display: flex;
   padding: 8px;
   gap: 8px;
@@ -1100,41 +1065,43 @@ const ls = f.div`
     line-break: anywhere;
     flex: 3;
   }
-`, xs = {
+`, us = {
   0: "None",
-  1: "Low",
-  2: "Medium",
-  3: "High",
-  4: "Critical"
-}, gs = {
+  1: "Info",
+  2: "Low",
+  3: "Medium",
+  4: "High",
+  5: "Critical"
+}, fs = {
   0: 500,
   1: 500,
   2: 500,
   3: 700,
-  4: 700
+  4: 700,
+  5: 700
 };
-function ms({
+function xs({
   filters: e,
-  onClick: t
+  onClick: s
 }) {
-  return /* @__PURE__ */ s.jsx(
-    vs,
+  return /* @__PURE__ */ t.jsx(
+    gs,
     {
       onClick: (n) => {
-        n.preventDefault(), n.stopPropagation(), t();
+        n.preventDefault(), n.stopPropagation(), s();
       },
-      children: /* @__PURE__ */ s.jsxs(js, { children: [
-        /* @__PURE__ */ s.jsx(Xe, {}),
-        e !== 0 && /* @__PURE__ */ s.jsx(ys, { children: e })
+      children: /* @__PURE__ */ t.jsxs(vs, { children: [
+        /* @__PURE__ */ t.jsx(Xe, {}),
+        e !== 0 && /* @__PURE__ */ t.jsx(ms, { children: e })
       ] })
     }
   );
 }
-const vs = f.div`
+const gs = f.div`
   width: 34px;
   height: 26px;
   position: relative;
-`, ys = f.div`
+`, ms = f.div`
   position: absolute;
   left: 18px;
   top: 10px;
@@ -1147,7 +1114,7 @@ const vs = f.div`
   color: var(${u.buttonForeground});
   background-color: var(${u.buttonBackground});
   font-size: 12px;
-`, js = f.button`
+`, vs = f.button`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -1165,23 +1132,23 @@ const vs = f.div`
     fill: var(${u.foreground});
   }
 `;
-function bs() {
-  const e = k();
-  return /* @__PURE__ */ s.jsxs(
-    Ss,
+function ys() {
+  const e = E();
+  return /* @__PURE__ */ t.jsxs(
+    js,
     {
-      onClick: (t) => {
-        e(E({})), t.preventDefault(), t.stopPropagation();
+      onClick: (s) => {
+        e(w({})), s.preventDefault(), s.stopPropagation();
       },
       children: [
-        /* @__PURE__ */ s.jsx(Ze, {}),
+        /* @__PURE__ */ t.jsx(Ze, {}),
         " ",
-        /* @__PURE__ */ s.jsx("span", { children: "Reset filters" })
+        /* @__PURE__ */ t.jsx("span", { children: "Reset filters" })
       ]
     }
   );
 }
-const Ss = f.div`
+const js = f.div`
   width: 264px;
   height: 50px;
   display: flex;
@@ -1193,8 +1160,8 @@ const Ss = f.div`
     margin-right: 4px;
   }
 `;
-function ws() {
-  const e = $((i) => i.scan.filter), t = k(), n = [
+function bs() {
+  const e = R((i) => i.scan.filter), s = E(), n = [
     { label: "All", value: "all" },
     { label: "Critical", value: "critical" },
     { label: "High", value: "high" },
@@ -1202,40 +1169,40 @@ function ws() {
     { label: "Low", value: "low" },
     { label: "Info", value: "info" }
   ];
-  return /* @__PURE__ */ s.jsx(Cs, { children: /* @__PURE__ */ s.jsx(
-    xe,
+  return /* @__PURE__ */ t.jsx(Ss, { children: /* @__PURE__ */ t.jsx(
+    fe,
     {
       label: "Severity",
       options: n,
       placeholder: "All",
       onSelectedItemChange: (i) => {
-        i && i.value !== "all" ? t(E({ ...e, severity: i == null ? void 0 : i.value })) : t(E({ ...e, severity: void 0 }));
+        i && i.value !== "all" ? s(w({ ...e, severity: i == null ? void 0 : i.value })) : s(w({ ...e, severity: void 0 }));
       },
       selected: (e == null ? void 0 : e.severity) || "all"
     }
   ) });
 }
-const Cs = f.div`
+const Ss = f.div`
   width: 264px;
 `;
-function Es() {
-  const { filter: e, titles: t } = $((a) => a.scan), n = k(), i = [];
-  for (const a of t)
-    ce[a] && i.push({ label: ce[a], value: a });
-  return /* @__PURE__ */ s.jsx(Rs, { children: /* @__PURE__ */ s.jsx(
-    xe,
+function ws() {
+  const { filter: e, titles: s } = R((r) => r.scan), n = E(), i = [];
+  for (const r of s)
+    ce[r] && i.push({ label: ce[r], value: r });
+  return /* @__PURE__ */ t.jsx(Cs, { children: /* @__PURE__ */ t.jsx(
+    fe,
     {
       label: "Type",
       options: i,
       placeholder: "All",
-      onSelectedItemChange: (a) => {
-        a && a.value !== "all" ? n(E({ ...e, title: a.value })) : n(E({ ...e, title: void 0 }));
+      onSelectedItemChange: (r) => {
+        r && r.value !== "all" ? n(w({ ...e, title: r.value })) : n(w({ ...e, title: void 0 }));
       },
       selected: e.title || "all"
     }
   ) });
 }
-const Rs = f.div`
+const Cs = f.div`
   width: 264px;
 `, ce = {
   "path-item-method-not-allowed-scan": "Scan sends a request using an undefined verb",
@@ -1261,29 +1228,29 @@ const Rs = f.div`
   "schema-type-wrong-array-scan": "Scan sends a request containing an array instead of the expected type",
   "schema-type-wrong-object-scan": "Scan sends a request containing an object instead of the expected type"
 };
-function ks() {
-  const { filter: e, grouped: t } = $((r) => r.scan), [n, i] = T.useState(!0), c = ["severity", "title"].filter((r) => e && e[r] !== void 0).length, o = Object.keys(t).map((r) => t[r].length).reduce((r, l) => r + l, 0);
-  return /* @__PURE__ */ s.jsxs($s, { children: [
-    /* @__PURE__ */ s.jsxs(Ts, { children: [
-      /* @__PURE__ */ s.jsxs("div", { children: [
-        o,
+function Es() {
+  const { filter: e, grouped: s } = R((o) => o.scan), [n, i] = q.useState(!0), d = ["severity", "title"].filter((o) => e && e[o] !== void 0).length, a = Object.keys(s).map((o) => s[o].length).reduce((o, x) => o + x, 0);
+  return /* @__PURE__ */ t.jsxs(Rs, { children: [
+    /* @__PURE__ */ t.jsxs(Os, { children: [
+      /* @__PURE__ */ t.jsxs("div", { children: [
+        a,
         " issues"
       ] }),
-      /* @__PURE__ */ s.jsx(ms, { filters: c, onClick: () => i(!n) })
+      /* @__PURE__ */ t.jsx(xs, { filters: d, onClick: () => i(!n) })
     ] }),
-    !n && /* @__PURE__ */ s.jsxs(Os, { children: [
-      /* @__PURE__ */ s.jsx(ws, {}),
-      /* @__PURE__ */ s.jsx(Es, {}),
-      /* @__PURE__ */ s.jsx(bs, {})
+    !n && /* @__PURE__ */ t.jsxs(Ts, { children: [
+      /* @__PURE__ */ t.jsx(bs, {}),
+      /* @__PURE__ */ t.jsx(ws, {}),
+      /* @__PURE__ */ t.jsx(ys, {})
     ] })
   ] });
 }
-const $s = f.div`
+const Rs = f.div`
   margin: 8px;
   display: flex;
   flex-direction: column;
   position: relative;
-`, Ts = f.div`
+`, Os = f.div`
   margin: 6px;
   display: flex;
   flex-direction: row;
@@ -1292,7 +1259,7 @@ const $s = f.div`
   > div:first-child {
     font-weight: 700;
   }
-`, Os = f.div`
+`, Ts = f.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -1303,32 +1270,32 @@ const $s = f.div`
 `;
 function qs({
   operation: e,
-  issues: t,
+  issues: s,
   responses: n,
   errors: i,
-  waitings: a,
-  grouped: c
+  waitings: r,
+  grouped: d
 }) {
-  return t.length === 0 ? /* @__PURE__ */ s.jsx(de, { children: /* @__PURE__ */ s.jsx(Ps, { children: "No test results available" }) }) : /* @__PURE__ */ s.jsxs(de, { children: [
-    /* @__PURE__ */ s.jsx(ks, {}),
-    Object.keys(c).map((o) => /* @__PURE__ */ s.jsxs("div", { children: [
-      /* @__PURE__ */ s.jsx(As, { children: Ns[o] ?? "Unknown test type" }),
-      c[o].map((r, l) => {
-        const x = `${o}-${l}`;
-        return /* @__PURE__ */ s.jsx(
-          ds,
+  return s.length === 0 ? /* @__PURE__ */ t.jsx(de, { children: /* @__PURE__ */ t.jsx(Ps, { children: "No test results available" }) }) : /* @__PURE__ */ t.jsxs(de, { children: [
+    /* @__PURE__ */ t.jsx(Es, {}),
+    Object.keys(d).map((a) => /* @__PURE__ */ t.jsxs("div", { children: [
+      /* @__PURE__ */ t.jsx($s, { children: As[a] ?? "Unknown test type" }),
+      d[a].map((o, x) => {
+        const h = `${a}-${x}`;
+        return /* @__PURE__ */ t.jsx(
+          as,
           {
             operation: e,
-            issue: r,
-            httpResponse: n[x],
-            error: i[x],
-            waiting: a[x],
-            id: x
+            issue: o,
+            httpResponse: n[h],
+            error: i[h],
+            waiting: r[h],
+            id: h
           },
-          x
+          h
         );
       })
-    ] }, o))
+    ] }, a))
   ] });
 }
 const de = f.div`
@@ -1337,66 +1304,71 @@ const de = f.div`
   margin: 8px;
   padding: 4px;
   border: 1px solid var(${u.border});
-`, As = f.div`
+`, $s = f.div`
   padding: 10px;
   font-size: 1.1em;
   font-weight: 600;
-`, Ns = {
-  "path-item-method-not-allowed-scan": "Scan sends a request using an undefined verb",
-  "parameter-required-scan": "Scan sends a request that is missing a required parameter",
-  "parameter-header-contenttype-wrong-scan": "Scan sends a request with wrong content type",
-  "schema-multipleof-scan": "Scan sends a request containing a numeric value conflicting with multipleOf",
-  "schema-maximum-scan": "Scan sends a request containing a numeric value overflowing maximum",
-  "schema-minimum-scan": "Scan sends a request containing a numeric value under the minimum",
-  "schema-minlength-scan": "Scan sends a request containing a string value that is too short",
-  "schema-maxlength-scan": "Scan sends a request containing a string value that is too long",
-  "schema-pattern-scan": "Scan sends a request containing a string value with wrong pattern",
-  "schema-maxitems-scan": "Scan sends a request containing an array with too many items",
-  "schema-minitems-scan": "Scan sends a request containing an array with too few items",
-  "schema-uniqueitems-unique-scan": "Scan sends a request containing an array value that conflicts with ‘uniqueItems’",
-  "schema-required-scan": "Scan sends a request that is missing a required property",
-  "schema-enum-scan": "Scan sends a request containing a value not present in the constraining enum",
-  "schema-additionalproperties-scan": "Scan sends a request that contains an undefined property",
+`, As = {
+  "authentication-swapping-bfla": "Broken Function Level Access test performed by swapping user credentials",
+  "authentication-swapping-bola": "Broken Object Access Level Authorization test performed swapping user credentials.",
+  "custom-request": "Custom client request",
+  "parameter-header-contenttype-wrong-scan": "Scan sends a request where the request body does not match the 'Content-Type' specified in the header.",
+  "parameter-required-scan": "Scan sends a request that is missing a parameter that has been defined as required in the OpenAPI definition.",
+  "partial-security-accepted": "Scan sends a request where a required security requirement is missing",
+  "path-item-method-not-allowed-scan": "Scan sends a request using a verb (method) that is not defined for the path in the OpenAPI definition.",
+  "schema-additionalproperties-scan": "Scan sends a request that contains an undefined property.",
+  "schema-enum-scan": "API accepts a value that is not specified in the enum array",
   "schema-format-scan": "Scan sends a request containing a string value with wrong format",
-  "schema-type-wrong-string-scan": "Scan sends a request containing a string value instead of the expected type",
-  "schema-type-wrong-bool-scan": "Scan sends a request containing a Boolean value instead of the expected type",
-  "schema-type-wrong-integer-scan": "Scan sends a request containing an integer value instead of the expected type",
-  "schema-type-wrong-number-scan": "Scan sends a request containing a number value instead of the expected type",
-  "schema-type-wrong-array-scan": "Scan sends a request containing an array instead of the expected type",
-  "schema-type-wrong-object-scan": "Scan sends a request containing an object instead of the expected type"
+  "schema-maxitems-scan": "Scan sends a request containing an array which has more items than what is defined by the property 'maxItems'",
+  "schema-maxlength-scan": "Scan sends a request containing a string where length is greater than the value set by 'maxLength'",
+  "schema-maximum-scan": "Scan sends a request containing an integer or number value larger than the defined maximum for it.",
+  "schema-minitems-scan": "Scan sends a request containing an array value with less items than defined in the property 'minItems' constraining it.",
+  "schema-minlength-scan": "Scan sends a request containing a string value that is shorter than the set 'minLength'.",
+  "schema-minimum-scan": "Scan sends a request containing an integer or number value smaller than the defined minimum for it.",
+  "schema-multipleof-scan": "Scan sends a request containing an integer or number value that does not follow the property 'multipleOf' defined for it.",
+  "schema-pattern-scan": "Scan sends a request containing a string value that does not match the regular expression pattern defined for it.",
+  "schema-required-scan": "Scan sends a request that is missing a property defined as 'required'.",
+  "schema-type-wrong-array-scan": "Scan sends a request containing an array instead of the value type that the OpenAPI definition expects.",
+  "schema-type-wrong-bool-scan": "Scan sends a request containing a Boolean value instead of the type that the OpenAPI definition expects.",
+  "schema-type-wrong-integer-scan": "Scan sends a request containing an integer value instead of the type that the OpenAPI definition expects.",
+  "schema-type-wrong-number-scan": "Scan sends a request containing a number value instead of the type that the OpenAPI definition expects.",
+  "schema-type-wrong-object-scan": "Scan sends a request containing an object instead of the value type that the OpenAPI definition expects.",
+  "schema-type-wrong-string-scan": "Scan sends a request containing a string value instead of the type that the OpenAPI definition expects.",
+  "schema-uniqueitems-unique-scan": "Scan sends a request containing an array value that does not follow the property 'uniqueItems' that constrains this value."
 };
-function Hs() {
+function ks() {
   var p, g, m;
-  const e = k(), { scanReport: t, operationId: n, responses: i, errors: a, waitings: c, tab: o, issues: r, grouped: l } = $((v) => v.scan);
-  if (t === void 0)
-    return /* @__PURE__ */ s.jsx(Is, { children: /* @__PURE__ */ s.jsx(_s, { children: "Report is not yet available" }) });
-  const x = (g = (p = t.operations) == null ? void 0 : p[n].scenarios) == null ? void 0 : g[0], h = (m = t.operations) == null ? void 0 : m[n];
-  return /* @__PURE__ */ s.jsx(
+  const e = E(), { scanReport: s, operationId: n, responses: i, errors: r, waitings: d, tab: a, issues: o, grouped: x } = R((v) => v.scan);
+  if (s === void 0)
+    return /* @__PURE__ */ t.jsx(Is, { children: /* @__PURE__ */ t.jsx(Ns, { children: "Report is not yet available" }) });
+  const h = (g = (p = s.operations) == null ? void 0 : p[n].scenarios) == null ? void 0 : g[0], l = (m = s.operations) == null ? void 0 : m[n];
+  return /* @__PURE__ */ t.jsx(
     xt,
     {
-      activeTab: o,
-      setActiveTab: (v) => e(P(v)),
+      activeTab: a,
+      setActiveTab: (v) => e(A(v)),
       tabs: [
         {
           id: "summary",
           title: "Summary",
-          content: /* @__PURE__ */ s.jsxs(s.Fragment, { children: [
-            /* @__PURE__ */ s.jsx(
-              rs,
-              {
-                issues: r,
-                global: t.summary,
-                operation: h == null ? void 0 : h.summary
-              }
-            ),
-            x && /* @__PURE__ */ s.jsx(
+          content: /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+            /* @__PURE__ */ t.jsx(
               ns,
               {
-                operation: h,
-                issue: x,
+                issues: o,
+                global: s.summary,
+                scanVersion: s.scanVersion,
+                operation: l == null ? void 0 : l.summary
+              }
+            ),
+            h && /* @__PURE__ */ t.jsx(
+              ts,
+              {
+                operation: l,
+                issue: h,
                 responses: i,
-                errors: a,
-                waitings: c
+                errors: r,
+                waitings: d
               }
             )
           ] })
@@ -1404,33 +1376,33 @@ function Hs() {
         {
           id: "tests",
           title: "Tests",
-          content: /* @__PURE__ */ s.jsx(
+          content: /* @__PURE__ */ t.jsx(
             qs,
             {
-              operation: h,
-              issues: r,
-              grouped: l,
+              operation: l,
+              issues: o,
+              grouped: x,
               responses: i,
-              errors: a,
-              waitings: c
+              errors: r,
+              waitings: d
             }
           )
         },
-        { id: "logs", title: "Logs", content: /* @__PURE__ */ s.jsx(Ft, {}) }
+        { id: "logs", title: "Logs", content: /* @__PURE__ */ t.jsx(Lt, {}) }
       ]
     }
   );
 }
-const Is = f.div``, _s = f.div`
+const Is = f.div``, Ns = f.div`
   margin: 1em;
   padding: 10px;
 `;
-function Ms() {
-  const { scanReport: e, waiting: t, error: n } = $((i) => i.scan);
-  return /* @__PURE__ */ s.jsxs(s.Fragment, { children: [
-    e && /* @__PURE__ */ s.jsx(Hs, {}),
-    /* @__PURE__ */ s.jsx(Dt, {}),
-    (t || n) && /* @__PURE__ */ s.jsx(Nt, {})
+function Hs() {
+  const { scanReport: e, waiting: s, error: n } = R((i) => i.scan);
+  return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+    e && /* @__PURE__ */ t.jsx(ks, {}),
+    /* @__PURE__ */ t.jsx(_t, {}),
+    (s || n) && /* @__PURE__ */ t.jsx(At, {})
   ] });
 }
 const le = [
@@ -1443,32 +1415,32 @@ const le = [
   {
     id: "scan",
     title: "Scan",
-    element: /* @__PURE__ */ s.jsx(Ms, {}),
-    when: me
+    element: /* @__PURE__ */ t.jsx(Hs, {}),
+    when: ge
   }
-], Ds = {
-  changeTheme: Ye,
-  startScan: me,
+], _s = {
+  changeTheme: Ue,
+  startScan: ge,
   scanOperation: mt,
   showGeneralError: yt,
   showHttpError: jt,
   showHttpResponse: St,
   showScanReport: vt,
-  loadEnv: Qe,
+  loadEnv: Ge,
   loadPrefs: nt,
   loadConfig: rt,
-  showLogMessage: Tt
+  showLogMessage: Ot
 };
-function Ls() {
-  return /* @__PURE__ */ s.jsxs(s.Fragment, { children: [
-    /* @__PURE__ */ s.jsx(Fe, {}),
-    /* @__PURE__ */ s.jsx(Ue, {})
+function Ms() {
+  return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+    /* @__PURE__ */ t.jsx(Be, {}),
+    /* @__PURE__ */ t.jsx(Fe, {})
   ] });
 }
-function Bs(e, t) {
-  const n = Pt(At(e, le), t);
-  _e(document.getElementById("root")).render(
-    /* @__PURE__ */ s.jsx(Me.StrictMode, { children: /* @__PURE__ */ s.jsx(De, { store: n, children: /* @__PURE__ */ s.jsx(Le.Provider, { value: le, children: /* @__PURE__ */ s.jsx(Ls, {}) }) }) })
-  ), window.addEventListener("message", Be(n, Ds));
+function Ds(e, s) {
+  const n = Pt($t(e, le), s);
+  He(document.getElementById("root")).render(
+    /* @__PURE__ */ t.jsx(_e.StrictMode, { children: /* @__PURE__ */ t.jsx(Me, { store: n, children: /* @__PURE__ */ t.jsx(De.Provider, { value: le, children: /* @__PURE__ */ t.jsx(Ms, {}) }) }) })
+  ), window.addEventListener("message", Le(n, _s));
 }
-window.renderWebView = Bs;
+window.renderWebView = Ds;

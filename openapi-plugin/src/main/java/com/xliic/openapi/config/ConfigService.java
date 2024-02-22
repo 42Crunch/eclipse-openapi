@@ -5,7 +5,9 @@ import static com.xliic.openapi.ToolWindowId.CONFIG;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
+import com.xliic.core.services.IConfigService;
 import com.xliic.openapi.config.payload.Config;
+import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.utils.WindowUtils;
 
 public final class ConfigService implements IConfigService {
@@ -22,7 +24,8 @@ public final class ConfigService implements IConfigService {
     }
 
     public void createOrActiveEnvWindow() {
+    	boolean loadFromPlatform = PlatformConnection.isPlatformIntegrationEnabled();
         WindowUtils.openWebTab(project, "config", CONFIG, () ->
-        	project.getMessageBus().syncPublisher(ConfigListener.TOPIC).loadConfig(new Config(true)));
+        	project.getMessageBus().syncPublisher(ConfigListener.TOPIC).loadConfig(new Config(loadFromPlatform)));
     }
 }

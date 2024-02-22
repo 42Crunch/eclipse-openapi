@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
+import com.xliic.core.services.IPrefsService;
 import com.xliic.core.vfs.VirtualFile;
 
 public final class PrefsService implements IPrefsService, Disposable {

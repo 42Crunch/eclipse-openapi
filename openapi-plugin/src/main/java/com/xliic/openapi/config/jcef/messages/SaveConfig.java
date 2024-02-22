@@ -11,20 +11,18 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
-import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
@@ -32,16 +30,7 @@ import com.xliic.openapi.webapp.messages.WebAppProduce;
 public class SaveConfig extends WebAppProduce {
 
     @NotNull
-    private static final PropertiesComponent props = PropertiesComponent.getInstance();
-    @NotNull
-    private static final SecurityPropertiesComponent secProps = SecurityPropertiesComponent.getInstance();
-
-    @NotNull
     private final Project project;
-    @NotNull
-    private final Set<String> updatedKeys = new HashSet<>();
-    @NotNull
-    private final Map<String, Object> prevData = new HashMap<>();
 
     public SaveConfig(@NotNull Project project) {
         // Accessing security storage is slow operation, do not use avoid EDT
@@ -51,73 +40,54 @@ public class SaveConfig extends WebAppProduce {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void run(@Nullable Object payload) {
+    public void quickRun(@Nullable Object payload) {
         if (payload instanceof Map) {
-            updatedKeys.clear();
-            prevData.clear();
             Map<String, Object> map = (Map<String, Object>) payload;
-            updateIfNotEqual(URL, "platformUrl", map);
-            secureUpdateIfNotEqual(API_KEY, (String) map.get("platformApiToken"));
-            updateIfNotEqual(IMAGE,"scanImage", map);
-            updateIfNotEqual(RUNTIME,"scanRuntime", map);
+            SettingsService settingsService = SettingsService.getInstance();
+            settingsService.setCacheValue(URL, map.get("platformUrl"));
+            settingsService.setCacheValue(API_KEY, map.get("platformApiToken"));
+            settingsService.setCacheValue(IMAGE, map.get("scanImage"));
+            settingsService.setCacheValue(RUNTIME, map.get("scanRuntime"));
             Map<String, Object> docker = (Map<String, Object>) map.get("docker");
             if (docker != null) {
-                updateIfNotEqual(REPLACE_LOCALHOST,"replaceLocalhost", docker, true);
-                updateIfNotEqual(USE_HOST_NETWORK,"useHostNetwork", docker, true);
+                settingsService.setCacheValue(REPLACE_LOCALHOST, docker.get("replaceLocalhost"));
+                settingsService.setCacheValue(USE_HOST_NETWORK, docker.get("useHostNetwork"));
             }
             Map<String, Object> platformServices = (Map<String, Object>) map.get("platformServices");
             if (platformServices != null) {
                 if ("manual".equals(platformServices.get("source"))) {
-                    updateIfNotEqual(SERVICES,"manual", platformServices);
+                    settingsService.setCacheValue(SERVICES, platformServices.get("manual"));
                 } else {
-                    updateByKeyIfNotEqual(SERVICES, props.getValue(SERVICES), "", false);
+                    settingsService.setCacheValue(SERVICES, "");
                 }
             }
             Map<String, Object> scandManager = (Map<String, Object>) map.get("scandManager");
             if (scandManager != null) {
-                updateIfNotEqual(ScandMgr.URL,"url", scandManager);
-                updateIfNotEqual(ScandMgr.AUTH,"auth", scandManager);
+                settingsService.setCacheValue(ScandMgr.URL, scandManager.get("url"));
+                settingsService.setCacheValue(ScandMgr.AUTH, scandManager.get("auth"));
                 Map<String, Object> header = (Map<String, Object>) scandManager.get("header");
                 if (header != null) {
-                    secureUpdateIfNotEqual(ScandMgr.HEADER, Utils.serialize(header, true));
+                    settingsService.setCacheValue(ScandMgr.HEADER, Utils.serialize(header, true, ""));
                 }
             }
-            updateIfNotEqual(Settings.Platform.TEMP_COLLECTION_NAME, "platformTemporaryCollectionName", map);
-            updateIfNotEqual(Settings.Platform.MANDATORY_TAGS, "platformMandatoryTags", map);
-            if (!updatedKeys.isEmpty() && !project.isDisposed()) {
-                addPlatformTurnOnOffKeys(updatedKeys, prevData);
-                ApplicationManager.getApplication().invokeLater(() ->
-                	project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(updatedKeys, prevData));
-            }
+            settingsService.setCacheValue(Settings.CliAst.REPOSITORY, map.get("repository"));
+            settingsService.setCacheValue(Settings.Platform.TEMP_COLLECTION_NAME, map.get("platformTemporaryCollectionName"));
+            settingsService.setCacheValue(Settings.Platform.MANDATORY_TAGS, map.get("platformMandatoryTags"));
         }
     }
 
-    private void updateIfNotEqual(String key, String mapKey, Map<String, Object> map) {
-        updateIfNotEqual(key, mapKey, map, false);
-    }
-
-    private void updateIfNotEqual(String key, String mapKey, Map<String, Object> map, boolean asBool) {
-        updateByKeyIfNotEqual(key, asBool ? props.getBoolean(key) : props.getValue(key), map.getOrDefault(mapKey, ""), false);
-    }
-
-    private void secureUpdateIfNotEqual(String key, String newValue) {
-        updateByKeyIfNotEqual(key, secProps.getValue(key), newValue, true);
-    }
-
-    private void updateByKeyIfNotEqual(String key, Object value, Object newValue, boolean isSecProps) {
-        // System.out.println(">>> [" + key + "] old=" + value + " new=" + newValue + " equals=" + Objects.equals(value, newValue));
-        if (!Objects.equals(value, newValue)) {
-            if (isSecProps) {
-                secProps.setValue(key, (String) newValue);
-            } else {
-                if (newValue instanceof Boolean) {
-                    props.setValue(key, (Boolean) newValue);
-                } else {
-                    props.setValue(key, (String) newValue);
-                }
+    @Override
+    public void run(@Nullable Object payload) {
+        if (payload instanceof Map) {
+            quickRun(payload);
+            Set<String> updatedKeys = new HashSet<>();
+            Map<String, Object> prevData = new HashMap<>();
+            SettingsService.getInstance().save(updatedKeys, prevData);
+            if (!updatedKeys.isEmpty() && !project.isDisposed()) {
+                addPlatformTurnOnOffKeys(updatedKeys, prevData);
+                ApplicationManager.getApplication().invokeLater(() ->
+                        project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(updatedKeys, prevData));
             }
-            updatedKeys.add(key);
-            prevData.put(key, value);
         }
     }
 
@@ -132,7 +102,6 @@ public class SaveConfig extends WebAppProduce {
             }
             if (!nowPltEnabled && wasPltEnabled) {
                 updatedKeys.add(Platform.TURNED_OFF);
-                return;
             }
         }
     }

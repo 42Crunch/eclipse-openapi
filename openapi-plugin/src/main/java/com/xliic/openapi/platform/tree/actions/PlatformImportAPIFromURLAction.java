@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
+
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -9,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -26,8 +29,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-
-import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
 
 public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAware {
 
@@ -55,6 +56,11 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
         this.tree = tree;
         this.collectionId = collectionId;
         this.subRootDn = subRootDn;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
     
     @Override

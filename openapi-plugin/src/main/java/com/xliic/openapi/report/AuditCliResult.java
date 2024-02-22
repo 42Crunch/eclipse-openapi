@@ -1,10 +1,11 @@
 package com.xliic.openapi.report;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class AuditCliResult {
 

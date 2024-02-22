@@ -36,9 +36,9 @@ import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.settings.Settings.Audit;
 import com.xliic.openapi.settings.Settings.ExtRef;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
+import com.xliic.openapi.settings.Settings.Outline;
 import com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit;
 import com.xliic.openapi.settings.Settings.Preview;
-import com.xliic.openapi.settings.Settings.SortOutlines;
 import com.xliic.openapi.settings.Settings.TryIt;
 import com.xliic.openapi.settings.items.Item;
 import com.xliic.openapi.settings.items.ItemCheckBox;
@@ -130,7 +130,7 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
 
         sortPanel = new JPanel("Sort Outlines", parent, SWT.NONE, 1);
         sortCheckbox = new JCheckBox("Alphabetically sort contents of OpenAPI explorer outlines", sortPanel);
-        items.add(new ItemCheckBox(sortCheckbox, SortOutlines.ABC_SORT));
+        items.add(new ItemCheckBox(sortCheckbox, Outline.ABC_SORT));
 
         inlinedPanel = new JPanel("Annotations", parent, SWT.NONE, 1);
         inlinedCheckbox = new JCheckBox("Show TryIt/Audit/Scan Inlined Annotations", inlinedPanel);

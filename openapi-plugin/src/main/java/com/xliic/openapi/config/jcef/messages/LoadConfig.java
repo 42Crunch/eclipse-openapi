@@ -9,10 +9,10 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.config.payload.PlatformServices;
 import com.xliic.openapi.config.payload.ScandManagerConnection;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class LoadConfig extends WebAppConsume {
@@ -42,10 +42,10 @@ public class LoadConfig extends WebAppConsume {
         platformServices.put("auto", configPlatformServices.getAuto());
         result.put("platformServices", platformServices);
 
-        PropertiesComponent props = PropertiesComponent.getInstance();
+        SettingsService settingsService = SettingsService.getInstance();
         Map<String, Object> docker = new HashMap<>();
-        docker.put("replaceLocalhost", props.getBoolean(REPLACE_LOCALHOST));
-        docker.put("useHostNetwork", props.getBoolean(USE_HOST_NETWORK));
+        docker.put("replaceLocalhost", settingsService.getBoolean(REPLACE_LOCALHOST));
+        docker.put("useHostNetwork", settingsService.getBoolean(USE_HOST_NETWORK));
         result.put("docker", docker);
 
         Map<String, Object> scandManager = new HashMap<>();

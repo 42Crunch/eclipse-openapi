@@ -22,6 +22,7 @@ import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.jsonSchema.ide.JsonSchemaService;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.services.IASTService;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.DfsHandler;
 import com.xliic.openapi.OpenApiFileType;
@@ -37,7 +38,6 @@ import com.xliic.openapi.parser.ast.ParserYamlAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.dictionary.DictionaryDfsHandler;
 import com.xliic.openapi.report.types.Audit;
-import com.xliic.openapi.services.api.IASTService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.utils.Utils;
 
@@ -230,12 +230,17 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         }
         auditService.update(file);
         boolean finalUpdateSchemas = updateSchemas;
-        ApplicationManager.getApplication().invokeLater(() -> {
+        ApplicationManager.getApplication().runReadAction(() -> {
             if (!project.isDisposed()) {
                 PsiFile psiFile = Utils.findPsiFile(project, file);
                 if (psiFile != null) {
                     DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
                 }
+            }
+
+        });
+        ApplicationManager.getApplication().invokeLater(() -> {
+            if (!project.isDisposed()) {
                 if (finalUpdateSchemas) {
                     JsonSchemaService.Impl.get(project).reset();
                 }

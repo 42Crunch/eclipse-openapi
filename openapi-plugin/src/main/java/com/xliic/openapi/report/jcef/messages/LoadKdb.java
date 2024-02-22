@@ -1,11 +1,12 @@
 package com.xliic.openapi.report.jcef.messages;
 
-import com.xliic.openapi.utils.Utils;
-import com.xliic.openapi.webapp.messages.WebAppConsume;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collections;
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class LoadKdb extends WebAppConsume {
 

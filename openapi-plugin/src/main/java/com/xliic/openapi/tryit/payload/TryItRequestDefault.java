@@ -1,10 +1,11 @@
 package com.xliic.openapi.tryit.payload;
 
-import okhttp3.RequestBody;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
+import okhttp3.RequestBody;
 
 public class TryItRequestDefault extends TryItRequest {
 

@@ -9,8 +9,8 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.components.JTextField;
-import com.xliic.openapi.SecurityPropertiesComponent;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.NetUtils;
 
 public class ItemPlatformCredentials extends Item {
@@ -56,28 +56,28 @@ public class ItemPlatformCredentials extends Item {
 
     @Override
     public void reset() {
-        login.setText(settings.getValue(URL));
-        password.setText(SecurityPropertiesComponent.getInstance().getValue(API_KEY, ""));
+        login.setText(SettingsService.getInstance().getValue(URL));
+        password.setText(SettingsService.getInstance().getValue(API_KEY, ""));
     }
 
     @Override
     public void apply(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (isLoginChanged()) {
             keys.add(URL);
-            prevData.put(URL, settings.getValue(URL));
-            settings.setValue(URL, login.getText());
+            prevData.put(URL, SettingsService.getInstance().getValue(URL));
+            SettingsService.getInstance().setValue(URL, login.getText());
         }
         if (isPasswordChanged()) {
             keys.add(API_KEY);
-            prevData.put(API_KEY, SecurityPropertiesComponent.getInstance().getValue(API_KEY, ""));
-            SecurityPropertiesComponent.getInstance().getValue(API_KEY, "");
+            prevData.put(API_KEY, SettingsService.getInstance().getValue(API_KEY, ""));
+            SettingsService.getInstance().getValue(API_KEY, "");
         }
     }
 
     private boolean isLoginChanged() {
-        return !login.getText().equals(settings.getValue(URL));
+        return !login.getText().equals(SettingsService.getInstance().getValue(URL));
     }
     private boolean isPasswordChanged() {
-        return !password.getText().equals(SecurityPropertiesComponent.getInstance().getValue(API_KEY, ""));
+        return !password.getText().equals(SettingsService.getInstance().getValue(API_KEY, ""));
     }
 }

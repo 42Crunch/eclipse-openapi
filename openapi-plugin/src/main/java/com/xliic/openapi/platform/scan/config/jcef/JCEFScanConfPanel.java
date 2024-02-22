@@ -1,5 +1,13 @@
 package com.xliic.openapi.platform.scan.config.jcef;
 
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
@@ -17,22 +25,14 @@ import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.preferences.jcef.messages.LoadPreferences;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
-import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.topic.FileListener;
+import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.jcef.messages.ShowHttpError;
 import com.xliic.openapi.tryit.jcef.messages.ShowHttpResponse;
 import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItResponse;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
 import com.xliic.openapi.webapp.editor.WebVirtualFile;
-
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 
 public class JCEFScanConfPanel extends WebFileEditor implements FileListener, ScanListener, EnvListener, SettingsListener, Disposable {
 

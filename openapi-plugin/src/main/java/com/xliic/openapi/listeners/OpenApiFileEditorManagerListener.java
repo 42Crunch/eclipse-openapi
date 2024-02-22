@@ -20,8 +20,6 @@ import com.xliic.openapi.utils.TempFileUtils;
 
 public class OpenApiFileEditorManagerListener implements FileEditorManagerListener {
 
-    public static final String IS_FIRST_SELECTION_KEY = "IS_FIRST_SELECTION_KEY";
-
     private final Project project;
     private final PlaceHolderService placeHolderService;
     private final ASTService astService;

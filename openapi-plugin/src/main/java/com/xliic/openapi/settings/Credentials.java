@@ -1,18 +1,17 @@
 package com.xliic.openapi.settings;
 
+import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
+import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.settings.wizard.anon.AnonEmailWizardDialog;
 import com.xliic.openapi.settings.wizard.platform.PlatformURLWizardDialog;
-import com.xliic.openapi.utils.CliUtils;
-
-import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
 
 public class Credentials {
 
@@ -51,6 +50,6 @@ public class Credentials {
 
     @Nullable
     public static String getAnonCredentials() {
-        return PropertiesComponent.getInstance().getValue(Settings.Audit.TOKEN);
+    	return SettingsService.getInstance().getValue(Settings.Audit.TOKEN);
     }
 }

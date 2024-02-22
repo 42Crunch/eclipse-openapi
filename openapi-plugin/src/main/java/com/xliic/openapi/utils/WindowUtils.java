@@ -19,9 +19,9 @@ import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
 import com.xliic.openapi.ToolWindowId;
-import com.xliic.openapi.webapp.editor.WebVirtualFile;
 import com.xliic.openapi.webapp.editor.WebFileEditorInput;
 import com.xliic.openapi.webapp.editor.WebFileEditorPart;
+import com.xliic.openapi.webapp.editor.WebVirtualFile;
 
 public class WindowUtils {
 

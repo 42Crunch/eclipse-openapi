@@ -356,8 +356,7 @@ public class Utils {
                  return mapper.writer(PRINTER).writeValueAsString(data);
             }
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        } catch (JsonProcessingException ignored) {
         }
         return null;
     }
@@ -365,6 +364,11 @@ public class Utils {
     @Nullable
     public static String serialize(@NotNull Object data, boolean minify) {
         return serialize(new ObjectMapper(), data, minify);
+    }
+    
+    @NotNull
+    public static String serialize(@NotNull Object data, boolean minify, @NotNull String defaultValue) {
+        return Objects.requireNonNullElse(serialize(new ObjectMapper(), data, minify), defaultValue);
     }
 
     @NotNull
@@ -440,27 +444,21 @@ public class Utils {
     public static String getOsArch() {
         return System.getProperty("os.arch").toLowerCase(Locale.ENGLISH);
     }
+    
+    public static boolean isArm64() {
+        String arch = getOsArch();
+        return "arm64".equals(arch) || "aarch64".equals(arch);
+    }
+
+    public static boolean isX64() {
+        String arch = getOsArch();
+        return "x64".equals(arch) || "amd64".equals(arch) || "x86_64".equals(arch);
+    }
 
     public static void turnOnVcsShowConfirmation(@NotNull Project project) {
-//        ProjectLevelVcsManagerEx vcsManager = ProjectLevelVcsManagerEx.getInstanceEx(project);
-//        if (vcsManager != null) {
-//            PersistentVcsShowConfirmationOption option = vcsManager.getConfirmation(VcsConfiguration.StandardConfirmation.ADD);
-//            option.setValue(VcsShowConfirmationOption.Value.SHOW_CONFIRMATION);
-//        }
     }
 
     public static boolean turnOffVcsShowConfirmation(@NotNull Project project) {
-//        String os = Utils.getOs();
-//        if ("darwin".equals(os)) {
-//            ProjectLevelVcsManagerEx vcsManager = ProjectLevelVcsManagerEx.getInstanceEx(project);
-//            if (vcsManager != null) {
-//                PersistentVcsShowConfirmationOption option = vcsManager.getConfirmation(VcsConfiguration.StandardConfirmation.ADD);
-//                if (option.getValue() == VcsShowConfirmationOption.Value.SHOW_CONFIRMATION) {
-//                    option.setValue(VcsShowConfirmationOption.Value.DO_NOTHING_SILENTLY);
-//                    return true;
-//                }
-//            }
-//        }
         return false;
     }
 

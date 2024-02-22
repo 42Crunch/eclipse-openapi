@@ -1,7 +1,8 @@
 package com.xliic.openapi.platform.callback;
 
-import okhttp3.Callback;
 import org.jetbrains.annotations.NotNull;
+
+import okhttp3.Callback;
 
 public interface EnqueueCallback extends Callback {
 

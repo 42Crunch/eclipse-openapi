@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.tree.form;
 
+import static com.xliic.openapi.platform.NamingConvention.DEFAULT_API_NAMING_PATTERN;
+
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,8 +11,6 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.NamingConvention;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessASTResponseCallback;
-
-import static com.xliic.openapi.platform.NamingConvention.DEFAULT_API_NAMING_PATTERN;
 
 public class PlatformAPINameChooser extends PlatformNameChooser {
 

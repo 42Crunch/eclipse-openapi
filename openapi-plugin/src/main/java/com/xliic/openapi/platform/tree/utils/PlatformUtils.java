@@ -1,5 +1,6 @@
 package com.xliic.openapi.platform.tree.utils;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -11,7 +12,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.io.IOException;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -27,6 +27,9 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.NamingConvention;
+import com.xliic.openapi.platform.PlatformAPIs;
+import com.xliic.openapi.platform.Tag;
 import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
@@ -38,14 +41,11 @@ import com.xliic.openapi.platform.tree.node.decorator.PlatformFilterDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
 import com.xliic.openapi.services.GitService;
 import com.xliic.openapi.services.PlatformService;
-import com.xliic.openapi.utils.Utils;
-import com.xliic.openapi.platform.NamingConvention;
-import com.xliic.openapi.platform.PlatformAPIs;
-import com.xliic.openapi.platform.Tag;
 import com.xliic.openapi.utils.NetUtils;
+import com.xliic.openapi.utils.Utils;
 
-import okhttp3.Response;
 import okhttp3.Callback;
+import okhttp3.Response;
 
 public class PlatformUtils {
 

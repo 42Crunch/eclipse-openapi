@@ -43,4 +43,6 @@ public abstract class AnJAction extends Action implements Presentation {
     }
 
     public abstract void actionPerformed(@NotNull AnJActionEvent anActionEvent);
+
+    protected abstract @NotNull ActionUpdateThread getActionUpdateThread();
 }

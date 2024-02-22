@@ -2,6 +2,7 @@ package com.xliic.openapi.platform.tree.actions;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -28,6 +29,11 @@ public class PlatformDeleteAPIAction extends AnJAction implements DumbAware {
         this.apiId = apiId;
     }
 
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+    
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
         final int rc = Messages.showOkCancelDialog(project, CONFIRM_MSG, "Confirm", "Yes", "Cancel", Messages.getQuestionIcon());

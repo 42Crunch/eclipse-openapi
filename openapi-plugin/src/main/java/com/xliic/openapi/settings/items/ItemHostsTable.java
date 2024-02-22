@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.settings.table.host.HostName;
 import com.xliic.openapi.settings.table.host.HostNameTableEditor;
 
@@ -38,13 +38,13 @@ public class ItemHostsTable extends Item {
     @Override
     public void apply(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         keys.add(key);
-        prevData.put(key, settings.getList(key));
-        settings.setList(key, getNames(getNewHosts()));
+        prevData.put(key, SettingsService.getInstance().getList(key));
+        SettingsService.getInstance().setList(key, getNames(getNewHosts()));
     }
 
     public static List<HostName> getHosts(@NotNull String key) {
         List<HostName> values = new LinkedList<>();
-        for (String hostname : Settings.getValues(key)) {
+        for (String hostname : SettingsService.getInstance().getSet(key)) {
             values.add(new HostName(hostname));
         }
         Collections.sort(values);
@@ -57,7 +57,7 @@ public class ItemHostsTable extends Item {
         return newHosts;
     }
 
-    private static Set<String> getNames(Set<HostName> hosts) {
-        return hosts.stream().map(HostName::getHostname).collect(Collectors.toSet());
+    private static List<String> getNames(Set<HostName> hosts) {
+        return hosts.stream().map(HostName::getHostname).collect(Collectors.toList());
     }
 }

@@ -6,6 +6,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.settings.SettingsService;
 
 public class ItemTextField extends Item {
 
@@ -18,17 +19,17 @@ public class ItemTextField extends Item {
 
     @Override
     public boolean isModified() {
-        return !component.getText().equals(settings.getValue(key));
+        return !component.getText().equals(SettingsService.getInstance().getValue(key));
     }
 
     @Override
     public void reset() {
-        component.setText(settings.getValue(key));
+        component.setText(SettingsService.getInstance().getValue(key));
     }
 
     @Override
     public void apply(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         super.apply(keys, prevData);
-        settings.setValue(key, component.getText());
+        SettingsService.getInstance().setValue(key, component.getText());
     }
 }

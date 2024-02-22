@@ -16,22 +16,23 @@ import org.eclipse.jface.text.source.inlined.InlinedAnnotationSupport;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.services.IAnnotationService;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Operation;
 import com.xliic.openapi.async.AsyncTaskType;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
 import com.xliic.openapi.settings.Settings.Platform;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.payload.TryItOperation;
-import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 
 public final class AnnotationService implements IAnnotationService, FileListener, SettingsListener, Disposable {
 
@@ -41,7 +42,7 @@ public final class AnnotationService implements IAnnotationService, FileListener
 
     public AnnotationService(@NotNull Project project) {
         this.project = project;
-        isAnnotationsEnabled = PropertiesComponent.getInstance().getBoolean(InlinedAnnotations.ENABLE_FLAG);
+        isAnnotationsEnabled = SettingsService.getInstance().getBoolean(InlinedAnnotations.ENABLE_FLAG);
     }
 
     public static AnnotationService getInstance(@NotNull Project project) {
@@ -132,7 +133,7 @@ public final class AnnotationService implements IAnnotationService, FileListener
             return;
         }
         if (keys.contains(InlinedAnnotations.ENABLE_FLAG)) {
-            isAnnotationsEnabled = PropertiesComponent.getInstance().getBoolean(InlinedAnnotations.ENABLE_FLAG);
+            isAnnotationsEnabled = SettingsService.getInstance().getBoolean(InlinedAnnotations.ENABLE_FLAG);
             if (isAnnotationsEnabled) {
                 requestDfs();
             } else {

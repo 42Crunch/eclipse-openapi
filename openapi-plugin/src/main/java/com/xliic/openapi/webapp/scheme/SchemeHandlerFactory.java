@@ -16,8 +16,9 @@ import com.xliic.openapi.webapp.messages.ChangeTheme;
 public class SchemeHandlerFactory implements IResponseHandler {
 
     // Domain for local UI debug 127.0.0.1:8887
+	public static final String PROTOCOL = "https";
     public static final String DOMAIN = "openapi.xliic.com";
-    public static final String HTTP_SCHEMA_PREFIX = "http://" + DOMAIN + "/";
+    public static final String HTTP_SCHEMA_PREFIX = PROTOCOL + "://" + DOMAIN + "/";
 
     @NotNull
     private final String indexHTML;

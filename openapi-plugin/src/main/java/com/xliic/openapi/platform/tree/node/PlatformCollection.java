@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.tree.node;
 
+import static com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils.getGitRepoPropsIfCollectionCheckedOut;
+
 import java.util.Objects;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -13,8 +15,6 @@ import com.xliic.openapi.GitRepoProps;
 import com.xliic.openapi.platform.Permissions;
 import com.xliic.openapi.platform.tree.node.core.Filter;
 import com.xliic.openapi.platform.tree.node.core.Paginator;
-
-import static com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils.getGitRepoPropsIfCollectionCheckedOut;
 
 public class PlatformCollection implements Paginator, Filter {
 

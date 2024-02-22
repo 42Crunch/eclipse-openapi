@@ -7,6 +7,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.eclipse.jface.viewers.TreePath;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -29,6 +30,11 @@ public class PlatformFilterCollectionAction extends AnJAction implements DumbAwa
         this.project = project;
         this.tree = tree;
         this.filterDMTN = filterDMTN;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override

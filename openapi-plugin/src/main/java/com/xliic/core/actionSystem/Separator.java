@@ -16,4 +16,9 @@ public class Separator extends AnJAction {
     public static Separator create() {
         return new Separator();
     }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
 }

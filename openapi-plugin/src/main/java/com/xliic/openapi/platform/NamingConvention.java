@@ -1,17 +1,18 @@
 package com.xliic.openapi.platform;
 
-import com.xliic.openapi.utils.Utils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.utils.Utils;
+
 public class NamingConvention {
 
-    public static final String DEFAULT_API_NAMING_PATTERN = "^[\\\\w _.-]{1,255}$";
+    public static final String DEFAULT_API_NAMING_PATTERN = "^[\\w _.-]{1,255}$";
     public static final String DEFAULT_COLLECTION_NAMING_PATTERN = "^[\\w _.\\/:-]{1,2048}$";
     public static final String TAGS_PATTERN = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
 
@@ -51,13 +52,15 @@ public class NamingConvention {
     @NotNull
     @SuppressWarnings("unchecked")
     public static NamingConvention restoreFromStringPayload(@NotNull String payload) {
-        Map<String, Object> result = (Map<String, Object>) Utils.deserialize(payload);
-        if (result != null) {
-            String pattern = (String) result.getOrDefault("pattern", "");
-            String description = (String) result.getOrDefault("description", "");
-            String example = (String) result.getOrDefault("example", "");
-            return new NamingConvention(pattern, description, example);
-        }
+    	if (!payload.isEmpty()) {
+	        Map<String, Object> result = (Map<String, Object>) Utils.deserialize(payload);
+	        if (result != null) {
+	            String pattern = (String) result.getOrDefault("pattern", "");
+	            String description = (String) result.getOrDefault("description", "");
+	            String example = (String) result.getOrDefault("example", "");
+	            return new NamingConvention(pattern, description, example);
+	        }
+    	}
         return new NamingConvention();
     }
 

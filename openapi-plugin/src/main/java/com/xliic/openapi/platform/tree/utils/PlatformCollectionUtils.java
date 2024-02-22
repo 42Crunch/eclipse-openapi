@@ -1,9 +1,12 @@
 package com.xliic.openapi.platform.tree.utils;
 
+import static com.xliic.openapi.platform.tree.utils.PlatformAPIUtils.addOrUpdateTechOASNodeIfNeeded;
+import static com.xliic.openapi.platform.tree.utils.PlatformAPIUtils.removeTechOASNodeIfNeeded;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.HashSet;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -22,9 +25,6 @@ import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 import com.xliic.openapi.services.GitService;
 import com.xliic.openapi.services.PlatformService;
-
-import static com.xliic.openapi.platform.tree.utils.PlatformAPIUtils.addOrUpdateTechOASNodeIfNeeded;
-import static com.xliic.openapi.platform.tree.utils.PlatformAPIUtils.removeTechOASNodeIfNeeded;
 
 public class PlatformCollectionUtils {
 

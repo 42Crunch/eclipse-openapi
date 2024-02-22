@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
-import com.xliic.openapi.services.api.ITerminalService;
+import com.xliic.core.services.ITerminalService;
 import com.xliic.openapi.utils.ExecUtils;
 
 public final class TerminalService implements ITerminalService, Disposable {

@@ -1,10 +1,11 @@
 package com.xliic.openapi.platform.scan.report.payload;
 
-import com.xliic.openapi.parser.ast.node.Node;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Base64;
 import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class ScanReport {
 

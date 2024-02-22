@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
@@ -37,6 +38,11 @@ public class PlatformRenameCollectionAction extends AnJAction implements DumbAwa
         newName = null;
     }
 
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+    
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
         final PlatformNameChooser chooser = new PlatformCollectionNameChooser(project, TITLE, name);

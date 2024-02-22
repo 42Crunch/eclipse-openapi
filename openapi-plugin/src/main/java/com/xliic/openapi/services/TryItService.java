@@ -17,13 +17,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.application.ModalityState;
 import com.xliic.core.project.Project;
+import com.xliic.core.services.ITryItService;
 import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.preferences.PrefsService;
-import com.xliic.openapi.services.api.ITryItService;
 import com.xliic.openapi.tryit.TryItListener;
 import com.xliic.openapi.tryit.TryItResponseCallback;
 import com.xliic.openapi.tryit.TryItTrustManager;
@@ -129,6 +128,6 @@ public final class TryItService implements ITryItService {
         ApplicationManager.getApplication().invokeAndWait(() -> {
             WindowUtils.activateToolWindow(project, TRY_IT, () ->
                 project.getMessageBus().syncPublisher(TryItListener.TOPIC).tryOperation(payload, prefs, env));
-        }, ModalityState.NON_MODAL);
+        });
     }
 }

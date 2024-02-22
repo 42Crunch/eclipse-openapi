@@ -1,12 +1,29 @@
 package com.xliic.openapi.platform.scan.config;
 
+import static com.xliic.openapi.utils.Utils.refreshFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.xliic.core.ide.BrowserUtil;
 import com.xliic.core.module.Module;
 import com.xliic.core.module.ModuleManager;
-import com.xliic.core.project.Project;
 import com.xliic.core.module.ModuleRootManager;
+import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
@@ -15,16 +32,6 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.*;
-
-import static com.xliic.openapi.utils.Utils.refreshFile;
 
 public class ScanConfigUtils {
 

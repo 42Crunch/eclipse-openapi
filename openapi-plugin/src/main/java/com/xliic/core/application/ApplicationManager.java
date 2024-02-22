@@ -32,11 +32,6 @@ public class ApplicationManager implements Application {
     }
 
     @Override
-    public void invokeAndWait(@NotNull Runnable runnable, @NotNull ModalityState state) {
-        Display.getDefault().asyncExec(runnable);
-    }
-
-    @Override
     public void invokeLaterOnWriteThread(@NotNull Runnable runnable) {
         Display.getDefault().asyncExec(runnable);
     }

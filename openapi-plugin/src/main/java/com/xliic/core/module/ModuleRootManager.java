@@ -1,8 +1,8 @@
 package com.xliic.core.module;
 
 import java.io.File;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;

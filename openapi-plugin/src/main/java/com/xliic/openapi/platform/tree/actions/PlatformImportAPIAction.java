@@ -1,10 +1,15 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
+
+import java.util.List;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.fileChooser.FileChooserDescriptor;
@@ -21,9 +26,6 @@ import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
-import java.util.List;
-
-import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
 
 public class PlatformImportAPIAction extends AnJAction implements DumbAware {
 
@@ -45,6 +47,11 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
         this.tree = tree;
         this.collectionId = collectionId;
         this.subRootDn = subRootDn;
+    }
+    
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.components.JComboBox;
+import com.xliic.openapi.settings.SettingsService;
 
 public class ItemComboBox extends Item {
 
@@ -18,7 +19,7 @@ public class ItemComboBox extends Item {
 
     @Override
     public boolean isModified() {
-        String value = settings.getValue(key);
+        String value = SettingsService.getInstance().getValue(key);
         if (value == null) {
             return false;
         }
@@ -27,7 +28,7 @@ public class ItemComboBox extends Item {
 
     @Override
     public void reset() {
-        String value = settings.getValue(key);
+        String value = SettingsService.getInstance().getValue(key);
         if (value == null) {
             component.setSelectedIndex(0);
         } else {
@@ -39,7 +40,7 @@ public class ItemComboBox extends Item {
     @Override
     public void apply(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         super.apply(keys, prevData);
-        settings.setValue(key, component.getItemAt(component.getSelectedIndex()));
+        SettingsService.getInstance().setValue(key, component.getItemAt(component.getSelectedIndex()));
     }
 
     private int getIndex(String label) {

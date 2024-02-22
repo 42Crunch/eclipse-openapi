@@ -10,12 +10,12 @@ import org.eclipse.swt.widgets.Control;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.DocumentAdapter;
 import com.xliic.core.ui.DocumentEvent;
 import com.xliic.core.ui.components.JTextComponent;
 import com.xliic.core.ui.components.JTextField;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.settings.items.Item;
 import com.xliic.openapi.settings.items.ItemPlatformCredentials;
 import com.xliic.openapi.settings.wizard.WizardCallback;
@@ -55,7 +55,7 @@ public class PlatformURLWizardDialog extends WizardDialog {
     @Override
     protected void applySettings(@NotNull Set<String> keys) {
         keys.add(URL);
-        PropertiesComponent.getInstance().setValue(URL, component.getText());
+        SettingsService.getInstance().setValue(URL, component.getText());
     }
 
     @Override

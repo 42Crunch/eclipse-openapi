@@ -11,6 +11,8 @@ public class IconLoader {
     public static Icon findIcon(@NotNull String path, @NotNull Class<?> aClass) {
         if (path.startsWith("/icons/property")) {
             return new Icon(OpenAPIImages.PropertyNode);
+        } else if (path.startsWith("/icons/42crunch_icon")) {
+            return new Icon(OpenAPIImages.SecurityAudit);
         } else if (path.startsWith("/icons/add")) {
             return new Icon(OpenAPIImages.AddSnippet);
         } else if (path.startsWith("/icons/extref")) {
@@ -89,6 +91,8 @@ public class IconLoader {
             return new Icon(OpenAPIImages.AuditAnno);
         } else if (path.startsWith("/icons/audit")) {
             return new Icon(OpenAPIImages.Audit);
+        } else if (path.startsWith("/icons/copy")) {
+            return new Icon(OpenAPIImages.Copy);
         }
         return new Icon(ImageDescriptor.getMissingImageDescriptor());
     }

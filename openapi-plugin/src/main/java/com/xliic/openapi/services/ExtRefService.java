@@ -15,12 +15,12 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.common.WorkspaceException;
 import com.xliic.core.Disposable;
-import com.xliic.core.ide.util.PropertiesComponent;
 import com.xliic.core.project.Project;
+import com.xliic.core.services.IExtRefService;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.services.api.IExtRefService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 
 public class ExtRefService implements IExtRefService, Disposable {
 
@@ -90,7 +90,7 @@ public class ExtRefService implements IExtRefService, Disposable {
     }
 
     public boolean isSafe(String hostname) {
-        List<String> hosts = PropertiesComponent.getInstance().getList(Settings.ExtRef.APPROVED_HOSTNAMES);
+        List<String> hosts = SettingsService.getInstance().getList(Settings.ExtRef.APPROVED_HOSTNAMES);
         if (hosts == null) {
             return false;
         }

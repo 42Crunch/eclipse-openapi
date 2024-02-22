@@ -19,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.application.ModalityState;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
@@ -28,6 +27,7 @@ import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.services.IPlatformService;
 import com.xliic.core.ui.Messages;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.EclipseWorkbenchUtil;
@@ -51,8 +51,8 @@ import com.xliic.openapi.report.AuditUtils;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.report.types.AuditBuilder;
 import com.xliic.openapi.report.types.AuditDisplayOptions;
-import com.xliic.openapi.services.api.IPlatformService;
 import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
@@ -217,6 +217,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
+                SettingsService.getInstance().unsetValue(Settings.Platform.COLLECTION_NAMING_CONVENTION);
                 EclipseUtil.removeTempProject();
             }
         }
@@ -227,7 +228,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
             ApplicationManager.getApplication().invokeAndWait(() -> {
                 WindowUtils.activateToolWindow(project, ToolWindowId.PLATFORM);
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
-            }, ModalityState.NON_MODAL);
+            });
         }
     }
 

@@ -1,10 +1,7 @@
 package com.xliic.openapi.webapp.editor;
 
-import com.xliic.core.project.Project;
-import com.xliic.openapi.OpenAPIImages;
-import com.xliic.openapi.config.jcef.JCEFConfigPanel;
-import com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel;
-import com.xliic.openapi.platform.scan.report.jcef.JCEFScanReportPanel;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.graphics.Image;
@@ -15,8 +12,11 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.xliic.core.project.Project;
+import com.xliic.openapi.OpenAPIImages;
+import com.xliic.openapi.config.jcef.JCEFConfigPanel;
+import com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel;
+import com.xliic.openapi.platform.scan.report.jcef.JCEFScanReportPanel;
 
 public class WebFileEditorPart extends EditorPart {
 
