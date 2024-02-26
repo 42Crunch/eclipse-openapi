@@ -10,6 +10,7 @@ import com.xliic.core.notification.NotificationGroupManager;
 import com.xliic.core.notification.NotificationType;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
+import com.xliic.openapi.platform.dictionary.DictionaryUtils;
 import com.xliic.openapi.utils.MsgUtils;
 
 public class ShowNotifications extends AnAction implements DumbAware {
@@ -27,6 +28,8 @@ public class ShowNotifications extends AnAction implements DumbAware {
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
         Project project = anActionEvent.getProject();
+        DictionaryUtils.suggestAlwaysUpdate(project);
+        DictionaryUtils.suggestNeverUpdate(project);        
    		MsgUtils.notifyLimit(project, 10, "per-operation Conformance Scans");
    		MsgUtils.notifyTokenNotFound(project, "docker");
    		MsgUtils.notifyError(project, "Random error text " + RandomStringUtils.random(50, true, false));

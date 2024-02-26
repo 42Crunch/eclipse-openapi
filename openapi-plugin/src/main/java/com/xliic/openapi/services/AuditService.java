@@ -34,6 +34,7 @@ import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAuditTask;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.platform.dictionary.DictionaryUtils;
 import com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction;
 import com.xliic.openapi.platform.dictionary.quickfix.PreAuditDialog;
 import com.xliic.openapi.report.AuditAPIs;
@@ -333,14 +334,10 @@ public final class AuditService implements IAuditService, Disposable {
                 dialog.show();
                 int code = dialog.getExitCode();
                 if (code == DialogWrapper.OK_EXIT_CODE) {
+                    DictionaryUtils.suggestAlwaysUpdate(project);
                     updateAndRunAudit(action, project, file, payload, type);
                 } else if (code == PreAuditDialog.NO_EXIT_CODE) {
-                    runAudit(project, file, payload, type);
-                } else if (code == PreAuditDialog.ALWAYS_EXIT_CODE) {
-                    settingsService.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
-                    updateAndRunAudit(action, project, file, payload, type);
-                } else if (code == PreAuditDialog.NEVER_EXIT_CODE) {
-                    settingsService.setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
+                    DictionaryUtils.suggestNeverUpdate(project);
                     runAudit(project, file, payload, type);
                 }
             } else {

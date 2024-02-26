@@ -14,6 +14,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.platform.dictionary.DictionaryUtils;
 import com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction;
 import com.xliic.openapi.platform.dictionary.quickfix.PreAuditDialog;
 import com.xliic.openapi.services.ASTService;
@@ -81,14 +82,10 @@ public class PlatformUploadAction extends AnAction implements DumbAware {
                 dialog.show();
                 int code = dialog.getExitCode();
                 if (code == DialogWrapper.OK_EXIT_CODE) {
+                    DictionaryUtils.suggestAlwaysUpdate(project);
                     updateAndRunSaveToPlatform(action, project, file);
                 } else if (code == PreAuditDialog.NO_EXIT_CODE) {
-                    runSaveToPlatform(project, file);
-                } else if (code == PreAuditDialog.ALWAYS_EXIT_CODE) {
-                	SettingsService.getInstance().setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.ALWAYS);
-                    updateAndRunSaveToPlatform(action, project, file);
-                } else if (code == PreAuditDialog.NEVER_EXIT_CODE) {
-                	SettingsService.getInstance().setValue(Settings.Platform.Dictionary.PreAudit.CHOICE, Settings.Platform.Dictionary.PreAudit.NEVER);
+                    DictionaryUtils.suggestNeverUpdate(project);
                     runSaveToPlatform(project, file);
                 }
             } else {

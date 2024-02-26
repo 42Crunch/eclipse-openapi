@@ -19,15 +19,11 @@ public class PreAuditDialog extends TrayDialog {
 
     private static final String MESSAGE = "Found Data Dictionary mismatch, update the document with Data Dictionary properties?";
 
-    private static final String YES = "Yes, Update";
-    private static final String NO = "No, Don't update";
-    private static final String ALWAYS = "Always update";
-    private static final String NEVER = "Never update";
+    private static final String YES = "Update";
+    private static final String NO = "Don't update";
 
     public static final int OK_EXIT_CODE = 0;
     public static final int NO_EXIT_CODE = 2;
-    public static final int ALWAYS_EXIT_CODE = 3;
-    public static final int NEVER_EXIT_CODE = 4;
 
     public PreAuditDialog(@NotNull Project project) {
         super(EclipseUtil.getShell());
@@ -75,8 +71,6 @@ public class PreAuditDialog extends TrayDialog {
         parent.setLayoutData(data);
         createButton(parent, IDialogConstants.CLIENT_ID + 1, YES, true);
         createButton(parent, IDialogConstants.CLIENT_ID + 2, NO, false);
-        createButton(parent, IDialogConstants.CLIENT_ID + 3, ALWAYS, false);
-        createButton(parent, IDialogConstants.CLIENT_ID + 4, NEVER, false);
         createButton(parent, IDialogConstants.CLIENT_ID + 5, "Cancel", false);
     }
 
@@ -97,10 +91,6 @@ public class PreAuditDialog extends TrayDialog {
             return OK_EXIT_CODE;
         case IDialogConstants.CLIENT_ID + 2:
             return NO_EXIT_CODE;
-        case IDialogConstants.CLIENT_ID + 3:
-            return ALWAYS_EXIT_CODE;
-        case IDialogConstants.CLIENT_ID + 4:
-            return NEVER_EXIT_CODE;
         default:
             return DialogWrapper.CANCEL_EXIT_CODE;
         }

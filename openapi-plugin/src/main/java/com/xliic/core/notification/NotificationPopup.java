@@ -67,7 +67,7 @@ public class NotificationPopup extends AbstractNotificationPopup {
 	public static class Builder {
 
 		private Display display;
-		private Function<Composite, Control> contentCreator;
+		private NotificationContentCreator contentCreator;
 		private Function<Composite, Control> titleCreator;
 		private Long delay;
 		private Boolean fadeIn;
@@ -85,19 +85,9 @@ public class NotificationPopup extends AbstractNotificationPopup {
 		 * @param contentCreator the content creation function
 		 * @return this
 		 */
-		public Builder content(Function<Composite, Control> contentCreator) {
+		public Builder content(NotificationContentCreator contentCreator) {
 			this.contentCreator = contentCreator;
 			return this;
-		}
-
-		/**
-		 * Sets the content text. A label is created to show the given text.
-		 *
-		 * @param text the content text
-		 * @return this
-		 */
-		public Builder text(String text) {
-			return content(WidgetFactory.label(SWT.NONE).text(text)::create);
 		}
 
 		/**
@@ -192,7 +182,7 @@ public class NotificationPopup extends AbstractNotificationPopup {
 		return new Builder(display);
 	}
 
-	private Function<Composite, ? extends Control> contentCreator;
+	private NotificationContentCreator contentCreator;
 	private Function<Composite, Control> titleCreator;
 	private boolean hasCloseButton;
 	private Image titleImage;
@@ -252,7 +242,7 @@ public class NotificationPopup extends AbstractNotificationPopup {
 			return;
 		}
 		GridLayoutFactory.fillDefaults().applyTo(parent);
-		Control control = this.contentCreator.apply(parent);
+		Control control = this.contentCreator.apply(parent, this);
 		if (control.getLayoutData() == null) {
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(control);
 		}
