@@ -1,11 +1,8 @@
-import { c as v, a as g, l as j, b, t as h, f, e as o, T as l, j as e, g as y, R as S, P as $, m as w, k as I, o as D } from "./webapp.dStGtxDE.js";
-import { D as u } from "./datetime.8rVZUDtl.js";
-import { S as O } from "./AngleDown.1P8JpNH0.js";
-import { S as E } from "./AngleUp.FmFQlWks.js";
-import { S as M } from "./SearchSidebar.f3B2IxrA.js";
-import "./index.3YtBeUW9.js";
-import "./index.hzKdP6cc.js";
-import "./TriangleExclamation.WaO4b29_.js";
+import { c as v, a as j, l as g, b, t as h, e as f, q as o, T as l, j as e, f as y, R as S, P as $, m as w, h as I, n as D } from "./extends.lDO40HzL.js";
+import { D as p } from "./datetime.BMKtNb6j.js";
+import { S as O } from "./AngleDown.Bd1A6fn9.js";
+import { S as E } from "./AngleUp.DkgGLPvP.js";
+import { S as M } from "./SearchSidebar.B7f2d91g.js";
 const F = {
   dictionaries: [],
   formats: []
@@ -21,21 +18,21 @@ const F = {
           name: a.name,
           description: a.description
         });
-        for (const p of Object.values(a.formats))
+        for (const u of Object.values(a.formats))
           d.push({
-            ...p,
+            ...u,
             dictionaryId: a.id
           });
       }
       i.dictionaries = r, i.formats = d;
     }
   }
-}), { showDictionary: T } = m.actions, k = m.reducer, P = {
+}), { showDictionary: T } = m.actions, P = m.reducer, k = {
   theme: h,
-  formats: k
-}, C = (i) => g({
-  reducer: P,
-  middleware: (n) => n().prepend().concat(j),
+  formats: P
+}, C = (i) => j({
+  reducer: k,
+  middleware: (n) => n().prepend().concat(g),
   preloadedState: {
     theme: i
   }
@@ -51,17 +48,17 @@ function A({ format: i }) {
       /* @__PURE__ */ e.jsx("div", { children: n ? /* @__PURE__ */ e.jsx(E, {}) : /* @__PURE__ */ e.jsx(O, {}) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
         /* @__PURE__ */ e.jsx(V, { children: i.name }),
-        /* @__PURE__ */ e.jsxs(G, { children: [
+        /* @__PURE__ */ e.jsxs(q, { children: [
           "Last updated on",
           " ",
-          u.fromSeconds(parseInt(i.lastUpdate, 10)).toLocaleString(
-            u.DATETIME_MED
+          p.fromSeconds(parseInt(i.lastUpdate, 10)).toLocaleString(
+            p.DATETIME_MED
           )
         ] })
       ] })
     ] }),
     n && /* @__PURE__ */ e.jsxs(_, { children: [
-      /* @__PURE__ */ e.jsx(q, { children: i.description }),
+      /* @__PURE__ */ e.jsx(G, { children: i.description }),
       R(i),
       W(i)
     ] })
@@ -139,7 +136,7 @@ const N = o.div`
     border-left: 5px solid var(${l.badgeBackground});`}
 `, V = o.div`
   font-weight: 600;
-`, G = o.div`
+`, q = o.div`
   margin-top: 8px;
   display: flex;
   font-size: 90%;
@@ -148,7 +145,7 @@ const N = o.div`
 `, _ = o.div`
   background-color: var(${l.computedOne});
   padding: 16px;
-`, q = o.div`
+`, G = o.div`
   padding-bottom: 16px;
   border-bottom: 1px solid var(${l.border});
 `, J = o.div`
@@ -165,9 +162,9 @@ const N = o.div`
   }
 `;
 function K() {
-  var p;
+  var u;
   const i = x((s) => s.formats.formats), n = x((s) => s.formats.dictionaries);
-  if (((p = n == null ? void 0 : n[0]) == null ? void 0 : p.id) === void 0)
+  if (((u = n == null ? void 0 : n[0]) == null ? void 0 : u.id) === void 0)
     return null;
   const r = n.filter((s) => s.id === "standard").map((s) => ({ ...s, label: s.name })), d = n.filter((s) => s.id !== "standard").map((s) => ({ ...s, label: s.name })), a = [
     { id: "standard", title: "Organization standard dictionary", items: r },

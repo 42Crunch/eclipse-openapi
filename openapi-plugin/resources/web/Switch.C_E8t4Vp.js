@@ -1,20 +1,20 @@
-import { e as n, T as o, j as e } from "./webapp.dStGtxDE.js";
+import { q as e, T as o, j as n } from "./extends.lDO40HzL.js";
 function c({
   value: r,
   onChange: a
 }) {
-  return /* @__PURE__ */ e.jsx(
+  return /* @__PURE__ */ n.jsx(
     i,
     {
       active: r,
       onClick: (t) => {
         t.preventDefault(), t.stopPropagation(), a(!r);
       },
-      children: /* @__PURE__ */ e.jsx(d, { active: r })
+      children: /* @__PURE__ */ n.jsx(d, { active: r })
     }
   );
 }
-const i = n.div`
+const i = e.div`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -23,7 +23,7 @@ const i = n.div`
   border-radius: 30px;
   border: 1px solid var(${o.border});
   ${({ active: r }) => r ? `background-color: var(${o.buttonBackground}); justify-content: end;` : `background-color: var(${o.background}); justify-content: start;`}
-`, d = n.div`
+`, d = e.div`
   width: 12px;
   height: 12px;
   border-radius: 12px;

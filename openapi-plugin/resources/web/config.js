@@ -1,18 +1,12 @@
-import { j as e, e as m, T as s, f as T, d as J, s as q, a as z, o as _, l as G, t as Q, g as K, R as X, P as Y, k as Z, m as ee } from "./webapp.dStGtxDE.js";
-import { u as N, c as D, a as O } from "./index.esm.XbmwboKu.js";
-import { S as ne } from "./SearchSidebar.f3B2IxrA.js";
-import { u as v, b as k, t as oe, d as ae, e as te, f as re, g as se, o as ie, h as V, s as H, i as le, l as ce, j as de, k as me, m as ue, n as pe, p as fe, c as ge } from "./slice.MW7nD13G.js";
-import { o as C, s as j, l as he, I as d, u as S, i as xe, F as je } from "./Input.OArS1jZW.js";
-import { N as ve, $ as Ce, a as be, o as we, b as Te, c as ye, d as ke, e as Se, f as $e, g as Fe } from "./index.iSrikWCg.js";
-import { B as y, E as M } from "./Banner.dtP2oOQ6.js";
-import { S as R } from "./Select.eMc73ch1.js";
-import { S as Pe } from "./Check.NOinH2ty.js";
-import "./index.3YtBeUW9.js";
-import "./index.hzKdP6cc.js";
-import "./TriangleExclamation.WaO4b29_.js";
-import "./Spinner.ulkccM7r.js";
-import "./downshift.esm.WyR76k9W.js";
-import "./AngleDown.1P8JpNH0.js";
+import { j as e, q as m, T as s, e as T, d as q, s as J, a as _, n as z, l as G, t as Q, f as K, R as X, P as Y, h as Z, m as ee } from "./extends.lDO40HzL.js";
+import { u as N, c as D, a as O } from "./index.esm.DnqIzy97.js";
+import { S as ne } from "./SearchSidebar.B7f2d91g.js";
+import { u as v, b as k, t as oe, d as ae, e as te, f as re, g as se, o as ie, h as V, s as H, i as le, l as ce, j as de, k as me, m as ue, n as pe, p as fe, c as ge } from "./slice.CsY3BWWj.js";
+import { o as C, s as j, l as he, I as d, u as S, i as xe, F as je } from "./Input.CZne26jl.js";
+import { N as ve, $ as Ce, a as be, o as we, b as Te, c as ye, d as ke, e as Se, f as $e, g as Fe } from "./index.BxEoVFzu.js";
+import { B as y, E as M } from "./Banner.oieNsuut.js";
+import { S as R } from "./Select.BV5whCeg.js";
+import { S as Pe } from "./Check.DLtIyRsQ.js";
 function h({
   label: n,
   waiting: o,
@@ -246,12 +240,12 @@ function E({ name: n, label: o }) {
   });
   return /* @__PURE__ */ e.jsxs(We, { children: [
     /* @__PURE__ */ e.jsx(
-      Je,
+      qe,
       {
         checked: a.value,
         onCheckedChange: (r) => a.onChange(r),
         id: t,
-        children: /* @__PURE__ */ e.jsx(qe, { children: /* @__PURE__ */ e.jsx(Pe, {}) })
+        children: /* @__PURE__ */ e.jsx(Je, { children: /* @__PURE__ */ e.jsx(Pe, {}) })
       }
     ),
     /* @__PURE__ */ e.jsx("label", { htmlFor: t, children: o })
@@ -261,7 +255,7 @@ const We = m.div`
   display: flex;
   gap: 8px;
   align-items: center;
-`, Je = m(Ce)`
+`, qe = m(Ce)`
   width: 20px;
   height: 20px;
   display: flex;
@@ -272,16 +266,16 @@ const We = m.div`
   border-color: var(${s.checkboxBorder});
   border-width: 1px;
   border-style: solid;
-`, qe = m(be)`
+`, Je = m(be)`
   display: flex;
   align-items: center;
   justify-content: center;
   fill: var(${s.checkboxForeground});
 `;
-function ze({ result: n }) {
+function _e({ result: n }) {
   return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(y, { message: n.version }) : /* @__PURE__ */ e.jsx(M, { message: "Failed check version", children: n.message }) : null;
 }
-function _e({ progress: n }) {
+function ze({ progress: n }) {
   const o = Math.ceil(n * 100);
   return /* @__PURE__ */ e.jsxs(Ge, { children: [
     /* @__PURE__ */ e.jsxs(Qe, { children: [
@@ -407,7 +401,7 @@ function Xe() {
               }
             }
           ),
-          /* @__PURE__ */ e.jsx(ze, { result: r })
+          /* @__PURE__ */ e.jsx(_e, { result: r })
         ] })
       ] }),
       l === "cli" && !c.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
@@ -422,7 +416,7 @@ function Xe() {
               }
             }
           ),
-          u && /* @__PURE__ */ e.jsx(_e, { progress: $ })
+          u && /* @__PURE__ */ e.jsx(ze, { progress: $ })
         ] }),
         /* @__PURE__ */ e.jsx(
           y,
@@ -533,7 +527,7 @@ function nn({ id: n }) {
     o(a ? V(n) : H({ screen: n, error: "Validation errors, configuration is not being saved" }));
   }, [n, a]), null;
 }
-const U = J(), p = U.startListening;
+const U = q(), p = U.startListening;
 function on(n) {
   const o = {
     saveConfig: we(p, n),
@@ -544,20 +538,20 @@ function on(n) {
     downloadCli: $e(p, n),
     openLink: Fe(p, n)
   };
-  return q(o), U;
+  return J(o), U;
 }
 const an = {
   theme: Q,
   config: ge
 }, tn = {
-  changeTheme: _,
+  changeTheme: z,
   loadConfig: ce,
   showPlatformConnectionTest: de,
   showOverlordConnectionTest: me,
   showScandManagerConnectionTest: ue,
   showCliTest: pe,
   showCliDownload: fe
-}, rn = (n, o) => z({
+}, rn = (n, o) => _({
   reducer: an,
   middleware: (t) => t().prepend(n.middleware).concat(G),
   preloadedState: {

@@ -1,4 +1,4 @@
-import { c as Mr, u as Pr, b as Lr } from "./webapp.dStGtxDE.js";
+import { c as Mr, u as Pr, b as Lr } from "./extends.lDO40HzL.js";
 const hr = [
   "get",
   "put",

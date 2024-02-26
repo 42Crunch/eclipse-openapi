@@ -1,4 +1,4 @@
-import { c as t, u as i, b as l } from "./webapp.dStGtxDE.js";
+import { c as t, u as i, b as l } from "./extends.lDO40HzL.js";
 const c = {
   ready: !1,
   data: {
@@ -101,7 +101,7 @@ const c = {
       o.cliTestResult = e.payload, o.waitingForCliTest = !1;
     },
     downloadCli: (o, e) => {
-      o.waitingForCliDownload = !0, o.cliTestResult = void 0;
+      o.waitingForCliDownload = !0, o.cliTestResult = void 0, o.cliDownloadError = void 0;
     },
     showCliDownload: (o, e) => {
       o.cliTestResult = void 0, e.payload.completed ? (o.waitingForCliDownload = !1, o.cliDownloadPercent = 0, e.payload.success ? (o.data.cli.location = e.payload.location, o.data.cli.found = !0) : (o.data.cli.found = !1, o.cliDownloadError = e.payload.error)) : (o.waitingForCliDownload = !0, o.cliDownloadPercent = e.payload.progress.percent);
@@ -132,19 +132,19 @@ const {
   showScandManagerConnectionTest: S,
   addInsecureSslHostname: R,
   removeInsecureSslHostname: F,
-  testCli: M,
-  showCliTest: D,
+  testCli: D,
+  showCliTest: M,
   downloadCli: H,
   showCliDownload: P,
-  openLink: O
-} = a.actions, E = i, k = l, I = a.reducer;
+  openLink: E
+} = a.actions, O = i, k = l, I = a.reducer;
 export {
   R as a,
   k as b,
   I as c,
   T as d,
   y as e,
-  M as f,
+  D as f,
   H as g,
   v as h,
   C as i,
@@ -152,11 +152,11 @@ export {
   h as k,
   f as l,
   S as m,
-  D as n,
-  O as o,
+  M as n,
+  E as o,
   P as p,
   F as r,
   p as s,
   w as t,
-  E as u
+  O as u
 };
