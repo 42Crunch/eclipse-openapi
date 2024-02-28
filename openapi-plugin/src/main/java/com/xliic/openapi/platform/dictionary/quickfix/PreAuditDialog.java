@@ -63,6 +63,8 @@ public class PreAuditDialog extends TrayDialog {
         Text textArea = new Text(parent, SWT.SINGLE | SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP);
         textArea.setText(MESSAGE);
         textArea.setEditable(false);
+        textArea.setBackground(parent.getBackground());
+        textArea.clearSelection();
     }
 
     @Override
