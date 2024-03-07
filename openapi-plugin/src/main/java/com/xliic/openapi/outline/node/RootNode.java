@@ -5,23 +5,26 @@ import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.openapi.OpenApiVersion;
 
 public class RootNode {
 
+    @NotNull
     private final OpenApiVersion version;
-    private final Map<String, DefaultMutableTreeNode> children;
+    @NotNull
+    private final Map<String, DefaultMutableTreeNode> children = new HashMap<>();
 
-    public RootNode(OpenApiVersion version) {
+    public RootNode(@NotNull OpenApiVersion version) {
         this.version = version;
-        children = new HashMap<>();
     }
 
-    public OpenApiVersion getVersion() {
+    public @NotNull OpenApiVersion getVersion() {
         return version;
     }
 
-    public Map<String, DefaultMutableTreeNode> getChildren() {
+    public @NotNull Map<String, DefaultMutableTreeNode> getChildren() {
         return children;
     }
 }

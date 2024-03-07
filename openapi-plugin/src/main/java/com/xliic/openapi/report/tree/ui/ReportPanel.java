@@ -22,13 +22,16 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.actionSystem.AnJAction;
+import com.xliic.core.actionSystem.ToggleAction;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
+import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
+import com.xliic.openapi.SearchWidget;
 import com.xliic.openapi.report.tree.ReportColoredTreeCellRenderer;
 import com.xliic.openapi.report.tree.ReportFileObject;
 import com.xliic.openapi.report.tree.ReportIssueObject;
@@ -38,10 +41,12 @@ import com.xliic.openapi.report.tree.ReportTreeNodeComparator;
 import com.xliic.openapi.report.tree.filter.FilterResetAction;
 import com.xliic.openapi.report.tree.filter.FilterState;
 import com.xliic.openapi.report.tree.filter.ShowErrorAction;
-import com.xliic.openapi.report.tree.filter.ShowFilterAction;
 import com.xliic.openapi.report.tree.filter.ShowForSelectedFileAction;
 import com.xliic.openapi.report.tree.filter.ShowInfoAction;
 import com.xliic.openapi.report.tree.filter.ShowWarningsAction;
+import com.xliic.openapi.report.tree.filter.TextCaseSensitiveAction;
+import com.xliic.openapi.report.tree.filter.TextRegexAction;
+import com.xliic.openapi.report.tree.filter.TextWholeWordsAction;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.AuditService;
@@ -51,69 +56,105 @@ import com.xliic.openapi.topic.FileListener;
 @SuppressWarnings("serial")
 public class ReportPanel extends JPanel implements FileListener, AuditListener, Disposable {
 
+	@NotNull
     private final Project project;
+	@NotNull
     private final ToolWindow toolWindow;
-    private final Map<String, DefaultMutableTreeNode> fileNameToTreeNodeMap = new HashMap<>();
+	@NotNull
+	private final Map<String, DefaultMutableTreeNode> fileNameToTreeNodeMap = new HashMap<>();
+	@NotNull
     private final Map<Issue, DefaultMutableTreeNode> issueToTreeNodeMap = new HashMap<>();
-
+	@NotNull
     private Tree tree;
-    private FilterState filterState = new FilterState();
-
+	@NotNull
+	private FilterState filterState = new FilterState();
+    @NotNull
+    private final SearchWidget searchWidget;
+    
     public ReportPanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
-
-        tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
         this.project = project;
         this.toolWindow = toolWindow;
-
+    	// Install search widget
+        searchWidget = new SearchWidget(project, toolWindow.getSearchParent(), null, true) {
+            @Override
+            public void searchTextChanged(@NotNull String text) {
+                filterState.setSearchText(text);
+                SwingUtilities.invokeLater(() -> {
+                	fastReload();
+                });
+            }
+            @Override
+            public void setExtraActions(List<ToggleAction> actions) {
+            	actions.add(new TextCaseSensitiveAction(ReportPanel.this));
+            	actions.add(new TextWholeWordsAction(ReportPanel.this));
+            	actions.add(new TextRegexAction(ReportPanel.this));
+            }
+        };
+        // Install search filters
         List<AnJAction> titleActions = new ArrayList<>();
         titleActions.add(new ShowInfoAction(this));
         titleActions.add(new ShowWarningsAction(this));
         titleActions.add(new ShowErrorAction(this));
-        titleActions.add(new ShowFilterAction(this));
         titleActions.add(new ShowForSelectedFileAction(this));
         titleActions.add(new FilterResetAction(this));
         toolWindow.setTitleActions(titleActions);
-
+        // Install tree
+        tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
         tree.setOpaque(true);
         tree.setBackground(UIUtil.getTreeBackground());
-
         tree.setRootVisible(false);
         tree.setModel(new ReportTreeModel(tree.getViewer(), new DefaultMutableTreeNode(), this));
         tree.setCellRenderer(new ReportColoredTreeCellRenderer(project));
         tree.addMouseListener(new ReportMouseAdapter(this));
         cleanTree();
-
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(AuditListener.TOPIC, this);
+        // Tree is forced to be drawn by the view in onViewPartBroughtToTop method
     }
 
     @Override
     public void dispose() {
         handleAllFilesClosed();
         tree.removeAll();
-        filterState = null;
     }
 
-    public Tree getTree() {
+    public @NotNull Tree getTree() {
         return tree;
     }
 
-    public Project getProject() {
+    public @NotNull Project getProject() {
         return project;
     }
 
-    public void reloadAndRestoreExpansion() {
-        List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
+    public void fastReload() {
+        fastReload(null);
+    }
+
+    private void fastReload(DefaultMutableTreeNode node) {
         ReportTreeModel model = (ReportTreeModel) getTree().getModel();
-        model.reload();
-        TreeUtil.restoreExpandedPaths(tree, expandedPaths);
+        model.resetCache();
+        try {
+            List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
+            if (node == null) {
+                model.reload();
+            } else {
+                model.reload(node);
+            }
+            TreeUtil.restoreExpandedPaths(tree, expandedPaths);
+        } finally {
+            model.resetCache();
+        }
+    }
+    
+    public void cleanSearchWidget() {
+    	searchWidget.clean();
     }
 
     public void updateTitleActions() {
         toolWindow.updateTitleActions();
     }
 
-    public FilterState getFilterState() {
+    public @NotNull FilterState getFilterState() {
         return filterState;
     }
 
@@ -138,10 +179,7 @@ public class ReportPanel extends JPanel implements FileListener, AuditListener, 
         if (fileNameToTreeNodeMap.containsKey(oldFileName)) {
             fileNameToTreeNodeMap.put(newFile.getPath(), fileNameToTreeNodeMap.remove(oldFileName));
             DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(newFile.getPath());
-            List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
-            ReportTreeModel model = (ReportTreeModel) getTree().getModel();
-            model.reload(node);
-            TreeUtil.restoreExpandedPaths(tree, expandedPaths);
+            fastReload(node);
         }
     }
 
@@ -180,7 +218,7 @@ public class ReportPanel extends JPanel implements FileListener, AuditListener, 
     public void handleSelectedFile(@NotNull VirtualFile file) {
         refreshProblems(file);
         if (filterState.isShowSelectedFileOnly()) {
-            reloadAndRestoreExpansion();
+        	fastReload();
         }
         if (!fileNameToTreeNodeMap.containsKey(file.getPath())) {
             return;
@@ -203,12 +241,12 @@ public class ReportPanel extends JPanel implements FileListener, AuditListener, 
         if (!fileNameToTreeNodeMap.containsKey(file.getPath())) {
             return;
         }
-        TreeNode node = fileNameToTreeNodeMap.get(file.getPath());
+        DefaultMutableTreeNode node = fileNameToTreeNodeMap.get(file.getPath());
         ReportTreeModel model = (ReportTreeModel) getTree().getModel();
         if (model.isLeaf(node)) {
-            reloadAndRestoreExpansion();
+        	fastReload();
         } else {
-            model.reload(node);
+        	fastReload(node);
         }
     }
 
@@ -250,9 +288,13 @@ public class ReportPanel extends JPanel implements FileListener, AuditListener, 
         for (String fileName : fileNameToTreeNodeMap.keySet()) {
             sortChildren(fileNameToTreeNodeMap.get(fileName));
         }
-        reloadAndRestoreExpansion();
-        for (DefaultMutableTreeNode node : nodesToExpand) {
-            tree.expandPath(TreePathUtil.pathToTreeNode(node));
+        fastReload();
+        try {
+            for (DefaultMutableTreeNode node : nodesToExpand) {
+                tree.expandPath(TreePathUtil.pathToTreeNode(node));
+            }
+        } finally {
+            model.resetCache();
         }
     }
 
@@ -266,7 +308,7 @@ public class ReportPanel extends JPanel implements FileListener, AuditListener, 
             }
         }
         removeFilesIfNecessary();
-        reloadAndRestoreExpansion();
+        fastReload();
     }
 
     private void removeIssuesByFile(String fileName) {
@@ -276,7 +318,7 @@ public class ReportPanel extends JPanel implements FileListener, AuditListener, 
             }
         }
         removeFilesIfNecessary();
-        reloadAndRestoreExpansion();
+        fastReload();
     }
 
     private void removeIssue(Issue issue) {

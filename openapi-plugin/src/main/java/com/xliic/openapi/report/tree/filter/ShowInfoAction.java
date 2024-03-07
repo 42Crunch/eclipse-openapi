@@ -35,6 +35,6 @@ public class ShowInfoAction extends ToggleAction implements DumbAware {
     @Override
     public void setSelected(@NotNull AnJActionEvent event, boolean showInfo) {
         filterState.setShowInfo(showInfo);
-        panel.reloadAndRestoreExpansion();
+        panel.fastReload();
     }
 }

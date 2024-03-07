@@ -1,13 +1,16 @@
 package com.xliic.openapi.platform.dictionary;
 
+import static com.xliic.core.notification.NotificationAction.createSimpleExpiring;
+import static com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit.ALWAYS;
+import static com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit.CHOICE;
+import static com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit.NEVER;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.notification.NotificationGroupManager;
 import com.xliic.core.notification.NotificationType;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.settings.SettingsService;
-import org.jetbrains.annotations.NotNull;
-
-import static com.xliic.core.notification.NotificationAction.createSimpleExpiring;
-import static com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit.*;
 
 public class DictionaryUtils {
 

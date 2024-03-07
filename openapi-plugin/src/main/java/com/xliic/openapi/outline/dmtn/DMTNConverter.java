@@ -44,22 +44,66 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.utils.Utils;
 
 public class DMTNConverter {
-	
+
     private static final Set<String> HTTP_METHODS = new HashSet<>(
             Arrays.asList("get", "put", "post", "delete", "options", "head", "patch", "trace"));
 
-    private void dfs(Node parentAST, DefaultMutableTreeNode parentDMTN, Map<String, DefaultMutableTreeNode> pointers,
-            Map<String, DefaultMutableTreeNode> panels) {
+    private static final Set<String> VISIBLE_COMPONENTS = new HashSet<>(
+            Arrays.asList("schemas", "headers", "securitySchemes", "links", "callbacks", "examples", "responses", "parameters", "requestBodies"));
 
+    private static boolean visible(SimpleNode node) {
+
+        int level = node.getLevel();
+        String name = node.getName();
+        String panelKey = getPanelName(node);
+        String parentName = node.getParentName();
+
+        if (GENERAL.equals(panelKey) && (level > 0)) {
+            return false;
+        } else if (SERVERS.equals(panelKey) && ((level > 3) || !URL_KEY.equals(name))) {
+            return false;
+        } else if (SECURITY.equals(panelKey) && (level > 3)) {
+            return false;
+        } else if (SECURITY_DEFINITIONS.equals(panelKey) && (level > 2)) {
+            return false;
+        } else if (PATHS.equals(panelKey)) {
+            if (level <= 3) {
+                return true;
+            } else if ((level == 4) && (PARAMETERS_KEY.equals(name) || RESPONSES_KEY.equals(name))) {
+                return true;
+            } else if ((level == 5) && RESPONSES_KEY.equals(parentName)) {
+                return true;
+            }
+            return (level == 6) && PARAMETERS_KEY.equals(parentName) && (NAME_KEY.equals(name) || REF_KEY.equals(name));
+        } else if (PARAMETERS.equals(panelKey)) {
+            return level <= 2;
+        } else if (RESPONSES.equals(panelKey)) {
+            return level <= 2;
+        } else if (COMPONENTS.equals(panelKey)) {
+            if (level == 2) {
+                return VISIBLE_COMPONENTS.contains(name);
+            } else {
+                return level <= 3;
+            }
+        } else if (DEFINITIONS.equals(panelKey)) {
+            return level <= 2;
+        }
+        return true;
+    }
+
+    private void dfs(Node parentAST,
+                     DefaultMutableTreeNode parentDMTN,
+                     Map<String, DefaultMutableTreeNode> pointers,
+                     Map<String, DefaultMutableTreeNode> panels) {
         int level = parentAST.getDepth();
-
         if (parentAST.isObject()) {
             for (Node childAST : parentAST.getChildren()) {
-
                 String key = childAST.getKey();
+                if (level == 0 && TAGS.equals(key)) {
+                    continue;
+                }
                 DefaultMutableTreeNode childDMTN;
                 boolean mustHaveChild = true;
-
                 if (level == 0) {
                     if (panels.containsKey(key)) {
                         childDMTN = panels.get(key);
@@ -117,50 +161,15 @@ public class DMTNConverter {
     private DefaultMutableTreeNode createOpIdDMTN(String key, Node node, DefaultMutableTreeNode parent, BaseNode operation) {
         return new DefaultMutableTreeNode(new OpIdNode(key, node, (BaseNode) parent.getUserObject(), operation));
     }
-    
-    private static boolean visible(SimpleNode node) {
 
-        int level = node.getLevel();
-        String name = node.getName();
-        String panelKey = getPanelName(node);
-        String parentName = node.getParentName();
-
-        if (GENERAL.equals(panelKey) && (level > 0)) {
-            return false;
-        } else if (SERVERS.equals(panelKey) && ((level > 3) || !URL_KEY.equals(name))) {
-            return false;
-        } else if (SECURITY.equals(panelKey) && (level > 3)) {
-            return false;
-        } else if (SECURITY_DEFINITIONS.equals(panelKey) && (level > 2)) {
-            return false;
-        } else if (PATHS.equals(panelKey)) {
-            if (level <= 3) {
-                return true;
-            } else if ((level == 4) && (PARAMETERS_KEY.equals(name) || RESPONSES_KEY.equals(name))) {
-                return true;
-            } else if ((level == 5) && RESPONSES_KEY.equals(parentName)) {
-                return true;
-            }
-            return (level == 6) && PARAMETERS_KEY.equals(parentName) && (NAME_KEY.equals(name) || REF_KEY.equals(name));
-        } else if (PARAMETERS.equals(panelKey)) {
-            return level <= 2;
-        } else if (RESPONSES.equals(panelKey)) {
-            return level <= 2;
-        } else if (COMPONENTS.equals(panelKey)) {
-            return level <= 3;
-        } else if (DEFINITIONS.equals(panelKey)) {
-            return level <= 2;
-        }
-        return true;
-    }
-
+    @NotNull
     public DefaultMutableTreeNode convert(@NotNull Node root) {
         RootNode rootNode = new RootNode(Utils.getOpenAPIVersion(root));
         DefaultMutableTreeNode rootDMTN = new DefaultMutableTreeNode(rootNode);
         Map<String, DefaultMutableTreeNode> panels = new HashMap<>();
         Map<String, DefaultMutableTreeNode> pointers = rootNode.getChildren();
         for (String key : (rootNode.getVersion() == OpenApiVersion.V3) ? V3_PANEL_KEYS : V2_PANEL_KEYS) {
-            PanelNode panelNode = new PanelNode(key);
+            PanelNode panelNode = new PanelNode(key, root.getChild(key));
             DefaultMutableTreeNode nodeDMTN = new DefaultMutableTreeNode(panelNode);
             pointers.put(panelNode.getPointer(), nodeDMTN);
             panels.put(key, nodeDMTN);
@@ -172,7 +181,7 @@ public class DMTNConverter {
         dfs(root, rootDMTN, pointers, panels);
         return rootDMTN;
     }
-    
+
     private static void setTags(Node root, DefaultMutableTreeNode tagsDMTN, Map<String, DefaultMutableTreeNode> pointers) {
         Map<String, DefaultMutableTreeNode> tagsOpsMap = new HashMap<>();
         // Collect all tags from all operations

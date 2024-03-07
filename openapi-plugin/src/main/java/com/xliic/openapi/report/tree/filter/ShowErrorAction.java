@@ -35,6 +35,6 @@ public class ShowErrorAction extends ToggleAction implements DumbAware {
     @Override
     public void setSelected(@NotNull AnJActionEvent event, boolean showError) {
         filterState.setShowError(showError);
-        panel.reloadAndRestoreExpansion();
+        panel.fastReload();
     }
 }

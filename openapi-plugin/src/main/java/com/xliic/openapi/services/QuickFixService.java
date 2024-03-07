@@ -1,6 +1,7 @@
 package com.xliic.openapi.services;
 
 import static com.xliic.core.util.ResourceUtil.getResourceAsStream;
+import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -23,8 +24,12 @@ import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.services.IQuickFixService;
+import com.xliic.core.util.Icon;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.actions.FixSnippetAction;
+import com.xliic.openapi.outline.OutlineUtils;
+import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.outline.node.PanelNode;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.FixParameter;
@@ -47,8 +52,6 @@ import com.xliic.openapi.quickfix.sources.FixSourceSchemaRefByResponseCode;
 import com.xliic.openapi.quickfix.sources.FixSourceSecuritySchemes;
 import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.topic.AuditListener;
-
-import icons.OpenApiIcons;
 
 public final class QuickFixService implements IQuickFixService, Disposable {
 
@@ -208,15 +211,25 @@ public final class QuickFixService implements IQuickFixService, Disposable {
     public List<FixSnippetAction> getSnippetFixActions(@NotNull PsiFile psiFile, @NotNull String id, @NotNull DefaultMutableTreeNode node) {
         List<FixSnippetAction> result = new LinkedList<>();
         QuickFix quickFix = snippets.get(id).get(0);
-
         if ("operation".equals(id)) {
             for (Object operation : getOperationsList(quickFix)) {
                 FixManagerSnippet provider = new FixManagerSnippet(psiFile, (String) operation, quickFix, node);
-                result.add(new FixSnippetAction(provider, OpenApiIcons.PropertyNode));
+                result.add(new FixSnippetAction(provider, null));
             }
         } else {
+            Icon icon = null;
+            Object obj = node.getUserObject();
+            if (obj instanceof BaseNode) {
+                BaseNode o = (BaseNode) obj;
+                String name = o.getName();
+                if (o instanceof PanelNode && COMPONENTS.equals(name)) {
+                    String pointer = quickFix.getPointer();
+                    name = pointer.replace("/" + COMPONENTS + "/", "");
+                }
+                icon = OutlineUtils.getIcon(name);
+            }
             FixManagerSnippet provider = new FixManagerSnippet(psiFile, quickFix, node);
-            result.add(new FixSnippetAction(provider, OpenApiIcons.AddSnippet));
+            result.add(new FixSnippetAction(provider, icon));
         }
         return result;
     }

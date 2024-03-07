@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -26,15 +27,14 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.Color;
 import com.xliic.core.ui.JBColor;
 import com.xliic.core.ui.tree.TreePathUtil;
-import com.xliic.core.ui.treeStructure.DefaultTreeModel;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.ui.UIUtil;
 import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.OpenApiBundle;
+import com.xliic.openapi.SearchWidget;
 import com.xliic.openapi.outline.OutlineMouseAdapter;
-import com.xliic.openapi.outline.OutlineMouseMotionListener;
 import com.xliic.openapi.outline.OutlineSortTreeModel;
 import com.xliic.openapi.outline.OutlineTreeCellRenderer;
 import com.xliic.openapi.outline.OutlineTreeKeyListener;
@@ -47,38 +47,57 @@ import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
-import com.xliic.openapi.utils.Utils;
 
 // We have to extend from JPanel to be able to register the whole stuff below as tool window component
 // By doing so we will be able to access all necessary content from anywhere through ToolWindowManager
 public class OutlinePanel implements FileListener, SettingsListener, Disposable {
 
+	private static final String SEARCH_OPEN_API_OUTLINE = "Search OpenAPI outline";
+	
     private static final String SHOW_PROPERTY_KEY = "openapi.show.key";
     private static final Color ERROR_BACKGROUND = new JBColor(0xFFF2F2F2, 0x808080);
     private static final int EXPAND_LIMIT = 100;
 
+    @NotNull
     private final Project project;
+    @NotNull
     private final ToolWindow toolWindow;
-    private final OutlineMouseMotionListener mouseMotionListener;
+    @NotNull
     private final DMTNConverter converter;
+    @NotNull
     private final Tree tree;
+    @Nullable
     private String modelFileName = null;
+    @NotNull
     private final Map<String, List<String>> expandedPointers = new HashMap<>();
+    @NotNull
+    private final Map<String, String> searchValues = new HashMap<>();
+    @NotNull
+    private final SearchWidget searchWidget;
 
     public OutlinePanel(@NotNull Project project, @NotNull ToolWindow toolWindow, @NotNull Composite parent) {
 
         tree = new Tree(new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL));
         this.project = project;
         this.toolWindow = toolWindow;
+        // Install search widget
+        searchWidget = new SearchWidget(project, toolWindow.getSearchParent(), SEARCH_OPEN_API_OUTLINE, false) {
+            @Override
+            public void searchTextChanged(@NotNull String text) {
+                searchTree(text);
+            }
+        };
         tree.setRootVisible(false);
         tree.setModel(new OutlineSortTreeModel(tree.getViewer(), new DefaultMutableTreeNode(), false));
-        tree.setCellRenderer(new OutlineTreeCellRenderer());
+        tree.setCellRenderer(new OutlineTreeCellRenderer() {
+            @Override
+            public @Nullable String getSearchValue() {
+                return modelFileName == null ? null : searchValues.get(modelFileName);
+            }
+        });
         tree.addMouseListener(new OutlineMouseAdapter(this));
-        mouseMotionListener = new OutlineMouseMotionListener(project, tree);
-        tree.addMouseMotionListener(mouseMotionListener);
         tree.addKeyListener(new OutlineTreeKeyListener(project, tree));
         tree.setOpaque(true);
-
         converter = new DMTNConverter();
 
         List<AnJAction> titleActions = new ArrayList<>();
@@ -93,25 +112,25 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
 
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
-
-        VirtualFile file = Utils.getSelectedOpenAPIFile(project);
-        if (file != null) {
-            handleSelectedFile(file);
-        }
+        // Tree is forced to be drawn by the view in onViewPartBroughtToTop method 
     }
 
-    public Project getProject() {
+    public @NotNull Project getProject() {
         return project;
     }
 
-    public Tree getTree() {
+    public @NotNull Tree getTree() {
         return tree;
     }
 
     @Override
     public void handleDocumentChanged(@NotNull VirtualFile file) {
+        if (!Objects.equals(modelFileName, file.getPath())) {
+            return;
+        }
         ASTService astService = ASTService.getInstance(project);
-        DefaultTreeModel model = getTree().getModel();
+        OutlineSortTreeModel model = (OutlineSortTreeModel) getTree().getModel();
+        model.resetCache();
         if (astService.isKnownOpenAPIFile(file.getPath())) {
             try {
                 DefaultMutableTreeNode root = converter.convert(astService.getOpenAPIRootNode(file.getPath()));
@@ -119,20 +138,24 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
                 setTreeBackGround(true, null);
             } catch (Exception e) {
                 setTreeBackGround(false, e.getMessage());
+            } finally {
+                model.resetCache();
             }
         }
     }
 
     @Override
     public void handleAllFilesClosed() {
-        DefaultTreeModel model = getTree().getModel();
+    	OutlineSortTreeModel model = (OutlineSortTreeModel) getTree().getModel();
         model.setRoot(null);
+        model.resetCache();
         modelFileName = null;
         setNoOpenAPITreeBackGround();
     }
 
     @Override
     public void handleClosedFile(@NotNull VirtualFile file) {
+    	searchValues.remove(file.getPath());
         expandedPointers.remove(file.getPath());
     }
 
@@ -140,6 +163,9 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
     public void handleFileNameChanged(@NotNull VirtualFile newFile, @NotNull String oldFileName) {
         if (oldFileName.equals(modelFileName)) {
             modelFileName = newFile.getPath();
+        }
+        if (searchValues.containsKey(oldFileName)) {
+            searchValues.put(newFile.getPath(), searchValues.remove(oldFileName));
         }
         if (expandedPointers.containsKey(oldFileName)) {
             expandedPointers.put(newFile.getPath(), expandedPointers.remove(oldFileName));
@@ -149,7 +175,7 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
     @Override
     public void handleSelectedFile(@NotNull VirtualFile file) {
         ASTService astService = ASTService.getInstance(project);
-        DefaultTreeModel model = getTree().getModel();
+        OutlineSortTreeModel model = (OutlineSortTreeModel) getTree().getModel();
         if (astService.isKnownOpenAPIFile(file.getPath())) {
             try {
                 DefaultMutableTreeNode root = converter.convert(astService.getOpenAPIRootNode(file.getPath()));
@@ -176,7 +202,9 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
 
     @Override
     public void dispose() {
+    	((OutlineSortTreeModel) tree.getModel()).resetCache();
         tree.removeAll();
+        searchValues.clear();
         expandedPointers.clear();
         modelFileName = null;
     }
@@ -185,6 +213,7 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
         tree.getEmptyText().setText(OpenApiBundle.message("openapi.tree.valid.empty.text"));
         tree.setBackground(UIUtil.getTreeBackground());
         tree.setToolTipText(null);
+        searchWidget.setEditable(false);
     }
 
     private void setTreeBackGround(boolean valid, String exceptionMessage) {
@@ -192,11 +221,13 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
             tree.getEmptyText().setText(OpenApiBundle.message("openapi.tree.valid.empty.text"));
             tree.setToolTipText(null);
             tree.setBackground(UIUtil.getTreeBackground());
+            searchWidget.setEditable(true);
         } else {
             String text = OpenApiBundle.message("openapi.tree.invalid.empty.text");
             tree.getEmptyText().setText(text);
             tree.setToolTipText(text + " " + exceptionMessage);
             tree.setBackground(ERROR_BACKGROUND);
+            searchWidget.setEditable(false);
         }
     }
 
@@ -208,54 +239,81 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
         }
     }
 
-    private void setRoot(DefaultTreeModel model, DefaultMutableTreeNode root, String fileName) {
+    private void setRoot(OutlineSortTreeModel model, DefaultMutableTreeNode root, String fileName) {
+        model.resetCache();
         // Save expanded nodes pointers for the previous file
         DefaultMutableTreeNode oldRoot = (DefaultMutableTreeNode) model.getRoot();
         if (oldRoot != null && modelFileName != null) {
             expandedPointers.put(modelFileName, collectExpandedPathsPointers());
         }
-        model.setRoot(root);
         modelFileName = fileName;
-        if (root != null) {
-            List<String> pointersToExpand = expandedPointers.get(fileName);
-            if (pointersToExpand == null) {
-                pointersToExpand = new LinkedList<>();
-                for (int i = 0; i < model.getChildCount(root); i++) {
-                    DefaultMutableTreeNode child = (DefaultMutableTreeNode) model.getChild(root, i);
-                    tree.expandPath(TreePathUtil.pathToTreeNode(child));
-                    String pointer = getPointerFromTreeNode(child);
-                    if (pointer != null) {
-                        pointersToExpand.add(pointer);
-                    }
-                }
-                expandedPointers.put(fileName, pointersToExpand);
-            } else {
-                List<Object> elements = new LinkedList<>();
-                Map<String, DefaultMutableTreeNode> children = ((RootNode) root.getUserObject()).getChildren();
-                for (String pointer : pointersToExpand) {
-                    DefaultMutableTreeNode node = children.get(pointer);
-                    if (node != null) {
-                        elements.add(node);
-                        if (EXPAND_LIMIT <= elements.size()) {
-                            break;
-                        }
-                    }
-                }
-                if (!elements.isEmpty()) {
-                    TreeUtil.restoreExpandedElements(tree, elements);
-                }
-            }
+        if (modelFileName != null) {
+            model.setValue(searchValues.get(modelFileName));
+        }
+        try {
+        	model.setRoot(root);
+	        if (root != null) {
+	            List<String> pointersToExpand = expandedPointers.get(fileName);
+	            if (pointersToExpand == null) {
+	                pointersToExpand = new LinkedList<>();
+	                for (int i = 0; i < model.getChildCount(root); i++) {
+	                    DefaultMutableTreeNode child = (DefaultMutableTreeNode) model.getChild(root, i);
+	                    tree.expandPath(TreePathUtil.pathToTreeNode(child));
+	                    String pointer = getPointerFromTreeNode(child);
+	                    if (pointer != null) {
+	                        pointersToExpand.add(pointer);
+	                    }
+	                }
+	                expandedPointers.put(fileName, pointersToExpand);
+	            } else {
+	                List<Object> elements = new LinkedList<>();
+	                Map<String, DefaultMutableTreeNode> children = ((RootNode) root.getUserObject()).getChildren();
+	                for (String pointer : pointersToExpand) {
+	                    DefaultMutableTreeNode node = children.get(pointer);
+	                    if (node != null) {
+	                        elements.add(node);
+	                        if (EXPAND_LIMIT <= elements.size()) {
+	                            break;
+	                        }
+	                    }
+	                }
+	                if (!elements.isEmpty()) {
+	                    TreeUtil.restoreExpandedElements(tree, elements);
+	                }
+	            }
+	        }
+        } finally {
+            model.resetCache();
         }
     }
 
+    public void searchTree(String value) {
+        OutlineSortTreeModel model = (OutlineSortTreeModel) getTree().getModel();
+        model.setValue(value);
+        if (modelFileName != null) {
+            searchValues.put(modelFileName, value);
+        }
+        fastReload();
+    }
+    
     public void sortTree(boolean sort) {
         OutlineSortTreeModel model = (OutlineSortTreeModel) getTree().getModel();
         model.setSortABC(sort);
-        List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
-        model.reload(false);
-        TreeUtil.restoreExpandedPaths(tree, expandedPaths, EXPAND_LIMIT);
+        fastReload();
     }
 
+    public void fastReload() {
+    	OutlineSortTreeModel model = (OutlineSortTreeModel) getTree().getModel();
+        model.resetCache();
+        try {
+            List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
+            model.reload();
+            TreeUtil.restoreExpandedPaths(tree, expandedPaths, EXPAND_LIMIT);
+        } finally {
+            model.resetCache();
+        }
+    }
+    
     private List<String> collectExpandedPathsPointers() {
         List<String> pointers = new LinkedList<>();
         TreePath[] paths = tree.getViewer().getExpandedTreePaths();

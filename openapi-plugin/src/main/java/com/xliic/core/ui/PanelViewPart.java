@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
@@ -38,11 +39,18 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
     protected Disposable panel;
     private IToolBarManager toolBarManager;
     private volatile Status status;
+    private volatile boolean addSearchPanel;
 
     public PanelViewPart(@NotNull String id) {
+    	this(id, false);
+    }
+
+    public PanelViewPart(@NotNull String id, boolean addSearchPanel) {
         this.id = id;
         project = Project.getInstance();
         status = Status.INIT;
+        this.addSearchPanel = addSearchPanel;
+
     }
 
     @Override
@@ -68,7 +76,18 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
             window = ToolWindowManager.getInstance(project).getToolWindow(id);
             if (window != null) {
                 try {
-                    panel = createPanel(project, window, parent, () -> {
+                	Composite parentForPanel = parent;
+                	Composite parentForSearchPanel = null;
+                	if (addSearchPanel) {
+                    	Composite newParent = new Composite(parent, SWT.NONE);
+                    	newParent.setLayout(SwtUtils.getGridLayout());
+                    	parentForSearchPanel = getSubPanel(newParent, false);
+                    	parentForSearchPanel.setBackground(parent.getBackground());
+                    	parentForPanel = getSubPanel(newParent, true);
+                    	parentForPanel.setBackground(parent.getBackground());
+                    	window.setSearchParent(parentForSearchPanel);
+                	}
+                    panel = createPanel(project, window, parentForPanel, () -> {
                         synchronized (status) {
                             status = Status.READY;
                             ViewPartHandler handler = LOAD_HANDLERS.remove(id);
@@ -165,5 +184,12 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
 
     public static void removeContentLoadHandler(@NotNull String id) {
         LOAD_HANDLERS.remove(id);
+    }
+    
+    private static Composite getSubPanel(Composite parent, boolean grabVerticalSpace) {
+    	Composite panel = new Composite(parent, SWT.NONE);
+    	panel.setLayout(new FillLayout());
+        panel.setLayoutData(SwtUtils.getGridDataFillBoth(grabVerticalSpace));
+		return panel;
     }
 }

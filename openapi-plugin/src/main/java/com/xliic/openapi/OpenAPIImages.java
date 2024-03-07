@@ -7,9 +7,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 public class OpenAPIImages {
 
-    public static final ImageDescriptor PanelNode;
     public static final ImageDescriptor PropertyNode;
-    public static final ImageDescriptor AddSnippet;
     public static final ImageDescriptor CreateWizard;
     public static final ImageDescriptor Any_type;
     public static final ImageDescriptor SecurityAudit;
@@ -23,8 +21,6 @@ public class OpenAPIImages {
 
     public static final ImageDescriptor File;
     public static final ImageDescriptor Reset;
-    public static final ImageDescriptor Filter;
-    public static final ImageDescriptor OpenAPIIcon;
 
     public static final ImageDescriptor QuickFix;
     public static final ImageDescriptor ViewQuickFix;
@@ -32,6 +28,14 @@ public class OpenAPIImages {
     public static final ImageDescriptor Host;
     public static final ImageDescriptor Sort;
     public static final ImageDescriptor Copy;
+    public static final ImageDescriptor Search;
+    public static final ImageDescriptor SearchClose;
+    public static final ImageDescriptor MatchCase;
+    public static final ImageDescriptor MatchRegex;
+    public static final ImageDescriptor MatchWord;
+    public static final ImageDescriptor MatchCaseSelected;
+    public static final ImageDescriptor MatchRegexSelected;
+    public static final ImageDescriptor MatchWordSelected;
     
     public static final ImageDescriptor Platform;
     public static final ImageDescriptor PlatformAll;
@@ -64,14 +68,49 @@ public class OpenAPIImages {
 
     public static final ImageDescriptor Config;
     public static final ImageDescriptor ConfigPanel;
-
+    
+    public static final ImageDescriptor GeneralNode;
+    public static final ImageDescriptor GeneralDarkNode;
+    public static final ImageDescriptor PathsNode;
+    public static final ImageDescriptor PathsDarkNode;
+    public static final ImageDescriptor ServersNode;
+    public static final ImageDescriptor ServersDarkNode;
+    public static final ImageDescriptor SecurityNode;
+    public static final ImageDescriptor SecurityDarkNode;
+    public static final ImageDescriptor ComponentsNode;
+    public static final ImageDescriptor ComponentsDarkNode;
+    public static final ImageDescriptor SchemasNode;
+    public static final ImageDescriptor SchemasDarkNode;
+    public static final ImageDescriptor SecuritySchemesNode;
+    public static final ImageDescriptor SecuritySchemesDarkNode;
+    public static final ImageDescriptor ResponseNode;
+    public static final ImageDescriptor ResponseDarkNode;
+    public static final ImageDescriptor ParametersNode;
+    public static final ImageDescriptor ParametersDarkNode;
+    public static final ImageDescriptor OperationIdNode;
+    public static final ImageDescriptor OperationIdDarkNode;
+    public static final ImageDescriptor TagsNode;
+    public static final ImageDescriptor TagsDarkNode;
+    public static final ImageDescriptor SecurityDefinitionsNode;
+    public static final ImageDescriptor SecurityDefinitionsDarkNode;
+    public static final ImageDescriptor HeadersNode;
+    public static final ImageDescriptor HeadersDarkNode;
+    public static final ImageDescriptor LinksNode;
+    public static final ImageDescriptor LinksDarkNode;
+    public static final ImageDescriptor CallbacksNode;
+    public static final ImageDescriptor CallbacksDarkNode;
+    public static final ImageDescriptor ExamplesNode;
+    public static final ImageDescriptor ExamplesDarkNode;
+    public static final ImageDescriptor RequestBodiesNode;
+    public static final ImageDescriptor RequestBodiesDarkNode;
+    public static final ImageDescriptor DefaultOutlineNode;
+    public static final ImageDescriptor DefaultOutlineDarkNode;
+    
     private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
 
     static {
 
-        PanelNode = createImageDescriptor("icons/listFiles.png");
         PropertyNode = createImageDescriptor("icons/property.png");
-        AddSnippet = createImageDescriptor("icons/add.png");
         CreateWizard = createImageDescriptor("icons/openapi-create-wizard.png");
         Any_type = createImageDescriptor("icons/any_type.png");
     	SecurityAudit = createImageDescriptor("icons/42crunch_icon.png");
@@ -85,8 +124,6 @@ public class OpenAPIImages {
 
         File = createImageDescriptor("icons/text.png");
         Reset = createImageDescriptor("icons/reset.png");
-        Filter = createImageDescriptor("icons/filter.png");
-        OpenAPIIcon = createImageDescriptor("icons/icon_api_16.png");
 
         QuickFix = createImageDescriptor("icons/quickfix.png");
         ViewQuickFix = createImageDescriptor("icons/view_quickfix.png");
@@ -94,7 +131,15 @@ public class OpenAPIImages {
         Host = createImageDescriptor("icons/host.png");
         Sort = createImageDescriptor("icons/sorted.png");
         Copy = createImageDescriptor("icons/copy.png");
-
+        Search = createImageDescriptor("icons/search/search.png");
+        SearchClose = createImageDescriptor("icons/search/search_close.png");
+        MatchCase = createImageDescriptor("icons/search/matchCase.png");
+        MatchRegex = createImageDescriptor("icons/search/matchRegex.png");
+        MatchWord = createImageDescriptor("icons/search/matchWord.png");
+        MatchCaseSelected = createImageDescriptor("icons/search/matchCaseSelected.png");
+        MatchRegexSelected = createImageDescriptor("icons/search/matchRegexSelected.png");
+        MatchWordSelected = createImageDescriptor("icons/search/matchWordSelected.png");
+        
         Platform = createImageDescriptor("/icons/icon_42crunch_platform.png");
         PlatformAll = createImageDescriptor("/icons/platform-all.png");
         PlatformFavorite = createImageDescriptor("/icons/platform-favorite.png");
@@ -123,6 +168,43 @@ public class OpenAPIImages {
         AuditAnno = createImageDescriptor("/icons/auditAnno.png");
         Config = createImageDescriptor("/icons/config.png");
         ConfigPanel = createImageDescriptor("/icons/configPanel.png");
+        
+        GeneralNode = createImageDescriptor("/icons/light/file-lines.png");
+        GeneralDarkNode = createImageDescriptor("/icons/dark/file-lines.png");
+        PathsNode = createImageDescriptor("/icons/light/swap-arrows.png");
+        PathsDarkNode = createImageDescriptor("/icons/dark/swap-arrows.png");
+        ServersNode = createImageDescriptor("/icons/light/server.png");
+        ServersDarkNode = createImageDescriptor("/icons/dark/server.png");
+        SecurityNode = createImageDescriptor("/icons/light/key.png");
+        SecurityDarkNode = createImageDescriptor("/icons/dark/key.png");
+        ComponentsNode = createImageDescriptor("/icons/light/box.png");
+        ComponentsDarkNode = createImageDescriptor("/icons/dark/box.png");
+        SchemasNode = createImageDescriptor("/icons/light/sitemap.png");
+        SchemasDarkNode = createImageDescriptor("/icons/dark/sitemap.png");
+        SecuritySchemesNode = createImageDescriptor("/icons/light/shield-keyhole.png");
+        SecuritySchemesDarkNode = createImageDescriptor("/icons/dark/shield-keyhole.png");
+        ResponseNode = createImageDescriptor("/icons/light/response.png");
+        ResponseDarkNode = createImageDescriptor("/icons/dark/response.png");
+        ParametersNode = createImageDescriptor("/icons/light/sliders.png");
+        ParametersDarkNode = createImageDescriptor("/icons/dark/sliders.png");
+        OperationIdNode = createImageDescriptor("/icons/light/id-card.png");
+        OperationIdDarkNode = createImageDescriptor("/icons/dark/id-card.png");
+        TagsNode = createImageDescriptor("/icons/light/tags.png");
+        TagsDarkNode = createImageDescriptor("/icons/dark/tags.png");
+        SecurityDefinitionsNode = createImageDescriptor("/icons/light/shield-halved.png");
+        SecurityDefinitionsDarkNode = createImageDescriptor("/icons/dark/shield-halved.png");
+        HeadersNode = createImageDescriptor("/icons/light/line-columns.png");
+        HeadersDarkNode = createImageDescriptor("/icons/dark/line-columns.png");
+        LinksNode = createImageDescriptor("/icons/light/link-simple.png");
+        LinksDarkNode = createImageDescriptor("/icons/dark/link-simple.png");
+        CallbacksNode = createImageDescriptor("/icons/light/phone-arrow-up-right.png");
+        CallbacksDarkNode = createImageDescriptor("/icons/dark/phone-arrow-up-right.png");
+        ExamplesNode = createImageDescriptor("/icons/light/message-code.png");
+        ExamplesDarkNode = createImageDescriptor("/icons/dark/message-code.png");
+        RequestBodiesNode = createImageDescriptor("/icons/light/request.png");
+        RequestBodiesDarkNode = createImageDescriptor("/icons/dark/request.png");
+        DefaultOutlineNode = createImageDescriptor("icons/light/memo.png");
+        DefaultOutlineDarkNode = createImageDescriptor("icons/dark/memo.png");
     }
 
     private static ImageDescriptor createImageDescriptor(String path) {

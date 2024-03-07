@@ -1,7 +1,9 @@
 package com.xliic.openapi.report.tree;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -10,6 +12,7 @@ import javax.swing.tree.TreeNode;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
@@ -20,9 +23,14 @@ import com.xliic.openapi.report.tree.ui.ReportPanel;
 
 public class ReportTreeModel extends DefaultTreeModel {
 
+    @NotNull
     private final Project project;
+    @Nullable
     private final String projectPath;
+    @NotNull
     private final FilterState filterState;
+    @NotNull
+    private final Map<Object, List<DefaultMutableTreeNode>> cache = new HashMap<>();
 
     public ReportTreeModel(@NotNull TreeViewer viewer, TreeNode root, ReportPanel panel) {
         super(viewer, root, false);
@@ -31,9 +39,12 @@ public class ReportTreeModel extends DefaultTreeModel {
         filterState = panel.getFilterState();
     }
 
+    public void resetCache() {
+        cache.clear();
+    }
+
     @Override
     public boolean isLeaf(Object objectNode) {
-
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) objectNode;
         if (node.getParent() == null) {
             return getChildrenOfRootNode(objectNode).isEmpty();
@@ -46,7 +57,6 @@ public class ReportTreeModel extends DefaultTreeModel {
 
     @Override
     public Object getChild(Object objectNode, int index) {
-
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) objectNode;
         if (node.getParent() == null) {
             return getChildrenOfRootNode(objectNode).get(index);
@@ -59,7 +69,6 @@ public class ReportTreeModel extends DefaultTreeModel {
 
     @Override
     public int getChildCount(Object objectNode) {
-
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) objectNode;
         if (node.getParent() == null) {
             return getChildrenOfRootNode(objectNode).size();
@@ -70,10 +79,12 @@ public class ReportTreeModel extends DefaultTreeModel {
         }
     }
 
-    private List<DefaultMutableTreeNode> getChildrenOfRootNode(Object objectNode) {
-
+    private List<DefaultMutableTreeNode> getChildrenOfRootNode(Object parent) {
+        if (cache.containsKey(parent)) {
+            return cache.get(parent);
+        }
         List<DefaultMutableTreeNode> nodes = new LinkedList<>();
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) objectNode;
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent;
         int count = node.getChildCount();
         for (int i = 0; i < count; i++) {
             DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) node.getChildAt(i);
@@ -81,13 +92,16 @@ public class ReportTreeModel extends DefaultTreeModel {
                 nodes.add(treeNode);
             }
         }
+        cache.put(parent, nodes);
         return nodes;
     }
 
-    private List<DefaultMutableTreeNode> getChildrenOfReportFileNode(Object objectNode) {
-
+    private List<DefaultMutableTreeNode> getChildrenOfReportFileNode(Object parent) {
+        if (cache.containsKey(parent)) {
+            return cache.get(parent);
+        }
         List<DefaultMutableTreeNode> nodes = new LinkedList<>();
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) objectNode;
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent;
         if (!isReportFileObjectShowOnly((ReportFileObject) node.getUserObject())) {
             return nodes;
         }
@@ -100,6 +114,7 @@ public class ReportTreeModel extends DefaultTreeModel {
                 nodes.add(treeNode);
             }
         }
+        cache.put(parent, nodes);
         return nodes;
     }
 
@@ -120,24 +135,24 @@ public class ReportTreeModel extends DefaultTreeModel {
             return false;
         }
         switch (o.getSeverity()) {
-        case LOW:
-            if (!filterState.isShowInfo()) {
-                return false;
-            }
-            break;
-        case MEDIUM:
-            if (!filterState.isShowWarning()) {
-                return false;
-            }
-            break;
-        case HIGH:
-        case CRITICAL:
-            if (!filterState.isShowError()) {
-                return false;
-            }
-            break;
-        default:
-            break;
+            case LOW:
+                if (!filterState.isShowInfo()) {
+                    return false;
+                }
+                break;
+            case MEDIUM:
+                if (!filterState.isShowWarning()) {
+                    return false;
+                }
+                break;
+            case HIGH:
+            case CRITICAL:
+                if (!filterState.isShowError()) {
+                    return false;
+                }
+                break;
+            default:
+                break;
         }
         if (doSearchTextFilter && filterState.search()) {
             return match(o.getLabel() + o.getLabelLocation(), filterState.getSearchText());
@@ -163,8 +178,8 @@ public class ReportTreeModel extends DefaultTreeModel {
 
     private boolean matchPatterString(String input, String patternToFind) {
         try {
-            Pattern pattern = filterState.isCaseSensitiveState() ? Pattern.compile(patternToFind)
-                    : Pattern.compile(patternToFind, Pattern.CASE_INSENSITIVE);
+            Pattern pattern = filterState.isCaseSensitiveState() ?
+                    Pattern.compile(patternToFind) : Pattern.compile(patternToFind, Pattern.CASE_INSENSITIVE);
             return pattern.matcher(input).find();
         } catch (PatternSyntaxException e) {
             return false;

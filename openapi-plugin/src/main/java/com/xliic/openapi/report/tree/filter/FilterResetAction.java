@@ -35,7 +35,8 @@ public class FilterResetAction extends ToggleAction implements DumbAware {
     @Override
     public void setSelected(@NotNull AnJActionEvent event, boolean showError) {
         filterState.reset();
+        panel.cleanSearchWidget();
         panel.updateTitleActions();
-        panel.reloadAndRestoreExpansion();
+        panel.fastReload();
     }
 }

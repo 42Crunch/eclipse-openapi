@@ -48,6 +48,8 @@ import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.TempFileUtils;
 
+import icons.OpenApiIcons;
+
 @SuppressWarnings("restriction")
 public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
 
@@ -73,6 +75,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
     public OpenAPIAbstractUIPlugin() {
         plugin = this;
         pluginDebugMode = "true".equals(System.getProperty(DEBUG_PROPERTY));
+        OpenApiIcons.init();
         startupActivity = new OpenAPIStartupActivity();
         highlightingManager = HighlightingManager.getInstance(project);
         partListener = new OpenAPIPartListener(project);
