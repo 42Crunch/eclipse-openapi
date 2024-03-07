@@ -24,7 +24,7 @@ public abstract class ToggleAction extends AnJAction {
         setSelected(anActionEvent, isChecked());
     }
 
-    protected abstract boolean isSelected(@NotNull AnJActionEvent event);
+    public abstract boolean isSelected(@NotNull AnJActionEvent event);
 
-    protected abstract void setSelected(@NotNull AnJActionEvent event, boolean flag);
+    public abstract void setSelected(@NotNull AnJActionEvent event, boolean flag);
 }

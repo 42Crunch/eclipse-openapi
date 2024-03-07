@@ -4,6 +4,7 @@ public class JBColor extends Color {
 
     public static final JBColor BLACK = new JBColor(0x000000, 0x000000);
     public static final JBColor GRAY = new JBColor(0x808080, 0x808080);
+    public static final JBColor YELLOW = new JBColor(0xffff00, 0xffff00);
 
     public JBColor(int rgb, int darkRGB) {
         super(rgb, darkRGB);

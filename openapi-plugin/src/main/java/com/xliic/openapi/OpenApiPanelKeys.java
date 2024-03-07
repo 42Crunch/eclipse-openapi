@@ -5,7 +5,6 @@ import java.util.List;
 
 public class OpenApiPanelKeys {
 
-    // Main panels
     public final static String GENERAL = "general";
     public final static String PATHS = "paths";
     public final static String SERVERS = "servers";
@@ -20,8 +19,7 @@ public class OpenApiPanelKeys {
     public final static String SCHEMAS = "schemas";
     public final static String SECURITY_SCHEMES = "securitySchemes";
     public final static String COMPONENTS_POINTER_STARTS_WITH = "/" + COMPONENTS + "/";
-    
-    // Keys
+
     public final static String REF_KEY = "$ref";
     public final static String URL_KEY = "url";
     public final static String PARAMETERS_KEY = "parameters";

@@ -15,7 +15,7 @@ import com.xliic.openapi.services.AuditService;
 public class ReportPanelView extends PanelViewPart {
 
     public ReportPanelView() {
-        super(ToolWindowId.OPEN_API_REPORT);
+        super(ToolWindowId.OPEN_API_REPORT, true);
     }
 
     @Override

@@ -85,6 +85,10 @@ public class ChangeTheme extends WebAppConsume {
         payload.put("theme", colors);
         return payload;
     }
+    
+    public static boolean isLightTheme() {
+        return "light".equals(getKind(UIManager.getInstance()));
+    }
 
 	private static boolean isCustomBackgroundTheme(String themeId) {
         return !isWhiteBackgroundTheme(themeId) && !isDarkBackgroundTheme(themeId);

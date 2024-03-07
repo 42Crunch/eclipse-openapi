@@ -52,7 +52,6 @@ public class OutlineRightClickHandler {
     }
 
     public void handle(MouseEvent event) {
-
         Tree tree = panel.getTree();
         Project project = panel.getProject();
         DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();

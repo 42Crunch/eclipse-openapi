@@ -5,6 +5,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.editor.Editor;
+import com.xliic.core.editor.LogicalPosition;
 import com.xliic.core.editor.ScrollType;
 import com.xliic.core.fileEditor.FileEditor;
 import com.xliic.core.fileEditor.FileEditorManager;
@@ -12,7 +13,6 @@ import com.xliic.core.fileEditor.TextEditor;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
-import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.outline.node.BaseNode;
 import com.xliic.openapi.outline.ui.OutlinePanel;
@@ -41,17 +41,17 @@ public class OutlineLeftClickHandler {
             return;
         }
         BaseNode o = (BaseNode) node.getUserObject();
-        if (o.getNode() == null) {
+        if (!o.isMoveToEnabled()) {
             return;
         }
+        Range range = o.getRange();
         FileEditor fileEditor = FileEditorManager.getInstance(project).getSelectedEditor(file);
         if (fileEditor == null) {
             return;
         }
         Editor editor = ((TextEditor) fileEditor).getEditor();
-        Range range = EclipseUtil.getSelectionRange(o.getNode());
-        int offset = range.getOffset();
-        editor.getCaretModel().moveToOffset(offset, range.getLength(), false);
+        int offset = editor.logicalPositionToOffset(new LogicalPosition(range.getLine(), range.getColumn()));
+        editor.getCaretModel().moveToOffset(offset);
         editor.getScrollingModel().scrollToCaret(ScrollType.CENTER_UP);
     }
 }

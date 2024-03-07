@@ -3,8 +3,7 @@ package com.xliic.core.ui.treeStructure;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.DecoratingStyledCellLabelProvider;
-import org.eclipse.jface.viewers.DecorationContext;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
@@ -18,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.ui.Color;
 import com.xliic.core.ui.ColoredTreeCellRenderer;
 import com.xliic.core.ui.tree.TreePathUtil;
-import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.ui.StatusText;
 
 public class Tree {
@@ -101,7 +99,7 @@ public class Tree {
     }
 
     public void setCellRenderer(@NotNull ColoredTreeCellRenderer renderer) {
-        viewer.setLabelProvider(new DecoratingStyledCellLabelProvider(renderer, EclipseUtil.getLabelDecorator(), DecorationContext.DEFAULT_CONTEXT));
+        viewer.setLabelProvider(new DelegatingStyledCellLabelProvider(renderer));
     }
 
     public void removeAll() {

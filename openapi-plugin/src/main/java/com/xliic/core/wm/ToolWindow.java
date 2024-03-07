@@ -3,6 +3,7 @@ package com.xliic.core.wm;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -18,10 +19,12 @@ public class ToolWindow {
     private final IWorkbenchPage page;
     private final IWorkbenchPart part;
     private final List<AnJAction> titleActions = new LinkedList<>();
+    private Composite searchParent;
 
     public ToolWindow(@NotNull IWorkbenchPage page, @NotNull IWorkbenchPart part) {
         this.page = page;
         this.part = part;
+        searchParent = null;
     }
 
     public boolean isActive() {
@@ -80,4 +83,12 @@ public class ToolWindow {
     public PanelViewPart getPanelViewPart() {
         return part instanceof PanelViewPart ? (PanelViewPart) part : null;
     }
+
+	public Composite getSearchParent() {
+		return searchParent;
+	}
+
+	public void setSearchParent(Composite searchParent) {
+		this.searchParent = searchParent;
+	}
 }

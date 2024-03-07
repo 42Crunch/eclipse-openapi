@@ -14,12 +14,14 @@ public final class SimpleTextAttributes extends Styler {
     public static final int STYLE_PLAIN = 0;
     public static final int STYLE_BOLD = 1;
     public static final int STYLE_ITALIC = 2;
+    public static final int STYLE_SEARCH_MATCH = 3;
 
     public static final SimpleTextAttributes REGULAR_ATTRIBUTES = new SimpleTextAttributes(STYLE_PLAIN, null);
     public static final SimpleTextAttributes REGULAR_BOLD_ATTRIBUTES = new SimpleTextAttributes(STYLE_BOLD, null);
     public static final SimpleTextAttributes GRAYED_ATTRIBUTES = new SimpleTextAttributes(STYLE_PLAIN, JBColor.GRAY);
     public static final SimpleTextAttributes GRAY_ITALIC_ATTRIBUTES = new SimpleTextAttributes(STYLE_ITALIC, JBColor.GRAY);
     public static final SimpleTextAttributes GRAYED_BOLD_ATTRIBUTES = new SimpleTextAttributes(STYLE_BOLD, JBColor.GRAY);
+    public static final SimpleTextAttributes SEARCH_ATTRIBUTES = new SimpleTextAttributes(STYLE_SEARCH_MATCH, null);
 
     private static final Font FONT_BOLD = getFont(SWT.BOLD);
     private static final Font FONT_ITALIC = getFont(SWT.ITALIC);
@@ -44,10 +46,14 @@ public final class SimpleTextAttributes extends Styler {
 
     @Override
     public void applyStyles(TextStyle textStyle) {
-        if (styler == 1) {
+        if (styler == STYLE_BOLD) {
             textStyle.font = FONT_BOLD;
-        } else if (styler == 2) {
+        } else if (styler == STYLE_ITALIC) {
             textStyle.font = FONT_ITALIC;
+        } else if (styler == STYLE_SEARCH_MATCH) {
+        	textStyle.borderStyle = SWT.BORDER_SOLID;
+        	textStyle.borderColor = JBColor.YELLOW.getSwtGraphicsColor();
+        	textStyle.background = JBColor.YELLOW.getSwtGraphicsColor();
         }
         if (fgColor != null) {
             textStyle.foreground = fgColor.getSwtGraphicsColor();

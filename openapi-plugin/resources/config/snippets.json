@@ -4,7 +4,7 @@
       "problem": [
         "info"
       ],
-      "title": "OpenAPI: Add 'Info' Entry",
+      "title": "Add info entry",
       "type": "insert",
       "pointer": "",
       "fix": {
@@ -28,7 +28,7 @@
       "problem": [
         "host"
       ],
-      "title": "OpenAPI: Add 'Host' Entry",
+      "title": "Add host entry",
       "type": "insert",
       "pointer": "",
       "fix": {
@@ -45,7 +45,7 @@
       "problem": [
         "basePath"
       ],
-      "title": "OpenAPI: Add 'BasePath' Entry",
+      "title": "Add basePath entry",
       "type": "insert",
       "pointer": "",
       "fix": {
@@ -62,7 +62,7 @@
       "problem": [
         "path"
       ],
-      "title": "OpenAPI: Add 'Path' Entry",
+      "title": "Add path",
       "type": "insert",
       "pointer": "/paths",
       "fix": {
@@ -102,7 +102,7 @@
       "problem": [
         "server"
       ],
-      "title": "OpenAPI: Add 'Server' Entry",
+      "title": "Add server",
       "type": "insert",
       "pointer": "/servers",
       "fix": {
@@ -124,7 +124,7 @@
       "problem": [
         "security"
       ],
-      "title": "OpenAPI: Add 'Security' Entry",
+      "title": "Add security entry",
       "type": "insert",
       "pointer": "/security",
       "fix": {
@@ -142,7 +142,7 @@
       "problem": [
         "response"
       ],
-      "title": "OpenAPI: Add 'Response' Entry",
+      "title": "Add response entry",
       "type": "insert",
       "pointer": "/responses",
       "fix": {
@@ -166,7 +166,7 @@
       "problem": [
         "definitionObject"
       ],
-      "title": "OpenAPI: Add 'Object' Definition",
+      "title": "Add 'object' definition",
       "type": "insert",
       "pointer": "/definitions",
       "fix": {
@@ -203,7 +203,7 @@
       "problem": [
         "parameterBody"
       ],
-      "title": "OpenAPI: Add 'Body' Parameter",
+      "title": "Add 'body' parameter",
       "type": "insert",
       "pointer": "/parameters",
       "fix": {
@@ -234,7 +234,7 @@
       "problem": [
         "parameterOther"
       ],
-      "title": "OpenAPI: Add 'Query', 'Header' Or 'FormData' Parameter",
+      "title": "Add 'query', 'header' or 'formData' parameter",
       "type": "insert",
       "pointer": "/parameters",
       "fix": {
@@ -279,7 +279,7 @@
       "problem": [
         "parameterPath"
       ],
-      "title": "OpenAPI: Add 'Path' Parameter",
+      "title": "Add 'path' parameter",
       "type": "insert",
       "pointer": "/parameters",
       "fix": {
@@ -318,7 +318,7 @@
       "problem": [
         "securityApiKey"
       ],
-      "title": "OpenAPI: Add 'ApiKey' Auth Entry",
+      "title": "Add security scheme 'API Key'",
       "type": "insert",
       "pointer": "/securityDefinitions",
       "fix": {
@@ -335,7 +335,7 @@
           "type": "key"
         },
         {
-          "name": "name",
+          "name": "api name",
           "path": "/name/name"
         },
         {
@@ -351,7 +351,7 @@
       "problem": [
         "securityBasic"
       ],
-      "title": "OpenAPI: Add 'Basic' Auth Entry",
+      "title": "Add security scheme 'Basic'",
       "type": "insert",
       "pointer": "/securityDefinitions",
       "fix": {
@@ -371,7 +371,7 @@
       "problem": [
         "securityOauth2Implicit"
       ],
-      "title": "OpenAPI: Add 'Outh2' Implicit Flow Entry",
+      "title": "Add security scheme 'Oauth2 Authorization Code'",
       "type": "insert",
       "pointer": "/securityDefinitions",
       "fix": {
@@ -401,7 +401,7 @@
       "problem": [
         "componentsSchema"
       ],
-      "title": "OpenAPI: Add 'Object' Schema",
+      "title": "Add 'object' scheme",
       "type": "insert",
       "pointer": "/components/schemas",
       "fix": {
@@ -438,7 +438,7 @@
       "problem": [
         "componentsParameter"
       ],
-      "title": "OpenAPI: Add Parameter",
+      "title": "Add parameter",
       "type": "insert",
       "pointer": "/components/parameters",
       "fix": {
@@ -483,7 +483,7 @@
       "problem": [
         "componentsResponse"
       ],
-      "title": "OpenAPI: Add Response",
+      "title": "Add response",
       "type": "insert",
       "pointer": "/components/responses",
       "fix": {
@@ -513,7 +513,7 @@
       "problem": [
         "componentsSecurityApiKey"
       ],
-      "title": "OpenAPI: Add Security Schema 'API Key'",
+      "title": "Add security scheme 'API Key'",
       "type": "insert",
       "pointer": "/components/securitySchemes",
       "fix": {
@@ -530,40 +530,7 @@
           "type": "key"
         },
         {
-          "name": "name",
-          "path": "/name/name"
-        },
-        {
-          "name": "in",
-          "path": "/name/in",
-          "values": [
-            "query", "header"
-          ]
-        }
-      ]
-    },
-    {
-      "problem": [
-        "componentsSecurityApiKey"
-      ],
-      "title": "OpenAPI: Add Security Schema 'API Key'",
-      "type": "insert",
-      "pointer": "/components/securitySchemes",
-      "fix": {
-        "name": {
-          "type": "apiKey",
-          "name": "api_key",
-          "in": "query"
-        }
-      },
-      "parameters": [
-        {
-          "name": "name",
-          "path": "/name",
-          "type": "key"
-        },
-        {
-          "name": "name",
+          "name": "api key name",
           "path": "/name/name"
         },
         {
@@ -579,7 +546,7 @@
       "problem": [
         "componentsSecurityBasic"
       ],
-      "title": "OpenAPI: Add Security Schema 'Basic'",
+      "title": "Add security scheme 'Basic'",
       "type": "insert",
       "pointer": "/components/securitySchemes",
       "fix": {
@@ -600,7 +567,7 @@
       "problem": [
         "componentsSecurityJwt"
       ],
-      "title": "OpenAPI: Add Security Schema 'JWT Bearer'",
+      "title": "Add security scheme 'JWT Bearer'",
       "type": "insert",
       "pointer": "/components/securitySchemes",
       "fix": {
@@ -622,7 +589,7 @@
       "problem": [
         "componentsSecurityOauth2Implicit"
       ],
-      "title": "OpenAPI: Add Security Schema 'Oauth2 Implicit Flow'",
+      "title": "Add security scheme 'Oauth2 Authorization Code'",
       "type": "insert",
       "pointer": "/components/securitySchemes",
       "fix": {
@@ -655,7 +622,7 @@
       "problem": [
         "operation"
       ],
-      "title": "OpenAPI: Add Operation",
+      "title": "Add operation",
       "type": "insert",
       "pointer": "/paths",
       "fix": {

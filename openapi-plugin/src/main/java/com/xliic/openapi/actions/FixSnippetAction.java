@@ -3,6 +3,7 @@ package com.xliic.openapi.actions;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
@@ -25,9 +26,10 @@ import com.xliic.openapi.utils.Utils;
 
 public class FixSnippetAction extends AnJAction implements DumbAware { 
 
+	@NotNull
     private final FixManager provider;
 
-    public FixSnippetAction(FixManager provider, Icon icon) {
+    public FixSnippetAction(@NotNull FixManager provider, @Nullable Icon icon) {
         super(provider.getTitle(), "", icon);
         this.provider = provider;
     }

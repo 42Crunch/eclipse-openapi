@@ -24,7 +24,6 @@ import org.eclipse.jetty.util.StringUtil;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorDescriptor;
@@ -109,11 +108,6 @@ public class EclipseUtil {
     public static IEditorPart getCurrentEditor() {
         IWorkbenchPage page = getActivePage();
         return page == null ? null : page.getActiveEditor();
-    }
-
-    @NotNull
-    public static ILabelDecorator getLabelDecorator() {
-        return getWorkbench().getDecoratorManager().getLabelDecorator();
     }
 
     @NotNull

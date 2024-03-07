@@ -35,6 +35,6 @@ public class ShowForSelectedFileAction extends ToggleAction implements DumbAware
     @Override
     public void setSelected(@NotNull AnJActionEvent event, boolean showSelectedFileOnly) {
         filterState.setShowSelectedFileOnly(showSelectedFileOnly);
-        panel.reloadAndRestoreExpansion();
+        panel.fastReload();
     }
 }
