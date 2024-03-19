@@ -65,6 +65,9 @@ public class SaveConfig extends WebAppProduce {
             if (scandManager != null) {
                 settingsService.setCacheValue(ScandMgr.URL, scandManager.get("url"));
                 settingsService.setCacheValue(ScandMgr.AUTH, scandManager.get("auth"));
+                Object timeout = scandManager.get("timeout");
+                String timeoutValue = timeout != null ? String.valueOf(timeout) : ScandMgr.TIMEOUT_DEFAULT;
+                settingsService.setCacheValue(ScandMgr.TIMEOUT, timeoutValue);
                 Map<String, Object> header = (Map<String, Object>) scandManager.get("header");
                 if (header != null) {
                     settingsService.setCacheValue(ScandMgr.HEADER, Utils.serialize(header, true, ""));

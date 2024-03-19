@@ -15,12 +15,12 @@ public abstract class DfsHandler<T> {
     @Nullable
     protected OpenApiVersion version = null;
     @NotNull
-    protected final List<T> data = new LinkedList<>();
+    protected List<T> data = new LinkedList<>();
 
     public void init(@NotNull String fileName, @Nullable OpenApiVersion version) {
         this.fileName = fileName;
         this.version = version;
-        data.clear();
+        data = new LinkedList<>();
     }
 
     public abstract boolean visit(@NotNull Node node);

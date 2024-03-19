@@ -3,7 +3,6 @@ package com.xliic.openapi.webapp.editor;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
-import com.xliic.openapi.ToolWindowId;
 
 public class WebVirtualFile {
 
@@ -31,9 +30,6 @@ public class WebVirtualFile {
     }
 
     public @NotNull String getName() {
-    	if (ToolWindowId.CONFIG.equals(id)) {
-    		return "Settings";
-    	}
         return id;
     }
 

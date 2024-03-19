@@ -46,10 +46,7 @@ public class OpenAPIPerspectiveFactory implements IPerspectiveFactory {
 
         IFolderLayout d = layout.createFolder("d", IPageLayout.BOTTOM, (float) 0.675, editorArea);
         d.addView(ToolWindowId.OPEN_API_REPORT);
-        d.addView(ToolWindowId.PLATFORM_DICTIONARY);
         d.addView(ToolWindowId.TRY_IT);
-        d.addView(ToolWindowId.SCAN);
         d.addView(ToolWindowId.ENV);
-        //d.addView(ToolWindowId.CONFIG);
     }
 }

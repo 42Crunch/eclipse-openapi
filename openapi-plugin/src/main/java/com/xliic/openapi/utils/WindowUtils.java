@@ -60,6 +60,10 @@ public class WindowUtils {
 		});
     }
 
+    public static void closeAllWebTabs(@NotNull Project project, @NotNull String resourceId) {
+        EclipseUtil.closeAllWebPages(resourceId);
+    }
+
     public static boolean exists(@NotNull Project project, @NotNull String id) {
         return ToolWindowManager.getInstance(project).getToolWindow(id) != null;
     }

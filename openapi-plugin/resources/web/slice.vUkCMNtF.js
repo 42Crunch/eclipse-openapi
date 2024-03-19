@@ -13,6 +13,7 @@ const c = {
     scandManager: {
       url: "",
       auth: "none",
+      timeout: 300,
       header: {
         name: "",
         value: ""
@@ -120,8 +121,8 @@ function d(o) {
 }
 const {
   loadConfig: f,
-  saveConfig: C,
-  showConfigWindow: m,
+  saveConfig: m,
+  showConfigWindow: C,
   setError: p,
   clearError: v,
   testPlatformConnection: w,
@@ -147,7 +148,7 @@ export {
   D as f,
   H as g,
   v as h,
-  C as i,
+  m as i,
   g as j,
   h as k,
   f as l,

@@ -15,6 +15,7 @@ public class ScandManagerConnection {
     private final String url;
     @NotNull
     private final String auth;
+    private final int timeout;
     @NotNull
     private final Map<String, String> header = new HashMap<>();
 
@@ -23,6 +24,7 @@ public class ScandManagerConnection {
     	SettingsService settingsService = SettingsService.getInstance();
         url = settingsService.getValue(Settings.Platform.Scan.ScandMgr.URL, "");
         auth = settingsService.getValue(Settings.Platform.Scan.ScandMgr.AUTH, Settings.Platform.Scan.ScandMgr.AUTH_NONE);
+        timeout = settingsService.getIntValue(Settings.Platform.Scan.ScandMgr.TIMEOUT, Settings.Platform.Scan.ScandMgr.TIMEOUT_DEFAULT);
         header.put("name", "");
         header.put("value", "");
         String propHeader = settingsService.getValue(Settings.Platform.Scan.ScandMgr.HEADER);
@@ -41,6 +43,10 @@ public class ScandManagerConnection {
 
     public @NotNull String getAuth() {
         return auth;
+    }
+
+    public int getTimeout() {
+        return timeout;
     }
 
     public @NotNull Map<String, String> getHeader() {

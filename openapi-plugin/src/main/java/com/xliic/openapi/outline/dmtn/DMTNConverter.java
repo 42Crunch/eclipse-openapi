@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +42,7 @@ import com.xliic.openapi.outline.node.SimpleNode;
 import com.xliic.openapi.outline.node.TagChildNode;
 import com.xliic.openapi.outline.node.TagNode;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class DMTNConverter {
@@ -69,7 +71,7 @@ public class DMTNConverter {
         } else if (PATHS.equals(panelKey)) {
             if (level <= 3) {
                 return true;
-            } else if ((level == 4) && (PARAMETERS_KEY.equals(name) || RESPONSES_KEY.equals(name))) {
+            } else if ((level == 4) && (PARAMETERS_KEY.equals(name) || RESPONSES_KEY.equals(name) || SECURITY.equals(name))) {
                 return true;
             } else if ((level == 5) && RESPONSES_KEY.equals(parentName)) {
                 return true;
@@ -174,11 +176,22 @@ public class DMTNConverter {
             pointers.put(panelNode.getPointer(), nodeDMTN);
             panels.put(key, nodeDMTN);
             rootDMTN.add(nodeDMTN);
-            if (TAGS.equals(key)) {
-                setTags(root, nodeDMTN, pointers);
-            }
         }
         dfs(root, rootDMTN, pointers, panels);
+        DefaultMutableTreeNode tagPanelDMTN = panels.get(TAGS);
+        setTags(root, tagPanelDMTN, pointers);
+        // Add details to operation id nodes
+        DefaultMutableTreeNode opIdPanelDMTN = panels.get(OPERATION_ID);
+        if (opIdPanelDMTN != null) {
+            for (int i = 0 ; i < opIdPanelDMTN.getChildCount() ; i++) {
+                DefaultMutableTreeNode child = (DefaultMutableTreeNode) opIdPanelDMTN.getChildAt(i);
+                OpIdNode opIdNode = (OpIdNode) child.getUserObject();
+                DefaultMutableTreeNode operation = pointers.get(opIdNode.getOperation().getPointer());
+                if (operation != null) {
+                    addChildren(child, operation);
+                }
+            }
+        }
         return rootDMTN;
     }
 
@@ -206,19 +219,22 @@ public class DMTNConverter {
                                 tagsOpsMap.put(tagName, tagDMTN);
                                 pointers.put(tag.getPointer(), tagDMTN);
                             }
+                            TagChildNode tagChild;
                             DefaultMutableTreeNode tagDMTN = tagsOpsMap.get(tagName);
                             String opId = operation.getChildValue("operationId");
                             if (StringUtils.isEmpty(opId)) {
                                 String name = opName.toUpperCase() + " " + pathName;
-                                TagChildNode tagChild = new TagChildNode(name, opTag, (BaseNode) tagDMTN.getUserObject(), operation);
-                                DefaultMutableTreeNode tagChildDMTN = new DefaultMutableTreeNode(tagChild);
-                                tagDMTN.add(tagChildDMTN);
-                                pointers.put(tagChild.getPointer(), tagChildDMTN);
+                                tagChild = new TagChildNode(name, opTag, (BaseNode) tagDMTN.getUserObject(), operation);
                             } else {
-                                TagChildNode tagChild = new TagChildNode(opId, operation, (BaseNode) tagDMTN.getUserObject());
-                                DefaultMutableTreeNode tagChildDMTN = new DefaultMutableTreeNode(tagChild);
-                                tagDMTN.add(new DefaultMutableTreeNode(tagChild));
-                                pointers.put(tagChild.getPointer(), tagChildDMTN);
+                                tagChild = new TagChildNode(opId, operation, (BaseNode) tagDMTN.getUserObject());
+                            }
+                            DefaultMutableTreeNode tagChildDMTN = new DefaultMutableTreeNode(tagChild);
+                            tagDMTN.add(tagChildDMTN);
+                            pointers.put(tagChild.getPointer(), tagChildDMTN);
+                            // Copy children from operation node
+                            DefaultMutableTreeNode opDMTN = pointers.get(operation.getJsonPointer());
+                            if (opDMTN != null) {
+                                addChildren(tagChildDMTN, opDMTN);
                             }
                         }
                     }
@@ -240,6 +256,17 @@ public class DMTNConverter {
                     }
                 }
             }
+        }
+    }
+    
+    private static void addChildren(DefaultMutableTreeNode toDMTN, DefaultMutableTreeNode fromDMTN) {
+        for (int i = 0 ; i < fromDMTN.getChildCount() ; i++) {
+            TreeNode child = fromDMTN.getChildAt(i);
+            DefaultMutableTreeNode copy = PlatformUtils.getCopyDMTN(child);
+            if (child.getChildCount() > 0) {
+                addChildren(copy, (DefaultMutableTreeNode) child);
+            }
+            toDMTN.add(copy);
         }
     }
 

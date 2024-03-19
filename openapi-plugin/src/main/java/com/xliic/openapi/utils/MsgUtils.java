@@ -1,8 +1,11 @@
 package com.xliic.openapi.utils;
 
+import static com.xliic.core.notification.NotificationAction.createSimpleExpiring;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.ide.BrowserUtil;
 import com.xliic.core.notification.NotificationGroupManager;
 import com.xliic.core.notification.NotificationType;
 import com.xliic.core.project.Project;
@@ -13,11 +16,14 @@ public class MsgUtils {
     private static final String GROUP_ID = "OpenAPI Editor general notifications";
     private static final String LIMIT_NOTIFICATIONS = "OpenAPI Editor limit left";
     private static final String TOKEN_NOTIFICATIONS = "OpenAPI Editor token not found";
-
+    private static final String UPGRADE_TEXT = "Upgrade";
+    private static final String UPGRADE_URL = "https://42crunch.com/ide-upgrade/";
+    
     public static void notifyLimit(@NotNull Project project, long left, @NotNull String type) {
           String msg = "You have " + left + " " + type + " left. Consider upgrading your 42Crunch subscription.";
           NotificationGroupManager.getInstance().getNotificationGroup(LIMIT_NOTIFICATIONS).
-                createNotification(msg, NotificationType.INFORMATION).notify(project);
+          createNotification(msg, NotificationType.INFORMATION).addAction(
+                  createSimpleExpiring(UPGRADE_TEXT, () -> BrowserUtil.browse(UPGRADE_URL))).notify(project);
     }
 
     public static void notifyTokenNotFound(@NotNull Project project, @NotNull String useInstead) {

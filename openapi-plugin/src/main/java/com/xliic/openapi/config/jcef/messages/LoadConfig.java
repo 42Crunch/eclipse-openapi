@@ -52,6 +52,7 @@ public class LoadConfig extends WebAppConsume {
         ScandManagerConnection configScandManager = config.getScandManager();
         scandManager.put("url", configScandManager.getUrl());
         scandManager.put("auth", configScandManager.getAuth());
+        scandManager.put("timeout", configScandManager.getTimeout());
         scandManager.put("header", configScandManager.getHeader());
         result.put("scandManager", scandManager);
 

@@ -10,7 +10,6 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.DoubleClickListener;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
-import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.PlatformOASCallback;
@@ -72,10 +71,7 @@ public class PlatformDoubleClickListener extends DoubleClickListener {
             PlatformAPIs.readApi(auditObject.getId(), true, new PlatformOASCallback(project, tree, node, true, false));
             PlatformUtils.setInProgress(tree, node, true);
         } else if (o instanceof PlatformDataDictionary) {
-            SwingUtilities.invokeLater(() -> {
-                DictionaryService ddService = DictionaryService.getInstance(project);
-                ddService.reload(true);
-            });
+            DictionaryService.getInstance(project).show();
         }
         return true;
     }

@@ -40,7 +40,7 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         // Platform
         if (PlatformConnection.isPlatformIntegrationEnabled()) {
             PlatformService.getInstance(project).createPlatformWindow(false);
-            DictionaryService.getInstance(project).reload(false);
+            DictionaryService.getInstance(project).reload();
         }
         // Show outline demo if needed
         if (SettingsService.getInstance().getBoolean(SHOW_OUTLINE_DEMO)) {

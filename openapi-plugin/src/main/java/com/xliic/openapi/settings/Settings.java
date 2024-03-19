@@ -76,9 +76,11 @@ public class Settings {
 
                 public static final String URL = "com.xliic.openapi.settings.platform.scan.scand.url";
                 public static final String AUTH = "com.xliic.openapi.settings.platform.scan.scand.auth";
+                public static final String TIMEOUT = "com.xliic.openapi.settings.platform.scan.scand.timeout";
                 public static final String HEADER = "com.xliic.openapi.settings.platform.scan.scand.header";
                 public static final String AUTH_NONE = "none";
                 public static final String AUTH_HEADER = "header";
+                public static final String TIMEOUT_DEFAULT = "300";
                 @SuppressWarnings("serial")
 				private static final String HEADER_DEFAULT = Utils.serialize(new HashMap<>() {{
                     put("name", "");
@@ -88,6 +90,7 @@ public class Settings {
                 static {
                     DEFAULTS.put(URL, "");
                     DEFAULTS.put(AUTH, AUTH_NONE);
+                    DEFAULTS.put(TIMEOUT, TIMEOUT_DEFAULT);
                     DEFAULTS.put(HEADER, HEADER_DEFAULT);
                 }
             }
@@ -135,16 +138,6 @@ public class Settings {
         static {
             DEFAULTS.put(PORT, DEFAULT_PORT);
             DEFAULTS.put(RENDERER, SWAGGER_UI);
-        }
-
-        public static int getPort() {
-            String portStr = SettingsService.getInstance().getValue(PORT);
-            return Integer.parseInt(portStr == null ? DEFAULT_PORT : portStr);
-        }
-
-        public static int getRendererIndex() {
-            String renderer = SettingsService.getInstance().getValue(RENDERER);
-            return SWAGGER_UI.equals(renderer) ? 0 : 1;
         }
     }
 
