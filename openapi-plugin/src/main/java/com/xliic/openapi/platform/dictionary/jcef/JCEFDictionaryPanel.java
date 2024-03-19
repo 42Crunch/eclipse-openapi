@@ -10,22 +10,18 @@ import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
 import com.xliic.core.util.messages.MessageBusConnection;
-import com.xliic.core.wm.ToolWindow;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.dictionary.jcef.messages.ShowDictionary;
 import com.xliic.openapi.platform.dictionary.types.DataDictionary;
 import com.xliic.openapi.services.DictionaryService;
-import com.xliic.openapi.webapp.WebApp;
+import com.xliic.openapi.webapp.editor.WebFileEditor;
+import com.xliic.openapi.webapp.editor.WebVirtualFile;
 
-public class JCEFDictionaryPanel extends WebApp implements PlatformListener, Disposable {
+public class JCEFDictionaryPanel extends WebFileEditor implements PlatformListener, Disposable {
 
-    public JCEFDictionaryPanel(@NotNull Project project,
-                               @NotNull ToolWindow toolWindow,
-                               @NotNull Composite parent,
-                               @NotNull ViewPartHandler handler) {
-        super(project, toolWindow.getId(), "data-dictionary", parent, handler);
+    public JCEFDictionaryPanel(@NotNull Project project, @NotNull Composite parent, @NotNull WebVirtualFile file) {
+        super(project, parent, file);
     }
 
     @Override

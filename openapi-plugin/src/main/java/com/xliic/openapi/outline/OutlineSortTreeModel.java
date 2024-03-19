@@ -79,7 +79,7 @@ public class OutlineSortTreeModel extends DefaultTreeModel {
         boolean ignoreSearch = StringUtils.isEmpty(value);
         int count = parentDMTN.getChildCount();
         Object parentObj = parentDMTN.getUserObject();
-        if (ignoreSearch || parentObj instanceof RootNode || ((BaseNode) parentObj).isSkipDeepSearch()) {
+        if (ignoreSearch || parentObj instanceof RootNode || parentObj == null || ((BaseNode) parentObj).isSkipDeepSearch()) {
             for (int i = 0; i < count; i++) {
                 DefaultMutableTreeNode childDMTN = (DefaultMutableTreeNode) parentDMTN.getChildAt(i);
                 updateSkipDeepSearch(childDMTN);

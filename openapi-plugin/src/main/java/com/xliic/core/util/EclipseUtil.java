@@ -264,6 +264,27 @@ public class EclipseUtil {
         }
     }
 
+    @NotNull
+    public static void closeAllWebPages(@NotNull String resourceId) {
+        IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+        for (IWorkbenchWindow window : windows) {
+            for (IWorkbenchPage page : window.getPages()) {
+                for (IEditorReference ref : page.getEditorReferences()) {
+                    try {
+                    	IEditorInput input = ref.getEditorInput(); 
+                        if (input instanceof WebFileEditorInput) {
+                        	WebFileEditorInput webInput = (WebFileEditorInput) input;
+                        	if (resourceId.equals(webInput.getVirtualFile().getResourceId())) {
+                        		page.closeEditor(ref.getEditor(false), false);	
+                        	}
+                        }
+                    } catch (PartInitException e) {
+                    }
+                }
+            }
+        }
+    }
+
     @Nullable
     public static IProject getProject(@NotNull String path) {
         return getProject(new File(path));

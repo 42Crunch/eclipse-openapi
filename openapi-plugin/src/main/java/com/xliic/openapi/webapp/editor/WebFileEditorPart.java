@@ -1,5 +1,10 @@
 package com.xliic.openapi.webapp.editor;
 
+import static com.xliic.openapi.webapp.editor.WebFileEditor.CONFIG_EDITOR_ID;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.DATA_DICTIONARY_EDITOR_ID;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.SCANCONF_EDITOR_ID;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.config.jcef.JCEFConfigPanel;
+import com.xliic.openapi.platform.dictionary.jcef.JCEFDictionaryPanel;
 import com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel;
 import com.xliic.openapi.platform.scan.report.jcef.JCEFScanReportPanel;
 
@@ -22,12 +28,14 @@ public class WebFileEditorPart extends EditorPart {
 
 	private static final Image SCAN_ICON_IMAGE = OpenAPIImages.Scan.createImage();
 	private static final Image CONFIG_ICON_IMAGE = OpenAPIImages.Config.createImage();
+	private static final Image DATA_DICTIONARY_ICON_IMAGE = OpenAPIImages.Dictionary.createImage();
 	
     @SuppressWarnings("serial")
 	private static final Map<String, Long> TABS_LIMITS = new HashMap<>() {{   	
-    	put("config", 1L);
-    	put("scan", 100L);
-    	put("scanconf", 100L);
+    	put(CONFIG_EDITOR_ID, 1L);
+    	put(SCAN_EDITOR_ID, 100L);
+    	put(SCANCONF_EDITOR_ID, 100L);
+    	put(DATA_DICTIONARY_EDITOR_ID, 1L);
     }};
     private static final Map<String, Long> OPENED_TABS = new HashMap<>();
 	
@@ -51,10 +59,13 @@ public class WebFileEditorPart extends EditorPart {
 		setInput(input);
 		webFile = ((WebFileEditorInput) input).getVirtualFile();
 		setPartName(webFile.getName());
-		if ("config".equals(webFile.getResourceId())) {
+		final String resId =  webFile.getResourceId();
+		if (CONFIG_EDITOR_ID.equals(resId)) {
 			setTitleImage(CONFIG_ICON_IMAGE);	
-		} else {
+		} else if (SCAN_EDITOR_ID.equals(resId) || SCANCONF_EDITOR_ID.equals(resId)) {
 			setTitleImage(SCAN_ICON_IMAGE);
+		} else if (DATA_DICTIONARY_EDITOR_ID.equals(resId)) {
+			setTitleImage(DATA_DICTIONARY_ICON_IMAGE);
 		}
 	}
 
@@ -73,14 +84,17 @@ public class WebFileEditorPart extends EditorPart {
 		Project project = Project.getInstance();
 		incrementOpenedTabs(webFile.getResourceId());
 		switch (webFile.getResourceId()) {
-          case "config":
+          case CONFIG_EDITOR_ID:
         	  webEditor = new JCEFConfigPanel(project, parent, webFile);
         	  break;
-          case "scanconf":
+          case SCANCONF_EDITOR_ID:
         	  webEditor = new JCEFScanConfPanel(project, parent, webFile);
         	  break;
-          case "scan":
+          case SCAN_EDITOR_ID:
         	  webEditor = new JCEFScanReportPanel(project, parent, webFile);
+        	  break;
+          case DATA_DICTIONARY_EDITOR_ID:
+        	  webEditor = new JCEFDictionaryPanel(project, parent, webFile);
         	  break;
           default:
         	  webEditor = new WebDefaultFileEditor(webFile, parent);

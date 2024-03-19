@@ -1,5 +1,5 @@
-import { o as Zt, _ as I, e as c, R as st } from "./extends.lDO40HzL.js";
-function ie(e, t) {
+import { o as Zt, _ as I, e as c, R as ke } from "./extends.lDO40HzL.js";
+function oe(e, t) {
   if (e == null)
     return {};
   var r = {}, i = Object.keys(e), n, u;
@@ -14,12 +14,12 @@ function pt() {
 }
 pt.resetWarningCache = vt;
 var rn = function() {
-  function e(i, n, u, o, d, v) {
-    if (v !== nn) {
-      var p = new Error(
+  function e(i, n, u, o, d, h) {
+    if (h !== nn) {
+      var m = new Error(
         "Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types"
       );
-      throw p.name = "Invariant Violation", p;
+      throw m.name = "Invariant Violation", m;
     }
   }
   e.isRequired = e;
@@ -53,7 +53,7 @@ var rn = function() {
 };
 ht.exports = rn();
 var on = ht.exports;
-const g = /* @__PURE__ */ Zt(on), dt = (e) => typeof e == "object" && e != null && e.nodeType === 1, ct = (e, t) => (!t || e !== "hidden") && e !== "visible" && e !== "clip", Pe = (e, t) => {
+const g = /* @__PURE__ */ Zt(on), dt = (e) => typeof e == "object" && e != null && e.nodeType === 1, ct = (e, t) => (!t || e !== "hidden") && e !== "visible" && e !== "clip", Be = (e, t) => {
   if (e.clientHeight < e.scrollHeight || e.clientWidth < e.scrollWidth) {
     const r = getComputedStyle(e, null);
     return ct(r.overflowY, t) || ct(r.overflowX, t) || ((i) => {
@@ -77,39 +77,39 @@ const g = /* @__PURE__ */ Zt(on), dt = (e) => typeof e == "object" && e != null 
   var r, i, n, u;
   if (typeof document > "u")
     return [];
-  const { scrollMode: o, block: d, inline: v, boundary: p, skipOverflowHiddenElements: a } = t, O = typeof p == "function" ? p : (J) => J !== p;
+  const { scrollMode: o, block: d, inline: h, boundary: m, skipOverflowHiddenElements: a } = t, M = typeof m == "function" ? m : (J) => J !== m;
   if (!dt(e))
     throw new TypeError("Invalid target");
-  const R = document.scrollingElement || document.documentElement, K = [];
-  let C = e;
-  for (; dt(C) && O(C); ) {
-    if (C = un(C), C === R) {
-      K.push(C);
+  const k = document.scrollingElement || document.documentElement, T = [];
+  let x = e;
+  for (; dt(x) && M(x); ) {
+    if (x = un(x), x === k) {
+      T.push(x);
       break;
     }
-    C != null && C === document.body && Pe(C) && !Pe(document.documentElement) || C != null && Pe(C, a) && K.push(C);
+    x != null && x === document.body && Be(x) && !Be(document.documentElement) || x != null && Be(x, a) && T.push(x);
   }
-  const B = (i = (r = window.visualViewport) == null ? void 0 : r.width) != null ? i : innerWidth, A = (u = (n = window.visualViewport) == null ? void 0 : n.height) != null ? u : innerHeight, { scrollX: P, scrollY: z } = window, { height: y, width: b, top: F, right: x, bottom: ge, left: ee } = e.getBoundingClientRect(), { top: oe, right: ue, bottom: te, left: ye } = ((J) => {
+  const B = (i = (r = window.visualViewport) == null ? void 0 : r.width) != null ? i : innerWidth, A = (u = (n = window.visualViewport) == null ? void 0 : n.height) != null ? u : innerHeight, { scrollX: P, scrollY: q } = window, { height: O, width: y, top: ee, right: b, bottom: ge, left: te } = e.getBoundingClientRect(), { top: z, right: ue, bottom: ne, left: ye } = ((J) => {
     const w = window.getComputedStyle(J);
     return { top: parseFloat(w.scrollMarginTop) || 0, right: parseFloat(w.scrollMarginRight) || 0, bottom: parseFloat(w.scrollMarginBottom) || 0, left: parseFloat(w.scrollMarginLeft) || 0 };
   })(e);
-  let $ = d === "start" || d === "nearest" ? F - oe : d === "end" ? ge + te : F + y / 2 - oe + te, L = v === "center" ? ee + b / 2 - ye + ue : v === "end" ? x + ue : ee - ye;
+  let F = d === "start" || d === "nearest" ? ee - z : d === "end" ? ge + ne : ee + O / 2 - z + ne, $ = h === "center" ? te + y / 2 - ye + ue : h === "end" ? b + ue : te - ye;
   const he = [];
-  for (let J = 0; J < K.length; J++) {
-    const w = K[J], { height: ae, width: le, top: se, right: ve, bottom: pe, left: m } = w.getBoundingClientRect();
-    if (o === "if-needed" && F >= 0 && ee >= 0 && ge <= A && x <= B && F >= se && ge <= pe && ee >= m && x <= ve)
+  for (let J = 0; J < T.length; J++) {
+    const w = T[J], { height: ae, width: le, top: se, right: ve, bottom: pe, left: p } = w.getBoundingClientRect();
+    if (o === "if-needed" && ee >= 0 && te >= 0 && ge <= A && b <= B && ee >= se && ge <= pe && te >= p && b <= ve)
       return he;
-    const s = getComputedStyle(w), l = parseInt(s.borderLeftWidth, 10), f = parseInt(s.borderTopWidth, 10), h = parseInt(s.borderRightWidth, 10), S = parseInt(s.borderBottomWidth, 10);
-    let M = 0, D = 0;
-    const k = "offsetWidth" in w ? w.offsetWidth - w.clientWidth - l - h : 0, T = "offsetHeight" in w ? w.offsetHeight - w.clientHeight - f - S : 0, E = "offsetWidth" in w ? w.offsetWidth === 0 ? 0 : le / w.offsetWidth : 0, H = "offsetHeight" in w ? w.offsetHeight === 0 ? 0 : ae / w.offsetHeight : 0;
-    if (R === w)
-      M = d === "start" ? $ : d === "end" ? $ - A : d === "nearest" ? Oe(z, z + A, A, f, S, z + $, z + $ + y, y) : $ - A / 2, D = v === "start" ? L : v === "center" ? L - B / 2 : v === "end" ? L - B : Oe(P, P + B, B, l, h, P + L, P + L + b, b), M = Math.max(0, M + z), D = Math.max(0, D + P);
+    const s = getComputedStyle(w), l = parseInt(s.borderLeftWidth, 10), f = parseInt(s.borderTopWidth, 10), v = parseInt(s.borderRightWidth, 10), S = parseInt(s.borderBottomWidth, 10);
+    let C = 0, D = 0;
+    const R = "offsetWidth" in w ? w.offsetWidth - w.clientWidth - l - v : 0, K = "offsetHeight" in w ? w.offsetHeight - w.clientHeight - f - S : 0, E = "offsetWidth" in w ? w.offsetWidth === 0 ? 0 : le / w.offsetWidth : 0, H = "offsetHeight" in w ? w.offsetHeight === 0 ? 0 : ae / w.offsetHeight : 0;
+    if (k === w)
+      C = d === "start" ? F : d === "end" ? F - A : d === "nearest" ? Oe(q, q + A, A, f, S, q + F, q + F + O, O) : F - A / 2, D = h === "start" ? $ : h === "center" ? $ - B / 2 : h === "end" ? $ - B : Oe(P, P + B, B, l, v, P + $, P + $ + y, y), C = Math.max(0, C + q), D = Math.max(0, D + P);
     else {
-      M = d === "start" ? $ - se - f : d === "end" ? $ - pe + S + T : d === "nearest" ? Oe(se, pe, ae, f, S + T, $, $ + y, y) : $ - (se + ae / 2) + T / 2, D = v === "start" ? L - m - l : v === "center" ? L - (m + le / 2) + k / 2 : v === "end" ? L - ve + h + k : Oe(m, ve, le, l, h + k, L, L + b, b);
-      const { scrollLeft: _, scrollTop: W } = w;
-      M = H === 0 ? 0 : Math.max(0, Math.min(W + M / H, w.scrollHeight - ae / H + T)), D = E === 0 ? 0 : Math.max(0, Math.min(_ + D / E, w.scrollWidth - le / E + k)), $ += W - M, L += _ - D;
+      C = d === "start" ? F - se - f : d === "end" ? F - pe + S + K : d === "nearest" ? Oe(se, pe, ae, f, S + K, F, F + O, O) : F - (se + ae / 2) + K / 2, D = h === "start" ? $ - p - l : h === "center" ? $ - (p + le / 2) + R / 2 : h === "end" ? $ - ve + v + R : Oe(p, ve, le, l, v + R, $, $ + y, y);
+      const { scrollLeft: N, scrollTop: L } = w;
+      C = H === 0 ? 0 : Math.max(0, Math.min(L + C / H, w.scrollHeight - ae / H + K)), D = E === 0 ? 0 : Math.max(0, Math.min(N + D / E, w.scrollWidth - le / E + R)), F += L - C, $ += N - D;
     }
-    he.push({ el: w, top: M, left: D });
+    he.push({ el: w, top: C, left: D });
   }
   return he;
 };
@@ -139,7 +139,7 @@ function qn(e, t, r) {
   return e.concat(u || Array.prototype.slice.call(t));
 }
 var ln = 0;
-function Be() {
+function mt() {
 }
 function sn(e, t) {
   if (e) {
@@ -158,7 +158,7 @@ function ft(e, t, r) {
   var i = e === t || t instanceof r.Node && e.contains && e.contains(t);
   return i;
 }
-function Ve(e, t) {
+function Ae(e, t) {
   var r;
   function i() {
     r && clearTimeout(r);
@@ -199,15 +199,15 @@ function cn(e) {
   var t = e.isOpen, r = e.resultCount, i = e.previousResultCount;
   return t ? r ? r !== i ? r + " result" + (r === 1 ? " is" : "s are") + " available, use up and down arrow keys to navigate. Press Enter key to select." : "" : "No results are available." : "";
 }
-function ke(e, t) {
-  return Object.keys(e).reduce(function(r, i) {
-    return r[i] = mt(t, i) ? t[i] : e[i], r;
+function Re(e, t) {
+  return !e || !t ? e : Object.keys(e).reduce(function(r, i) {
+    return r[i] = It(t, i) ? t[i] : e[i], r;
   }, {});
 }
-function mt(e, t) {
+function It(e, t) {
   return e[t] !== void 0;
 }
-function It(e) {
+function yt(e) {
   var t = e.key, r = e.keyCode;
   return r >= 37 && r <= 40 && t.indexOf("Arrow") !== 0 ? "Arrow" + t : t;
 }
@@ -220,8 +220,8 @@ function fe(e, t, r, i, n) {
   (typeof e != "number" || e < 0 || e > o) && (e = t > 0 ? -1 : o + 1);
   var d = e + t;
   d < 0 ? d = n ? o : 0 : d > o && (d = n ? 0 : o);
-  var v = we(d, t < 0, r, i, n);
-  return v === -1 ? e >= u ? -1 : e : v;
+  var h = we(d, t < 0, r, i, n);
+  return h === -1 ? e >= u ? -1 : e : h;
 }
 function we(e, t, r, i, n) {
   n === void 0 && (n = !1);
@@ -241,10 +241,10 @@ function gt(e, t, r, i) {
     return n && (ft(n, e, r) || i && ft(n, r.document.activeElement, r));
   });
 }
-var fn = Ve(function(e) {
-  yt(e).textContent = "";
+var fn = Ae(function(e) {
+  bt(e).textContent = "";
 }, 500);
-function yt(e) {
+function bt(e) {
   var t = e.getElementById("a11y-status-message");
   return t || (t = e.createElement("div"), t.setAttribute("id", "a11y-status-message"), t.setAttribute("role", "status"), t.setAttribute("aria-live", "polite"), t.setAttribute("aria-relevant", "additions text"), Object.assign(t.style, {
     border: "0",
@@ -259,11 +259,11 @@ function yt(e) {
 }
 function gn(e, t) {
   if (!(!e || !t)) {
-    var r = yt(t);
+    var r = bt(t);
     r.textContent = e, fn(t);
   }
 }
-var hn = ["isInitialMount", "highlightedIndex", "items", "environment"], bt = {
+var hn = ["highlightedIndex", "items", "environment"], xt = {
   highlightedIndex: -1,
   isOpen: !1,
   selectedItem: null,
@@ -278,7 +278,7 @@ function vn(e, t, r) {
   }, u));
 }
 function pn(e, t, r, i) {
-  var n = t.props, u = t.type, o = "on" + Ae(e) + "Change";
+  var n = t.props, u = t.type, o = "on" + Fe(e) + "Change";
   n[o] && i[e] !== void 0 && i[e] !== r[e] && n[o](I({
     type: u
   }, i));
@@ -290,12 +290,12 @@ function In(e) {
   var t = e.selectedItem, r = e.itemToString;
   return t ? r(t) + " has been selected." : "";
 }
-var yn = Ve(function(e, t) {
+var yn = Ae(function(e, t) {
   gn(e(), t);
-}, 200), bn = typeof window < "u" && typeof window.document < "u" && typeof window.document.createElement < "u" ? c.useLayoutEffect : c.useEffect, xt = "useId" in st ? function(t) {
-  var r = t.id, i = t.labelId, n = t.menuId, u = t.getItemId, o = t.toggleButtonId, d = t.inputId, v = "downshift-" + st.useId();
-  r || (r = v);
-  var p = c.useRef({
+}, 200), bn = typeof window < "u" && typeof window.document < "u" && typeof window.document.createElement < "u" ? c.useLayoutEffect : c.useEffect, wt = "useId" in ke ? function(t) {
+  var r = t.id, i = t.labelId, n = t.menuId, u = t.getItemId, o = t.toggleButtonId, d = t.inputId, h = "downshift-" + ke.useId();
+  r || (r = h);
+  var m = c.useRef({
     labelId: i || r + "-label",
     menuId: n || r + "-menu",
     getItemId: u || function(a) {
@@ -304,20 +304,20 @@ var yn = Ve(function(e, t) {
     toggleButtonId: o || r + "-toggle-button",
     inputId: d || r + "-input"
   });
-  return p.current;
+  return m.current;
 } : function(t) {
-  var r = t.id, i = r === void 0 ? "downshift-" + dn() : r, n = t.labelId, u = t.menuId, o = t.getItemId, d = t.toggleButtonId, v = t.inputId, p = c.useRef({
+  var r = t.id, i = r === void 0 ? "downshift-" + dn() : r, n = t.labelId, u = t.menuId, o = t.getItemId, d = t.toggleButtonId, h = t.inputId, m = c.useRef({
     labelId: n || i + "-label",
     menuId: u || i + "-menu",
     getItemId: o || function(a) {
       return i + "-item-" + a;
     },
     toggleButtonId: d || i + "-toggle-button",
-    inputId: v || i + "-input"
+    inputId: h || i + "-input"
   });
-  return p.current;
+  return m.current;
 };
-function wt(e, t, r, i) {
+function Ct(e, t, r, i) {
   var n, u;
   if (e === void 0) {
     if (t === void 0)
@@ -333,33 +333,33 @@ function xn(e) {
 function wn(e) {
   return /^\S{1}$/.test(e);
 }
-function Ae(e) {
+function Fe(e) {
   return "" + e.slice(0, 1).toUpperCase() + e.slice(1);
 }
-function Fe(e) {
+function $e(e) {
   var t = c.useRef(e);
   return t.current = e, t;
 }
-function Ct(e, t, r, i) {
-  var n = c.useRef(), u = c.useRef(), o = c.useCallback(function(K, C) {
-    u.current = C, K = ke(K, C.props);
-    var B = e(K, C), A = C.props.stateReducer(K, I({}, C, {
+function Mt(e, t, r, i) {
+  var n = c.useRef(), u = c.useRef(), o = c.useCallback(function(T, x) {
+    u.current = x, T = Re(T, x.props);
+    var B = e(T, x), A = x.props.stateReducer(T, I({}, x, {
       changes: B
     }));
     return A;
-  }, [e]), d = c.useReducer(o, t, r), v = d[0], p = d[1], a = Fe(t), O = c.useCallback(function(K) {
-    return p(I({
+  }, [e]), d = c.useReducer(o, t, r), h = d[0], m = d[1], a = $e(t), M = c.useCallback(function(T) {
+    return m(I({
       props: a.current
-    }, K));
-  }, [a]), R = u.current;
+    }, T));
+  }, [a]), k = u.current;
   return c.useEffect(function() {
-    var K = R && n.current && !i(n.current, v);
-    K && vn(R, ke(n.current, R.props), v), n.current = v;
-  }, [v, R, i]), [v, O];
+    var T = Re(n.current, k == null ? void 0 : k.props), x = k && n.current && !i(T, h);
+    x && vn(k, T, h), n.current = h;
+  }, [h, k, i]), [h, M];
 }
 function Cn(e, t, r, i) {
-  var n = Ct(e, t, r, i), u = n[0], o = n[1];
-  return [ke(u, t), o];
+  var n = Mt(e, t, r, i), u = n[0], o = n[1];
+  return [Re(u, t), o];
 }
 var Me = {
   itemToString: xn,
@@ -372,19 +372,19 @@ var Me = {
   )
 };
 function Y(e, t, r) {
-  r === void 0 && (r = bt);
-  var i = e["default" + Ae(t)];
+  r === void 0 && (r = xt);
+  var i = e["default" + Fe(t)];
   return i !== void 0 ? i : r[t];
 }
 function be(e, t, r) {
-  r === void 0 && (r = bt);
+  r === void 0 && (r = xt);
   var i = e[t];
   if (i !== void 0)
     return i;
-  var n = e["initial" + Ae(t)];
+  var n = e["initial" + Fe(t)];
   return n !== void 0 ? n : Y(e, t, r);
 }
-function Mt(e) {
+function Ot(e) {
   var t = be(e, "selectedItem"), r = be(e, "isOpen"), i = be(e, "highlightedIndex"), n = be(e, "inputValue");
   return {
     highlightedIndex: i < 0 && t && r ? e.items.indexOf(t) : i,
@@ -397,57 +397,57 @@ function Ie(e, t, r) {
   var i = e.items, n = e.initialHighlightedIndex, u = e.defaultHighlightedIndex, o = t.selectedItem, d = t.highlightedIndex;
   return i.length === 0 ? -1 : n !== void 0 && d === n ? n : u !== void 0 ? u : o ? i.indexOf(o) : r === 0 ? -1 : r < 0 ? i.length - 1 : 0;
 }
-function Ot(e, t, r, i) {
+function Dt(e, t, r, i) {
   var n = c.useRef({
     isMouseDown: !1,
-    isTouchMove: !1
+    isTouchMove: !1,
+    isTouchEnd: !1
   });
   return c.useEffect(function() {
     if (r) {
       var u = function() {
-        n.current.isMouseDown = !0;
-      }, o = function(O) {
-        n.current.isMouseDown = !1, e && !gt(O.target, t.map(function(R) {
-          return R.current;
+        n.current.isTouchEnd = !1, n.current.isMouseDown = !0;
+      }, o = function(M) {
+        n.current.isMouseDown = !1, e && !gt(M.target, t.map(function(k) {
+          return k.current;
         }), r) && i();
       }, d = function() {
-        n.current.isTouchMove = !1;
-      }, v = function() {
+        n.current.isTouchEnd = !1, n.current.isTouchMove = !1;
+      }, h = function() {
         n.current.isTouchMove = !0;
-      }, p = function(O) {
-        e && !n.current.isTouchMove && !gt(O.target, t.map(function(R) {
-          return R.current;
+      }, m = function(M) {
+        n.current.isTouchEnd = !0, e && !n.current.isTouchMove && !gt(M.target, t.map(function(k) {
+          return k.current;
         }), r, !1) && i();
       };
-      return r.addEventListener("mousedown", u), r.addEventListener("mouseup", o), r.addEventListener("touchstart", d), r.addEventListener("touchmove", v), r.addEventListener("touchend", p), function() {
-        r.removeEventListener("mousedown", u), r.removeEventListener("mouseup", o), r.removeEventListener("touchstart", d), r.removeEventListener("touchmove", v), r.removeEventListener("touchend", p);
+      return r.addEventListener("mousedown", u), r.addEventListener("mouseup", o), r.addEventListener("touchstart", d), r.addEventListener("touchmove", h), r.addEventListener("touchend", m), function() {
+        r.removeEventListener("mousedown", u), r.removeEventListener("mouseup", o), r.removeEventListener("touchstart", d), r.removeEventListener("touchmove", h), r.removeEventListener("touchend", m);
       };
     }
   }, [e, r]), n;
 }
-var Dt = function() {
-  return Be;
+var kt = function() {
+  return mt;
 };
-function Re(e, t, r) {
-  var i = r.isInitialMount, n = r.highlightedIndex, u = r.items, o = r.environment, d = ie(r, hn);
+function Se(e, t, r) {
+  var i = r.highlightedIndex, n = r.items, u = r.environment, o = oe(r, hn), d = He();
   c.useEffect(function() {
-    i || !(o != null && o.document) || yn(function() {
+    d || !(u != null && u.document) || yn(function() {
       return e(I({
-        highlightedIndex: n,
-        highlightedItem: u[n],
-        resultCount: u.length
-      }, d));
-    }, o.document);
+        highlightedIndex: i,
+        highlightedItem: n[i],
+        resultCount: n.length
+      }, o));
+    }, u.document);
   }, t);
 }
-function kt(e) {
+function Rt(e) {
   var t = e.highlightedIndex, r = e.isOpen, i = e.itemRefs, n = e.getItemNodeFromIndex, u = e.menuElement, o = e.scrollIntoView, d = c.useRef(!0);
   return bn(function() {
     t < 0 || !r || !Object.keys(i.current).length || (d.current === !1 ? d.current = !0 : o(n(t), u));
   }, [t]), d;
 }
-var Rt = Be;
-function Se(e, t, r) {
+function Ee(e, t, r) {
   var i;
   r === void 0 && (r = !0);
   var n = ((i = e.items) == null ? void 0 : i.length) && t >= 0;
@@ -464,6 +464,14 @@ function Se(e, t, r) {
 }
 function St(e, t) {
   return e.isOpen === t.isOpen && e.inputValue === t.inputValue && e.highlightedIndex === t.highlightedIndex && e.selectedItem === t.selectedItem;
+}
+function He() {
+  var e = ke.useRef(!0);
+  return ke.useEffect(function() {
+    return e.current = !1, function() {
+      e.current = !0;
+    };
+  }, []), e.current;
 }
 var Et = {
   environment: g.shape({
@@ -557,9 +565,9 @@ function Kt(e, t, r) {
 }
 function Mn(e) {
   for (var t = e.keysSoFar, r = e.highlightedIndex, i = e.items, n = e.itemToString, u = e.isItemDisabled, o = t.toLowerCase(), d = 0; d < i.length; d++) {
-    var v = (d + r + (t.length < 2 ? 1 : 0)) % i.length, p = i[v];
-    if (p !== void 0 && n(p).toLowerCase().startsWith(o) && !u(p, v))
-      return v;
+    var h = (d + r + (t.length < 2 ? 1 : 0)) % i.length, m = i[h];
+    if (m !== void 0 && n(m).toLowerCase().startsWith(o) && !u(m, h))
+      return h;
   }
   return r;
 }
@@ -570,110 +578,110 @@ function On(e) {
 }
 var Dn = xe(xe({}, Me), { getA11yStatusMessage: On, isItemDisabled: function() {
   return !1;
-} }), De = 0, $e = 1, Le = 2, Ee = 3, We = 4, je = 5, Ue = 6, Ne = 7, _e = 8, qe = 9, ze = 10, Te = 11, Pt = 12, Ht = 13, Ge = 14, Bt = 15, Vt = 16, At = 17, Ft = 18, Xe = 19, He = 20, $t = 21, Lt = /* @__PURE__ */ Object.freeze({
+} }), De = 0, Le = 1, We = 2, Te = 3, je = 4, Ue = 5, Ne = 6, _e = 7, qe = 8, ze = 9, Ge = 10, Ke = 11, Pt = 12, Ht = 13, Xe = 14, Bt = 15, Vt = 16, At = 17, Ft = 18, Ye = 19, Ve = 20, $t = 21, Lt = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   ToggleButtonClick: De,
-  ToggleButtonKeyDownArrowDown: $e,
-  ToggleButtonKeyDownArrowUp: Le,
-  ToggleButtonKeyDownCharacter: Ee,
-  ToggleButtonKeyDownEscape: We,
-  ToggleButtonKeyDownHome: je,
-  ToggleButtonKeyDownEnd: Ue,
-  ToggleButtonKeyDownEnter: Ne,
-  ToggleButtonKeyDownSpaceButton: _e,
-  ToggleButtonKeyDownPageUp: qe,
-  ToggleButtonKeyDownPageDown: ze,
-  ToggleButtonBlur: Te,
+  ToggleButtonKeyDownArrowDown: Le,
+  ToggleButtonKeyDownArrowUp: We,
+  ToggleButtonKeyDownCharacter: Te,
+  ToggleButtonKeyDownEscape: je,
+  ToggleButtonKeyDownHome: Ue,
+  ToggleButtonKeyDownEnd: Ne,
+  ToggleButtonKeyDownEnter: _e,
+  ToggleButtonKeyDownSpaceButton: qe,
+  ToggleButtonKeyDownPageUp: ze,
+  ToggleButtonKeyDownPageDown: Ge,
+  ToggleButtonBlur: Ke,
   MenuMouseLeave: Pt,
   ItemMouseMove: Ht,
-  ItemClick: Ge,
+  ItemClick: Xe,
   FunctionToggleMenu: Bt,
   FunctionOpenMenu: Vt,
   FunctionCloseMenu: At,
   FunctionSetHighlightedIndex: Ft,
-  FunctionSelectItem: Xe,
-  FunctionSetInputValue: He,
+  FunctionSelectItem: Ye,
+  FunctionSetInputValue: Ve,
   FunctionReset: $t
 });
 function kn(e, t) {
   var r, i = t.type, n = t.props, u = t.altKey, o;
   switch (i) {
-    case Ge:
+    case Xe:
       o = {
         isOpen: Y(n, "isOpen"),
         highlightedIndex: Y(n, "highlightedIndex"),
         selectedItem: n.items[t.index]
       };
       break;
-    case Ee:
+    case Te:
       {
-        var d = t.key, v = "" + e.inputValue + d, p = !e.isOpen && e.selectedItem ? n.items.indexOf(e.selectedItem) : e.highlightedIndex, a = Mn({
-          keysSoFar: v,
-          highlightedIndex: p,
+        var d = t.key, h = "" + e.inputValue + d, m = !e.isOpen && e.selectedItem ? n.items.indexOf(e.selectedItem) : e.highlightedIndex, a = Mn({
+          keysSoFar: h,
+          highlightedIndex: m,
           items: n.items,
           itemToString: n.itemToString,
           isItemDisabled: n.isItemDisabled
         });
         o = {
-          inputValue: v,
+          inputValue: h,
           highlightedIndex: a,
           isOpen: !0
         };
       }
       break;
-    case $e:
-      {
-        var O = e.isOpen ? fe(e.highlightedIndex, 1, n.items, n.isItemDisabled) : u && e.selectedItem == null ? -1 : Ie(n, e, 1);
-        o = {
-          highlightedIndex: O,
-          isOpen: !0
-        };
-      }
-      break;
     case Le:
-      if (e.isOpen && u)
-        o = Se(n, e.highlightedIndex, !1);
-      else {
-        var R = e.isOpen ? fe(e.highlightedIndex, -1, n.items, n.isItemDisabled) : Ie(n, e, -1);
+      {
+        var M = e.isOpen ? fe(e.highlightedIndex, 1, n.items, n.isItemDisabled) : u && e.selectedItem == null ? -1 : Ie(n, e, 1);
         o = {
-          highlightedIndex: R,
+          highlightedIndex: M,
           isOpen: !0
         };
       }
       break;
-    case Ne:
-    case _e:
-      o = Se(n, e.highlightedIndex, !1);
+    case We:
+      if (e.isOpen && u)
+        o = Ee(n, e.highlightedIndex, !1);
+      else {
+        var k = e.isOpen ? fe(e.highlightedIndex, -1, n.items, n.isItemDisabled) : Ie(n, e, -1);
+        o = {
+          highlightedIndex: k,
+          isOpen: !0
+        };
+      }
       break;
-    case je:
+    case _e:
+    case qe:
+      o = Ee(n, e.highlightedIndex, !1);
+      break;
+    case Ue:
       o = {
         highlightedIndex: we(0, !1, n.items, n.isItemDisabled),
         isOpen: !0
       };
       break;
-    case Ue:
+    case Ne:
       o = {
         highlightedIndex: we(n.items.length - 1, !0, n.items, n.isItemDisabled),
         isOpen: !0
       };
       break;
-    case qe:
+    case ze:
       o = {
         highlightedIndex: fe(e.highlightedIndex, -10, n.items, n.isItemDisabled)
       };
       break;
-    case ze:
+    case Ge:
       o = {
         highlightedIndex: fe(e.highlightedIndex, 10, n.items, n.isItemDisabled)
       };
       break;
-    case We:
+    case je:
       o = {
         isOpen: !1,
         highlightedIndex: -1
       };
       break;
-    case Te:
+    case Ke:
       o = I({
         isOpen: !1,
         highlightedIndex: -1
@@ -681,7 +689,7 @@ function kn(e, t) {
         selectedItem: n.items[e.highlightedIndex]
       });
       break;
-    case Xe:
+    case Ye:
       o = {
         selectedItem: t.selectedItem
       };
@@ -695,113 +703,103 @@ var Rn = ["onClick"], Sn = ["onMouseLeave", "refKey", "ref"], En = ["onBlur", "o
 Kn.stateChangeTypes = Lt;
 function Kn(e) {
   e === void 0 && (e = {});
-  var t = I({}, Dn, e), r = t.items, i = t.scrollIntoView, n = t.environment, u = t.itemToString, o = t.getA11ySelectionMessage, d = t.getA11yStatusMessage, v = Cn(kn, t, Mt, St), p = v[0], a = v[1], O = p.isOpen, R = p.highlightedIndex, K = p.selectedItem, C = p.inputValue, B = c.useRef(null), A = c.useRef(null), P = c.useRef({}), z = c.useRef(null), y = xt(t), b = c.useRef(), F = c.useRef(!0), x = Fe({
-    state: p,
+  var t = I({}, Dn, e), r = t.items, i = t.scrollIntoView, n = t.environment, u = t.itemToString, o = t.getA11ySelectionMessage, d = t.getA11yStatusMessage, h = Cn(kn, t, Ot, St), m = h[0], a = h[1], M = m.isOpen, k = m.highlightedIndex, T = m.selectedItem, x = m.inputValue, B = c.useRef(null), A = c.useRef(null), P = c.useRef({}), q = c.useRef(null), O = wt(t), y = c.useRef(), ee = He(), b = $e({
+    state: m,
     props: t
-  }), ge = c.useCallback(function(m) {
-    return P.current[y.getItemId(m)];
-  }, [y]);
-  Re(d, [O, R, C, r], I({
-    isInitialMount: F.current,
-    previousResultCount: b.current,
+  }), ge = c.useCallback(function(p) {
+    return P.current[O.getItemId(p)];
+  }, [O]);
+  Se(d, [M, k, x, r], I({
+    previousResultCount: y.current,
     items: r,
     environment: n,
     itemToString: u
-  }, p)), Re(o, [K], I({
-    isInitialMount: F.current,
-    previousResultCount: b.current,
+  }, m)), Se(o, [T], I({
+    previousResultCount: y.current,
     items: r,
     environment: n,
     itemToString: u
-  }, p));
-  var ee = kt({
+  }, m));
+  var te = Rt({
     menuElement: A.current,
-    highlightedIndex: R,
-    isOpen: O,
+    highlightedIndex: k,
+    isOpen: M,
     itemRefs: P,
     scrollIntoView: i,
     getItemNodeFromIndex: ge
   });
   c.useEffect(function() {
-    return z.current = Ve(function(m) {
-      m({
-        type: He,
+    return q.current = Ae(function(p) {
+      p({
+        type: Ve,
         inputValue: ""
       });
     }, 500), function() {
-      z.current.cancel();
+      q.current.cancel();
     };
   }, []), c.useEffect(function() {
-    C && z.current(a);
-  }, [a, C]), Rt({
-    isInitialMount: F.current,
-    props: t,
-    state: p
+    x && q.current(a);
+  }, [a, x]), c.useEffect(function() {
+    ee || (y.current = r.length);
   }), c.useEffect(function() {
-    F.current || (b.current = r.length);
-  }), c.useEffect(function() {
-    var m = be(t, "isOpen");
-    m && B.current && B.current.focus();
+    var p = be(t, "isOpen");
+    p && B.current && B.current.focus();
   }, []);
-  var oe = Ot(O, [A, B], n, function() {
+  var z = Dt(M, [A, B], n, function() {
     a({
-      type: Te
+      type: Ke
     });
-  }), ue = Dt();
+  }), ue = kt();
   c.useEffect(function() {
-    return F.current = !1, function() {
-      F.current = !0;
-    };
-  }, []), c.useEffect(function() {
-    O || (P.current = {});
-  }, [O]);
-  var te = c.useMemo(function() {
+    M || (P.current = {});
+  }, [M]);
+  var ne = c.useMemo(function() {
     return {
       ArrowDown: function(s) {
-        s.preventDefault(), a({
-          type: $e,
-          altKey: s.altKey
-        });
-      },
-      ArrowUp: function(s) {
         s.preventDefault(), a({
           type: Le,
           altKey: s.altKey
         });
       },
-      Home: function(s) {
+      ArrowUp: function(s) {
         s.preventDefault(), a({
-          type: je
+          type: We,
+          altKey: s.altKey
         });
       },
-      End: function(s) {
+      Home: function(s) {
         s.preventDefault(), a({
           type: Ue
         });
       },
+      End: function(s) {
+        s.preventDefault(), a({
+          type: Ne
+        });
+      },
       Escape: function() {
-        x.current.state.isOpen && a({
-          type: We
+        b.current.state.isOpen && a({
+          type: je
         });
       },
       Enter: function(s) {
         s.preventDefault(), a({
-          type: x.current.state.isOpen ? Ne : De
+          type: b.current.state.isOpen ? _e : De
         });
       },
       PageUp: function(s) {
-        x.current.state.isOpen && (s.preventDefault(), a({
-          type: qe
+        b.current.state.isOpen && (s.preventDefault(), a({
+          type: ze
         }));
       },
       PageDown: function(s) {
-        x.current.state.isOpen && (s.preventDefault(), a({
-          type: ze
+        b.current.state.isOpen && (s.preventDefault(), a({
+          type: Ge
         }));
       },
       " ": function(s) {
         s.preventDefault();
-        var l = x.current.state;
+        var l = b.current.state;
         if (!l.isOpen) {
           a({
             type: De
@@ -809,111 +807,111 @@ function Kn(e) {
           return;
         }
         l.inputValue ? a({
-          type: Ee,
+          type: Te,
           key: " "
         }) : a({
-          type: _e
+          type: qe
         });
       }
     };
-  }, [a, x]), ye = c.useCallback(function() {
+  }, [a, b]), ye = c.useCallback(function() {
     a({
       type: Bt
     });
-  }, [a]), $ = c.useCallback(function() {
+  }, [a]), F = c.useCallback(function() {
     a({
       type: At
     });
-  }, [a]), L = c.useCallback(function() {
+  }, [a]), $ = c.useCallback(function() {
     a({
       type: Vt
     });
-  }, [a]), he = c.useCallback(function(m) {
+  }, [a]), he = c.useCallback(function(p) {
     a({
       type: Ft,
-      highlightedIndex: m
+      highlightedIndex: p
     });
-  }, [a]), J = c.useCallback(function(m) {
+  }, [a]), J = c.useCallback(function(p) {
     a({
-      type: Xe,
-      selectedItem: m
+      type: Ye,
+      selectedItem: p
     });
   }, [a]), w = c.useCallback(function() {
     a({
       type: $t
     });
-  }, [a]), ae = c.useCallback(function(m) {
+  }, [a]), ae = c.useCallback(function(p) {
     a({
-      type: He,
-      inputValue: m
+      type: Ve,
+      inputValue: p
     });
-  }, [a]), le = c.useCallback(function(m) {
-    var s = m === void 0 ? {} : m, l = s.onClick, f = ie(s, Rn), h = function() {
-      var M;
-      (M = B.current) == null || M.focus();
+  }, [a]), le = c.useCallback(function(p) {
+    var s = p === void 0 ? {} : p, l = s.onClick, f = oe(s, Rn), v = function() {
+      var C;
+      (C = B.current) == null || C.focus();
     };
     return I({
-      id: y.labelId,
-      htmlFor: y.toggleButtonId,
-      onClick: V(l, h)
+      id: O.labelId,
+      htmlFor: O.toggleButtonId,
+      onClick: V(l, v)
     }, f);
-  }, [y]), se = c.useCallback(function(m, s) {
-    var l, f = m === void 0 ? {} : m, h = f.onMouseLeave, S = f.refKey, M = S === void 0 ? "ref" : S, D = f.ref, k = ie(f, Sn), T = s === void 0 ? {} : s;
-    T.suppressRefError;
+  }, [O]), se = c.useCallback(function(p, s) {
+    var l, f = p === void 0 ? {} : p, v = f.onMouseLeave, S = f.refKey, C = S === void 0 ? "ref" : S, D = f.ref, R = oe(f, Sn), K = s === void 0 ? {} : s;
+    K.suppressRefError;
     var E = function() {
       a({
         type: Pt
       });
     };
-    return I((l = {}, l[M] = me(D, function(H) {
+    return I((l = {}, l[C] = me(D, function(H) {
       A.current = H;
-    }), l.id = y.menuId, l.role = "listbox", l["aria-labelledby"] = k && k["aria-label"] ? void 0 : "" + y.labelId, l.onMouseLeave = V(h, E), l), k);
-  }, [a, ue, y]), ve = c.useCallback(function(m, s) {
-    var l, f = m === void 0 ? {} : m, h = f.onBlur, S = f.onClick;
+    }), l.id = O.menuId, l.role = "listbox", l["aria-labelledby"] = R && R["aria-label"] ? void 0 : "" + O.labelId, l.onMouseLeave = V(v, E), l), R);
+  }, [a, ue, O]), ve = c.useCallback(function(p, s) {
+    var l, f = p === void 0 ? {} : p, v = f.onBlur, S = f.onClick;
     f.onPress;
-    var M = f.onKeyDown, D = f.refKey, k = D === void 0 ? "ref" : D, T = f.ref, E = ie(f, En), H = s === void 0 ? {} : s;
+    var C = f.onKeyDown, D = f.refKey, R = D === void 0 ? "ref" : D, K = f.ref, E = oe(f, En), H = s === void 0 ? {} : s;
     H.suppressRefError;
-    var _ = x.current.state, W = function() {
+    var N = b.current.state, L = function() {
       a({
         type: De
       });
     }, de = function() {
-      _.isOpen && !oe.current.isMouseDown && a({
-        type: Te
+      N.isOpen && !z.current.isMouseDown && a({
+        type: Ke
       });
-    }, j = function(U) {
-      var q = It(U);
-      q && te[q] ? te[q](U) : wn(q) && a({
-        type: Ee,
-        key: q
+    }, W = function(j) {
+      var _ = yt(j);
+      _ && ne[_] ? ne[_](j) : wn(_) && a({
+        type: Te,
+        key: _
       });
-    }, Q = I((l = {}, l[k] = me(T, function(G) {
+    }, Q = I((l = {}, l[R] = me(K, function(G) {
       B.current = G;
-    }), l["aria-activedescendant"] = _.isOpen && _.highlightedIndex > -1 ? y.getItemId(_.highlightedIndex) : "", l["aria-controls"] = y.menuId, l["aria-expanded"] = x.current.state.isOpen, l["aria-haspopup"] = "listbox", l["aria-labelledby"] = E && E["aria-label"] ? void 0 : "" + y.labelId, l.id = y.toggleButtonId, l.role = "combobox", l.tabIndex = 0, l.onBlur = V(h, de), l), E);
-    return E.disabled || (Q.onClick = V(S, W), Q.onKeyDown = V(M, j)), Q;
-  }, [x, y, ue, a, oe, te]), pe = c.useCallback(function(m) {
-    var s, l = m === void 0 ? {} : m, f = l.item, h = l.index, S = l.onMouseMove, M = l.onClick, D = l.onMouseDown;
+    }), l["aria-activedescendant"] = N.isOpen && N.highlightedIndex > -1 ? O.getItemId(N.highlightedIndex) : "", l["aria-controls"] = O.menuId, l["aria-expanded"] = b.current.state.isOpen, l["aria-haspopup"] = "listbox", l["aria-labelledby"] = E && E["aria-label"] ? void 0 : "" + O.labelId, l.id = O.toggleButtonId, l.role = "combobox", l.tabIndex = 0, l.onBlur = V(v, de), l), E);
+    return E.disabled || (Q.onClick = V(S, L), Q.onKeyDown = V(C, W)), Q;
+  }, [b, O, ue, a, z, ne]), pe = c.useCallback(function(p) {
+    var s, l = p === void 0 ? {} : p, f = l.item, v = l.index, S = l.onMouseMove, C = l.onClick, D = l.onMouseDown;
     l.onPress;
-    var k = l.refKey, T = k === void 0 ? "ref" : k, E = l.disabled, H = l.ref, _ = ie(l, Tn);
+    var R = l.refKey, K = R === void 0 ? "ref" : R, E = l.disabled, H = l.ref, N = oe(l, Tn);
     E !== void 0 && console.warn('Passing "disabled" as an argument to getItemProps is not supported anymore. Please use the isItemDisabled prop from useSelect.');
-    var W = x.current, de = W.state, j = W.props, Q = wt(f, h, j.items, "Pass either item or index to getItemProps!"), G = Q[0], U = Q[1], q = j.isItemDisabled(G, U), Z = function() {
-      U !== de.highlightedIndex && (ee.current = !1, a({
+    var L = b.current, de = L.state, W = L.props, Q = Ct(f, v, W.items, "Pass either item or index to getItemProps!"), G = Q[0], j = Q[1], _ = W.isItemDisabled(G, j), Z = function() {
+      z.current.isTouchEnd || j === de.highlightedIndex || (te.current = !1, a({
         type: Ht,
-        index: U,
-        disabled: q
+        index: j,
+        disabled: _
       }));
     }, ce = function() {
       a({
-        type: Ge,
-        index: U
+        type: Xe,
+        index: j
       });
-    }, ne = function(re) {
-      return re.preventDefault();
-    }, X = I((s = {}, s[T] = me(H, function(N) {
-      N && (P.current[y.getItemId(U)] = N);
-    }), s["aria-disabled"] = q, s["aria-selected"] = "" + (G === de.selectedItem), s.id = y.getItemId(U), s.role = "option", s), _);
-    return q || (X.onClick = V(M, ce)), X.onMouseMove = V(S, Z), X.onMouseDown = V(D, ne), X;
-  }, [x, y, ee, a]);
+    }, re = function(ie) {
+      return ie.preventDefault();
+    }, X = I((s = {}, s[K] = me(H, function(U) {
+      U && (P.current[O.getItemId(j)] = U);
+    }), s["aria-disabled"] = _, s["aria-selected"] = "" + (G === de.selectedItem), s.id = O.getItemId(j), s.role = "option", s), N);
+    return _ || (X.onClick = V(C, ce)), X.onMouseMove = V(S, Z), X.onMouseDown = V(D, re), X;
+  }, [b, O, z, te, a]);
   return {
     // prop getters.
     getToggleButtonProps: ve,
@@ -922,47 +920,47 @@ function Kn(e) {
     getItemProps: pe,
     // actions.
     toggleMenu: ye,
-    openMenu: L,
-    closeMenu: $,
+    openMenu: $,
+    closeMenu: F,
     setHighlightedIndex: he,
     selectItem: J,
     reset: w,
     setInputValue: ae,
     // state.
-    highlightedIndex: R,
-    isOpen: O,
-    selectedItem: K,
-    inputValue: C
+    highlightedIndex: k,
+    isOpen: M,
+    selectedItem: T,
+    inputValue: x
   };
 }
-var Ye = 0, Je = 1, Qe = 2, Ze = 3, et = 4, tt = 5, nt = 6, rt = 7, it = 8, Ke = 9, ot = 10, Wt = 11, jt = 12, ut = 13, Ut = 14, Nt = 15, _t = 16, qt = 17, zt = 18, at = 19, Gt = 20, Xt = 21, lt = 22, Yt = /* @__PURE__ */ Object.freeze({
+var Je = 0, Qe = 1, Ze = 2, et = 3, tt = 4, nt = 5, rt = 6, it = 7, ot = 8, Pe = 9, ut = 10, Wt = 11, jt = 12, at = 13, Ut = 14, Nt = 15, _t = 16, qt = 17, zt = 18, lt = 19, Gt = 20, Xt = 21, st = 22, Yt = /* @__PURE__ */ Object.freeze({
   __proto__: null,
-  InputKeyDownArrowDown: Ye,
-  InputKeyDownArrowUp: Je,
-  InputKeyDownEscape: Qe,
-  InputKeyDownHome: Ze,
-  InputKeyDownEnd: et,
-  InputKeyDownPageUp: tt,
-  InputKeyDownPageDown: nt,
-  InputKeyDownEnter: rt,
-  InputChange: it,
-  InputBlur: Ke,
-  InputClick: ot,
+  InputKeyDownArrowDown: Je,
+  InputKeyDownArrowUp: Qe,
+  InputKeyDownEscape: Ze,
+  InputKeyDownHome: et,
+  InputKeyDownEnd: tt,
+  InputKeyDownPageUp: nt,
+  InputKeyDownPageDown: rt,
+  InputKeyDownEnter: it,
+  InputChange: ot,
+  InputBlur: Pe,
+  InputClick: ut,
   MenuMouseLeave: Wt,
   ItemMouseMove: jt,
-  ItemClick: ut,
+  ItemClick: at,
   ToggleButtonClick: Ut,
   FunctionToggleMenu: Nt,
   FunctionOpenMenu: _t,
   FunctionCloseMenu: qt,
   FunctionSetHighlightedIndex: zt,
-  FunctionSelectItem: at,
+  FunctionSelectItem: lt,
   FunctionSetInputValue: Gt,
   FunctionReset: Xt,
-  ControlledPropUpdatedSelectedItem: lt
+  ControlledPropUpdatedSelectedItem: st
 });
 function Pn(e) {
-  var t = Mt(e), r = t.selectedItem, i = t.inputValue;
+  var t = Ot(e), r = t.selectedItem, i = t.inputValue;
   return i === "" && r && e.defaultInputValue === void 0 && e.initialInputValue === void 0 && e.inputValue === void 0 && (i = e.itemToString(r)), I({}, t, {
     inputValue: i
   });
@@ -979,15 +977,16 @@ I({}, Tt, {
   onInputValueChange: g.func
 });
 function Hn(e, t, r, i) {
-  var n = c.useRef(), u = Ct(e, t, r, i), o = u[0], d = u[1];
+  var n = c.useRef(), u = Mt(e, t, r, i), o = u[0], d = u[1], h = He();
   return c.useEffect(function() {
-    mt(t, "selectedItem") && (t.selectedItemChanged(n.current, t.selectedItem) && d({
-      type: lt,
+    It(t, "selectedItem") && (!h && // on first mount we already have the proper inputValue for a initial selected item.
+    t.selectedItemChanged(n.current, t.selectedItem) && d({
+      type: st,
       inputValue: t.itemToString(t.selectedItem)
     }), n.current = o.selectedItem === n.current ? t.selectedItem : o.selectedItem);
-  }, [o.selectedItem, t.selectedItem]), [ke(o, t), d];
+  }, [o.selectedItem, t.selectedItem]), [Re(o, t), d];
 }
-var Bn = Be, Vn = I({}, Me, {
+var Bn = mt, Vn = I({}, Me, {
   selectedItemChanged: function(t, r) {
     return t !== r;
   },
@@ -999,7 +998,7 @@ var Bn = Be, Vn = I({}, Me, {
 function An(e, t) {
   var r, i = t.type, n = t.props, u = t.altKey, o;
   switch (i) {
-    case ut:
+    case at:
       o = {
         isOpen: Y(n, "isOpen"),
         highlightedIndex: Y(n, "highlightedIndex"),
@@ -1007,7 +1006,7 @@ function An(e, t) {
         inputValue: n.itemToString(n.items[t.index])
       };
       break;
-    case Ye:
+    case Je:
       e.isOpen ? o = {
         highlightedIndex: fe(e.highlightedIndex, 1, n.items, n.isItemDisabled, !0)
       } : o = {
@@ -1015,18 +1014,18 @@ function An(e, t) {
         isOpen: n.items.length >= 0
       };
       break;
-    case Je:
-      e.isOpen ? u ? o = Se(n, e.highlightedIndex) : o = {
+    case Qe:
+      e.isOpen ? u ? o = Ee(n, e.highlightedIndex) : o = {
         highlightedIndex: fe(e.highlightedIndex, -1, n.items, n.isItemDisabled, !0)
       } : o = {
         highlightedIndex: Ie(n, e, -1),
         isOpen: n.items.length >= 0
       };
       break;
-    case rt:
-      o = Se(n, e.highlightedIndex);
+    case it:
+      o = Ee(n, e.highlightedIndex);
       break;
-    case Qe:
+    case Ze:
       o = I({
         isOpen: !1,
         highlightedIndex: -1
@@ -1035,27 +1034,27 @@ function An(e, t) {
         inputValue: ""
       });
       break;
-    case tt:
+    case nt:
       o = {
         highlightedIndex: fe(e.highlightedIndex, -10, n.items, n.isItemDisabled, !0)
       };
       break;
-    case nt:
+    case rt:
       o = {
         highlightedIndex: fe(e.highlightedIndex, 10, n.items, n.isItemDisabled, !0)
       };
       break;
-    case Ze:
+    case et:
       o = {
         highlightedIndex: we(0, !1, n.items, n.isItemDisabled)
       };
       break;
-    case et:
+    case tt:
       o = {
         highlightedIndex: we(n.items.length - 1, !0, n.items, n.isItemDisabled)
       };
       break;
-    case Ke:
+    case Pe:
       o = I({
         isOpen: !1,
         highlightedIndex: -1
@@ -1064,26 +1063,26 @@ function An(e, t) {
         inputValue: n.itemToString(n.items[e.highlightedIndex])
       });
       break;
-    case it:
+    case ot:
       o = {
         isOpen: !0,
         highlightedIndex: Y(n, "highlightedIndex"),
         inputValue: t.inputValue
       };
       break;
-    case ot:
+    case ut:
       o = {
         isOpen: !e.isOpen,
         highlightedIndex: e.isOpen ? -1 : Ie(n, e, 0)
       };
       break;
-    case at:
+    case lt:
       o = {
         selectedItem: t.selectedItem,
         inputValue: n.itemToString(t.selectedItem)
       };
       break;
-    case lt:
+    case st:
       o = {
         inputValue: t.inputValue
       };
@@ -1097,192 +1096,182 @@ var Fn = ["onMouseLeave", "refKey", "ref"], $n = ["item", "index", "refKey", "re
 jn.stateChangeTypes = Yt;
 function jn(e) {
   e === void 0 && (e = {}), Bn();
-  var t = I({}, Vn, e), r = t.items, i = t.scrollIntoView, n = t.environment, u = t.getA11yStatusMessage, o = t.getA11ySelectionMessage, d = t.itemToString, v = Hn(An, t, Pn, St), p = v[0], a = v[1], O = p.isOpen, R = p.highlightedIndex, K = p.selectedItem, C = p.inputValue, B = c.useRef(null), A = c.useRef({}), P = c.useRef(null), z = c.useRef(null), y = c.useRef(!0), b = xt(t), F = c.useRef(), x = Fe({
-    state: p,
+  var t = I({}, Vn, e), r = t.items, i = t.scrollIntoView, n = t.environment, u = t.getA11yStatusMessage, o = t.getA11ySelectionMessage, d = t.itemToString, h = Hn(An, t, Pn, St), m = h[0], a = h[1], M = m.isOpen, k = m.highlightedIndex, T = m.selectedItem, x = m.inputValue, B = c.useRef(null), A = c.useRef({}), P = c.useRef(null), q = c.useRef(null), O = He(), y = wt(t), ee = c.useRef(), b = $e({
+    state: m,
     props: t
   }), ge = c.useCallback(function(s) {
-    return A.current[b.getItemId(s)];
-  }, [b]);
-  Re(u, [O, R, C, r], I({
-    isInitialMount: y.current,
-    previousResultCount: F.current,
+    return A.current[y.getItemId(s)];
+  }, [y]);
+  Se(u, [M, k, x, r], I({
+    previousResultCount: ee.current,
     items: r,
     environment: n,
     itemToString: d
-  }, p)), Re(o, [K], I({
-    isInitialMount: y.current,
-    previousResultCount: F.current,
+  }, m)), Se(o, [T], I({
+    previousResultCount: ee.current,
     items: r,
     environment: n,
     itemToString: d
-  }, p));
-  var ee = kt({
+  }, m));
+  var te = Rt({
     menuElement: B.current,
-    highlightedIndex: R,
-    isOpen: O,
+    highlightedIndex: k,
+    isOpen: M,
     itemRefs: A,
     scrollIntoView: i,
     getItemNodeFromIndex: ge
   });
-  Rt({
-    isInitialMount: y.current,
-    props: t,
-    state: p
-  }), c.useEffect(function() {
+  c.useEffect(function() {
     var s = be(t, "isOpen");
     s && P.current && P.current.focus();
   }, []), c.useEffect(function() {
-    y.current || (F.current = r.length);
+    O || (ee.current = r.length);
   });
-  var oe = Ot(O, [P, B, z], n, function() {
+  var z = Dt(M, [P, B, q], n, function() {
     a({
-      type: Ke,
+      type: Pe,
       selectItem: !1
     });
-  }), ue = Dt();
+  }), ue = kt();
   c.useEffect(function() {
-    return y.current = !1, function() {
-      y.current = !0;
-    };
-  }, []), c.useEffect(function() {
-    O || (A.current = {});
-  }, [O]), c.useEffect(function() {
+    M || (A.current = {});
+  }, [M]), c.useEffect(function() {
     var s;
-    !O || !(n != null && n.document) || !(P != null && (s = P.current) != null && s.focus) || n.document.activeElement !== P.current && P.current.focus();
-  }, [O, n]);
-  var te = c.useMemo(function() {
+    !M || !(n != null && n.document) || !(P != null && (s = P.current) != null && s.focus) || n.document.activeElement !== P.current && P.current.focus();
+  }, [M, n]);
+  var ne = c.useMemo(function() {
     return {
       ArrowDown: function(l) {
-        l.preventDefault(), a({
-          type: Ye,
-          altKey: l.altKey
-        });
-      },
-      ArrowUp: function(l) {
         l.preventDefault(), a({
           type: Je,
           altKey: l.altKey
         });
       },
-      Home: function(l) {
-        x.current.state.isOpen && (l.preventDefault(), a({
-          type: Ze
-        }));
+      ArrowUp: function(l) {
+        l.preventDefault(), a({
+          type: Qe,
+          altKey: l.altKey
+        });
       },
-      End: function(l) {
-        x.current.state.isOpen && (l.preventDefault(), a({
+      Home: function(l) {
+        b.current.state.isOpen && (l.preventDefault(), a({
           type: et
         }));
       },
-      Escape: function(l) {
-        var f = x.current.state;
-        (f.isOpen || f.inputValue || f.selectedItem || f.highlightedIndex > -1) && (l.preventDefault(), a({
-          type: Qe
-        }));
-      },
-      Enter: function(l) {
-        var f = x.current.state;
-        !f.isOpen || l.which === 229 || (l.preventDefault(), a({
-          type: rt
-        }));
-      },
-      PageUp: function(l) {
-        x.current.state.isOpen && (l.preventDefault(), a({
+      End: function(l) {
+        b.current.state.isOpen && (l.preventDefault(), a({
           type: tt
         }));
       },
-      PageDown: function(l) {
-        x.current.state.isOpen && (l.preventDefault(), a({
+      Escape: function(l) {
+        var f = b.current.state;
+        (f.isOpen || f.inputValue || f.selectedItem || f.highlightedIndex > -1) && (l.preventDefault(), a({
+          type: Ze
+        }));
+      },
+      Enter: function(l) {
+        var f = b.current.state;
+        !f.isOpen || l.which === 229 || (l.preventDefault(), a({
+          type: it
+        }));
+      },
+      PageUp: function(l) {
+        b.current.state.isOpen && (l.preventDefault(), a({
           type: nt
+        }));
+      },
+      PageDown: function(l) {
+        b.current.state.isOpen && (l.preventDefault(), a({
+          type: rt
         }));
       }
     };
-  }, [a, x]), ye = c.useCallback(function(s) {
+  }, [a, b]), ye = c.useCallback(function(s) {
     return I({
-      id: b.labelId,
-      htmlFor: b.inputId
+      id: y.labelId,
+      htmlFor: y.inputId
     }, s);
-  }, [b]), $ = c.useCallback(function(s, l) {
-    var f, h = s === void 0 ? {} : s, S = h.onMouseLeave, M = h.refKey, D = M === void 0 ? "ref" : M, k = h.ref, T = ie(h, Fn), E = l === void 0 ? {} : l;
-    return E.suppressRefError, I((f = {}, f[D] = me(k, function(H) {
+  }, [y]), F = c.useCallback(function(s, l) {
+    var f, v = s === void 0 ? {} : s, S = v.onMouseLeave, C = v.refKey, D = C === void 0 ? "ref" : C, R = v.ref, K = oe(v, Fn), E = l === void 0 ? {} : l;
+    return E.suppressRefError, I((f = {}, f[D] = me(R, function(H) {
       B.current = H;
-    }), f.id = b.menuId, f.role = "listbox", f["aria-labelledby"] = T && T["aria-label"] ? void 0 : "" + b.labelId, f.onMouseLeave = V(S, function() {
+    }), f.id = y.menuId, f.role = "listbox", f["aria-labelledby"] = K && K["aria-label"] ? void 0 : "" + y.labelId, f.onMouseLeave = V(S, function() {
       a({
         type: Wt
       });
-    }), f), T);
-  }, [a, ue, b]), L = c.useCallback(function(s) {
-    var l, f, h = s === void 0 ? {} : s, S = h.item, M = h.index, D = h.refKey, k = D === void 0 ? "ref" : D, T = h.ref, E = h.onMouseMove, H = h.onMouseDown, _ = h.onClick;
-    h.onPress;
-    var W = h.disabled, de = ie(h, $n);
-    W !== void 0 && console.warn('Passing "disabled" as an argument to getItemProps is not supported anymore. Please use the isItemDisabled prop from useCombobox.');
-    var j = x.current, Q = j.props, G = j.state, U = wt(S, M, Q.items, "Pass either item or index to getItemProps!"), q = U[0], Z = U[1], ce = Q.isItemDisabled(q, Z), ne = "onClick", X = _, N = function() {
-      Z !== G.highlightedIndex && (ee.current = !1, a({
+    }), f), K);
+  }, [a, ue, y]), $ = c.useCallback(function(s) {
+    var l, f, v = s === void 0 ? {} : s, S = v.item, C = v.index, D = v.refKey, R = D === void 0 ? "ref" : D, K = v.ref, E = v.onMouseMove, H = v.onMouseDown, N = v.onClick;
+    v.onPress;
+    var L = v.disabled, de = oe(v, $n);
+    L !== void 0 && console.warn('Passing "disabled" as an argument to getItemProps is not supported anymore. Please use the isItemDisabled prop from useCombobox.');
+    var W = b.current, Q = W.props, G = W.state, j = Ct(S, C, Q.items, "Pass either item or index to getItemProps!"), _ = j[0], Z = j[1], ce = Q.isItemDisabled(_, Z), re = "onClick", X = N, U = function() {
+      z.current.isTouchEnd || Z === G.highlightedIndex || (te.current = !1, a({
         type: jt,
         index: Z,
         disabled: ce
       }));
-    }, re = function() {
+    }, ie = function() {
       a({
-        type: ut,
+        type: at,
         index: Z
       });
     }, Jt = function(Qt) {
       return Qt.preventDefault();
     };
-    return I((l = {}, l[k] = me(T, function(Ce) {
-      Ce && (A.current[b.getItemId(Z)] = Ce);
-    }), l["aria-disabled"] = ce, l["aria-selected"] = "" + (Z === G.highlightedIndex), l.id = b.getItemId(Z), l.role = "option", l), !ce && (f = {}, f[ne] = V(X, re), f), {
-      onMouseMove: V(E, N),
+    return I((l = {}, l[R] = me(K, function(Ce) {
+      Ce && (A.current[y.getItemId(Z)] = Ce);
+    }), l["aria-disabled"] = ce, l["aria-selected"] = "" + (Z === G.highlightedIndex), l.id = y.getItemId(Z), l.role = "option", l), !ce && (f = {}, f[re] = V(X, ie), f), {
+      onMouseMove: V(E, U),
       onMouseDown: V(H, Jt)
     }, de);
-  }, [a, x, ee, b]), he = c.useCallback(function(s) {
-    var l, f = s === void 0 ? {} : s, h = f.onClick;
+  }, [a, y, b, z, te]), he = c.useCallback(function(s) {
+    var l, f = s === void 0 ? {} : s, v = f.onClick;
     f.onPress;
-    var S = f.refKey, M = S === void 0 ? "ref" : S, D = f.ref, k = ie(f, Ln), T = x.current.state, E = function() {
+    var S = f.refKey, C = S === void 0 ? "ref" : S, D = f.ref, R = oe(f, Ln), K = b.current.state, E = function() {
       a({
         type: Ut
       });
     };
-    return I((l = {}, l[M] = me(D, function(H) {
-      z.current = H;
-    }), l["aria-controls"] = b.menuId, l["aria-expanded"] = T.isOpen, l.id = b.toggleButtonId, l.tabIndex = -1, l), !k.disabled && I({}, {
-      onClick: V(h, E)
-    }), k);
-  }, [a, x, b]), J = c.useCallback(function(s, l) {
-    var f, h = s === void 0 ? {} : s, S = h.onKeyDown, M = h.onChange, D = h.onInput, k = h.onBlur;
-    h.onChangeText;
-    var T = h.onClick, E = h.refKey, H = E === void 0 ? "ref" : E, _ = h.ref, W = ie(h, Wn), de = l === void 0 ? {} : l;
+    return I((l = {}, l[C] = me(D, function(H) {
+      q.current = H;
+    }), l["aria-controls"] = y.menuId, l["aria-expanded"] = K.isOpen, l.id = y.toggleButtonId, l.tabIndex = -1, l), !R.disabled && I({}, {
+      onClick: V(v, E)
+    }), R);
+  }, [a, b, y]), J = c.useCallback(function(s, l) {
+    var f, v = s === void 0 ? {} : s, S = v.onKeyDown, C = v.onChange, D = v.onInput, R = v.onBlur;
+    v.onChangeText;
+    var K = v.onClick, E = v.refKey, H = E === void 0 ? "ref" : E, N = v.ref, L = oe(v, Wn), de = l === void 0 ? {} : l;
     de.suppressRefError;
-    var j = x.current.state, Q = function(N) {
-      var re = It(N);
-      re && te[re] && te[re](N);
-    }, G = function(N) {
+    var W = b.current.state, Q = function(U) {
+      var ie = yt(U);
+      ie && ne[ie] && ne[ie](U);
+    }, G = function(U) {
       a({
-        type: it,
-        inputValue: N.target.value
+        type: ot,
+        inputValue: U.target.value
       });
-    }, U = function(N) {
-      if (n != null && n.document && j.isOpen && !oe.current.isMouseDown) {
-        var re = N.relatedTarget === null && n.document.activeElement !== n.document.body;
+    }, j = function(U) {
+      if (n != null && n.document && W.isOpen && !z.current.isMouseDown) {
+        var ie = U.relatedTarget === null && n.document.activeElement !== n.document.body;
         a({
-          type: Ke,
-          selectItem: !re
+          type: Pe,
+          selectItem: !ie
         });
       }
-    }, q = function() {
+    }, _ = function() {
       a({
-        type: ot
+        type: ut
       });
     }, Z = "onChange", ce = {};
-    if (!W.disabled) {
-      var ne;
-      ce = (ne = {}, ne[Z] = V(M, D, G), ne.onKeyDown = V(S, Q), ne.onBlur = V(k, U), ne.onClick = V(T, q), ne);
+    if (!L.disabled) {
+      var re;
+      ce = (re = {}, re[Z] = V(C, D, G), re.onKeyDown = V(S, Q), re.onBlur = V(R, j), re.onClick = V(K, _), re);
     }
-    return I((f = {}, f[H] = me(_, function(X) {
+    return I((f = {}, f[H] = me(N, function(X) {
       P.current = X;
-    }), f["aria-activedescendant"] = j.isOpen && j.highlightedIndex > -1 ? b.getItemId(j.highlightedIndex) : "", f["aria-autocomplete"] = "list", f["aria-controls"] = b.menuId, f["aria-expanded"] = j.isOpen, f["aria-labelledby"] = W && W["aria-label"] ? void 0 : b.labelId, f.autoComplete = "off", f.id = b.inputId, f.role = "combobox", f.value = j.inputValue, f), ce, W);
-  }, [ue, x, b, te, a, oe, n]), w = c.useCallback(function() {
+    }), f["aria-activedescendant"] = W.isOpen && W.highlightedIndex > -1 ? y.getItemId(W.highlightedIndex) : "", f["aria-autocomplete"] = "list", f["aria-controls"] = y.menuId, f["aria-expanded"] = W.isOpen, f["aria-labelledby"] = L && L["aria-label"] ? void 0 : y.labelId, f.autoComplete = "off", f.id = y.inputId, f.role = "combobox", f.value = W.inputValue, f), ce, L);
+  }, [ue, b, y, ne, a, z, n]), w = c.useCallback(function() {
     a({
       type: Nt
     });
@@ -1301,7 +1290,7 @@ function jn(e) {
     });
   }, [a]), ve = c.useCallback(function(s) {
     a({
-      type: at,
+      type: lt,
       selectedItem: s
     });
   }, [a]), pe = c.useCallback(function(s) {
@@ -1309,16 +1298,16 @@ function jn(e) {
       type: Gt,
       inputValue: s
     });
-  }, [a]), m = c.useCallback(function() {
+  }, [a]), p = c.useCallback(function() {
     a({
       type: Xt
     });
   }, [a]);
   return {
     // prop getters.
-    getItemProps: L,
+    getItemProps: $,
     getLabelProps: ye,
-    getMenuProps: $,
+    getMenuProps: F,
     getInputProps: J,
     getToggleButtonProps: he,
     // actions.
@@ -1328,12 +1317,12 @@ function jn(e) {
     setHighlightedIndex: se,
     setInputValue: pe,
     selectItem: ve,
-    reset: m,
+    reset: p,
     // state.
-    highlightedIndex: R,
-    isOpen: O,
-    selectedItem: K,
-    inputValue: C
+    highlightedIndex: k,
+    isOpen: M,
+    selectedItem: T,
+    inputValue: x
   };
 }
 function Un(e) {

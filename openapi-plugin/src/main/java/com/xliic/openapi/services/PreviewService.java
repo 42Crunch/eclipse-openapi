@@ -2,7 +2,8 @@ package com.xliic.openapi.services;
 
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_REDOC;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_SWAGGERUI;
-import static com.xliic.openapi.settings.Settings.Preview.getPort;
+import static com.xliic.openapi.settings.Settings.Preview.DEFAULT_PORT;
+import static com.xliic.openapi.settings.Settings.Preview.PORT;
 import static com.xliic.openapi.utils.TempFileUtils.createPluginTempDirIfMissing;
 import static com.xliic.openapi.utils.TempFileUtils.createTextResource;
 
@@ -29,6 +30,7 @@ import com.xliic.openapi.preview.PreviewCallback;
 import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.preview.PreviewWebSocket;
 import com.xliic.openapi.preview.PreviewWebSocketHandler;
+import com.xliic.openapi.settings.SettingsService;
 
 public class PreviewService implements IPreviewService, Disposable {
 
@@ -155,6 +157,10 @@ public class PreviewService implements IPreviewService, Disposable {
             return e.getCause().getMessage().contains("Address already in use");
         }
         return false;
+    }
+
+    private static int getPort() {
+        return SettingsService.getInstance().getIntValue(PORT, DEFAULT_PORT);
     }
 
     @Override

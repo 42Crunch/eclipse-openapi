@@ -2,6 +2,7 @@ package com.xliic.openapi.platform.scan;
 
 import static com.xliic.openapi.platform.scan.config.ScanConfigUtils.getAlias;
 import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -95,7 +96,7 @@ public final class ScanService implements IScanService, Disposable {
         };
         String token = SettingsService.getInstance().getValue(Settings.Audit.TOKEN);
         scanTaskInProgress = true;
-        WindowUtils.openWebTab(project, "scan", tabId, () -> {
+        WindowUtils.openWebTab(project, SCAN_EDITOR_ID, tabId, () -> {
             project.getMessageBus().syncPublisher(ScanListener.TOPIC).startScan(tabId);
             if (hasCli && !StringUtils.isEmpty(token)) {
                 ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, callback));
@@ -114,7 +115,7 @@ public final class ScanService implements IScanService, Disposable {
 
     private void showScanResultsTab(String scanConfPath, ScanReport report) {
         String id = "Scan report " + getAlias(scanConfPath);
-        WindowUtils.openWebTab(project, "scan", id, () -> {
+        WindowUtils.openWebTab(project, SCAN_EDITOR_ID, id, () -> {
             project.getMessageBus().syncPublisher(ScanListener.TOPIC).showScanReport(id, report);
         });
     }

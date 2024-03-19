@@ -142,6 +142,11 @@ public class SettingsService implements ISettingsService, Disposable  {
         return (String) cache.get(key);
     }
 
+    public int getIntValue(@NotNull String key, @NotNull String defaultValue) {
+        final String value = getValue(key);
+        return Integer.parseInt(value == null ? defaultValue : value);
+    }
+
     @NotNull
     public String getValue(@NotNull String key, @NotNull String defaultValue) {
         return Objects.requireNonNullElse(getValue(key), defaultValue);

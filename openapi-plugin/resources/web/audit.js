@@ -5,7 +5,7 @@ import { T as Te } from "./Tabs.Dk4klX6L.js";
 import { S as C } from "./ExclamationCircle.BCxicLph.js";
 import { S as J } from "./AngleDown.Bd1A6fn9.js";
 import { S as Z } from "./AngleUp.DkgGLPvP.js";
-import { P as A } from "./Select.BV5whCeg.js";
+import { P as A } from "./Select.DqkVWCgl.js";
 import { S as Le } from "./Switch.C_E8t4Vp.js";
 import { B as De, S as Pe } from "./Banner.oieNsuut.js";
 const Re = {

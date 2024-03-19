@@ -156,7 +156,7 @@
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.outline.ui.OutlinePanelView"
-            icon="icons/icon_api_16.png"
+            icon="icons/toolWindowLogo.png"
             id="com.xliic.openapi.tree.ui.OpenAPITreeView"
             inject="true"
             name="OpenAPI">
@@ -165,7 +165,7 @@
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.report.tree.ui.ReportPanelView"
-            icon="icons/icon_api_16.png"
+            icon="icons/toolWindowLogo.png"
             id="com.xliic.openapi.report.tree.ui.ReportPanelView"
             inject="true"
             name="Audit Problems">
@@ -174,7 +174,7 @@
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.report.jcef.ui.JCEFReportPanelView"
-            icon="icons/icon_api_16.png"
+            icon="icons/toolWindowLogo.png"
             id="com.xliic.openapi.report.jcef.ui.JCEFReportPanelView"
             inject="true"
             name="API Security Audit">
@@ -187,15 +187,6 @@
             id="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
             inject="true"
             name="42Crunch">
-        </view>
-        <view
-            allowMultiple="false"
-            category="eclipse-openapi"
-            class="com.xliic.openapi.platform.dictionary.jcef.ui.JCEFDictionaryPanelView"
-            icon="icons/platform-data-dictionary.png"
-            id="com.xliic.openapi.platform.dictionary.jcef.ui.JCEFDictionaryPanelView"
-            inject="true"
-            name="Data Dictionary">
         </view>
         <view
             allowMultiple="false"
@@ -321,7 +312,7 @@
         point="org.eclipse.ui.perspectives">
         <perspective
             class="com.xliic.openapi.OpenAPIPerspectiveFactory"
-            icon="icons/icon_api_16.png"
+            icon="icons/toolWindowLogo.png"
             id="com.xliic.openapi.OpenAPIPerspectiveFactory"
             name="OpenAPI">
         </perspective>

@@ -1,5 +1,8 @@
 package com.xliic.openapi.platform.scand;
 
+import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.TIMEOUT;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.TIMEOUT_DEFAULT;
+
 import java.io.IOException;
 
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +12,7 @@ import com.xliic.openapi.Puller;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.ScanGeneralError;
 import com.xliic.openapi.platform.scan.ScanLogger;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.NetUtils;
 
 import okhttp3.Response;
@@ -17,7 +21,6 @@ import okhttp3.ResponseBody;
 public class ScandUtils {
 
     private static final int PAUSE = 1000;
-    private static final int PULL_SCAN_REPORT_DURATION = 30000;
 
     @NotNull
     public static ScandJobStatus createScandJob(@NotNull String token,
@@ -54,7 +57,8 @@ public class ScandUtils {
 
     @NotNull
     public static ScandJobStatus waitForScandJob(@NotNull String name, @NotNull ScanLogger logger) throws Exception {
-        return new Puller<ScandJobStatus>(PAUSE, PULL_SCAN_REPORT_DURATION) {
+        int timeout = SettingsService.getInstance().getIntValue(TIMEOUT, TIMEOUT_DEFAULT);
+        return new Puller<ScandJobStatus>(PAUSE, timeout * 1000) {
             @Override
             protected @NotNull Response send() throws IOException {
                 return ScandAPIs.Sync.readJobStatus(name);

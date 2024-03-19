@@ -3,6 +3,7 @@ package com.xliic.openapi.platform.scan.config;
 import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
 import static com.xliic.openapi.utils.Utils.turnOffVcsShowConfirmation;
 import static com.xliic.openapi.utils.Utils.turnOnVcsShowConfirmation;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.SCANCONF_EDITOR_ID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -133,7 +134,7 @@ public final class ScanConfService implements IScanConfService, Disposable {
         VirtualFile file = payload.getPsiFile().getVirtualFile();
         Preferences prefs = PrefsService.getInstance(project).getPreferences(file);
         Environment myEnv = EnvService.getInstance(project).getEnv();
-        WindowUtils.openWebTab(project, "scanconf", alias, () -> {
+        WindowUtils.openWebTab(project, SCANCONF_EDITOR_ID, alias, () -> {
             project.getMessageBus().syncPublisher(ScanListener.TOPIC).showScanConfOperation(alias, payload, myEnv, prefs);
             if (turnedOff) {
                 turnOnVcsShowConfirmation(project);

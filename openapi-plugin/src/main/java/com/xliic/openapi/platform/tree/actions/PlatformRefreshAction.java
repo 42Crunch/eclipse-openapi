@@ -36,8 +36,7 @@ public class PlatformRefreshAction extends AnJAction implements DumbAware {
     @Override
     public void actionPerformed(@NotNull AnJActionEvent anActionEvent) {
         anActionEvent.getPresentation().setEnabled(false);
-        DictionaryService ddService = DictionaryService.getInstance(project);
-        ddService.reload(true, false);
+        DictionaryService.getInstance(project).reload();
         PlatformUtils.reloadAll(project, tree);
     }
 }

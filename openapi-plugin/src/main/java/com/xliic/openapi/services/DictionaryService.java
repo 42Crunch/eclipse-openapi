@@ -1,11 +1,11 @@
 package com.xliic.openapi.services;
 
-import static com.xliic.openapi.ToolWindowId.PLATFORM_DICTIONARY;
 import static com.xliic.openapi.platform.dictionary.types.DataDictionary.FORMAT_PREFIX;
 import static com.xliic.openapi.platform.dictionary.types.DataDictionary.STANDARD_DESC;
 import static com.xliic.openapi.platform.dictionary.types.DataDictionary.STANDARD_ID;
 import static com.xliic.openapi.platform.dictionary.types.DataFormat.X_42C_FORMAT;
 import static com.xliic.openapi.platform.dictionary.types.DataFormat.isStandardName;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.DATA_DICTIONARY_EDITOR_ID;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,11 +26,10 @@ import com.xliic.core.project.Project;
 import com.xliic.core.services.IDictionaryService;
 import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.wm.ToolWindow;
-import com.xliic.core.wm.ToolWindowManager;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
+import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.callback.SuccessASTResponseCallback;
 import com.xliic.openapi.platform.dictionary.DictionaryReloadCallback;
@@ -38,13 +37,13 @@ import com.xliic.openapi.platform.dictionary.completion.DictionaryElement;
 import com.xliic.openapi.platform.dictionary.types.DataDictionary;
 import com.xliic.openapi.platform.dictionary.types.DataFormat;
 import com.xliic.openapi.settings.Settings;
-import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
 
 public final class DictionaryService implements IDictionaryService, SettingsListener, Disposable {
 
+	private static final String PLATFORM_DICTIONARY = "Data Dictionary";
     private static final List<DataDictionary> EMPTY_DICTIONARIES = new LinkedList<>();
     private static final List<Node> EMPTY_FORMAT_NODES = new LinkedList<>();
     private static final List<DictionaryElement> EMPTY_FORMATS = new LinkedList<>();
@@ -66,30 +65,25 @@ public final class DictionaryService implements IDictionaryService, SettingsList
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
     }
 
-    @Override
     public void setFormatNodes(@NotNull String fileName, @NotNull List<Node> nodes) {
         cache.put(fileName, nodes);
     }
 
-    @Override
     @NotNull
     public List<Node> getFormatNodes(@NotNull String fileName) {
         List<Node> nodes = cache.get(fileName);
         return nodes == null ? EMPTY_FORMAT_NODES : nodes;
     }
 
-    @Override
     public void removeFormatNodes(@NotNull String fileName) {
         cache.remove(fileName);
     }
 
-    @Override
-    public void reload(boolean redraw) {
-        reload(redraw, true);
+    public void show() {
+        WindowUtils.openWebTab(project, DATA_DICTIONARY_EDITOR_ID, PLATFORM_DICTIONARY, this::reload);
     }
 
-    @Override
-    public void reload(boolean redraw, boolean register) {
+    public void reload() {
         counter.set(-1);
         dictionaries.clear();
         PlatformAPIs.getDataDictionaries(new SuccessASTResponseCallback(project, false) {
@@ -98,9 +92,9 @@ public final class DictionaryService implements IDictionaryService, SettingsList
                 Node target = node.find("/list");
                 if (target != null) {
                     DictionaryReloadCallback callback = () -> {
-                        if (redraw) {
-                            createOrActiveDictionaryWindow(project, register);
-                        }
+                        ApplicationManager.getApplication().invokeLater(() -> {
+                            project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadDictionary(getDictionaries());
+                        });
                         VirtualFile file = Utils.getSelectedOpenAPIFile(project);
                         if (file != null) {
                             ASTService astService = ASTService.getInstance(project);
@@ -135,13 +129,11 @@ public final class DictionaryService implements IDictionaryService, SettingsList
         });
     }
 
-    @Override
     @NotNull
     public List<DataDictionary> getDictionaries() {
         return counter.get() == 0 ? dictionaries : EMPTY_DICTIONARIES;
     }
 
-    @Override
     @NotNull
     public List<DictionaryElement> getAllFormats(boolean isJson) {
         if (counter.get() == 0) {
@@ -164,7 +156,6 @@ public final class DictionaryService implements IDictionaryService, SettingsList
         }
     }
 
-    @Override
     @Nullable
     public DataFormat get(@NotNull String formatName, boolean isJson) {
         if (counter.get() == 0) {
@@ -186,18 +177,6 @@ public final class DictionaryService implements IDictionaryService, SettingsList
     }
 
     @Override
-    public void createOrActiveDictionaryWindow(@NotNull Project project, boolean register) {
-        ApplicationManager.getApplication().invokeAndWait(() -> {
-            ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(PLATFORM_DICTIONARY);
-            if (toolWindow == null && !register) {
-                return;
-            }
-            WindowUtils.activateToolWindow(project, PLATFORM_DICTIONARY, () ->
-                project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadDictionary(getDictionaries()));
-        });
-    }
-
-    @Override
     public void dispose() {
         project.getMessageBus().connect().unsubscribe(this);
         cache.clear();
@@ -207,15 +186,11 @@ public final class DictionaryService implements IDictionaryService, SettingsList
     @Override
     public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
-            if (keys.contains(Platform.TURNED_OFF)) {
-                cache.clear();
-                dictionaries.clear();
-                ToolWindow window = ToolWindowManager.getInstance(project).getToolWindow(PLATFORM_DICTIONARY);
-                if (window != null && !window.isDisposed()) {
-                    window.remove();
-                }
+            if (PlatformConnection.isPlatformIntegrationEnabled()) {
+                reload();
             } else {
-                reload(false);
+                WindowUtils.closeAllWebTabs(project, DATA_DICTIONARY_EDITOR_ID);
+                dispose();
             }
         }
     }
