@@ -18,7 +18,10 @@ public class OpenApiPanelKeys {
     public final static String TAGS = "tags";
     public final static String SCHEMAS = "schemas";
     public final static String SECURITY_SCHEMES = "securitySchemes";
-    public final static String COMPONENTS_POINTER_STARTS_WITH = "/" + COMPONENTS + "/";
+    public final static String COMPONENTS_PREFIX = getPointerPrefix(COMPONENTS);
+    public final static String TAGS_PREFIX = getPointerPrefix(TAGS);
+    public final static String PATHS_PREFIX = getPointerPrefix(PATHS);
+    public final static String OPERATION_ID_PREFIX = getPointerPrefix(OPERATION_ID);
 
     public final static String REF_KEY = "$ref";
     public final static String URL_KEY = "url";
@@ -67,4 +70,8 @@ public class OpenApiPanelKeys {
                     SECURITY,
                     SECURITY_DEFINITIONS
             );
+
+    private static String getPointerPrefix(String name) {
+        return "/" + name + "/";
+    }
 }

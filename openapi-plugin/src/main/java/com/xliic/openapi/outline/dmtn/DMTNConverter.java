@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +41,6 @@ import com.xliic.openapi.outline.node.SimpleNode;
 import com.xliic.openapi.outline.node.TagChildNode;
 import com.xliic.openapi.outline.node.TagNode;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class DMTNConverter {
@@ -188,7 +186,7 @@ public class DMTNConverter {
                 OpIdNode opIdNode = (OpIdNode) child.getUserObject();
                 DefaultMutableTreeNode operation = pointers.get(opIdNode.getOperation().getPointer());
                 if (operation != null) {
-                    addChildren(child, operation);
+                	addChildrenFromOperationNode(child, operation);
                 }
             }
         }
@@ -234,7 +232,7 @@ public class DMTNConverter {
                             // Copy children from operation node
                             DefaultMutableTreeNode opDMTN = pointers.get(operation.getJsonPointer());
                             if (opDMTN != null) {
-                                addChildren(tagChildDMTN, opDMTN);
+                            	addChildrenFromOperationNode(tagChildDMTN, opDMTN);
                             }
                         }
                     }
@@ -258,15 +256,21 @@ public class DMTNConverter {
             }
         }
     }
-    
-    private static void addChildren(DefaultMutableTreeNode toDMTN, DefaultMutableTreeNode fromDMTN) {
-        for (int i = 0 ; i < fromDMTN.getChildCount() ; i++) {
-            TreeNode child = fromDMTN.getChildAt(i);
-            DefaultMutableTreeNode copy = PlatformUtils.getCopyDMTN(child);
-            if (child.getChildCount() > 0) {
-                addChildren(copy, (DefaultMutableTreeNode) child);
+
+    private static void addChildrenFromOperationNode(DefaultMutableTreeNode targetDMTN, DefaultMutableTreeNode opDMTN) {
+        BaseNode target = (BaseNode) targetDMTN.getUserObject();
+        for (int i = 0 ; i < opDMTN.getChildCount() ; i++) {
+            DefaultMutableTreeNode opChildDMTN = (DefaultMutableTreeNode) opDMTN.getChildAt(i);
+            // All operation nodes and all their child sub nodes are simple nodes
+            SimpleNode opChild = (SimpleNode) opChildDMTN.getUserObject();
+            Node node = opChild.getNode();
+            if (node != null) {
+                DefaultMutableTreeNode copyDMTN = new DefaultMutableTreeNode(new SimpleNode(opChild.getName(), node, target));
+                if (opChildDMTN.getChildCount() > 0) {
+                    addChildrenFromOperationNode(copyDMTN, opChildDMTN);
+                }
+                targetDMTN.add(copyDMTN);
             }
-            toDMTN.add(copy);
         }
     }
 

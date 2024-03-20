@@ -1,6 +1,9 @@
 package com.xliic.openapi.outline;
 
+import static com.xliic.openapi.OpenApiPanelKeys.OPERATION_ID_PREFIX;
 import static com.xliic.openapi.OpenApiPanelKeys.PANELS_ORDER;
+import static com.xliic.openapi.OpenApiPanelKeys.PATHS_PREFIX;
+import static com.xliic.openapi.OpenApiPanelKeys.TAGS_PREFIX;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -96,8 +99,7 @@ public class OutlineSortTreeModel extends DefaultTreeModel {
             if (!childObj.isSearchable()) {
                 nodes.add(childDMTN);
             } else if (childObj.getName().toLowerCase().contains(value)) {
-                int level = childObj.getLevel();
-                if ((level == 2 || level == 3) && childObj.getPointer().startsWith("/paths/")) {
+                if (isOperation(childObj)) {
                     childObj.setSkipDeepSearch(true);
                 }
                 nodes.add(childDMTN);
@@ -119,5 +121,16 @@ public class OutlineSortTreeModel extends DefaultTreeModel {
 
     private static Comparator<TreeNode> getComparator(boolean sortABC) {
         return sortABC ? ABC_COMPARATOR : NATURAL_COMPARATOR;
+    }
+    
+    private static boolean isOperation(BaseNode node) {
+        int level = node.getLevel();
+        if (level == 1) {
+            return node.getPointer().startsWith(TAGS_PREFIX);
+        } else if (level == 2) {
+            final String pointer = node.getPointer();
+            return pointer.startsWith(TAGS_PREFIX) || pointer.startsWith(OPERATION_ID_PREFIX) || pointer.startsWith(PATHS_PREFIX);
+        }
+        return level == 3 && node.getPointer().startsWith(PATHS_PREFIX);
     }
 }

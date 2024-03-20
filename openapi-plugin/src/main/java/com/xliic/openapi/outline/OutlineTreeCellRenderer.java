@@ -1,6 +1,6 @@
 package com.xliic.openapi.outline;
 
-import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS_POINTER_STARTS_WITH;
+import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS_PREFIX;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -37,7 +37,7 @@ public abstract class OutlineTreeCellRenderer extends ColoredTreeCellRenderer {
         if (icon != null) {
             setIcon(icon);
         }
-        if ((o instanceof PanelNode) || (o.getLevel() == 2 && o.getPointer().startsWith(COMPONENTS_POINTER_STARTS_WITH))) {
+        if ((o instanceof PanelNode) || (o.getLevel() == 2 && o.getPointer().startsWith(COMPONENTS_PREFIX))) {
             String title = OutlineUtils.getTitle(name);
             addBoldTitle(title == null ? name : title);
         } else {

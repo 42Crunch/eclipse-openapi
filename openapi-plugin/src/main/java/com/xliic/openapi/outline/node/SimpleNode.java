@@ -1,7 +1,7 @@
 package com.xliic.openapi.outline.node;
 
 import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS;
-import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS_POINTER_STARTS_WITH;
+import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS_PREFIX;
 import static com.xliic.openapi.OpenApiPanelKeys.OPERATION_ID;
 
 import java.util.Objects;
@@ -14,7 +14,7 @@ public class SimpleNode extends BaseNode {
 
     public SimpleNode(@NotNull String name, @NotNull Node node, @NotNull BaseNode parent) {
         super(name, node, parent);
-        searchable = !(node.getDepth() == 2 && node.getJsonPointer().startsWith(COMPONENTS_POINTER_STARTS_WITH));
+        searchable = !(node.getDepth() == 2 && node.getJsonPointer().startsWith(COMPONENTS_PREFIX));
         copyEnabled = isCopyEnabled(parent);
     }
 
