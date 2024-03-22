@@ -11,7 +11,6 @@ import com.xliic.core.module.ModuleRootManager;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.services.GitService;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 
@@ -43,10 +42,6 @@ public class GetIDEInfoAction extends AnAction implements DumbAware {
                 builder.append(root.getPath()).append("\n");
             }
         }
-        GitService gitService = GitService.getInstance(project);
-        gitService.refresh();
-        String status = gitService.getStringStatus();
-        builder.append(status);
         MsgUtils.info(project, builder.toString(), true);
     }
 }

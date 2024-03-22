@@ -13,7 +13,6 @@ import com.xliic.openapi.inlined.AnnotationService;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.DictionaryService;
-import com.xliic.openapi.services.GitService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.settings.SettingsService;
@@ -36,7 +35,6 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
         DictionaryService.getInstance(project).subscribe();
         EnvService.getInstance(project).subscribe();
         AnnotationService.getInstance(project).subscribe();
-        GitService.getInstance(project).subscribe();
         // Platform
         if (PlatformConnection.isPlatformIntegrationEnabled()) {
             PlatformService.getInstance(project).createPlatformWindow(false);

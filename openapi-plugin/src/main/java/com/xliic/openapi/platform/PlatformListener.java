@@ -17,6 +17,4 @@ public interface PlatformListener {
     default void reloadDictionary(@NotNull List<DataDictionary> dictionaries) {}
 
     default void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid) {}
-    
-    default void repositoryChanged() {}
 }

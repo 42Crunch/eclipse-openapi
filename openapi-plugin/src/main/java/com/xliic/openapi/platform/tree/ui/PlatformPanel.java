@@ -24,9 +24,7 @@ import com.xliic.openapi.platform.tree.actions.PlatformRefreshAction;
 import com.xliic.openapi.platform.tree.mouse.PlatformDoubleClickListener;
 import com.xliic.openapi.platform.tree.mouse.PlatformMouseAdapter;
 import com.xliic.openapi.platform.tree.utils.PlatformAPIUtils;
-import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
-import com.xliic.openapi.services.GitService;
 
 public class PlatformPanel implements PlatformListener, Disposable {
 
@@ -45,8 +43,6 @@ public class PlatformPanel implements PlatformListener, Disposable {
         this.toolWindow = toolWindow;
 
         tree.setOpaque(true);
-
-        GitService.getInstance(project).refresh();
         tree.setModel(new PlatformAsyncTreeModel(project, tree, new DefaultMutableTreeNode()));
         tree.setRootVisible(false);
 
@@ -87,10 +83,5 @@ public class PlatformPanel implements PlatformListener, Disposable {
     @Override
     public void auditReportForAPIUpdated(@NotNull String apiId, float grade, boolean isValid) {
         PlatformAPIUtils.updateAuditStatus(tree, apiId, grade, isValid);
-    }
-
-    @Override
-    public void repositoryChanged() {
-        PlatformCollectionUtils.updateCheckOutState(project, tree);
     }
 }

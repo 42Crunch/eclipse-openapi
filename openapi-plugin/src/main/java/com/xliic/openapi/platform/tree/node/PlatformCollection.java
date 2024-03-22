@@ -1,17 +1,10 @@
 package com.xliic.openapi.platform.tree.node;
 
-import static com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils.getGitRepoPropsIfCollectionCheckedOut;
-
-import java.util.Objects;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import com.xliic.core.project.Project;
-import com.xliic.openapi.GitRepoProps;
 import com.xliic.openapi.platform.Permissions;
 import com.xliic.openapi.platform.tree.node.core.Filter;
 import com.xliic.openapi.platform.tree.node.core.Paginator;
@@ -28,8 +21,6 @@ public class PlatformCollection implements Paginator, Filter {
     private volatile boolean childrenUnavailable;
     @NotNull
     private final String techName;
-    @Nullable
-    private GitRepoProps gitProps;
     private int pageSize = Paginator.PAGE_SIZE;
     private String filterName;
 
@@ -99,21 +90,6 @@ public class PlatformCollection implements Paginator, Filter {
     @Override
     public boolean isActive() {
         return !StringUtils.isEmpty(filterName);
-    }
-
-    public boolean isCheckedOut() {
-        return gitProps != null;
-    }
-
-    public @Nullable GitRepoProps getGitProps() {
-        return gitProps;
-    }
-
-    public boolean updateGitProps(@NotNull Project project) {
-        GitRepoProps newGitProps = getGitRepoPropsIfCollectionCheckedOut(project, techName);
-        boolean result = Objects.equals(gitProps, newGitProps);
-        gitProps = newGitProps;
-        return !result;
     }
 
     @Override

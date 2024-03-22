@@ -56,9 +56,6 @@ public class PlatformColoredTreeCellRenderer extends ColoredTreeCellRenderer {
             PlatformCollection pco = (PlatformCollection) valueObj;
             append(pco.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
             setIcon(pco.isLocked() ? OpenApiIcons.PlatformFolderLocked : OpenApiIcons.PlatformFolder);
-            if (pco.isCheckedOut()) {
-                append(" [checked out]", SimpleTextAttributes.GRAYED_BOLD_ATTRIBUTES);
-            }
         } else if (valueObj instanceof PlatformAPI) {
             PlatformAPI pao = (PlatformAPI) valueObj;
             append(pao.getName(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);

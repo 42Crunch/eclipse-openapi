@@ -265,9 +265,6 @@
             <service serviceClass="com.xliic.core.services.IAnnotationService"></service>
         </serviceFactory>
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
-            <service serviceClass="com.xliic.core.services.IGitService"></service>
-        </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
             <service serviceClass="com.xliic.core.services.ICliService"></service>
         </serviceFactory>
     </extension>

@@ -26,8 +26,6 @@ public class TopicPlatformListener<L> extends Topic<L> {
             listener.auditReportForAPIUpdated((String) args.get(0), (float) args.get(1), (boolean) args.get(2));
         } else if (funcId == 2) {
             listener.reloadDictionary((List<DataDictionary>) args.get(0));
-        } else if (funcId == 3) {
-            listener.repositoryChanged();
         }
     }
 
@@ -50,11 +48,6 @@ public class TopicPlatformListener<L> extends Topic<L> {
             @Override
             public void reloadDictionary(@NotNull List<DataDictionary> dictionaries) {
                 eventBroker.send(getTopic(), getArgs(2, List.of(dictionaries)));
-            }
-            
-            @Override
-            public void repositoryChanged() {
-            	eventBroker.send(getTopic(), getArgs(3, Collections.emptyList()));
             }
         };
     }

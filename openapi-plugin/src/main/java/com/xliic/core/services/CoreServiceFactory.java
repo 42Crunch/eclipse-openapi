@@ -16,7 +16,6 @@ import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.services.ExtRefService;
-import com.xliic.openapi.services.GitService;
 import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.PreviewService;
@@ -70,8 +69,6 @@ public class CoreServiceFactory extends AbstractServiceFactory {
 			return new ConfigService(PROJECT);
 		} else if (IAnnotationService.class.equals(serviceInterface)) {
 			return new AnnotationService(PROJECT);
-		} else if (IGitService.class.equals(serviceInterface)) {
-			return new GitService(PROJECT);
 		} else if (ICliService.class.equals(serviceInterface)) {
 			return new CliService();
 		}

@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.ui.tree.TreeUtil;
-import com.xliic.openapi.GitRepoProps;
 import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.node.PlatformAudit;
@@ -31,16 +30,11 @@ public class PlatformAPIUtils {
         parentDMTN.removeAllChildren();
         Object parentObj = parentDMTN.getUserObject();
         PlatformCollection pco = (PlatformCollection) parentObj;
-        GitRepoProps gitRepoProps = pco.getGitProps();
         for (PlatformAPI pao : apis) {
             DefaultMutableTreeNode childDMTN = new DefaultMutableTreeNode(pao);
             childDMTN.add(new DefaultMutableTreeNode(new PlatformAudit(pao.getId(), pao.getGrade(), pao.isValid(), pao.isJson()), false));
             boolean readOnly = isReadOnly(pao.getId(), pao.getTechnicalName());
             childDMTN.add(new DefaultMutableTreeNode(new PlatformOAS(pao.getId(), pao.isJson(), readOnly), false));
-            if (gitRepoProps != null) {
-                String techName = getTechName(pao, gitRepoProps);
-                childDMTN.add(new DefaultMutableTreeNode(new PlatformTechOAS(techName, gitRepoProps.getRootPath()), false));
-            }
             parentDMTN.add(childDMTN);
         }
         updateCollectionAPIsInSubTrees(tree, parentDMTN);
@@ -157,27 +151,6 @@ public class PlatformAPIUtils {
         }
     }
 
-    public static void addOrUpdateTechOASNodeIfNeeded(@NotNull DefaultMutableTreeNode apiDMTN, @NotNull GitRepoProps gitProps) {
-        int count = apiDMTN.getChildCount();
-        if (count < 3) {
-            String techName = getTechName((PlatformAPI) apiDMTN.getUserObject(), gitProps);
-            apiDMTN.add(new DefaultMutableTreeNode(new PlatformTechOAS(techName, gitProps.getRootPath()), false));
-        } else if (count == 3) {
-            for (int i = 0; i < count; i++) {
-                DefaultMutableTreeNode childDMTN = (DefaultMutableTreeNode) apiDMTN.getChildAt(i);
-                if (childDMTN.getUserObject() instanceof PlatformTechOAS) {
-                    PlatformTechOAS techOAS = (PlatformTechOAS) childDMTN.getUserObject();
-                    String newTechName = getTechName((PlatformAPI) apiDMTN.getUserObject(), gitProps);
-                    if (!Objects.equals(newTechName, techOAS.getName())) {
-                        apiDMTN.remove(childDMTN);
-                        apiDMTN.add(new DefaultMutableTreeNode(new PlatformTechOAS(newTechName, gitProps.getRootPath()), false));
-                    }
-                    break;
-                }
-            }
-        }
-    }
-
     public static void removeTechOASNodeIfNeeded(@NotNull DefaultMutableTreeNode apiDMTN) {
         int count = apiDMTN.getChildCount();
         if (count > 2) {
@@ -189,11 +162,6 @@ public class PlatformAPIUtils {
                 }
             }
         }
-    }
-
-    private static String getTechName(@NotNull PlatformAPI api, @NotNull GitRepoProps gitProps) {
-        String configName = gitProps.getConfigName(api.getId());
-        return configName == null ? api.getTechnicalName() : configName;
     }
 
     public static boolean isReadOnly(@NotNull String id, @NotNull String technicalName) {
