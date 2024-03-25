@@ -21,6 +21,8 @@ public class OpenAPIImages {
 
     public static final ImageDescriptor File;
     public static final ImageDescriptor Reset;
+    public static final ImageDescriptor Filter;
+    public static final ImageDescriptor Locate;
 
     public static final ImageDescriptor QuickFix;
     public static final ImageDescriptor ViewQuickFix;
@@ -124,6 +126,8 @@ public class OpenAPIImages {
 
         File = createImageDescriptor("icons/text.png");
         Reset = createImageDescriptor("icons/reset.png");
+        Filter = createImageDescriptor("icons/filter.png");
+        Locate = createImageDescriptor("icons/link_to_selection.png");
 
         QuickFix = createImageDescriptor("icons/quickfix.png");
         ViewQuickFix = createImageDescriptor("icons/view_quickfix.png");

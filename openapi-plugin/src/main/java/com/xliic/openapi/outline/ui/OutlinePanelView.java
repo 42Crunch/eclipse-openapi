@@ -34,7 +34,7 @@ public class OutlinePanelView extends PanelViewPart implements LafManagerListene
     }
 
     @Override
-    public void onViewPartBroughtToTop() {
+    public void onBroughtToTop() {
         VirtualFile file = Utils.getSelectedOpenAPIFile(project);
         if (file != null) {
             ((OutlinePanel) panel).handleSelectedFile(file);

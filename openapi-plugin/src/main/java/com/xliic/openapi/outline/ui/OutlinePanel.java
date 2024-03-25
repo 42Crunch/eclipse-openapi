@@ -39,9 +39,12 @@ import com.xliic.openapi.outline.OutlineSortTreeModel;
 import com.xliic.openapi.outline.OutlineTreeCellRenderer;
 import com.xliic.openapi.outline.OutlineTreeKeyListener;
 import com.xliic.openapi.outline.actions.AbcSortAction;
+import com.xliic.openapi.outline.actions.TargetAction;
 import com.xliic.openapi.outline.dmtn.DMTNConverter;
 import com.xliic.openapi.outline.node.BaseNode;
 import com.xliic.openapi.outline.node.RootNode;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
@@ -101,6 +104,7 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
         converter = new DMTNConverter();
 
         List<AnJAction> titleActions = new ArrayList<>();
+        titleActions.add(new TargetAction(project, this));
         titleActions.add(new AbcSortAction(project, this));
         titleActions.add(Separator.create());
 
@@ -302,6 +306,16 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
         fastReload();
     }
 
+    public void targetTree(DefaultMutableTreeNode rootDMTN, int offset) {
+        for (int i = 0; i < rootDMTN.getChildCount(); i++) {
+            DefaultMutableTreeNode result = findNodeAtOffset((DefaultMutableTreeNode) rootDMTN.getChildAt(i), offset);
+            if (result != null) {
+                PlatformUtils.goToTreeNode(tree, result);
+                return;
+            }
+        }
+    }
+
     public void fastReload() {
     	OutlineSortTreeModel model = (OutlineSortTreeModel) getTree().getModel();
         model.resetCache();
@@ -329,5 +343,19 @@ public class OutlinePanel implements FileListener, SettingsListener, Disposable 
     private String getPointerFromTreeNode(DefaultMutableTreeNode target) {
         Object obj = target.getUserObject();
         return obj instanceof BaseNode ? ((BaseNode) obj).getPointer() : null;
+    }
+
+    private static DefaultMutableTreeNode findNodeAtOffset(DefaultMutableTreeNode nodeDMTN, int offset) {
+        Node node = ((BaseNode) nodeDMTN.getUserObject()).getNode();
+        if (node == null || node.getRange().contains(offset)) {
+            for (int i = 0; i < nodeDMTN.getChildCount(); i++) {
+                DefaultMutableTreeNode result = findNodeAtOffset((DefaultMutableTreeNode) nodeDMTN.getChildAt(i), offset);
+                if (result != null) {
+                    return result;
+                }
+            }
+            return node == null ? null : nodeDMTN;
+        }
+        return null;
     }
 }

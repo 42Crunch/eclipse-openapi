@@ -27,7 +27,7 @@ public class ReportPanelView extends PanelViewPart {
     }
 
     @Override
-    public void onViewPartBroughtToTop() {
+    public void onBroughtToTop() {
         AuditService auditService = AuditService.getInstance(project);
         for (VirtualFile file : FileEditorManager.getInstance(project).getOpenFiles()) {
             if (auditService.getAuditReport(file.getPath()) != null) {

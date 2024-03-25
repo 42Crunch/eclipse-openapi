@@ -9,6 +9,7 @@ public class AllIcons {
 
     public static final class General {
         public static final @NotNull Icon Filter = IconLoader.findIcon("/icons/filter.png");
+        public static final @NotNull Icon Locate = IconLoader.findIcon("/icons/link_to_selection.png");
     }
 
     public static final class Javaee {

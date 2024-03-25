@@ -37,6 +37,8 @@ public class IconLoader {
 		put("/icons/reportInfo", new Icon(OpenAPIImages.ReportInfo));
 		put("/icons/reset", new Icon(OpenAPIImages.Reset));
 		put("/icons/text", new Icon(OpenAPIImages.File));
+		put("/icons/filter", new Icon(OpenAPIImages.Filter));
+		put("/icons/link_to_selection", new Icon(OpenAPIImages.Locate));
 		put("/icons/file-symlink-file", new Icon(OpenAPIImages.PlatformFileSymLink));
 		put("/icons/platform-data-dictionary", new Icon(OpenAPIImages.Dictionary));
 		put("/icons/tryit", new Icon(OpenAPIImages.TryIt));

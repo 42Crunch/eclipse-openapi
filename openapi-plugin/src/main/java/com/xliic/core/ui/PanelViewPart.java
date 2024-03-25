@@ -176,7 +176,12 @@ public abstract class PanelViewPart extends ViewPart implements Disposable {
                                               @NotNull ViewPartHandler handler);
 
     // We need to draw UI widgets after this event, not after partOpened
-    public void onViewPartBroughtToTop() {}
+    public void onViewPartBroughtToTop() {
+    	onBroughtToTop();
+    	refreshToolBarActions();
+    }
+    
+    protected void onBroughtToTop() {}
 
     public static void addContentLoadHandler(@NotNull String id, @NotNull ViewPartHandler handler) {
         LOAD_HANDLERS.put(id, handler);
