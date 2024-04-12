@@ -44,6 +44,9 @@
             id="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
             name="Update Data Dictionary Properties in File" />
         <command
+            id="com.xliic.openapi.platform.scan.config.ScanOpenConfigurationAction"
+            name="Open Scan Configuration File" />
+        <command
             defaultHandler="com.xliic.openapi.actions.SecurityAuditAction"
             id="com.xliic.openapi.actions.SecurityAuditAction"
             name="Perform Security Audit">
@@ -105,6 +108,9 @@
             commandId="com.xliic.openapi.gotoCommand"
             class="com.xliic.openapi.actions.GoToDefinitionAction" />
         <handler
+            commandId="com.xliic.openapi.platform.scan.config.ScanOpenConfigurationAction"
+            class="com.xliic.openapi.platform.scan.config.ScanOpenConfigurationAction" />
+        <handler
             commandId="com.xliic.openapi.actions.LoadAuditReportAction"
             class="com.xliic.openapi.actions.LoadAuditReportAction" />
         <handler
@@ -114,6 +120,15 @@
 
    <extension
         point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?before=undo">
+            <command
+                commandId="com.xliic.openapi.platform.scan.config.ScanOpenConfigurationAction"
+                id="com.xliic.openapi.platform.scan.config.ScanOpenConfigurationAction"
+                label="Open Scan Configuration File"
+                style="push">
+            </command>
+        </menuContribution>
         <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?before=undo">
             <command

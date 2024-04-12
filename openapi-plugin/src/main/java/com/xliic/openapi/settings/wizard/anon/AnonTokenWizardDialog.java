@@ -1,6 +1,8 @@
 package com.xliic.openapi.settings.wizard.anon;
 
 import static com.xliic.openapi.utils.Utils.getStatus;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_ANOND_TOKEN;
 
 import java.io.IOException;
 import java.util.Set;
@@ -85,6 +87,7 @@ public class AnonTokenWizardDialog extends WizardDialog {
     protected void applySettings(@NotNull Set<String> keys) {
         keys.add(Settings.Audit.TOKEN);
         SettingsService.getInstance().setValue(Settings.Audit.TOKEN, getTokenText());
+        SettingsService.getInstance().setValue(AUTH_TYPE, AUTH_TYPE_ANOND_TOKEN);
     }
 
     @Override

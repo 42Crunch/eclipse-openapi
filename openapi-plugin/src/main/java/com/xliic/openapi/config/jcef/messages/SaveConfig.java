@@ -7,6 +7,8 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.SERVICES;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
+import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,6 +48,8 @@ public class SaveConfig extends WebAppProduce {
             SettingsService settingsService = SettingsService.getInstance();
             settingsService.setCacheValue(URL, map.get("platformUrl"));
             settingsService.setCacheValue(API_KEY, map.get("platformApiToken"));
+            settingsService.setCacheValue(TOKEN, map.get("anondToken"));
+            settingsService.setCacheValue(AUTH_TYPE, map.get("platformAuthType"));
             settingsService.setCacheValue(IMAGE, map.get("scanImage"));
             settingsService.setCacheValue(RUNTIME, map.get("scanRuntime"));
             Map<String, Object> docker = (Map<String, Object>) map.get("docker");

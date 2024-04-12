@@ -23,6 +23,8 @@ public interface ScanListener {
 
 	default void showScanReport(@NotNull String toId, @NotNull ScanReport report) {}
 	
+	default void showFullScanReport(@NotNull String toId, @NotNull ScanReport report) {}
+	
 	default void showOperationResponse(@NotNull String toId, @NotNull TryItResponse payload) {}
 	
 	default void showOperationError(@NotNull String toId, @NotNull TryItError payload) {}

@@ -61,4 +61,13 @@ public class SwtUtils {
 		int blue = Math.min(color.getBlue() + LIGHTER_COLOR_DELTA, 255);
 		return new Color(red, green, blue);
 	}
+	
+	public static GridLayout getGridLayoutForLinks(int numColumns) {
+        GridLayout layout = new GridLayout();
+        layout.numColumns = numColumns;
+        layout.marginHeight = 10;
+        layout.marginWidth = 10;
+        layout.horizontalSpacing = 1;
+        return layout;
+	}
 }

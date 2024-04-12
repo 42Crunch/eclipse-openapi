@@ -1,8 +1,8 @@
 package com.xliic.openapi.platform.scan;
 
 import static com.xliic.openapi.platform.scan.config.ScanConfigUtils.getAlias;
-import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +18,10 @@ import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.services.IScanService;
-import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.config.payload.ScandManagerConnection;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
+import com.xliic.openapi.platform.scan.config.ScanRunConfig;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.platform.scan.task.ScanCliTask;
 import com.xliic.openapi.platform.scan.task.ScanDockerTask;
@@ -34,6 +34,7 @@ import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
+import com.xliic.openapi.settings.Credentials;
 
 public final class ScanService implements IScanService, Disposable {
 
@@ -43,30 +44,29 @@ public final class ScanService implements IScanService, Disposable {
     private final Project project;
     @NotNull
     private final Map<String, Node> failedFileAndReport;
-    private volatile boolean scanTaskInProgress;
+    private volatile boolean inProgress;
 
     public ScanService(@NotNull Project project) {
         this.project = project;
         failedFileAndReport = new HashMap<>(1);
-        scanTaskInProgress = false;
+        inProgress = false;
     }
 
     public static ScanService getInstance(@NotNull Project project) {
         return project.getService(ScanService.class);
     }
 
-    public void runScan(@NotNull ScanRunConfig config) {
-        if (scanTaskInProgress) {
+    public void runScan(@NotNull ScanRunConfig config, boolean isFullScan) {
+        if (inProgress) {
             return;
         }
-        String runtime = SettingsService.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
-        boolean useDocker = Settings.Platform.Scan.RUNTIME_DOCKER.equals(runtime);
-        boolean hasCli = CliUtils.hasCli();
-        boolean useScandMgr = !useDocker && !hasCli;
-        if (useScandMgr) {
+        inProgress = true;
+        final String runtime = SettingsService.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
+        if (RUNTIME_SCAND_MANAGER.equals(runtime)) {
             ScandManagerConnection connection = new ScandManagerConnection();
             if (StringUtils.isEmpty(connection.getUrl())) {
             	MsgUtils.notifyError(project, "Scand-manager url is not defined");
+            	inProgress = false;
                 return;
             }
         }
@@ -75,13 +75,13 @@ public final class ScanService implements IScanService, Disposable {
         ScanDockerTask.Callback callback = new ScanDockerTask.Callback() {
             @Override
             public void setDone(@NotNull String scanConfPath, @NotNull ScanReport report) {
-                scanTaskInProgress = false;
+                inProgress = false;
                 resetFailedFileAndReport();
-                showScanResultsTab(scanConfPath, report);
+                showScanResultsTab(scanConfPath, report, isFullScan);
             }
             @Override
             public void setRejected(@NotNull Exception e) {
-                scanTaskInProgress = false;
+                inProgress = false;
                 resetFailedFileAndReport();
                 if (e instanceof ScanGeneralError) {
                 	ScanGeneralError ge = (ScanGeneralError) e;
@@ -93,30 +93,32 @@ public final class ScanService implements IScanService, Disposable {
                     showGeneralError(tabId, e.getMessage(), null, null);
                 }
             }
-        };
-        String token = SettingsService.getInstance().getValue(Settings.Audit.TOKEN);
-        scanTaskInProgress = true;
+        };       
+        Credentials.Type type = Credentials.getCredentialsType();
         WindowUtils.openWebTab(project, SCAN_EDITOR_ID, tabId, () -> {
             project.getMessageBus().syncPublisher(ScanListener.TOPIC).startScan(tabId);
-            if (hasCli && !StringUtils.isEmpty(token)) {
-                ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, callback));
+            if (type == Credentials.Type.AnondToken) {
+                ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, callback, isFullScan));
             } else {
-                if (hasCli) {
-                    notifyTokenNotFound(project, "docker");
-                }
-                if (useScandMgr) {
-                    ProgressManager.getInstance().run(new ScanJobTask(project, tabId, config, callback));
-                } else {
+                if (RUNTIME_CLI.equals(runtime)) {
+                    ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, callback, isFullScan));
+                } else if (RUNTIME_DOCKER.equals(runtime)) {
                     ProgressManager.getInstance().run(new ScanDockerTask(project, tabId, config, callback));
+                } else {
+                    ProgressManager.getInstance().run(new ScanJobTask(project, tabId, config, callback));
                 }
             }
         });
     }
 
-    private void showScanResultsTab(String scanConfPath, ScanReport report) {
+    private void showScanResultsTab(String scanConfPath, ScanReport report, boolean isFullScan) {
         String id = "Scan report " + getAlias(scanConfPath);
         WindowUtils.openWebTab(project, SCAN_EDITOR_ID, id, () -> {
-            project.getMessageBus().syncPublisher(ScanListener.TOPIC).showScanReport(id, report);
+            if (isFullScan) {
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).showFullScanReport(id, report);
+            } else {
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).showScanReport(id, report);
+            }
         });
     }
 

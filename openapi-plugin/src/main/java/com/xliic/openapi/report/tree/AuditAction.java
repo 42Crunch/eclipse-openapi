@@ -1,7 +1,6 @@
 package com.xliic.openapi.report.tree;
 
 import static com.xliic.openapi.settings.Credentials.getCredentialsType;
-import static com.xliic.openapi.settings.Credentials.hasCredentialsType;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -57,13 +56,14 @@ public class AuditAction extends AnJAction implements DumbAware {
         }
         VirtualFile file = payload.getPsiFile().getVirtualFile();
         AuditService auditService = AuditService.getInstance(project);
-        if (hasCredentialsType()) {
-            auditService.actionPerformed(project, file, payload, getCredentialsType(project));
+        Credentials.Type type = Credentials.getCredentialsType();
+        if (type != null) {
+            auditService.actionPerformed(project, file, payload, type);
         } else {
             Credentials.configureCredentials(project, new WizardCallback() {
                 @Override
                 public void complete() {
-                    auditService.actionPerformed(project, file, payload, getCredentialsType(project));
+                    auditService.actionPerformed(project, file, payload, getCredentialsType());
                 }
             });
         }

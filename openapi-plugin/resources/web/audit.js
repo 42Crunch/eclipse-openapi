@@ -1,13 +1,13 @@
-import { c as re, a as ae, u as le, b as de, l as ce, t as pe, r as ue, d as xe, i as he, s as ve, j as e, q as d, T as c, e as j, W as ge, f as fe, R as me, P as je, g as ye, m as be, h as we, k as $e, n as Ce } from "./extends.lDO40HzL.js";
-import { S as L, C as Se, a as ke, b as Ae, c as Q, d as X, e as Y } from "./Xmark.D83KUlPs.js";
-import { s as Ie } from "./listener.wKhZf4Un.js";
-import { T as Te } from "./Tabs.Dk4klX6L.js";
-import { S as C } from "./ExclamationCircle.BCxicLph.js";
-import { S as J } from "./AngleDown.Bd1A6fn9.js";
-import { S as Z } from "./AngleUp.DkgGLPvP.js";
-import { P as A } from "./Select.DqkVWCgl.js";
-import { S as Le } from "./Switch.C_E8t4Vp.js";
-import { B as De, S as Pe } from "./Banner.oieNsuut.js";
+import { c as re, a as ae, u as le, b as de, l as ce, t as pe, r as ue, d as xe, i as he, s as ve, j as e, q as d, T as c, e as j, W as ge, f as fe, R as me, P as je, g as ye, m as be, h as we, k as $e, n as Ce } from "./TriangleExclamation.C9TIeFdu.js";
+import { S as L, C as Se, a as ke, b as Ae, c as Q, d as X, e as Y } from "./Xmark.BkZ661o-.js";
+import { s as Ie } from "./listener.Fe-L6Hxe.js";
+import { T as Te } from "./Tabs.C__eCAeZ.js";
+import { S as C } from "./ExclamationCircle.BeER_tLV.js";
+import { S as J } from "./AngleDown.xeAvjyBy.js";
+import { S as Z } from "./AngleUp.ax7ypatx.js";
+import { P as A } from "./Select.Di7SbbiK.js";
+import { S as Le } from "./Switch.ChaGJpPv.js";
+import { B as De, S as Pe } from "./Banner.DGk--BLm.js";
 const Re = {
   audit: {
     filename: "",
@@ -15,6 +15,7 @@ const Re = {
     issues: {},
     minimalReport: !1,
     valid: !0,
+    openapiState: "",
     summary: {
       documentUri: "",
       subdocumentUris: [],
@@ -516,7 +517,7 @@ const li = d.div`
   oasconformance: [
     { label: "All", value: "all" },
     { label: "Structure", value: "validation" },
-    { label: "Structure", value: "semantics" },
+    { label: "Semantic", value: "semantics" },
     { label: "Best practices", value: "bestpractices" }
   ],
   datavalidation: [

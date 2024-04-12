@@ -25,8 +25,6 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.settings.Credentials;
-import com.xliic.openapi.settings.Settings;
-import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
@@ -67,10 +65,10 @@ public class CliUtils {
     @NotNull
     public static AuditCliResult runAuditWithCliBinary(@NotNull Project project,
                                                        @NotNull String oas,
-                                                       boolean isSingleOperationAudit,
+                                                       boolean isFullAudit,
                                                        @NotNull ProgressIndicator progress) {
         try {
-            progress.setText("Running Security Audit using 42Crunch CLI");
+            progress.setText("Running security audit using 42Crunch API security testing binary");
             VirtualFile dir = createTempDirectory(project, "audit");
             writeFile(project, dir, "openapi.json", oas);
             progress.setText("Wrote Audit configuration to: " + dir.getPath());
@@ -94,7 +92,7 @@ public class CliUtils {
                     "--verbose",
                     "error",
                     "--enrich=false",
-                    isSingleOperationAudit ? "--is-operation" : "",
+                    isFullAudit ? "" : "--is-operation",
                     "--token",
                     token
                 }, dir);
@@ -113,11 +111,6 @@ public class CliUtils {
     @NotNull
     public static String getCli() {
         return join(getBinDirectory(), getCliFilename());
-    }
-
-    public static boolean hasCli() {
-        String scanRuntime = SettingsService.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
-        return Settings.Platform.Scan.RUNTIME_CLI.equals(scanRuntime);
     }
 
     public static void ensureDirectories(@NotNull Project project) {

@@ -15,6 +15,8 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -23,6 +25,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -44,13 +47,14 @@ import com.xliic.openapi.listeners.OpenAPIBulkFileListener;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
 import com.xliic.openapi.listeners.OpenAPIProjectManagerListener;
 import com.xliic.openapi.services.PlatformService;
+import com.xliic.openapi.statusbar.AuthUserContributionItem;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.TempFileUtils;
 
 import icons.OpenApiIcons;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings({ "restriction", "unused" })
 public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
 
     public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";
@@ -125,6 +129,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                 handleTempFilesAtStartup();
                 MUtils.activateMenuInternalActions(pluginDebugMode);
                 EclipseWorkbenchUtil.updateActionBars();
+                initStatusLineContributionItem();
             }
         });
         IProduct product = Platform.getProduct();
@@ -253,6 +258,18 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private static void initStatusLineContributionItem() {
+        for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
+        	if (window instanceof WorkbenchWindow) {
+              	IStatusLineManager statusLineManager = ((WorkbenchWindow) window).getStatusLineManager();
+              	IContributionItem item = statusLineManager.find(AuthUserContributionItem.ID);
+              	if (item == null) {
+              		statusLineManager.add(new AuthUserContributionItem(project, statusLineManager));
+              	}
+        	}
         }
     }
 }

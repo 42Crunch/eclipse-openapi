@@ -1,4 +1,4 @@
-import { j as c } from "./extends.lDO40HzL.js";
+import { j as c } from "./TriangleExclamation.C9TIeFdu.js";
 const e = ["info", "low", "medium", "high", "critical"], i = {
   Info: 1,
   Low: 2,

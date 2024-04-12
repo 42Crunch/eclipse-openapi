@@ -1,4 +1,4 @@
-package com.xliic.openapi.platform.scan;
+package com.xliic.openapi.platform.scan.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

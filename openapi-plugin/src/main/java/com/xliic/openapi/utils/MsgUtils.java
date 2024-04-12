@@ -15,7 +15,6 @@ public class MsgUtils {
 
     private static final String GROUP_ID = "OpenAPI Editor general notifications";
     private static final String LIMIT_NOTIFICATIONS = "OpenAPI Editor limit left";
-    private static final String TOKEN_NOTIFICATIONS = "OpenAPI Editor token not found";
     private static final String UPGRADE_TEXT = "Upgrade";
     private static final String UPGRADE_URL = "https://42crunch.com/ide-upgrade/";
     
@@ -24,12 +23,6 @@ public class MsgUtils {
           NotificationGroupManager.getInstance().getNotificationGroup(LIMIT_NOTIFICATIONS).
           createNotification(msg, NotificationType.INFORMATION).addAction(
                   createSimpleExpiring(UPGRADE_TEXT, () -> BrowserUtil.browse(UPGRADE_URL))).notify(project);
-    }
-
-    public static void notifyTokenNotFound(@NotNull Project project, @NotNull String useInstead) {
-    	String msg = "Security Audit Token required by 42Crunch CLI is not found, using " + useInstead + " instead.";
-        NotificationGroupManager.getInstance().getNotificationGroup(TOKEN_NOTIFICATIONS).
-                createNotification(msg, NotificationType.INFORMATION).notify(project);
     }
 
     public static void notifyError(@NotNull Project project, @NotNull String msg) {

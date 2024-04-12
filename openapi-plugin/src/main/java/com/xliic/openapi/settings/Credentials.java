@@ -1,40 +1,38 @@
 package com.xliic.openapi.settings;
 
-import static com.xliic.openapi.utils.MsgUtils.notifyTokenNotFound;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
-import com.xliic.openapi.cli.CliUtils;
-import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.settings.wizard.anon.AnonEmailWizardDialog;
 import com.xliic.openapi.settings.wizard.platform.PlatformURLWizardDialog;
 
 public class Credentials {
 
-    public enum Type { Anon, Platform, Cli }
+    public enum Type { AnondToken, ApiToken }
 
-    public static boolean hasCredentialsType() {
-        return !StringUtils.isEmpty(getAnonCredentials()) || PlatformConnection.isPlatformIntegrationEnabled();
-    }
-
-    @NotNull
-    public static Type getCredentialsType(@NotNull Project project) {
-        boolean hasCli = CliUtils.hasCli();
-        String anondCredentials = getAnonCredentials();
-        if (hasCli && StringUtils.isEmpty(anondCredentials)) {
-            notifyTokenNotFound(project, "platform connection");
+    @Nullable
+    public static Type getCredentialsType() {
+        String platformAuthType = SettingsService.getInstance().getValue(AUTH_TYPE);
+        String anondToken = getAnonCredentials();
+        String apiToken = SettingsService.getInstance().getValue(API_KEY);
+        // If platformAuthType is set, use it else try to derive from the available tokens
+        if (AUTH_TYPE_ANOND_TOKEN.equals(platformAuthType) && !StringUtils.isEmpty(anondToken)) {
+            return Type.AnondToken;
+        } else if (AUTH_TYPE_API_TOKEN.equals(platformAuthType) && !StringUtils.isEmpty(apiToken)) {
+            return Type.ApiToken;
         }
-        if (!StringUtils.isEmpty(anondCredentials) && hasCli) {
-            return Type.Cli;
+        if (!StringUtils.isEmpty(anondToken)) {
+            return Type.AnondToken;
         }
-        if (PlatformConnection.isPlatformIntegrationEnabled()) {
-            return Type.Platform;
+        if (!StringUtils.isEmpty(apiToken)) {
+            return Type.ApiToken;
         }
-        return Type.Anon;
+        return null;
     }
 
     public static void configureCredentials(@NotNull Project project, @NotNull WizardCallback callback) {
