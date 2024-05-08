@@ -217,7 +217,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
-                SettingsService.getInstance().unsetValue(Settings.Platform.COLLECTION_NAMING_CONVENTION);
+                SettingsService.getInstance().resetToDefaultValue(Settings.Platform.COLLECTION_NAMING_CONVENTION);
                 EclipseUtil.removeTempProject();
             }
         }

@@ -1,6 +1,6 @@
 package com.xliic.openapi.settings.wizard.platform;
 
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.*;
 
 import java.util.Set;
 
@@ -52,6 +52,7 @@ public class PlatformTokenWizardDialog extends WizardDialog {
         keys.add(API_KEY);
         keys.add(Platform.TURNED_ON);
         SettingsService.getInstance().setValue(API_KEY, component.getText());
+        SettingsService.getInstance().setValue(AUTH_TYPE, AUTH_TYPE_API_TOKEN);
         ApplicationManager.getApplication().invokeAndWait(() ->
             project.getMessageBus().syncPublisher(ConfigListener.TOPIC).loadConfig(new Config()));
     }

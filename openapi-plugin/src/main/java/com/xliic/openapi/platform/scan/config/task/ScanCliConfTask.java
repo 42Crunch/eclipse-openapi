@@ -4,6 +4,7 @@ import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.utils.ExecUtils;
@@ -31,32 +33,44 @@ public class ScanCliConfTask extends ScanConfTask {
             "Run Security Audit on this file and fix these issues first.";
 
     private VirtualFile tmpDir = null;
-
+    private final boolean useAuditWithCli;
+    
     public ScanCliConfTask(@NotNull Project project,
                            @NotNull String path,
                            @NotNull BundleResult bundle,
                            @NotNull String scanConfPath,
-                           @NotNull Callback callback) {
+                           @NotNull Callback callback,
+                           boolean useAuditWithCli) {
         super(project, path, bundle, scanConfPath, callback);
+        this.useAuditWithCli = useAuditWithCli;
     }
 
     @Override
     public void run(@NotNull ProgressIndicator progress) {
+        String apiId = null;
+        String collectionId = null;
         try {
             String oas = bundle.getJsonText();
-            AuditCliResult result = CliUtils.runAuditWithCliBinary(project, oas, false, progress);
-            if (result.hasError()) {
-                if (result.getStatusCode() == 3 && "limits_reached".equals(result.getStdOut())) {
-                    ScanConfigUtils.offerUpgrade(project);
-                } else {
-                    throw new Exception("Unexpected error running CLI Audit: " + result);
+            if (useAuditWithCli) {
+                AuditCliResult result = CliUtils.runAuditWithCliBinary(project, oas, false, progress);
+                if (result.hasError()) {
+                    if (result.getStatusCode() == 3 && "limits_reached".equals(result.getStdOut())) {
+                        ScanConfigUtils.offerUpgrade(project);
+                    } else {
+                        throw new Exception("Unexpected error running API Security Testing Binary Audit: " + result);
+                    }
+                    return;
                 }
-                return;
-            }
-            String reportText = Objects.requireNonNull(result.getReport());
-            Node report = Objects.requireNonNull(Utils.getJsonAST(reportText));
-            if (!"valid".equals(report.getChildValueRequireNonNull("openapiState"))) {
-                throw new Exception(API_INVALID_MSG);
+                String reportText = Objects.requireNonNull(result.getReport());
+                Node report = Objects.requireNonNull(Utils.getJsonAST(reportText));
+                if (!"valid".equals(report.getChildValueRequireNonNull("openapiState"))) {
+                    throw new Exception(API_INVALID_MSG);
+                }
+            } else {
+                collectionId = ScanUtils.findOrCreateTempCollection();
+                apiId = ScanUtils.createTempAPI(collectionId, oas);
+                progress.setText(RUNNING_SECURITY_AUDIT);
+                ScanUtils.auditTempAPI(getProject(), apiId);
             }
             tmpDir = createTempDirectory(project, "scan");
             VirtualFile tmpFile = writeFile(project, tmpDir, "openapi.json", oas);
@@ -89,7 +103,13 @@ public class ScanCliConfTask extends ScanConfTask {
         } catch (Exception e) {
             callback.setRejected(e);
         } finally {
-            try {
+            if (apiId != null) {
+                ScanUtils.deleteAPI(apiId);
+            }
+            if (collectionId != null) {
+                ScanUtils.clearTempApis(collectionId);
+            }
+        	try {
                 if (tmpDir != null) {
                     removeFile(project, tmpDir,"openapi.json");
                     removeDir(project, tmpDir);

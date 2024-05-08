@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.SystemInfoRt;
-import com.xliic.openapi.platform.scan.ScanRunConfig;
 import com.xliic.openapi.platform.scan.ScanService;
+import com.xliic.openapi.platform.scan.config.ScanRunConfig;
 import com.xliic.openapi.services.TerminalService;
 import com.xliic.openapi.settings.SettingsService;
 

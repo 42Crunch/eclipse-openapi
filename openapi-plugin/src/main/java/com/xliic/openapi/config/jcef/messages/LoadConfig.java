@@ -32,6 +32,8 @@ public class LoadConfig extends WebAppConsume {
         Map<String, Object> result = new HashMap<>();
         result.put("platformUrl", config.getPlatformUrl());
         result.put("platformApiToken", config.getPlatformApiToken());
+        result.put("anondToken", config.getAnondToken());
+        result.put("platformAuthType", config.getPlatformAuthType());
         result.put("scanImage", config.getScanImage());
         result.put("scanRuntime", config.getScanRuntime());
 

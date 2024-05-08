@@ -106,7 +106,29 @@ public class ScanConfigUtils {
         }
         return Paths.get(scanDirectoryAliasPath, "scanconf.json").toString();
     }
+    
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public static String findScanConfPath(@NotNull Project project, @NotNull String openapiPath) {
+        String rootUri = getRootPath(project, openapiPath);
+        String configPath = Paths.get(rootUri,".42c", "conf.yaml").toString();
+        String relativeOasPath = relative(rootUri, openapiPath);
+        Map<String, Object> config = Objects.requireNonNull(readConfigOrDefault(configPath));
+        Map<String, Object> apis = (Map<String, Object>) config.get("apis");
+        if (apis.get(relativeOasPath) == null) {
+            return null;
+        }
+        String alias = (String) ((Map<String, Object>) apis.get(relativeOasPath)).get("alias");
+        String scanDirectoryAliasPath = Paths.get(rootUri, ".42c", "scan", alias).toString();
+        return Paths.get(scanDirectoryAliasPath, "scanconf.json").toString();
+    }
 
+    public static boolean hasConfFile(@NotNull Project project, @NotNull String openapiPath) {
+        String rootUri = getRootPath(project, openapiPath);
+        String configPath = Paths.get(rootUri,".42c", "conf.yaml").toString();
+        return FileUtils.exists(configPath);
+    }
+    
     private static void writeConfig(Project project, String configPath, String config) {
         File theFile = new File(configPath);
         String parent = theFile.getParent();

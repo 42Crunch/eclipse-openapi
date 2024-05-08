@@ -40,6 +40,9 @@ public class CliDownload extends WebAppProduce {
                     project.getMessageBus().syncPublisher(ConfigListener.TOPIC).showCliDownload(false, error);
                 });
             }
+            @Override
+            public void cancel() {
+            }
             public void progress(long bytesRead, long contentLength) {
                 project.getMessageBus().syncPublisher(ConfigListener.TOPIC).showCliDownload(new Progress(bytesRead, contentLength));
             }

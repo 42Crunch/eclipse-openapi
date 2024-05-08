@@ -66,25 +66,25 @@ public class AuditCliTask extends Task.Backgroundable {
                 return;
             }
             AuditService.getInstance(project).downloadArticles(progress);
-            boolean isSingleOperationAudit = operation != null;
-            String text = isSingleOperationAudit ? extractSingleOperation(operation.getPath(), operation.getMethod(), bundle) : bundle.getJsonText();
+            boolean isFullAudit = operation == null;
+            String text = isFullAudit ? bundle.getJsonText() : extractSingleOperation(operation.getPath(), operation.getMethod(), bundle);
             String token = SettingsService.getInstance().getValue(Settings.Audit.TOKEN);
             if (token == null) {
                 callback.reject("Security audit token is not set");
                 return;
             }
-            AuditCliResult result = CliUtils.runAuditWithCliBinary(project, text, isSingleOperationAudit, progress);
+            AuditCliResult result = CliUtils.runAuditWithCliBinary(project, text, isFullAudit, progress);
             if (result.hasError()) {
                 if (result.getStatusCode() == 3 && "limits_reached".equals(result.getStdOut())) {
                     ScanConfigUtils.offerUpgrade(project);
                 } else {
-                    callback.reject("Unexpected error running CLI Audit: " + result);
+                    callback.reject("Unexpected error running API Security Testing Binary Audit: " + result);
                 }
                 return;
             }
-            if (isSingleOperationAudit && result.getRemainingPerOperationAudit() < UPGRADE_WARN_LIMIT) {
+            if (!isFullAudit && result.getRemainingPerOperationAudit() < UPGRADE_WARN_LIMIT) {
                 notifyLimit(project, result.getRemainingPerOperationAudit(), "per-operation Security Audits");
-            } else if (!isSingleOperationAudit && result.getRemainingFullAudit() < UPGRADE_WARN_LIMIT) {
+            } else if (isFullAudit && result.getRemainingFullAudit() < UPGRADE_WARN_LIMIT) {
                 notifyLimit(project, result.getRemainingFullAudit(), "Security Audits");
             }
             Node report = Utils.getJsonAST(Objects.requireNonNull(result.getReport()));

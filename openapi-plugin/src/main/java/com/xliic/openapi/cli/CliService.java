@@ -27,30 +27,34 @@ public class CliService implements ICliService, Disposable {
 
     public static final String DEFAULT_VERSION = "0.0.0";
     private static final long CLI_UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 8; // 8 hours
-    private static final String MANIFEST_ERROR = "Failed to download 42Crunch CLI, manifest not found";
+    private static final long CLI_DOWNLOAD_CHECK_INTERVAL = 1000 * 60 * 60 * 48; // 48 hours
+    private static final String MANIFEST_ERROR = "Failed to download 42Crunch API Security Testing Binary, manifest not found";
     private static final String PLATFORM_ERROR = "Unknown platform "  + Utils.getOs() + ", arch " + Utils.getOsArch();
 
     private volatile long lastCliUpdateCheckTime;
+    private volatile long lastCliDownloadCheckTime;
 
     public interface Callback {
         void complete(@NotNull String cliPath);
         void reject(@NotNull String error);
+        void cancel();
         default void progress(long bytesRead, long contentLength) {}
     }
 
     public CliService() {
-        lastCliUpdateCheckTime = new Date().getTime();
+        lastCliUpdateCheckTime = 0;
+        lastCliDownloadCheckTime = 0;
     }
 
     public static CliService getInstance() {
         return ApplicationManager.getApplication().getService(CliService.class);
     }
 
-    public void downloadOrUpdateIfNecessary(@NotNull Project project, @NotNull Callback callback) {
-        downloadOrUpdateIfNecessary(project, callback, true);
+    public void downloadOrUpdateIfNecessary(@NotNull Project project, @NotNull Callback callback, boolean forceDownload) {
+        downloadOrUpdateIfNecessary(project, callback, true, forceDownload);
     }
 
-    public void downloadOrUpdateIfNecessary(@NotNull Project project, @NotNull Callback callback, boolean ask) {
+    public void downloadOrUpdateIfNecessary(@NotNull Project project, @NotNull Callback callback, boolean ask, boolean forceDownload) {
         String repository = SettingsService.getInstance().getValue(REPOSITORY);
         if (StringUtils.isEmpty(repository)) {
             callback.reject("Repository URL is not set");
@@ -65,6 +69,15 @@ public class CliService implements ICliService, Disposable {
         if (FileUtils.exists(cliPath)) {
             update(project, cliPath, repository, platform, callback, ask);
         } else {
+            if (!forceDownload) {
+                // Check if we already offered to download
+                long currentTime = new Date().getTime();
+                if (currentTime - lastCliDownloadCheckTime < CLI_DOWNLOAD_CHECK_INTERVAL) {
+                    callback.cancel();
+                    return;
+                }
+                lastCliDownloadCheckTime = currentTime;
+            }
             CliUtils.ensureDirectories(project);
             download(project, cliPath, repository, platform, callback, ask);
         }
@@ -80,7 +93,7 @@ public class CliService implements ICliService, Disposable {
                 version = CliTest.getVersion(cliPath);
                 manifest = CliUtils.getCliUpdate(repository, version, platform);
             } catch (Exception e) {
-                callback.reject("Error during CLI update: " + e);
+                callback.reject("Error during API Security Testing Binary update: " + e);
                 return;
             }
             // There is no version greater than the current one
@@ -89,12 +102,12 @@ public class CliService implements ICliService, Disposable {
                 return;
             }
             if (ask) {
-                final int rc = getDialog(project, "New version " + manifest.getVersion() + " of 42Crunch CLI is available, download?");
+                final int rc = getDialog(project, "New version " + manifest.getVersion() + " of 42Crunch API Security Testing Binary is available, download?");
                 if (rc != Messages.OK) {
                     return;
                 }
             }
-            ProgressManager.getInstance().run(new Task.Backgroundable(project, "Downloading 42Crunch CLI", false) {
+            ProgressManager.getInstance().run(new Task.Backgroundable(project, "Downloading 42Crunch API Security Testing Binary", false) {
                 @Override
                 public void run(@NotNull ProgressIndicator progress) {
                     downloadAndCheck(cliPath, manifest, progress, callback);
@@ -108,19 +121,20 @@ public class CliService implements ICliService, Disposable {
     private void download(Project project, String cliPath, String repository, String platform, Callback callback, boolean ask) {
         lastCliUpdateCheckTime = new Date().getTime();
         if (ask) {
-            final int rc = getDialog(project, "42Crunch CLI is not found, download?");
+            final int rc = getDialog(project, "42Crunch API Security Testing Binary is not found, download?");
             if (rc != Messages.OK) {
+            	callback.cancel();
                 return;
             }
         }
-        ProgressManager.getInstance().run(new Task.Backgroundable(project, "Downloading 42Crunch CLI", false) {
+        ProgressManager.getInstance().run(new Task.Backgroundable(project, "Downloading 42Crunch API Security Testing Binary", false) {
             @Override
             public void run(@NotNull ProgressIndicator progress) {
                 CliAstManifestEntry manifest;
                 try {
                     manifest = CliUtils.getCliUpdate(repository, DEFAULT_VERSION, platform);
                 } catch (Exception e) {
-                    callback.reject("Error during CLI download: " + e);
+                    callback.reject("Error during API Security Testing Binary download: " + e);
                     return;
                 }
                 if (manifest == null) {
@@ -144,7 +158,7 @@ public class CliService implements ICliService, Disposable {
                     }
                 } else {
                     callback.progress(bytesRead, contentLength);
-                    progress.setText("Downloading 42Crunch CLI: " + Progress.getPercent(bytesRead, contentLength));
+                    progress.setText("Downloading 42Crunch API Security Testing Binary: " + Progress.getPercent(bytesRead, contentLength));
                 }
             });
         } catch (Exception e) {

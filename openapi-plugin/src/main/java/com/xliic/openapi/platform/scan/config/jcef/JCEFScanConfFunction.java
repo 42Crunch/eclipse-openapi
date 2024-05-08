@@ -12,6 +12,8 @@ import com.xliic.openapi.platform.scan.config.jcef.messages.SaveScanConf;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
 import com.xliic.openapi.tryit.jcef.messages.SendHttpRequest;
 import com.xliic.openapi.webapp.WebAppFunction;
+import com.xliic.openapi.platform.scan.config.jcef.messages.OpenLink;
+import com.xliic.openapi.platform.scan.config.jcef.messages.RunFullScan;
 
 public class JCEFScanConfFunction extends WebAppFunction {
 
@@ -22,9 +24,11 @@ public class JCEFScanConfFunction extends WebAppFunction {
     		                    @NotNull String name) {
         super(browser, name);
         add(new RunScan(project, cache));
+        add(new RunFullScan(project, cache));
         add(new SaveScanConf(project, cache));
         add(new ShowEnvWindow(project));
         add(new SavePreferences(project, cache));
         add(new SendHttpRequest(project, id, false));
+        add(new OpenLink());
     }
 }

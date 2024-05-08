@@ -1,6 +1,8 @@
 package com.xliic.openapi.platform.scan.task;
 
 import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
 import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
@@ -10,11 +12,14 @@ import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,10 +34,11 @@ import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.scan.ScanLogger;
-import com.xliic.openapi.platform.scan.ScanRunConfig;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
+import com.xliic.openapi.platform.scan.config.ScanRunConfig;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Credentials;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.Utils;
 
@@ -48,12 +54,18 @@ public class ScanCliTask extends Task.Backgroundable {
     protected final ScanLogger logger;
     @Nullable
     private VirtualFile scanTmpDir = null;
+    private final boolean isFullScan;
 
-    public ScanCliTask(@NotNull Project project, @NotNull String tabId, @NotNull ScanRunConfig runConfig, @NotNull ScanRunTask.Callback callback) {
+    public ScanCliTask(@NotNull Project project,
+    		           @NotNull String tabId, 
+    		           @NotNull ScanRunConfig runConfig, 
+    		           @NotNull ScanRunTask.Callback callback, 
+    		           boolean isFullScan) {
         super(project, "Running Conformance Scan using 42c-ast binary", false);
         this.project = project;
         this.runConfig = runConfig;
         this.callback = callback;
+        this.isFullScan = isFullScan;
         logger = new ScanLogger(project, tabId);
     }
 
@@ -80,29 +92,46 @@ public class ScanCliTask extends Task.Backgroundable {
                 token = con.getApiToken();
             }
             try {
-                String output = ExecUtils.asyncExecFile(cli,
-                        new String[]{
-                                "scan",
-                                "run",
-                                tmpFile.getPath(),
-                                "--conf-file",
-                                tmpFile2.getPath(),
-                                "--output",
-                                outputPath,
-                                "--output-format",
-                                "json",
-                                "--verbose",
-                                "error",
-                                "--enrich=false",
-                                "--is-operation",
-                                "--token",
-                                token
-                        }, scanTmpDir, env);
+            	List<String> args = new LinkedList<>(Arrays.asList(
+                    "scan",
+                    "run",
+                    tmpFile.getPath(),
+                    "--conf-file",
+                    tmpFile2.getPath(),
+                    "--output",
+                    outputPath,
+                    "--output-format",
+                    "json",
+                    "--verbose",
+                    "error",
+                    "--enrich=false")
+                );
+                if (!isFullScan) {
+                    args.add("--is-operation");
+                }
+                Credentials.Type type = Credentials.getCredentialsType();
+                if (type == Credentials.Type.AnondToken) {
+                    args.add("--token");
+                    args.add(token);
+                } else {
+                    String platformUrl = SettingsService.getInstance().getValue(URL);
+                    if (!StringUtils.isEmpty(platformUrl)) {
+                        env.put("PLATFORM_HOST", platformUrl);
+                    }
+                    String apiToken = SettingsService.getInstance().getValue(API_KEY, "");
+                    if (!StringUtils.isEmpty(apiToken)) {
+                        env.put("API_KEY", apiToken);
+                    }
+                }
+                String output = ExecUtils.asyncExecFile(cli, args.toArray(new String[0]), scanTmpDir, env);
                 Node out = Utils.getJsonAST(output);
                 if (out != null) {
-                    long remainingPerOperationScan = Long.parseLong(out.getChildValueRequireNonNull("remainingPerOperationScan"));
-                    if (remainingPerOperationScan < UPGRADE_WARN_LIMIT) {
-                        notifyLimit(project, remainingPerOperationScan, "per-operation Conformance Scans");
+                    String value = out.getChildValue("remainingPerOperationScan");
+                    if (value != null) {
+                        long remainingPerOperationScan = Long.parseLong(value);
+                        if (remainingPerOperationScan < UPGRADE_WARN_LIMIT) {
+                            notifyLimit(project, remainingPerOperationScan, "per-operation Conformance Scans");
+                        }
                     }
                     Node scanLogs = out.getChild("scanLogs");
                     if (scanLogs != null) {

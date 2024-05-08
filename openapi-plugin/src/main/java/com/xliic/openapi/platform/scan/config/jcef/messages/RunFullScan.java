@@ -1,33 +1,32 @@
 package com.xliic.openapi.platform.scan.config.jcef.messages;
 
-import static com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel.SCAN_CONF_PATH;
-
-import java.io.File;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.platform.scan.ScanService;
-import com.xliic.openapi.platform.scan.config.ScanRunConfig;
+import com.xliic.openapi.platform.scan.config.ScanFullRunConfig;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class RunScan extends WebAppProduce {
+import java.io.File;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel.SCAN_CONF_PATH;
+
+public class RunFullScan extends WebAppProduce {
 
     @NotNull
     private final Project project;
     @NotNull
     private final Map<String, Object> cache;
 
-    public RunScan(@NotNull Project project, @NotNull Map<String, Object> cache) {
-        super("runScan");
+    public RunFullScan(@NotNull Project project, @NotNull Map<String, Object> cache) {
+        super("runFullScan");
         this.project = project;
         this.cache = cache;
     }
@@ -53,12 +52,9 @@ public class RunScan extends WebAppProduce {
                 }
             }
             String scanConfPath = (String) cache.get(SCAN_CONF_PATH);
-            String path = (String) map.get("path");
-            String method = (String) map.get("method");
-            String opId = (String) map.get("operationId");
             String scanconf = (String) map.get("scanconf");
             if (scanconf != null && rawOas != null) {
-                ScanService.getInstance(project).runScan(new ScanRunConfig(path, method, opId, scanConfPath, scanconf, configEnv, rawOas), false);
+                ScanService.getInstance(project).runScan(new ScanFullRunConfig(scanConfPath, scanconf, configEnv, rawOas), true);
             }
         }
     }

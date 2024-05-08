@@ -8,7 +8,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -20,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
+import com.xliic.core.ui.SwtUtils;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.openapi.settings.SettingsConfigurable;
 
@@ -48,12 +48,7 @@ public class PreviewDialog extends TrayDialog {
     @Override
     protected Control createDialogArea(Composite parent) {
         parent = (Composite) super.createDialogArea(parent);
-        GridLayout layout = new GridLayout();
-        layout.numColumns = port > 0 ? 3 : 1;
-        layout.marginHeight = 10;
-        layout.marginWidth = 10;
-        layout.horizontalSpacing = 1;
-        parent.setLayout(layout);
+        parent.setLayout(SwtUtils.getGridLayoutForLinks(port > 0 ? 3 : 1));
         if (port > 0) {
             new Label(parent, SWT.NULL).setText("Failed to start preview server:");
             Link link = new Link(parent, SWT.NONE);

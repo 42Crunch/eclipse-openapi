@@ -31,7 +31,6 @@ public class ShowNotifications extends AnAction implements DumbAware {
         DictionaryUtils.suggestAlwaysUpdate(project);
         DictionaryUtils.suggestNeverUpdate(project);        
    		MsgUtils.notifyLimit(project, 10, "per-operation Conformance Scans");
-   		MsgUtils.notifyTokenNotFound(project, "docker");
    		MsgUtils.notifyError(project, "Random error text " + RandomStringUtils.random(50, true, false));
    		MsgUtils.notifyInfo(project, "Random info text " + RandomStringUtils.random(100, true, false));
    		NotificationGroupManager.getInstance().getNotificationGroup("").createNotification(

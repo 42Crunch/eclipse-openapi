@@ -28,10 +28,14 @@ public class Settings {
 
             public static final String URL = "com.xliic.openapi.settings.platform.url";
             public static final String API_KEY = "com.xliic.openapi.settings.platform.apikey";
-
+            public static final String AUTH_TYPE = "com.xliic.openapi.settings.platform.auth-type";
+            public static final String AUTH_TYPE_API_TOKEN = "api-token";
+            public static final String AUTH_TYPE_ANOND_TOKEN = "anond-token";
+            
             static {
                 DEFAULTS.put(URL, "https://platform.42crunch.com");
                 DEFAULTS.put(API_KEY, "");
+                DEFAULTS.put(AUTH_TYPE, "");
             }
         }
 
@@ -60,6 +64,7 @@ public class Settings {
             public static final String RUNTIME = "com.xliic.openapi.settings.platform.scan.runtime";
             public static final String RUNTIME_DOCKER = "docker";
             public static final String RUNTIME_CLI = "cli";
+            public static final String RUNTIME_SCAND_MANAGER = "scand-manager";
 
             public static class Docker {
 
@@ -105,6 +110,7 @@ public class Settings {
         static {
             DEFAULTS.put(MANDATORY_TAGS, "");
             DEFAULTS.put(TEMP_COLLECTION_NAME, COLLECTION_TEMP_NAME);
+            DEFAULTS.put(COLLECTION_NAMING_CONVENTION, "");
         }
     }
 

@@ -1,5 +1,6 @@
 package com.xliic.openapi.settings;
 
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.*;
 import static com.xliic.openapi.settings.Settings.DEFAULTS;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOSTNAMES;
 import static com.xliic.openapi.settings.Settings.InlinedAnnotations.ENABLE_FLAG;
@@ -75,6 +76,11 @@ public class SettingsService implements ISettingsService, Disposable  {
                         if (StringUtils.isEmpty(value)) {
                             setValue(key, (String) DEFAULTS.get(key));
                         }
+                    } else if (Settings.Platform.Credentials.AUTH_TYPE.equals(key)) {
+                        String value = PropertiesComponent.getInstance().getValue(key);
+                        if (StringUtils.isEmpty(value)) {
+                            setValue(key, getDerivedAuthType(propsComp, passwdSafe));
+                        }
                     } else if (!isValueSetInIDE(key)) {
                         // System.out.println(">>> DEF: key [" + key + "] = <" + entry.getValue() + ">");
                         setPropertyValue(propsComp, passwdSafe, key, entry.getValue());
@@ -99,7 +105,7 @@ public class SettingsService implements ISettingsService, Disposable  {
         for (String key : keys) {
             Object value = getPropertyValue(propertiesComponent, passwordSafe, key);
             Object newValue = cache.get(key);
-            if (!Objects.equals(value, newValue)) {
+            if (!Objects.equals(value, newValue) && newValue != null) {
                 updatedKeys.add(key);
                 prevData.put(key, value);
                 setPropertyValue(propertiesComponent, passwordSafe, key, newValue);
@@ -118,6 +124,15 @@ public class SettingsService implements ISettingsService, Disposable  {
         }
     }
 
+    public void resetToDefaultValue(@NotNull String key) {
+    	Object value = DEFAULTS.get(key);
+    	setCacheValue(key, value);
+        PasswordSafe passwordSafe = PasswordSafe.getInstance();
+        PropertiesComponent propertiesComponent = PropertiesComponent.getInstance();
+        setPropertyValue(propertiesComponent, passwordSafe, key, value);
+    }
+
+    // Do not call this method (it is only used in ClearAllPropsAction)
     public void unsetValue(@NotNull String key) {
         cache.remove(key);
         if (SAFE_KEYS.contains(key)) {
@@ -216,6 +231,12 @@ public class SettingsService implements ISettingsService, Disposable  {
         return Collections.unmodifiableList(keys);
     }
 
+    public String getDerivedAuthType() {
+        PasswordSafe passwordSafe = PasswordSafe.getInstance();
+        PropertiesComponent propertiesComponent = PropertiesComponent.getInstance();
+        return getDerivedAuthType(propertiesComponent, passwordSafe);
+    }
+
     private CredentialAttributes getCredentialAttrs(@NotNull String key) {
         return new CredentialAttributes(CredentialAttributesKt.generateServiceName(SUBSYSTEM, key));
     }
@@ -274,6 +295,13 @@ public class SettingsService implements ISettingsService, Disposable  {
             }
             // Add other types if necessary
         }
+    }
+
+    private String getDerivedAuthType(PropertiesComponent propsComp, PasswordSafe passwdSafe) {
+        // Derived auth type is api-token only if anondToken is not set and apiToken is set, otherwise it is anond-token
+        String anondToken = (String) getPropertyValue(propsComp, passwdSafe, Settings.Audit.TOKEN);
+        String apiToken = (String) getPropertyValue(propsComp, passwdSafe, API_KEY);
+        return StringUtils.isEmpty(anondToken) && !StringUtils.isEmpty(apiToken) ? AUTH_TYPE_API_TOKEN : AUTH_TYPE_ANOND_TOKEN;
     }
 
     @Override

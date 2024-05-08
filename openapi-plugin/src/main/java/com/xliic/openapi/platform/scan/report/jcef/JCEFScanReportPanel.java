@@ -23,6 +23,7 @@ import com.xliic.openapi.environment.EnvListener;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.environment.jcef.messages.LoadEnv;
 import com.xliic.openapi.platform.scan.ScanListener;
+import com.xliic.openapi.platform.scan.report.jcef.messages.ShowFullScanReport;
 import com.xliic.openapi.platform.scan.report.jcef.messages.ShowGeneralError;
 import com.xliic.openapi.platform.scan.report.jcef.messages.ShowLog;
 import com.xliic.openapi.platform.scan.report.jcef.messages.ShowScanReport;
@@ -71,6 +72,14 @@ public class JCEFScanReportPanel extends WebFileEditor implements FileListener, 
             return;
         }
         new ShowScanReport(report).send(getCefBrowser());
+    }
+    
+    @Override
+    public void showFullScanReport(@NotNull String toId, @NotNull ScanReport report) {
+        if (!Objects.equals(toId, myId)) {
+            return;
+        }
+        new ShowFullScanReport(report).send(getCefBrowser());
     }
 
     @Override

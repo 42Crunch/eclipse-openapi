@@ -40,6 +40,8 @@ public class TopicScanListener<L> extends Topic<L> {
             listener.startScan((String) args.get(0));
         } else if (funcId == 6) {
             listener.sendLogMessage((String) args.get(0), (String) args.get(1), (String) args.get(2));
+        } else if (funcId == 7) {
+            listener.showFullScanReport((String) args.get(0), (ScanReport) args.get(1));
         }
     }
 
@@ -87,6 +89,11 @@ public class TopicScanListener<L> extends Topic<L> {
             @Override
             public void sendLogMessage(@NotNull String toId, @NotNull String level, @NotNull String message) {
                 eventBroker.send(getTopic(), getArgs(6, List.of(toId, level, message)));
+            }
+
+            @Override
+            public void showFullScanReport(@NotNull String toId, @NotNull ScanReport report) {
+                eventBroker.send(getTopic(), getArgs(7, List.of(toId, report)));
             }
         };
     }

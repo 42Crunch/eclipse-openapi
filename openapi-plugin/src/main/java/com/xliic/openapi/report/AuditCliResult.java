@@ -78,12 +78,7 @@ public class AuditCliResult {
         if (remainingPerOperationAudit != -1) {
             return remainingPerOperationAudit;
         }
-        Node out = Utils.getJsonAST(stdOut);
-        if (out != null) {
-            remainingPerOperationAudit = Long.parseLong(out.getChildValueRequireNonNull("remainingPerOperationAudit"));
-        } else {
-            remainingPerOperationAudit = Long.MAX_VALUE;
-        }
+        remainingPerOperationAudit = getRemainingValue("remainingPerOperationAudit");
         return remainingPerOperationAudit;
     }
 
@@ -91,12 +86,18 @@ public class AuditCliResult {
         if (remainingFullAudit != -1) {
             return remainingFullAudit;
         }
+        remainingFullAudit = getRemainingValue("remainingFullAudit");
+        return remainingFullAudit;
+    }
+    
+    private long getRemainingValue(String key) {
         Node out = Utils.getJsonAST(stdOut);
         if (out != null) {
-            remainingFullAudit = Long.parseLong(out.getChildValueRequireNonNull("remainingFullAudit"));
-        } else {
-            remainingFullAudit = Long.MAX_VALUE;
+            String value = out.getChildValue(key);
+            if (value != null) {
+                return Long.parseLong(value);
+            }
         }
-        return remainingFullAudit;
+        return Long.MAX_VALUE;
     }
 }

@@ -27,8 +27,6 @@ import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.TryItService;
-import com.xliic.openapi.settings.Credentials;
-import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.tryit.payload.TryItOperation;
 
 public class InlinedAnnotation extends LineHeaderAnnotation {
@@ -66,12 +64,13 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
         }
     };
 
+    // Caller must always check that at least one payload is not null
     public InlinedAnnotation(@NotNull Project project,
                              @NotNull Position position,
                              @NotNull ISourceViewer viewer,
-                             @NotNull TryItOperation payload,
+                             @Nullable TryItOperation payload,
                              @Nullable ScanConfOperation payload2,
-                             @NotNull AuditOperation payload3) {
+                             @Nullable AuditOperation payload3) {
         super(position, viewer);
         this.project = project;
         this.top = payload;
@@ -87,29 +86,16 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
             BundleResult bundle = bundleService.getBundle(file.getPath());
             if (bundle != null && bundle.getAST() != null) {
                 top.setOas(bundle);
-                TryItService tryItService = TryItService.getInstance(project);
-                tryItService.createOrActiveTryItWindow(top);
+                TryItService.getInstance(project).createOrActiveTryItWindow(top);
             }
         } else if (annotationId == SCAN_ID) {
             if (sop != null) {
                 VirtualFile file = sop.getPsiFile().getVirtualFile();
-                ScanConfService scanConfService = ScanConfService.getInstance(project);
-                scanConfService.scanConfActionPerformed(file, sop);
+                ScanConfService.getInstance(project).scanConfActionPerformed(file, sop);
             }
         } else if (annotationId == AUDIT_ID) {
             VirtualFile file = aop.getPsiFile().getVirtualFile();
-            AuditService auditService = AuditService.getInstance(project);
-            Credentials.Type type = Credentials.getCredentialsType(project);
-            if (type == null) {
-                Credentials.configureCredentials(project, new WizardCallback() {
-                    @Override
-                    public void complete() {
-                        auditService.actionPerformed(project, file, aop, Credentials.getCredentialsType(project));
-                    }
-                });
-            } else {
-                auditService.actionPerformed(project, file, aop, type);
-            }
+            AuditService.getInstance(project).actionPerformed(project, file, aop);
         }
     }
 
@@ -167,15 +153,18 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
         x += fm.getLeading();
         bounds.add(x);
         double chWidth = fm.getAverageCharacterWidth();
-        int shift = addAnnotation(gc, TRYIT_ICON, TRYIT_TEXT, TRYIT_ID, color, x, y, chWidth);
+        int shift = x;
+        if (top != null) {
+            shift = addAnnotation(gc, TRYIT_ICON, TRYIT_TEXT, TRYIT_ID, color, shift, y, chWidth);
+        }
         bounds.add(shift);
         if (sop != null) {
             shift = addAnnotation(gc, SCAN_ICON, SCAN_TEXT, SCAN_ID, color, shift, y, chWidth);
-            bounds.add(shift);
-        } else {
-            bounds.add(shift);
         }
-        shift = addAnnotation(gc, AUDIT_ICON, AUDIT_TEXT, AUDIT_ID, color, shift, y, chWidth);
+        bounds.add(shift);
+        if (aop != null) {
+            shift = addAnnotation(gc, AUDIT_ICON, AUDIT_TEXT, AUDIT_ID, color, shift, y, chWidth);        	
+        }
         bounds.add(shift);
         return bounds.get(bounds.size() - 1) - bounds.get(0);
     }

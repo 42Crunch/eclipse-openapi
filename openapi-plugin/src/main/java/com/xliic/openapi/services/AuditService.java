@@ -49,6 +49,7 @@ import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.NetUtils;
@@ -313,6 +314,20 @@ public final class AuditService implements IAuditService, Disposable {
         return true;
     }
 
+    public void actionPerformed(@NotNull Project project, @NotNull VirtualFile file, @NotNull AuditOperation payload) {
+        Credentials.Type type = Credentials.getCredentialsType();
+        if (type != null) {
+        	actionPerformed(project, file, payload, type);
+        } else {
+            Credentials.configureCredentials(project, new WizardCallback() {
+                @Override
+                public void complete() {
+                	actionPerformed(project, file, payload, Credentials.getCredentialsType());
+                }
+            });
+        }
+    }
+    
     public void actionPerformed(@NotNull Project project, @NotNull VirtualFile file, @NotNull Credentials.Type type) {
         actionPerformed(project, file, null, type);
     }
@@ -383,12 +398,9 @@ public final class AuditService implements IAuditService, Disposable {
                 MsgUtils.notifyError(project, error);
             }
         };
-        boolean isFullAudit = payload == null;
-        if (type == Credentials.Type.Anon) {
-            startAuditTask(file, isFullAudit ? new AuditAnonTask(project, file, callback) : new AuditAnonTask(project, payload, callback));
-        } else if (type == Credentials.Type.Platform) {
-            startAuditTask(file, isFullAudit ? new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
-        } else if (type == Credentials.Type.Cli) {
+        boolean isFullAudit = payload == null || payload.isFull();
+        // Paid users always run audit using the platform, free users use CLI or fallback to anond
+        if (type == Credentials.Type.AnondToken) {
             CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
                 @Override
                 public void complete(@NotNull String cliPath) {
@@ -398,7 +410,13 @@ public final class AuditService implements IAuditService, Disposable {
                 public void reject(@NotNull String error) {
                     callback.reject(error);
                 }
-            });
+                @Override
+                public void cancel() {
+                    startAuditTask(file, isFullAudit ? new AuditAnonTask(project, file, callback) : new AuditAnonTask(project, payload, callback));
+                }
+            }, false);
+        } else if (type == Credentials.Type.ApiToken) {
+            startAuditTask(file, isFullAudit ? new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
         }
     }
 

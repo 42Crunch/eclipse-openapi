@@ -80,4 +80,8 @@ public class Operation {
         result = 31 * result + psiFile.hashCode();
         return result;
     }
+
+    public boolean isFull() {
+        return path.isEmpty() && method.isEmpty();
+    }
 }

@@ -106,7 +106,12 @@ public final class AnnotationService implements IAnnotationService, FileListener
                 Position pos = new Position(offset, 1);
                 AbstractInlinedAnnotation an = support.findExistingAnnotation(pos);
                 if (an == null) {
-                    an = new InlinedAnnotation(project, pos, viewer, tmap.get(offset), smap.get(offset), amap.get(offset));
+                	TryItOperation top = tmap.get(offset);
+                	ScanConfOperation sop = smap.get(offset);
+                	AuditOperation aop = amap.get(offset);
+                	if (top != null || sop != null || aop != null) {
+                		an = new InlinedAnnotation(project, pos, viewer, top, sop, aop);	
+                	}
                 }
                 annotations.add(an);
             }

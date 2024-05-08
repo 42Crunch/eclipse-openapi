@@ -24,6 +24,10 @@ public class Config {
     @NotNull
     private final String platformApiToken;
     @NotNull
+    private final String platformAuthType;
+    @NotNull
+    private final String anondToken;
+    @NotNull
     private final String scanImage;
     @NotNull
     private final String scanRuntime;
@@ -52,6 +56,8 @@ public class Config {
     	SettingsService settingsService = SettingsService.getInstance();
         platformUrl = settingsService.getValue(Settings.Platform.Credentials.URL, "");
         platformApiToken = settingsService.getValue(Settings.Platform.Credentials.API_KEY, "");
+        platformAuthType  = settingsService.getValue(Settings.Platform.Credentials.AUTH_TYPE, "");
+        anondToken = settingsService.getValue(Settings.Audit.TOKEN, "");
         scanImage = settingsService.getValue(Settings.Platform.Scan.IMAGE, "");
         scanRuntime = settingsService.getValue(Settings.Platform.Scan.RUNTIME, Settings.Platform.Scan.RUNTIME_DOCKER);
         platformServices = new PlatformServices();
@@ -124,5 +130,13 @@ public class Config {
 
     public @NotNull String getPlatformMandatoryTags() {
         return platformMandatoryTags;
+    }
+    
+    public @NotNull String getPlatformAuthType() {
+        return platformAuthType;
+    }
+
+    public @NotNull String getAnondToken() {
+        return anondToken;
     }
 }
