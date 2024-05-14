@@ -120,6 +120,7 @@ public class Settings {
 
     public static class ExtRef {
         public static final String APPROVED_HOSTNAMES = "openapi.generate.token.hosts.key";
+        public static final String APPROVED_HOST_CONFIG = "com.xliic.openapi.settings.extref.approved.host.config";
     }
 
     public static class Outline {

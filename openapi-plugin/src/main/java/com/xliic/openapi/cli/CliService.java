@@ -10,17 +10,13 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
-import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.services.ICliService;
 import com.xliic.core.ui.Messages;
 import com.xliic.openapi.config.jcef.messages.CliTest;
-import com.xliic.openapi.config.payload.Progress;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.FileUtils;
-import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class CliService implements ICliService, Disposable {
@@ -107,12 +103,7 @@ public class CliService implements ICliService, Disposable {
                     return;
                 }
             }
-            ProgressManager.getInstance().run(new Task.Backgroundable(project, "Downloading 42Crunch API Security Testing Binary", false) {
-                @Override
-                public void run(@NotNull ProgressIndicator progress) {
-                    downloadAndCheck(cliPath, manifest, progress, callback);
-                }
-            });
+            ProgressManager.getInstance().run(new CliBinaryTask(project, cliPath, manifest, callback));
         } else {
             callback.complete(cliPath);
         }
@@ -127,43 +118,18 @@ public class CliService implements ICliService, Disposable {
                 return;
             }
         }
-        ProgressManager.getInstance().run(new Task.Backgroundable(project, "Downloading 42Crunch API Security Testing Binary", false) {
-            @Override
-            public void run(@NotNull ProgressIndicator progress) {
-                CliAstManifestEntry manifest;
-                try {
-                    manifest = CliUtils.getCliUpdate(repository, DEFAULT_VERSION, platform);
-                } catch (Exception e) {
-                    callback.reject("Error during API Security Testing Binary download: " + e);
-                    return;
-                }
-                if (manifest == null) {
-                    callback.reject(MANIFEST_ERROR);
-                    return;
-                }
-                downloadAndCheck(cliPath, manifest, progress, callback);
-            }
-        });
-    }
-
-    private void downloadAndCheck(String cliPath, CliAstManifestEntry manifest, ProgressIndicator progress, Callback callback) {
+        CliAstManifestEntry manifest;
         try {
-            String downloadUrl = manifest.getDownloadUrl();
-            NetUtils.download(downloadUrl, cliPath, (bytesRead, contentLength, done, hash) -> {
-                if (done) {
-                    if (hash.equals(manifest.getSha256())) {
-                        callback.complete(cliPath);
-                    } else {
-                        callback.reject("SHA256 hash mismatch for " + manifest.getDownloadUrl());
-                    }
-                } else {
-                    callback.progress(bytesRead, contentLength);
-                    progress.setText("Downloading 42Crunch API Security Testing Binary: " + Progress.getPercent(bytesRead, contentLength));
-                }
-            });
+            manifest = CliUtils.getCliUpdate(repository, DEFAULT_VERSION, platform);
         } catch (Exception e) {
-            callback.reject("Error during download: " + e);
+            callback.reject("Error during API Security Testing Binary download: " + e);
+            return;
         }
+        if (manifest == null) {
+            callback.reject(MANIFEST_ERROR);
+            return;
+        }
+        ProgressManager.getInstance().run(new CliBinaryTask(project, cliPath, manifest, callback));
     }
 
     private static int getDialog(Project project, String message) {

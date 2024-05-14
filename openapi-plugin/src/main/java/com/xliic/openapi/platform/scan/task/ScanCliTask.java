@@ -104,6 +104,8 @@ public class ScanCliTask extends Task.Backgroundable {
                     "json",
                     "--verbose",
                     "error",
+                    "--user-agent",
+                    Utils.getUserAgent(),
                     "--enrich=false")
                 );
                 if (!isFullScan) {

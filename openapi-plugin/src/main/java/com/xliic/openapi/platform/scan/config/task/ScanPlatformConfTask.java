@@ -17,11 +17,10 @@ import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 public class ScanPlatformConfTask extends ScanConfTask {
 
     public ScanPlatformConfTask(@NotNull Project project,
-                                @NotNull String path,
                                 @NotNull BundleResult bundle,
                                 @NotNull String scanConfPath,
                                 @NotNull Callback callback) {
-        super(project, path, bundle, scanConfPath, callback);
+        super(project, bundle, scanConfPath, callback);
     }
 
     @Override

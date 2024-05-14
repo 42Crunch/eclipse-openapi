@@ -1,7 +1,7 @@
 package com.xliic.openapi.bundler;
 
-import static com.xliic.openapi.ExtRef.isExtRef;
 import static com.xliic.openapi.OpenApiBundle.message;
+import static com.xliic.openapi.refs.external.ExtRef.isExtRef;
 import static com.xliic.openapi.utils.Utils.getOpenAPIVersion;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
 
@@ -28,11 +28,11 @@ import com.xliic.common.WorkspaceException;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.services.ExtRefService;
+import com.xliic.openapi.refs.external.ExtRef;
+import com.xliic.openapi.refs.external.ExtRefService;
 
 public class BundleResult {
 

@@ -5,6 +5,7 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.config.payload.PlatformServices;
 import com.xliic.openapi.config.payload.ScandManagerConnection;
+import com.xliic.openapi.refs.external.ApprovedHostConfig;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.webapp.messages.WebAppConsume;
 
@@ -66,6 +68,7 @@ public class LoadConfig extends WebAppConsume {
         result.put("platformCollectionNamingConvention", config.getPlatformCollectionNamingConvention().getPayload());
         result.put("platformTemporaryCollectionName", config.getPlatformTempCollectionName());
         result.put("platformMandatoryTags", config.getPlatformMandatoryTags());
+        result.put("approvedHosts", config.getApprovedHosts().stream().map(ApprovedHostConfig::getPayload).collect(Collectors.toList()));
 
         return result;
     }

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xliic.core.application.ApplicationInfo;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
@@ -48,32 +49,40 @@ import com.xliic.core.util.Pair;
 import com.xliic.core.util.SystemInfoRt;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.editor.DocumentIndent;
+import com.xliic.openapi.refs.external.ExtRef;
+import com.xliic.openapi.refs.external.ExtRefService;
 import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
-import com.xliic.openapi.services.ExtRefService;
 
 public class Utils {
 
     public static final String REF = "$ref";
     public static final String REF_DELIMITER = "#/";
     public static final String POINTER_SEPARATOR = "/";
-
+    
     public final static ElementPattern<PsiElement> JSON_REF_PATTERN = new JsonElementPattern<>();
     public final static ElementPattern<PsiElement> YAML_REF_PATTERN = new YamlElementPattern<>();
 
     public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
     private static final String TAB_REPLACE_REGEXP = "(?<!\\\\)\\t";
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final DefaultIndenter INDENTER = new DefaultIndenter("", "");
-    private static final PrettyPrinter PRINTER = new DefaultPrettyPrinter().withObjectIndenter(INDENTER).
-            withArrayIndenter(INDENTER).withoutSpacesInObjectEntries();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final PrettyPrinter PRINTER;
+
+    static {
+        DefaultIndenter indenter = new DefaultIndenter("", "");
+        PRINTER = new DefaultPrettyPrinter().withObjectIndenter(indenter).withArrayIndenter(indenter).withoutSpacesInObjectEntries();
+    }
+
+    @NotNull
+    public static String getUserAgent() {
+    	return "42Crunch-Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
+    }
 
     public static String pointer(String parentPointer, String key) {
         return parentPointer + POINTER_SEPARATOR + escape(key);
@@ -290,7 +299,7 @@ public class Utils {
                 if (extRefFile != null) {
                     Node root = ASTService.getInstance(project).getRootNode(extRefFile);
                     if (root != null) {
-                        return createPair(extRefFile, root.find(pointer), !"".equals(pointer));
+                        return createPair(extRefFile, root.find(pointer), !pointer.isEmpty());
                     }
                 }
             }
@@ -363,27 +372,28 @@ public class Utils {
 
     @Nullable
     public static String serialize(@NotNull Object data, boolean minify) {
-        return serialize(new ObjectMapper(), data, minify);
-    }
-    
-    @NotNull
-    public static String serialize(@NotNull Object data, boolean minify, @NotNull String defaultValue) {
-        return Objects.requireNonNullElse(serialize(new ObjectMapper(), data, minify), defaultValue);
+        return serialize(MAPPER, data, minify);
     }
 
     @NotNull
-    public static Object deserialize(@NotNull String json, @NotNull Object defaultObj) {
-        try {
-            return OBJECT_MAPPER.readValue(json, Map.class);
-        } catch (JsonProcessingException ignored) {
-        }
-        return defaultObj;
+    public static String serialize(@NotNull Object data, boolean minify, @NotNull String defaultValue) {
+        return Objects.requireNonNullElse(serialize(MAPPER, data, minify), defaultValue);
+    }
+
+    @NotNull
+    public static Object deserialize(@NotNull String value, @NotNull Object defaultObj) {
+        return Objects.requireNonNullElse(deserialize(MAPPER, value, Map.class), defaultObj);
     }
 
     @Nullable
-    public static Object deserialize(@NotNull String json) {
+    public static Object deserialize(@NotNull String value) {
+        return deserialize(MAPPER, value, Map.class);
+    }
+
+    @Nullable
+    public static <T> T deserialize(@NotNull ObjectMapper mapper, @NotNull String value, @NotNull Class<T> valueType) {
         try {
-            return OBJECT_MAPPER.readValue(json, Map.class);
+            return mapper.readValue(value, valueType);
         } catch (JsonProcessingException ignored) {
         }
         return null;

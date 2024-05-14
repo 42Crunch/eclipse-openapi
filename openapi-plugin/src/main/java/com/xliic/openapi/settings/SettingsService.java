@@ -3,6 +3,7 @@ package com.xliic.openapi.settings;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.*;
 import static com.xliic.openapi.settings.Settings.DEFAULTS;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOSTNAMES;
+import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.settings.Settings.InlinedAnnotations.ENABLE_FLAG;
 import static com.xliic.openapi.settings.Settings.Outline.ABC_SORT;
 import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
@@ -19,6 +20,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -45,16 +47,18 @@ public class SettingsService implements ISettingsService, Disposable  {
     private static final String KEY_PREFIX = "com.xliic.openapi.settings";
     public static final String SUBSYSTEM = "xliic";
     private static final Set<String> IGNORED_KEYS = Set.of(TURNED_ON, TURNED_OFF);
-    private static final Set<String> SAFE_KEYS = Set.of(API_KEY, ENV_SECRETS_KEY, HEADER);
+    private static final Set<String> SAFE_KEYS = Set.of(API_KEY, ENV_SECRETS_KEY, HEADER, APPROVED_HOST_CONFIG);
     private static final Set<String> BOOLEAN_KEYS = Set.of(ABC_SORT, REPLACE_LOCALHOST, USE_HOST_NETWORK, SHOW_OUTLINE_DEMO, ENABLE_FLAG);
     private static final Set<String> LIST_KEYS = Set.of(APPROVED_HOSTNAMES, INSECURE_SSL_HOSTNAMES);
-
+    private static final Map<String, Converter> CONVERTERS = new HashMap<>();
+    
     @NotNull
     private final List<String> keys = new LinkedList<>();
     @NotNull
     private final Map<String, Object> cache = new ConcurrentHashMap<>();
 
     public SettingsService() {
+    	CONVERTERS.put(APPROVED_HOST_CONFIG, new ListConverter());
         addPropertiesKeys(Settings.class, keys);
     }
 
@@ -231,12 +235,6 @@ public class SettingsService implements ISettingsService, Disposable  {
         return Collections.unmodifiableList(keys);
     }
 
-    public String getDerivedAuthType() {
-        PasswordSafe passwordSafe = PasswordSafe.getInstance();
-        PropertiesComponent propertiesComponent = PropertiesComponent.getInstance();
-        return getDerivedAuthType(propertiesComponent, passwordSafe);
-    }
-
     private CredentialAttributes getCredentialAttrs(@NotNull String key) {
         return new CredentialAttributes(CredentialAttributesKt.generateServiceName(SUBSYSTEM, key));
     }
@@ -266,7 +264,7 @@ public class SettingsService implements ISettingsService, Disposable  {
         return value.startsWith(KEY_PREFIX_OLD) || value.startsWith(KEY_PREFIX);
     }
 
-    private Object getPropertyValue(PropertiesComponent propsComp, PasswordSafe passwdSafe, String key) {
+    private Object getSimplePropertyValue(PropertiesComponent propsComp, PasswordSafe passwdSafe, String key) {
         if (SAFE_KEYS.contains(key)) {
             return passwdSafe.getPassword(getCredentialAttrs(key));
         } else {
@@ -279,11 +277,20 @@ public class SettingsService implements ISettingsService, Disposable  {
             return propsComp.getValue(key);
         }
     }
+    
+    private Object getPropertyValue(PropertiesComponent propsComp, PasswordSafe passwdSafe, String key) {
+        Object value = getSimplePropertyValue(propsComp, passwdSafe, key);
+        if (value instanceof String && CONVERTERS.containsKey(key)) {
+            return CONVERTERS.get(key).toObject((String) value);
+        }
+        return value;
+    }
 
     @SuppressWarnings("unchecked")
     private void setPropertyValue(PropertiesComponent propsComp, PasswordSafe passwdSafe, String key, Object value) {
         if (SAFE_KEYS.contains(key)) {
-            passwdSafe.set(getCredentialAttrs(key), value == null ? null : new Credentials("", String.valueOf(value)));
+        	String safeValue = getStringPropertyValue(key, value);
+            passwdSafe.set(getCredentialAttrs(key), value == null ? null : new Credentials("", safeValue));
         } else {
             if (LIST_KEYS.contains(key)) {
                 propsComp.setList(key , (Collection<String>) value);
@@ -291,10 +298,17 @@ public class SettingsService implements ISettingsService, Disposable  {
                 // Method setValue for boolean can unset the property, use direct call for string
                 propsComp.setValue(key, ((Boolean) value).toString());
             } else {
-                propsComp.setValue(key, (String) value);
+                propsComp.setValue(key, getStringPropertyValue(key, value));
             }
             // Add other types if necessary
         }
+    }
+
+    private String getStringPropertyValue(String key, Object value) {
+        if (CONVERTERS.containsKey(key)) {
+            return CONVERTERS.get(key).toString(value);
+        }
+        return (String) value;
     }
 
     private String getDerivedAuthType(PropertiesComponent propsComp, PasswordSafe passwdSafe) {

@@ -1,23 +1,23 @@
-import { a as E, l as y, t as w, d as S, s as C, q as o, T as s, j as e, f as $, R as F, P as k, m as V, h as A, n as R } from "./TriangleExclamation.C9TIeFdu.js";
-import { e as M, h as f, u as _, j as L, l as N } from "./slice.mNbnWN2f.js";
-import { T } from "./Tabs.C__eCAeZ.js";
-import { u as P, a as p, d as D, b as G, F as W } from "./index.esm.CrWzV8fU.js";
-import { S as q } from "./ExclamationCircle.BeER_tLV.js";
-import { l as H, m as K, S as X } from "./variables.BLbxf-YR.js";
-const B = {
-  theme: w,
-  env: M
-}, I = (n, t) => E({
-  reducer: B,
-  middleware: (r) => r().prepend(n.middleware).concat(y),
+import { a as y, l as w, t as S, d as C, s as $, q as o, T as s, j as e, f as F, R as k, P as V, m as A, h as R, n as M } from "./TriangleExclamation.DXu4kS4a.js";
+import { e as _, h as g, u as L, j as N, l as T } from "./slice.CWBRDdMB.js";
+import { T as P } from "./Tabs.DmdBV2_q.js";
+import { u as D, a as v, d as G, b as W, F as q } from "./index.esm.BXz9bO7M.js";
+import { S as H } from "./ExclamationCircle.BKeR_1oo.js";
+import { l as K, m as X, S as B } from "./variables.nPa5PKXw.js";
+const I = {
+  theme: S,
+  env: _
+}, O = (n, t) => y({
+  reducer: I,
+  middleware: (r) => r().prepend(n.middleware).concat(w),
   preloadedState: {
     theme: t
   }
-}), g = S(), O = g.startListening;
-function z(n) {
-  return C({
-    saveEnv: () => O({
-      actionCreator: f,
+}), h = C(), z = h.startListening;
+function J(n) {
+  return $({
+    saveEnv: () => z({
+      actionCreator: g,
       effect: async (r, a) => {
         n.postMessage({
           command: "saveEnv",
@@ -25,67 +25,71 @@ function z(n) {
         });
       }
     })
-  }), g;
+  }), h;
 }
-function J({ name: n, remove: t }) {
-  const { control: r } = P(), {
-    field: a,
+function Q({
+  name: n,
+  remove: t,
+  password: r
+}) {
+  const { control: a } = D(), {
+    field: u,
     fieldState: { error: i }
-  } = p({
+  } = v({
     name: `${n}.key`,
-    control: r,
+    control: a,
     rules: {
       pattern: {
-        value: H(),
-        message: K
+        value: K(),
+        message: X
       }
     }
-  }), { field: d } = p({
+  }), { field: d } = v({
     name: `${n}.value`,
-    control: r
+    control: a
   });
-  return /* @__PURE__ */ e.jsxs(Q, { children: [
-    /* @__PURE__ */ e.jsxs(U, { children: [
-      /* @__PURE__ */ e.jsx(Y, { type: "text", ...a }),
-      /* @__PURE__ */ e.jsx(Z, { type: "text", ...d }),
+  return /* @__PURE__ */ e.jsxs(U, { children: [
+    /* @__PURE__ */ e.jsxs(Y, { children: [
+      /* @__PURE__ */ e.jsx(Z, { type: "text", ...u }),
+      /* @__PURE__ */ e.jsx(ee, { type: r ? "password" : "text", ...d }),
       /* @__PURE__ */ e.jsx(
-        ee,
+        ne,
         {
           onClick: (l) => {
             l.preventDefault(), l.stopPropagation(), t();
           },
-          children: /* @__PURE__ */ e.jsx(X, {})
+          children: /* @__PURE__ */ e.jsx(B, {})
         }
       )
     ] }),
-    i && /* @__PURE__ */ e.jsxs(ne, { children: [
-      /* @__PURE__ */ e.jsx(q, {}),
+    i && /* @__PURE__ */ e.jsxs(re, { children: [
+      /* @__PURE__ */ e.jsx(H, {}),
       "  ",
       i.message
     ] })
   ] });
 }
-const Q = o.div`
+const U = o.div`
   margin-bottom: 10px;
-`, U = o.div`
+`, Y = o.div`
   display: flex;
   &:hover > :last-child {
     visibility: visible;
   }
-`, Y = o.input`
+`, Z = o.input`
   flex: 1;
   border: none;
   background: transparent;
   border-bottom: 1px solid var(${s.border});
   color: var(${s.foreground});
   margin-right: 10px;
-`, Z = o.input`
+`, ee = o.input`
   flex: 2;
   border: none;
   background: transparent;
   border-bottom: 1px solid var(${s.border});
   color: var(${s.foreground});
-`, ee = o.button`
+`, ne = o.button`
   background: none;
   border: none;
   padding: 0;
@@ -98,14 +102,14 @@ const Q = o.div`
   > svg {
     fill: var(${s.foreground});
   }
-`, ne = o.div`
+`, re = o.div`
   padding: 4px;
   display: flex;
 `;
-function re({ append: n }) {
-  return /* @__PURE__ */ e.jsxs(te, { children: [
+function te({ append: n }) {
+  return /* @__PURE__ */ e.jsxs(oe, { children: [
     /* @__PURE__ */ e.jsx(
-      oe,
+      se,
       {
         placeholder: "name",
         value: "",
@@ -114,102 +118,104 @@ function re({ append: n }) {
         }
       }
     ),
-    /* @__PURE__ */ e.jsx(se, {})
+    /* @__PURE__ */ e.jsx(ae, {})
   ] });
 }
-const te = o.div`
+const oe = o.div`
   display: flex;
-`, oe = o.input`
+`, se = o.input`
   flex: 1;
   background: transparent;
   border: none;
   border-bottom: 1px solid var(${s.border});
   color: var(${s.foreground});
   margin-right: 10px;
-`, se = o.div`
+`, ae = o.div`
   flex: 2;
   border: none;
   background: transparent;
   border-bottom: 1px solid var(${s.border});
   margin-right: 1.5em;
 `;
-function v({
+function x({
   name: n,
-  data: t
+  data: t,
+  password: r
 }) {
-  const r = _(), a = ie(t), i = D({
-    defaultValues: a,
+  const a = L(), u = de(t), i = G({
+    defaultValues: u,
     mode: "onChange"
   }), { handleSubmit: d, control: l } = i;
-  function m(u) {
-    const c = de(u);
-    r(f({ name: n, environment: c }));
+  function p(m) {
+    const c = le(m);
+    a(g({ name: n, environment: c }));
   }
-  const { fields: h, append: b, remove: j } = G({
+  const { fields: b, append: j, remove: E } = W({
     control: l,
     name: "values"
   });
-  return /* @__PURE__ */ e.jsx(W, { ...i, children: /* @__PURE__ */ e.jsxs(ae, { onChange: d(m), children: [
-    h.map((u, c) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
-      J,
+  return /* @__PURE__ */ e.jsx(q, { ...i, children: /* @__PURE__ */ e.jsxs(ie, { onChange: d(p), children: [
+    b.map((m, c) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
+      Q,
       {
         name: `values.${c}`,
         remove: () => {
-          j(c), d(m)();
-        }
+          E(c), d(p)();
+        },
+        password: r
       }
-    ) }, u.id)),
-    /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(re, { append: b }) })
+    ) }, m.id)),
+    /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(te, { append: j }) })
   ] }) });
 }
-const ae = o.form`
+const ie = o.form`
   padding: 8px;
 `;
-function ie(n) {
+function de(n) {
   return { values: Object.entries(n).map(([r, a]) => ({ key: r, value: a })) };
 }
-function de(n) {
+function le(n) {
   const t = {};
   for (const r of n.values)
     t[r.key] = r.value;
   return t;
 }
-function le() {
-  const { data: n, ready: t } = L((r) => r.env);
-  return t ? /* @__PURE__ */ e.jsx(x, { children: /* @__PURE__ */ e.jsx(
-    T,
+function ce() {
+  const { data: n, ready: t } = N((r) => r.env);
+  return t ? /* @__PURE__ */ e.jsx(f, { children: /* @__PURE__ */ e.jsx(
+    P,
     {
       tabs: [
         {
           id: "default",
           title: "Default",
-          content: /* @__PURE__ */ e.jsx(v, { name: "default", data: n.default })
+          content: /* @__PURE__ */ e.jsx(x, { name: "default", data: n.default })
         },
         {
           id: "secrets",
           title: "Secrets",
-          content: /* @__PURE__ */ e.jsx(v, { name: "secrets", data: n.secrets })
+          content: /* @__PURE__ */ e.jsx(x, { name: "secrets", data: n.secrets, password: !0 })
         }
       ]
     }
-  ) }) : /* @__PURE__ */ e.jsx(x, { children: "Loading environment data..." });
+  ) }) : /* @__PURE__ */ e.jsx(f, { children: "Loading environment data..." });
 }
-const x = o.div`
+const f = o.div`
   margin: 4px;
-`, ce = {
-  changeTheme: R,
-  loadEnv: N
+`, ue = {
+  changeTheme: M,
+  loadEnv: T
 };
-function ue() {
+function me() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(A, {}),
-    /* @__PURE__ */ e.jsx(le, {})
+    /* @__PURE__ */ e.jsx(R, {}),
+    /* @__PURE__ */ e.jsx(ce, {})
   ] });
 }
-function me(n, t) {
-  const r = I(z(n), t);
-  $(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(F.StrictMode, { children: /* @__PURE__ */ e.jsx(k, { store: r, children: /* @__PURE__ */ e.jsx(ue, {}) }) })
-  ), window.addEventListener("message", V(r, ce));
+function pe(n, t) {
+  const r = O(J(n), t);
+  F(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(k.StrictMode, { children: /* @__PURE__ */ e.jsx(V, { store: r, children: /* @__PURE__ */ e.jsx(me, {}) }) })
+  ), window.addEventListener("message", A(r, ue));
 }
-window.renderWebView = me;
+window.renderWebView = pe;

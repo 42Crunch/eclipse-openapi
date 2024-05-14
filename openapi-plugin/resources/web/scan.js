@@ -1,19 +1,18 @@
-import { c as re, b as oe, a as we, u as Se, l as Ce, t as Ee, r as Oe, d as $e, s as Re, i as Ae, q as h, T as u, e as T, j as t, S as Ie, f as Pe, R as ke, P as Te, g as qe, m as He, h as Ne, k as Me, n as _e } from "./TriangleExclamation.C9TIeFdu.js";
-import { g as De, H as ae, e as Le, s as Fe, b as Be, l as Ue } from "./slice.mNbnWN2f.js";
-import { S as Ye, e as Ke, b as ze, c as We } from "./Xmark.BkZ661o-.js";
-import { p as Ve, s as Ge, a as Qe, S as F, l as Je } from "./index.DveCDhYk.js";
-import { c as Xe, l as Ze } from "./index.B4v_rV4O.js";
-import { s as et } from "./listener.Fe-L6Hxe.js";
+import { c as re, b as oe, a as we, u as Se, l as Ce, t as Ee, r as Oe, d as $e, s as Re, i as Ae, q as h, T as u, e as T, j as t, S as Ie, f as Pe, R as ke, P as Te, g as qe, m as He, h as Ne, k as Me, n as _e } from "./TriangleExclamation.DXu4kS4a.js";
+import { g as De, H as ae, e as Le, s as Fe, b as Be, l as Ue } from "./slice.CWBRDdMB.js";
+import { S as Ye, e as ze, b as Ke, c as We } from "./Xmark.rAdsPcBP.js";
+import { p as Ve, s as Ge, a as Qe, S as F, l as Je } from "./index.D6snYo-h.js";
+import { c as Xe, S as M, l as Ze } from "./index.CChMyIf-.js";
+import { s as et } from "./listener.BByQOU-k.js";
 import { D as H } from "./datetime.BMKtNb6j.js";
-import { S as tt } from "./AngleDown.xeAvjyBy.js";
-import { S as st } from "./AngleUp.ax7ypatx.js";
-import { S as M } from "./Check.CQ-dhxPU.js";
-import { S as N } from "./ExclamationCircle.BeER_tLV.js";
-import { $ as nt, a as it, b as rt, c as ot, d as at, e as ct } from "./index.DicHCJjK.js";
-import { R as ce } from "./Response.BPNpayXx.js";
-import { P as q } from "./Select.Di7SbbiK.js";
-import { T as dt } from "./Tabs.C__eCAeZ.js";
-import { C as lt } from "./CollapsibleCard.EvFtfb-e.js";
+import { S as tt } from "./AngleDown.B1PAEJDo.js";
+import { S as st } from "./AngleUp.D4X3ZBAW.js";
+import { S as N } from "./ExclamationCircle.BKeR_1oo.js";
+import { $ as nt, a as it, b as rt, c as ot, d as at, e as ct } from "./index.DFJbX2ak.js";
+import { R as ce } from "./Response.RMAZIPsI.js";
+import { P as q } from "./Select.DP_PMttj.js";
+import { T as dt } from "./Tabs.DmdBV2_q.js";
+import { C as lt } from "./CollapsibleCard.C-xTDNmK.js";
 const ht = {
   oas: {
     openapi: "3.0.0",
@@ -25,7 +24,9 @@ const ht = {
   prefs: {
     scanServer: "",
     tryitServer: "",
-    security: {}
+    security: {},
+    useGlobalBlocks: !0,
+    rejectUnauthorized: !0
   },
   error: void 0,
   responses: {},
@@ -54,14 +55,14 @@ const ht = {
     },
     showScanReport: (e, s) => {
       var b;
-      const { oas: n, path: i, method: r, report: f } = s.payload, o = De(n, i, r), d = (o == null ? void 0 : o.operationId) === void 0 ? `${i}:${r}` : o.operationId, a = (b = f.operations) == null ? void 0 : b[d];
-      a && (e.operations[d] = a);
-      const p = te(f), l = B(p, e.filter), { titles: x, paths: j, operationIds: C } = P(p), { grouped: S } = P(l);
+      const { oas: n, path: i, method: r, report: f } = s.payload, o = De(n, i, r), l = (o == null ? void 0 : o.operationId) === void 0 ? `${i}:${r}` : o.operationId, a = (b = f.operations) == null ? void 0 : b[l];
+      a && (e.operations[l] = a);
+      const p = te(f), d = B(p, e.filter), { titles: x, paths: j, operationIds: C } = P(p), { grouped: S } = P(d);
       e.issues = p, e.titles = x, e.paths = j, e.operationIds = C, e.grouped = S, e.oas = n, e.scanReport = f, e.waiting = !1;
     },
     showFullScanReport: (e, s) => {
-      const { oas: n, report: i } = s.payload, r = te(i), f = B(r, e.filter), { titles: o, paths: d, operationIds: a } = P(r), { grouped: p } = P(f);
-      e.oas = n, e.operations = { ...i.operations || {} }, e.issues = r, e.titles = o, e.paths = d, e.operationIds = a, e.grouped = p, e.scanReport = i, e.waiting = !1;
+      const { oas: n, report: i } = s.payload, r = te(i), f = B(r, e.filter), { titles: o, paths: l, operationIds: a } = P(r), { grouped: p } = P(f);
+      e.oas = n, e.operations = { ...i.operations || {} }, e.issues = r, e.titles = o, e.paths = l, e.operationIds = a, e.grouped = p, e.scanReport = i, e.waiting = !1;
     },
     changeFilter: (e, s) => {
       e.filter = s.payload;
@@ -98,9 +99,9 @@ const ht = {
   showFullScanReport: ft,
   showGeneralError: xt,
   showHttpError: gt,
-  sendHttpRequest: mt,
+  sendHttpRequest: vt,
   sendCurlRequest: he,
-  showHttpResponse: vt,
+  showHttpResponse: mt,
   showJsonPointer: pe,
   showAuditReport: yt,
   changeTab: _,
@@ -110,19 +111,19 @@ function te(e) {
   var n, i, r;
   const s = [];
   for (const [f, o] of Object.entries((e == null ? void 0 : e.operations) || {}))
-    for (const d of [
+    for (const l of [
       "conformanceRequestsResults",
       "authorizationRequestsResults",
       "customRequestsResults"
     ]) {
-      const a = o[d], p = o.path, l = o.method.toLocaleLowerCase();
+      const a = o[l], p = o.path, d = o.method.toLocaleLowerCase();
       for (const x of a || [])
-        s.push({ ...x, path: p, method: l, operationId: f });
+        s.push({ ...x, path: p, method: d, operationId: f });
     }
   for (const f of Object.keys((e == null ? void 0 : e.methodNotAllowed) || {}))
     for (const o of ae) {
-      const d = (r = (i = (n = e == null ? void 0 : e.methodNotAllowed) == null ? void 0 : n[f]) == null ? void 0 : i[o]) == null ? void 0 : r.conformanceRequestsResults;
-      for (const a of d || [])
+      const l = (r = (i = (n = e == null ? void 0 : e.methodNotAllowed) == null ? void 0 : n[f]) == null ? void 0 : i[o]) == null ? void 0 : r.conformanceRequestsResults;
+      for (const a of l || [])
         s.push({ ...a, path: f });
     }
   return s;
@@ -132,33 +133,33 @@ function B(e, s) {
     var p;
     return (s == null ? void 0 : s.title) === void 0 || ((p = a.test) == null ? void 0 : p.key) === s.title;
   }, i = s.severity !== void 0 ? Ye.indexOf(s.severity) + 1 : 0, r = (a) => {
-    var p, l;
-    return s.severity === void 0 || ((p = a.outcome) == null ? void 0 : p.criticality) === void 0 || ((l = a.outcome) == null ? void 0 : l.criticality) >= i;
-  }, f = (a) => (s == null ? void 0 : s.path) === void 0 || a.path === s.path, o = (a) => (s == null ? void 0 : s.method) === void 0 || a.method === s.method, d = (a) => (s == null ? void 0 : s.operationId) === void 0 || a.operationId === s.operationId;
-  return e.filter((a) => n(a) && r(a) && f(a) && o(a) && d(a));
+    var p, d;
+    return s.severity === void 0 || ((p = a.outcome) == null ? void 0 : p.criticality) === void 0 || ((d = a.outcome) == null ? void 0 : d.criticality) >= i;
+  }, f = (a) => (s == null ? void 0 : s.path) === void 0 || a.path === s.path, o = (a) => (s == null ? void 0 : s.method) === void 0 || a.method === s.method, l = (a) => (s == null ? void 0 : s.operationId) === void 0 || a.operationId === s.operationId;
+  return e.filter((a) => n(a) && r(a) && f(a) && o(a) && l(a));
 }
 function P(e) {
-  var o, d;
+  var o, l;
   const s = {}, n = {}, i = /* @__PURE__ */ new Set(), r = /* @__PURE__ */ new Set();
   for (const a of e) {
     const p = (o = a.test) == null ? void 0 : o.key;
-    p !== void 0 && (s[p] === void 0 && (s[p] = [], n[p] = (d = a.test) == null ? void 0 : d.description), s[p].push(a)), i.add(a.path), a.operationId && r.add(a.operationId);
+    p !== void 0 && (s[p] === void 0 && (s[p] = [], n[p] = (l = a.test) == null ? void 0 : l.description), s[p].push(a)), i.add(a.path), a.operationId && r.add(a.operationId);
   }
   const f = Object.keys(s);
   for (const a of f)
-    s[a].sort((p, l) => {
-      var x, j, C, S, b, $, R, m, A, I;
-      if (((x = p.outcome) == null ? void 0 : x.status) !== ((j = l.outcome) == null ? void 0 : j.status)) {
+    s[a].sort((p, d) => {
+      var x, j, C, S, b, $, R, v, A, I;
+      if (((x = p.outcome) == null ? void 0 : x.status) !== ((j = d.outcome) == null ? void 0 : j.status)) {
         if (((C = p.outcome) == null ? void 0 : C.status) === "error")
           return -1;
-        if (((S = l.outcome) == null ? void 0 : S.status) === "error")
+        if (((S = d.outcome) == null ? void 0 : S.status) === "error")
           return 1;
         if (((b = p.outcome) == null ? void 0 : b.status) === "defective")
           return -1;
-        if ((($ = l.outcome) == null ? void 0 : $.status) === "defective")
+        if ((($ = d.outcome) == null ? void 0 : $.status) === "defective")
           return 1;
       }
-      return ((R = p.outcome) == null ? void 0 : R.criticality) !== ((m = l.outcome) == null ? void 0 : m.criticality) ? ((A = p.outcome) == null ? void 0 : A.criticality) - ((I = l.outcome) == null ? void 0 : I.criticality) : 0;
+      return ((R = p.outcome) == null ? void 0 : R.criticality) !== ((v = d.outcome) == null ? void 0 : v.criticality) ? ((A = p.outcome) == null ? void 0 : A.criticality) - ((I = d.outcome) == null ? void 0 : I.criticality) : 0;
     });
   return {
     grouped: s,
@@ -208,7 +209,7 @@ function Ot(e, s) {
       }
     }),
     sendHttpRequest: () => E({
-      actionCreator: mt,
+      actionCreator: vt,
       effect: async (i, r) => {
         e.postMessage({
           command: "sendHttpRequest",
@@ -261,14 +262,14 @@ function $t() {
   const f = () => {
     const o = n.current;
     if (o) {
-      const d = o.scrollTop, a = o.scrollHeight, p = o.clientHeight;
-      a - (d + p) < 10 ? r(!1) : r(!0);
+      const l = o.scrollTop, a = o.scrollHeight, p = o.clientHeight;
+      a - (l + p) < 10 ? r(!1) : r(!0);
     }
   };
-  return /* @__PURE__ */ t.jsx(Pt, { children: /* @__PURE__ */ t.jsx(At, { ref: n, onScroll: f, children: s.map((o, d, a) => /* @__PURE__ */ t.jsxs("div", { children: [
-    /* @__PURE__ */ t.jsx(Rt, { first: d === 0, last: d === a.length - 1 }),
+  return /* @__PURE__ */ t.jsx(Pt, { children: /* @__PURE__ */ t.jsx(At, { ref: n, onScroll: f, children: s.map((o, l, a) => /* @__PURE__ */ t.jsxs("div", { children: [
+    /* @__PURE__ */ t.jsx(Rt, { first: l === 0, last: l === a.length - 1 }),
     /* @__PURE__ */ t.jsx("div", { children: o.message })
-  ] }, d)) }) });
+  ] }, l)) }) });
 }
 function Rt({ first: e, last: s }) {
   return /* @__PURE__ */ t.jsxs(It, { first: e, last: s, children: [
@@ -399,13 +400,13 @@ function Dt({
 }) {
   const i = y(), r = s.filter(
     (o) => {
-      var d, a;
-      return ((d = o == null ? void 0 : o.outcome) == null ? void 0 : d.criticality) && ((a = o.outcome) == null ? void 0 : a.criticality) >= 1;
+      var l, a;
+      return ((l = o == null ? void 0 : o.outcome) == null ? void 0 : l.criticality) && ((a = o.outcome) == null ? void 0 : a.criticality) >= 1;
     }
   ).length, f = s.filter(
     (o) => {
-      var d, a;
-      return ((d = o == null ? void 0 : o.outcome) == null ? void 0 : d.criticality) && ((a = o.outcome) == null ? void 0 : a.criticality) >= 4;
+      var l, a;
+      return ((l = o == null ? void 0 : o.outcome) == null ? void 0 : l.criticality) && ((a = o.outcome) == null ? void 0 : a.criticality) >= 4;
     }
   ).length;
   return /* @__PURE__ */ t.jsxs(Lt, { children: [
@@ -515,16 +516,16 @@ function ge({
   return /* @__PURE__ */ t.jsx(Ut, { children: /* @__PURE__ */ t.jsxs(Yt, { style: { lineBreak: "anywhere", whiteSpace: "pre-line" }, children: [
     /* @__PURE__ */ t.jsx(rt, { children: /* @__PURE__ */ t.jsxs(ot, { children: [
       /* @__PURE__ */ t.jsx(at, { asChild: !0, children: /* @__PURE__ */ t.jsx("span", { children: /* @__PURE__ */ t.jsx(
-        Ke,
+        ze,
         {
           onClick: (r) => {
             r.preventDefault(), r.stopPropagation(), i(he(e));
           }
         }
       ) }) }),
-      /* @__PURE__ */ t.jsx(ct, { children: /* @__PURE__ */ t.jsxs(Kt, { sideOffset: 5, children: [
+      /* @__PURE__ */ t.jsx(ct, { children: /* @__PURE__ */ t.jsxs(zt, { sideOffset: 5, children: [
         "Copy cURL command to the clipboard",
-        /* @__PURE__ */ t.jsx(zt, {})
+        /* @__PURE__ */ t.jsx(Kt, {})
       ] }) })
     ] }) }),
     e
@@ -545,14 +546,14 @@ const Ut = h.div``, Yt = h.div`
   position: relative;
   font-family: monospace;
   background-color: var(${u.computedOne});
-`, Kt = h(nt)`
+`, zt = h(nt)`
   color: var(${u.notificationsForeground});
   background-color: var(${u.notificationsBackground});
   border: 1px solid var(${u.notificationsBorder});
   border-radius: 4px;
   padding: 4px 8px;
   margin-right: 16px;
-`, zt = h(it)`
+`, Kt = h(it)`
   fill: var(${u.notificationsForeground});
 `;
 function c(e) {
@@ -568,13 +569,13 @@ c.encoding = "ascii";
 c.maxHeaderSize = 80 * 1024;
 c.REQUEST = "REQUEST";
 c.RESPONSE = "RESPONSE";
-var me = c.kOnHeaders = 1, U = c.kOnHeadersComplete = 2, D = c.kOnBody = 3, Y = c.kOnMessageComplete = 4;
-c.prototype[me] = c.prototype[U] = c.prototype[D] = c.prototype[Y] = function() {
+var ve = c.kOnHeaders = 1, U = c.kOnHeadersComplete = 2, D = c.kOnBody = 3, Y = c.kOnMessageComplete = 4;
+c.prototype[ve] = c.prototype[U] = c.prototype[D] = c.prototype[Y] = function() {
 };
-var ve = !0;
+var me = !0;
 Object.defineProperty(c, "kOnExecute", {
   get: function() {
-    return ve = !1, 99;
+    return me = !1, 99;
   }
 });
 var ye = c.methods = [
@@ -743,8 +744,8 @@ c.prototype.HEADER = function() {
             break;
         }
       this.isChunked && i && (i = !1, this.body_bytes = null), f && this.connection.indexOf("upgrade") != -1 ? s.upgrade = this.type === c.REQUEST || s.statusCode === 101 : s.upgrade = s.method === je, this.isChunked && s.upgrade && (this.isChunked = !1), s.shouldKeepAlive = this.shouldKeepAlive();
-      var d;
-      if (ve ? d = this.userCall()(this[U](s)) : d = this.userCall()(this[U](
+      var l;
+      if (me ? l = this.userCall()(this[U](s)) : l = this.userCall()(this[U](
         s.versionMajor,
         s.versionMinor,
         s.headers,
@@ -754,12 +755,12 @@ c.prototype.HEADER = function() {
         s.statusMessage,
         s.upgrade,
         s.shouldKeepAlive
-      )), d === 2)
+      )), l === 2)
         return this.nextRequest(), !0;
-      if (this.isChunked && !d)
+      if (this.isChunked && !l)
         this.state = "BODY_CHUNKHEAD";
       else {
-        if (d || this.body_bytes === 0)
+        if (l || this.body_bytes === 0)
           return this.nextRequest(), s.upgrade;
         this.body_bytes === null ? this.state = "BODY_RAW" : this.state = "BODY_SIZED";
       }
@@ -780,7 +781,7 @@ c.prototype.BODY_CHUNKEMPTYLINE = function() {
 };
 c.prototype.BODY_CHUNKTRAILERS = function() {
   var e = this.consumeLine();
-  e !== void 0 && (e ? this.parseHeader(e, this.trailers) : (this.trailers.length && this.userCall()(this[me](this.trailers, "")), this.nextRequest()));
+  e !== void 0 && (e ? this.parseHeader(e, this.trailers) : (this.trailers.length && this.userCall()(this[ve](this.trailers, "")), this.nextRequest()));
 };
 c.prototype.BODY_RAW = function() {
   var e = this.end - this.offset;
@@ -824,20 +825,20 @@ function be(e) {
 }
 function Zt(e) {
   const s = new c(c.RESPONSE);
-  let n = !1, i = 0, r, f, o = [], d = [];
-  if (s[c.kOnHeadersComplete] = function(l) {
-    l.shouldKeepAlive, l.upgrade, i = l.statusCode, l.statusMessage, r = l.versionMajor, f = l.versionMinor, o = l.headers;
-  }, s[c.kOnBody] = function(l, x, j) {
-    d.push(l.slice(x, x + j));
-  }, s[c.kOnHeaders] = function(l) {
+  let n = !1, i = 0, r, f, o = [], l = [];
+  if (s[c.kOnHeadersComplete] = function(d) {
+    d.shouldKeepAlive, d.upgrade, i = d.statusCode, d.statusMessage, r = d.versionMajor, f = d.versionMinor, o = d.headers;
+  }, s[c.kOnBody] = function(d, x, j) {
+    l.push(d.slice(x, x + j));
+  }, s[c.kOnHeaders] = function(d) {
   }, s[c.kOnMessageComplete] = function() {
     n = !0;
   }, s.execute(e), s.finish(), !n)
     throw new Error("Could not parse");
-  let a = d.join("");
+  let a = l.join("");
   const p = [];
-  for (let l = 0; l < o.length - 1; l++)
-    l % 2 === 0 && p.push([o[l], o[l + 1]]);
+  for (let d = 0; d < o.length - 1; d++)
+    d % 2 === 0 && p.push([o[d], o[d + 1]]);
   return {
     headers: p,
     statusCode: i,
@@ -852,24 +853,24 @@ function es({
   id: i,
   waiting: r
 }) {
-  var A, I, K, z, W, V, G, Q, J, X, Z;
-  const f = y(), [o, d] = T.useState(!0), { request: a, response: p, test: l, outcome: x } = e, j = (x == null ? void 0 : x.status) === "correct", C = x == null ? void 0 : x.conformant, S = !(j && C);
+  var A, I, z, K, W, V, G, Q, J, X, Z;
+  const f = y(), [o, l] = T.useState(!0), { request: a, response: p, test: d, outcome: x } = e, j = (x == null ? void 0 : x.status) === "correct", C = x == null ? void 0 : x.conformant, S = !(j && C);
   let b = "N/A", $ = "N/A";
   const R = ((I = (A = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : A[0]) == null ? void 0 : I.responseKey) === "response-http-status-scan" ? "No" : "Yes";
-  R === "Yes" && (b = ((z = (K = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : K[0]) == null ? void 0 : z.responseKey) === "response-body-contenttype-scan" ? "No" : "Yes"), b === "Yes" && ($ = ((V = (W = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : W[0]) == null ? void 0 : V.responseKey) === "response-body-badformat-scan" ? "No" : "Yes");
-  const m = x == null ? void 0 : x.error;
+  R === "Yes" && (b = ((K = (z = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : z[0]) == null ? void 0 : K.responseKey) === "response-body-contenttype-scan" ? "No" : "Yes"), b === "Yes" && ($ = ((V = (W = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : W[0]) == null ? void 0 : V.responseKey) === "response-body-badformat-scan" ? "No" : "Yes");
+  const v = x == null ? void 0 : x.error;
   return /* @__PURE__ */ t.jsxs(ts, { children: [
-    /* @__PURE__ */ t.jsxs(ss, { collapsed: o, onClick: () => d(!o), children: [
+    /* @__PURE__ */ t.jsxs(ss, { collapsed: o, onClick: () => l(!o), children: [
       /* @__PURE__ */ t.jsx("div", { children: o ? /* @__PURE__ */ t.jsx(tt, {}) : /* @__PURE__ */ t.jsx(st, {}) }),
       /* @__PURE__ */ t.jsxs("div", { children: [
-        /* @__PURE__ */ t.jsx(ns, { children: l == null ? void 0 : l.description }),
+        /* @__PURE__ */ t.jsx(ns, { children: d == null ? void 0 : d.description }),
         /* @__PURE__ */ t.jsxs(is, { children: [
-          m && /* @__PURE__ */ t.jsxs(k, { children: [
+          v && /* @__PURE__ */ t.jsxs(k, { children: [
             /* @__PURE__ */ t.jsx(N, {}),
             " Error: ",
-            m
+            v
           ] }),
-          !m && S && /* @__PURE__ */ t.jsxs(k, { children: [
+          !v && S && /* @__PURE__ */ t.jsxs(k, { children: [
             /* @__PURE__ */ t.jsx(N, {}),
             " Failed",
             x.criticality > 0 && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
@@ -880,11 +881,11 @@ function es({
               ] })
             ] })
           ] }),
-          !m && !S && /* @__PURE__ */ t.jsxs(k, { children: [
+          !v && !S && /* @__PURE__ */ t.jsxs(k, { children: [
             /* @__PURE__ */ t.jsx(M, {}),
             " Passed"
           ] }),
-          !m && S && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+          !v && S && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
             /* @__PURE__ */ t.jsx(k, { children: j ? /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
               /* @__PURE__ */ t.jsx(M, {}),
               " Response code: Expected"
@@ -904,60 +905,60 @@ function es({
       ] })
     ] }),
     !o && /* @__PURE__ */ t.jsxs(rs, { children: [
-      m && /* @__PURE__ */ t.jsxs(v, { children: [
+      v && /* @__PURE__ */ t.jsxs(m, { children: [
         /* @__PURE__ */ t.jsx("div", { children: "Error" }),
-        /* @__PURE__ */ t.jsx("div", { children: m })
+        /* @__PURE__ */ t.jsx("div", { children: v })
       ] }),
-      !m && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
-        /* @__PURE__ */ t.jsxs(v, { children: [
+      !v && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+        /* @__PURE__ */ t.jsxs(m, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "HTTP code received" }),
           /* @__PURE__ */ t.jsxs("div", { children: [
             p == null ? void 0 : p.httpStatusCode,
             " (Expected: ",
-            (G = l == null ? void 0 : l.httpStatusExpected) == null ? void 0 : G.join(", "),
+            (G = d == null ? void 0 : d.httpStatusExpected) == null ? void 0 : G.join(", "),
             ")"
           ] })
         ] }),
-        /* @__PURE__ */ t.jsxs(v, { children: [
+        /* @__PURE__ */ t.jsxs(m, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Response code found in API Contract" }),
           /* @__PURE__ */ t.jsx("div", { children: R })
         ] }),
-        /* @__PURE__ */ t.jsxs(v, { children: [
+        /* @__PURE__ */ t.jsxs(m, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Content-Type found in API Contract" }),
           /* @__PURE__ */ t.jsx("div", { children: b })
         ] }),
-        /* @__PURE__ */ t.jsxs(v, { children: [
+        /* @__PURE__ */ t.jsxs(m, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Response matches API Contract" }),
           /* @__PURE__ */ t.jsx("div", { children: $ })
         ] }),
-        ((J = (Q = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : Q[0]) == null ? void 0 : J.responseDescription) && /* @__PURE__ */ t.jsxs(v, { children: [
+        ((J = (Q = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : Q[0]) == null ? void 0 : J.responseDescription) && /* @__PURE__ */ t.jsxs(m, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Response analysis" }),
           /* @__PURE__ */ t.jsxs("div", { children: [
             " ",
             (Z = (X = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : X[0]) == null ? void 0 : Z.responseDescription
           ] })
         ] }),
-        /* @__PURE__ */ t.jsxs(v, { children: [
+        /* @__PURE__ */ t.jsxs(m, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "JSON Pointer" }),
-          /* @__PURE__ */ t.jsx("div", { children: l != null && l.jsonPointer ? /* @__PURE__ */ t.jsx(
+          /* @__PURE__ */ t.jsx("div", { children: d != null && d.jsonPointer ? /* @__PURE__ */ t.jsx(
             "a",
             {
               href: "#",
               onClick: (ee) => {
                 ee.preventDefault(), ee.stopPropagation(), f(
-                  pe((l == null ? void 0 : l.jsonPointer) + "")
+                  pe((d == null ? void 0 : d.jsonPointer) + "")
                   // FIXME support indexed reports
                 );
               },
-              children: l == null ? void 0 : l.jsonPointer
+              children: d == null ? void 0 : d.jsonPointer
             }
           ) : "N/A" })
         ] }),
-        (a == null ? void 0 : a.curl) && /* @__PURE__ */ t.jsxs(v, { children: [
+        (a == null ? void 0 : a.curl) && /* @__PURE__ */ t.jsxs(m, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Request" }),
           /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(ge, { waiting: r, curl: a.curl, id: i }) })
         ] }),
-        n === void 0 && (s !== void 0 || (p == null ? void 0 : p.rawPayload) !== void 0) && /* @__PURE__ */ t.jsxs(v, { children: [
+        n === void 0 && (s !== void 0 || (p == null ? void 0 : p.rawPayload) !== void 0) && /* @__PURE__ */ t.jsxs(m, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Response" }),
           /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(
             ce,
@@ -967,7 +968,7 @@ function es({
             }
           ) })
         ] }),
-        n && /* @__PURE__ */ t.jsxs(v, { children: [
+        n && /* @__PURE__ */ t.jsxs(m, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Error" }),
           /* @__PURE__ */ t.jsx("div", { children: n == null ? void 0 : n.message })
         ] })
@@ -1011,7 +1012,7 @@ const ts = h.div`
   }
 `, rs = h.div`
   background-color: var(${u.computedOne});
-`, v = h.div`
+`, m = h.div`
   display: flex;
   padding: 8px;
   gap: 8px;
@@ -1049,7 +1050,7 @@ function cs({
         n.preventDefault(), n.stopPropagation(), s();
       },
       children: /* @__PURE__ */ t.jsxs(hs, { children: [
-        /* @__PURE__ */ t.jsx(ze, {}),
+        /* @__PURE__ */ t.jsx(Ke, {}),
         e !== 0 && /* @__PURE__ */ t.jsx(ls, { children: e })
       ] })
     }
@@ -1147,7 +1148,7 @@ function gs() {
   const { filter: e, titles: s } = w((r) => r.scan), n = y(), i = [];
   for (const r of s)
     se[r] && i.push({ label: se[r], value: r });
-  return /* @__PURE__ */ t.jsx(ms, { children: /* @__PURE__ */ t.jsx(
+  return /* @__PURE__ */ t.jsx(vs, { children: /* @__PURE__ */ t.jsx(
     q,
     {
       label: "Type",
@@ -1160,7 +1161,7 @@ function gs() {
     }
   ) });
 }
-const ms = h.div`
+const vs = h.div`
   width: 264px;
 `, se = {
   "path-item-method-not-allowed-scan": "Scan sends a request using an undefined verb",
@@ -1186,7 +1187,7 @@ const ms = h.div`
   "schema-type-wrong-array-scan": "Scan sends a request containing an array instead of the expected type",
   "schema-type-wrong-object-scan": "Scan sends a request containing an object instead of the expected type"
 };
-function vs() {
+function ms() {
   const { filter: e, paths: s } = w((r) => r.scan), n = y(), i = s.map((r) => ({ label: r, value: r }));
   return /* @__PURE__ */ t.jsx(ys, { children: /* @__PURE__ */ t.jsx(
     q,
@@ -1245,7 +1246,7 @@ const Ss = h.div`
   width: 264px;
 `;
 function Cs() {
-  const { filter: e, grouped: s } = w((d) => d.scan), [n, i] = T.useState(!0), f = ["severity", "title"].filter((d) => e && e[d] !== void 0).length, o = Object.keys(s).map((d) => s[d].length).reduce((d, a) => d + a, 0);
+  const { filter: e, grouped: s } = w((l) => l.scan), [n, i] = T.useState(!0), f = ["severity", "title"].filter((l) => e && e[l] !== void 0).length, o = Object.keys(s).map((l) => s[l].length).reduce((l, a) => l + a, 0);
   return /* @__PURE__ */ t.jsxs(Es, { children: [
     /* @__PURE__ */ t.jsxs(Os, { children: [
       /* @__PURE__ */ t.jsxs("div", { children: [
@@ -1257,7 +1258,7 @@ function Cs() {
     !n && /* @__PURE__ */ t.jsxs($s, { children: [
       /* @__PURE__ */ t.jsx(fs, {}),
       /* @__PURE__ */ t.jsx(gs, {}),
-      /* @__PURE__ */ t.jsx(vs, {}),
+      /* @__PURE__ */ t.jsx(ms, {}),
       /* @__PURE__ */ t.jsx(ws, {}),
       /* @__PURE__ */ t.jsx(js, {}),
       /* @__PURE__ */ t.jsx(ps, {})
@@ -1298,8 +1299,8 @@ function Rs({
     /* @__PURE__ */ t.jsx(Cs, {}),
     Object.keys(r).map((f) => /* @__PURE__ */ t.jsxs("div", { children: [
       /* @__PURE__ */ t.jsx(Is, { children: Ps[f] ?? "Unknown test type" }),
-      r[f].map((o, d) => {
-        const a = `${f}-${d}`;
+      r[f].map((o, l) => {
+        const a = `${f}-${l}`;
         return /* @__PURE__ */ t.jsx(
           es,
           {
@@ -1354,45 +1355,55 @@ const ne = h.div`
   "schema-uniqueitems-unique-scan": "Scan sends a request containing an array value that does not follow the property 'uniqueItems' that constrains this value."
 };
 function ks({ operation: e }) {
-  var d, a;
-  const { request: s, response: n, outcome: i, happyPath: r } = (d = e.scenarios) == null ? void 0 : d[0];
-  let f = "N/A";
-  const o = (i == null ? void 0 : i.status) === "correct" ? "Yes" : "No";
-  return o === "Yes" && (f = i != null && i.conformant ? "Yes" : "No"), /* @__PURE__ */ t.jsxs(Ts, { children: [
+  var a, p;
+  const s = (a = e.scenarios) == null ? void 0 : a[0];
+  if (s === void 0) {
+    const d = e.reason || "unknown";
+    return /* @__PURE__ */ t.jsxs(qs, { children: [
+      "Happy path failed, reason: ",
+      d
+    ] });
+  }
+  const { request: n, response: i, outcome: r, happyPath: f } = s;
+  let o = "N/A";
+  const l = (r == null ? void 0 : r.status) === "correct" ? "Yes" : "No";
+  return l === "Yes" && (o = r != null && r.conformant ? "Yes" : "No"), /* @__PURE__ */ t.jsxs(Ts, { children: [
     /* @__PURE__ */ t.jsxs(O, { children: [
       /* @__PURE__ */ t.jsx("div", { children: "HTTP code received" }),
       /* @__PURE__ */ t.jsxs("div", { children: [
-        n == null ? void 0 : n.httpStatusCode,
+        i == null ? void 0 : i.httpStatusCode,
         " (Expected: ",
-        (a = r == null ? void 0 : r.httpStatusExpected) == null ? void 0 : a.join(", "),
+        (p = f == null ? void 0 : f.httpStatusExpected) == null ? void 0 : p.join(", "),
         ")"
       ] })
     ] }),
     /* @__PURE__ */ t.jsxs(O, { children: [
       /* @__PURE__ */ t.jsx("div", { children: "Response code found in API Contract" }),
-      /* @__PURE__ */ t.jsx("div", { children: o })
+      /* @__PURE__ */ t.jsx("div", { children: l })
     ] }),
     /* @__PURE__ */ t.jsxs(O, { children: [
       /* @__PURE__ */ t.jsx("div", { children: "Response matches API Contract" }),
-      /* @__PURE__ */ t.jsx("div", { children: f })
+      /* @__PURE__ */ t.jsx("div", { children: o })
     ] }),
-    (s == null ? void 0 : s.curl) && /* @__PURE__ */ t.jsxs(O, { children: [
+    (n == null ? void 0 : n.curl) && /* @__PURE__ */ t.jsxs(O, { children: [
       /* @__PURE__ */ t.jsx("div", { children: "Request" }),
-      /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(ge, { curl: s == null ? void 0 : s.curl, id: "happy-path", waiting: !1 }) })
+      /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(ge, { curl: n == null ? void 0 : n.curl, id: "happy-path", waiting: !1 }) })
     ] }),
-    (n == null ? void 0 : n.rawPayload) && /* @__PURE__ */ t.jsxs(O, { children: [
+    (i == null ? void 0 : i.rawPayload) && /* @__PURE__ */ t.jsxs(O, { children: [
       /* @__PURE__ */ t.jsx("div", { children: "Response" }),
-      /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(ce, { accented: !0, response: be(n.rawPayload) }) })
+      /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(ce, { accented: !0, response: be(i.rawPayload) }) })
     ] }),
-    (i == null ? void 0 : i.error) && /* @__PURE__ */ t.jsxs(O, { children: [
+    (r == null ? void 0 : r.error) && /* @__PURE__ */ t.jsxs(O, { children: [
       /* @__PURE__ */ t.jsx("div", { children: "Error" }),
-      /* @__PURE__ */ t.jsx("div", { children: i == null ? void 0 : i.error })
+      /* @__PURE__ */ t.jsx("div", { children: r == null ? void 0 : r.error })
     ] })
   ] });
 }
 const Ts = h.div`
   margin: 8px;
   border: 1px solid var(${u.border});
+`, qs = h.div`
+  margin: 16px;
 `, O = h.div`
   display: flex;
   padding: 8px;
@@ -1406,27 +1417,27 @@ const Ts = h.div`
     flex: 3;
   }
 `;
-function qs({
+function Hs({
   operation: e,
   operationId: s,
   defaultCollapsed: n
 }) {
-  return /* @__PURE__ */ t.jsx(Hs, { children: /* @__PURE__ */ t.jsxs(lt, { defaultCollapsed: n, children: [
-    /* @__PURE__ */ t.jsxs(Ns, { children: [
+  return /* @__PURE__ */ t.jsx(Ns, { children: /* @__PURE__ */ t.jsxs(lt, { defaultCollapsed: n, children: [
+    /* @__PURE__ */ t.jsxs(Ms, { children: [
       /* @__PURE__ */ t.jsx("span", { children: s }),
       /* @__PURE__ */ t.jsx("span", { children: e.fuzzed ? "Passed" : "Failed" })
     ] }),
-    /* @__PURE__ */ t.jsxs(Ms, { children: [
-      /* @__PURE__ */ t.jsx(_s, { children: e.method }),
-      /* @__PURE__ */ t.jsx(Ds, { children: e.path }),
+    /* @__PURE__ */ t.jsxs(_s, { children: [
+      /* @__PURE__ */ t.jsx(Ds, { children: e.method }),
+      /* @__PURE__ */ t.jsx(Ls, { children: e.path }),
       e.fuzzed ? /* @__PURE__ */ t.jsx(M, {}) : /* @__PURE__ */ t.jsx(Ie, {})
     ] }),
     /* @__PURE__ */ t.jsx(ks, { operation: e })
   ] }) });
 }
-const Hs = h.div`
+const Ns = h.div`
   background-color: var(${u.computedOne});
-`, Ns = h.div`
+`, Ms = h.div`
   display: flex;
   gap: 4px;
   align-items: center;
@@ -1438,7 +1449,7 @@ const Hs = h.div`
     flex: none;
     font-weight: 600;
   }
-`, Ms = h.div`
+`, _s = h.div`
   display: flex;
   font-size: 90%;
   align-items: center;
@@ -1450,7 +1461,7 @@ const Hs = h.div`
     height: 14px;
     fill: var(${u.foreground});
   }
-`, _s = h.div`
+`, Ds = h.div`
   background-color: var(${u.badgeBackground});
   color: var(${u.badgeForeground});
   border-radius: 4px;
@@ -1461,41 +1472,41 @@ const Hs = h.div`
   height: 16px;
   text-transform: uppercase;
   font-size: 11px;
-`, Ds = h.div`
+`, Ls = h.div`
   line-break: anywhere;
 `;
-function Ls() {
-  const e = y(), { scanReport: s, operations: n, responses: i, errors: r, waitings: f, tab: o, issues: d, grouped: a } = w((l) => l.scan);
+function Fs() {
+  const e = y(), { scanReport: s, operations: n, responses: i, errors: r, waitings: f, tab: o, issues: l, grouped: a } = w((d) => d.scan);
   if (s === void 0)
-    return /* @__PURE__ */ t.jsx(Fs, { children: /* @__PURE__ */ t.jsx(Us, { children: "Report is not yet available" }) });
+    return /* @__PURE__ */ t.jsx(Bs, { children: /* @__PURE__ */ t.jsx(Ys, { children: "Report is not yet available" }) });
   const p = Object.entries(n);
   return /* @__PURE__ */ t.jsx(
     dt,
     {
       activeTab: o,
-      setActiveTab: (l) => e(_(l)),
+      setActiveTab: (d) => e(_(d)),
       tabs: [
         {
           id: "summary",
           title: "Summary",
-          content: /* @__PURE__ */ t.jsxs(Bs, { children: [
+          content: /* @__PURE__ */ t.jsxs(Us, { children: [
             /* @__PURE__ */ t.jsx(
               Dt,
               {
-                issues: d,
+                issues: l,
                 global: s.summary,
                 scanVersion: s.scanVersion
               }
             ),
             /* @__PURE__ */ t.jsx("div", { style: { fontWeight: 600, margin: "8px" }, children: "Happy Path Testing results" }),
-            p.map(([l, x]) => /* @__PURE__ */ t.jsx(
-              qs,
+            p.map(([d, x]) => /* @__PURE__ */ t.jsx(
+              Hs,
               {
                 defaultCollapsed: p.length > 1,
-                operationId: l,
+                operationId: d,
                 operation: x
               },
-              l
+              d
             ))
           ] })
         },
@@ -1505,7 +1516,7 @@ function Ls() {
           content: /* @__PURE__ */ t.jsx(
             Rs,
             {
-              issues: d,
+              issues: l,
               grouped: a,
               responses: i,
               errors: r,
@@ -1518,34 +1529,34 @@ function Ls() {
     }
   );
 }
-const Fs = h.div``, Bs = h.div`
+const Bs = h.div``, Us = h.div`
   margin: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, Us = h.div`
+`, Ys = h.div`
   margin: 1em;
   padding: 10px;
 `;
-function Ys() {
+function zs() {
   const { scanReport: e, waiting: s, error: n } = w((i) => i.scan);
   return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
-    e && /* @__PURE__ */ t.jsx(Ls, {}),
+    e && /* @__PURE__ */ t.jsx(Fs, {}),
     /* @__PURE__ */ t.jsx(kt, {}),
     (s || n) && /* @__PURE__ */ t.jsx($t, {})
   ] });
 }
 const ie = [
-  // {
-  //   id: "start-scan",
-  //   title: "Scan is starting",
-  //   element: <Starting />,
-  //   when: startScan,
-  // },
+  {
+    id: "starting",
+    title: "",
+    navigation: !1,
+    element: /* @__PURE__ */ t.jsx("div", {})
+  },
   {
     id: "scan",
     title: "Scan",
-    element: /* @__PURE__ */ t.jsx(Ys, {}),
+    element: /* @__PURE__ */ t.jsx(zs, {}),
     when: le
   }
 ], Ks = {
@@ -1554,7 +1565,7 @@ const ie = [
   scanOperation: pt,
   showGeneralError: xt,
   showHttpError: gt,
-  showHttpResponse: vt,
+  showHttpResponse: mt,
   showScanReport: ut,
   showFullScanReport: ft,
   loadEnv: Ue,
@@ -1562,16 +1573,16 @@ const ie = [
   loadConfig: Ze,
   showLogMessage: wt
 };
-function zs() {
+function Ws() {
   return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
     /* @__PURE__ */ t.jsx(Ne, {}),
     /* @__PURE__ */ t.jsx(Me, {})
   ] });
 }
-function Ws(e, s) {
+function Vs(e, s) {
   const n = Et(Ot(e, ie), s);
   Pe(document.getElementById("root")).render(
-    /* @__PURE__ */ t.jsx(ke.StrictMode, { children: /* @__PURE__ */ t.jsx(Te, { store: n, children: /* @__PURE__ */ t.jsx(qe.Provider, { value: ie, children: /* @__PURE__ */ t.jsx(zs, {}) }) }) })
+    /* @__PURE__ */ t.jsx(ke.StrictMode, { children: /* @__PURE__ */ t.jsx(Te, { store: n, children: /* @__PURE__ */ t.jsx(qe.Provider, { value: ie, children: /* @__PURE__ */ t.jsx(Ws, {}) }) }) })
   ), window.addEventListener("message", He(n, Ks));
 }
-window.renderWebView = Ws;
+window.renderWebView = Vs;

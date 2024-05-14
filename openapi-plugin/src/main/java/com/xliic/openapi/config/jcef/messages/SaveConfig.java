@@ -9,6 +9,7 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_L
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
 import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.*;
+import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -80,6 +81,7 @@ public class SaveConfig extends WebAppProduce {
             settingsService.setCacheValue(Settings.CliAst.REPOSITORY, map.get("repository"));
             settingsService.setCacheValue(Settings.Platform.TEMP_COLLECTION_NAME, map.get("platformTemporaryCollectionName"));
             settingsService.setCacheValue(Settings.Platform.MANDATORY_TAGS, map.get("platformMandatoryTags"));
+            settingsService.setCacheValue(APPROVED_HOST_CONFIG, map.get("approvedHosts"));
         }
     }
 

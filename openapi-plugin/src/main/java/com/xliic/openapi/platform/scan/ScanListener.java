@@ -7,6 +7,7 @@ import com.xliic.core.util.messages.Topic;
 import com.xliic.core.util.messages.TopicScanListener;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfWithOas;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.tryit.payload.TryItError;
@@ -20,6 +21,8 @@ public interface ScanListener {
     								   @NotNull ScanConfOperation payload,
     		                           @NotNull Environment env,
     		                           @NotNull Preferences prefs) {}
+
+    default void loadUpdatedScanConf(@NotNull String toId, @NotNull ScanConfWithOas payload) {}
 
 	default void showScanReport(@NotNull String toId, @NotNull ScanReport report) {}
 	

@@ -91,6 +91,8 @@ public class CliUtils {
                     "json",
                     "--verbose",
                     "error",
+                    "--user-agent",
+                    Utils.getUserAgent(),
                     "--enrich=false",
                     isFullAudit ? "" : "--is-operation",
                     "--token",
@@ -144,7 +146,7 @@ public class CliUtils {
         return join(getCrunchDirectory(), "bin");
     }
 
-    private static String getCliFilename() {
+    public static String getCliFilename() {
         String os = Utils.getOs();
         if ("win32".equals(os)) {
             return "42c-ast.exe";

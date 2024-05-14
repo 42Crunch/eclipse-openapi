@@ -36,12 +36,11 @@ public class ScanCliConfTask extends ScanConfTask {
     private final boolean useAuditWithCli;
     
     public ScanCliConfTask(@NotNull Project project,
-                           @NotNull String path,
                            @NotNull BundleResult bundle,
                            @NotNull String scanConfPath,
                            @NotNull Callback callback,
                            boolean useAuditWithCli) {
-        super(project, path, bundle, scanConfPath, callback);
+        super(project, bundle, scanConfPath, callback);
         this.useAuditWithCli = useAuditWithCli;
     }
 
