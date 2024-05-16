@@ -8,8 +8,6 @@ import com.xliic.core.project.Project;
 import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.config.ConfigListener;
 import com.xliic.openapi.config.payload.Progress;
-import com.xliic.openapi.utils.FileUtils;
-import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public class CliDownload extends WebAppProduce {
@@ -28,11 +26,9 @@ public class CliDownload extends WebAppProduce {
         CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
             @Override
             public void complete(@NotNull String cliPath) {
-                String os = Utils.getOs();
-                if ("linux".equals(os) || "darwin".equals(os)) {
-                    FileUtils.chmod(cliPath);
-                }
-                project.getMessageBus().syncPublisher(ConfigListener.TOPIC).showCliDownload(true, cliPath);
+                ApplicationManager.getApplication().invokeLater(() -> {
+                    project.getMessageBus().syncPublisher(ConfigListener.TOPIC).showCliDownload(true, cliPath);
+                });
             }
             @Override
             public void reject(@NotNull String error) {
@@ -44,8 +40,10 @@ public class CliDownload extends WebAppProduce {
             public void cancel() {
             }
             public void progress(long bytesRead, long contentLength) {
-                project.getMessageBus().syncPublisher(ConfigListener.TOPIC).showCliDownload(new Progress(bytesRead, contentLength));
+                ApplicationManager.getApplication().invokeLater(() -> {
+                    project.getMessageBus().syncPublisher(ConfigListener.TOPIC).showCliDownload(new Progress(bytesRead, contentLength));
+                });
             }
-        }, false);
+        }, false, true);
     }
 }

@@ -1,6 +1,7 @@
 package com.xliic.openapi.config.payload;
 
 import static com.xliic.openapi.platform.scan.ScanUtils.COLLECTION_TEMP_NAME;
+import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -16,6 +17,7 @@ import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.refs.external.ApprovedHostConfig;
 
 public class Config {
 
@@ -47,6 +49,8 @@ public class Config {
     private final String platformTempCollectionName;
     @NotNull
     private final String platformMandatoryTags;
+    @NotNull
+    private final List<ApprovedHostConfig> approvedHosts;
     
     public Config() {
         this(false);
@@ -74,6 +78,7 @@ public class Config {
             String value = settingsService.getValue(Settings.Platform.COLLECTION_NAMING_CONVENTION, "");
             platformCollectionNamingConvention = NamingConvention.restoreFromStringPayload(value);
         }
+        approvedHosts = getApprovedHostsConfiguration();
     }
 
     public @NotNull String getPlatformUrl() {
@@ -138,5 +143,38 @@ public class Config {
 
     public @NotNull String getAnondToken() {
         return anondToken;
+    }
+    
+    public @NotNull List<ApprovedHostConfig> getApprovedHosts() {
+        return approvedHosts;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<ApprovedHostConfig> getApprovedHostsConfiguration() {
+        List<ApprovedHostConfig> result = new LinkedList<>();
+        List<String> hostnames = SettingsService.getInstance().getList(Settings.ExtRef.APPROVED_HOSTNAMES);
+        if (hostnames != null && !hostnames.isEmpty()) {
+            Map<String, Map<String, Object>> configMap = new HashMap<>();
+            List<Object> config = (List<Object>) SettingsService.getInstance().getValueAsObject(APPROVED_HOST_CONFIG);
+            if (config != null) {
+                for (Object item : config) {
+                    final Map<String, Object> itemMap = (Map<String, Object>) item;
+                    configMap.put((String) itemMap.get("host"), itemMap);
+                }
+            }
+            for (String hostname : hostnames) {
+                String header = "";
+                String prefix = "";
+                String token = "";
+                if (configMap.containsKey(hostname)) {
+                    Map<String, Object> hostConfig = configMap.get(hostname);
+                    header = (String) hostConfig.getOrDefault("header", "");
+                    prefix = (String) hostConfig.getOrDefault("prefix", "");
+                    token = (String) hostConfig.getOrDefault("token", "");
+                }
+                result.add(new ApprovedHostConfig(hostname, header, prefix, token));
+            }
+        }
+        return result;
     }
 }

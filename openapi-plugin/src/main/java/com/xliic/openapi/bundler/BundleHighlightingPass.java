@@ -26,13 +26,13 @@ import com.xliic.core.editor.Editor;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.TextRange;
-import com.xliic.openapi.ExtRef;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.actions.FixHostApprovedAction;
+import com.xliic.openapi.refs.external.ExtRef;
+import com.xliic.openapi.refs.external.ExtRefService;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.ExtRefService;
 
 public class BundleHighlightingPass extends TextEditorHighlightingPass {
 

@@ -20,8 +20,10 @@ import com.xliic.openapi.environment.EnvListener;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.environment.jcef.messages.LoadEnv;
 import com.xliic.openapi.platform.scan.ScanListener;
+import com.xliic.openapi.platform.scan.config.jcef.messages.LoadUpdatedScanConf;
 import com.xliic.openapi.platform.scan.config.jcef.messages.ShowScanConfOperation;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfWithOas;
 import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.preferences.jcef.messages.LoadPreferences;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
@@ -71,6 +73,14 @@ public class JCEFScanConfPanel extends WebFileEditor implements FileListener, Sc
         cache.put(SavePreferences.PSI_FILE_PATH, payload.getPsiFile().getVirtualFile().getPath());
         cache.put(SCAN_CONF_PATH, payload.getScanConfPath());
         new ShowScanConfOperation(payload).send(getCefBrowser());
+    }
+
+    @Override
+    public void loadUpdatedScanConf(@NotNull String toId, @NotNull ScanConfWithOas payload) {
+        if (!Objects.equals(toId, myId)) {
+            return;
+        }
+        new LoadUpdatedScanConf(payload).send(getCefBrowser());
     }
 
     @Override

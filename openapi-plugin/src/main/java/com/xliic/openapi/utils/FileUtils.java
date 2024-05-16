@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Collections;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -67,8 +64,12 @@ public class FileUtils {
     }
 
     public static void removeFile(@NotNull Project project, @NotNull VirtualFile dir, @NotNull String fileName) throws IOException {
+        removeFile(project, Paths.get(dir.getPath(), fileName).toString());
+    }
+
+    public static void removeFile(@NotNull Project project, @NotNull String fileName) {
         WriteCommandAction.runWriteCommandAction(project, (Computable<Void>) () -> {
-            VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(Paths.get(dir.getPath(), fileName).toFile());
+            VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(Paths.get(fileName).toFile());
             if (file != null) {
                 try {
                     file.delete(REQUESTOR);
@@ -107,12 +108,5 @@ public class FileUtils {
                 return null;
             }
         });
-    }
-
-    public static void chmod(@NotNull String filePath) {
-        try {
-            Files.setPosixFilePermissions(Path.of(filePath), PosixFilePermissions.fromString("rwxr-xr-x"));
-        } catch (IOException ignored) {
-        }
     }
 }

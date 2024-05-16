@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.ScanListener;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfWithOas;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.tryit.payload.TryItError;
@@ -42,6 +43,8 @@ public class TopicScanListener<L> extends Topic<L> {
             listener.sendLogMessage((String) args.get(0), (String) args.get(1), (String) args.get(2));
         } else if (funcId == 7) {
             listener.showFullScanReport((String) args.get(0), (ScanReport) args.get(1));
+        } else if (funcId == 8) {
+            listener.loadUpdatedScanConf((String) args.get(0), (ScanConfWithOas) args.get(1));
         }
     }
 
@@ -94,6 +97,11 @@ public class TopicScanListener<L> extends Topic<L> {
             @Override
             public void showFullScanReport(@NotNull String toId, @NotNull ScanReport report) {
                 eventBroker.send(getTopic(), getArgs(7, List.of(toId, report)));
+            }
+            
+            @Override
+            public void loadUpdatedScanConf(@NotNull String toId, @NotNull ScanConfWithOas payload) {
+            	eventBroker.send(getTopic(), getArgs(8, List.of(toId, payload)));
             }
         };
     }

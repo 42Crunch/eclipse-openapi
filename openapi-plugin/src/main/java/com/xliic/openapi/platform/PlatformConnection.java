@@ -8,12 +8,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.application.ApplicationInfo;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.utils.Utils;
 
 public class PlatformConnection {
 
-    public static final String USER_AGENT = "Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
     private static final Pattern UUID_REGEX = Pattern
             .compile("^((ide_)|(api_))?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
 
@@ -48,7 +47,7 @@ public class PlatformConnection {
             platformURL = StringUtils.strip(platformURL, "/");
         }
         String apiToken = SettingsService.getInstance().getValue(API_KEY, "");
-        return new PlatformConnection(apiToken, USER_AGENT, "", platformURL);
+        return new PlatformConnection(apiToken, Utils.getUserAgent(), "", platformURL);
     }
 
     public String getApiToken() {

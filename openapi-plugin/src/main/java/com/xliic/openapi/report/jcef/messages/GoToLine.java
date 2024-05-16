@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.ExtRef;
-import com.xliic.openapi.services.ExtRefService;
+import com.xliic.openapi.refs.external.ExtRef;
+import com.xliic.openapi.refs.external.ExtRefService;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
 

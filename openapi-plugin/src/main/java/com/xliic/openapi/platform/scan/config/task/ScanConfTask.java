@@ -11,8 +11,6 @@ public abstract class ScanConfTask extends Task.Backgroundable {
     @NotNull
     protected final Project project;
     @NotNull
-    protected final String path;
-    @NotNull
     protected final BundleResult bundle;
     @NotNull
     protected final String scanConfPath;
@@ -25,13 +23,11 @@ public abstract class ScanConfTask extends Task.Backgroundable {
     }
 
     public ScanConfTask(@NotNull Project project,
-                        @NotNull String path,
                         @NotNull BundleResult bundle,
                         @NotNull String scanConfPath,
                         @NotNull Callback callback) {
         super(project, "Creating scan configuration...", false);
         this.project = project;
-        this.path = path;
         this.bundle = bundle;
         this.scanConfPath = scanConfPath;
         this.callback = callback;

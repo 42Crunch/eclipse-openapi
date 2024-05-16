@@ -54,7 +54,7 @@ import com.xliic.openapi.utils.TempFileUtils;
 
 import icons.OpenApiIcons;
 
-@SuppressWarnings({ "restriction", "unused" })
+@SuppressWarnings({ "restriction" })
 public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
 
     public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";

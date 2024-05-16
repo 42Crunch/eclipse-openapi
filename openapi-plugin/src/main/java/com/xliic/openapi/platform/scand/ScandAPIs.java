@@ -11,7 +11,7 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.config.payload.ScandManagerConnection;
-import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.utils.Utils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -67,7 +67,7 @@ public class ScandAPIs {
     private static Request.Builder getRequestBuilder(String url, boolean isJson) {
         ScandManagerConnection connection = new ScandManagerConnection();
         Request.Builder builder = new Request.Builder().url(String.format("%s/%s", connection.getUrl(), url))
-                .addHeader("User-Agent", PlatformConnection.USER_AGENT);
+                .addHeader("User-Agent", Utils.getUserAgent());
         if (isJson) {
             builder.addHeader("Accept", "application/json");
         }

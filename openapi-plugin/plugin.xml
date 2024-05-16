@@ -67,7 +67,7 @@
             name="ReDoc">
         </command>
         <command
-            defaultHandler="com.xliic.openapi.actions.ExtRefReloadAction"
+            defaultHandler="com.xliic.openapi.refs.external.ExtRefReloadAction"
             id="com.xliic.openapi.actions.ExtRefReloadAction"
             name="Reload Remote References">
         </command>
