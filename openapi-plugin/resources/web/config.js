@@ -1,8 +1,8 @@
-import { j as e, q as d, e as s, _ as j, T as c, d as pe, s as ue, a as fe, n as me, l as he, t as xe, f as ge, R as be, P as ve, h as $e, m as je } from "./TriangleExclamation.C66B3qS3.js";
+import { j as e, q as d, e as s, _ as j, T as i, d as pe, s as ue, a as fe, n as me, l as he, t as xe, f as ge, R as be, P as ve, h as $e, m as je } from "./TriangleExclamation.C66B3qS3.js";
 import { u as X, a as I, c as w, b as ye } from "./index.esm.PwwUZMum.js";
 import { S as Ce } from "./SearchSidebar.Bd61K8lY.js";
 import { $ as Y, b as ke, d as we, e as Te, u as F, f as M, t as Re, g as Se, S as Pe, h as Fe, i as Ee, j as Ae, k as Q, s as Z, m as Ie, l as Me, n as De, o as Be, p as _e, q as Ne, v as Oe, c as Ve } from "./index.DtkuIswU.js";
-import { o as C, e as Ge, s as T, l as He, I as b, u as k, i as Le, c as qe, a as ze, F as Ue } from "./Input.BJOX62ud.js";
+import { o as k, e as Ge, s as T, l as He, u as y, I as b, i as Le, c as qe, a as ze, F as Ue } from "./Input.BJOX62ud.js";
 import { N as We } from "./ProgressButton.DhpfeAGz.js";
 import { B as R, E as q } from "./Banner.B65S0oQ0.js";
 import { $ as ee, a as Ke, b as z, c as ne, d as H, e as Je, f as Xe } from "./index.C5lJOZis.js";
@@ -45,7 +45,7 @@ const E = d.div`
   font-weight: 700;
   margin-bottom: 16px;
 `, oe = "Radio", [dn, te] = ee(oe), [pn, un] = dn(oe), fn = /* @__PURE__ */ s.forwardRef((n, o) => {
-  const { __scopeRadio: t, name: r, checked: a = !1, required: i, disabled: m, value: h = "on", onCheck: p, ...u } = n, [x, g] = s.useState(null), f = ne(
+  const { __scopeRadio: t, name: r, checked: a = !1, required: c, disabled: m, value: h = "on", onCheck: p, ...u } = n, [x, g] = s.useState(null), f = ne(
     o,
     ($) => g($)
   ), l = s.useRef(!1), v = x ? !!x.closest("form") : !0;
@@ -72,26 +72,26 @@ const E = d.div`
     name: r,
     value: h,
     checked: a,
-    required: i,
+    required: c,
     disabled: m,
     style: {
       transform: "translateX(-100%)"
     }
   }));
 }), mn = "RadioIndicator", hn = /* @__PURE__ */ s.forwardRef((n, o) => {
-  const { __scopeRadio: t, forceMount: r, ...a } = n, i = un(mn, t);
+  const { __scopeRadio: t, forceMount: r, ...a } = n, c = un(mn, t);
   return /* @__PURE__ */ s.createElement(Je, {
-    present: r || i.checked
+    present: r || c.checked
   }, /* @__PURE__ */ s.createElement(z.span, j({
-    "data-state": ae(i.checked),
-    "data-disabled": i.disabled ? "" : void 0
+    "data-state": ae(c.checked),
+    "data-disabled": c.disabled ? "" : void 0
   }, a, {
     ref: o
   })));
 }), xn = (n) => {
-  const { control: o, checked: t, bubbles: r = !0, ...a } = n, i = s.useRef(null), m = Ye(t), h = Xe(o);
+  const { control: o, checked: t, bubbles: r = !0, ...a } = n, c = s.useRef(null), m = Ye(t), h = Xe(o);
   return s.useEffect(() => {
-    const p = i.current, u = window.HTMLInputElement.prototype, g = Object.getOwnPropertyDescriptor(u, "checked").set;
+    const p = c.current, u = window.HTMLInputElement.prototype, g = Object.getOwnPropertyDescriptor(u, "checked").set;
     if (m !== t && g) {
       const f = new Event("click", {
         bubbles: r
@@ -108,7 +108,7 @@ const E = d.div`
     defaultChecked: t
   }, a, {
     tabIndex: -1,
-    ref: i,
+    ref: c,
     style: {
       ...n.style,
       ...h,
@@ -130,9 +130,9 @@ const gn = [
 ], re = "RadioGroup", [bn, Io] = ee(re, [
   Y,
   te
-]), se = Y(), ie = te(), [vn, $n] = bn(re), jn = /* @__PURE__ */ s.forwardRef((n, o) => {
-  const { __scopeRadioGroup: t, name: r, defaultValue: a, value: i, required: m = !1, disabled: h = !1, orientation: p, dir: u, loop: x = !0, onValueChange: g, ...f } = n, l = se(t), v = ke(u), [$, de] = Ke({
-    prop: i,
+]), se = Y(), ce = te(), [vn, $n] = bn(re), jn = /* @__PURE__ */ s.forwardRef((n, o) => {
+  const { __scopeRadioGroup: t, name: r, defaultValue: a, value: c, required: m = !1, disabled: h = !1, orientation: p, dir: u, loop: x = !0, onValueChange: g, ...f } = n, l = se(t), v = ke(u), [$, de] = Ke({
+    prop: c,
     defaultProp: a,
     onChange: g
   });
@@ -159,7 +159,7 @@ const gn = [
     ref: o
   }))));
 }), yn = "RadioGroupItem", Cn = /* @__PURE__ */ s.forwardRef((n, o) => {
-  const { __scopeRadioGroup: t, disabled: r, ...a } = n, i = $n(yn, t), m = i.disabled || r, h = se(t), p = ie(t), u = s.useRef(null), x = ne(o, u), g = i.value === a.value, f = s.useRef(!1);
+  const { __scopeRadioGroup: t, disabled: r, ...a } = n, c = $n(yn, t), m = c.disabled || r, h = se(t), p = ce(t), u = s.useRef(null), x = ne(o, u), g = c.value === a.value, f = s.useRef(!1);
   return s.useEffect(() => {
     const l = ($) => {
       gn.includes($.key) && (f.current = !0);
@@ -174,12 +174,12 @@ const gn = [
     active: g
   }), /* @__PURE__ */ s.createElement(fn, j({
     disabled: m,
-    required: i.required,
+    required: c.required,
     checked: g
   }, p, a, {
-    name: i.name,
+    name: c.name,
     ref: x,
-    onCheck: () => i.onValueChange(a.value),
+    onCheck: () => c.onValueChange(a.value),
     onKeyDown: H((l) => {
       l.key === "Enter" && l.preventDefault();
     }),
@@ -189,7 +189,7 @@ const gn = [
     })
   })));
 }), kn = /* @__PURE__ */ s.forwardRef((n, o) => {
-  const { __scopeRadioGroup: t, ...r } = n, a = ie(t);
+  const { __scopeRadioGroup: t, ...r } = n, a = ce(t);
   return /* @__PURE__ */ s.createElement(hn, j({}, a, r, {
     ref: o
   }));
@@ -198,10 +198,10 @@ function Sn({ name: n, options: o }) {
   const t = s.useId(), { field: r } = I({
     name: n
   });
-  return /* @__PURE__ */ e.jsx(Pn, { value: r.value, onValueChange: (a) => r.onChange(a), children: o.map((a, i) => /* @__PURE__ */ e.jsxs(Fn, { children: [
-    /* @__PURE__ */ e.jsx(En, { value: a.value, id: `${t}-${i}`, children: /* @__PURE__ */ e.jsx(An, { children: /* @__PURE__ */ e.jsx(cn, {}) }) }),
-    /* @__PURE__ */ e.jsx("label", { htmlFor: `${t}-${i}`, children: a.label })
-  ] }, i)) });
+  return /* @__PURE__ */ e.jsx(Pn, { value: r.value, onValueChange: (a) => r.onChange(a), children: o.map((a, c) => /* @__PURE__ */ e.jsxs(Fn, { children: [
+    /* @__PURE__ */ e.jsx(En, { value: a.value, id: `${t}-${c}`, children: /* @__PURE__ */ e.jsx(An, { children: /* @__PURE__ */ e.jsx(cn, {}) }) }),
+    /* @__PURE__ */ e.jsx("label", { htmlFor: `${t}-${c}`, children: a.label })
+  ] }, c)) });
 }
 const Pn = d(wn)`
   display: flex;
@@ -215,8 +215,8 @@ const Pn = d(wn)`
   width: 20px;
   height: 20px;
   border-radius: 100%;
-  background-color: var(${c.checkboxBackground});
-  border-color: var(${c.checkboxBorder});
+  background-color: var(${i.checkboxBackground});
+  border-color: var(${i.checkboxBorder});
   border-width: 2px;
   border-style: solid;
   display: flex;
@@ -229,22 +229,22 @@ const Pn = d(wn)`
   width: 8px;
   height: 8px;
   > svg {
-    fill: var(${c.checkboxForeground});
+    fill: var(${i.checkboxForeground});
   }
 `;
-function ce({
+function ie({
   label: n,
   name: o,
   disabled: t
 }) {
   const {
     field: r,
-    fieldState: { error: a, invalid: i }
+    fieldState: { error: a, invalid: c }
   } = I({
     name: o
   });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsxs(In, { invalid: i, children: [
+    /* @__PURE__ */ e.jsxs(In, { invalid: c, children: [
       /* @__PURE__ */ e.jsx("div", { children: n }),
       /* @__PURE__ */ e.jsx("textarea", { ...r, disabled: t })
     ] }),
@@ -253,16 +253,16 @@ function ce({
 }
 const In = d.div`
   height: 240px;
-  background-color: var(${c.inputBackground});
+  background-color: var(${i.inputBackground});
   border-radius: 2px;
   display: flex;
   flex-direction: column;
   padding: 4px 8px;
   gap: 4px;
 
-  ${({ invalid: n }) => n ? `border: 1px solid var(${c.errorBorder});` : `border: 1px solid var(${c.border});
+  ${({ invalid: n }) => n ? `border: 1px solid var(${i.errorBorder});` : `border: 1px solid var(${i.border});
          &:focus-within {
-           border: 1px solid var(${c.focusBorder});
+           border: 1px solid var(${i.focusBorder});
          }
       `}
 
@@ -271,7 +271,7 @@ const In = d.div`
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
-    color: var(${c.inputPlaceholderForeground});
+    color: var(${i.inputPlaceholderForeground});
   }
   > textarea {
     flex: 1;
@@ -279,16 +279,16 @@ const In = d.div`
     line-height: 20px;
     border: none;
     padding: 0;
-    color: var(${c.foreground});
+    color: var(${i.foreground});
     &::placeholder {
-      color: var(${c.inputPlaceholderForeground});
+      color: var(${i.inputPlaceholderForeground});
     }
     &:focus {
       outline: none;
     }
   }
 `, Mn = d.div`
-  color: var(${c.errorForeground});
+  color: var(${i.errorForeground});
 `;
 function Dn() {
   const n = F(), {
@@ -308,7 +308,7 @@ function Dn() {
           ]
         }
       ),
-      r === "anond-token" && /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(ce, { label: "Freemium token", name: "anondToken" }) }),
+      r === "anond-token" && /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(ie, { label: "Freemium token", name: "anondToken" }) }),
       r === "api-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(b, { label: "Platform URL", name: "platformUrl" }),
         /* @__PURE__ */ e.jsx(b, { label: "IDE token", name: "platformApiToken", password: !0 }),
@@ -329,7 +329,7 @@ function Dn() {
     ] })
   ] });
 }
-const Bn = C({
+const Bn = k({
   platformAuthType: Ge(["anond-token", "api-token"]),
   platformUrl: T().url().startsWith("https://"),
   anondToken: T(),
@@ -337,7 +337,7 @@ const Bn = C({
     /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
     "Token is invalid"
   ).or(He(""))
-}), D = {
+}).catchall(y()), D = {
   id: "platform-connection",
   label: "Connection",
   schema: Bn,
@@ -380,7 +380,7 @@ function _n() {
     ] })
   ] });
 }
-const Nn = C({}).catchall(k()), B = {
+const Nn = k({}).catchall(y()), B = {
   id: "platform-services",
   label: "Services",
   schema: Nn,
@@ -403,7 +403,7 @@ function Gn(n) {
   return {
     id: "temporary-collection",
     label: "Temporary Collection",
-    schema: C({
+    schema: k({
       platformTemporaryCollectionName: Le(
         T().regex(
           new RegExp(W),
@@ -414,7 +414,7 @@ function Gn(n) {
           `Collection name does not match your origanization naming convention. Example of a valid name: ${t.example}`
         )
       )
-    }).catchall(k()),
+    }).catchall(y()),
     form: Vn
   };
 }
@@ -427,15 +427,15 @@ function Hn() {
       /* @__PURE__ */ e.jsx("code", { children: "category:tag" }),
       ", and multiple tags are separated by spaces or commas."
     ] }),
-    /* @__PURE__ */ e.jsx(E, { children: /* @__PURE__ */ e.jsx(ce, { label: "Tags", name: "platformMandatoryTags" }) })
+    /* @__PURE__ */ e.jsx(E, { children: /* @__PURE__ */ e.jsx(ie, { label: "Tags", name: "platformMandatoryTags" }) })
   ] });
 }
-const Ln = C({
+const Ln = k({
   platformMandatoryTags: T().regex(
     new RegExp(On),
     "Tags are invalid, must be a comma or space separated list of key:value pairs, e.g. env:dev app:myapp"
   )
-}).catchall(k());
+}).catchall(y());
 function qn() {
   return {
     id: "mandatory-tags",
@@ -471,16 +471,16 @@ const zn = d.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(${c.checkboxBackground});
+  background-color: var(${i.checkboxBackground});
   border-radius: 4px;
-  border-color: var(${c.checkboxBorder});
+  border-color: var(${i.checkboxBorder});
   border-width: 1px;
   border-style: solid;
 `, Wn = d(Ze)`
   display: flex;
   align-items: center;
   justify-content: center;
-  fill: var(${c.checkboxForeground});
+  fill: var(${i.checkboxForeground});
 `;
 function Kn({ result: n }) {
   return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(R, { message: n.version }) : /* @__PURE__ */ e.jsx(q, { message: "Failed check version", children: n.message }) : null;
@@ -502,8 +502,8 @@ const Xn = d.div`
   position: relative;
   display: flex;
   height: 26px;
-  background-color: var(${c.computedTwo});
-  border: 1px solid var(${c.buttonBorder});
+  background-color: var(${i.computedTwo});
+  border: 1px solid var(${i.buttonBorder});
   border-radius: 6px;
   overflow: hidden;
 `, Yn = d.div`
@@ -511,8 +511,8 @@ const Xn = d.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: var(${c.computedOne});
-  color: var(${c.foreground});
+  background-color: var(${i.computedOne});
+  color: var(${i.foreground});
   border-radius: 6px;
 `, Qn = d.div`
   position: absolute;
@@ -523,8 +523,8 @@ const Xn = d.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(${c.buttonForeground});
-  background-color: var(${c.buttonBackground});
+  color: var(${i.buttonForeground});
+  background-color: var(${i.buttonBackground});
   clip-path: inset(0 ${({ progress: n }) => 100 - n * 100}% 0 0);
   transition: clip-path 0.3s linear;
 `;
@@ -534,7 +534,7 @@ function Zn() {
     waitingForScandManagerConnectionTest: t,
     waitingForCliTest: r,
     cliTestResult: a,
-    waitingForCliDownload: i,
+    waitingForCliDownload: c,
     cliDownloadPercent: m,
     cliDownloadError: h,
     data: { cli: p }
@@ -628,13 +628,13 @@ function Zn() {
             S,
             {
               label: "Download",
-              waiting: i,
+              waiting: c,
               onClick: (l) => {
                 n(Ae()), l.preventDefault(), l.stopPropagation();
               }
             }
           ),
-          i && /* @__PURE__ */ e.jsx(Jn, { progress: m })
+          c && /* @__PURE__ */ e.jsx(Jn, { progress: m })
         ] }),
         /* @__PURE__ */ e.jsx(
           R,
@@ -647,12 +647,12 @@ function Zn() {
     ] })
   ] });
 }
-const eo = C({
-  scandManager: C({
+const eo = k({
+  scandManager: k({
     timeout: qe.number().int().min(1).max(60 * 60 * 24)
     // 1 day
-  }).catchall(k())
-}).catchall(k()), _ = {
+  }).catchall(y())
+}).catchall(y()), _ = {
   id: "scan-runtime",
   label: "Runtime",
   schema: eo,
@@ -673,7 +673,7 @@ function no({ name: n }) {
 }
 function oo({ name: n }) {
   const [o, t] = s.useState(!1);
-  return /* @__PURE__ */ e.jsxs(co, { children: [
+  return /* @__PURE__ */ e.jsxs(io, { children: [
     /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(no, { name: `${n}.host` }) }),
     /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(O, { type: "text", name: `${n}.header`, placeholder: N.header }) }),
     /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(O, { type: "text", name: `${n}.prefix`, placeholder: N.prefix }) }),
@@ -711,7 +711,7 @@ function to() {
         /* @__PURE__ */ e.jsx("div", { className: "openapi-external-refs-prefix", children: "Prefix" }),
         /* @__PURE__ */ e.jsx("div", { className: "openapi-external-refs-token", children: "Token" })
       ] }),
-      /* @__PURE__ */ e.jsx(io, { children: n.map((o, t) => /* @__PURE__ */ e.jsx(oo, { name: `approvedHosts.${t}` }, o.id)) })
+      /* @__PURE__ */ e.jsx(co, { children: n.map((o, t) => /* @__PURE__ */ e.jsx(oo, { name: `approvedHosts.${t}` }, o.id)) })
     ] })
   ] });
 }
@@ -723,17 +723,17 @@ const ao = d.div``, ro = d.div`
   display: contents;
   & > div {
     padding: 4px 8px;
-    background-color: var(${c.computedOne});
+    background-color: var(${i.computedOne});
     text-transform: uppercase;
     font-size: 90%;
     font-weight: 600;
   }
-`, io = d.div`
+`, co = d.div`
   display: contents;
   & > div > div {
-    border-bottom: 1px solid var(${c.border});
+    border-bottom: 1px solid var(${i.border});
   }
-`, co = d.div`
+`, io = d.div`
   display: contents;
 `, V = d.div`
   padding: 4px 8px;
@@ -745,9 +745,9 @@ const ao = d.div``, ro = d.div`
   line-height: 20px;
   border: none;
   padding: 0;
-  color: var(${c.foreground});
+  color: var(${i.foreground});
   &::placeholder {
-    color: var(${c.inputPlaceholderForeground});
+    color: var(${i.inputPlaceholderForeground});
   }
   &:focus {
     outline: none;
@@ -762,23 +762,23 @@ const ao = d.div``, ro = d.div`
 `, fo = d.button`
   cursor: pointer;
   background: transparent;
-  color: var(${c.foreground});
-  border: 1px solid var(${c.buttonBorder});
+  color: var(${i.foreground});
+  border: 1px solid var(${i.buttonBorder});
   padding: 6px 0px;
   border-radius: 2px;
   width: 20px;
   &:focus {
-    outline: 1px solid var(${c.focusBorder});
+    outline: 1px solid var(${i.focusBorder});
   }
   > svg {
     height: 14px;
     width: 14px;
     min-width: 14px;
-    fill: var(${c.foreground});
+    fill: var(${i.foreground});
   }
-`, mo = C({
-  approvedHosts: ze(k())
-}).catchall(k()), G = {
+`, mo = k({
+  approvedHosts: ze(y())
+}).catchall(y()), G = {
   id: "openapi-external-refs",
   label: "External References",
   schema: mo,
@@ -792,11 +792,11 @@ function ho(n) {
   return JSON.parse(JSON.stringify(n));
 }
 function xo() {
-  const n = F(), { ready: o, errors: t, data: r } = M((p) => p.config), a = qn(), i = Gn(r.platformCollectionNamingConvention), m = [
+  const n = F(), { ready: o, errors: t, data: r } = M((p) => p.config), a = qn(), c = Gn(r.platformCollectionNamingConvention), m = [
     {
       id: "platform",
       title: "42Crunch Platform",
-      items: [D, B, i, a]
+      items: [D, B, c, a]
     },
     {
       id: "scan",
@@ -812,7 +812,7 @@ function xo() {
     [D.id]: D,
     [B.id]: B,
     [_.id]: _,
-    [i.id]: i,
+    [c.id]: c,
     [a.id]: a,
     [G.id]: G
   };
@@ -862,16 +862,16 @@ function go({ id: n }) {
     o(r ? Q(n) : Z({ screen: n, error: "Validation errors, configuration is not being saved" }));
   }, [n, r]), null;
 }
-const le = pe(), y = le.startListening;
+const le = pe(), C = le.startListening;
 function bo(n) {
   const o = {
-    saveConfig: en(y, n),
-    testOverlordConnection: nn(y, n),
-    testScandManagerConnection: on(y, n),
-    testPlatformConnection: tn(y, n),
-    testCli: an(y, n),
-    downloadCli: rn(y, n),
-    openLink: sn(y, n)
+    saveConfig: en(C, n),
+    testOverlordConnection: nn(C, n),
+    testScandManagerConnection: on(C, n),
+    testPlatformConnection: tn(C, n),
+    testCli: an(C, n),
+    downloadCli: rn(C, n),
+    openLink: sn(C, n)
   };
   return ue(o), le;
 }

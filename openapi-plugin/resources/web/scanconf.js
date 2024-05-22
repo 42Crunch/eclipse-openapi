@@ -25056,8 +25056,8 @@ function Ch(t, e) {
       n !== e && (t.operations[n].scenarios = [], t.operations[n].before = [], t.operations[n].after = [], t.operations[n].customTests = [], t.operations[n].authorizationTests = []);
   return JSON.stringify(t, null, 2);
 }
-function jl(t, e, n, o) {
-  return e == "docker" && n && (o === "darwin" || o === "win32") && (t.toLowerCase().startsWith("https://localhost") || t.toLowerCase().startsWith("http://localhost")) ? t.replace(/localhost/i, "host.docker.internal") : t;
+function jl(t, e, n, o, r) {
+  return e === "api-token" && n == "docker" && o && (r === "darwin" || r === "win32") && (t.toLowerCase().startsWith("https://localhost") || t.toLowerCase().startsWith("http://localhost")) ? t.replace(/localhost/i, "host.docker.internal") : t;
 }
 function ki({
   path: t,
@@ -25143,6 +25143,7 @@ function m$({ operationId: t }) {
         onScan: (R) => {
           const oe = jl(
             R,
+            i.platformAuthType,
             i.scanRuntime,
             i.docker.replaceLocalhost,
             i.platform
@@ -27202,6 +27203,7 @@ function jE({
         onScan: (D) => {
           const P = jl(
             D,
+            a.platformAuthType,
             a.scanRuntime,
             a.docker.replaceLocalhost,
             a.platform
@@ -27385,6 +27387,7 @@ function OE() {
   ], g = (b) => {
     const S = jl(
       b,
+      i.platformAuthType,
       i.scanRuntime,
       i.docker.replaceLocalhost,
       i.platform
