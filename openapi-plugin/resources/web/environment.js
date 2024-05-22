@@ -1,9 +1,9 @@
-import { a as y, l as w, t as S, d as C, s as $, q as o, T as s, j as e, f as F, R as k, P as V, m as A, h as R, n as M } from "./TriangleExclamation.DXu4kS4a.js";
-import { e as _, h as g, u as L, j as N, l as T } from "./slice.CWBRDdMB.js";
-import { T as P } from "./Tabs.DmdBV2_q.js";
-import { u as D, a as v, d as G, b as W, F as q } from "./index.esm.BXz9bO7M.js";
-import { S as H } from "./ExclamationCircle.BKeR_1oo.js";
-import { l as K, m as X, S as B } from "./variables.nPa5PKXw.js";
+import { a as y, l as w, t as S, d as C, s as $, q as o, T as s, j as e, f as F, R as k, P as V, m as A, h as R, n as M } from "./TriangleExclamation.C66B3qS3.js";
+import { e as _, h as g, u as L, j as N, l as T } from "./slice.DER8nOvm.js";
+import { T as P } from "./Tabs.DMnS32PP.js";
+import { u as D, a as v, d as G, b as W, F as q } from "./index.esm.PwwUZMum.js";
+import { S as H } from "./ExclamationCircle.D9PJdXAk.js";
+import { l as K, m as X, S as B } from "./variables.CWSvv8u8.js";
 const I = {
   theme: S,
   env: _
@@ -187,14 +187,14 @@ function ce() {
     {
       tabs: [
         {
-          id: "default",
-          title: "Default",
-          content: /* @__PURE__ */ e.jsx(x, { name: "default", data: n.default })
-        },
-        {
           id: "secrets",
           title: "Secrets",
           content: /* @__PURE__ */ e.jsx(x, { name: "secrets", data: n.secrets, password: !0 })
+        },
+        {
+          id: "default",
+          title: "Default",
+          content: /* @__PURE__ */ e.jsx(x, { name: "default", data: n.default })
         }
       ]
     }

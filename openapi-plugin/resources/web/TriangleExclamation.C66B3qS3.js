@@ -9911,9 +9911,10 @@ const j0 = an.nav`
   border-bottom: 1px solid var(${Zn.border});
 `, L0 = an.div`
   padding: 0 1em;
+  display: flex;
+  align-items: center;
   ${(e) => e.active ? `border-bottom: 3px solid var(${Zn.buttonBackground});` : "opacity: 0.7; border-bottom: 3px solid transparent; cursor: pointer;"};
   > div {
-    padding: 0.125em;
     border: ${(e) => e.active && Zn.contrastActiveBorder ? `1px solid var(${Zn.contrastActiveBorder})` : "none"};
   }
 `, M0 = an.div`

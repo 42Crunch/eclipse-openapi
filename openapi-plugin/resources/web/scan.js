@@ -1,18 +1,18 @@
-import { c as re, b as oe, a as we, u as Se, l as Ce, t as Ee, r as Oe, d as $e, s as Re, i as Ae, q as h, T as u, e as T, j as t, S as Ie, f as Pe, R as ke, P as Te, g as qe, m as He, h as Ne, k as Me, n as _e } from "./TriangleExclamation.DXu4kS4a.js";
-import { g as De, H as ae, e as Le, s as Fe, b as Be, l as Ue } from "./slice.CWBRDdMB.js";
-import { S as Ye, e as ze, b as Ke, c as We } from "./Xmark.rAdsPcBP.js";
-import { p as Ve, s as Ge, a as Qe, S as F, l as Je } from "./index.D6snYo-h.js";
-import { c as Xe, S as M, l as Ze } from "./index.CChMyIf-.js";
-import { s as et } from "./listener.BByQOU-k.js";
+import { c as re, b as oe, a as we, u as Se, l as Ce, t as Ee, r as Oe, d as $e, s as Re, i as Ae, q as h, T as u, e as q, j as t, S as Ie, f as ke, R as Pe, P as qe, g as Te, m as He, h as Ne, k as Me, n as _e } from "./TriangleExclamation.C66B3qS3.js";
+import { g as De, H as ae, e as Le, s as Fe, b as Be, l as Ue } from "./slice.DER8nOvm.js";
+import { S as Ye, e as ze, b as Ke, c as We } from "./Xmark.Dnl4EsPI.js";
+import { p as Ve, s as Ge, a as Qe, S as F, l as Je } from "./index.BIG0fe0d.js";
+import { c as Xe, S as M, l as Ze } from "./index.DtkuIswU.js";
+import { s as et } from "./listener.CfarzRiU.js";
 import { D as H } from "./datetime.BMKtNb6j.js";
-import { S as tt } from "./AngleDown.B1PAEJDo.js";
-import { S as st } from "./AngleUp.D4X3ZBAW.js";
-import { S as N } from "./ExclamationCircle.BKeR_1oo.js";
-import { $ as nt, a as it, b as rt, c as ot, d as at, e as ct } from "./index.DFJbX2ak.js";
-import { R as ce } from "./Response.RMAZIPsI.js";
-import { P as q } from "./Select.DP_PMttj.js";
-import { T as dt } from "./Tabs.DmdBV2_q.js";
-import { C as lt } from "./CollapsibleCard.C-xTDNmK.js";
+import { S as tt } from "./AngleDown.Du2fvUJv.js";
+import { S as st } from "./AngleUp.0NAnuUi-.js";
+import { S as N } from "./ExclamationCircle.D9PJdXAk.js";
+import { $ as nt, a as it, b as rt, c as ot, d as at, e as ct } from "./index.CVU7gFfL.js";
+import { R as ce } from "./Response.C0ZjkD5Z.js";
+import { P as T } from "./Select.DFwiMC4O.js";
+import { T as dt } from "./Tabs.DMnS32PP.js";
+import { C as lt } from "./CollapsibleCard.DilWlPll.js";
 const ht = {
   oas: {
     openapi: "3.0.0",
@@ -57,16 +57,16 @@ const ht = {
       var b;
       const { oas: n, path: i, method: r, report: f } = s.payload, o = De(n, i, r), l = (o == null ? void 0 : o.operationId) === void 0 ? `${i}:${r}` : o.operationId, a = (b = f.operations) == null ? void 0 : b[l];
       a && (e.operations[l] = a);
-      const p = te(f), d = B(p, e.filter), { titles: x, paths: j, operationIds: C } = P(p), { grouped: S } = P(d);
+      const p = te(f), d = B(p, e.filter), { titles: x, paths: j, operationIds: C } = k(p), { grouped: S } = k(d);
       e.issues = p, e.titles = x, e.paths = j, e.operationIds = C, e.grouped = S, e.oas = n, e.scanReport = f, e.waiting = !1;
     },
     showFullScanReport: (e, s) => {
-      const { oas: n, report: i } = s.payload, r = te(i), f = B(r, e.filter), { titles: o, paths: l, operationIds: a } = P(r), { grouped: p } = P(f);
+      const { oas: n, report: i } = s.payload, r = te(i), f = B(r, e.filter), { titles: o, paths: l, operationIds: a } = k(r), { grouped: p } = k(f);
       e.oas = n, e.operations = { ...i.operations || {} }, e.issues = r, e.titles = o, e.paths = l, e.operationIds = a, e.grouped = p, e.scanReport = i, e.waiting = !1;
     },
     changeFilter: (e, s) => {
       e.filter = s.payload;
-      const n = B(e.issues, e.filter), { grouped: i } = P(n);
+      const n = B(e.issues, e.filter), { grouped: i } = k(n);
       e.grouped = i;
     },
     changeTab: (e, s) => {
@@ -99,9 +99,9 @@ const ht = {
   showFullScanReport: ft,
   showGeneralError: xt,
   showHttpError: gt,
-  sendHttpRequest: vt,
+  sendHttpRequest: mt,
   sendCurlRequest: he,
-  showHttpResponse: mt,
+  showHttpResponse: vt,
   showJsonPointer: pe,
   showAuditReport: yt,
   changeTab: _,
@@ -138,7 +138,7 @@ function B(e, s) {
   }, f = (a) => (s == null ? void 0 : s.path) === void 0 || a.path === s.path, o = (a) => (s == null ? void 0 : s.method) === void 0 || a.method === s.method, l = (a) => (s == null ? void 0 : s.operationId) === void 0 || a.operationId === s.operationId;
   return e.filter((a) => n(a) && r(a) && f(a) && o(a) && l(a));
 }
-function P(e) {
+function k(e) {
   var o, l;
   const s = {}, n = {}, i = /* @__PURE__ */ new Set(), r = /* @__PURE__ */ new Set();
   for (const a of e) {
@@ -148,7 +148,7 @@ function P(e) {
   const f = Object.keys(s);
   for (const a of f)
     s[a].sort((p, d) => {
-      var x, j, C, S, b, $, R, v, A, I;
+      var x, j, C, S, b, $, R, m, A, I;
       if (((x = p.outcome) == null ? void 0 : x.status) !== ((j = d.outcome) == null ? void 0 : j.status)) {
         if (((C = p.outcome) == null ? void 0 : C.status) === "error")
           return -1;
@@ -159,7 +159,7 @@ function P(e) {
         if ((($ = d.outcome) == null ? void 0 : $.status) === "defective")
           return 1;
       }
-      return ((R = p.outcome) == null ? void 0 : R.criticality) !== ((v = d.outcome) == null ? void 0 : v.criticality) ? ((A = p.outcome) == null ? void 0 : A.criticality) - ((I = d.outcome) == null ? void 0 : I.criticality) : 0;
+      return ((R = p.outcome) == null ? void 0 : R.criticality) !== ((m = d.outcome) == null ? void 0 : m.criticality) ? ((A = p.outcome) == null ? void 0 : A.criticality) - ((I = d.outcome) == null ? void 0 : I.criticality) : 0;
     });
   return {
     grouped: s,
@@ -209,7 +209,7 @@ function Ot(e, s) {
       }
     }),
     sendHttpRequest: () => E({
-      actionCreator: vt,
+      actionCreator: mt,
       effect: async (i, r) => {
         e.postMessage({
           command: "sendHttpRequest",
@@ -254,8 +254,8 @@ function Ot(e, s) {
   return et(E, s), Re(n), xe;
 }
 function $t() {
-  const s = fe((o) => o.logging.messages).filter((o) => !0), n = T.useRef(null), [i, r] = T.useState(!1);
-  if (T.useEffect(() => {
+  const s = fe((o) => o.logging.messages).filter((o) => !0), n = q.useRef(null), [i, r] = q.useState(!1);
+  if (q.useEffect(() => {
     n.current && !i && (n.current.scrollTop = n.current.scrollHeight);
   }, [s, i]), s.length === 0)
     return null;
@@ -266,7 +266,7 @@ function $t() {
       a - (l + p) < 10 ? r(!1) : r(!0);
     }
   };
-  return /* @__PURE__ */ t.jsx(Pt, { children: /* @__PURE__ */ t.jsx(At, { ref: n, onScroll: f, children: s.map((o, l, a) => /* @__PURE__ */ t.jsxs("div", { children: [
+  return /* @__PURE__ */ t.jsx(kt, { children: /* @__PURE__ */ t.jsx(At, { ref: n, onScroll: f, children: s.map((o, l, a) => /* @__PURE__ */ t.jsxs("div", { children: [
     /* @__PURE__ */ t.jsx(Rt, { first: l === 0, last: l === a.length - 1 }),
     /* @__PURE__ */ t.jsx("div", { children: o.message })
   ] }, l)) }) });
@@ -315,20 +315,20 @@ const At = h.div`
     width: 1px;
     ${({ last: e }) => !e && `background-color: var(${u.border});`}
   }
-`, Pt = h.div`
+`, kt = h.div`
   padding: 8px;
   margin: 8px;
   border-radius: 2px;
   border: 1px solid var(${u.border});
 `;
-function kt() {
+function Pt() {
   const e = w((s) => s.scan.error);
-  return e ? /* @__PURE__ */ t.jsx(qt, { children: /* @__PURE__ */ t.jsxs(Tt, { children: [
+  return e ? /* @__PURE__ */ t.jsx(Tt, { children: /* @__PURE__ */ t.jsxs(qt, { children: [
     /* @__PURE__ */ t.jsx("div", { children: e.message }),
     e.details && /* @__PURE__ */ t.jsx("div", { children: e.details })
   ] }) }) : null;
 }
-const Tt = h.div`
+const qt = h.div`
   border: 1px solid var(${u.errorBorder});
   color: var(${u.errorForeground});
   background-color: var(${u.errorBackground});
@@ -339,7 +339,7 @@ const Tt = h.div`
   > div {
     font-family: monospace;
   }
-`, qt = h.div`
+`, Tt = h.div`
   padding: 8px;
 `;
 function Ht() {
@@ -569,13 +569,13 @@ c.encoding = "ascii";
 c.maxHeaderSize = 80 * 1024;
 c.REQUEST = "REQUEST";
 c.RESPONSE = "RESPONSE";
-var ve = c.kOnHeaders = 1, U = c.kOnHeadersComplete = 2, D = c.kOnBody = 3, Y = c.kOnMessageComplete = 4;
-c.prototype[ve] = c.prototype[U] = c.prototype[D] = c.prototype[Y] = function() {
+var me = c.kOnHeaders = 1, U = c.kOnHeadersComplete = 2, D = c.kOnBody = 3, Y = c.kOnMessageComplete = 4;
+c.prototype[me] = c.prototype[U] = c.prototype[D] = c.prototype[Y] = function() {
 };
-var me = !0;
+var ve = !0;
 Object.defineProperty(c, "kOnExecute", {
   get: function() {
-    return me = !1, 99;
+    return ve = !1, 99;
   }
 });
 var ye = c.methods = [
@@ -745,7 +745,7 @@ c.prototype.HEADER = function() {
         }
       this.isChunked && i && (i = !1, this.body_bytes = null), f && this.connection.indexOf("upgrade") != -1 ? s.upgrade = this.type === c.REQUEST || s.statusCode === 101 : s.upgrade = s.method === je, this.isChunked && s.upgrade && (this.isChunked = !1), s.shouldKeepAlive = this.shouldKeepAlive();
       var l;
-      if (me ? l = this.userCall()(this[U](s)) : l = this.userCall()(this[U](
+      if (ve ? l = this.userCall()(this[U](s)) : l = this.userCall()(this[U](
         s.versionMajor,
         s.versionMinor,
         s.headers,
@@ -781,7 +781,7 @@ c.prototype.BODY_CHUNKEMPTYLINE = function() {
 };
 c.prototype.BODY_CHUNKTRAILERS = function() {
   var e = this.consumeLine();
-  e !== void 0 && (e ? this.parseHeader(e, this.trailers) : (this.trailers.length && this.userCall()(this[ve](this.trailers, "")), this.nextRequest()));
+  e !== void 0 && (e ? this.parseHeader(e, this.trailers) : (this.trailers.length && this.userCall()(this[me](this.trailers, "")), this.nextRequest()));
 };
 c.prototype.BODY_RAW = function() {
   var e = this.end - this.offset;
@@ -854,23 +854,23 @@ function es({
   waiting: r
 }) {
   var A, I, z, K, W, V, G, Q, J, X, Z;
-  const f = y(), [o, l] = T.useState(!0), { request: a, response: p, test: d, outcome: x } = e, j = (x == null ? void 0 : x.status) === "correct", C = x == null ? void 0 : x.conformant, S = !(j && C);
+  const f = y(), [o, l] = q.useState(!0), { request: a, response: p, test: d, outcome: x } = e, j = (x == null ? void 0 : x.status) === "correct", C = x == null ? void 0 : x.conformant, S = !(j && C);
   let b = "N/A", $ = "N/A";
   const R = ((I = (A = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : A[0]) == null ? void 0 : I.responseKey) === "response-http-status-scan" ? "No" : "Yes";
   R === "Yes" && (b = ((K = (z = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : z[0]) == null ? void 0 : K.responseKey) === "response-body-contenttype-scan" ? "No" : "Yes"), b === "Yes" && ($ = ((V = (W = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : W[0]) == null ? void 0 : V.responseKey) === "response-body-badformat-scan" ? "No" : "Yes");
-  const v = x == null ? void 0 : x.error;
+  const m = x == null ? void 0 : x.error;
   return /* @__PURE__ */ t.jsxs(ts, { children: [
     /* @__PURE__ */ t.jsxs(ss, { collapsed: o, onClick: () => l(!o), children: [
       /* @__PURE__ */ t.jsx("div", { children: o ? /* @__PURE__ */ t.jsx(tt, {}) : /* @__PURE__ */ t.jsx(st, {}) }),
       /* @__PURE__ */ t.jsxs("div", { children: [
         /* @__PURE__ */ t.jsx(ns, { children: d == null ? void 0 : d.description }),
         /* @__PURE__ */ t.jsxs(is, { children: [
-          v && /* @__PURE__ */ t.jsxs(k, { children: [
+          m && /* @__PURE__ */ t.jsxs(P, { children: [
             /* @__PURE__ */ t.jsx(N, {}),
             " Error: ",
-            v
+            m
           ] }),
-          !v && S && /* @__PURE__ */ t.jsxs(k, { children: [
+          !m && S && /* @__PURE__ */ t.jsxs(P, { children: [
             /* @__PURE__ */ t.jsx(N, {}),
             " Failed",
             x.criticality > 0 && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
@@ -881,19 +881,19 @@ function es({
               ] })
             ] })
           ] }),
-          !v && !S && /* @__PURE__ */ t.jsxs(k, { children: [
+          !m && !S && /* @__PURE__ */ t.jsxs(P, { children: [
             /* @__PURE__ */ t.jsx(M, {}),
             " Passed"
           ] }),
-          !v && S && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
-            /* @__PURE__ */ t.jsx(k, { children: j ? /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+          !m && S && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+            /* @__PURE__ */ t.jsx(P, { children: j ? /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
               /* @__PURE__ */ t.jsx(M, {}),
               " Response code: Expected"
             ] }) : /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
               /* @__PURE__ */ t.jsx(N, {}),
               " Response code: Unexpected"
             ] }) }),
-            /* @__PURE__ */ t.jsx(k, { children: C ? /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+            /* @__PURE__ */ t.jsx(P, { children: C ? /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
               /* @__PURE__ */ t.jsx(M, {}),
               " Conforms to Contract: Yes"
             ] }) : /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
@@ -905,12 +905,12 @@ function es({
       ] })
     ] }),
     !o && /* @__PURE__ */ t.jsxs(rs, { children: [
-      v && /* @__PURE__ */ t.jsxs(m, { children: [
+      m && /* @__PURE__ */ t.jsxs(v, { children: [
         /* @__PURE__ */ t.jsx("div", { children: "Error" }),
-        /* @__PURE__ */ t.jsx("div", { children: v })
+        /* @__PURE__ */ t.jsx("div", { children: m })
       ] }),
-      !v && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
-        /* @__PURE__ */ t.jsxs(m, { children: [
+      !m && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+        /* @__PURE__ */ t.jsxs(v, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "HTTP code received" }),
           /* @__PURE__ */ t.jsxs("div", { children: [
             p == null ? void 0 : p.httpStatusCode,
@@ -919,26 +919,26 @@ function es({
             ")"
           ] })
         ] }),
-        /* @__PURE__ */ t.jsxs(m, { children: [
+        /* @__PURE__ */ t.jsxs(v, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Response code found in API Contract" }),
           /* @__PURE__ */ t.jsx("div", { children: R })
         ] }),
-        /* @__PURE__ */ t.jsxs(m, { children: [
+        /* @__PURE__ */ t.jsxs(v, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Content-Type found in API Contract" }),
           /* @__PURE__ */ t.jsx("div", { children: b })
         ] }),
-        /* @__PURE__ */ t.jsxs(m, { children: [
+        /* @__PURE__ */ t.jsxs(v, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Response matches API Contract" }),
           /* @__PURE__ */ t.jsx("div", { children: $ })
         ] }),
-        ((J = (Q = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : Q[0]) == null ? void 0 : J.responseDescription) && /* @__PURE__ */ t.jsxs(m, { children: [
+        ((J = (Q = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : Q[0]) == null ? void 0 : J.responseDescription) && /* @__PURE__ */ t.jsxs(v, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Response analysis" }),
           /* @__PURE__ */ t.jsxs("div", { children: [
             " ",
             (Z = (X = x == null ? void 0 : x.apiResponseAnalysis) == null ? void 0 : X[0]) == null ? void 0 : Z.responseDescription
           ] })
         ] }),
-        /* @__PURE__ */ t.jsxs(m, { children: [
+        /* @__PURE__ */ t.jsxs(v, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "JSON Pointer" }),
           /* @__PURE__ */ t.jsx("div", { children: d != null && d.jsonPointer ? /* @__PURE__ */ t.jsx(
             "a",
@@ -954,11 +954,11 @@ function es({
             }
           ) : "N/A" })
         ] }),
-        (a == null ? void 0 : a.curl) && /* @__PURE__ */ t.jsxs(m, { children: [
+        (a == null ? void 0 : a.curl) && /* @__PURE__ */ t.jsxs(v, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Request" }),
           /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(ge, { waiting: r, curl: a.curl, id: i }) })
         ] }),
-        n === void 0 && (s !== void 0 || (p == null ? void 0 : p.rawPayload) !== void 0) && /* @__PURE__ */ t.jsxs(m, { children: [
+        n === void 0 && (s !== void 0 || (p == null ? void 0 : p.rawPayload) !== void 0) && /* @__PURE__ */ t.jsxs(v, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Response" }),
           /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(
             ce,
@@ -968,7 +968,7 @@ function es({
             }
           ) })
         ] }),
-        n && /* @__PURE__ */ t.jsxs(m, { children: [
+        n && /* @__PURE__ */ t.jsxs(v, { children: [
           /* @__PURE__ */ t.jsx("div", { children: "Error" }),
           /* @__PURE__ */ t.jsx("div", { children: n == null ? void 0 : n.message })
         ] })
@@ -1002,7 +1002,7 @@ const ts = h.div`
   font-size: 90%;
   align-items: center;
   gap: 16px;
-`, k = h.div`
+`, P = h.div`
   display: flex;
   align-items: center;
   opacity: 0.8;
@@ -1012,7 +1012,7 @@ const ts = h.div`
   }
 `, rs = h.div`
   background-color: var(${u.computedOne});
-`, m = h.div`
+`, v = h.div`
   display: flex;
   padding: 8px;
   gap: 8px;
@@ -1129,7 +1129,7 @@ function fs() {
     { label: "Info", value: "info" }
   ];
   return /* @__PURE__ */ t.jsx(xs, { children: /* @__PURE__ */ t.jsx(
-    q,
+    T,
     {
       label: "Severity",
       options: n,
@@ -1148,8 +1148,8 @@ function gs() {
   const { filter: e, titles: s } = w((r) => r.scan), n = y(), i = [];
   for (const r of s)
     se[r] && i.push({ label: se[r], value: r });
-  return /* @__PURE__ */ t.jsx(vs, { children: /* @__PURE__ */ t.jsx(
-    q,
+  return /* @__PURE__ */ t.jsx(ms, { children: /* @__PURE__ */ t.jsx(
+    T,
     {
       label: "Type",
       options: i,
@@ -1161,36 +1161,41 @@ function gs() {
     }
   ) });
 }
-const vs = h.div`
+const ms = h.div`
   width: 264px;
 `, se = {
-  "path-item-method-not-allowed-scan": "Scan sends a request using an undefined verb",
+  "authentication-swapping-bfla": "Scan engine executes a business logic flow with wrong credentials",
+  "authentication-swapping-bola": "Scan engine invokes an operation with wrong credentials",
+  "custom-request": "Custom client request",
+  "parameter-header-contenttype-wrong-scan": "Scan sends a request with a wrong content type",
   "parameter-required-scan": "Scan sends a request that is missing a required parameter",
-  "parameter-header-contenttype-wrong-scan": "Scan sends a request with wrong content type",
-  "schema-multipleof-scan": "Scan sends a request containing a numeric value conflicting with multipleOf",
-  "schema-maximum-scan": "Scan sends a request containing a numeric value overflowing maximum",
-  "schema-minimum-scan": "Scan sends a request containing a numeric value under the minimum",
-  "schema-minlength-scan": "Scan sends a request containing a string value that is too short",
-  "schema-maxlength-scan": "Scan sends a request containing a string value that is too long",
-  "schema-pattern-scan": "Scan sends a request containing a string value with wrong pattern",
-  "schema-maxitems-scan": "Scan sends a request containing an array with too many items",
-  "schema-minitems-scan": "Scan sends a request containing an array with too few items",
-  "schema-uniqueitems-unique-scan": "Scan sends a request containing an array value that conflicts with ‘uniqueItems’",
-  "schema-required-scan": "Scan sends a request that is missing a required property",
-  "schema-enum-scan": "Scan sends a request containing a value not present in the constraining enum",
+  "partial-security-accepted": "Scan sends a request where a required security requirement is missing",
+  "path-item-method-not-allowed-scan": "Scan sends a request using an undefined verb",
+  "path-item-method-not-allowed-no-authn-scan": "Scan sends a request without authentication using an undefined verb",
   "schema-additionalproperties-scan": "Scan sends a request that contains an undefined property",
+  "schema-enum-scan": "Scan sends a request containing a value not present in the constraining enum",
   "schema-format-scan": "Scan sends a request containing a string value with wrong format",
-  "schema-type-wrong-string-scan": "Scan sends a request containing a string value instead of the expected type",
+  "schema-maxitems-scan": "Scan sends a request containing an array with too many items",
+  "schema-maxlength-scan": "Scan sends a request containing a too long string",
+  "schema-maximum-scan": "Scan sends a request containing a numeric value overflowing the maximum",
+  "schema-minitems-scan": "Scan sends a request containing an array with too few items",
+  "schema-minlength-scan": "Scan sends a request containing a string value that is too short",
+  "schema-minimum-scan": "Scan sends a request containing a numeric value under the minimum.",
+  "schema-multipleof-scan": "Scan sends a request containing a numeric value conflicting with the property multipleOf",
+  "schema-pattern-scan": "Scan sends a request containing a string with wrong pattern",
+  "schema-required-scan": "Scan sends a request that is missing a required property",
+  "schema-type-wrong-array-scan": "Scan sends a request containing an array instead of the expected type",
   "schema-type-wrong-bool-scan": "Scan sends a request containing a Boolean value instead of the expected type",
   "schema-type-wrong-integer-scan": "Scan sends a request containing an integer value instead of the expected type",
   "schema-type-wrong-number-scan": "Scan sends a request containing a number value instead of the expected type",
-  "schema-type-wrong-array-scan": "Scan sends a request containing an array instead of the expected type",
-  "schema-type-wrong-object-scan": "Scan sends a request containing an object instead of the expected type"
+  "schema-type-wrong-object-scan": "Scan sends a request containing an object instead of the expected type",
+  "schema-type-wrong-string-scan": "Scan sends a request containing a string value instead of the expected type",
+  "schema-uniqueitems-unique-scan": "Scan sends a request containing an array value that conflicts with 'uniqueItems'"
 };
-function ms() {
+function vs() {
   const { filter: e, paths: s } = w((r) => r.scan), n = y(), i = s.map((r) => ({ label: r, value: r }));
   return /* @__PURE__ */ t.jsx(ys, { children: /* @__PURE__ */ t.jsx(
-    q,
+    T,
     {
       label: "Path",
       options: i,
@@ -1210,7 +1215,7 @@ const ys = h.div`
 function js() {
   const { filter: e, operationIds: s } = w((r) => r.scan), n = y(), i = s.map((r) => ({ label: r, value: r }));
   return /* @__PURE__ */ t.jsx(bs, { children: /* @__PURE__ */ t.jsx(
-    q,
+    T,
     {
       label: "Operation ID",
       options: i,
@@ -1228,7 +1233,7 @@ const bs = h.div`
 function ws() {
   const { filter: e } = w((i) => i.scan), s = y(), n = ae.map((i) => ({ value: i, label: i.toUpperCase() }));
   return /* @__PURE__ */ t.jsx(Ss, { children: /* @__PURE__ */ t.jsx(
-    q,
+    T,
     {
       label: "Method",
       options: n,
@@ -1246,7 +1251,7 @@ const Ss = h.div`
   width: 264px;
 `;
 function Cs() {
-  const { filter: e, grouped: s } = w((l) => l.scan), [n, i] = T.useState(!0), f = ["severity", "title"].filter((l) => e && e[l] !== void 0).length, o = Object.keys(s).map((l) => s[l].length).reduce((l, a) => l + a, 0);
+  const { filter: e, grouped: s } = w((l) => l.scan), [n, i] = q.useState(!0), f = ["severity", "title"].filter((l) => e && e[l] !== void 0).length, o = Object.keys(s).map((l) => s[l].length).reduce((l, a) => l + a, 0);
   return /* @__PURE__ */ t.jsxs(Es, { children: [
     /* @__PURE__ */ t.jsxs(Os, { children: [
       /* @__PURE__ */ t.jsxs("div", { children: [
@@ -1258,7 +1263,7 @@ function Cs() {
     !n && /* @__PURE__ */ t.jsxs($s, { children: [
       /* @__PURE__ */ t.jsx(fs, {}),
       /* @__PURE__ */ t.jsx(gs, {}),
-      /* @__PURE__ */ t.jsx(ms, {}),
+      /* @__PURE__ */ t.jsx(vs, {}),
       /* @__PURE__ */ t.jsx(ws, {}),
       /* @__PURE__ */ t.jsx(js, {}),
       /* @__PURE__ */ t.jsx(ps, {})
@@ -1298,7 +1303,7 @@ function Rs({
   return e.length === 0 ? /* @__PURE__ */ t.jsx(ne, { children: /* @__PURE__ */ t.jsx(As, { children: "No test results available" }) }) : /* @__PURE__ */ t.jsxs(ne, { children: [
     /* @__PURE__ */ t.jsx(Cs, {}),
     Object.keys(r).map((f) => /* @__PURE__ */ t.jsxs("div", { children: [
-      /* @__PURE__ */ t.jsx(Is, { children: Ps[f] ?? "Unknown test type" }),
+      /* @__PURE__ */ t.jsx(Is, { children: ks[f] ?? "Unknown test type" }),
       r[f].map((o, l) => {
         const a = `${f}-${l}`;
         return /* @__PURE__ */ t.jsx(
@@ -1326,7 +1331,7 @@ const ne = h.div`
   padding: 10px;
   font-size: 1.1em;
   font-weight: 600;
-`, Ps = {
+`, ks = {
   "authentication-swapping-bfla": "Broken Function Level Access test performed by swapping user credentials",
   "authentication-swapping-bola": "Broken Object Access Level Authorization test performed swapping user credentials.",
   "custom-request": "Custom client request",
@@ -1334,8 +1339,9 @@ const ne = h.div`
   "parameter-required-scan": "Scan sends a request that is missing a parameter that has been defined as required in the OpenAPI definition.",
   "partial-security-accepted": "Scan sends a request where a required security requirement is missing",
   "path-item-method-not-allowed-scan": "Scan sends a request using a verb (method) that is not defined for the path in the OpenAPI definition.",
+  "path-item-method-not-allowed-no-authn-scan": "Scan sends a request without authentication using a verb (method) that is not defined for the path in the OpenAPI definition.",
   "schema-additionalproperties-scan": "Scan sends a request that contains an undefined property.",
-  "schema-enum-scan": "API accepts a value that is not specified in the enum array",
+  "schema-enum-scan": "Scan sends a request that contains a enum value not present in the property '%s' constraining this value.",
   "schema-format-scan": "Scan sends a request containing a string value with wrong format",
   "schema-maxitems-scan": "Scan sends a request containing an array which has more items than what is defined by the property 'maxItems'",
   "schema-maxlength-scan": "Scan sends a request containing a string where length is greater than the value set by 'maxLength'",
@@ -1354,12 +1360,12 @@ const ne = h.div`
   "schema-type-wrong-string-scan": "Scan sends a request containing a string value instead of the type that the OpenAPI definition expects.",
   "schema-uniqueitems-unique-scan": "Scan sends a request containing an array value that does not follow the property 'uniqueItems' that constrains this value."
 };
-function ks({ operation: e }) {
+function Ps({ operation: e }) {
   var a, p;
   const s = (a = e.scenarios) == null ? void 0 : a[0];
   if (s === void 0) {
     const d = e.reason || "unknown";
-    return /* @__PURE__ */ t.jsxs(qs, { children: [
+    return /* @__PURE__ */ t.jsxs(Ts, { children: [
       "Happy path failed, reason: ",
       d
     ] });
@@ -1367,7 +1373,7 @@ function ks({ operation: e }) {
   const { request: n, response: i, outcome: r, happyPath: f } = s;
   let o = "N/A";
   const l = (r == null ? void 0 : r.status) === "correct" ? "Yes" : "No";
-  return l === "Yes" && (o = r != null && r.conformant ? "Yes" : "No"), /* @__PURE__ */ t.jsxs(Ts, { children: [
+  return l === "Yes" && (o = r != null && r.conformant ? "Yes" : "No"), /* @__PURE__ */ t.jsxs(qs, { children: [
     /* @__PURE__ */ t.jsxs(O, { children: [
       /* @__PURE__ */ t.jsx("div", { children: "HTTP code received" }),
       /* @__PURE__ */ t.jsxs("div", { children: [
@@ -1399,10 +1405,10 @@ function ks({ operation: e }) {
     ] })
   ] });
 }
-const Ts = h.div`
+const qs = h.div`
   margin: 8px;
   border: 1px solid var(${u.border});
-`, qs = h.div`
+`, Ts = h.div`
   margin: 16px;
 `, O = h.div`
   display: flex;
@@ -1432,7 +1438,7 @@ function Hs({
       /* @__PURE__ */ t.jsx(Ls, { children: e.path }),
       e.fuzzed ? /* @__PURE__ */ t.jsx(M, {}) : /* @__PURE__ */ t.jsx(Ie, {})
     ] }),
-    /* @__PURE__ */ t.jsx(ks, { operation: e })
+    /* @__PURE__ */ t.jsx(Ps, { operation: e })
   ] }) });
 }
 const Ns = h.div`
@@ -1542,7 +1548,7 @@ function zs() {
   const { scanReport: e, waiting: s, error: n } = w((i) => i.scan);
   return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
     e && /* @__PURE__ */ t.jsx(Fs, {}),
-    /* @__PURE__ */ t.jsx(kt, {}),
+    /* @__PURE__ */ t.jsx(Pt, {}),
     (s || n) && /* @__PURE__ */ t.jsx($t, {})
   ] });
 }
@@ -1565,7 +1571,7 @@ const ie = [
   scanOperation: pt,
   showGeneralError: xt,
   showHttpError: gt,
-  showHttpResponse: mt,
+  showHttpResponse: vt,
   showScanReport: ut,
   showFullScanReport: ft,
   loadEnv: Ue,
@@ -1581,8 +1587,8 @@ function Ws() {
 }
 function Vs(e, s) {
   const n = Et(Ot(e, ie), s);
-  Pe(document.getElementById("root")).render(
-    /* @__PURE__ */ t.jsx(ke.StrictMode, { children: /* @__PURE__ */ t.jsx(Te, { store: n, children: /* @__PURE__ */ t.jsx(qe.Provider, { value: ie, children: /* @__PURE__ */ t.jsx(Ws, {}) }) }) })
+  ke(document.getElementById("root")).render(
+    /* @__PURE__ */ t.jsx(Pe.StrictMode, { children: /* @__PURE__ */ t.jsx(qe, { store: n, children: /* @__PURE__ */ t.jsx(Te.Provider, { value: ie, children: /* @__PURE__ */ t.jsx(Ws, {}) }) }) })
   ), window.addEventListener("message", He(n, Ks));
 }
 window.renderWebView = Vs;
