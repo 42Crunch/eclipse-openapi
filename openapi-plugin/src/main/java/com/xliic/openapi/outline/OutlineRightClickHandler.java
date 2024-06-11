@@ -119,7 +119,7 @@ public class OutlineRightClickHandler {
                 }
             }
             if (PATHS.equals(((SimpleNode) node).getParentName())) {
-                DefaultActionGroup diffGroup = DefaultActionGroup.createPopupGroup();
+                DefaultActionGroup diffGroup = DefaultActionGroup.createPopupGroup("Add Operation");
                 diffGroup.addAll(quickFixService.getSnippetFixActions(psiFile, "operation", treeNode));
                 actions.add(diffGroup);
                 actions.add(quickFixService.getPathOpDeleteFixAction(psiFile, treeNode));

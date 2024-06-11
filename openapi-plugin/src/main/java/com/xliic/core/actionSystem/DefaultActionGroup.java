@@ -7,28 +7,34 @@ import java.util.List;
 import org.eclipse.jface.action.IMenuManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
+import org.eclipse.jface.action.MenuManager;
 import com.xliic.core.util.Icon;
 
 public class DefaultActionGroup implements Presentation {
 
+	@Nullable
     private final IMenuManager menu;
+	@Nullable
+    private final String popupGroupName;
+    @NotNull
     private final List<AnJAction> actions = new LinkedList<>();
 
-    public DefaultActionGroup() {
+    public DefaultActionGroup(@Nullable String popupGroupName) {
         menu = null;
+        this.popupGroupName = popupGroupName;
     }
 
     public DefaultActionGroup(@NotNull IMenuManager menu) {
         this.menu = menu;
+        popupGroupName = null;
     }
 
     public List<AnJAction> getActions() {
         return actions;
     }
 
-    public static DefaultActionGroup createPopupGroup() {
-        return new DefaultActionGroup();
+    public static DefaultActionGroup createPopupGroup(@Nullable String popupGroupName) {
+        return new DefaultActionGroup(popupGroupName);
     }
 
     public static DefaultActionGroup createPopupGroup(@NotNull IMenuManager menu) {
@@ -54,14 +60,28 @@ public class DefaultActionGroup implements Presentation {
     }
 
     public final void add(@NotNull DefaultActionGroup actionGroup) {
-        addAll(actionGroup.getActions());
+    	String name = actionGroup.getPopupGroupName();
+        if (menu != null) {
+        	MenuManager menuManager = new MenuManager(name);
+        	List<AnJAction> actionList = actionGroup.getActions();
+            for (AnJAction action : actionList) {
+            	menuManager.add(action);
+                action.update();
+            }
+            menu.add(menuManager);
+            actions.addAll(actionList);
+        }
     }
 
     public final @NotNull Presentation getTemplatePresentation() {
         return this;
     }
 
-    @Override
+    public @Nullable String getPopupGroupName() {
+		return popupGroupName;
+	}
+
+	@Override
     public void setIcon(@Nullable Icon icon) {
     }
 
