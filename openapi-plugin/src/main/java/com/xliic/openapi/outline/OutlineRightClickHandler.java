@@ -122,6 +122,7 @@ public class OutlineRightClickHandler {
                 DefaultActionGroup diffGroup = DefaultActionGroup.createPopupGroup();
                 diffGroup.addAll(quickFixService.getSnippetFixActions(psiFile, "operation", treeNode));
                 actions.add(diffGroup);
+                actions.add(quickFixService.getPathOpDeleteFixAction(psiFile, treeNode));
             }
             if (node instanceof TagChildNode) {
                 Node operation = ((TagChildNode) node).getOperation();
@@ -142,6 +143,7 @@ public class OutlineRightClickHandler {
                 AuditUtils.setActionsForOperation(psiFile, operation, actions);
                 ScanUtils.setActionsForOperation(psiFile, operation, actions);
                 TryItUtils.setActionsForOperation(psiFile, operation, actions);
+                actions.add(quickFixService.getPathOpDeleteFixAction(psiFile, treeNode));
             }
         }
         if (node.isCopyEnabled()) {

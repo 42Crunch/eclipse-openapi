@@ -7,7 +7,6 @@ import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.platform.PlatformAPIs;
@@ -41,8 +40,7 @@ public class PlatformDeleteCollectionAction extends AnJAction implements DumbAwa
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
         if (isEmpty) {
-            final int rc = Messages.showOkCancelDialog(project, CONFIRM_MSG, "Confirm", "Yes", "Cancel", Messages.getQuestionIcon());
-            if (rc == Messages.OK) {
+            if (MsgUtils.confirm(project, CONFIRM_MSG)) {
                 PlatformAPIs.deleteCollection(collectionId, new SuccessResponseCallback(project) {
                     @Override
                     public void onCode200Response() {

@@ -37,9 +37,11 @@ import com.xliic.openapi.quickfix.FixType;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.quickfix.actions.FixBulkAction;
 import com.xliic.openapi.quickfix.actions.FixCombinedAction;
+import com.xliic.openapi.quickfix.actions.FixPathOpDeleteAction;
 import com.xliic.openapi.quickfix.actions.FixSingleAction;
 import com.xliic.openapi.quickfix.managers.FixManagerBulk;
 import com.xliic.openapi.quickfix.managers.FixManagerCombined;
+import com.xliic.openapi.quickfix.managers.FixManagerPathOpDelete;
 import com.xliic.openapi.quickfix.managers.FixManagerSchema;
 import com.xliic.openapi.quickfix.managers.FixManagerSchemaInline;
 import com.xliic.openapi.quickfix.managers.FixManagerSingle;
@@ -241,6 +243,11 @@ public final class QuickFixService implements IQuickFixService, Disposable {
             result.addAll(getSnippetFixActions(psiFile, id, node));
         }
         return result;
+    }
+
+    @NotNull
+    public FixPathOpDeleteAction getPathOpDeleteFixAction(@NotNull PsiFile psiFile, @NotNull DefaultMutableTreeNode node) {
+        return new FixPathOpDeleteAction(new FixManagerPathOpDelete(psiFile, node));
     }
 
     private void loadJsonConfig(String fileName, Map<String, List<QuickFix>> source) {

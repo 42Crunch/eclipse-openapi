@@ -28,7 +28,6 @@ import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.services.IPlatformService;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.EclipseWorkbenchUtil;
 import com.xliic.core.util.SwingUtilities;
@@ -55,6 +54,7 @@ import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
 
@@ -281,8 +281,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     }
 
     public void saveToPlatform(@NotNull VirtualFile file, boolean updateFileIsModified) {
-        final int rc = Messages.showOkCancelDialog(project, CONFIRMATION, "Confirm", "Yes", "Cancel", Messages.getQuestionIcon());
-        if (rc == Messages.OK) {
+        if (MsgUtils.confirm(project, CONFIRMATION)) {
             Document document = FileDocumentManager.getInstance().getDocument(file);
             if (document != null) {
                 ApplicationManager.getApplication().invokeLaterOnWriteThread(() -> {

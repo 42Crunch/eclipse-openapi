@@ -59,6 +59,7 @@ import com.xliic.openapi.refs.external.ExtRef;
 import com.xliic.openapi.refs.external.ExtRefService;
 import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.core.actionSystem.AnJActionEvent;
 
 public class Utils {
 
@@ -470,6 +471,17 @@ public class Utils {
 
     public static boolean turnOffVcsShowConfirmation(@NotNull Project project) {
         return false;
+    }
+
+    public static PsiFile getOpenAPIPsiFile(@NotNull AnJActionEvent event) {
+        Project project = event.getProject();
+        if (project != null) {
+            VirtualFile file = getSelectedOpenAPIFile(project);
+            if (file != null) {
+                return findPsiFile(project, file);
+            }
+        }
+        return null;
     }
 
     private static Pair<VirtualFile, Node> createPair(VirtualFile file, Node node, boolean strict) {

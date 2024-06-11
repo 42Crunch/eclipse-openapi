@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
@@ -23,11 +24,13 @@ import com.xliic.openapi.utils.Utils;
 
 public abstract class FixManager {
 
+	@NotNull
     protected final PsiFile psiFile;
+	@NotNull
     protected final Project project;
     protected final boolean isJson;
 
-    protected FixManager(PsiFile psiFile) {
+    protected FixManager(@NotNull PsiFile psiFile) {
         this.psiFile = psiFile;
         project = psiFile.getProject();
         isJson = (Utils.getFileType(psiFile) == OpenApiFileType.Json);
@@ -49,23 +52,23 @@ public abstract class FixManager {
         return false;
     }
 
-    public static String getAbsolutePointer(String issuePointer, String fixPointer) {
+    public static @NotNull String getAbsolutePointer(@NotNull String issuePointer, @Nullable String fixPointer) {
         return StringUtils.isEmpty(fixPointer) ? issuePointer : issuePointer + fixPointer;
     }
 
-    protected BundleResult getBundle(String auditFileName, Project project) {
+    protected @Nullable BundleResult getBundle(@NotNull String auditFileName, @NotNull Project project) {
         BundleService bundleService = BundleService.getInstance(project);
         return bundleService.getBundle(auditFileName);
     }
 
-    protected OpenApiVersion getOpenApiVersion(String auditFileName, Project project) {
+    protected @NotNull OpenApiVersion getOpenApiVersion(@NotNull String auditFileName, @NotNull Project project) {
         return ASTService.getOpenAPIVersion(project, auditFileName);
     }
 
     public abstract boolean isResponsibleFor(@NotNull String pointer, @NotNull String label);
 
     @NotNull
-    protected static List<Object> wrap(List<Object> values) {
+    protected static List<Object> wrap(@NotNull List<Object> values) {
         List<Object> result = new LinkedList<>();
         for (Object object : values) {
             if (object instanceof String) {
@@ -79,7 +82,12 @@ public abstract class FixManager {
     }
 
     @NotNull
-    protected PlaceHolder getPlaceHolder(String name, String path, boolean isKeyType, List<Object> values, String fixPointer, QuickFix fix) {
+    protected PlaceHolder getPlaceHolder(@NotNull String name, 
+    		                             @NotNull String path, 
+    		                             boolean isKeyType, 
+    		                             @NotNull List<Object> values, 
+    		                             @NotNull String fixPointer, 
+    		                             @NotNull QuickFix fix) {
         fixPointer = trimPointer(fixPointer);
         String pointer = fixPointer + path;
         if (fix.getType() == FixType.Insert) {
@@ -96,11 +104,14 @@ public abstract class FixManager {
     }
 
     @NotNull
-    protected PlaceHolder getPlaceHolder(FixParameter parameter, List<Object> values, String fixPointer, QuickFix fix) {
+    protected PlaceHolder getPlaceHolder(@NotNull FixParameter parameter, 
+    		                             @NotNull List<Object> values,
+    		                             @NotNull String fixPointer,
+    		                             @NotNull QuickFix fix) {
         return getPlaceHolder(parameter.getName(), parameter.getPath(), parameter.isKeyType(), values, fixPointer, fix);
     }
 
-    private static String trimPointer(String pointer) {
+    private static @NotNull String trimPointer(@NotNull String pointer) {
         return pointer.endsWith("/") ? pointer.substring(0, pointer.length() - 1) : pointer;
     }
 }

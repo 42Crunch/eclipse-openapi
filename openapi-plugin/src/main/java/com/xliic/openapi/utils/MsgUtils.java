@@ -63,4 +63,8 @@ public class MsgUtils {
             Messages.showMessageDialog(project, msg, title, Messages.getInformationIcon());
         }
     }
+    
+    public static boolean confirm(@NotNull Project project, @NotNull String msg) {
+        return Messages.showOkCancelDialog(project, msg, "Confirm", "Yes", "Cancel", Messages.getQuestionIcon()) == Messages.OK;
+    }
 }

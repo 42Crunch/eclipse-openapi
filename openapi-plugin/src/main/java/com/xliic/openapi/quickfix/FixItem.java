@@ -17,11 +17,15 @@ public class FixItem {
         }
     };
 
+    @NotNull
     protected final String pointer;
+    @NotNull
     protected final Object value;
+    @NotNull
     protected final FixType fixType;
-
+    @Nullable
     protected String anchorPointer = null;
+    @NotNull
     protected final List<PlaceHolder> placeHolders = new LinkedList<>();
 
     public FixItem(@NotNull String pointer, @NotNull Object value, @NotNull FixType fixType) {
@@ -30,32 +34,32 @@ public class FixItem {
         this.fixType = fixType;
     }
 
-    public String getPointer() {
+    public @NotNull String getPointer() {
         return pointer;
     }
 
-    public Object getValue() {
+    public @NotNull Object getValue() {
         return value;
     }
 
-    public FixType getFixType() {
+    public @NotNull FixType getFixType() {
         return fixType;
     }
 
-    public String getAnchorPointer() {
+    public @Nullable String getAnchorPointer() {
         return anchorPointer;
     }
 
-    public FixItem withAnchorPointer(@Nullable String pointer) {
+    public @NotNull FixItem withAnchorPointer(@Nullable String pointer) {
         this.anchorPointer = pointer;
         return this;
     }
 
-    public List<PlaceHolder> getPlaceHolders() {
+    public @NotNull List<PlaceHolder> getPlaceHolders() {
         return placeHolders;
     }
 
-    public FixItem withPlaceHolders(@NotNull List<PlaceHolder> placeHolders) {
+    public @NotNull FixItem withPlaceHolders(@NotNull List<PlaceHolder> placeHolders) {
         this.placeHolders.addAll(placeHolders);
         return this;
     }
@@ -64,5 +68,9 @@ public class FixItem {
         for (PlaceHolder placeHolder : placeHolders) {
             placeHolder.setOffset(offset);
         }
+    }
+    
+    public static @NotNull FixItem getDeleteFixItem(@NotNull String pointer) {
+        return new FixItem(pointer, "", FixType.Delete);
     }
 }

@@ -7,12 +7,12 @@ import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.callback.SuccessResponseCallback;
 import com.xliic.openapi.platform.tree.utils.PlatformAPIUtils;
+import com.xliic.openapi.utils.MsgUtils;
 
 public class PlatformDeleteAPIAction extends AnJAction implements DumbAware {
 
@@ -36,8 +36,7 @@ public class PlatformDeleteAPIAction extends AnJAction implements DumbAware {
     
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
-        final int rc = Messages.showOkCancelDialog(project, CONFIRM_MSG, "Confirm", "Yes", "Cancel", Messages.getQuestionIcon());
-        if (rc == Messages.OK) {
+        if (MsgUtils.confirm(project, CONFIRM_MSG)) {
             PlatformAPIs.deleteAPI(apiId, new SuccessResponseCallback(project) {
                 @Override
                 public void onCode200Response() {
