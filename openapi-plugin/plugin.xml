@@ -101,6 +101,11 @@
             id="com.xliic.openapi.actions.internal.CloseWebEditors"
             name="Close Web Editors">
         </command>
+        <command
+            defaultHandler="com.xliic.openapi.actions.internal.WhatsNewAction"
+            id="com.xliic.openapi.actions.internal.WhatsNewAction"
+            name="Show What's New">
+        </command>
     </extension>
 
     <extension point="org.eclipse.ui.handlers">
@@ -282,6 +287,9 @@
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
             <service serviceClass="com.xliic.core.services.ICliService"></service>
         </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IWhatsNewService"></service>
+        </serviceFactory>
     </extension>
 
     <extension
@@ -410,6 +418,10 @@
                     commandId="com.xliic.openapi.actions.internal.CloseWebEditors"
                     style="push">
                 </command>
+                <command
+                    commandId="com.xliic.openapi.actions.internal.WhatsNewAction"
+                    style="push">
+        		</command>
             </menu>
         </menuContribution>
         <menuContribution

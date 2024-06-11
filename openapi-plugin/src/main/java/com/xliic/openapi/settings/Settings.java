@@ -16,6 +16,14 @@ public class Settings {
 
     public static final Map<String, Object> DEFAULTS = new HashMap<>();
 
+    public static class Plugin {
+        public static final String VERSION = "com.xliic.openapi.settings.plugin.version";
+
+        static {
+            DEFAULTS.put(VERSION, "");
+        }
+    }
+
     public static class Platform {
 
         public static final String TURNED_ON = "com.xliic.openapi.settings.platform.tuned.on";

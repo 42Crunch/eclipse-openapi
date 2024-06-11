@@ -16,6 +16,7 @@ import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.whatsnew.WhatsNewService;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 
@@ -45,5 +46,6 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
             ApplicationManager.getApplication().invokeAndWait(() -> EclipseWorkbenchUtil.openPerspective());
             SettingsService.getInstance().setValue(SHOW_OUTLINE_DEMO, false);
         }
+        WhatsNewService.getInstance(project).openWhatsNewPageIfNeeded();
     }
 }

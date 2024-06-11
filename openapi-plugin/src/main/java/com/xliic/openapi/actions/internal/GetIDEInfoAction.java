@@ -13,6 +13,10 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.whatsnew.WhatsNewService;
+
+import static com.xliic.openapi.whatsnew.WhatsNewService.getPluginVersion;
+import static com.xliic.openapi.whatsnew.WhatsNewService.getSavedVersion;
 
 public class GetIDEInfoAction extends AnAction implements DumbAware {
 
@@ -42,6 +46,16 @@ public class GetIDEInfoAction extends AnAction implements DumbAware {
                 builder.append(root.getPath()).append("\n");
             }
         }
+        addVersionInfo(project, builder);
         MsgUtils.info(project, builder.toString(), true);
+    }
+    
+    private static void addVersionInfo(Project project, StringBuilder builder) {
+        builder.append("Saved version: ").append(getSavedVersion()).append("\n");
+        String pluginVer = getPluginVersion();
+        if (pluginVer != null) {
+            builder.append("Plugin version: ").append(pluginVer).append("\n");
+        }
+        builder.append("Has what's new page: ").append(WhatsNewService.getInstance(project).hasWhatsNewWebPage()).append("\n");
     }
 }

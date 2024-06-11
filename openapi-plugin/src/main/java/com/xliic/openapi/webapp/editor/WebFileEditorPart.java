@@ -16,6 +16,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.jetbrains.annotations.NotNull;
+import com.xliic.openapi.whatsnew.jcef.JCEFWhatsNewPanel;
 
 import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenAPIImages;
@@ -23,12 +24,14 @@ import com.xliic.openapi.config.jcef.JCEFConfigPanel;
 import com.xliic.openapi.platform.dictionary.jcef.JCEFDictionaryPanel;
 import com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel;
 import com.xliic.openapi.platform.scan.report.jcef.JCEFScanReportPanel;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.WHATS_NEW_EDITOR_ID;
 
 public class WebFileEditorPart extends EditorPart {
 
 	private static final Image SCAN_ICON_IMAGE = OpenAPIImages.Scan.createImage();
 	private static final Image CONFIG_ICON_IMAGE = OpenAPIImages.Config.createImage();
 	private static final Image DATA_DICTIONARY_ICON_IMAGE = OpenAPIImages.Dictionary.createImage();
+	private static final Image WHATS_NEW_EDITOR_IMAGE = OpenAPIImages.Dictionary.createImage();
 	
     @SuppressWarnings("serial")
 	private static final Map<String, Long> TABS_LIMITS = new HashMap<>() {{   	
@@ -36,6 +39,7 @@ public class WebFileEditorPart extends EditorPart {
     	put(SCAN_EDITOR_ID, 100L);
     	put(SCANCONF_EDITOR_ID, 100L);
     	put(DATA_DICTIONARY_EDITOR_ID, 1L);
+    	put(WHATS_NEW_EDITOR_ID, 1L);
     }};
     private static final Map<String, Long> OPENED_TABS = new HashMap<>();
 	
@@ -66,6 +70,8 @@ public class WebFileEditorPart extends EditorPart {
 			setTitleImage(SCAN_ICON_IMAGE);
 		} else if (DATA_DICTIONARY_EDITOR_ID.equals(resId)) {
 			setTitleImage(DATA_DICTIONARY_ICON_IMAGE);
+		} else if (WHATS_NEW_EDITOR_ID.equals(resId)) {
+			setTitleImage(WHATS_NEW_EDITOR_IMAGE);
 		}
 	}
 
@@ -95,6 +101,9 @@ public class WebFileEditorPart extends EditorPart {
         	  break;
           case DATA_DICTIONARY_EDITOR_ID:
         	  webEditor = new JCEFDictionaryPanel(project, parent, webFile);
+        	  break;
+          case WHATS_NEW_EDITOR_ID:
+        	  webEditor = new JCEFWhatsNewPanel(project, parent, webFile);
         	  break;
           default:
         	  webEditor = new WebDefaultFileEditor(webFile, parent);

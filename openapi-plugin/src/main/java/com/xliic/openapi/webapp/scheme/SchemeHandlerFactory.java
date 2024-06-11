@@ -13,6 +13,8 @@ import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.ChangeTheme;
 
+import static com.xliic.openapi.webapp.editor.WebFileEditor.WHATS_NEW_EDITOR_ID;
+
 public class SchemeHandlerFactory implements IResponseHandler {
 
     // Domain for local UI debug 127.0.0.1:8887
@@ -48,9 +50,14 @@ public class SchemeHandlerFactory implements IResponseHandler {
 
     @NotNull
     private String getResourceIndexHTML(@NotNull String resourceId) {
-        String page = indexHTML.replace("${index-script}", HTTP_SCHEMA_PREFIX + resourceId + ".js");
+        String page;
         String themePayload = Utils.serialize(ChangeTheme.getChangeThemePayload(manager), true);
-        page = page.replace("window.__EclipseJTools.postMessage", getBrowserFunctionName(resourceId));
+        if (WHATS_NEW_EDITOR_ID.equals(resourceId)) {
+            page = NetUtils.getWebAppResource(getClass(), resourceId + ".html") + "\n" + getColorizationScript();
+        } else {
+            page = indexHTML.replace("${index-script}", HTTP_SCHEMA_PREFIX + resourceId + ".js");
+            page = page.replace("window.__EclipseJTools.postMessage", getBrowserFunctionName(resourceId));
+        }
         return page.replace("$theme", themePayload == null ? "" : themePayload);
     }
 
@@ -71,5 +78,21 @@ public class SchemeHandlerFactory implements IResponseHandler {
 
     public static String getBrowserFunctionName(@NotNull String resourceId) {
         return resourceId.replace("-", "") + "PostMessageToEclipseIDE";
+    }
+    
+    private static String getColorizationScript() {
+        return "<script>"
+        		+ "setColors($theme);\n"
+        		+ "window.fireDOMContentLoaded = function() {\n"
+        		+ "	window.runIDECommand = function(event) {\n"
+        		+ "		if (event.detail.command === \"changeTheme\") {\n"
+        		+ "			setColors(event.detail.payload.theme);\n"
+        		+ "		}\n"
+        		+ "	};\n"
+        		+ "};\n"
+        		+ "function setColors(colors) {\n"
+        		+ "	document.body.style.background = colors.background;\n"
+        		+ "	document.body.style.color = colors.foreground;\n"
+        		+ "}</script>";
     }
 }

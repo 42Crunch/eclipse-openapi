@@ -23,6 +23,7 @@ import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.services.TerminalService;
 import com.xliic.openapi.services.TryItService;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.whatsnew.WhatsNewService;
 
 public class CoreServiceFactory extends AbstractServiceFactory {
 	
@@ -71,6 +72,8 @@ public class CoreServiceFactory extends AbstractServiceFactory {
 			return new AnnotationService(PROJECT);
 		} else if (ICliService.class.equals(serviceInterface)) {
 			return new CliService();
+		} else if (IWhatsNewService.class.equals(serviceInterface)) {
+			return new WhatsNewService(PROJECT);
 		}
 		return null;
 	}
