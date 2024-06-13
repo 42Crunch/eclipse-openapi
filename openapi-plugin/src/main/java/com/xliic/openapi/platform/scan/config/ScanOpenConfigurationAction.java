@@ -1,5 +1,9 @@
 package com.xliic.openapi.platform.scan.config;
 
+import java.io.File;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
@@ -11,9 +15,6 @@ import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.utils.MsgUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
 
 public class ScanOpenConfigurationAction extends AnAction implements DumbAware {
 

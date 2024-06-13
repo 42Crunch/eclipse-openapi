@@ -7,6 +7,8 @@ import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import com.xliic.core.diagnostic.Logger;
+
 public class OpenApiBundle {
 
     private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
@@ -18,7 +20,7 @@ public class OpenApiBundle {
             InputStream inputStream = OpenApiBundle.class.getResourceAsStream(url.getFile());
             resourceBundle = new PropertyResourceBundle(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+        	Logger.getInstance(OpenApiBundle.class).error(e);
         }
     }
 

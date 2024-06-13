@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.codeInsight.HighlightInfo;
 import com.xliic.core.codeInsight.IntentionAction;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
@@ -92,7 +93,7 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
         try {
             safeRun();
         } catch (Throwable t) {
-            t.printStackTrace();
+        	Logger.getInstance(HighlightingManager.class).error(t);
         }
     }
 

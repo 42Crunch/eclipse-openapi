@@ -1,5 +1,8 @@
 package com.xliic.openapi.actions.internal;
 
+import static com.xliic.openapi.whatsnew.WhatsNewService.getPluginVersion;
+import static com.xliic.openapi.whatsnew.WhatsNewService.getSavedVersion;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.actionSystem.ActionUpdateThread;
@@ -14,9 +17,6 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.whatsnew.WhatsNewService;
-
-import static com.xliic.openapi.whatsnew.WhatsNewService.getPluginVersion;
-import static com.xliic.openapi.whatsnew.WhatsNewService.getSavedVersion;
 
 public class GetIDEInfoAction extends AnAction implements DumbAware {
 

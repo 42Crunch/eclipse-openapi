@@ -5,9 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.eclipse.jface.action.MenuManager;
+
 import com.xliic.core.util.Icon;
 
 public class DefaultActionGroup implements Presentation {

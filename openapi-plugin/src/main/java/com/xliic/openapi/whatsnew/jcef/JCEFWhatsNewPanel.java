@@ -1,5 +1,9 @@
 package com.xliic.openapi.whatsnew.jcef;
 
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
@@ -8,10 +12,6 @@ import com.xliic.core.util.messages.MessageBusConnection;
 import com.xliic.openapi.config.ConfigListener;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
 import com.xliic.openapi.webapp.editor.WebVirtualFile;
-
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class JCEFWhatsNewPanel extends WebFileEditor implements ConfigListener, Disposable {
 

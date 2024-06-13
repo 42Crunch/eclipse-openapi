@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.actions.ProjectAction;
@@ -64,8 +65,8 @@ public abstract class PreviewAbstractAction extends ProjectAction {
     private void process(Project project, VirtualFile file) {
         try {
             browse(project, file);
-        } catch (MalformedURLException exception) {
-            exception.printStackTrace();
+        } catch (MalformedURLException e) {
+        	Logger.getInstance(PreviewAbstractAction.class).error(e);
         }
     }
 }

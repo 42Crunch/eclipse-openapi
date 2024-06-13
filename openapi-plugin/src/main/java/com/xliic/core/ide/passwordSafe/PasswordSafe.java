@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.credentialStore.CredentialAttributes;
 import com.xliic.core.credentialStore.CredentialAttributesKt;
 import com.xliic.core.credentialStore.Credentials;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.openapi.settings.SettingsService;
 
 public class PasswordSafe {
@@ -38,7 +39,7 @@ public class PasswordSafe {
                     node.put(NODE_ID, value, true);
             	}
             } catch (StorageException e) {
-                e.printStackTrace();
+            	Logger.getInstance(PasswordSafe.class).error(e);
             }
         }
     }
@@ -49,7 +50,7 @@ public class PasswordSafe {
         try {
             return node.get(NODE_ID, null);
         } catch (StorageException e) {
-            e.printStackTrace();
+        	Logger.getInstance(PasswordSafe.class).error(e);
         }
         return null;
     }

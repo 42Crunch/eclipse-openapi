@@ -18,6 +18,8 @@ import org.eclipse.jface.text.IDocumentListener;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXParseException;
 
+import com.xliic.core.diagnostic.Logger;
+
 public class OpenAPIDocumentSetupParticipant implements IDocumentSetupParticipant, IDocumentSetupParticipantExtension {
 
     @SuppressWarnings("unused")
@@ -36,7 +38,7 @@ public class OpenAPIDocumentSetupParticipant implements IDocumentSetupParticipan
                 try {
                     this.marker.delete();
                 } catch (CoreException e) {
-                    e.printStackTrace();
+                	Logger.getInstance(OpenAPIDocumentSetupParticipant.class).error(e);
                 }
                 this.marker = null;
             }
@@ -57,7 +59,7 @@ public class OpenAPIDocumentSetupParticipant implements IDocumentSetupParticipan
                         this.marker.setAttribute(IMarker.CHAR_END, offset + 1);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                	Logger.getInstance(OpenAPIDocumentSetupParticipant.class).error(e);
                 }
             }
         }

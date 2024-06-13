@@ -1,6 +1,5 @@
 package com.xliic.openapi.settings;
 
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.*;
 import static com.xliic.openapi.settings.Settings.DEFAULTS;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOSTNAMES;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
@@ -10,6 +9,8 @@ import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
 import static com.xliic.openapi.settings.Settings.Platform.TURNED_OFF;
 import static com.xliic.openapi.settings.Settings.Platform.TURNED_ON;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_ANOND_TOKEN;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_API_TOKEN;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ENV_SECRETS_KEY;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
@@ -19,8 +20,8 @@ import static com.xliic.openapi.settings.Settings.TryIt.INSECURE_SSL_HOSTNAMES;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;

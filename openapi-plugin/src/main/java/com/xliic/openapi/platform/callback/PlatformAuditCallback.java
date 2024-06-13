@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
@@ -85,13 +86,13 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
                 auditBuilder.setCompliance(AuditUtils.readAuditCompliance(tid));
             } catch (Exception e) {
                 auditBuilder.setCompliance(null);
-                e.printStackTrace();
+                Logger.getInstance(PlatformAuditCallback.class).error(e);
             }
             try {
                 auditBuilder.setToDoReport(AuditUtils.readAuditReportSqgTodo(tid));
             } catch (Exception e) {
                 auditBuilder.setToDoReport(null);
-                e.printStackTrace();
+                Logger.getInstance(PlatformAuditCallback.class).error(e);
             }
             AuditService auditService = AuditService.getInstance(project);
             Audit prevReport = auditService.getAuditReport(file.getPath());

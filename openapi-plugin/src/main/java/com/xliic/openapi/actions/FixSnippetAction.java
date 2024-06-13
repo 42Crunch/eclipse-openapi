@@ -1,5 +1,7 @@
 package com.xliic.openapi.actions;
 
+import static com.xliic.openapi.utils.Utils.getOpenAPIPsiFile;
+
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,8 +23,6 @@ import com.xliic.core.util.Icon;
 import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.quickfix.managers.FixManager;
 import com.xliic.openapi.services.ASTService;
-
-import static com.xliic.openapi.utils.Utils.getOpenAPIPsiFile;
 
 public class FixSnippetAction extends AnJAction implements DumbAware { 
 

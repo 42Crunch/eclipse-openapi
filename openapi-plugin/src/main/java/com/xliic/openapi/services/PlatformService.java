@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.progress.ProgressIndicator;
@@ -166,13 +167,13 @@ public final class PlatformService implements IPlatformService, SettingsListener
                     auditBuilder.setCompliance(AuditUtils.readAuditCompliance(tid));
                 } catch (Exception e) {
                     auditBuilder.setCompliance(null);
-                    e.printStackTrace();
+                    Logger.getInstance(PlatformService.class).error(e);
                 }
                 try {
                     auditBuilder.setToDoReport(AuditUtils.readAuditReportSqgTodo(tid));
                 } catch (Exception e) {
                     auditBuilder.setToDoReport(null);
-                    e.printStackTrace();
+                    Logger.getInstance(PlatformService.class).error(e);
                 }
                 boolean showInBrowser = report == null || report.getDisplayOptions().isShowInBrowser();
                 boolean showInProblemsList = report == null || report.getDisplayOptions().isShowInProblemsList();

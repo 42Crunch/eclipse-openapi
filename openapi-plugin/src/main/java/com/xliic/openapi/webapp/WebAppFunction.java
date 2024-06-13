@@ -10,6 +10,7 @@ import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
@@ -60,7 +61,7 @@ public class WebAppFunction extends BrowserFunction {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	Logger.getInstance(WebAppFunction.class).error(e);
             }
         }
     }

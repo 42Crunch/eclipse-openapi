@@ -14,6 +14,7 @@ import com.xliic.common.WorkspaceException;
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.progress.Task;
@@ -120,7 +121,7 @@ public class ExtRefReloadAction extends AnAction implements DumbAware {
                             bundleService.scheduleToBundleByHosts(hostnames);
                         }
                     } catch (IOException | WorkspaceException e) {
-                        e.printStackTrace();
+                    	Logger.getInstance(ExtRefReloadAction.class).error(e);
                     } finally {
                         refreshInProgress = false;
                     }

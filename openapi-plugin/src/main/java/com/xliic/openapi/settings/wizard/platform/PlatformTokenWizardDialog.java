@@ -1,6 +1,8 @@
 package com.xliic.openapi.settings.wizard.platform;
 
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.*;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_API_TOKEN;
 
 import java.util.Set;
 

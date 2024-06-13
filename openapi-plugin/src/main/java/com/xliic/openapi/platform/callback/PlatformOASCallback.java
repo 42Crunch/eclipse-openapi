@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.command.WriteCommandAction;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.Computable;
@@ -80,7 +81,7 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
             }
         } catch (Throwable t) {
             PlatformUtils.setInProgress(tree, progressDMTN, false);
-            t.printStackTrace();
+            Logger.getInstance(PlatformOASCallback.class).error(t);
         }
     }
 }

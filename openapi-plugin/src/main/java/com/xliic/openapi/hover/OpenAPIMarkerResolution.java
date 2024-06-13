@@ -12,6 +12,7 @@ import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeHighlighting.HighlightingManager;
 import com.xliic.core.codeHighlighting.Marker;
 import com.xliic.core.codeInsight.IntentionAction;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
@@ -89,7 +90,7 @@ class OpenAPIMarkerResolution implements IMarkerResolutionRelevance, IMarkerReso
                 }
             }
         } catch (Throwable t) {
-            t.printStackTrace();
+        	Logger.getInstance(OpenAPIMarkerResolution.class).error(t);
         }
     }
 

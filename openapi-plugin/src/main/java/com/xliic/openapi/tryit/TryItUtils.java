@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.actionSystem.DefaultActionGroup;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.outline.actions.TryItAction;
@@ -54,7 +55,7 @@ public class TryItUtils {
                 return serializeToString(root);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+        	Logger.getInstance(TryItUtils.class).error(e);
         }
         return text;
     }

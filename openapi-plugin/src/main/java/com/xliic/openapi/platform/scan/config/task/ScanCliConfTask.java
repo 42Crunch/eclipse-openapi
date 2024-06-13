@@ -1,10 +1,10 @@
 package com.xliic.openapi.platform.scan.config.task;
 
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
 import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
-import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
 
 import java.io.File;
 import java.io.IOException;

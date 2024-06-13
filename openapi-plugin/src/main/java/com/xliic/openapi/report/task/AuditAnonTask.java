@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -117,8 +118,8 @@ public class AuditAnonTask extends Task.Backgroundable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
             callback.reject(e instanceof AuditService.KdbException ? e.getMessage() : ERROR_MSG + e);
+            Logger.getInstance(AuditAnonTask.class).error(e);
         } finally {
             progress.cancel();
         }

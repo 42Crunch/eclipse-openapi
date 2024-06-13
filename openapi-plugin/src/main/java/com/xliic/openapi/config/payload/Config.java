@@ -13,11 +13,11 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.platform.NamingConvention;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
+import com.xliic.openapi.refs.external.ApprovedHostConfig;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
-import com.xliic.openapi.refs.external.ApprovedHostConfig;
 
 public class Config {
 

@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.PanelViewPart;
 import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
@@ -116,7 +117,7 @@ public class WindowUtils {
 		try {
 			page.openEditor(input, EDITOR_ID);
 		} catch (PartInitException e) {
-			e.printStackTrace();
+			Logger.getInstance(WindowUtils.class).error(e);
 		}
     }
 }

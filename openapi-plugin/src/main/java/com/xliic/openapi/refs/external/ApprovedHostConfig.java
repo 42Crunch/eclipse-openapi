@@ -1,9 +1,9 @@
 package com.xliic.openapi.refs.external;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
 
 public class ApprovedHostConfig {
 

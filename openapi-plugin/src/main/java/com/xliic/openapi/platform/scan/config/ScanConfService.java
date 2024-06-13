@@ -1,13 +1,14 @@
 package com.xliic.openapi.platform.scan.config;
 
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
 import static com.xliic.openapi.utils.Utils.turnOffVcsShowConfirmation;
 import static com.xliic.openapi.utils.Utils.turnOnVcsShowConfirmation;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCANCONF_EDITOR_ID;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.services.IScanConfService;
@@ -18,6 +19,7 @@ import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.platform.scan.ScanListener;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
+import com.xliic.openapi.platform.scan.config.payload.ScanConfWithOas;
 import com.xliic.openapi.platform.scan.config.task.ScanCliConfTask;
 import com.xliic.openapi.platform.scan.config.task.ScanConfTask;
 import com.xliic.openapi.platform.scan.config.task.ScanPlatformConfTask;
@@ -27,15 +29,14 @@ import com.xliic.openapi.platform.scan.config.task.update.ScanUpdatePlatformConf
 import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.preferences.PrefsService;
 import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
-import com.xliic.openapi.settings.Credentials;
-import com.xliic.openapi.settings.wizard.WizardCallback;
-import com.xliic.openapi.platform.scan.config.payload.ScanConfWithOas;
 
 public final class ScanConfService implements IScanConfService, Disposable {
 
@@ -160,12 +161,12 @@ public final class ScanConfService implements IScanConfService, Disposable {
             }
             @Override
             public void setRejected(@NotNull Exception e) {
-            	e.printStackTrace();
                 inProgress = false;
                 MsgUtils.notifyError(project,"Failed to create default config: " + e);
                 if (turnedOff) {
                     turnOnVcsShowConfirmation(project);
                 }
+                Logger.getInstance(ScanConfService.class).error(e);
             }
         };
         if (FileUtils.exists(scanConfPath)) {

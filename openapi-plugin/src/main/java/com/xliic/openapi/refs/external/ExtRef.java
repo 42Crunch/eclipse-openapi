@@ -1,11 +1,11 @@
 package com.xliic.openapi.refs.external;
 
 import static com.xliic.openapi.quickfix.QuickFix.formatFixText;
+import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
 import static org.apache.commons.lang3.RandomStringUtils.random;
-import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,8 +13,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.jetbrains.annotations.NotNull;

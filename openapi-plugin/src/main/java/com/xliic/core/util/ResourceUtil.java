@@ -6,6 +6,7 @@ import java.net.URL;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 public class ResourceUtil {
@@ -16,7 +17,7 @@ public class ResourceUtil {
             URL url = new URL(baseURL, "resources/" + basePath + "/" + fileName);
             return loaderClass.getResourceAsStream(url.getFile());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+        	Logger.getInstance(ResourceUtil.class).error(e);
         }
         return null;
     }
@@ -27,7 +28,7 @@ public class ResourceUtil {
             URL url = new URL(baseURL, "resources/" + basePath + "/" + fileName);
             return classLoader.getResourceAsStream(url.getFile());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+        	Logger.getInstance(ResourceUtil.class).error(e);
         }
         return null;
     }

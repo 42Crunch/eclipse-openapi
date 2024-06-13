@@ -1,5 +1,7 @@
 package com.xliic.openapi.webapp.scheme;
 
+import static com.xliic.openapi.webapp.editor.WebFileEditor.WHATS_NEW_EDITOR_ID;
+
 import java.io.InputStream;
 import java.util.Map;
 
@@ -12,8 +14,6 @@ import com.xliic.core.ui.UIManager;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.ChangeTheme;
-
-import static com.xliic.openapi.webapp.editor.WebFileEditor.WHATS_NEW_EDITOR_ID;
 
 public class SchemeHandlerFactory implements IResponseHandler {
 

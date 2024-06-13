@@ -1,14 +1,15 @@
 package com.xliic.openapi.actions.internal;
 
+import static com.xliic.openapi.settings.Settings.Plugin.VERSION;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.whatsnew.WhatsNewService;
-import org.jetbrains.annotations.NotNull;
-
-import static com.xliic.openapi.settings.Settings.Plugin.VERSION;
 
 public class WhatsNewAction extends AnAction {
 

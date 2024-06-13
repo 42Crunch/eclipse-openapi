@@ -1,5 +1,9 @@
 package com.xliic.openapi.outline.actions;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
@@ -13,12 +17,9 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.outline.OutlineSortTreeModel;
 import com.xliic.openapi.outline.ui.OutlinePanel;
+import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-import com.xliic.openapi.parser.ast.node.Node;
-
-import javax.swing.tree.DefaultMutableTreeNode;
 
 public class TargetAction extends AnJAction implements DumbAware {
 

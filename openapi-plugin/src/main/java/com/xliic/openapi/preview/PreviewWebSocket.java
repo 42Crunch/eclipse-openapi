@@ -16,6 +16,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectLocator;
 import com.xliic.core.vfs.LocalFileSystem;
@@ -82,7 +83,7 @@ public class PreviewWebSocket {
         try {
             this.session.getRemote().sendString(text);
         } catch (IOException e) {
-            e.printStackTrace();
+        	Logger.getInstance(PreviewWebSocket.class).error(e);
         }
     }
 }

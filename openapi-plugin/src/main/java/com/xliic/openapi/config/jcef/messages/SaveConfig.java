@@ -1,15 +1,15 @@
 package com.xliic.openapi.config.jcef.messages;
 
+import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
+import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.IMAGE;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.SERVICES;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
-import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.*;
-import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 
 import java.util.HashMap;
 import java.util.HashSet;

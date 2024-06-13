@@ -1,8 +1,10 @@
 package com.xliic.openapi.platform.scan;
 
 import static com.xliic.openapi.platform.scan.config.ScanConfigUtils.getAlias;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_DOCKER;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_SCAND_MANAGER;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,13 +30,13 @@ import com.xliic.openapi.platform.scan.task.ScanDockerTask;
 import com.xliic.openapi.platform.scand.task.ScanJobTask;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
-import com.xliic.openapi.settings.Credentials;
 
 public final class ScanService implements IScanService, Disposable {
 

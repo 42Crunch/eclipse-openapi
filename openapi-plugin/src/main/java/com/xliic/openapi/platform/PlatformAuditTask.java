@@ -6,6 +6,7 @@ import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -80,13 +81,13 @@ public class PlatformAuditTask extends Task.Backgroundable {
             AuditToDoReport todoReport = AuditUtils.readAuditReportSqgTodo(tid);
             callback.complete(report, compliance, todoReport);
         } catch (Exception e) {
-            e.printStackTrace();
             if (e instanceof AuditService.KdbException) {
                 callback.reject(e.getMessage());
             } else {
                 String msg = e.getMessage();
                 callback.reject(msg.equals(ScanUtils.LIMIT_REACHED_MSG) ? msg : ERROR_MSG + msg);
             }
+            Logger.getInstance(PlatformAuditTask.class).error(e);
         } finally {
             if (apiId != null) {
                 ScanUtils.deleteAPI(apiId);

@@ -1,12 +1,13 @@
 package com.xliic.openapi.settings;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xliic.openapi.utils.Utils;
 
 public class ListConverter implements Converter {
 

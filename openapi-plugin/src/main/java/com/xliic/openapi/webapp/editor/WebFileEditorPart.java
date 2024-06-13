@@ -4,6 +4,7 @@ import static com.xliic.openapi.webapp.editor.WebFileEditor.CONFIG_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.DATA_DICTIONARY_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCANCONF_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.WHATS_NEW_EDITOR_ID;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,6 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.jetbrains.annotations.NotNull;
-import com.xliic.openapi.whatsnew.jcef.JCEFWhatsNewPanel;
 
 import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenAPIImages;
@@ -24,7 +24,7 @@ import com.xliic.openapi.config.jcef.JCEFConfigPanel;
 import com.xliic.openapi.platform.dictionary.jcef.JCEFDictionaryPanel;
 import com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel;
 import com.xliic.openapi.platform.scan.report.jcef.JCEFScanReportPanel;
-import static com.xliic.openapi.webapp.editor.WebFileEditor.WHATS_NEW_EDITOR_ID;
+import com.xliic.openapi.whatsnew.jcef.JCEFWhatsNewPanel;
 
 public class WebFileEditorPart extends EditorPart {
 

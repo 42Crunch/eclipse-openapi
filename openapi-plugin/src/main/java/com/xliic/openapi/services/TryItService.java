@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.core.services.ITryItService;
 import com.xliic.openapi.environment.EnvService;
@@ -115,7 +116,7 @@ public final class TryItService implements ITryItService {
             builder.hostnameVerifier((hostname, session) -> true);
             return builder.build();
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
-            e.printStackTrace();
+        	Logger.getInstance(TryItService.class).error(e);
         }
         return null;
     }

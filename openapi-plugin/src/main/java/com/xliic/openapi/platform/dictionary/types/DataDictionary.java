@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.callback.SuccessASTResponseCallback;
@@ -94,7 +95,7 @@ public class DataDictionary extends SuccessASTResponseCallback implements Compar
                             }
                         }
                     } catch (Throwable e) {
-                        e.printStackTrace();
+                    	Logger.getInstance(DataDictionary.class).error(e);
                     }
                 }
             }

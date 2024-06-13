@@ -11,6 +11,7 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 
 public class PropertiesComponent {
@@ -75,7 +76,7 @@ public class PropertiesComponent {
 				((ScopedPreferenceStore) prefStore).save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.getInstance(PropertiesComponent.class).error(e);
 		}
 	}
 }

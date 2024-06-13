@@ -1,5 +1,11 @@
 package com.xliic.openapi.statusbar;
 
+import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
+
+import java.util.Map;
+import java.util.Set;
+
 import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.swt.SWT;
@@ -16,15 +22,9 @@ import com.xliic.core.ide.ui.LafManagerListener;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.config.ConfigService;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.webapp.messages.ChangeTheme;
-import com.xliic.openapi.settings.Credentials;
-
-import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
-
-import java.util.Map;
-import java.util.Set;
 
 public class AuthUserContributionItem extends ContributionItem implements SettingsListener, LafManagerListener {
 

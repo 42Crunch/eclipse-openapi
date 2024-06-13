@@ -25,10 +25,10 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +37,7 @@ import org.osgi.framework.Version;
 
 import com.xliic.core.actionSystem.AnActionUpdater;
 import com.xliic.core.codeHighlighting.HighlightingManager;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.core.project.ProjectManagerListener;
 import com.xliic.core.util.EclipseUtil;
@@ -221,14 +222,14 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                                         Files.delete(file);
                                         projToUpdate[0] = true;
                                     } catch (IOException e) {
-                                        e.printStackTrace();
+                                    	Logger.getInstance(OpenAPIAbstractUIPlugin.class).error(e);
                                     }
                                 }
                                 return FileVisitResult.CONTINUE;
                             }
                         });
                     } catch (IOException e) {
-                        e.printStackTrace();
+                    	Logger.getInstance(OpenAPIAbstractUIPlugin.class).error(e);
                     }
                 }
                 if (projToUpdate[0]) {
@@ -255,7 +256,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                         }
                     }
                 } catch (PartInitException e) {
-                    e.printStackTrace();
+                	Logger.getInstance(OpenAPIAbstractUIPlugin.class).error(e);
                 }
             }
         }

@@ -9,13 +9,15 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.diagnostic.Logger;
+
 public class BrowserUtil {
 
     public static void browse(@NonNls @NotNull String url) {
         try {
             browse(new URL(url));
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+        	Logger.getInstance(BrowserUtil.class).error(e);
         }
     }
 
@@ -25,7 +27,7 @@ public class BrowserUtil {
             IWebBrowser browser = browserSupport.createBrowser(IWorkbenchBrowserSupport.AS_EXTERNAL, "testId", null, null);
             browser.openURL(url);
         } catch (Exception e) {
-            e.printStackTrace();
+        	Logger.getInstance(BrowserUtil.class).error(e);
         }
     }
 }

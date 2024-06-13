@@ -25,6 +25,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.openapi.OpenAPIAbstractUIPlugin;
 import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.OpenApiFileType;
@@ -88,7 +89,7 @@ public class OpenAPICreationPage extends WizardNewFileCreationPage {
                 }
             }
         } catch (PartInitException e) {
-            e.printStackTrace();
+        	Logger.getInstance(OpenAPICreationPage.class).error(e);
             return false;
         }
         nameCounter++;
@@ -120,7 +121,7 @@ public class OpenAPICreationPage extends WizardNewFileCreationPage {
             Stream<String> stream = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines();
             stream.forEach(line -> sb.append(line).append("\n"));
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+        	Logger.getInstance(OpenAPICreationPage.class).error(e);
         }
         return new ByteArrayInputStream(sb.toString().getBytes());
     }

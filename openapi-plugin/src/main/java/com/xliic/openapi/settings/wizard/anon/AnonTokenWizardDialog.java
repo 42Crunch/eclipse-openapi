@@ -1,8 +1,8 @@
 package com.xliic.openapi.settings.wizard.anon;
 
-import static com.xliic.openapi.utils.Utils.getStatus;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_ANOND_TOKEN;
+import static com.xliic.openapi.utils.Utils.getStatus;
 
 import java.io.IOException;
 import java.util.Set;

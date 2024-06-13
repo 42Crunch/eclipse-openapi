@@ -1,14 +1,15 @@
 package com.xliic.openapi.platform.scan.report.jcef.messages;
 
-import com.xliic.openapi.platform.scan.report.payload.ScanReport;
-import com.xliic.openapi.utils.Utils;
-import com.xliic.openapi.webapp.messages.WebAppConsume;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.platform.scan.report.payload.ScanReport;
+import com.xliic.openapi.utils.Utils;
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class ShowFullScanReport extends WebAppConsume {
 

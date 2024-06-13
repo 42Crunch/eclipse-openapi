@@ -1,20 +1,28 @@
 package com.xliic.openapi.quickfix.managers;
 
+import static com.xliic.openapi.utils.Utils.REF;
+import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.outline.node.SimpleNode;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.FixItem;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.xliic.openapi.utils.Utils.REF;
-import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
 
 public class FixManagerPathOpDelete extends FixManager {
 

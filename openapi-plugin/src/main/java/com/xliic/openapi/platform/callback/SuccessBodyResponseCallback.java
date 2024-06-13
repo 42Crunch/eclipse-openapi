@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.utils.MsgUtils;
 
@@ -31,7 +32,7 @@ public abstract class SuccessBodyResponseCallback implements EnqueueCallback {
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
         onFailure(FAILED_TO_CONNECT + e);
-        e.printStackTrace();
+        Logger.getInstance(SuccessBodyResponseCallback.class).error(e);
     }
 
     @Override

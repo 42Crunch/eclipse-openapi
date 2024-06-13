@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.util.SystemInfoRt;
 
 public class FileUtil {
@@ -57,7 +58,7 @@ public class FileUtil {
                     try {
                         Files.delete(dir);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                    	Logger.getInstance(FileUtil.class).error(e);
                     }
                     return FileVisitResult.CONTINUE;
                 }
@@ -70,13 +71,13 @@ public class FileUtil {
                         }
                         Files.delete(file);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                    	Logger.getInstance(FileUtil.class).error(e);
                     }
                     return FileVisitResult.CONTINUE;
                 }
             });
         } catch (IOException e) {
-            e.printStackTrace();
+        	Logger.getInstance(FileUtil.class).error(e);
         }
     }
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.parser.ast.node.Node;
 
@@ -55,7 +56,7 @@ public class IssueBuilder {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+        	Logger.getInstance(IssueBuilder.class).error(e);
         }
         return issues;
     }

@@ -1,22 +1,23 @@
 package com.xliic.openapi.whatsnew;
 
-import com.xliic.core.application.ApplicationInfo;
-import com.xliic.core.project.Project;
-import com.xliic.core.services.IWhatsNewService;
-import com.xliic.core.util.ResourceUtil;
-import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.utils.WindowUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import static com.xliic.openapi.settings.Settings.Plugin.VERSION;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.WHATS_NEW_EDITOR_ID;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import static com.xliic.openapi.settings.Settings.Plugin.VERSION;
-import static com.xliic.openapi.webapp.editor.WebFileEditor.WHATS_NEW_EDITOR_ID;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.application.ApplicationInfo;
+import com.xliic.core.project.Project;
+import com.xliic.core.services.IWhatsNewService;
+import com.xliic.core.util.ResourceUtil;
+import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.utils.WindowUtils;
 
 public final class WhatsNewService implements IWhatsNewService {
 

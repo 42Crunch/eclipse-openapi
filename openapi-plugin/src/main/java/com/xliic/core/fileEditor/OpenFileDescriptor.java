@@ -11,6 +11,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.pom.Navigatable;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.EclipseUtil;
@@ -73,7 +74,7 @@ public class OpenFileDescriptor implements Navigatable {
                     editor = null;
                 }
             } catch (PartInitException e) {
-                e.printStackTrace();
+            	Logger.getInstance(OpenFileDescriptor.class).error(e);
                 return null;
             }
         }

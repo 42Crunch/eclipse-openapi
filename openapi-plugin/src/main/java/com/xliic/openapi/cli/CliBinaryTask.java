@@ -1,5 +1,18 @@
 package com.xliic.openapi.cli;
 
+import static com.xliic.openapi.cli.CliUtils.getCliFilename;
+import static com.xliic.openapi.utils.FileUtils.join;
+import static com.xliic.openapi.utils.FileUtils.removeDir;
+import static com.xliic.openapi.utils.FileUtils.removeFile;
+import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermissions;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -7,16 +20,6 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.config.payload.Progress;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.attribute.PosixFilePermissions;
-
-import static com.xliic.openapi.cli.CliUtils.getCliFilename;
-import static com.xliic.openapi.utils.FileUtils.*;
-import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 public class CliBinaryTask extends Task.Backgroundable {
 

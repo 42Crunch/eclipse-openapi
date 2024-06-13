@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.core.services.IDictionaryService;
 import com.xliic.core.util.EclipseWorkbenchUtil;
@@ -110,7 +111,7 @@ public final class DictionaryService implements IDictionaryService, SettingsList
                             DataDictionary dd = new DataDictionary(id, name, desc, project, counter, callback);
                             dictionaries.add(dd);
                         } catch (Throwable e) {
-                            e.printStackTrace();
+                        	Logger.getInstance(DictionaryService.class).error(e);
                         }
                     }
                     dictionaries.add(new DataDictionary(STANDARD_ID, STANDARD_ID, STANDARD_DESC, project, counter, callback));

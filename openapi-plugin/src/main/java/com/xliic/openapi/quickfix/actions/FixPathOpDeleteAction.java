@@ -1,5 +1,11 @@
 package com.xliic.openapi.quickfix.actions;
 
+import static com.xliic.openapi.utils.Utils.getOpenAPIPsiFile;
+
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
@@ -17,11 +23,6 @@ import com.xliic.openapi.quickfix.editor.DocumentUpdater;
 import com.xliic.openapi.quickfix.managers.FixManagerPathOpDelete;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.utils.MsgUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
-
-import static com.xliic.openapi.utils.Utils.getOpenAPIPsiFile;
 
 public class FixPathOpDeleteAction extends AnJAction implements DumbAware {
 

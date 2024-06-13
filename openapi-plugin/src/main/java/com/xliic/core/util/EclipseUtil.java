@@ -44,6 +44,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.Range;
@@ -127,7 +128,8 @@ public class EclipseUtil {
         try {
             IWorkbenchWindow window = getWorkbench().getActiveWorkbenchWindow();
             return window == null ? null : window.getActivePage();
-        } catch (IllegalStateException ise) {
+        } catch (IllegalStateException e) {
+        	Logger.getInstance(EclipseUtil.class).error(e);
         }
         return null;
     }
@@ -177,6 +179,7 @@ public class EclipseUtil {
                             }
                         }
                     } catch (PartInitException e) {
+                    	Logger.getInstance(EclipseUtil.class).error(e);
                     }
                 }
             }
@@ -200,6 +203,7 @@ public class EclipseUtil {
                         	}
                         }
                     } catch (PartInitException e) {
+                    	Logger.getInstance(EclipseUtil.class).error(e);
                     }
                 }
             }
@@ -221,6 +225,7 @@ public class EclipseUtil {
                             inputs.add(input);
                         }
                     } catch (PartInitException e) {
+                    	Logger.getInstance(EclipseUtil.class).error(e);
                     }
                 }
             }
@@ -240,6 +245,7 @@ public class EclipseUtil {
                             pages.add(page);
                         }
                     } catch (PartInitException e) {
+                    	Logger.getInstance(EclipseUtil.class).error(e);
                     }
                 }
             }
@@ -258,6 +264,7 @@ public class EclipseUtil {
                             page.closeEditor(ref.getEditor(false), false);
                         }
                     } catch (PartInitException e) {
+                    	Logger.getInstance(EclipseUtil.class).error(e);
                     }
                 }
             }
@@ -279,6 +286,7 @@ public class EclipseUtil {
                         	}
                         }
                     } catch (PartInitException e) {
+                    	Logger.getInstance(EclipseUtil.class).error(e);
                     }
                 }
             }
@@ -309,6 +317,7 @@ public class EclipseUtil {
         try {
             project.refreshLocal(IResource.DEPTH_INFINITE, null);
         } catch (CoreException e) {
+        	Logger.getInstance(EclipseUtil.class).error(e);
         }
     }
 
@@ -319,6 +328,7 @@ public class EclipseUtil {
             docProvider.connect(input);
             return docProvider.getDocument(input);
         } catch (CoreException e) {
+        	Logger.getInstance(EclipseUtil.class).error(e);
         }
         return null;
     }
@@ -336,7 +346,7 @@ public class EclipseUtil {
             IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
             return IDE.openEditor(activePage, file.toURI(), editorId, activate);
         } catch (PartInitException e) {
-            e.printStackTrace();
+        	Logger.getInstance(EclipseUtil.class).error(e);
         }
         return null;
     }
@@ -369,7 +379,7 @@ public class EclipseUtil {
                 project.open(IResource.NONE, null);
             }
         } catch (CoreException e) {
-            e.printStackTrace();
+        	Logger.getInstance(EclipseUtil.class).error(e);
         }
     }
 
@@ -399,7 +409,7 @@ public class EclipseUtil {
                 project.delete(true, true, null);
             }
         } catch (CoreException e) {
-            e.printStackTrace();
+        	Logger.getInstance(EclipseUtil.class).error(e);
         }
     }
 }
