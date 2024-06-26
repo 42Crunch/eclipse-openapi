@@ -111,7 +111,7 @@ public class Settings {
             static {
                 DEFAULTS.put(IMAGE, DEFAULT_IMAGE_VALUE);
                 DEFAULTS.put(SERVICES, "");
-                DEFAULTS.put(RUNTIME, RUNTIME_DOCKER);
+                DEFAULTS.put(RUNTIME, RUNTIME_CLI);
             }
         }
 

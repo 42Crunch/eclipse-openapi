@@ -39,7 +39,6 @@ import com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction;
 import com.xliic.openapi.platform.dictionary.quickfix.PreAuditDialog;
 import com.xliic.openapi.report.AuditAPIs;
 import com.xliic.openapi.report.payload.AuditOperation;
-import com.xliic.openapi.report.task.AuditAnonTask;
 import com.xliic.openapi.report.task.AuditCliTask;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.report.types.AuditBuilder;
@@ -412,9 +411,10 @@ public final class AuditService implements IAuditService, Disposable {
                 }
                 @Override
                 public void cancel() {
-                    startAuditTask(file, isFullAudit ? new AuditAnonTask(project, file, callback) : new AuditAnonTask(project, payload, callback));
+                    pendingAudits.remove(file.getPath());
+                    MsgUtils.notifyInfo(project, "42Crunch API Security Testing Binary is required to run Audit.");
                 }
-            }, false);
+            }, true);
         } else if (type == Credentials.Type.ApiToken) {
             startAuditTask(file, isFullAudit ? new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
         }

@@ -44,6 +44,6 @@ public class CliDownload extends WebAppProduce {
                     project.getMessageBus().syncPublisher(ConfigListener.TOPIC).showCliDownload(new Progress(bytesRead, contentLength));
                 });
             }
-        }, false, true);
+        }, false);
     }
 }

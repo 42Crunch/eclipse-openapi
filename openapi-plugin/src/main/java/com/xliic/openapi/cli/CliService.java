@@ -23,12 +23,10 @@ public class CliService implements ICliService, Disposable {
 
     public static final String DEFAULT_VERSION = "0.0.0";
     private static final long CLI_UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 8; // 8 hours
-    private static final long CLI_DOWNLOAD_CHECK_INTERVAL = 1000 * 60 * 60 * 48; // 48 hours
     private static final String MANIFEST_ERROR = "Failed to download 42Crunch API Security Testing Binary, manifest not found";
     private static final String PLATFORM_ERROR = "Unknown platform "  + Utils.getOs() + ", arch " + Utils.getOsArch();
 
     private volatile long lastCliUpdateCheckTime;
-    private volatile long lastCliDownloadCheckTime;
 
     public interface Callback {
         void complete(@NotNull String cliPath);
@@ -39,18 +37,13 @@ public class CliService implements ICliService, Disposable {
 
     public CliService() {
         lastCliUpdateCheckTime = 0;
-        lastCliDownloadCheckTime = 0;
     }
 
     public static CliService getInstance() {
         return ApplicationManager.getApplication().getService(CliService.class);
     }
 
-    public void downloadOrUpdateIfNecessary(@NotNull Project project, @NotNull Callback callback, boolean forceDownload) {
-        downloadOrUpdateIfNecessary(project, callback, true, forceDownload);
-    }
-
-    public void downloadOrUpdateIfNecessary(@NotNull Project project, @NotNull Callback callback, boolean ask, boolean forceDownload) {
+    public void downloadOrUpdateIfNecessary(@NotNull Project project, @NotNull Callback callback, boolean ask) {
         String repository = SettingsService.getInstance().getValue(REPOSITORY);
         if (StringUtils.isEmpty(repository)) {
             callback.reject("Repository URL is not set");
@@ -65,15 +58,6 @@ public class CliService implements ICliService, Disposable {
         if (FileUtils.exists(cliPath)) {
             update(project, cliPath, repository, platform, callback, ask);
         } else {
-            if (!forceDownload) {
-                // Check if we already offered to download
-                long currentTime = new Date().getTime();
-                if (currentTime - lastCliDownloadCheckTime < CLI_DOWNLOAD_CHECK_INTERVAL) {
-                    callback.cancel();
-                    return;
-                }
-                lastCliDownloadCheckTime = currentTime;
-            }
             CliUtils.ensureDirectories(project);
             download(project, cliPath, repository, platform, callback, ask);
         }
