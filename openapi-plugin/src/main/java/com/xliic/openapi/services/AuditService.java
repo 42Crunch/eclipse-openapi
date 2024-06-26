@@ -423,9 +423,9 @@ public final class AuditService implements IAuditService, Disposable {
     private void startAuditTask(VirtualFile file, Task.Backgroundable task) {
         ApplicationManager.getApplication().invokeLater(() -> {
             cleanAuditReport(file);
-            pendingAudits.put(file.getPath(), Boolean.TRUE);
             WindowUtils.activateToolWindow(project, OPEN_API_HTML_REPORT, () -> {
                 project.getMessageBus().syncPublisher(AuditListener.TOPIC).startAudit();
+                pendingAudits.put(file.getPath(), Boolean.TRUE);
                 ProgressManager.getInstance().run(task);
             });
         });

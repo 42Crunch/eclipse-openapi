@@ -26,7 +26,7 @@ public class SecurityAuditAction extends ProjectAction {
     public void actionPerformed(@NotNull Project project, @NotNull VirtualFile file) {
         AuditService auditService = AuditService.getInstance(project);
         if (auditService.isAuditAlreadyInProgress(file)) {
-            MsgUtils.info(project, "Audit for " + file.getPath() + " is already in progress", false);
+            MsgUtils.notifyInfo(project, "Audit for " + file.getPath() + " is already in progress");
             return;
         }
         String rootFileName = file.getPath();
