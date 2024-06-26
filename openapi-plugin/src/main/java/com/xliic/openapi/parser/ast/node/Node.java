@@ -272,13 +272,13 @@ public abstract class Node implements Comparable<Node> {
     public String dump() {
         StreamDataWriter writer = new NodeStringWriter();
         Serializer serializer = new Serializer(settings, new Emitter(settings, writer));
-        serializer.open();
+        serializer.emitStreamStart();
         if (node instanceof NodeTuple) {
-            serializer.serialize(((NodeTuple) node).getValueNode());
+            serializer.serializeDocument(((NodeTuple) node).getValueNode());
         } else {
-            serializer.serialize((org.snakeyaml.engine.v2.nodes.Node) node);
+            serializer.serializeDocument((org.snakeyaml.engine.v2.nodes.Node) node);
         }
-        serializer.close();
+        serializer.emitStreamEnd();
         String text = writer.toString().trim();
         return text.startsWith("---\n") ? text.replace("---\n", "") : text;
     }

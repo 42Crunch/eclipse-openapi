@@ -14,7 +14,8 @@ public class BundleSerializer extends Serializer {
     @NotNull
     private final ObjectWriter writer;
 
-    public BundleSerializer() {
+    @SuppressWarnings("deprecation")
+	public BundleSerializer() {
         super();
         mapper.disable(SerializationFeature.INDENT_OUTPUT);
         DefaultIndenter indenter = new DefaultIndenter("", "");

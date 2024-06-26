@@ -1,541 +1,541 @@
 {
-	"kind": {
-		"light": [
-			"org.eclipse.e4.ui.css.theme.e4_default",
-			"org.eclipse.e4.ui.css.theme.e4_classic"
-		],
-		"dark": [
-			"org.eclipse.e4.ui.css.theme.e4_dark"
-		],
-		"highContrast": [
-			"org.eclipse.e4.ui.css.theme.high-contrast"
-		]
-	},
-	"themes": [
-		{
-			"name": "org.eclipse.e4.ui.css.theme.e4_default",
-			"source": "Light (Visual Studio)",
-			"default": "light",
-			"colors": [
-				{
-					"id": "foreground",
-					"value": "#616161"
-				},
-				{
-					"id": "background",
-					"value": "#ffffff"
-				},
-				{
-					"id": "disabledForeground",
-					"value": "rgba(97, 97, 97, 0.5)"
-				},
-				{
-					"id": "border",
-					"value": "#e7e7e7"
-				},
-				{
-					"id": "focusBorder",
-					"value": "#0090f1"
-				},
-				{
-					"id": "buttonBorder",
-					"value": "#e7e7e7"
-				},
-				{
-					"id": "buttonBackground",
-					"value": "#007acc"
-				},
-				{
-					"id": "buttonForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "buttonHoverBackground",
-					"value": "#0062a3"
-				},
-				{
-					"id": "buttonSecondaryBackground",
-					"value": "#5f6a79"
-				},
-				{
-					"id": "buttonSecondaryForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "buttonSecondaryHoverBackground",
-					"value": "#4c5561"
-				},
-				{
-					"id": "inputBackground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "inputForeground",
-					"value": "#616161"
-				},
-				{
-					"id": "inputBorder",
-					"value": "#e7e7e7"
-				},
-				{
-					"id": "inputPlaceholderForeground",
-					"value": "#767676"
-				},
-				{
-					"id": "tabBorder",
-					"value": "#f3f3f3"
-				},
-				{
-					"id": "tabActiveBackground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "tabActiveForeground",
-					"value": "#333333"
-				},
-				{
-					"id": "tabInactiveBackground",
-					"value": "#ececec"
-				},
-				{
-					"id": "tabInactiveForeground",
-					"value": "rgba(51, 51, 51, 0.7)"
-				},
-				{
-					"id": "dropdownBackground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "dropdownBorder",
-					"value": "#cecece"
-				},
-				{
-					"id": "dropdownForeground",
-					"value": "#616161"
-				},
-				{
-					"id": "checkboxBackground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "checkboxBorder",
-					"value": "#919191"
-				},
-				{
-					"id": "checkboxForeground",
-					"value": "#616161"
-				},
-				{
-					"id": "errorForeground",
-					"value": "#a1260d"
-				},
-				{
-					"id": "errorBackground",
-					"value": "#f2dede"
-				},
-				{
-					"id": "errorBorder",
-					"value": "#be1100"
-				},
-				{
-					"id": "sidebarBackground",
-					"value": "#f3f3f3"
-				},
-				{
-					"id": "listActiveSelectionBackground",
-					"value": "#0060c0"
-				},
-				{
-					"id": "listActiveSelectionForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "listHoverBackground",
-					"value": "#e8e8e8"
-				},
-				{
-					"id": "contrastActiveBorder",
-					"value": "#e7e7e7"
-				},
-				{
-					"id": "linkForeground",
-					"value": "#006ab1"
-				},
-				{
-					"id": "linkActiveForeground",
-					"value": "#006ab1"
-				},
-				{
-					"id": "badgeForeground",
-					"value": "#333333"
-				},
-				{
-					"id": "badgeBackground",
-					"value": "#c4c4c4"
-				},
-				{
-					"id": "notificationsForeground",
-					"value": "#616161"
-				},
-				{
-					"id": "notificationsBackground",
-					"value": "#f3f3f3"
-				},
-				{
-					"id": "notificationsBorder",
-					"value": "#e7e7e7"
-				}
-			]
-		},
-		{
-			"name": "org.eclipse.e4.ui.css.theme.e4_dark",
-			"source": "Dark (Visual Studio)",
-			"default": "dark",
-			"colors": [
-				{
-					"id": "foreground",
-					"value": "#cccccc"
-				},
-				{
-					"id": "background",
-					"value": "#1e1e1e"
-				},
-				{
-					"id": "disabledForeground",
-					"value": "rgba(204, 204, 204, 0.5)"
-				},
-				{
-					"id": "border",
-					"value": "#444444"
-				},
-				{
-					"id": "focusBorder",
-					"value": "#007fd4"
-				},
-				{
-					"id": "buttonBorder",
-					"value": "#444444"
-				},
-				{
-					"id": "buttonBackground",
-					"value": "#0e639c"
-				},
-				{
-					"id": "buttonForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "buttonHoverBackground",
-					"value": "#1177bb"
-				},
-				{
-					"id": "buttonSecondaryBackground",
-					"value": "#3a3d41"
-				},
-				{
-					"id": "buttonSecondaryForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "buttonSecondaryHoverBackground",
-					"value": "#45494e"
-				},
-				{
-					"id": "inputBackground",
-					"value": "#3c3c3c"
-				},
-				{
-					"id": "inputForeground",
-					"value": "#cccccc"
-				},
-				{
-					"id": "inputBorder",
-					"value": "#444444"
-				},
-				{
-					"id": "inputPlaceholderForeground",
-					"value": "#a6a6a6"
-				},
-				{
-					"id": "tabBorder",
-					"value": "#252526"
-				},
-				{
-					"id": "tabActiveBackground",
-					"value": "#1e1e1e"
-				},
-				{
-					"id": "tabActiveForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "tabInactiveBackground",
-					"value": "#2d2d2d"
-				},
-				{
-					"id": "tabInactiveForeground",
-					"value": "rgba(255, 255, 255, 0.5)"
-				},
-				{
-					"id": "dropdownBackground",
-					"value": "#3c3c3c"
-				},
-				{
-					"id": "dropdownBorder",
-					"value": "#3c3c3c"
-				},
-				{
-					"id": "dropdownForeground",
-					"value": "#f0f0f0"
-				},
-				{
-					"id": "checkboxBackground",
-					"value": "#3c3c3c"
-				},
-				{
-					"id": "checkboxBorder",
-					"value": "#6b6b6b"
-				},
-				{
-					"id": "checkboxForeground",
-					"value": "#f0f0f0"
-				},
-				{
-					"id": "errorForeground",
-					"value": "#f48771"
-				},
-				{
-					"id": "errorBackground",
-					"value": "#5a1d1d"
-				},
-				{
-					"id": "errorBorder",
-					"value": "#be1100"
-				},
-				{
-					"id": "sidebarBackground",
-					"value": "#252526"
-				},
-				{
-					"id": "listActiveSelectionBackground",
-					"value": "#04395e"
-				},
-				{
-					"id": "listActiveSelectionForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "listHoverBackground",
-					"value": "#2a2d2e"
-				},
-				{
-					"id": "contrastActiveBorder",
-					"value": "#444444"
-				},
-				{
-					"id": "linkForeground",
-					"value": "#3794ff"
-				},
-				{
-					"id": "linkActiveForeground",
-					"value": "#3794ff"
-				},
-				{
-					"id": "badgeForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "badgeBackground",
-					"value": "#4d4d4d"
-				},
-				{
-					"id": "notificationsForeground",
-					"value": "#cccccc"
-				},
-				{
-					"id": "notificationsBackground",
-					"value": "#252526"
-				},
-				{
-					"id": "notificationsBorder",
-					"value": "#303031"
-				}
-			]
-		},
-		{
-			"name": "org.eclipse.e4.ui.css.theme.high-contrast",
-			"source": "Dark High Contrast",
-			"default": "highContrast",
-			"colors": [
-				{
-					"id": "foreground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "background",
-					"value": "#000000"
-				},
-				{
-					"id": "disabledForeground",
-					"value": "#a5a5a5"
-				},
-				{
-					"id": "border",
-					"value": "#6fc3df"
-				},
-				{
-					"id": "focusBorder",
-					"value": "#f38518"
-				},
-				{
-					"id": "buttonBorder",
-					"value": "#6fc3df"
-				},
-				{
-					"id": "buttonBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "buttonForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "buttonHoverBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "buttonSecondaryBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "buttonSecondaryForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "buttonSecondaryHoverBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "inputBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "inputForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "inputBorder",
-					"value": "#6fc3df"
-				},
-				{
-					"id": "inputPlaceholderForeground",
-					"value": "rgba(255, 255, 255, 0.7)"
-				},
-				{
-					"id": "tabBorder",
-					"value": "#6fc3df"
-				},
-				{
-					"id": "tabActiveBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "tabActiveForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "tabInactiveBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "tabInactiveForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "dropdownBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "dropdownBorder",
-					"value": "#6fc3df"
-				},
-				{
-					"id": "dropdownForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "checkboxBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "checkboxBorder",
-					"value": "#6fc3df"
-				},
-				{
-					"id": "checkboxForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "errorForeground",
-					"value": "#f48771"
-				},
-				{
-					"id": "errorBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "errorBorder",
-					"value": "#6fc3df"
-				},
-				{
-					"id": "sidebarBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "listActiveSelectionBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "listActiveSelectionForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "listHoverBackground",
-					"value": "rgba(255, 255, 255, 0.1)"
-				},
-				{
-					"id": "contrastActiveBorder",
-					"value": "#f38518"
-				},
-				{
-					"id": "linkForeground",
-					"value": "#3794ff"
-				},
-				{
-					"id": "linkActiveForeground",
-					"value": "#3794ff"
-				},
-				{
-					"id": "badgeForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "badgeBackground",
-					"value": "#000000"
-				},
-				{
-					"id": "notificationsForeground",
-					"value": "#ffffff"
-				},
-				{
-					"id": "notificationsBackground",
-					"value": "#0c141f"
-				},
-				{
-					"id": "notificationsBorder",
-					"value": "#0c141f"
-				}
-			]
-		}
-	]
+    "kind": {
+        "light": [
+            "org.eclipse.e4.ui.css.theme.e4_default",
+            "org.eclipse.e4.ui.css.theme.e4_classic"
+        ],
+        "dark": [
+            "org.eclipse.e4.ui.css.theme.e4_dark"
+        ],
+        "highContrast": [
+            "org.eclipse.e4.ui.css.theme.high-contrast"
+        ]
+    },
+    "themes": [
+        {
+            "name": "org.eclipse.e4.ui.css.theme.e4_default",
+            "source": "Light (Visual Studio)",
+            "default": "light",
+            "colors": [
+                {
+                    "id": "foreground",
+                    "value": "#616161"
+                },
+                {
+                    "id": "background",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "disabledForeground",
+                    "value": "rgba(97, 97, 97, 0.5)"
+                },
+                {
+                    "id": "border",
+                    "value": "#e7e7e7"
+                },
+                {
+                    "id": "focusBorder",
+                    "value": "#0090f1"
+                },
+                {
+                    "id": "buttonBorder",
+                    "value": "#e7e7e7"
+                },
+                {
+                    "id": "buttonBackground",
+                    "value": "#007acc"
+                },
+                {
+                    "id": "buttonForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "buttonHoverBackground",
+                    "value": "#0062a3"
+                },
+                {
+                    "id": "buttonSecondaryBackground",
+                    "value": "#5f6a79"
+                },
+                {
+                    "id": "buttonSecondaryForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "buttonSecondaryHoverBackground",
+                    "value": "#4c5561"
+                },
+                {
+                    "id": "inputBackground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "inputForeground",
+                    "value": "#616161"
+                },
+                {
+                    "id": "inputBorder",
+                    "value": "#e7e7e7"
+                },
+                {
+                    "id": "inputPlaceholderForeground",
+                    "value": "#767676"
+                },
+                {
+                    "id": "tabBorder",
+                    "value": "#f3f3f3"
+                },
+                {
+                    "id": "tabActiveBackground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "tabActiveForeground",
+                    "value": "#333333"
+                },
+                {
+                    "id": "tabInactiveBackground",
+                    "value": "#ececec"
+                },
+                {
+                    "id": "tabInactiveForeground",
+                    "value": "rgba(51, 51, 51, 0.7)"
+                },
+                {
+                    "id": "dropdownBackground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "dropdownBorder",
+                    "value": "#cecece"
+                },
+                {
+                    "id": "dropdownForeground",
+                    "value": "#616161"
+                },
+                {
+                    "id": "checkboxBackground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "checkboxBorder",
+                    "value": "#919191"
+                },
+                {
+                    "id": "checkboxForeground",
+                    "value": "#616161"
+                },
+                {
+                    "id": "errorForeground",
+                    "value": "#a1260d"
+                },
+                {
+                    "id": "errorBackground",
+                    "value": "#f2dede"
+                },
+                {
+                    "id": "errorBorder",
+                    "value": "#be1100"
+                },
+                {
+                    "id": "sidebarBackground",
+                    "value": "#f3f3f3"
+                },
+                {
+                    "id": "listActiveSelectionBackground",
+                    "value": "#0060c0"
+                },
+                {
+                    "id": "listActiveSelectionForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "listHoverBackground",
+                    "value": "#e8e8e8"
+                },
+                {
+                    "id": "contrastActiveBorder",
+                    "value": "#e7e7e7"
+                },
+                {
+                    "id": "linkForeground",
+                    "value": "#006ab1"
+                },
+                {
+                    "id": "linkActiveForeground",
+                    "value": "#006ab1"
+                },
+                {
+                    "id": "badgeForeground",
+                    "value": "#333333"
+                },
+                {
+                    "id": "badgeBackground",
+                    "value": "#c4c4c4"
+                },
+                {
+                    "id": "notificationsForeground",
+                    "value": "#616161"
+                },
+                {
+                    "id": "notificationsBackground",
+                    "value": "#f3f3f3"
+                },
+                {
+                    "id": "notificationsBorder",
+                    "value": "#e7e7e7"
+                }
+            ]
+        },
+        {
+            "name": "org.eclipse.e4.ui.css.theme.e4_dark",
+            "source": "Dark (Visual Studio)",
+            "default": "dark",
+            "colors": [
+                {
+                    "id": "foreground",
+                    "value": "#cccccc"
+                },
+                {
+                    "id": "background",
+                    "value": "#1e1e1e"
+                },
+                {
+                    "id": "disabledForeground",
+                    "value": "rgba(204, 204, 204, 0.5)"
+                },
+                {
+                    "id": "border",
+                    "value": "#444444"
+                },
+                {
+                    "id": "focusBorder",
+                    "value": "#007fd4"
+                },
+                {
+                    "id": "buttonBorder",
+                    "value": "#444444"
+                },
+                {
+                    "id": "buttonBackground",
+                    "value": "#0e639c"
+                },
+                {
+                    "id": "buttonForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "buttonHoverBackground",
+                    "value": "#1177bb"
+                },
+                {
+                    "id": "buttonSecondaryBackground",
+                    "value": "#3a3d41"
+                },
+                {
+                    "id": "buttonSecondaryForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "buttonSecondaryHoverBackground",
+                    "value": "#45494e"
+                },
+                {
+                    "id": "inputBackground",
+                    "value": "#3c3c3c"
+                },
+                {
+                    "id": "inputForeground",
+                    "value": "#cccccc"
+                },
+                {
+                    "id": "inputBorder",
+                    "value": "#444444"
+                },
+                {
+                    "id": "inputPlaceholderForeground",
+                    "value": "#a6a6a6"
+                },
+                {
+                    "id": "tabBorder",
+                    "value": "#252526"
+                },
+                {
+                    "id": "tabActiveBackground",
+                    "value": "#1e1e1e"
+                },
+                {
+                    "id": "tabActiveForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "tabInactiveBackground",
+                    "value": "#2d2d2d"
+                },
+                {
+                    "id": "tabInactiveForeground",
+                    "value": "rgba(255, 255, 255, 0.5)"
+                },
+                {
+                    "id": "dropdownBackground",
+                    "value": "#3c3c3c"
+                },
+                {
+                    "id": "dropdownBorder",
+                    "value": "#3c3c3c"
+                },
+                {
+                    "id": "dropdownForeground",
+                    "value": "#f0f0f0"
+                },
+                {
+                    "id": "checkboxBackground",
+                    "value": "#3c3c3c"
+                },
+                {
+                    "id": "checkboxBorder",
+                    "value": "#6b6b6b"
+                },
+                {
+                    "id": "checkboxForeground",
+                    "value": "#f0f0f0"
+                },
+                {
+                    "id": "errorForeground",
+                    "value": "#f48771"
+                },
+                {
+                    "id": "errorBackground",
+                    "value": "#5a1d1d"
+                },
+                {
+                    "id": "errorBorder",
+                    "value": "#be1100"
+                },
+                {
+                    "id": "sidebarBackground",
+                    "value": "#252526"
+                },
+                {
+                    "id": "listActiveSelectionBackground",
+                    "value": "#04395e"
+                },
+                {
+                    "id": "listActiveSelectionForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "listHoverBackground",
+                    "value": "#2a2d2e"
+                },
+                {
+                    "id": "contrastActiveBorder",
+                    "value": "#444444"
+                },
+                {
+                    "id": "linkForeground",
+                    "value": "#3794ff"
+                },
+                {
+                    "id": "linkActiveForeground",
+                    "value": "#3794ff"
+                },
+                {
+                    "id": "badgeForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "badgeBackground",
+                    "value": "#4d4d4d"
+                },
+                {
+                    "id": "notificationsForeground",
+                    "value": "#cccccc"
+                },
+                {
+                    "id": "notificationsBackground",
+                    "value": "#252526"
+                },
+                {
+                    "id": "notificationsBorder",
+                    "value": "#303031"
+                }
+            ]
+        },
+        {
+            "name": "org.eclipse.e4.ui.css.theme.high-contrast",
+            "source": "Dark High Contrast",
+            "default": "highContrast",
+            "colors": [
+                {
+                    "id": "foreground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "background",
+                    "value": "#000000"
+                },
+                {
+                    "id": "disabledForeground",
+                    "value": "#a5a5a5"
+                },
+                {
+                    "id": "border",
+                    "value": "#6fc3df"
+                },
+                {
+                    "id": "focusBorder",
+                    "value": "#f38518"
+                },
+                {
+                    "id": "buttonBorder",
+                    "value": "#6fc3df"
+                },
+                {
+                    "id": "buttonBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "buttonForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "buttonHoverBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "buttonSecondaryBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "buttonSecondaryForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "buttonSecondaryHoverBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "inputBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "inputForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "inputBorder",
+                    "value": "#6fc3df"
+                },
+                {
+                    "id": "inputPlaceholderForeground",
+                    "value": "rgba(255, 255, 255, 0.7)"
+                },
+                {
+                    "id": "tabBorder",
+                    "value": "#6fc3df"
+                },
+                {
+                    "id": "tabActiveBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "tabActiveForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "tabInactiveBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "tabInactiveForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "dropdownBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "dropdownBorder",
+                    "value": "#6fc3df"
+                },
+                {
+                    "id": "dropdownForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "checkboxBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "checkboxBorder",
+                    "value": "#6fc3df"
+                },
+                {
+                    "id": "checkboxForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "errorForeground",
+                    "value": "#f48771"
+                },
+                {
+                    "id": "errorBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "errorBorder",
+                    "value": "#6fc3df"
+                },
+                {
+                    "id": "sidebarBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "listActiveSelectionBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "listActiveSelectionForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "listHoverBackground",
+                    "value": "rgba(255, 255, 255, 0.1)"
+                },
+                {
+                    "id": "contrastActiveBorder",
+                    "value": "#f38518"
+                },
+                {
+                    "id": "linkForeground",
+                    "value": "#3794ff"
+                },
+                {
+                    "id": "linkActiveForeground",
+                    "value": "#3794ff"
+                },
+                {
+                    "id": "badgeForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "badgeBackground",
+                    "value": "#000000"
+                },
+                {
+                    "id": "notificationsForeground",
+                    "value": "#ffffff"
+                },
+                {
+                    "id": "notificationsBackground",
+                    "value": "#0c141f"
+                },
+                {
+                    "id": "notificationsBorder",
+                    "value": "#0c141f"
+                }
+            ]
+        }
+    ]
 }

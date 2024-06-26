@@ -1,160 +1,160 @@
 {
-	"type": "object",
-	"properties": {
-		"paths": {
-			"type": "object",
-			"properties": {
-				"/products": {
-					"type": "object",
-					"properties": {
-						"get": {
-							"type": "object",
-							"properties": {
-								"summary": {
-									"type": "string"
-								},
-								"description": {
-									"type": "string"
-								},
-								"parameters": {
-									"type": "array",
-									"items": {
-										"type": "object",
-										"properties": {
-											"name": {
-												"type": "string"
-											},
-											"in": {
-												"type": "string"
-											},
-											"description": {
-												"type": "string"
-											},
-											"required": {
-												"type": "boolean"
-											},
-											"type": {
-												"type": "string"
-											},
-											"format": {
-												"type": "string"
-											}
-										},
-										"required": [
-											"name",
-											"in",
-											"description",
-											"required",
-											"type",
-											"format"
-										],
-										"additionalProperties": false
-									}
-								},
-								"tags": {
-									"type": "array",
-									"items": {
-										"type": "string"
-									}
-								},
-								"responses": {
-									"type": "object",
-									"properties": {
-										"200": {
-											"type": "object",
-											"properties": {
-												"description": {
-													"type": "string"
-												},
-												"schema": {
-													"type": "object",
-													"properties": {
-														"type": {
-															"type": "string"
-														},
-														"items": {
-															"type": "object",
-															"properties": {
-																"$ref": {
-																	"type": "string"
-																}
-															},
-															"required": [
-																"$ref"
-															],
-															"additionalProperties": false
-														}
-													},
-													"required": [
-														"type",
-														"items"
-													],
-													"additionalProperties": false
-												}
-											},
-											"required": [
-												"description",
-												"schema"
-											],
-											"additionalProperties": false
-										},
-										"default": {
-											"type": "object",
-											"properties": {
-												"description": {
-													"type": "string"
-												},
-												"schema": {
-													"type": "object",
-													"properties": {
-														"$ref": {
-															"type": "string"
-														}
-													},
-													"required": [
-														"$ref"
-													],
-													"additionalProperties": false
-												}
-											},
-											"required": [
-												"description",
-												"schema"
-											],
-											"additionalProperties": false
-										}
-									},
-									"required": [
-										"200",
-										"default"
-									],
-									"additionalProperties": false
-								}
-							},
-							"required": [
-								"summary",
-								"description",
-								"parameters",
-								"tags",
-								"responses"
-							],
-							"additionalProperties": false
-						}
-					},
-					"required": [
-						"get"
-					],
-					"additionalProperties": false
-				}
-			},
-			"required": [
-				"/products"
-			],
-			"additionalProperties": false
-		}
-	},
-	"required": [
-		"paths"
-	],
-	"additionalProperties": false
+    "type": "object",
+    "properties": {
+        "paths": {
+            "type": "object",
+            "properties": {
+                "/products": {
+                    "type": "object",
+                    "properties": {
+                        "get": {
+                            "type": "object",
+                            "properties": {
+                                "summary": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "parameters": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "in": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "required": {
+                                                "type": "boolean"
+                                            },
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "format": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "name",
+                                            "in",
+                                            "description",
+                                            "required",
+                                            "type",
+                                            "format"
+                                        ],
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "tags": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "responses": {
+                                    "type": "object",
+                                    "properties": {
+                                        "200": {
+                                            "type": "object",
+                                            "properties": {
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "schema": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "type": {
+                                                            "type": "string"
+                                                        },
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "$ref": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "$ref"
+                                                            ],
+                                                            "additionalProperties": false
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "type",
+                                                        "items"
+                                                    ],
+                                                    "additionalProperties": false
+                                                }
+                                            },
+                                            "required": [
+                                                "description",
+                                                "schema"
+                                            ],
+                                            "additionalProperties": false
+                                        },
+                                        "default": {
+                                            "type": "object",
+                                            "properties": {
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "schema": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "$ref": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "$ref"
+                                                    ],
+                                                    "additionalProperties": false
+                                                }
+                                            },
+                                            "required": [
+                                                "description",
+                                                "schema"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "required": [
+                                        "200",
+                                        "default"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            },
+                            "required": [
+                                "summary",
+                                "description",
+                                "parameters",
+                                "tags",
+                                "responses"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "get"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "/products"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "paths"
+    ],
+    "additionalProperties": false
 }

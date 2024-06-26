@@ -61,6 +61,7 @@ import com.xliic.openapi.refs.external.ExtRefService;
 import com.xliic.openapi.report.types.ResponseStatus;
 import com.xliic.openapi.services.ASTService;
 
+@SuppressWarnings("deprecation")
 public class Utils {
 
     public static final String REF = "$ref";

@@ -1605,7 +1605,7 @@
                 "title": "EndpointSettings",
                 "type": "object",
                 "additionalProperties": false,
-		"nullable": true,
+                "nullable": true,
                 "properties": {
                     "timeout": {
                         "$ref": "#/components/schemas/uint32Nullable"
@@ -1630,7 +1630,7 @@
             "EntrypointSettings": {
                 "title": "EntrypointSettings",
                 "type": "object",
-		"nullable": true,
+                "nullable": true,
                 "additionalProperties": false,
                 "properties": {
                     "additionalServerNames": {
@@ -1687,7 +1687,7 @@
             "CertType": {
                 "type": "string",
                 "description": "This parameter allows us to know where to find the certificate or use certificate contained in directory",
-		"nullable": true,
+                "nullable": true,
                 "enum": [
                     "none",
                     "file",
@@ -1711,7 +1711,7 @@
                 "title": "SslClientProfileSettings",
                 "type": "object",
                 "additionalProperties": false,
-		"nullable": true,
+                "nullable": true,
                 "properties": {
                     "cipherSuite": {
                         "$ref": "#/components/schemas/CipherSuiteNullable"
@@ -1743,7 +1743,7 @@
                 "title": "SslServerProfileSettings",
                 "type": "object",
                 "additionalProperties": false,
-		"nullable": true,
+                "nullable": true,
                 "properties": {
                     "protocol": {
                         "$ref": "#/components/schemas/ProtocolNullable"
@@ -1761,7 +1761,7 @@
                 "title": "PkiServerProfileSettings",
                 "type": "object",
                 "additionalProperties": false,
-		"nullable": true,
+                "nullable": true,
                 "properties": {
                     "ocspStaplingEnabled": {
                         "description": "this property allow to enable/disable OCSP Stapling",
@@ -1776,7 +1776,7 @@
                 "title": "ServerProfileMtls",
                 "type": "object",
                 "additionalProperties": false,
-		"nullable": true,
+                "nullable": true,
                 "properties": {
                     "CAType": {
                         "$ref": "#/components/schemas/CertType"
@@ -1874,7 +1874,7 @@
                 "title": "GatewaySettings",
                 "type": "object",
                 "additionalProperties": false,
-		"nullable": true,
+                "nullable": true,
                 "properties": {
                     "mainLogLevel": {
                         "$ref": "#/components/schemas/stringNullable"
@@ -1971,7 +1971,7 @@
                         "pattern": "^\\/.*"
                     },
                     "basePathPrefixes": {
-			"nullable": true,
+                    "nullable": true,
                         "type": "array",
                         "maxItems": 999,
                         "items": {
@@ -4285,20 +4285,20 @@
                 "maxLength": 255,
                 "pattern": "^\\^[a-zA-Z0-9 \\-_.\\^\\*\\$()\\[\\]?\\\\{},|:]{2,255}\\$$"
             },
-	    "ApiCreateRequestBody": {
-		"type": "object",
-		"additionalProperties": false,
-		"properties": {
-		    "cid": {
+        "ApiCreateRequestBody": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "cid": {
                         "$ref": "#/components/schemas/uuid"
-		    },
-		    "name": {
+            },
+            "name": {
                         "type": "string",
                         "format": "name50",
                         "minLength": 1,
                         "maxLength": 50,
                         "pattern": "^[\\w:-]{1,50}$"
-		    },
+            },
                     "technicalName": {
                         "type": "string",
                         "format": "technicalName",
@@ -4311,40 +4311,40 @@
                     "yaml": {
                         "type": "boolean"
                     },
-		    "tags": {
-			"type": "array",
-			"maxItems": 999,
-			"items": {
-			    "$ref": "#/components/schemas/uuid" 
-			}
-		    }
-		}
-	    },
-	    "ApiUpdateRequestBody": {
-		"type": "object",
-		"additionalProperties": false,
-		"properties": {
-		    "cid": {
+            "tags": {
+            "type": "array",
+            "maxItems": 999,
+            "items": {
+                "$ref": "#/components/schemas/uuid" 
+            }
+            }
+        }
+        },
+        "ApiUpdateRequestBody": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "cid": {
                         "$ref": "#/components/schemas/uuid"
-		    },
-		    "name": {
+            },
+            "name": {
                         "type": "string",
                         "format": "name50",
                         "minLength": 1,
                         "maxLength": 50,
                         "pattern": "^[\\w:-]{1,50}$"
-		    },
+            },
                     "technicalName": {
                         "type": "string",
                         "format": "technicalName",
                         "minLength": 1,
                         "maxLength": 512
                     },
-		    "tags": {
-		        "$ref": "#/components/schemas/arrayUUID" 
-		    }
-		}
-	    },
+            "tags": {
+                "$ref": "#/components/schemas/arrayUUID" 
+            }
+        }
+        },
             "ApiDescriptor": {
                 "type": "object",
                 "additionalProperties": false,
@@ -6007,19 +6007,19 @@
                     "$ref": "#/components/schemas/Strategy"
                 }
             },
-	    "Strategies": {
-		"type": "object",
-		"additionalProperties": false,
-		"properties": {
-		    "value": {
-			"type": "array",
-			"maxItems": 999,
-			"items": {
-			    "$ref": "#/components/schemas/Strategy"
-			}
-		    }
-		}
-	    },
+        "Strategies": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "value": {
+            "type": "array",
+            "maxItems": 999,
+            "items": {
+                "$ref": "#/components/schemas/Strategy"
+            }
+            }
+        }
+        },
             "StrategyPayload": {
                 "type": "object",
                 "additionalProperties": false,
@@ -9160,10 +9160,10 @@
                     "maxLength": 999999999999
                 }
             },
-	    "arrayUUID": {
-		"type": "array",
-		"maxItems": 9999,
-		"items": {
+        "arrayUUID": {
+        "type": "array",
+        "maxItems": 9999,
+        "items": {
                     "description": "A universally unique identifier (UUID) is a 128-bit label used for information in computer systems.",
                     "type": "string",
                     "format": "uuid",
@@ -9171,8 +9171,8 @@
                     "maxLength": 36,
                     "minLength": 36,
                     "example": "123e4567-e89b-12d3-a456-426614174000"
-		}
-	    },
+        }
+        },
             "int32Nullable": {
                 "nullable": true,
                 "type": "integer",

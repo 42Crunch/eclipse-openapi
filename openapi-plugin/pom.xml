@@ -21,14 +21,14 @@
     <gson.version>2.9.1</gson.version>
     <kotlin.stdlib.version>1.7.0</kotlin.stdlib.version>
     <annotations.version>23.0.0</annotations.version>
-    <okhttp.version>4.10.0</okhttp.version>
-    <okio.version>3.2.0</okio.version>
-    <openapi.bundler.version>3.5</openapi.bundler.version>
-	<jackson.version>2.13.3</jackson.version>
-    <snakeyaml.engine.version>2.3</snakeyaml.engine.version>
-    <snakeyaml.version>1.30</snakeyaml.version>
+    <okhttp.version>4.12.0</okhttp.version>
+    <okio.version>3.9.0</okio.version>
+    <openapi.bundler.version>4.0</openapi.bundler.version>
+	<jackson.version>2.17.1</jackson.version>
+    <snakeyaml.engine.version>2.7</snakeyaml.engine.version>
+    <snakeyaml.version>2.2</snakeyaml.version>
     <javax.servlet.api.version>3.1.0</javax.servlet.api.version>
-	<jetty.version>9.4.49.v20220914</jetty.version>
+	<jetty.version>9.4.54.v20240208</jetty.version>
 	<ant.style.path.matcher.version>1.0.0</ant.style.path.matcher.version>
 	<java.semver.version>0.10.2</java.semver.version>
 	<commons.codec.version>1.16.1</commons.codec.version>

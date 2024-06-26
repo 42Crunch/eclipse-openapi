@@ -90,7 +90,7 @@ public class YamlNodeTest extends TestCase {
 
     public void testYamlGetParent() {
 
-        final YamlNode root = parseYaml("foo:\n\t- 1\n\t- 2\nbar:\n\tbaz: true");
+        final YamlNode root = parseYaml("foo:\n  - 1\n  - 2\nbar:\n  baz: true");
 
         assertEquals("foo", root.find("/foo").getKey());
         assertEquals("0", root.find("/foo/0").getKey());
@@ -113,7 +113,7 @@ public class YamlNodeTest extends TestCase {
 
     public void testYamlGetJsonPointer() {
 
-        final YamlNode root = parseYaml("foo:\n\t- 1\n\t- 2\nbar:\n\tbaz: true\nra/ro: true");
+        final YamlNode root = parseYaml("foo:\n  - 1\n  - 2\nbar:\n  baz: true\nra/ro: true");
 
         assertEquals("", root.find("").getJsonPointer());
         assertEquals("/foo", root.find("/foo").getJsonPointer());
