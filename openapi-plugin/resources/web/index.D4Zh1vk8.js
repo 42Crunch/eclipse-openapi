@@ -1,5 +1,5 @@
 import { j as O, c as W, u as Y, b as q, R as p, e as r, _ } from "./TriangleExclamation.C66B3qS3.js";
-import { $ as N, c as y, h as k, a as z, k as J, b as L, d as R, i as Q } from "./index.C5lJOZis.js";
+import { $ as N, c as y, i as k, a as z, g as J, b as L, d as R, j as Q } from "./index.D2z-X8Fl.js";
 const ge = (e) => /* @__PURE__ */ O.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ O.jsx("path", { d: "M435.848 83.466 172.804 346.51l-96.652-96.652c-4.686-4.686-12.284-4.686-16.971 0l-28.284 28.284c-4.686 4.686-4.686 12.284 0 16.971l133.421 133.421c4.686 4.686 12.284 4.686 16.971 0l299.813-299.813c4.686-4.686 4.686-12.284 0-16.971l-28.284-28.284c-4.686-4.686-12.284-4.686-16.97 0z" }) }), X = {
   ready: !1,
   data: {
@@ -130,8 +130,8 @@ const {
   showConfigWindow: Re,
   setError: Ie,
   clearError: Se,
-  testPlatformConnection: he,
-  showPlatformConnectionTest: Fe,
+  testPlatformConnection: Fe,
+  showPlatformConnectionTest: he,
   testOverlordConnection: Ee,
   showOverlordConnectionTest: xe,
   testScandManagerConnection: ye,
@@ -163,13 +163,13 @@ function ee(e) {
       ref: s
     }, u);
   }), l = e + "CollectionItemSlot", g = "data-radix-collection-item", w = /* @__PURE__ */ p.forwardRef((f, n) => {
-    const { scope: i, children: u, ...c } = f, s = p.useRef(null), h = y(n, s), m = C(l, i);
+    const { scope: i, children: u, ...c } = f, s = p.useRef(null), F = y(n, s), m = C(l, i);
     return p.useEffect(() => (m.itemMap.set(s, {
       ref: s,
       ...c
     }), () => void m.itemMap.delete(s))), /* @__PURE__ */ p.createElement(k, {
       [g]: "",
-      ref: h
+      ref: F
     }, u);
   });
   function T(f) {
@@ -180,7 +180,7 @@ function ee(e) {
         return [];
       const c = Array.from(u.querySelectorAll(`[${g}]`));
       return Array.from(n.itemMap.values()).sort(
-        (m, F) => c.indexOf(m.ref.current) - c.indexOf(F.ref.current)
+        (m, h) => c.indexOf(m.ref.current) - c.indexOf(h.ref.current)
       );
     }, [
       n.collectionRef,
@@ -218,7 +218,7 @@ const x = "rovingFocusGroup.onEntryFocus", ne = {
     prop: I,
     defaultProp: S,
     onChange: b
-  }), [u, c] = r.useState(!1), s = J(l), h = H(t), m = r.useRef(!1), [F, D] = r.useState(0);
+  }), [u, c] = r.useState(!1), s = J(l), F = H(t), m = r.useRef(!1), [h, D] = r.useState(0);
   return r.useEffect(() => {
     const d = w.current;
     if (d)
@@ -254,7 +254,7 @@ const x = "rovingFocusGroup.onEntryFocus", ne = {
       []
     )
   }, /* @__PURE__ */ r.createElement(L.div, _({
-    tabIndex: u || F === 0 ? -1 : 0,
+    tabIndex: u || h === 0 ? -1 : 0,
     "data-orientation": a
   }, g, {
     ref: T,
@@ -270,7 +270,7 @@ const x = "rovingFocusGroup.onEntryFocus", ne = {
       if (d.target === d.currentTarget && j && !u) {
         const P = new CustomEvent(x, ne);
         if (d.currentTarget.dispatchEvent(P), !P.defaultPrevented) {
-          const E = h().filter(
+          const E = F().filter(
             ($) => $.focusable
           ), B = E.find(
             ($) => $.active
@@ -399,13 +399,13 @@ export {
   Se as k,
   we as l,
   Te as m,
-  Fe as n,
+  he as n,
   xe as o,
   Me as p,
   Pe as q,
   Ae as r,
   Ie as s,
-  he as t,
+  Fe as t,
   Le as u,
   ke as v,
   Ne as w,

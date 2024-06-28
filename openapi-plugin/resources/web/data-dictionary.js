@@ -2,7 +2,7 @@ import { c as v, a as j, l as g, b, t as h, e as f, q as o, T as l, j as e, f as
 import { D as p } from "./datetime.BMKtNb6j.js";
 import { S as O } from "./AngleDown.Du2fvUJv.js";
 import { S as E } from "./AngleUp.0NAnuUi-.js";
-import { S as M } from "./SearchSidebar.Bd61K8lY.js";
+import { S as M } from "./SearchSidebar.BqxY3WoN.js";
 const F = {
   dictionaries: [],
   formats: []

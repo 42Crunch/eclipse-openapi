@@ -578,7 +578,7 @@ function On(e) {
 }
 var Dn = xe(xe({}, Me), { getA11yStatusMessage: On, isItemDisabled: function() {
   return !1;
-} }), De = 0, Le = 1, We = 2, Te = 3, je = 4, Ue = 5, Ne = 6, _e = 7, qe = 8, ze = 9, Ge = 10, Ke = 11, Pt = 12, Ht = 13, Xe = 14, Bt = 15, Vt = 16, At = 17, Ft = 18, Ye = 19, Ve = 20, $t = 21, Lt = /* @__PURE__ */ Object.freeze({
+} }), kn = mt, De = 0, Le = 1, We = 2, Te = 3, je = 4, Ue = 5, Ne = 6, _e = 7, qe = 8, ze = 9, Ge = 10, Ke = 11, Pt = 12, Ht = 13, Xe = 14, Bt = 15, Vt = 16, At = 17, Ft = 18, Ye = 19, Ve = 20, $t = 21, Lt = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   ToggleButtonClick: De,
   ToggleButtonKeyDownArrowDown: Le,
@@ -603,7 +603,7 @@ var Dn = xe(xe({}, Me), { getA11yStatusMessage: On, isItemDisabled: function() {
   FunctionSetInputValue: Ve,
   FunctionReset: $t
 });
-function kn(e, t) {
+function Rn(e, t) {
   var r, i = t.type, n = t.props, u = t.altKey, o;
   switch (i) {
     case Xe:
@@ -699,11 +699,11 @@ function kn(e, t) {
   }
   return I({}, e, o);
 }
-var Rn = ["onClick"], Sn = ["onMouseLeave", "refKey", "ref"], En = ["onBlur", "onClick", "onPress", "onKeyDown", "refKey", "ref"], Tn = ["item", "index", "onMouseMove", "onClick", "onMouseDown", "onPress", "refKey", "disabled", "ref"];
-Kn.stateChangeTypes = Lt;
-function Kn(e) {
-  e === void 0 && (e = {});
-  var t = I({}, Dn, e), r = t.items, i = t.scrollIntoView, n = t.environment, u = t.itemToString, o = t.getA11ySelectionMessage, d = t.getA11yStatusMessage, h = Cn(kn, t, Ot, St), m = h[0], a = h[1], M = m.isOpen, k = m.highlightedIndex, T = m.selectedItem, x = m.inputValue, B = c.useRef(null), A = c.useRef(null), P = c.useRef({}), q = c.useRef(null), O = wt(t), y = c.useRef(), ee = He(), b = $e({
+var Sn = ["onClick"], En = ["onMouseLeave", "refKey", "ref"], Tn = ["onBlur", "onClick", "onPress", "onKeyDown", "refKey", "ref"], Kn = ["item", "index", "onMouseMove", "onClick", "onMouseDown", "onPress", "refKey", "disabled", "ref"];
+Pn.stateChangeTypes = Lt;
+function Pn(e) {
+  e === void 0 && (e = {}), kn();
+  var t = I({}, Dn, e), r = t.items, i = t.scrollIntoView, n = t.environment, u = t.itemToString, o = t.getA11ySelectionMessage, d = t.getA11yStatusMessage, h = Cn(Rn, t, Ot, St), m = h[0], a = h[1], M = m.isOpen, k = m.highlightedIndex, T = m.selectedItem, x = m.inputValue, B = c.useRef(null), A = c.useRef(null), P = c.useRef({}), q = c.useRef(null), O = wt(t), y = c.useRef(), ee = He(), b = $e({
     state: m,
     props: t
   }), ge = c.useCallback(function(p) {
@@ -846,7 +846,7 @@ function Kn(e) {
       inputValue: p
     });
   }, [a]), le = c.useCallback(function(p) {
-    var s = p === void 0 ? {} : p, l = s.onClick, f = oe(s, Rn), v = function() {
+    var s = p === void 0 ? {} : p, l = s.onClick, f = oe(s, Sn), v = function() {
       var C;
       (C = B.current) == null || C.focus();
     };
@@ -856,7 +856,7 @@ function Kn(e) {
       onClick: V(l, v)
     }, f);
   }, [O]), se = c.useCallback(function(p, s) {
-    var l, f = p === void 0 ? {} : p, v = f.onMouseLeave, S = f.refKey, C = S === void 0 ? "ref" : S, D = f.ref, R = oe(f, Sn), K = s === void 0 ? {} : s;
+    var l, f = p === void 0 ? {} : p, v = f.onMouseLeave, S = f.refKey, C = S === void 0 ? "ref" : S, D = f.ref, R = oe(f, En), K = s === void 0 ? {} : s;
     K.suppressRefError;
     var E = function() {
       a({
@@ -869,7 +869,7 @@ function Kn(e) {
   }, [a, ue, O]), ve = c.useCallback(function(p, s) {
     var l, f = p === void 0 ? {} : p, v = f.onBlur, S = f.onClick;
     f.onPress;
-    var C = f.onKeyDown, D = f.refKey, R = D === void 0 ? "ref" : D, K = f.ref, E = oe(f, En), H = s === void 0 ? {} : s;
+    var C = f.onKeyDown, D = f.refKey, R = D === void 0 ? "ref" : D, K = f.ref, E = oe(f, Tn), H = s === void 0 ? {} : s;
     H.suppressRefError;
     var N = b.current.state, L = function() {
       a({
@@ -892,7 +892,7 @@ function Kn(e) {
   }, [b, O, ue, a, z, ne]), pe = c.useCallback(function(p) {
     var s, l = p === void 0 ? {} : p, f = l.item, v = l.index, S = l.onMouseMove, C = l.onClick, D = l.onMouseDown;
     l.onPress;
-    var R = l.refKey, K = R === void 0 ? "ref" : R, E = l.disabled, H = l.ref, N = oe(l, Tn);
+    var R = l.refKey, K = R === void 0 ? "ref" : R, E = l.disabled, H = l.ref, N = oe(l, Kn);
     E !== void 0 && console.warn('Passing "disabled" as an argument to getItemProps is not supported anymore. Please use the isItemDisabled prop from useSelect.');
     var L = b.current, de = L.state, W = L.props, Q = Ct(f, v, W.items, "Pass either item or index to getItemProps!"), G = Q[0], j = Q[1], _ = W.isItemDisabled(G, j), Z = function() {
       z.current.isTouchEnd || j === de.highlightedIndex || (te.current = !1, a({
@@ -959,7 +959,7 @@ var Je = 0, Qe = 1, Ze = 2, et = 3, tt = 4, nt = 5, rt = 6, it = 7, ot = 8, Pe =
   FunctionReset: Xt,
   ControlledPropUpdatedSelectedItem: st
 });
-function Pn(e) {
+function Hn(e) {
   var t = Ot(e), r = t.selectedItem, i = t.inputValue;
   return i === "" && r && e.defaultInputValue === void 0 && e.initialInputValue === void 0 && e.inputValue === void 0 && (i = e.itemToString(r)), I({}, t, {
     inputValue: i
@@ -976,7 +976,7 @@ I({}, Tt, {
   inputId: g.string,
   onInputValueChange: g.func
 });
-function Hn(e, t, r, i) {
+function Bn(e, t, r, i) {
   var n = c.useRef(), u = Mt(e, t, r, i), o = u[0], d = u[1], h = He();
   return c.useEffect(function() {
     It(t, "selectedItem") && (!h && // on first mount we already have the proper inputValue for a initial selected item.
@@ -986,7 +986,7 @@ function Hn(e, t, r, i) {
     }), n.current = o.selectedItem === n.current ? t.selectedItem : o.selectedItem);
   }, [o.selectedItem, t.selectedItem]), [Re(o, t), d];
 }
-var Bn = mt, Vn = I({}, Me, {
+var Vn = I({}, Me, {
   selectedItemChanged: function(t, r) {
     return t !== r;
   },
@@ -1095,8 +1095,8 @@ function An(e, t) {
 var Fn = ["onMouseLeave", "refKey", "ref"], $n = ["item", "index", "refKey", "ref", "onMouseMove", "onMouseDown", "onClick", "onPress", "disabled"], Ln = ["onClick", "onPress", "refKey", "ref"], Wn = ["onKeyDown", "onChange", "onInput", "onBlur", "onChangeText", "onClick", "refKey", "ref"];
 jn.stateChangeTypes = Yt;
 function jn(e) {
-  e === void 0 && (e = {}), Bn();
-  var t = I({}, Vn, e), r = t.items, i = t.scrollIntoView, n = t.environment, u = t.getA11yStatusMessage, o = t.getA11ySelectionMessage, d = t.itemToString, h = Hn(An, t, Pn, St), m = h[0], a = h[1], M = m.isOpen, k = m.highlightedIndex, T = m.selectedItem, x = m.inputValue, B = c.useRef(null), A = c.useRef({}), P = c.useRef(null), q = c.useRef(null), O = He(), y = wt(t), ee = c.useRef(), b = $e({
+  e === void 0 && (e = {});
+  var t = I({}, Vn, e), r = t.items, i = t.scrollIntoView, n = t.environment, u = t.getA11yStatusMessage, o = t.getA11ySelectionMessage, d = t.itemToString, h = Bn(An, t, Hn, St), m = h[0], a = h[1], M = m.isOpen, k = m.highlightedIndex, T = m.selectedItem, x = m.inputValue, B = c.useRef(null), A = c.useRef({}), P = c.useRef(null), q = c.useRef(null), O = He(), y = wt(t), ee = c.useRef(), b = $e({
     state: m,
     props: t
   }), ge = c.useCallback(function(s) {
@@ -1345,7 +1345,7 @@ I({}, Et, {
 Me.itemToString, Me.stateReducer, Me.environment;
 export {
   xe as _,
-  Kn as a,
+  Pn as a,
   _n as b,
   qn as c,
   jn as u

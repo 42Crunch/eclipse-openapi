@@ -1,15 +1,15 @@
-import { j as e, q as d, e as s, _ as j, T as i, d as pe, s as ue, a as fe, n as me, l as he, t as xe, f as ge, R as be, P as ve, h as $e, m as je } from "./TriangleExclamation.C66B3qS3.js";
-import { u as X, a as I, c as w, b as ye } from "./index.esm.PwwUZMum.js";
-import { S as Ce } from "./SearchSidebar.Bd61K8lY.js";
-import { $ as Y, b as ke, d as we, e as Te, u as F, f as M, t as Re, g as Se, S as Pe, h as Fe, i as Ee, j as Ae, k as Q, s as Z, m as Ie, l as Me, n as De, o as Be, p as _e, q as Ne, v as Oe, c as Ve } from "./index.DtkuIswU.js";
-import { o as k, e as Ge, s as T, l as He, u as y, I as b, i as Le, c as qe, a as ze, F as Ue } from "./Input.BJOX62ud.js";
+import { j as e, q as l, e as s, _ as j, T as p, d as ue, s as fe, a as me, n as he, l as xe, t as ge, f as be, R as ve, P as $e, h as je, m as Ce } from "./TriangleExclamation.C66B3qS3.js";
+import { u as X, a as L, c as w, b as ye } from "./index.esm.PwwUZMum.js";
+import { S as ke } from "./SearchSidebar.BqxY3WoN.js";
+import { $ as Y, b as we, d as Te, e as Re, u as P, f as I, t as Se, g as Pe, S as Ee, h as Fe, i as Ae, j as Ie, k as Q, s as Z, m as Me, l as De, n as _e, o as Be, p as Ne, q as Oe, v as Ve, c as Ge } from "./index.D4Zh1vk8.js";
+import { o as C, e as ee, s as k, l as He, T as ne, I as b, u as A, i as Le, c as qe, a as ze, F as Ue } from "./Textarea.DlXnDtin.js";
 import { N as We } from "./ProgressButton.DhpfeAGz.js";
-import { B as R, E as q } from "./Banner.B65S0oQ0.js";
-import { $ as ee, a as Ke, b as z, c as ne, d as H, e as Je, f as Xe } from "./index.C5lJOZis.js";
-import { b as Ye, $ as Qe, a as Ze, o as en, c as nn, d as on, e as tn, f as an, g as rn, h as sn } from "./index.Br-18Ss2.js";
-import { S as L } from "./Select.DFwiMC4O.js";
+import { B as T, E as q } from "./Banner.B65S0oQ0.js";
+import { $ as oe, a as Ke, b as z, c as te, d as G, e as Je, f as Xe } from "./index.D2z-X8Fl.js";
+import { b as Ye, $ as Qe, a as Ze, o as en, c as nn, d as on, e as tn, f as an, g as rn, h as sn } from "./index.BX3wTlsJ.js";
+import { S as H } from "./Select.BtknmoqI.js";
 const cn = (n) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...n, children: /* @__PURE__ */ e.jsx("path", { d: "M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512z" }) }), ln = (n) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 576 512", width: "1em", height: "1em", ...n, children: /* @__PURE__ */ e.jsx("path", { d: "M288 288a64 64 0 0 0 0-128c-1 0-1.88.24-2.85.29a47.5 47.5 0 0 1-60.86 60.86c0 1-.29 1.88-.29 2.85a64 64 0 0 0 64 64zm284.52-46.6C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 96a128 128 0 1 1-128 128A128.14 128.14 0 0 1 288 96zm0 320c-107.36 0-205.46-61.31-256-160a294.78 294.78 0 0 1 129.78-129.33C140.91 153.69 128 187.17 128 224a160 160 0 0 0 320 0c0-36.83-12.91-70.31-33.78-97.33A294.78 294.78 0 0 1 544 256c-50.53 98.69-148.64 160-256 160z" }) });
-function S({
+function R({
   label: n,
   waiting: o,
   onClick: t
@@ -20,14 +20,14 @@ function S({
   return /* @__PURE__ */ e.jsx(We, { disabled: !r, label: n, waiting: o, onClick: t });
 }
 function U({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(R, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(q, { message: "Failed to connect", children: n.message }) : null;
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(T, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(q, { message: "Failed to connect", children: n.message }) : null;
 }
-const E = d.div`
+const E = l.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   max-width: 560px;
-`, P = d.div`
+`, S = l.div`
   display: flex;
   gap: 8px;
   align-items: center;
@@ -41,14 +41,14 @@ const E = d.div`
   > div:last-child {
     flex: 1;
   }
-`, A = d.div`
+`, F = l.div`
   font-weight: 700;
   margin-bottom: 16px;
-`, oe = "Radio", [dn, te] = ee(oe), [pn, un] = dn(oe), fn = /* @__PURE__ */ s.forwardRef((n, o) => {
-  const { __scopeRadio: t, name: r, checked: a = !1, required: c, disabled: m, value: h = "on", onCheck: p, ...u } = n, [x, g] = s.useState(null), f = ne(
+`, ae = "Radio", [dn, re] = oe(ae), [pn, un] = dn(ae), fn = /* @__PURE__ */ s.forwardRef((n, o) => {
+  const { __scopeRadio: t, name: r, checked: a = !1, required: c, disabled: m, value: h = "on", onCheck: d, ...u } = n, [x, g] = s.useState(null), f = te(
     o,
     ($) => g($)
-  ), l = s.useRef(!1), v = x ? !!x.closest("form") : !0;
+  ), i = s.useRef(!1), v = x ? !!x.closest("form") : !0;
   return /* @__PURE__ */ s.createElement(pn, {
     scope: t,
     checked: a,
@@ -57,18 +57,18 @@ const E = d.div`
     type: "button",
     role: "radio",
     "aria-checked": a,
-    "data-state": ae(a),
+    "data-state": se(a),
     "data-disabled": m ? "" : void 0,
     disabled: m,
     value: h
   }, u, {
     ref: f,
-    onClick: H(n.onClick, ($) => {
-      a || p == null || p(), v && (l.current = $.isPropagationStopped(), l.current || $.stopPropagation());
+    onClick: G(n.onClick, ($) => {
+      a || d == null || d(), v && (i.current = $.isPropagationStopped(), i.current || $.stopPropagation());
     })
   })), v && /* @__PURE__ */ s.createElement(xn, {
     control: x,
-    bubbles: !l.current,
+    bubbles: !i.current,
     name: r,
     value: h,
     checked: a,
@@ -83,7 +83,7 @@ const E = d.div`
   return /* @__PURE__ */ s.createElement(Je, {
     present: r || c.checked
   }, /* @__PURE__ */ s.createElement(z.span, j({
-    "data-state": ae(c.checked),
+    "data-state": se(c.checked),
     "data-disabled": c.disabled ? "" : void 0
   }, a, {
     ref: o
@@ -91,12 +91,12 @@ const E = d.div`
 }), xn = (n) => {
   const { control: o, checked: t, bubbles: r = !0, ...a } = n, c = s.useRef(null), m = Ye(t), h = Xe(o);
   return s.useEffect(() => {
-    const p = c.current, u = window.HTMLInputElement.prototype, g = Object.getOwnPropertyDescriptor(u, "checked").set;
+    const d = c.current, u = window.HTMLInputElement.prototype, g = Object.getOwnPropertyDescriptor(u, "checked").set;
     if (m !== t && g) {
       const f = new Event("click", {
         bubbles: r
       });
-      g.call(p, t), p.dispatchEvent(f);
+      g.call(d, t), d.dispatchEvent(f);
     }
   }, [
     m,
@@ -119,7 +119,7 @@ const E = d.div`
     }
   }));
 };
-function ae(n) {
+function se(n) {
   return n ? "checked" : "unchecked";
 }
 const gn = [
@@ -127,11 +127,11 @@ const gn = [
   "ArrowDown",
   "ArrowLeft",
   "ArrowRight"
-], re = "RadioGroup", [bn, Io] = ee(re, [
+], ce = "RadioGroup", [bn, Fo] = oe(ce, [
   Y,
-  te
-]), se = Y(), ce = te(), [vn, $n] = bn(re), jn = /* @__PURE__ */ s.forwardRef((n, o) => {
-  const { __scopeRadioGroup: t, name: r, defaultValue: a, value: c, required: m = !1, disabled: h = !1, orientation: p, dir: u, loop: x = !0, onValueChange: g, ...f } = n, l = se(t), v = ke(u), [$, de] = Ke({
+  re
+]), ie = Y(), le = re(), [vn, $n] = bn(ce), jn = /* @__PURE__ */ s.forwardRef((n, o) => {
+  const { __scopeRadioGroup: t, name: r, defaultValue: a, value: c, required: m = !1, disabled: h = !1, orientation: d, dir: u, loop: x = !0, onValueChange: g, ...f } = n, i = ie(t), v = we(u), [$, pe] = Ke({
     prop: c,
     defaultProp: a,
     onChange: g
@@ -142,32 +142,32 @@ const gn = [
     required: m,
     disabled: h,
     value: $,
-    onValueChange: de
-  }, /* @__PURE__ */ s.createElement(we, j({
+    onValueChange: pe
+  }, /* @__PURE__ */ s.createElement(Te, j({
     asChild: !0
-  }, l, {
-    orientation: p,
+  }, i, {
+    orientation: d,
     dir: v,
     loop: x
   }), /* @__PURE__ */ s.createElement(z.div, j({
     role: "radiogroup",
     "aria-required": m,
-    "aria-orientation": p,
+    "aria-orientation": d,
     "data-disabled": h ? "" : void 0,
     dir: v
   }, f, {
     ref: o
   }))));
-}), yn = "RadioGroupItem", Cn = /* @__PURE__ */ s.forwardRef((n, o) => {
-  const { __scopeRadioGroup: t, disabled: r, ...a } = n, c = $n(yn, t), m = c.disabled || r, h = se(t), p = ce(t), u = s.useRef(null), x = ne(o, u), g = c.value === a.value, f = s.useRef(!1);
+}), Cn = "RadioGroupItem", yn = /* @__PURE__ */ s.forwardRef((n, o) => {
+  const { __scopeRadioGroup: t, disabled: r, ...a } = n, c = $n(Cn, t), m = c.disabled || r, h = ie(t), d = le(t), u = s.useRef(null), x = te(o, u), g = c.value === a.value, f = s.useRef(!1);
   return s.useEffect(() => {
-    const l = ($) => {
+    const i = ($) => {
       gn.includes($.key) && (f.current = !0);
     }, v = () => f.current = !1;
-    return document.addEventListener("keydown", l), document.addEventListener("keyup", v), () => {
-      document.removeEventListener("keydown", l), document.removeEventListener("keyup", v);
+    return document.addEventListener("keydown", i), document.addEventListener("keyup", v), () => {
+      document.removeEventListener("keydown", i), document.removeEventListener("keyup", v);
     };
-  }, []), /* @__PURE__ */ s.createElement(Te, j({
+  }, []), /* @__PURE__ */ s.createElement(Re, j({
     asChild: !0
   }, h, {
     focusable: !m,
@@ -176,127 +176,69 @@ const gn = [
     disabled: m,
     required: c.required,
     checked: g
-  }, p, a, {
+  }, d, a, {
     name: c.name,
     ref: x,
     onCheck: () => c.onValueChange(a.value),
-    onKeyDown: H((l) => {
-      l.key === "Enter" && l.preventDefault();
+    onKeyDown: G((i) => {
+      i.key === "Enter" && i.preventDefault();
     }),
-    onFocus: H(a.onFocus, () => {
-      var l;
-      f.current && ((l = u.current) === null || l === void 0 || l.click());
+    onFocus: G(a.onFocus, () => {
+      var i;
+      f.current && ((i = u.current) === null || i === void 0 || i.click());
     })
   })));
 }), kn = /* @__PURE__ */ s.forwardRef((n, o) => {
-  const { __scopeRadioGroup: t, ...r } = n, a = ce(t);
+  const { __scopeRadioGroup: t, ...r } = n, a = le(t);
   return /* @__PURE__ */ s.createElement(hn, j({}, a, r, {
     ref: o
   }));
-}), wn = jn, Tn = Cn, Rn = kn;
+}), wn = jn, Tn = yn, Rn = kn;
 function Sn({ name: n, options: o }) {
-  const t = s.useId(), { field: r } = I({
+  const t = s.useId(), { field: r } = L({
     name: n
   });
-  return /* @__PURE__ */ e.jsx(Pn, { value: r.value, onValueChange: (a) => r.onChange(a), children: o.map((a, c) => /* @__PURE__ */ e.jsxs(Fn, { children: [
-    /* @__PURE__ */ e.jsx(En, { value: a.value, id: `${t}-${c}`, children: /* @__PURE__ */ e.jsx(An, { children: /* @__PURE__ */ e.jsx(cn, {}) }) }),
+  return /* @__PURE__ */ e.jsx(Pn, { value: r.value, onValueChange: (a) => r.onChange(a), children: o.map((a, c) => /* @__PURE__ */ e.jsxs(En, { children: [
+    /* @__PURE__ */ e.jsx(Fn, { value: a.value, id: `${t}-${c}`, children: /* @__PURE__ */ e.jsx(An, { children: /* @__PURE__ */ e.jsx(cn, {}) }) }),
     /* @__PURE__ */ e.jsx("label", { htmlFor: `${t}-${c}`, children: a.label })
   ] }, c)) });
 }
-const Pn = d(wn)`
+const Pn = l(wn)`
   display: flex;
   flex-direction: row;
   gap: 8px;
-`, Fn = d.div`
+`, En = l.div`
   display: flex;
   align-items: center;
   gap: 4px;
-`, En = d(Tn)`
+`, Fn = l(Tn)`
   width: 20px;
   height: 20px;
   border-radius: 100%;
-  background-color: var(${i.checkboxBackground});
-  border-color: var(${i.checkboxBorder});
+  background-color: var(${p.checkboxBackground});
+  border-color: var(${p.checkboxBorder});
   border-width: 2px;
   border-style: solid;
   display: flex;
   align-items: center;
   justify-content: center;
-`, An = d(Rn)`
+`, An = l(Rn)`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 8px;
   height: 8px;
   > svg {
-    fill: var(${i.checkboxForeground});
+    fill: var(${p.checkboxForeground});
   }
 `;
-function ie({
-  label: n,
-  name: o,
-  disabled: t
-}) {
-  const {
-    field: r,
-    fieldState: { error: a, invalid: c }
-  } = I({
-    name: o
-  });
-  return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsxs(In, { invalid: c, children: [
-      /* @__PURE__ */ e.jsx("div", { children: n }),
-      /* @__PURE__ */ e.jsx("textarea", { ...r, disabled: t })
-    ] }),
-    a && /* @__PURE__ */ e.jsx(Mn, { children: a == null ? void 0 : a.message })
-  ] });
-}
-const In = d.div`
-  height: 240px;
-  background-color: var(${i.inputBackground});
-  border-radius: 2px;
-  display: flex;
-  flex-direction: column;
-  padding: 4px 8px;
-  gap: 4px;
-
-  ${({ invalid: n }) => n ? `border: 1px solid var(${i.errorBorder});` : `border: 1px solid var(${i.border});
-         &:focus-within {
-           border: 1px solid var(${i.focusBorder});
-         }
-      `}
-
-  > div {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    color: var(${i.inputPlaceholderForeground});
-  }
-  > textarea {
-    flex: 1;
-    background: transparent;
-    line-height: 20px;
-    border: none;
-    padding: 0;
-    color: var(${i.foreground});
-    &::placeholder {
-      color: var(${i.inputPlaceholderForeground});
-    }
-    &:focus {
-      outline: none;
-    }
-  }
-`, Mn = d.div`
-  color: var(${i.errorForeground});
-`;
-function Dn() {
-  const n = F(), {
+function In() {
+  const n = P(), {
     platformConnectionTestResult: o,
     waitingForPlatformConnectionTest: t
-  } = M((a) => a.config), r = w({ name: "platformAuthType" });
+  } = I((a) => a.config), r = w({ name: "platformAuthType" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(A, { children: "Connection to 42Crunch Platform" }),
+    /* @__PURE__ */ e.jsx(F, { children: "Connection to 42Crunch Platform" }),
     /* @__PURE__ */ e.jsxs(E, { children: [
       /* @__PURE__ */ e.jsx(
         Sn,
@@ -308,18 +250,18 @@ function Dn() {
           ]
         }
       ),
-      r === "anond-token" && /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(ie, { label: "Freemium token", name: "anondToken" }) }),
+      r === "anond-token" && /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(ne, { label: "Freemium token", name: "anondToken" }) }),
       r === "api-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(b, { label: "Platform URL", name: "platformUrl" }),
         /* @__PURE__ */ e.jsx(b, { label: "IDE token", name: "platformApiToken", password: !0 }),
-        /* @__PURE__ */ e.jsxs(P, { children: [
+        /* @__PURE__ */ e.jsxs(S, { children: [
           /* @__PURE__ */ e.jsx(
-            S,
+            R,
             {
               label: "Test connection",
               waiting: t,
               onClick: (a) => {
-                n(Re()), a.preventDefault(), a.stopPropagation();
+                n(Se()), a.preventDefault(), a.stopPropagation();
               }
             }
           ),
@@ -329,30 +271,30 @@ function Dn() {
     ] })
   ] });
 }
-const Bn = k({
-  platformAuthType: Ge(["anond-token", "api-token"]),
-  platformUrl: T().url().startsWith("https://"),
-  anondToken: T(),
-  platformApiToken: T().regex(
+const Mn = C({
+  platformAuthType: ee(["anond-token", "api-token"]),
+  platformUrl: k().url().startsWith("https://"),
+  anondToken: k(),
+  platformApiToken: k().regex(
     /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
     "Token is invalid"
   ).or(He(""))
-}).catchall(y()), D = {
+}), M = {
   id: "platform-connection",
   label: "Connection",
-  schema: Bn,
-  form: Dn
+  schema: Mn,
+  form: In
 };
-function _n() {
-  const n = F(), {
+function Dn() {
+  const n = P(), {
     overlordConnectionTestResult: o,
     waitingForOverlordConnectionTest: t
-  } = M((a) => a.config), r = w({ name: "platformServices.source" });
+  } = I((a) => a.config), r = w({ name: "platformServices.source" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(A, { children: "42Crunch Platform services" }),
+    /* @__PURE__ */ e.jsx(F, { children: "42Crunch Platform services" }),
     /* @__PURE__ */ e.jsxs(E, { children: [
       /* @__PURE__ */ e.jsx(
-        L,
+        H,
         {
           label: "Platform services",
           name: "platformServices.source",
@@ -364,14 +306,14 @@ function _n() {
       ),
       r == "manual" && /* @__PURE__ */ e.jsx(b, { label: "Host", name: "platformServices.manual" }),
       r == "auto" && /* @__PURE__ */ e.jsx(b, { label: "Host (automatic, read-only)", name: "platformServices.auto", disabled: !0 }),
-      /* @__PURE__ */ e.jsxs(P, { children: [
+      /* @__PURE__ */ e.jsxs(S, { children: [
         /* @__PURE__ */ e.jsx(
-          S,
+          R,
           {
             label: "Test connection",
             waiting: t,
             onClick: (a) => {
-              n(Se()), a.preventDefault(), a.stopPropagation();
+              n(Pe()), a.preventDefault(), a.stopPropagation();
             }
           }
         ),
@@ -380,21 +322,27 @@ function _n() {
     ] })
   ] });
 }
-const Nn = k({}).catchall(y()), B = {
+const _n = C({
+  platformServices: C({
+    source: ee(["auto", "manual"]),
+    manual: k(),
+    auto: A()
+  })
+}), D = {
   id: "platform-services",
   label: "Services",
-  schema: Nn,
-  form: _n
-}, W = "^[\\w _.\\/:-]{1,2048}$", On = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
-function Vn() {
+  schema: _n,
+  form: Dn
+}, W = "^[\\w _.\\/:-]{1,2048}$", Bn = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
+function Nn() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(A, { children: "Temporary Collection Name" }),
+    /* @__PURE__ */ e.jsx(F, { children: "Temporary Collection Name" }),
     /* @__PURE__ */ e.jsx("p", { children: "The name of the collection for temporary APIs. Make sure that the name matches the collection naming pattern defined in your organization." }),
     /* @__PURE__ */ e.jsx("p", { children: "WARNING: Do not use existing collection name. This collection will be used for temporary APIs, and all existing APIs in this collection will be deleted." }),
     /* @__PURE__ */ e.jsx(E, { children: /* @__PURE__ */ e.jsx(b, { label: "Collection Name", name: "platformTemporaryCollectionName" }) })
   ] });
 }
-function Gn(n) {
+function On(n) {
   const t = n || {
     pattern: ".*",
     example: "",
@@ -403,118 +351,118 @@ function Gn(n) {
   return {
     id: "temporary-collection",
     label: "Temporary Collection",
-    schema: k({
+    schema: C({
       platformTemporaryCollectionName: Le(
-        T().regex(
+        k().regex(
           new RegExp(W),
           `Collection name is invalid, must match default pattern: ${W}`
         ),
-        T().regex(
+        k().regex(
           new RegExp(t.pattern),
           `Collection name does not match your origanization naming convention. Example of a valid name: ${t.example}`
         )
       )
-    }).catchall(y()),
-    form: Vn
+    }),
+    form: Nn
   };
 }
-function Hn() {
+function Vn() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(A, { children: "Mandatory Tags" }),
+    /* @__PURE__ */ e.jsx(F, { children: "Mandatory Tags" }),
     /* @__PURE__ */ e.jsx("p", { children: "42Crunch platform mandatory tags, these tags will be added to every API created on the platform." }),
     /* @__PURE__ */ e.jsxs("p", { children: [
       "Tags are specified in the format ",
       /* @__PURE__ */ e.jsx("code", { children: "category:tag" }),
       ", and multiple tags are separated by spaces or commas."
     ] }),
-    /* @__PURE__ */ e.jsx(E, { children: /* @__PURE__ */ e.jsx(ie, { label: "Tags", name: "platformMandatoryTags" }) })
+    /* @__PURE__ */ e.jsx(E, { children: /* @__PURE__ */ e.jsx(ne, { label: "Tags", name: "platformMandatoryTags" }) })
   ] });
 }
-const Ln = k({
-  platformMandatoryTags: T().regex(
-    new RegExp(On),
+const Gn = C({
+  platformMandatoryTags: k().regex(
+    new RegExp(Bn),
     "Tags are invalid, must be a comma or space separated list of key:value pairs, e.g. env:dev app:myapp"
   )
-}).catchall(y());
-function qn() {
+});
+function Hn() {
   return {
     id: "mandatory-tags",
     label: "Mandatory Tags",
-    schema: Ln,
-    form: Hn
+    schema: Gn,
+    form: Vn
   };
 }
 function K({ name: n, label: o }) {
-  const t = s.useId(), { field: r } = I({
+  const t = s.useId(), { field: r } = L({
     name: n
   });
-  return /* @__PURE__ */ e.jsxs(zn, { children: [
+  return /* @__PURE__ */ e.jsxs(Ln, { children: [
     /* @__PURE__ */ e.jsx(
-      Un,
+      qn,
       {
         checked: r.value,
         onCheckedChange: (a) => r.onChange(a),
         id: t,
-        children: /* @__PURE__ */ e.jsx(Wn, { children: /* @__PURE__ */ e.jsx(Pe, {}) })
+        children: /* @__PURE__ */ e.jsx(zn, { children: /* @__PURE__ */ e.jsx(Ee, {}) })
       }
     ),
     /* @__PURE__ */ e.jsx("label", { htmlFor: t, children: o })
   ] });
 }
-const zn = d.div`
+const Ln = l.div`
   display: flex;
   gap: 8px;
   align-items: center;
-`, Un = d(Qe)`
+`, qn = l(Qe)`
   width: 20px;
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(${i.checkboxBackground});
+  background-color: var(${p.checkboxBackground});
   border-radius: 4px;
-  border-color: var(${i.checkboxBorder});
+  border-color: var(${p.checkboxBorder});
   border-width: 1px;
   border-style: solid;
-`, Wn = d(Ze)`
+`, zn = l(Ze)`
   display: flex;
   align-items: center;
   justify-content: center;
-  fill: var(${i.checkboxForeground});
+  fill: var(${p.checkboxForeground});
 `;
-function Kn({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(R, { message: n.version }) : /* @__PURE__ */ e.jsx(q, { message: "Failed check version", children: n.message }) : null;
+function Un({ result: n }) {
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(T, { message: n.version }) : /* @__PURE__ */ e.jsx(q, { message: "Failed check version", children: n.message }) : null;
 }
-function Jn({ progress: n }) {
+function Wn({ progress: n }) {
   const o = Math.ceil(n * 100);
-  return /* @__PURE__ */ e.jsxs(Xn, { children: [
-    /* @__PURE__ */ e.jsxs(Yn, { children: [
+  return /* @__PURE__ */ e.jsxs(Kn, { children: [
+    /* @__PURE__ */ e.jsxs(Jn, { children: [
       o,
       "%"
     ] }),
-    /* @__PURE__ */ e.jsxs(Qn, { progress: n, children: [
+    /* @__PURE__ */ e.jsxs(Xn, { progress: n, children: [
       o,
       "%"
     ] })
   ] });
 }
-const Xn = d.div`
+const Kn = l.div`
   position: relative;
   display: flex;
   height: 26px;
-  background-color: var(${i.computedTwo});
-  border: 1px solid var(${i.buttonBorder});
+  background-color: var(${p.computedTwo});
+  border: 1px solid var(${p.buttonBorder});
   border-radius: 6px;
   overflow: hidden;
-`, Yn = d.div`
+`, Jn = l.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: var(${i.computedOne});
-  color: var(${i.foreground});
+  background-color: var(${p.computedOne});
+  color: var(${p.foreground});
   border-radius: 6px;
-`, Qn = d.div`
+`, Xn = l.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -523,13 +471,13 @@ const Xn = d.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(${i.buttonForeground});
-  background-color: var(${i.buttonBackground});
+  color: var(${p.buttonForeground});
+  background-color: var(${p.buttonBackground});
   clip-path: inset(0 ${({ progress: n }) => 100 - n * 100}% 0 0);
   transition: clip-path 0.3s linear;
 `;
-function Zn() {
-  const n = F(), {
+function Yn() {
+  const n = P(), {
     scandManagerConnectionTestResult: o,
     waitingForScandManagerConnectionTest: t,
     waitingForCliTest: r,
@@ -537,13 +485,13 @@ function Zn() {
     waitingForCliDownload: c,
     cliDownloadPercent: m,
     cliDownloadError: h,
-    data: { cli: p }
-  } = M((l) => l.config), u = w({ name: "platformAuthType" }), x = w({ name: "scandManager.auth" }), g = w({ name: "scanRuntime" }), f = u === "api-token" ? g : "cli";
+    data: { cli: d }
+  } = I((i) => i.config), u = w({ name: "platformAuthType" }), x = w({ name: "scandManager.auth" }), g = w({ name: "scanRuntime" }), f = u === "api-token" ? g : "cli";
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(A, { children: "Runtime for API Conformance Scan" }),
+    /* @__PURE__ */ e.jsx(F, { children: "Runtime for API Conformance Scan" }),
     /* @__PURE__ */ e.jsxs(E, { children: [
       u === "api-token" && /* @__PURE__ */ e.jsx(
-        L,
+        H,
         {
           label: "Runtime",
           name: "scanRuntime",
@@ -554,7 +502,7 @@ function Zn() {
           ]
         }
       ),
-      u === "anond-token" && /* @__PURE__ */ e.jsx(R, { message: "Scan runtime is set to use 42Crunch API Security Testing Binary" }),
+      u === "anond-token" && /* @__PURE__ */ e.jsx(T, { message: "Scan runtime is set to use 42Crunch API Security Testing Binary" }),
       f === "docker" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(b, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
         /* @__PURE__ */ e.jsx(
@@ -569,7 +517,7 @@ function Zn() {
       f === "scand-manager" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(b, { label: "Scand manager URL", name: "scandManager.url" }),
         /* @__PURE__ */ e.jsx(
-          L,
+          H,
           {
             label: "Authentication method",
             name: "scandManager.auth",
@@ -591,14 +539,14 @@ function Zn() {
             name: "scandManager.timeout"
           }
         ),
-        /* @__PURE__ */ e.jsxs(P, { children: [
+        /* @__PURE__ */ e.jsxs(S, { children: [
           /* @__PURE__ */ e.jsx(
-            S,
+            R,
             {
               label: "Test connection",
               waiting: t,
-              onClick: (l) => {
-                n(Fe()), l.preventDefault(), l.stopPropagation();
+              onClick: (i) => {
+                n(Fe()), i.preventDefault(), i.stopPropagation();
               }
             }
           ),
@@ -606,40 +554,40 @@ function Zn() {
         ] })
       ] }),
       f === "cli" && /* @__PURE__ */ e.jsx(b, { label: "Download URL", name: "repository" }),
-      f === "cli" && p.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(R, { message: `Using 42Crunch API Security Testing Binary in ${p.location}` }),
-        /* @__PURE__ */ e.jsxs(P, { children: [
+      f === "cli" && d.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+        /* @__PURE__ */ e.jsx(T, { message: `Using 42Crunch API Security Testing Binary in ${d.location}` }),
+        /* @__PURE__ */ e.jsxs(S, { children: [
           /* @__PURE__ */ e.jsx(
-            S,
+            R,
             {
               label: "Check version",
               waiting: r,
-              onClick: (l) => {
-                n(Ee()), l.preventDefault(), l.stopPropagation();
+              onClick: (i) => {
+                n(Ae()), i.preventDefault(), i.stopPropagation();
               }
             }
           ),
-          /* @__PURE__ */ e.jsx(Kn, { result: a })
+          /* @__PURE__ */ e.jsx(Un, { result: a })
         ] })
       ] }),
-      f === "cli" && !p.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsxs(P, { children: [
+      f === "cli" && !d.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+        /* @__PURE__ */ e.jsxs(S, { children: [
           /* @__PURE__ */ e.jsx(
-            S,
+            R,
             {
               label: "Download",
               waiting: c,
-              onClick: (l) => {
-                n(Ae()), l.preventDefault(), l.stopPropagation();
+              onClick: (i) => {
+                n(Ie()), i.preventDefault(), i.stopPropagation();
               }
             }
           ),
-          c && /* @__PURE__ */ e.jsx(Jn, { progress: m })
+          c && /* @__PURE__ */ e.jsx(Wn, { progress: m })
         ] }),
         /* @__PURE__ */ e.jsx(
-          R,
+          T,
           {
-            message: `Download 42Crunch API Security Testing Binary, the binary was not found in ${p.location}`
+            message: `Download 42Crunch API Security Testing Binary, the binary was not found in ${d.location}`
           }
         )
       ] }),
@@ -647,47 +595,47 @@ function Zn() {
     ] })
   ] });
 }
-const eo = k({
-  scandManager: k({
+const Qn = C({
+  scandManager: C({
     timeout: qe.number().int().min(1).max(60 * 60 * 24)
     // 1 day
-  }).catchall(y())
-}).catchall(y()), _ = {
+  }).catchall(A())
+}).catchall(A()), _ = {
   id: "scan-runtime",
   label: "Runtime",
-  schema: eo,
-  form: Zn
-}, N = {
+  schema: Qn,
+  form: Yn
+}, B = {
   host: "",
   header: "Authorization",
   prefix: "Bearer",
   token: "Token"
 };
-function O(n) {
-  const { name: o, children: t, ...r } = n, { field: a } = I({ name: o });
-  return /* @__PURE__ */ e.jsx(po, { ...r, ...a, children: t });
+function N(n) {
+  const { name: o, children: t, ...r } = n, { field: a } = L({ name: o });
+  return /* @__PURE__ */ e.jsx(io, { ...r, ...a, children: t });
 }
-function no({ name: n }) {
+function Zn({ name: n }) {
   const o = w({ name: n });
-  return /* @__PURE__ */ e.jsx(lo, { children: o });
+  return /* @__PURE__ */ e.jsx(co, { children: o });
 }
-function oo({ name: n }) {
+function eo({ name: n }) {
   const [o, t] = s.useState(!1);
-  return /* @__PURE__ */ e.jsxs(io, { children: [
-    /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(no, { name: `${n}.host` }) }),
-    /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(O, { type: "text", name: `${n}.header`, placeholder: N.header }) }),
-    /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(O, { type: "text", name: `${n}.prefix`, placeholder: N.prefix }) }),
-    /* @__PURE__ */ e.jsxs(uo, { children: [
+  return /* @__PURE__ */ e.jsxs(so, { children: [
+    /* @__PURE__ */ e.jsx(O, { children: /* @__PURE__ */ e.jsx(Zn, { name: `${n}.host` }) }),
+    /* @__PURE__ */ e.jsx(O, { children: /* @__PURE__ */ e.jsx(N, { type: "text", name: `${n}.header`, placeholder: B.header }) }),
+    /* @__PURE__ */ e.jsx(O, { children: /* @__PURE__ */ e.jsx(N, { type: "text", name: `${n}.prefix`, placeholder: B.prefix }) }),
+    /* @__PURE__ */ e.jsxs(lo, { children: [
       /* @__PURE__ */ e.jsx(
-        O,
+        N,
         {
           type: o ? "text" : "password",
           name: `${n}.token`,
-          placeholder: N.token
+          placeholder: B.token
         }
       ),
       /* @__PURE__ */ e.jsx(
-        fo,
+        po,
         {
           type: "button",
           title: `${o ? "Hide" : "Reveal"} token`,
@@ -698,105 +646,105 @@ function oo({ name: n }) {
     ] })
   ] });
 }
-function to() {
+function no() {
   const { fields: n } = ye({
     name: "approvedHosts"
   });
-  return /* @__PURE__ */ e.jsxs(ao, { children: [
+  return /* @__PURE__ */ e.jsxs(oo, { children: [
     /* @__PURE__ */ e.jsx("p", { children: "Configure authentication for the hosts approved for external reference resolution" }),
-    /* @__PURE__ */ e.jsxs(ro, { children: [
-      /* @__PURE__ */ e.jsxs(so, { children: [
+    /* @__PURE__ */ e.jsxs(to, { children: [
+      /* @__PURE__ */ e.jsxs(ao, { children: [
         /* @__PURE__ */ e.jsx("div", { className: "openapi-external-refs-host", children: "Host" }),
         /* @__PURE__ */ e.jsx("div", { className: "openapi-external-refs-header", children: "Header" }),
         /* @__PURE__ */ e.jsx("div", { className: "openapi-external-refs-prefix", children: "Prefix" }),
         /* @__PURE__ */ e.jsx("div", { className: "openapi-external-refs-token", children: "Token" })
       ] }),
-      /* @__PURE__ */ e.jsx(co, { children: n.map((o, t) => /* @__PURE__ */ e.jsx(oo, { name: `approvedHosts.${t}` }, o.id)) })
+      /* @__PURE__ */ e.jsx(ro, { children: n.map((o, t) => /* @__PURE__ */ e.jsx(eo, { name: `approvedHosts.${t}` }, o.id)) })
     ] })
   ] });
 }
-const ao = d.div``, ro = d.div`
+const oo = l.div``, to = l.div`
   display: grid;
   row-gap: 4px;
   grid-template-columns: 1fr 0.375fr 0.375fr 0.75fr;
-`, so = d.div`
+`, ao = l.div`
   display: contents;
   & > div {
     padding: 4px 8px;
-    background-color: var(${i.computedOne});
+    background-color: var(${p.computedOne});
     text-transform: uppercase;
     font-size: 90%;
     font-weight: 600;
   }
-`, co = d.div`
+`, ro = l.div`
   display: contents;
   & > div > div {
-    border-bottom: 1px solid var(${i.border});
+    border-bottom: 1px solid var(${p.border});
   }
-`, io = d.div`
+`, so = l.div`
   display: contents;
-`, V = d.div`
+`, O = l.div`
   padding: 4px 8px;
-`, lo = d.span`
+`, co = l.span`
   line-height: 40px;
-`, po = d.input`
+`, io = l.input`
   height: 40px;
   background: transparent;
   line-height: 20px;
   border: none;
   padding: 0;
-  color: var(${i.foreground});
+  color: var(${p.foreground});
   &::placeholder {
-    color: var(${i.inputPlaceholderForeground});
+    color: var(${p.inputPlaceholderForeground});
   }
   &:focus {
     outline: none;
   }
-`, uo = d.div`
+`, lo = l.div`
   padding: 4px 8px;
   display: flex;
   > input {
     flex: 1;
     margin-right: 4px;
   }
-`, fo = d.button`
+`, po = l.button`
   cursor: pointer;
   background: transparent;
-  color: var(${i.foreground});
-  border: 1px solid var(${i.buttonBorder});
+  color: var(${p.foreground});
+  border: 1px solid var(${p.buttonBorder});
   padding: 6px 0px;
   border-radius: 2px;
   width: 20px;
   &:focus {
-    outline: 1px solid var(${i.focusBorder});
+    outline: 1px solid var(${p.focusBorder});
   }
   > svg {
     height: 14px;
     width: 14px;
     min-width: 14px;
-    fill: var(${i.foreground});
+    fill: var(${p.foreground});
   }
-`, mo = k({
-  approvedHosts: ze(y())
-}).catchall(y()), G = {
+`, uo = C({
+  approvedHosts: ze(A())
+}), V = {
   id: "openapi-external-refs",
   label: "External References",
-  schema: mo,
-  form: to
+  schema: uo,
+  form: no
 };
 function J(n) {
   const o = JSON.parse(JSON.stringify(n));
   return o.platformApiToken === void 0 && (o.platformApiToken = ""), o;
 }
-function ho(n) {
+function fo(n) {
   return JSON.parse(JSON.stringify(n));
 }
-function xo() {
-  const n = F(), { ready: o, errors: t, data: r } = M((p) => p.config), a = qn(), c = Gn(r.platformCollectionNamingConvention), m = [
+function mo() {
+  const n = P(), { ready: o, errors: t, data: r } = I((d) => d.config), a = Hn(), c = On(r.platformCollectionNamingConvention), m = [
     {
       id: "platform",
       title: "42Crunch Platform",
-      items: [D, B, c, a]
+      items: [M, D, c, a]
     },
     {
       id: "scan",
@@ -806,44 +754,44 @@ function xo() {
     {
       id: "openapi",
       title: "OpenAPI",
-      items: [G]
+      items: [V]
     }
   ], h = {
+    [M.id]: M,
     [D.id]: D,
-    [B.id]: B,
     [_.id]: _,
     [c.id]: c,
     [a.id]: a,
-    [G.id]: G
+    [V.id]: V
   };
   return s.useEffect(() => {
-    const p = J(r);
+    const d = J(r);
     for (const u of Object.keys(h)) {
-      const { success: x } = h[u].schema.safeParse(p);
+      const { success: x } = h[u].schema.safeParse(d);
       n(x ? Q(u) : Z({
         screen: u,
         error: "Validation errors, configuration is not being saved"
       }));
     }
   }, [r]), o ? /* @__PURE__ */ e.jsx(
-    Ce,
+    ke,
     {
       sections: m,
       errors: t,
       defaultSelection: { sectionId: "platform", itemId: "platform-connection" },
-      render: (p) => {
-        const { id: u, form: x, schema: g } = h[p.itemId];
+      render: (d) => {
+        const { id: u, form: x, schema: g } = h[d.itemId];
         return /* @__PURE__ */ e.jsxs(
           Ue,
           {
             data: r,
             wrapFormData: J,
-            unwrapFormData: ho,
-            saveData: (f) => n(Ie(f)),
+            unwrapFormData: fo,
+            saveData: (f) => n(Me(f)),
             schema: g,
             children: [
               /* @__PURE__ */ e.jsx(x, {}),
-              /* @__PURE__ */ e.jsx(go, { id: u })
+              /* @__PURE__ */ e.jsx(ho, { id: u })
             ]
           }
         );
@@ -851,8 +799,8 @@ function xo() {
     }
   ) : null;
 }
-function go({ id: n }) {
-  const o = F(), {
+function ho({ id: n }) {
+  const o = P(), {
     trigger: t,
     formState: { isValid: r }
   } = X();
@@ -862,44 +810,44 @@ function go({ id: n }) {
     o(r ? Q(n) : Z({ screen: n, error: "Validation errors, configuration is not being saved" }));
   }, [n, r]), null;
 }
-const le = pe(), C = le.startListening;
-function bo(n) {
+const de = ue(), y = de.startListening;
+function xo(n) {
   const o = {
-    saveConfig: en(C, n),
-    testOverlordConnection: nn(C, n),
-    testScandManagerConnection: on(C, n),
-    testPlatformConnection: tn(C, n),
-    testCli: an(C, n),
-    downloadCli: rn(C, n),
-    openLink: sn(C, n)
+    saveConfig: en(y, n),
+    testOverlordConnection: nn(y, n),
+    testScandManagerConnection: on(y, n),
+    testPlatformConnection: tn(y, n),
+    testCli: an(y, n),
+    downloadCli: rn(y, n),
+    openLink: sn(y, n)
   };
-  return ue(o), le;
+  return fe(o), de;
 }
-const vo = {
-  theme: xe,
-  config: Ve
-}, $o = {
-  changeTheme: me,
-  loadConfig: Me,
-  showPlatformConnectionTest: De,
+const go = {
+  theme: ge,
+  config: Ge
+}, bo = {
+  changeTheme: he,
+  loadConfig: De,
+  showPlatformConnectionTest: _e,
   showOverlordConnectionTest: Be,
-  showScandManagerConnectionTest: _e,
-  showCliTest: Ne,
-  showCliDownload: Oe
-}, jo = (n, o) => fe({
-  reducer: vo,
-  middleware: (t) => t().prepend(n.middleware).concat(he),
+  showScandManagerConnectionTest: Ne,
+  showCliTest: Oe,
+  showCliDownload: Ve
+}, vo = (n, o) => me({
+  reducer: go,
+  middleware: (t) => t().prepend(n.middleware).concat(xe),
   preloadedState: {
     theme: o
   }
 });
-function yo(n, o) {
-  const t = jo(bo(n), o);
-  ge(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(be.StrictMode, { children: /* @__PURE__ */ e.jsxs(ve, { store: t, children: [
-      /* @__PURE__ */ e.jsx($e, {}),
-      /* @__PURE__ */ e.jsx(xo, {})
+function $o(n, o) {
+  const t = vo(xo(n), o);
+  be(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(ve.StrictMode, { children: /* @__PURE__ */ e.jsxs($e, { store: t, children: [
+      /* @__PURE__ */ e.jsx(je, {}),
+      /* @__PURE__ */ e.jsx(mo, {})
     ] }) })
-  ), window.addEventListener("message", je(t, $o));
+  ), window.addEventListener("message", Ce(t, bo));
 }
-window.renderWebView = yo;
+window.renderWebView = $o;
