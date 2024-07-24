@@ -41,6 +41,7 @@ import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
+import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class ScanCliTask extends Task.Backgroundable {
@@ -125,6 +126,10 @@ public class ScanCliTask extends Task.Backgroundable {
                     if (!StringUtils.isEmpty(apiToken)) {
                         env.put("API_KEY", apiToken);
                     }
+                }
+                String httpProxy = NetUtils.getProxyString();
+                if (httpProxy != null) {
+                    env.put("HTTPS_PROXY", httpProxy);
                 }
                 String output = ExecUtils.asyncExecFile(cli, args.toArray(new String[0]), scanTmpDir, env);
                 Node out = Utils.getJsonAST(output);

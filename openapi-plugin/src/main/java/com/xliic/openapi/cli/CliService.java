@@ -58,7 +58,12 @@ public class CliService implements ICliService, Disposable {
         if (FileUtils.exists(cliPath)) {
             update(project, cliPath, repository, platform, callback, ask);
         } else {
-            CliUtils.ensureDirectories(project);
+            try {
+                CliUtils.ensureDirectories(project);
+            } catch (Exception e) {
+                callback.reject("Failed to create folder for " + cliPath + ", reason: " + e);
+                return;
+            }
             download(project, cliPath, repository, platform, callback, ask);
         }
     }

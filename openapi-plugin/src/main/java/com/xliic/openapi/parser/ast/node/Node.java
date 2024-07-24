@@ -138,6 +138,11 @@ public abstract class Node implements Comparable<Node> {
         return node;
     }
 
+    /**
+     * Return null if node doesn't have a scalar value
+     * Return string "null" if node has scalar value null
+     * Prefer using getTypedValue if real value with type is needed
+     */
     public String getValue() {
         if (node instanceof NodeTuple) {
             org.snakeyaml.engine.v2.nodes.Node valueNode = ((NodeTuple) node).getValueNode();
@@ -150,6 +155,10 @@ public abstract class Node implements Comparable<Node> {
         return null;
     }
 
+    /**
+     * Possible types: String, Boolean, BigInteger, BigDecimal, null
+     * Return null if node doesn't have a scalar value, or it's value is null
+     */
     public Object getTypedValue() {
         if (node instanceof NodeTuple) {
             org.snakeyaml.engine.v2.nodes.Node valueNode = ((NodeTuple) node).getValueNode();

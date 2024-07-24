@@ -10,6 +10,7 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.SERVICES;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
+import static com.xliic.openapi.settings.Settings.CliAst.CLI_DIRECTORY_OVERRIDE;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,6 +22,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
+import com.xliic.openapi.config.ConfigListener;
+import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.Settings.Platform;
@@ -82,6 +85,7 @@ public class SaveConfig extends WebAppProduce {
             settingsService.setCacheValue(Settings.Platform.TEMP_COLLECTION_NAME, map.get("platformTemporaryCollectionName"));
             settingsService.setCacheValue(Settings.Platform.MANDATORY_TAGS, map.get("platformMandatoryTags"));
             settingsService.setCacheValue(APPROVED_HOST_CONFIG, map.get("approvedHosts"));
+            settingsService.setCacheValue(CLI_DIRECTORY_OVERRIDE, map.get("cliDirectoryOverride"));
         }
     }
 
@@ -94,8 +98,10 @@ public class SaveConfig extends WebAppProduce {
             SettingsService.getInstance().save(updatedKeys, prevData);
             if (!updatedKeys.isEmpty() && !project.isDisposed()) {
                 addPlatformTurnOnOffKeys(updatedKeys, prevData);
-                ApplicationManager.getApplication().invokeLater(() ->
-                        project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(updatedKeys, prevData));
+                ApplicationManager.getApplication().invokeLater(() -> {
+                    project.getMessageBus().syncPublisher(ConfigListener.TOPIC).loadConfig(new Config(false));
+                    project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(updatedKeys, prevData);
+                });
             }
         }
     }

@@ -380,8 +380,7 @@ class $ extends fe {
   /** @override **/
   offset(e) {
     const t = new Date(e);
-    if (isNaN(t))
-      return NaN;
+    if (isNaN(t)) return NaN;
     const r = Yn(this.name);
     let [s, i, a, o, u, l, f] = r.formatToParts ? Jn(r, t) : Gn(r, t);
     o === "BC" && (s = -Math.abs(s) + 1);
@@ -516,8 +515,7 @@ class ir {
     else if (e.zone.type === "fixed") {
       const a = -1 * (e.offset / 60), o = a >= 0 ? `Etc/GMT+${a}` : `Etc/GMT${a}`;
       e.offset !== 0 && $.create(o).valid ? (s = o, this.dt = e) : (s = "UTC", this.dt = e.offset === 0 ? e : e.setZone("UTC").plus({ minutes: e.offset }), this.originalZone = e.zone);
-    } else
-      e.zone.type === "system" ? this.dt = e : e.zone.type === "iana" ? (this.dt = e, s = e.zone.name) : (s = "UTC", this.dt = e.setZone("UTC").plus({ minutes: e.offset }), this.originalZone = e.zone);
+    } else e.zone.type === "system" ? this.dt = e : e.zone.type === "iana" ? (this.dt = e, s = e.zone.name) : (s = "UTC", this.dt = e.setZone("UTC").plus({ minutes: e.offset }), this.originalZone = e.zone);
     const i = { ...this.opts };
     i.timeZone = i.timeZone || s, this.dtf = He(t, i);
   }
@@ -796,8 +794,7 @@ function U(n, e) {
   if (fr(n)) {
     const t = n.toLowerCase();
     return t === "default" ? e : t === "local" || t === "system" ? De.instance : t === "utc" || t === "gmt" ? I.utcInstance : I.parseSpecifier(t) || $.create(n);
-  } else
-    return Y(n) ? I.instance(n) : typeof n == "object" && "offset" in n && typeof n.offset == "function" ? n : new ur(n);
+  } else return Y(n) ? I.instance(n) : typeof n == "object" && "offset" in n && typeof n.offset == "function" ? n : new ur(n);
 }
 let at = () => Date.now(), ot = "system", ut = null, lt = null, ct = null, ft = 60, dt, ht = null;
 class p {
@@ -1171,8 +1168,7 @@ function Ee(n, e) {
   for (const r in n)
     if (X(n, r)) {
       const s = n[r];
-      if (s == null)
-        continue;
+      if (s == null) continue;
       t[e(r)] = cn(s);
     }
   return t;
@@ -2015,8 +2011,7 @@ class g {
       millisecond: "milliseconds",
       milliseconds: "milliseconds"
     }[e && e.toLowerCase()];
-    if (!t)
-      throw new Wt(e);
+    if (!t) throw new Wt(e);
     return t;
   }
   /**
@@ -2086,8 +2081,7 @@ class g {
    * ```
    */
   toHuman(e = {}) {
-    if (!this.isValid)
-      return pt;
+    if (!this.isValid) return pt;
     const t = H.map((r) => {
       const s = this.values[r];
       return h(s) ? null : this.loc.numberFormatter({ style: "unit", unitDisplay: "long", ...e, unit: r.slice(0, -1) }).format(s);
@@ -2113,8 +2107,7 @@ class g {
    * @return {string}
    */
   toISO() {
-    if (!this.isValid)
-      return null;
+    if (!this.isValid) return null;
     let e = "P";
     return this.years !== 0 && (e += this.years + "Y"), (this.months !== 0 || this.quarters !== 0) && (e += this.months + this.quarters * 3 + "M"), this.weeks !== 0 && (e += this.weeks + "W"), this.days !== 0 && (e += this.days + "D"), (this.hours !== 0 || this.minutes !== 0 || this.seconds !== 0 || this.milliseconds !== 0) && (e += "T"), this.hours !== 0 && (e += this.hours + "H"), this.minutes !== 0 && (e += this.minutes + "M"), (this.seconds !== 0 || this.milliseconds !== 0) && (e += Qe(this.seconds + this.milliseconds / 1e3, 3) + "S"), e === "P" && (e += "T0S"), e;
   }
@@ -2135,8 +2128,7 @@ class g {
    * @return {string}
    */
   toISOTime(e = {}) {
-    if (!this.isValid)
-      return null;
+    if (!this.isValid) return null;
     const t = this.toMillis();
     return t < 0 || t >= 864e5 ? null : (e = {
       suppressMilliseconds: !1,
@@ -2188,8 +2180,7 @@ class g {
    * @return {Duration}
    */
   plus(e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const t = g.fromDurationLike(e), r = {};
     for (const s of H)
       (X(t.values, s) || X(this.values, s)) && (r[s] = t.get(s) + this.get(s));
@@ -2201,8 +2192,7 @@ class g {
    * @return {Duration}
    */
   minus(e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const t = g.fromDurationLike(e);
     return this.plus(t.negate());
   }
@@ -2214,8 +2204,7 @@ class g {
    * @return {Duration}
    */
   mapUnits(e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const t = {};
     for (const r of Object.keys(this.values))
       t[r] = cn(e(this.values[r], r));
@@ -2240,8 +2229,7 @@ class g {
    * @return {Duration}
    */
   set(e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const t = { ...this.values, ...Ee(e, g.normalizeUnit) };
     return A(this, { values: t });
   }
@@ -2281,8 +2269,7 @@ class g {
    * @return {Duration}
    */
   normalize() {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const e = this.toObject();
     return Ot(this.matrix, e), A(this, { values: e }, !0);
   }
@@ -2292,8 +2279,7 @@ class g {
    * @return {Duration}
    */
   rescale() {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const e = ms(this.normalize().shiftToAll().toObject());
     return A(this, { values: e }, !0);
   }
@@ -2303,8 +2289,7 @@ class g {
    * @return {Duration}
    */
   shiftTo(...e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     if (e.length === 0)
       return this;
     e = e.map((a) => g.normalizeUnit(a));
@@ -2319,8 +2304,7 @@ class g {
         Y(s[a]) && (o += s[a]);
         const u = Math.trunc(o);
         t[a] = u, r[a] = (o * 1e3 - u * 1e3) / 1e3;
-      } else
-        Y(s[a]) && (r[a] = s[a]);
+      } else Y(s[a]) && (r[a] = s[a]);
     for (const a in r)
       r[a] !== 0 && (t[i] += a === i ? r[a] : r[a] / this.matrix[i][a]);
     return Ot(this.matrix, t), A(this, { values: t }, !0);
@@ -2348,8 +2332,7 @@ class g {
    * @return {Duration}
    */
   negate() {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const e = {};
     for (const t of Object.keys(this.values))
       e[t] = this.values[t] === 0 ? 0 : -this.values[t];
@@ -2617,8 +2600,7 @@ class S {
    * @return {number}
    */
   count(e = "milliseconds", t) {
-    if (!this.isValid)
-      return NaN;
+    if (!this.isValid) return NaN;
     const r = this.start.startOf(e, t);
     let s;
     return t != null && t.useLocaleWeeks ? s = this.end.reconfigure({ locale: r.locale }) : s = this.end, s = s.startOf(e, t), Math.floor(s.diff(r, e).get(e)) + (s.valueOf() !== this.end.valueOf());
@@ -2678,8 +2660,7 @@ class S {
    * @return {Array}
    */
   splitAt(...e) {
-    if (!this.isValid)
-      return [];
+    if (!this.isValid) return [];
     const t = e.map(oe).filter((a) => this.contains(a)).sort((a, o) => a.toMillis() - o.toMillis()), r = [];
     let { s } = this, i = 0;
     for (; s < this.e; ) {
@@ -2762,8 +2743,7 @@ class S {
    * @return {Interval}
    */
   intersection(e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const t = this.s > e.s ? this.s : e.s, r = this.e < e.e ? this.e : e.e;
     return t >= r ? null : S.fromDateTimes(t, r);
   }
@@ -2774,8 +2754,7 @@ class S {
    * @return {Interval}
    */
   union(e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const t = this.s < e.s ? this.s : e.s, r = this.e > e.e ? this.e : e.e;
     return S.fromDateTimes(t, r);
   }
@@ -3631,8 +3610,7 @@ function Zs(n) {
     weekyears: "weekYear",
     ordinal: "ordinal"
   }[n.toLowerCase()];
-  if (!e)
-    throw new Wt(n);
+  if (!e) throw new Wt(n);
   return e;
 }
 function bt(n) {
@@ -4480,8 +4458,7 @@ class m {
    * @return {DateTime}
    */
   set(e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const t = Ee(e, bt), { minDaysInFirstWeek: r, startOfWeek: s } = gt(t, this.loc), i = !h(t.weekYear) || !h(t.weekNumber) || !h(t.weekday), a = !h(t.ordinal), o = !h(t.year), u = !h(t.month) || !h(t.day), l = o || u, f = t.weekYear || t.weekNumber;
     if ((l || a) && f)
       throw new j(
@@ -4512,8 +4489,7 @@ class m {
    * @return {DateTime}
    */
   plus(e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const t = g.fromDurationLike(e);
     return q(this, Dt(this, t));
   }
@@ -4524,8 +4500,7 @@ class m {
    @return {DateTime}
    */
   minus(e) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const t = g.fromDurationLike(e).negate();
     return q(this, Dt(this, t));
   }
@@ -4542,8 +4517,7 @@ class m {
    * @return {DateTime}
    */
   startOf(e, { useLocaleWeeks: t = !1 } = {}) {
-    if (!this.isValid)
-      return this;
+    if (!this.isValid) return this;
     const r = {}, s = g.normalizeUnit(e);
     switch (s) {
       case "years":
@@ -4844,8 +4818,7 @@ class m {
    * @return {Object}
    */
   toObject(e = {}) {
-    if (!this.isValid)
-      return {};
+    if (!this.isValid) return {};
     const t = { ...this.c };
     return e.includeConfig && (t.outputCalendar = this.outputCalendar, t.numberingSystem = this.loc.numberingSystem, t.locale = this.loc.locale), t;
   }
@@ -4909,8 +4882,7 @@ class m {
    * @return {boolean}
    */
   hasSame(e, t, r) {
-    if (!this.isValid)
-      return !1;
+    if (!this.isValid) return !1;
     const s = e.valueOf(), i = this.setZone(e.zone, { keepLocalTime: !0 });
     return i.startOf(t, r) <= s && s <= i.endOf(t, r);
   }
@@ -4943,8 +4915,7 @@ class m {
    * @example DateTime.now().minus({ hours: 36 }).toRelative({ round: false }) //=> "1.5 days ago"
    */
   toRelative(e = {}) {
-    if (!this.isValid)
-      return null;
+    if (!this.isValid) return null;
     const t = e.base || m.fromObject({}, { zone: this.zone }), r = e.padding ? this < t ? -e.padding : e.padding : 0;
     let s = ["years", "months", "days", "hours", "minutes", "seconds"], i = e.unit;
     return Array.isArray(e.unit) && (s = e.unit, i = void 0), Vt(t, this.plus(r), {

@@ -15,6 +15,7 @@ import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.utils.MsgUtils;
+import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.whatsnew.WhatsNewService;
 
@@ -39,6 +40,7 @@ public class GetIDEInfoAction extends AnAction implements DumbAware {
         StringBuilder builder = new StringBuilder();
         builder.append("OS: ").append(Utils.getOs()).append("\n");
         builder.append("OS Arch: ").append(Utils.getOsArch()).append("\n");
+        builder.append("Proxy: ").append(NetUtils.getProxyString()).append("\n");
         for (Module module : ModuleManager.getInstance(project).getModules()) {
             builder.append("Module [").append(module.getName()).append("]\n");
             VirtualFile[] roots = ModuleRootManager.getInstance(module).getContentRoots();

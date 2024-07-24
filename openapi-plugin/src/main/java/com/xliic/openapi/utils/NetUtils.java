@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.util.ResourceUtil;
+import com.xliic.core.util.net.HttpConfigurable;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.report.AuditAPIs;
 
@@ -38,6 +39,20 @@ public class NetUtils {
         void update(long bytesRead, long contentLength, boolean done, @NotNull String hash);
     }
 
+    public static @Nullable String getProxyString() {
+        final HttpConfigurable settings = HttpConfigurable.getInstance();
+        if (settings != null && settings.USE_HTTP_PROXY) {
+            final String credentials;
+            if (settings.PROXY_AUTHENTICATION) {
+                credentials = String.format("%s:%s@", settings.getProxyLogin(), settings.getPlainProxyPassword());
+            } else {
+                credentials = "";
+            }
+            return "http://" + credentials + String.format("%s:%d", settings.PROXY_HOST, settings.PROXY_PORT);
+        }
+        return null;
+    }
+    
     public static void download(@NotNull String url, @NotNull String filePath, @NotNull ProgressListener listener) throws Exception {
         Response response = new OkHttpClient().newCall(new Request.Builder().url(url).get().build()).execute();
         ResponseBody body = Objects.requireNonNull(response.body());

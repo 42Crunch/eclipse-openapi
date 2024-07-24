@@ -168,11 +168,13 @@ public class Settings {
 
     public static class CliAst {
 
+    	public static final String CLI_DIRECTORY_OVERRIDE = "com.xliic.openapi.settings.cli.ast.directory.override";
         public static final String REPOSITORY = "com.xliic.openapi.settings.cli.ast.repository";
         public static final String DEFAULT_REPOSITORY = "https://repo.42crunch.com/downloads";
 
         static {
             DEFAULTS.put(REPOSITORY, DEFAULT_REPOSITORY);
+            DEFAULTS.put(CLI_DIRECTORY_OVERRIDE, "");
         }
     }
 

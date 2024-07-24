@@ -9,6 +9,7 @@ import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +26,11 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.settings.Credentials;
+import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
+import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 
 import okhttp3.Response;
@@ -79,6 +83,14 @@ public class CliUtils {
                 PlatformConnection con = PlatformConnection.getOptions();
                 token = con.getApiToken();
             }
+            final Map<String, String> env;
+            String httpProxy = NetUtils.getProxyString();
+            if (httpProxy != null) {
+                env = new HashMap<>();
+                env.put("HTTPS_PROXY", httpProxy);
+            } else {
+                env = null;
+            }
             String output = ExecUtils.asyncExecFile(
                 cli,
                 new String[] {
@@ -97,7 +109,7 @@ public class CliUtils {
                     isFullAudit ? "" : "--is-operation",
                     "--token",
                     token
-                }, dir);
+                }, dir, env);
             String report = FileUtils.readFile(dir, "report.json");
             removeFile(project, dir, "report.json");
             removeFile(project, dir,"openapi.json");
@@ -115,17 +127,21 @@ public class CliUtils {
         return join(getBinDirectory(), getCliFilename());
     }
 
-    public static void ensureDirectories(@NotNull Project project) {
+    public static void ensureDirectories(@NotNull Project project) throws Exception {
         String binDir = getBinDirectory();
         if (!FileUtils.exists(binDir)) {
-            // It is recursive by default
-            WriteCommandAction.runWriteCommandAction(project, (Computable<Void>) () -> {
+            String errorDesc = WriteCommandAction.runWriteCommandAction(project, (Computable<String>) () -> {
                 try {
+                    // Directory is created recursively
                     VfsUtil.createDirectoryIfMissing(binDir);
-                } catch (IOException ignored) {
+                } catch (Exception e) {
+                    return e.toString();
                 }
                 return null;
             });
+            if (errorDesc != null) {
+                throw new Exception(errorDesc);
+            }
         }
     }
 
@@ -142,8 +158,12 @@ public class CliUtils {
         }
     }
 
-    private static String getBinDirectory() {
-        return join(getCrunchDirectory(), "bin");
+    public static String getBinDirectory() {
+        String downloadPath = SettingsService.getInstance().getValue(Settings.CliAst.CLI_DIRECTORY_OVERRIDE);
+        if (StringUtils.isEmpty(downloadPath)) {
+            return join(getCrunchDirectory(), "bin");
+        }
+        return downloadPath;
     }
 
     public static String getCliFilename() {
