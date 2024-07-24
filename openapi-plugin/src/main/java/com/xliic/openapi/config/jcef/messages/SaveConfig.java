@@ -22,6 +22,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
+import com.xliic.openapi.config.ConfigListener;
+import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.Settings.Platform;
@@ -96,8 +98,10 @@ public class SaveConfig extends WebAppProduce {
             SettingsService.getInstance().save(updatedKeys, prevData);
             if (!updatedKeys.isEmpty() && !project.isDisposed()) {
                 addPlatformTurnOnOffKeys(updatedKeys, prevData);
-                ApplicationManager.getApplication().invokeLater(() ->
-                        project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(updatedKeys, prevData));
+                ApplicationManager.getApplication().invokeLater(() -> {
+                    project.getMessageBus().syncPublisher(ConfigListener.TOPIC).loadConfig(new Config(false));
+                    project.getMessageBus().syncPublisher(SettingsListener.TOPIC).propertiesUpdated(updatedKeys, prevData);
+                });
             }
         }
     }
