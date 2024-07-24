@@ -9,6 +9,7 @@ import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +30,7 @@ import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
+import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 
 import okhttp3.Response;
@@ -81,6 +83,14 @@ public class CliUtils {
                 PlatformConnection con = PlatformConnection.getOptions();
                 token = con.getApiToken();
             }
+            final Map<String, String> env;
+            String httpProxy = NetUtils.getProxyString();
+            if (httpProxy != null) {
+                env = new HashMap<>();
+                env.put("HTTPS_PROXY", httpProxy);
+            } else {
+                env = null;
+            }
             String output = ExecUtils.asyncExecFile(
                 cli,
                 new String[] {
@@ -99,7 +109,7 @@ public class CliUtils {
                     isFullAudit ? "" : "--is-operation",
                     "--token",
                     token
-                }, dir);
+                }, dir, env);
             String report = FileUtils.readFile(dir, "report.json");
             removeFile(project, dir, "report.json");
             removeFile(project, dir,"openapi.json");
