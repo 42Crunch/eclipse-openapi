@@ -227,8 +227,8 @@ public class DataFormat {
         if (child == null) {
             return defaultValue;
         } else {
-            String value = child.getValue();
-            return value != null ? new BigInteger(value) : defaultValue;
+            Object value = child.getTypedValue();
+            return value instanceof BigInteger ? (BigInteger) value : defaultValue;
         }
     }
 
@@ -237,8 +237,8 @@ public class DataFormat {
         if (child == null) {
             return null;
         } else {
-            String value = child.getValue();
-            return value != null ? new BigDecimal(value) : null;
+            Object value = child.getTypedValue();
+            return value instanceof BigDecimal ? (BigDecimal) value : null;
         }
     }
 
@@ -247,8 +247,8 @@ public class DataFormat {
         if (child == null) {
             return null;
         } else {
-            String value = child.getValue();
-            return value != null ? Boolean.parseBoolean(value) : null;
+            Object value = child.getTypedValue();
+            return value instanceof Boolean ? (Boolean) value : null;
         }
     }
 
@@ -257,8 +257,8 @@ public class DataFormat {
         if (child == null) {
             return defaultValue;
         } else {
-            String value = child.getValue();
-            return value != null ? value : defaultValue;
+            Object value = child.getTypedValue();
+            return value instanceof String ? (String) value : defaultValue;
         }
     }
 
