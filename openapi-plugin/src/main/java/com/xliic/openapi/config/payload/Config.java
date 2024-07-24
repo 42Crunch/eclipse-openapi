@@ -51,6 +51,8 @@ public class Config {
     private final String platformMandatoryTags;
     @NotNull
     private final List<ApprovedHostConfig> approvedHosts;
+    @NotNull
+    private final String cliDirectoryOverride;
     
     public Config() {
         this(false);
@@ -79,6 +81,7 @@ public class Config {
             platformCollectionNamingConvention = NamingConvention.restoreFromStringPayload(value);
         }
         approvedHosts = getApprovedHostsConfiguration();
+        cliDirectoryOverride = settingsService.getValue(Settings.CliAst.CLI_DIRECTORY_OVERRIDE, "");
     }
 
     public @NotNull String getPlatformUrl() {
@@ -176,5 +179,9 @@ public class Config {
             }
         }
         return result;
+    }
+    
+    public @NotNull String getCliDirectoryOverride() {
+        return cliDirectoryOverride;
     }
 }

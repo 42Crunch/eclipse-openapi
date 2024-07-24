@@ -1,8 +1,8 @@
-import { e as r, _ as g, R as S, $ as ie, w as de, q as N, T as v, j as x, S as ue } from "./TriangleExclamation.C66B3qS3.js";
-function I(e, t, { checkForDefaultPrevented: o = !0 } = {}) {
+import { e as r, R as I, A as ie, w as de, q as N, T as v, j as x, S as ue } from "./TriangleExclamation.uZuTZ4qX.js";
+import { _ as g } from "./index.esm.sdnuanpO.js";
+function S(e, t, { checkForDefaultPrevented: o = !0 } = {}) {
   return function(c) {
-    if (e == null || e(c), o === !1 || !c.defaultPrevented)
-      return t == null ? void 0 : t(c);
+    if (e == null || e(c), o === !1 || !c.defaultPrevented) return t == null ? void 0 : t(c);
   };
 }
 function L(e, t = []) {
@@ -24,10 +24,8 @@ function L(e, t = []) {
     }
     function f(u, $) {
       const p = ($ == null ? void 0 : $[e][l]) || i, b = r.useContext(p);
-      if (b)
-        return b;
-      if (a !== void 0)
-        return a;
+      if (b) return b;
+      if (a !== void 0) return a;
       throw new Error(`\`${u}\` must be used within \`${s}\``);
     }
     return d.displayName = s + "Provider", [
@@ -60,8 +58,7 @@ function L(e, t = []) {
 }
 function le(...e) {
   const t = e[0];
-  if (e.length === 1)
-    return t;
+  if (e.length === 1) return t;
   const o = () => {
     const n = e.map(
       (c) => ({
@@ -153,33 +150,32 @@ function ve(e) {
     },
     itemMap: /* @__PURE__ */ new Map()
   }), a = (p) => {
-    const { scope: b, children: h } = p, m = S.useRef(null), C = S.useRef(/* @__PURE__ */ new Map()).current;
-    return /* @__PURE__ */ S.createElement(c, {
+    const { scope: b, children: h } = p, m = I.useRef(null), C = I.useRef(/* @__PURE__ */ new Map()).current;
+    return /* @__PURE__ */ I.createElement(c, {
       scope: b,
       itemMap: C,
       collectionRef: m
     }, h);
-  }, i = e + "CollectionSlot", l = /* @__PURE__ */ S.forwardRef((p, b) => {
+  }, i = e + "CollectionSlot", l = /* @__PURE__ */ I.forwardRef((p, b) => {
     const { scope: h, children: m } = p, C = s(i, h), E = w(b, C.collectionRef);
-    return /* @__PURE__ */ S.createElement(P, {
+    return /* @__PURE__ */ I.createElement(P, {
       ref: E
     }, m);
-  }), d = e + "CollectionItemSlot", f = "data-radix-collection-item", u = /* @__PURE__ */ S.forwardRef((p, b) => {
-    const { scope: h, children: m, ...C } = p, E = S.useRef(null), y = w(b, E), R = s(d, h);
-    return S.useEffect(() => (R.itemMap.set(E, {
+  }), d = e + "CollectionItemSlot", f = "data-radix-collection-item", u = /* @__PURE__ */ I.forwardRef((p, b) => {
+    const { scope: h, children: m, ...C } = p, E = I.useRef(null), y = w(b, E), R = s(d, h);
+    return I.useEffect(() => (R.itemMap.set(E, {
       ref: E,
       ...C
-    }), () => void R.itemMap.delete(E))), /* @__PURE__ */ S.createElement(P, {
+    }), () => void R.itemMap.delete(E))), /* @__PURE__ */ I.createElement(P, {
       [f]: "",
       ref: y
     }, m);
   });
   function $(p) {
     const b = s(e + "CollectionConsumer", p);
-    return S.useCallback(() => {
+    return I.useCallback(() => {
       const m = b.collectionRef.current;
-      if (!m)
-        return [];
+      if (!m) return [];
       const C = Array.from(m.querySelectorAll(`[${f}]`));
       return Array.from(b.itemMap.values()).sort(
         (R, T) => C.indexOf(R.ref.current) - C.indexOf(T.ref.current)
@@ -206,12 +202,12 @@ let xe = 0;
 function q(e) {
   const [t, o] = r.useState(me());
   return k(() => {
-    e || o(
+    o(
       (n) => n ?? String(xe++)
     );
   }, [
     e
-  ]), e || (t ? `radix-${t}` : "");
+  ]), t ? `radix-${t}` : "";
 }
 const ge = [
   "a",
@@ -262,8 +258,7 @@ function z({ prop: e, defaultProp: t, onChange: o = () => {
     if (s) {
       const u = typeof d == "function" ? d(e) : d;
       u !== e && i(u);
-    } else
-      c(d);
+    } else c(d);
   }, [
     s,
     e,
@@ -293,9 +288,9 @@ function Y(e) {
 const O = "rovingFocusGroup.onEntryFocus", Ee = {
   bubbles: !1,
   cancelable: !0
-}, B = "RovingFocusGroup", [j, Z, Te] = ve(B), [Se, H] = L(B, [
+}, B = "RovingFocusGroup", [j, Z, Te] = ve(B), [Ie, H] = L(B, [
   Te
-]), [Ie, Re] = Se(B), Ae = /* @__PURE__ */ r.forwardRef((e, t) => /* @__PURE__ */ r.createElement(j.Provider, {
+]), [Se, Re] = Ie(B), Ae = /* @__PURE__ */ r.forwardRef((e, t) => /* @__PURE__ */ r.createElement(j.Provider, {
   scope: e.__scopeRovingFocusGroup
 }, /* @__PURE__ */ r.createElement(j.Slot, {
   scope: e.__scopeRovingFocusGroup
@@ -313,7 +308,7 @@ const O = "rovingFocusGroup.onEntryFocus", Ee = {
       return T.addEventListener(O, E), () => T.removeEventListener(O, E);
   }, [
     E
-  ]), /* @__PURE__ */ r.createElement(Ie, {
+  ]), /* @__PURE__ */ r.createElement(Se, {
     scope: o,
     orientation: n,
     dir: p,
@@ -338,10 +333,10 @@ const O = "rovingFocusGroup.onEntryFocus", Ee = {
       outline: "none",
       ...e.style
     },
-    onMouseDown: I(e.onMouseDown, () => {
+    onMouseDown: S(e.onMouseDown, () => {
       R.current = !0;
     }),
-    onFocus: I(e.onFocus, (T) => {
+    onFocus: S(e.onFocus, (T) => {
       const re = !R.current;
       if (T.target === T.currentTarget && re && !m) {
         const G = new CustomEvent(O, Ee);
@@ -364,7 +359,7 @@ const O = "rovingFocusGroup.onEntryFocus", Ee = {
       }
       R.current = !1;
     }),
-    onBlur: I(
+    onBlur: S(
       e.onBlur,
       () => C(!1)
     )
@@ -381,20 +376,19 @@ const O = "rovingFocusGroup.onEntryFocus", Ee = {
     "data-orientation": i.orientation
   }, s, {
     ref: t,
-    onMouseDown: I(e.onMouseDown, (f) => {
+    onMouseDown: S(e.onMouseDown, (f) => {
       n ? i.onItemFocus(a) : f.preventDefault();
     }),
-    onFocus: I(
+    onFocus: S(
       e.onFocus,
       () => i.onItemFocus(a)
     ),
-    onKeyDown: I(e.onKeyDown, (f) => {
+    onKeyDown: S(e.onKeyDown, (f) => {
       if (f.key === "Tab" && f.shiftKey) {
         i.onItemShiftTab();
         return;
       }
-      if (f.target !== f.currentTarget)
-        return;
+      if (f.target !== f.currentTarget) return;
       const u = Pe(f, i.orientation, i.dir);
       if (u !== void 0) {
         f.preventDefault();
@@ -403,8 +397,7 @@ const O = "rovingFocusGroup.onEntryFocus", Ee = {
         ).map(
           (b) => b.ref.current
         );
-        if (u === "last")
-          p.reverse();
+        if (u === "last") p.reverse();
         else if (u === "prev" || u === "next") {
           u === "prev" && p.reverse();
           const b = p.indexOf(f.currentTarget);
@@ -443,8 +436,7 @@ function Pe(e, t, o) {
 function J(e) {
   const t = document.activeElement;
   for (const o of e)
-    if (o === t || (o.focus(), document.activeElement !== t))
-      return;
+    if (o === t || (o.focus(), document.activeElement !== t)) return;
 }
 function Fe(e, t) {
   return e.map(
@@ -526,7 +518,7 @@ function je(e) {
 function M(e) {
   return (e == null ? void 0 : e.animationName) || "none";
 }
-const W = "Tabs", [Le, it] = L(W, [
+const W = "Tabs", [Le, dt] = L(W, [
   H
 ]), X = H(), [Ue, V] = Le(W), Be = /* @__PURE__ */ r.forwardRef((e, t) => {
   const { __scopeTabs: o, value: n, onValueChange: c, defaultValue: s, orientation: a = "horizontal", dir: i, activationMode: l = "automatic", ...d } = e, f = Y(i), [u, $] = z({
@@ -580,16 +572,16 @@ const W = "Tabs", [Le, it] = L(W, [
     id: l
   }, s, {
     ref: t,
-    onMouseDown: I(e.onMouseDown, (u) => {
+    onMouseDown: S(e.onMouseDown, (u) => {
       !c && u.button === 0 && u.ctrlKey === !1 ? a.onValueChange(n) : u.preventDefault();
     }),
-    onKeyDown: I(e.onKeyDown, (u) => {
+    onKeyDown: S(e.onKeyDown, (u) => {
       [
         " ",
         "Enter"
       ].includes(u.key) && a.onValueChange(n);
     }),
-    onFocus: I(e.onFocus, () => {
+    onFocus: S(e.onFocus, () => {
       const u = a.activationMode !== "manual";
       !f && !c && u && a.onValueChange(n);
     })
@@ -630,7 +622,7 @@ function te(e, t) {
   return `${e}-content-${t}`;
 }
 const Ze = Be, He = Ge, ne = qe, Je = Ye;
-function dt({
+function ut({
   tabs: e,
   activeTab: t,
   setActiveTab: o,
@@ -817,5 +809,5 @@ const Xe = N(He)`
 `;
 export {
   Je as $,
-  dt as T
+  ut as T
 };

@@ -10,6 +10,7 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.SERVICES;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
+import static com.xliic.openapi.settings.Settings.CliAst.CLI_DIRECTORY_OVERRIDE;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -82,6 +83,7 @@ public class SaveConfig extends WebAppProduce {
             settingsService.setCacheValue(Settings.Platform.TEMP_COLLECTION_NAME, map.get("platformTemporaryCollectionName"));
             settingsService.setCacheValue(Settings.Platform.MANDATORY_TAGS, map.get("platformMandatoryTags"));
             settingsService.setCacheValue(APPROVED_HOST_CONFIG, map.get("approvedHosts"));
+            settingsService.setCacheValue(CLI_DIRECTORY_OVERRIDE, map.get("cliDirectoryOverride"));
         }
     }
 

@@ -25,6 +25,8 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.settings.Credentials;
+import com.xliic.openapi.settings.Settings;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
@@ -115,17 +117,21 @@ public class CliUtils {
         return join(getBinDirectory(), getCliFilename());
     }
 
-    public static void ensureDirectories(@NotNull Project project) {
+    public static void ensureDirectories(@NotNull Project project) throws Exception {
         String binDir = getBinDirectory();
         if (!FileUtils.exists(binDir)) {
-            // It is recursive by default
-            WriteCommandAction.runWriteCommandAction(project, (Computable<Void>) () -> {
+            String errorDesc = WriteCommandAction.runWriteCommandAction(project, (Computable<String>) () -> {
                 try {
+                    // Directory is created recursively
                     VfsUtil.createDirectoryIfMissing(binDir);
-                } catch (IOException ignored) {
+                } catch (Exception e) {
+                    return e.toString();
                 }
                 return null;
             });
+            if (errorDesc != null) {
+                throw new Exception(errorDesc);
+            }
         }
     }
 
@@ -142,8 +148,12 @@ public class CliUtils {
         }
     }
 
-    private static String getBinDirectory() {
-        return join(getCrunchDirectory(), "bin");
+    public static String getBinDirectory() {
+        String downloadPath = SettingsService.getInstance().getValue(Settings.CliAst.CLI_DIRECTORY_OVERRIDE);
+        if (StringUtils.isEmpty(downloadPath)) {
+            return join(getCrunchDirectory(), "bin");
+        }
+        return downloadPath;
     }
 
     public static String getCliFilename() {
