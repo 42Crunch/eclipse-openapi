@@ -1,9 +1,8 @@
-package com.xliic.openapi.config.jcef.messages;
+package com.xliic.openapi.webapp.messages;
 
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.ide.BrowserUtil;
-import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public class OpenLink extends WebAppProduce {
 

@@ -7,9 +7,9 @@ import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;

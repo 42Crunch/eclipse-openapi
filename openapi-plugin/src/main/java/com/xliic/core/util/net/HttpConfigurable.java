@@ -1,12 +1,12 @@
 package com.xliic.core.util.net;
 
-import org.jetbrains.annotations.Nullable;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.ServiceReference;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.net.proxy.IProxyData;
 import org.eclipse.core.net.proxy.IProxyService;
 import org.eclipse.core.runtime.Platform;
+import org.jetbrains.annotations.Nullable;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.ServiceReference;
 
 public class HttpConfigurable {
 
