@@ -38,7 +38,7 @@ public class OpenAPIImages {
     public static final ImageDescriptor MatchCaseSelected;
     public static final ImageDescriptor MatchRegexSelected;
     public static final ImageDescriptor MatchWordSelected;
-    
+
     public static final ImageDescriptor Platform;
     public static final ImageDescriptor PlatformAll;
     public static final ImageDescriptor PlatformFavorite;
@@ -70,7 +70,9 @@ public class OpenAPIImages {
 
     public static final ImageDescriptor Config;
     public static final ImageDescriptor ConfigPanel;
-    
+    public static final ImageDescriptor SignUpPanel;
+    public static final ImageDescriptor WelcomePanel;
+
     public static final ImageDescriptor GeneralNode;
     public static final ImageDescriptor GeneralDarkNode;
     public static final ImageDescriptor PathsNode;
@@ -145,7 +147,7 @@ public class OpenAPIImages {
         MatchCaseSelected = createImageDescriptor("icons/search/matchCaseSelected.png");
         MatchRegexSelected = createImageDescriptor("icons/search/matchRegexSelected.png");
         MatchWordSelected = createImageDescriptor("icons/search/matchWordSelected.png");
-        
+
         Platform = createImageDescriptor("/icons/icon_42crunch_platform.png");
         PlatformAll = createImageDescriptor("/icons/platform-all.png");
         PlatformFavorite = createImageDescriptor("/icons/platform-favorite.png");
@@ -154,7 +156,7 @@ public class OpenAPIImages {
         PlatformAPI = createImageDescriptor("/icons/platform-api.png");
         PlatformSave = createImageDescriptor("/icons/platform-save.png");
         PlatformFileSymLink = createImageDescriptor("/icons/file-symlink-file.png");
-        
+
         PlatformOAS = createImageDescriptor("/icons/platform-oas.png");
         PlatformAuditVerified = createImageDescriptor("/icons/platform-audit-verified.png");
         PlatformAuditUnverified = createImageDescriptor("/icons/platform-audit-unverified.png");
@@ -174,7 +176,9 @@ public class OpenAPIImages {
         AuditAnno = createImageDescriptor("/icons/auditAnno.png");
         Config = createImageDescriptor("/icons/config.png");
         ConfigPanel = createImageDescriptor("/icons/configPanel.png");
-        
+        SignUpPanel = createImageDescriptor("/icons/signUpPanel.png");
+        WelcomePanel = createImageDescriptor("/icons/ppWeb.png");
+
         GeneralNode = createImageDescriptor("/icons/light/file-lines.png");
         GeneralDarkNode = createImageDescriptor("/icons/dark/file-lines.png");
         PathsNode = createImageDescriptor("/icons/light/swap-arrows.png");
@@ -211,7 +215,7 @@ public class OpenAPIImages {
         RequestBodiesDarkNode = createImageDescriptor("/icons/dark/request.png");
         DefaultOutlineNode = createImageDescriptor("icons/light/memo.png");
         DefaultOutlineDarkNode = createImageDescriptor("icons/dark/memo.png");
-        
+
         AuthUserStatusBar = createImageDescriptor("icons/42crunch-status-bar-icon.png");
         AuthUserStatusBarDark = createImageDescriptor("icons/42crunch-status-bar-icon_dark.png");
     }

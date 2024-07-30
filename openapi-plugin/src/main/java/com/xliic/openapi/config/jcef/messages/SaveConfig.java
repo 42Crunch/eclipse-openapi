@@ -1,6 +1,7 @@
 package com.xliic.openapi.config.jcef.messages;
 
 import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
+import static com.xliic.openapi.settings.Settings.CliAst.CLI_DIRECTORY_OVERRIDE;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
@@ -10,7 +11,6 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.SERVICES;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
-import static com.xliic.openapi.settings.Settings.CliAst.CLI_DIRECTORY_OVERRIDE;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -106,7 +106,7 @@ public class SaveConfig extends WebAppProduce {
         }
     }
 
-    private void addPlatformTurnOnOffKeys(Set<String> updatedKeys, Map<String, Object> prevData) {
+    public static void addPlatformTurnOnOffKeys(Set<String> updatedKeys, Map<String, Object> prevData) {
         if (updatedKeys.contains(Platform.Credentials.API_KEY)) {
             final String prevApiKey = (String) prevData.get(Platform.Credentials.API_KEY);
             boolean wasPltEnabled = prevApiKey != null && !prevApiKey.isEmpty();

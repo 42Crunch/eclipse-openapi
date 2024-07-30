@@ -11,6 +11,7 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.platform.callback.EnqueueCallback;
+import com.xliic.openapi.utils.Utils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,6 +39,11 @@ public class PlatformAPIs {
             return client.newCall(request).execute();
         }
 
+        public static Response testConnection(String platformUrl, String platformApiToken) throws IOException {
+            Request request = getTestConnectionRequestBuilder(platformUrl, platformApiToken).build();
+            return client.newCall(request).execute();
+        }
+        
         @NotNull
         public static Response readAuditCompliance(@NotNull String taskId) throws IOException {
             Request request = getRequestBuilder(
@@ -249,6 +255,20 @@ public class PlatformAPIs {
                     .addHeader("Accept", "application/json")
                     .addHeader("User-Agent", options.getUserAgent())
                     .addHeader("Referer", options.getReferer());
+        } catch (Exception e) {
+            throw new IOException(e.getMessage());
+        }
+    }
+    
+    private static Request.Builder getTestConnectionRequestBuilder(String platformUrl, String platformApiToken) throws IOException {
+        try {
+            return new Request.Builder()
+                    .url(String.format("%s/api/v2/collections?page=1&perPage=1", platformUrl))
+                    .addHeader("X-API-KEY", platformApiToken)
+                    .addHeader("X-42C-IDE", Boolean.TRUE.toString())
+                    .addHeader("Accept", "application/json")
+                    .addHeader("User-Agent", Utils.getUserAgent())
+                    .addHeader("Referer", "");
         } catch (Exception e) {
             throw new IOException(e.getMessage());
         }

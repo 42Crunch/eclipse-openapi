@@ -25,7 +25,7 @@ public final class ConfigService implements IConfigService {
         return project.getService(ConfigService.class);
     }
 
-    public void createOrActiveEnvWindow() {
+    public void createAndOpenConfigWindow() {
     	boolean loadFromPlatform = PlatformConnection.isPlatformIntegrationEnabled();
         WindowUtils.openWebTab(project, CONFIG_EDITOR_ID, CONFIG, () ->
         	project.getMessageBus().syncPublisher(ConfigListener.TOPIC).loadConfig(new Config(loadFromPlatform)));

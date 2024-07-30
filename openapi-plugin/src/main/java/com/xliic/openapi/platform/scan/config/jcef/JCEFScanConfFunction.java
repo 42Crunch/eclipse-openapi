@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import com.equo.chromium.swt.Browser;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.environment.jcef.messages.ShowEnvWindow;
-import com.xliic.openapi.platform.scan.config.jcef.messages.OpenLink;
 import com.xliic.openapi.platform.scan.config.jcef.messages.RunFullScan;
 import com.xliic.openapi.platform.scan.config.jcef.messages.RunScan;
 import com.xliic.openapi.platform.scan.config.jcef.messages.SaveScanConf;
@@ -15,6 +14,7 @@ import com.xliic.openapi.platform.scan.config.jcef.messages.UpdateScanConf;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
 import com.xliic.openapi.tryit.jcef.messages.SendHttpRequest;
 import com.xliic.openapi.webapp.WebAppFunction;
+import com.xliic.openapi.webapp.messages.OpenLink;
 
 public class JCEFScanConfFunction extends WebAppFunction {
 

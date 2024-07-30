@@ -8,12 +8,12 @@ import com.equo.chromium.swt.Browser;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.config.jcef.messages.CliDownload;
 import com.xliic.openapi.config.jcef.messages.CliTest;
-import com.xliic.openapi.config.jcef.messages.OpenLink;
 import com.xliic.openapi.config.jcef.messages.SaveConfig;
 import com.xliic.openapi.config.jcef.messages.TestOverlordConnection;
 import com.xliic.openapi.config.jcef.messages.TestPlatformConnection;
 import com.xliic.openapi.config.jcef.messages.TestScandManagerConnection;
 import com.xliic.openapi.webapp.WebAppFunction;
+import com.xliic.openapi.webapp.messages.OpenLink;
 
 public class JCEFConfigFunction extends WebAppFunction {
 

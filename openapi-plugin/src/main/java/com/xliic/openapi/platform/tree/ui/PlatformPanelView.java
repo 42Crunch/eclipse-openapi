@@ -71,7 +71,7 @@ public class PlatformPanelView extends PanelViewPart {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if (HREF_ID.equals(e.text)) {
-                	ConfigService.getInstance(project).createOrActiveEnvWindow();
+                	ConfigService.getInstance(project).createAndOpenConfigWindow();
                 }
             }
         });
