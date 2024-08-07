@@ -64,7 +64,7 @@ const Te = (e) => /* @__PURE__ */ m.jsx("svg", { xmlns: "http://www.w3.org/2000/
       e.ready ? e.data.cli = o.payload.cli : (e.ready = !0, e.data = o.payload);
     },
     saveConfig: (e, o) => {
-      e.data = { ...e.data, ...o.payload }, e.data.platformServices.auto = te(e.data.platformUrl), e.platformConnectionTestResult = void 0, e.overlordConnectionTestResult = void 0, e.scandManagerConnectionTestResult = void 0;
+      e.data = { ...e.data, ...o.payload }, e.data.platformServices.auto = te(e.data.platformUrl), e.platformConnectionTestResult = void 0, e.overlordConnectionTestResult = void 0, e.scandManagerConnectionTestResult = void 0, e.cliDownloadError = void 0, e.cliTestResult = void 0;
     },
     setError: (e, o) => {
       const { screen: n, error: r } = o.payload;

@@ -1,12 +1,12 @@
 import { j as e, q as c, e as m, T as d, d as je, s as be, a as ye, n as Ce, l as we, t as ke, f as Re, R as Te, P as Se, h as Pe, m as $e } from "./TriangleExclamation.uZuTZ4qX.js";
-import { u as Y, a as H, c as k, b as Ie } from "./index.esm.sdnuanpO.js";
-import { S as Fe } from "./SearchSidebar.C7UhT7og.js";
-import { b as Z, u as Ae, R as Ee, I as De, d as P, e as F, t as Me, f as Ne, S as Be, g as Oe, h as Ge, i as _e, j as Q, s as ee, k as He, l as Le, m as Ve, n as ze, o as Ue, p as qe, q as We, c as Ke } from "./index.DPw-_6Pf.js";
-import { o as C, e as ne, s as j, l as oe, T as te, I as v, u as L, i as Je, c as Xe, a as Ye, b as Ze, F as Qe } from "./Textarea.ROM2AOCk.js";
+import { u as Z, a as H, c as k, b as Ie } from "./index.esm.sdnuanpO.js";
+import { S as Fe } from "./SearchSidebar.Cy0Xwvpi.js";
+import { b as Q, u as Ae, R as Ee, I as De, d as P, e as F, t as Me, f as Ne, S as Be, g as Oe, h as Ge, i as _e, j as ee, s as ne, k as He, l as Le, m as Ve, n as ze, o as Ue, p as qe, q as We, c as Ke } from "./index.DMZ8sDp6.js";
+import { o as C, e as L, s as j, l as oe, T as te, I as v, u as V, i as Je, c as Xe, a as Ye, b as Ze, F as Qe } from "./Textarea.ROM2AOCk.js";
 import { N as en } from "./ProgressButton.Rx2kj6GQ.js";
-import { B as R, E as V } from "./Banner.BuGf3OMn.js";
-import { c as ae, u as re, P as z, a as G, b as nn, d as on, e as tn } from "./index.DWATSeOz.js";
-import { u as an, R as rn, I as sn, o as cn, a as ln, b as dn, c as un, d as pn, e as mn, f as fn } from "./index.B0KRSuf3.js";
+import { B as R, E as z } from "./Banner.BuGf3OMn.js";
+import { c as ae, u as re, P as U, a as G, b as nn, d as on, e as tn } from "./index.DWATSeOz.js";
+import { u as an, R as rn, I as sn, o as cn, a as ln, b as dn, c as un, d as pn, e as mn, f as fn } from "./index.Cngzn00g.js";
 import { S as _ } from "./Select.Dnuly0Mg.js";
 const hn = (n) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...n, children: /* @__PURE__ */ e.jsx("path", { d: "M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512z" }) }), xn = (n) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 576 512", width: "1em", height: "1em", ...n, children: /* @__PURE__ */ e.jsx("path", { d: "M288 288a64 64 0 0 0 0-128c-1 0-1.88.24-2.85.29a47.5 47.5 0 0 1-60.86 60.86c0 1-.29 1.88-.29 2.85a64 64 0 0 0 64 64zm284.52-46.6C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 96a128 128 0 1 1-128 128A128.14 128.14 0 0 1 288 96zm0 320c-107.36 0-205.46-61.31-256-160a294.78 294.78 0 0 1 129.78-129.33C140.91 153.69 128 187.17 128 224a160 160 0 0 0 320 0c0-36.83-12.91-70.31-33.78-97.33A294.78 294.78 0 0 1 544 256c-50.53 98.69-148.64 160-256 160z" }) });
 function T({
@@ -16,11 +16,11 @@ function T({
 }) {
   const {
     formState: { isValid: r }
-  } = Y();
+  } = Z();
   return /* @__PURE__ */ e.jsx(en, { disabled: !r, label: n, waiting: o, onClick: t });
 }
-function U({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(R, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(V, { message: "Failed to connect", children: n.message }) : null;
+function q({ result: n }) {
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(R, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(z, { message: "Failed to connect", children: n.message }) : null;
 }
 const $ = c.div`
   display: flex;
@@ -45,7 +45,7 @@ const $ = c.div`
   font-weight: 700;
   margin-bottom: 16px;
 `;
-var q = "Radio", [gn, se] = ae(q), [vn, jn] = gn(q), ie = m.forwardRef(
+var W = "Radio", [gn, se] = ae(W), [vn, jn] = gn(W), ie = m.forwardRef(
   (n, o) => {
     const {
       __scopeRadio: t,
@@ -59,7 +59,7 @@ var q = "Radio", [gn, se] = ae(q), [vn, jn] = gn(q), ie = m.forwardRef(
     } = n, [x, g] = m.useState(null), p = re(o, (y) => g(y)), i = m.useRef(!1), b = x ? !!x.closest("form") : !0;
     return /* @__PURE__ */ e.jsxs(vn, { scope: t, checked: a, disabled: f, children: [
       /* @__PURE__ */ e.jsx(
-        z.button,
+        U.button,
         {
           type: "button",
           role: "radio",
@@ -91,12 +91,12 @@ var q = "Radio", [gn, se] = ae(q), [vn, jn] = gn(q), ie = m.forwardRef(
     ] });
   }
 );
-ie.displayName = q;
+ie.displayName = W;
 var ce = "RadioIndicator", le = m.forwardRef(
   (n, o) => {
     const { __scopeRadio: t, forceMount: r, ...a } = n, s = jn(ce, t);
     return /* @__PURE__ */ e.jsx(nn, { present: r || s.checked, children: /* @__PURE__ */ e.jsx(
-      z.span,
+      U.span,
       {
         "data-state": de(s.checked),
         "data-disabled": s.disabled ? "" : void 0,
@@ -138,10 +138,10 @@ var bn = (n) => {
 function de(n) {
   return n ? "checked" : "unchecked";
 }
-var yn = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"], W = "RadioGroup", [Cn, Ao] = ae(W, [
-  Z,
+var yn = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"], K = "RadioGroup", [Cn, Ao] = ae(K, [
+  Q,
   se
-]), ue = Z(), pe = se(), [wn, kn] = Cn(W), me = m.forwardRef(
+]), ue = Q(), pe = se(), [wn, kn] = Cn(K), me = m.forwardRef(
   (n, o) => {
     const {
       __scopeRadioGroup: t,
@@ -178,7 +178,7 @@ var yn = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"], W = "RadioGroup", 
             dir: b,
             loop: x,
             children: /* @__PURE__ */ e.jsx(
-              z.div,
+              U.div,
               {
                 role: "radiogroup",
                 "aria-required": f,
@@ -195,7 +195,7 @@ var yn = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"], W = "RadioGroup", 
     );
   }
 );
-me.displayName = W;
+me.displayName = K;
 var fe = "RadioGroupItem", he = m.forwardRef(
   (n, o) => {
     const { __scopeRadioGroup: t, disabled: r, ...a } = n, s = kn(fe, t), f = s.disabled || r, h = ue(t), l = pe(t), u = m.useRef(null), x = re(o, u), g = s.value === a.value, p = m.useRef(!1);
@@ -317,14 +317,14 @@ function Dn() {
               }
             }
           ),
-          /* @__PURE__ */ e.jsx(U, { result: o })
+          /* @__PURE__ */ e.jsx(q, { result: o })
         ] })
       ] })
     ] })
   ] });
 }
 const Mn = C({
-  platformAuthType: ne(["anond-token", "api-token"]),
+  platformAuthType: L(["anond-token", "api-token"]),
   platformUrl: j().url().startsWith("https://"),
   anondToken: j(),
   platformApiToken: j().regex(
@@ -369,23 +369,23 @@ function Nn() {
             }
           }
         ),
-        /* @__PURE__ */ e.jsx(U, { result: o })
+        /* @__PURE__ */ e.jsx(q, { result: o })
       ] })
     ] })
   ] });
 }
 const Bn = C({
   platformServices: C({
-    source: ne(["auto", "manual"]),
+    source: L(["auto", "manual"]),
     manual: j(),
-    auto: L()
+    auto: V()
   })
 }), E = {
   id: "platform-services",
   label: "Services",
   schema: Bn,
   form: Nn
-}, K = "^[\\w _.\\/:-]{1,2048}$", On = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
+}, J = "^[\\w _.\\/:-]{1,2048}$", On = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
 function Gn() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
     /* @__PURE__ */ e.jsx(I, { children: "Temporary Collection Name" }),
@@ -406,8 +406,8 @@ function _n(n) {
     schema: C({
       platformTemporaryCollectionName: Je(
         j().regex(
-          new RegExp(K),
-          `Collection name is invalid, must match default pattern: ${K}`
+          new RegExp(J),
+          `Collection name is invalid, must match default pattern: ${J}`
         ),
         j().regex(
           new RegExp(t.pattern),
@@ -444,7 +444,7 @@ function Vn() {
     form: Hn
   };
 }
-function J({ name: n, label: o }) {
+function X({ name: n, label: o }) {
   const t = m.useId(), { field: r } = H({
     name: n
   });
@@ -483,7 +483,7 @@ const zn = c.div`
   fill: var(${d.checkboxForeground});
 `;
 function Wn({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(R, { message: n.version }) : /* @__PURE__ */ e.jsx(V, { message: "Failed", children: n.message }) : null;
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(R, { message: n.version }) : /* @__PURE__ */ e.jsx(z, { message: "Failed", children: n.message }) : null;
 }
 function Kn({ progress: n }) {
   const o = Math.ceil(n * 100);
@@ -554,17 +554,16 @@ function Zn() {
           ]
         }
       ),
-      u === "anond-token" && /* @__PURE__ */ e.jsx(R, { message: "Scan runtime is set to use 42Crunch API Security Testing Binary" }),
       p === "docker" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(v, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
         /* @__PURE__ */ e.jsx(
-          J,
+          X,
           {
             name: "docker.replaceLocalhost",
             label: 'Replace "localhost" hostname with "host.docker.internal" (Windows and Mac only)'
           }
         ),
-        /* @__PURE__ */ e.jsx(J, { name: "docker.useHostNetwork", label: 'Use "host" network (Linux only)' })
+        /* @__PURE__ */ e.jsx(X, { name: "docker.useHostNetwork", label: 'Use "host" network (Linux only)' })
       ] }),
       p === "scand-manager" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(v, { label: "Scand manager URL", name: "scandManager.url" }),
@@ -602,7 +601,7 @@ function Zn() {
               }
             }
           ),
-          /* @__PURE__ */ e.jsx(U, { result: o })
+          /* @__PURE__ */ e.jsx(q, { result: o })
         ] })
       ] }),
       p === "cli" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
@@ -615,6 +614,7 @@ function Zn() {
           }
         )
       ] }),
+      u === "anond-token" && /* @__PURE__ */ e.jsx(R, { message: "Scan runtime is set to use 42Crunch API Security Testing Binary" }),
       p === "cli" && (!l.found || (a == null ? void 0 : a.success) === !1 || s) && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsxs(S, { children: [
           /* @__PURE__ */ e.jsx(
@@ -636,7 +636,7 @@ function Zn() {
           }
         )
       ] }),
-      p === "cli" && h !== void 0 && /* @__PURE__ */ e.jsx(V, { message: h }),
+      p === "cli" && h !== void 0 && /* @__PURE__ */ e.jsx(z, { message: h }),
       p === "cli" && l.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(R, { message: `Using 42Crunch API Security Testing Binary in ${l.location}` }),
         /* @__PURE__ */ e.jsxs(S, { children: [
@@ -657,10 +657,11 @@ function Zn() {
   ] });
 }
 const Qn = C({
+  scanRuntime: L(["docker", "scand-manager", "cli"]),
   scandManager: C({
     timeout: Xe.number().int().min(1).max(60 * 60 * 24)
     // 1 day
-  }).catchall(L()),
+  }).catchall(V()),
   repository: j().url(),
   cliDirectoryOverride: Ye([
     oe(""),
@@ -793,14 +794,14 @@ const to = c.div``, ao = c.div`
     fill: var(${d.foreground});
   }
 `, mo = C({
-  approvedHosts: Ze(L())
+  approvedHosts: Ze(V())
 }), O = {
   id: "openapi-external-refs",
   label: "External References",
   schema: mo,
   form: oo
 };
-function X(n) {
+function Y(n) {
   const o = JSON.parse(JSON.stringify(n));
   return o.platformApiToken === void 0 && (o.platformApiToken = ""), o;
 }
@@ -833,10 +834,10 @@ function ho() {
     [O.id]: O
   };
   return m.useEffect(() => {
-    const l = X(r);
+    const l = Y(r);
     for (const u of Object.keys(h)) {
       const { success: x } = h[u].schema.safeParse(l);
-      n(x ? Q(u) : ee({
+      n(x ? ee(u) : ne({
         screen: u,
         error: "Validation errors, configuration is not being saved"
       }));
@@ -853,7 +854,7 @@ function ho() {
           Qe,
           {
             data: r,
-            wrapFormData: X,
+            wrapFormData: Y,
             unwrapFormData: fo,
             saveData: (p) => n(He(p)),
             schema: g,
@@ -871,11 +872,11 @@ function xo({ id: n }) {
   const o = P(), {
     trigger: t,
     formState: { isValid: r }
-  } = Y();
+  } = Z();
   return m.useEffect(() => {
     t();
   }, [n]), m.useEffect(() => {
-    o(r ? Q(n) : ee({ screen: n, error: "Validation errors, configuration is not being saved" }));
+    o(r ? ee(n) : ne({ screen: n, error: "Validation errors, configuration is not being saved" }));
   }, [n, r]), null;
 }
 const ge = je(), w = ge.startListening;

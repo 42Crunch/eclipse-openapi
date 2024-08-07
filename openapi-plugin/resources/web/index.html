@@ -3,7 +3,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style type="text/css">
-            body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; zoom: 0.85;}
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+                zoom: 0.85;
+            }
+            #root {
+                --scrollbar-track-background: #fff;
+                --scrollbar-thumb-background: #fff;
+            }
+            ::-webkit-scrollbar {
+                width: 10px;
+                background: var(--scrollbar-track-background);
+            }
+            ::-webkit-scrollbar-thumb {
+                background: var(--scrollbar-thumb-background);
+            }
         </style>
     </head>
     <body>
@@ -12,6 +26,16 @@
         <script>
             window.fireDOMContentLoaded = function() {
                 window.runIDECommand = function(event) {
+                    if (event.detail.command === "changeTheme") {
+                        const theme = event.detail.payload.theme;
+                        const root = document.getElementById("root");
+                        if (root) {
+                            root.style.setProperty('--scrollbar-track-background', theme["scrollbarTrack"]);
+                            root.style.setProperty('--scrollbar-thumb-background', theme["scrollbarThumb"]);
+                        }
+                        delete theme["scrollbarTrack"];
+                        delete theme["scrollbarThumb"];
+                    }
                     window.postMessage(event.detail);
                 };
                 const host = { postMessage: (message) => window.__EclipseJTools.postMessage(JSON.stringify(message)) };

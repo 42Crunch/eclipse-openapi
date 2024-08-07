@@ -1374,7 +1374,7 @@ function K() {
       mi,
       {
         onShowIssues: () => {
-          i(m("issues")), i(u({ domain: "oasconformance" }));
+          i(m("issues")), i(u({ domain: "oasconformance", severity: "critical" }));
         }
       }
     ),
