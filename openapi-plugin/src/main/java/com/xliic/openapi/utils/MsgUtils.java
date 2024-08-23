@@ -19,7 +19,7 @@ public class MsgUtils {
     private static final String UPGRADE_URL = "https://42crunch.com/ide-upgrade/";
     
     public static void notifyLimit(@NotNull Project project, long left, @NotNull String type) {
-          String msg = "You have " + left + " " + type + " left. Consider upgrading your 42Crunch subscription.";
+          String msg = "You have " + left + " " + type + " left this month. Your usage allowance resets every month. Upgrade to increase allowances.";
           NotificationGroupManager.getInstance().getNotificationGroup(LIMIT_NOTIFICATIONS).
           createNotification(msg, NotificationType.INFORMATION).addAction(
                   createSimpleExpiring(UPGRADE_TEXT, () -> BrowserUtil.browse(UPGRADE_URL))).notify(project);

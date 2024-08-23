@@ -134,11 +134,11 @@ public class ScanCliTask extends Task.Backgroundable {
                 String output = ExecUtils.asyncExecFile(cli, args.toArray(new String[0]), scanTmpDir, env);
                 Node out = Utils.getJsonAST(output);
                 if (out != null) {
-                    String value = out.getChildValue("remainingPerOperationScan");
+                	String value = out.getChildValue(isFullScan ? "remainingFullScan" : "remainingPerOperationScan");
                     if (value != null) {
-                        long remainingPerOperationScan = Long.parseLong(value);
-                        if (remainingPerOperationScan < UPGRADE_WARN_LIMIT) {
-                            notifyLimit(project, remainingPerOperationScan, "per-operation Conformance Scans");
+                        long remainingValue = Long.parseLong(value);
+                        if (remainingValue < UPGRADE_WARN_LIMIT) {
+                            notifyLimit(project, remainingValue, isFullScan ? "API Scans" : "per-operation API Scans");
                         }
                     }
                     Node scanLogs = out.getChild("scanLogs");

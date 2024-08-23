@@ -36,9 +36,9 @@ import com.xliic.openapi.utils.Utils;
 public class ScanConfigUtils {
 
     private static final int MAX_ALIAS_LENGTH = 32;
-    private static final String CONFIRM_MSG = "Thank you for using the 42Crunch API Security Testing services. " +
-            "You have reached the limit of your monthly Freemium service. You can now upgrade your 42Crunch subscription or continue as you are, " +
-            "but wait until the end of the time period for the service to restart.";
+    private static final String CONFIRM_MSG = "Thank you for using the 42Crunch API Security Testing services. "
+    		+ "You have reached the limit of your monthly Freemium allowance. "
+    		+ "You have the option to wait until your free monthly allowance resets or upgrade your 42Crunch subscription.";
 
     @NotNull
     public static String getScanTitle(@NotNull BundleResult bundle) {
