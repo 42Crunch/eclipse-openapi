@@ -28,6 +28,6 @@ public class ConfigAction extends AnAction implements DumbAware {
         if (project == null) {
             return;
         }
-        ConfigService.getInstance(project).createOrActiveEnvWindow();
+        ConfigService.getInstance(project).createAndOpenConfigWindow();
     }
 }

@@ -11,8 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
 import com.xliic.openapi.settings.wizard.WizardCallback;
-import com.xliic.openapi.settings.wizard.anon.AnonEmailWizardDialog;
-import com.xliic.openapi.settings.wizard.platform.PlatformURLWizardDialog;
+import com.xliic.openapi.signup.SignUpService;
 
 public class Credentials {
 
@@ -39,14 +38,7 @@ public class Credentials {
     }
 
     public static void configureCredentials(@NotNull Project project, @NotNull WizardCallback callback) {
-        CredentialsDialog dialog = new CredentialsDialog(project);
-        dialog.show();
-        int userType = dialog.getExitCode();
-        if (userType == CredentialsDialog.EXISTING_USER_CODE) {
-            new PlatformURLWizardDialog(project, callback).showAndGet();
-        } else if (userType == CredentialsDialog.NEW_USER_CODE) {
-            new AnonEmailWizardDialog(project, callback).showAndGet();
-        }
+    	SignUpService.getInstance(project).createAndOpenSignUpWindow(callback);
     }
 
     @Nullable

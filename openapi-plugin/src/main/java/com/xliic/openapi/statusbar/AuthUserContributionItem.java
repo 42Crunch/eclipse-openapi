@@ -56,7 +56,7 @@ public class AuthUserContributionItem extends ContributionItem implements Settin
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseUp(MouseEvent e) {
-				ConfigService.getInstance(project).createOrActiveEnvWindow();
+				ConfigService.getInstance(project).createAndOpenConfigWindow();
 			}
 		});
 		setVisible(isVisible());

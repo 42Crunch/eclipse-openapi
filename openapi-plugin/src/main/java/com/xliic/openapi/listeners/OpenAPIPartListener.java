@@ -1,5 +1,7 @@
 package com.xliic.openapi.listeners;
 
+import static com.xliic.openapi.webapp.editor.WebFileEditor.SIGNUP_EDITOR_ID;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -19,6 +21,9 @@ import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.editor.OpenAPIEnterTypedHandler;
 import com.xliic.openapi.services.PlaceHolderService;
+import com.xliic.openapi.signup.SignUpService;
+import com.xliic.openapi.webapp.editor.WebFileEditorInput;
+import com.xliic.openapi.webapp.editor.WebFileEditorPart;
 
 public class OpenAPIPartListener implements IPartListener {
 
@@ -68,6 +73,12 @@ public class OpenAPIPartListener implements IPartListener {
 
     @Override
     public final void partClosed(final IWorkbenchPart part) {
+    	if (part instanceof WebFileEditorPart) {
+			WebFileEditorInput input = (WebFileEditorInput) ((WebFileEditorPart) part).getEditorInput();
+	        if (SIGNUP_EDITOR_ID.equals(input.getVirtualFile().getResourceId())) {
+	            SignUpService.getInstance(project).dispose();
+    		}
+    	}
         IEditorInput input = getFileEditorInput(part);
         if (input != null) {
             VirtualFile file = EclipseUtil.getVirtualFile(input);

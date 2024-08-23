@@ -290,6 +290,9 @@
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
             <service serviceClass="com.xliic.core.services.IWhatsNewService"></service>
         </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.ISignUpService"></service>
+        </serviceFactory>
     </extension>
 
     <extension

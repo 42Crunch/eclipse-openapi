@@ -1,6 +1,6 @@
-import { j as m, c as $, u as J, b as Q, R as T, e as i } from "./TriangleExclamation.uZuTZ4qX.js";
-import { c as k, u as A, S as N, e as X, f as Z, P as j, a as E, h as ee } from "./index.DWATSeOz.js";
-const Te = (e) => /* @__PURE__ */ m.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ m.jsx("path", { d: "M435.848 83.466 172.804 346.51l-96.652-96.652c-4.686-4.686-12.284-4.686-16.971 0l-28.284 28.284c-4.686 4.686-4.686 12.284 0 16.971l133.421 133.421c4.686 4.686 12.284 4.686 16.971 0l299.813-299.813c4.686-4.686 4.686-12.284 0-16.971l-28.284-28.284c-4.686-4.686-12.284-4.686-16.97 0z" }) }), oe = {
+import { c as $, u as J, b as Q, R as T, j as m, e as i } from "./TriangleExclamation.uZuTZ4qX.js";
+import { c as k, u as A, S as N, e as X, f as Z, P as L, a as E, h as ee } from "./index.DWATSeOz.js";
+const oe = {
   ready: !1,
   data: {
     insecureSslHostnames: [],
@@ -56,7 +56,7 @@ const Te = (e) => /* @__PURE__ */ m.jsx("svg", { xmlns: "http://www.w3.org/2000/
     "openapi-external-refs": void 0
   },
   hasErrors: !1
-}, L = $({
+}, j = $({
   name: "config",
   initialState: oe,
   reducers: {
@@ -126,25 +126,25 @@ function te(e) {
   }
 }
 const {
-  loadConfig: Re,
-  saveConfig: Se,
+  loadConfig: Te,
+  saveConfig: Re,
   showConfigWindow: Ie,
-  setError: he,
+  setError: Se,
   clearError: Fe,
-  testPlatformConnection: ye,
-  showPlatformConnectionTest: Ee,
-  testOverlordConnection: be,
-  showOverlordConnectionTest: xe,
-  testScandManagerConnection: Me,
-  showScandManagerConnectionTest: De,
-  addInsecureSslHostname: Ae,
-  removeInsecureSslHostname: Pe,
-  testCli: Oe,
-  showCliTest: _e,
-  downloadCli: Ne,
-  showCliDownload: ke,
-  openLink: je
-} = L.actions, Le = J, Ge = Q, He = L.reducer;
+  testPlatformConnection: he,
+  showPlatformConnectionTest: ye,
+  testOverlordConnection: Ee,
+  showOverlordConnectionTest: be,
+  testScandManagerConnection: xe,
+  showScandManagerConnectionTest: Me,
+  addInsecureSslHostname: De,
+  removeInsecureSslHostname: Ae,
+  testCli: Pe,
+  showCliTest: Oe,
+  downloadCli: _e,
+  showCliDownload: Ne,
+  openLink: ke
+} = j.actions, Le = J, je = Q, Ge = j.reducer;
 function ne(e) {
   const o = e + "CollectionProvider", [n, r] = k(o), [v, C] = n(
     o,
@@ -154,33 +154,33 @@ function ne(e) {
     return /* @__PURE__ */ m.jsx(v, { scope: t, itemMap: s, collectionRef: f, children: c });
   };
   R.displayName = o;
-  const S = e + "CollectionSlot", p = T.forwardRef(
+  const I = e + "CollectionSlot", p = T.forwardRef(
     (d, t) => {
-      const { scope: c, children: f } = d, s = C(S, c), a = A(t, s.collectionRef);
+      const { scope: c, children: f } = d, s = C(I, c), a = A(t, s.collectionRef);
       return /* @__PURE__ */ m.jsx(N, { ref: a, children: f });
     }
   );
-  p.displayName = S;
-  const l = e + "CollectionItemSlot", I = "data-radix-collection-item", h = T.forwardRef(
+  p.displayName = I;
+  const l = e + "CollectionItemSlot", S = "data-radix-collection-item", F = T.forwardRef(
     (d, t) => {
-      const { scope: c, children: f, ...s } = d, a = T.useRef(null), F = A(t, a), y = C(l, c);
-      return T.useEffect(() => (y.itemMap.set(a, { ref: a, ...s }), () => void y.itemMap.delete(a))), /* @__PURE__ */ m.jsx(N, { [I]: "", ref: F, children: f });
+      const { scope: c, children: f, ...s } = d, a = T.useRef(null), h = A(t, a), y = C(l, c);
+      return T.useEffect(() => (y.itemMap.set(a, { ref: a, ...s }), () => void y.itemMap.delete(a))), /* @__PURE__ */ m.jsx(N, { [S]: "", ref: h, children: f });
     }
   );
-  h.displayName = l;
+  F.displayName = l;
   function g(d) {
     const t = C(e + "CollectionConsumer", d);
     return T.useCallback(() => {
       const f = t.collectionRef.current;
       if (!f) return [];
-      const s = Array.from(f.querySelectorAll(`[${I}]`));
+      const s = Array.from(f.querySelectorAll(`[${S}]`));
       return Array.from(t.itemMap.values()).sort(
         (y, b) => s.indexOf(y.ref.current) - s.indexOf(b.ref.current)
       );
     }, [t.collectionRef, t.itemMap]);
   }
   return [
-    { Provider: R, Slot: p, ItemSlot: h },
+    { Provider: R, Slot: p, ItemSlot: F },
     g,
     r
   ];
@@ -190,7 +190,7 @@ function se(e) {
   const o = i.useContext(re);
   return e || o || "ltr";
 }
-var D = "rovingFocusGroup.onEntryFocus", ae = { bubbles: !1, cancelable: !0 }, x = "RovingFocusGroup", [P, G, ce] = ne(x), [ie, Ue] = k(
+var D = "rovingFocusGroup.onEntryFocus", ae = { bubbles: !1, cancelable: !0 }, x = "RovingFocusGroup", [P, G, ce] = ne(x), [ie, He] = k(
   x,
   [ce]
 ), [le, ue] = ie(x), H = i.forwardRef(
@@ -204,21 +204,21 @@ var de = i.forwardRef((e, o) => {
     loop: v = !1,
     dir: C,
     currentTabStopId: R,
-    defaultCurrentTabStopId: S,
+    defaultCurrentTabStopId: I,
     onCurrentTabStopIdChange: p,
     onEntryFocus: l,
-    preventScrollOnEntryFocus: I = !1,
-    ...h
+    preventScrollOnEntryFocus: S = !1,
+    ...F
   } = e, g = i.useRef(null), d = A(o, g), t = se(C), [c = null, f] = X({
     prop: R,
-    defaultProp: S,
+    defaultProp: I,
     onChange: p
-  }), [s, a] = i.useState(!1), F = Z(l), y = G(n), b = i.useRef(!1), [V, O] = i.useState(0);
+  }), [s, a] = i.useState(!1), h = Z(l), y = G(n), b = i.useRef(!1), [V, O] = i.useState(0);
   return i.useEffect(() => {
     const u = g.current;
     if (u)
-      return u.addEventListener(D, F), () => u.removeEventListener(D, F);
-  }, [F]), /* @__PURE__ */ m.jsx(
+      return u.addEventListener(D, h), () => u.removeEventListener(D, h);
+  }, [h]), /* @__PURE__ */ m.jsx(
     le,
     {
       scope: n,
@@ -240,11 +240,11 @@ var de = i.forwardRef((e, o) => {
         []
       ),
       children: /* @__PURE__ */ m.jsx(
-        j.div,
+        L.div,
         {
           tabIndex: s || V === 0 ? -1 : 0,
           "data-orientation": r,
-          ...h,
+          ...F,
           ref: d,
           style: { outline: "none", ...e.style },
           onMouseDown: E(e.onMouseDown, () => {
@@ -258,7 +258,7 @@ var de = i.forwardRef((e, o) => {
                 const M = y().filter((w) => w.focusable), Y = M.find((w) => w.active), q = M.find((w) => w.id === c), z = [Y, q, ...M].filter(
                   Boolean
                 ).map((w) => w.ref.current);
-                B(z, I);
+                B(z, S);
               }
             }
             b.current = !1;
@@ -276,7 +276,7 @@ var de = i.forwardRef((e, o) => {
       active: v = !1,
       tabStopId: C,
       ...R
-    } = e, S = ee(), p = C || S, l = ue(U, n), I = l.currentTabStopId === p, h = G(n), { onFocusableItemAdd: g, onFocusableItemRemove: d } = l;
+    } = e, I = ee(), p = C || I, l = ue(U, n), S = l.currentTabStopId === p, F = G(n), { onFocusableItemAdd: g, onFocusableItemRemove: d } = l;
     return i.useEffect(() => {
       if (r)
         return g(), () => d();
@@ -288,9 +288,9 @@ var de = i.forwardRef((e, o) => {
         focusable: r,
         active: v,
         children: /* @__PURE__ */ m.jsx(
-          j.span,
+          L.span,
           {
-            tabIndex: I ? 0 : -1,
+            tabIndex: S ? 0 : -1,
             "data-orientation": l.orientation,
             ...R,
             ref: o,
@@ -308,7 +308,7 @@ var de = i.forwardRef((e, o) => {
               if (c !== void 0) {
                 if (t.metaKey || t.ctrlKey || t.altKey || t.shiftKey) return;
                 t.preventDefault();
-                let s = h().filter((a) => a.focusable).map((a) => a.ref.current);
+                let s = F().filter((a) => a.focusable).map((a) => a.ref.current);
                 if (c === "last") s.reverse();
                 else if (c === "prev" || c === "next") {
                   c === "prev" && s.reverse();
@@ -351,32 +351,31 @@ function B(e, o = !1) {
 function ve(e, o) {
   return e.map((n, r) => e[(o + r) % e.length]);
 }
-var Ke = H, Be = K;
+var Ue = H, Ke = K;
 export {
-  Be as I,
-  Ke as R,
-  Te as S,
-  Ae as a,
-  Ue as b,
-  He as c,
+  Ke as I,
+  Ue as R,
+  De as a,
+  He as b,
+  Ge as c,
   Le as d,
-  Ge as e,
-  be as f,
-  Me as g,
-  Ne as h,
-  Oe as i,
+  je as e,
+  Ee as f,
+  xe as g,
+  _e as h,
+  Pe as i,
   Fe as j,
-  Se as k,
-  Re as l,
-  Ee as m,
-  xe as n,
-  De as o,
-  _e as p,
-  ke as q,
-  Pe as r,
-  he as s,
-  ye as t,
+  Re as k,
+  Te as l,
+  ye as m,
+  be as n,
+  Me as o,
+  Oe as p,
+  Ne as q,
+  Ae as r,
+  Se as s,
+  he as t,
   se as u,
-  je as v,
+  ke as v,
   ne as w
 };

@@ -1,4 +1,4 @@
-import { _ as I } from "./index.esm.sdnuanpO.js";
+import { _ as I } from "./extends.hS2Bh-Yp.js";
 import { o as Zt, e as c, R as De } from "./TriangleExclamation.uZuTZ4qX.js";
 function oe(e, t) {
   if (e == null) return {};
