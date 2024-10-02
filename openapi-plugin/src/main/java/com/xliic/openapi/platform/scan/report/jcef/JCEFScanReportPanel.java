@@ -32,14 +32,15 @@ import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
-import com.xliic.openapi.tryit.jcef.messages.ShowHttpError;
-import com.xliic.openapi.tryit.jcef.messages.ShowHttpResponse;
-import com.xliic.openapi.tryit.payload.TryItError;
-import com.xliic.openapi.tryit.payload.TryItResponse;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
 import com.xliic.openapi.webapp.editor.WebVirtualFile;
+import com.xliic.openapi.webapp.http.HttpResponseListener;
+import com.xliic.openapi.webapp.http.ShowHttpError;
+import com.xliic.openapi.webapp.http.ShowHttpResponse;
+import com.xliic.openapi.webapp.http.payload.HttpError;
+import com.xliic.openapi.webapp.http.payload.HttpResponse;
 
-public class JCEFScanReportPanel extends WebFileEditor implements FileListener, ScanListener, EnvListener, SettingsListener, Disposable {
+public class JCEFScanReportPanel extends WebFileEditor implements FileListener, ScanListener, EnvListener, SettingsListener, HttpResponseListener, Disposable {
 
     public JCEFScanReportPanel(@NotNull Project project, @NotNull Composite parent, @NotNull WebVirtualFile file) {
         super(project, parent, file);
@@ -56,51 +57,36 @@ public class JCEFScanReportPanel extends WebFileEditor implements FileListener, 
         connection.subscribe(ScanListener.TOPIC, this);
         connection.subscribe(EnvListener.TOPIC, this);
         connection.subscribe(SettingsListener.TOPIC, this);
+        connection.subscribe(HttpResponseListener.TOPIC, this);
     }
 
     @Override
-    public void startScan(@NotNull String toId) {
-        if (!Objects.equals(toId, myId)) {
+    public void startScan(@NotNull String webAppId) {
+        if (!Objects.equals(webAppId, myId)) {
             return;
         }
         new StartScan().send(getCefBrowser());
     }
 
     @Override
-    public void showScanReport(@NotNull String toId, @NotNull ScanReport report) {
-        if (!Objects.equals(toId, myId)) {
+    public void showScanReport(@NotNull String webAppId, @NotNull ScanReport report) {
+        if (!Objects.equals(webAppId, myId)) {
             return;
         }
         new ShowScanReport(report).send(getCefBrowser());
     }
     
     @Override
-    public void showFullScanReport(@NotNull String toId, @NotNull ScanReport report) {
-        if (!Objects.equals(toId, myId)) {
+    public void showFullScanReport(@NotNull String webAppId, @NotNull ScanReport report) {
+        if (!Objects.equals(webAppId, myId)) {
             return;
         }
         new ShowFullScanReport(report).send(getCefBrowser());
     }
 
     @Override
-    public void showOperationResponse(@NotNull String toId, @NotNull TryItResponse payload) {
-        if (!Objects.equals(toId, myId)) {
-            return;
-        }
-        new ShowHttpResponse(payload).send(getCefBrowser());
-    }
-
-    @Override
-    public void showOperationError(@NotNull String toId, @NotNull TryItError error) {
-        if (!Objects.equals(toId, myId)) {
-            return;
-        }
-        new ShowHttpError(error).send(getCefBrowser());
-    }
-
-    @Override
-    public void showGeneralError(@NotNull String toId, @NotNull String message, @Nullable String code, @Nullable String details) {
-        if (!Objects.equals(toId, myId)) {
+    public void showGeneralError(@NotNull String webAppId, @NotNull String message, @Nullable String code, @Nullable String details) {
+        if (!Objects.equals(webAppId, myId)) {
             return;
         }
         new ShowGeneralError(message, code, details).send(getCefBrowser());
@@ -127,8 +113,8 @@ public class JCEFScanReportPanel extends WebFileEditor implements FileListener, 
     }
 
     @Override
-    public void sendLogMessage(@NotNull String toId, @NotNull String level, @NotNull String message) {
-        if (!Objects.equals(toId, myId)) {
+    public void sendLogMessage(@NotNull String webAppId, @NotNull String level, @NotNull String message) {
+        if (!Objects.equals(webAppId, myId)) {
             return;
         }
         new ShowLog(level, ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT), message).send(getCefBrowser());
@@ -141,5 +127,21 @@ public class JCEFScanReportPanel extends WebFileEditor implements FileListener, 
             }
         }
         return false;
+    }
+
+    @Override
+    public void showHttpResponse(@NotNull String webAppId, @NotNull HttpResponse payload) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new ShowHttpResponse(payload).send(getCefBrowser());
+    }
+
+    @Override
+    public void showHttpError(@NotNull String webAppId, @NotNull HttpError payload) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new ShowHttpError(payload).send(getCefBrowser());
     }
 }

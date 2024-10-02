@@ -8,9 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.preferences.Preferences;
 import com.xliic.openapi.tryit.TryItListener;
-import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItOperation;
-import com.xliic.openapi.tryit.payload.TryItResponse;
 
 public class TopicTryItListener<L> extends Topic<L> {
 
@@ -25,10 +23,6 @@ public class TopicTryItListener<L> extends Topic<L> {
         List<Object> args = (List<Object>) data;
         if (funcId == 0) {
             listener.tryOperation((TryItOperation) args.get(0), (Preferences) args.get(1), (Environment) args.get(2));
-        } else if (funcId == 1) {
-            listener.showOperationResponse((TryItResponse) args.get(0));
-        } else if (funcId == 2) {
-            listener.showOperationError((TryItError) args.get(0));
         }
     }
 
@@ -40,16 +34,6 @@ public class TopicTryItListener<L> extends Topic<L> {
             @Override
             public void tryOperation(@NotNull TryItOperation payload, @NotNull Preferences prefs, @NotNull Environment env) {
                 eventBroker.send(getTopic(), getArgs(0, List.of(payload, prefs, env)));
-            }
-
-            @Override
-            public void showOperationResponse(@NotNull TryItResponse payload) {
-                eventBroker.send(getTopic(), getArgs(1, List.of(payload)));
-            }
-
-            @Override
-            public void showOperationError(@NotNull TryItError payload) {
-                eventBroker.send(getTopic(), getArgs(2, List.of(payload)));
             }
         };
     }

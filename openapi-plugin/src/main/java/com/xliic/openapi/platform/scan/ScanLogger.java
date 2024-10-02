@@ -10,40 +10,40 @@ public class ScanLogger {
     @NotNull
     private final Project project;
     @NotNull
-    private final String toId;
+    private final String webAppId;
     
-    public ScanLogger(@NotNull Project project, @NotNull String toId) {
+    public ScanLogger(@NotNull Project project, @NotNull String webAppId) {
         this.project = project;
-        this.toId = toId;
+        this.webAppId = webAppId;
     }
 
     public void debug(@NotNull String message) {
         ApplicationManager.getApplication().invokeLater(() ->
-                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(toId, "debug", message));
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(webAppId, "debug", message));
     }
 
     public void info(@NotNull String message) {
         ApplicationManager.getApplication().invokeLater(() ->
-                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(toId, "info", message));
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(webAppId, "info", message));
     }
 
     public void warning(@NotNull String message) {
         ApplicationManager.getApplication().invokeLater(() ->
-                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(toId, "warning", message));
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(webAppId, "warning", message));
     }
 
     public void error(@NotNull String message) {
         ApplicationManager.getApplication().invokeLater(() ->
-                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(toId, "error", message));
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(webAppId, "error", message));
     }
 
     public void fatal(@NotNull String message) {
         ApplicationManager.getApplication().invokeLater(() ->
-                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(toId, "fatal", message));
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(webAppId, "fatal", message));
     }
     
     public void log(@NotNull String level, @NotNull String message) {
         ApplicationManager.getApplication().invokeLater(() ->
-                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(toId, level, message));
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).sendLogMessage(webAppId, level, message));
     }
 }

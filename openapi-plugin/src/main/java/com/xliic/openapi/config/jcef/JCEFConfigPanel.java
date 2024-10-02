@@ -1,5 +1,7 @@
 package com.xliic.openapi.config.jcef;
 
+import java.util.Objects;
+
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,8 +22,13 @@ import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.config.payload.Progress;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
 import com.xliic.openapi.webapp.editor.WebVirtualFile;
+import com.xliic.openapi.webapp.http.HttpResponseListener;
+import com.xliic.openapi.webapp.http.ShowHttpError;
+import com.xliic.openapi.webapp.http.ShowHttpResponse;
+import com.xliic.openapi.webapp.http.payload.HttpError;
+import com.xliic.openapi.webapp.http.payload.HttpResponse;
 
-public class JCEFConfigPanel extends WebFileEditor implements ConfigListener, Disposable {
+public class JCEFConfigPanel extends WebFileEditor implements ConfigListener, HttpResponseListener, Disposable {
 
     public JCEFConfigPanel(@NotNull Project project, @NotNull Composite parent, @NotNull WebVirtualFile file) {
         super(project, parent, file);
@@ -30,6 +37,7 @@ public class JCEFConfigPanel extends WebFileEditor implements ConfigListener, Di
     @Override
     protected void subscribe(@NotNull MessageBusConnection connection) {
         connection.subscribe(ConfigListener.TOPIC, this);
+        connection.subscribe(HttpResponseListener.TOPIC, this);
     }
 
     @Override
@@ -39,7 +47,7 @@ public class JCEFConfigPanel extends WebFileEditor implements ConfigListener, Di
 
     @Override
     protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
-        return new JCEFConfigFunction(project, cache, browser, name);
+        return new JCEFConfigFunction(project, myId, cache, browser, name);
     }
 
     @Override
@@ -75,5 +83,21 @@ public class JCEFConfigPanel extends WebFileEditor implements ConfigListener, Di
     @Override
     public void showCliTest(boolean success, @Nullable String value) {
         new ShowCliTest(success, value).send(getCefBrowser());
+    }
+    
+    @Override
+    public void showHttpResponse(@NotNull String webAppId, @NotNull HttpResponse payload) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new ShowHttpResponse(payload).send(getCefBrowser());
+    }
+
+    @Override
+    public void showHttpError(@NotNull String webAppId, @NotNull HttpError payload) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new ShowHttpError(payload).send(getCefBrowser());
     }
 }

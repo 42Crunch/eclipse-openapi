@@ -1,5 +1,6 @@
 package com.xliic.openapi.config.jcef.messages;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,7 +45,7 @@ public class CliTest extends WebAppProduce {
     
     @NotNull
     public static String getVersion(@NotNull String cliPath) throws ExecUtils.ExecException {
-        String stdout = ExecUtils.asyncExecFile(cliPath, new String[] { "--version" });
+        String stdout = ExecUtils.asyncExecFile(cliPath, List.of("--version"));
         String version = stdout.split("\n")[0]; // get the first line only
         Matcher matcher = PATTERN.matcher(version);
         return matcher.find() ? matcher.group(1) : CliService.DEFAULT_VERSION;

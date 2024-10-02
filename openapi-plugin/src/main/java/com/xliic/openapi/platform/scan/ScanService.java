@@ -166,8 +166,8 @@ public final class ScanService implements IScanService, Disposable {
         saveFailedFileAndReport(filePath, null);
     }
 
-    private void showGeneralError(String toId, String message, String code, String details) {
+    private void showGeneralError(String webAppId, String message, String code, String details) {
         ApplicationManager.getApplication().invokeAndWait(() ->
-                project.getMessageBus().syncPublisher(ScanListener.TOPIC).showGeneralError(toId, message, code, details));
+                project.getMessageBus().syncPublisher(ScanListener.TOPIC).showGeneralError(webAppId, message, code, details));
     }
 }

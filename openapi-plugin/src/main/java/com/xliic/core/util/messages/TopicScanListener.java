@@ -13,8 +13,6 @@ import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfWithOas;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.preferences.Preferences;
-import com.xliic.openapi.tryit.payload.TryItError;
-import com.xliic.openapi.tryit.payload.TryItResponse;
 
 public class TopicScanListener<L> extends Topic<L> {
 
@@ -32,18 +30,14 @@ public class TopicScanListener<L> extends Topic<L> {
         } else if (funcId == 1) {
             listener.showScanReport((String) args.get(0), (ScanReport) args.get(1));
         } else if (funcId == 2) {
-            listener.showOperationResponse((String) args.get(0), (TryItResponse) args.get(1));
-        } else if (funcId == 3) {
-            listener.showOperationError((String) args.get(0), (TryItError) args.get(1));
-        } else if (funcId == 4) {
             listener.showGeneralError((String) args.get(0), (String) args.get(1), (String) args.get(2), (String) args.get(3));
-        } else if (funcId == 5) {
+        } else if (funcId == 3) {
             listener.startScan((String) args.get(0));
-        } else if (funcId == 6) {
+        } else if (funcId == 4) {
             listener.sendLogMessage((String) args.get(0), (String) args.get(1), (String) args.get(2));
-        } else if (funcId == 7) {
+        } else if (funcId == 5) {
             listener.showFullScanReport((String) args.get(0), (ScanReport) args.get(1));
-        } else if (funcId == 8) {
+        } else if (funcId == 6) {
             listener.loadUpdatedScanConf((String) args.get(0), (ScanConfWithOas) args.get(1));
         }
     }
@@ -64,16 +58,6 @@ public class TopicScanListener<L> extends Topic<L> {
             }
 
             @Override
-            public void showOperationResponse(@NotNull String toId, @NotNull TryItResponse payload) {
-                eventBroker.send(getTopic(), getArgs(2, List.of(toId, payload)));
-            }
-
-            @Override
-            public void showOperationError(@NotNull String toId, @NotNull TryItError payload) {
-                eventBroker.send(getTopic(), getArgs(3, List.of(toId ,payload)));
-            }
-
-            @Override
             public void showGeneralError(@NotNull String toId, @NotNull String message, @Nullable String code, @Nullable String details) {
                 // List.of(...) does not accept null inputs
                 List<Object> args = new LinkedList<>();
@@ -81,27 +65,27 @@ public class TopicScanListener<L> extends Topic<L> {
                 args.add(message);
                 args.add(code);
                 args.add(details);
-                eventBroker.send(getTopic(), getArgs(4, args));
+                eventBroker.send(getTopic(), getArgs(2, args));
             }
 
             @Override
             public void startScan(@NotNull String toId) {
-                eventBroker.send(getTopic(), getArgs(5, List.of(toId)));
+                eventBroker.send(getTopic(), getArgs(3, List.of(toId)));
             }
 
             @Override
             public void sendLogMessage(@NotNull String toId, @NotNull String level, @NotNull String message) {
-                eventBroker.send(getTopic(), getArgs(6, List.of(toId, level, message)));
+                eventBroker.send(getTopic(), getArgs(4, List.of(toId, level, message)));
             }
 
             @Override
             public void showFullScanReport(@NotNull String toId, @NotNull ScanReport report) {
-                eventBroker.send(getTopic(), getArgs(7, List.of(toId, report)));
+                eventBroker.send(getTopic(), getArgs(5, List.of(toId, report)));
             }
             
             @Override
             public void loadUpdatedScanConf(@NotNull String toId, @NotNull ScanConfWithOas payload) {
-            	eventBroker.send(getTopic(), getArgs(8, List.of(toId, payload)));
+            	eventBroker.send(getTopic(), getArgs(6, List.of(toId, payload)));
             }
         };
     }

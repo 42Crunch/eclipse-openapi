@@ -29,14 +29,15 @@ import com.xliic.openapi.preferences.jcef.messages.LoadPreferences;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
-import com.xliic.openapi.tryit.jcef.messages.ShowHttpError;
-import com.xliic.openapi.tryit.jcef.messages.ShowHttpResponse;
-import com.xliic.openapi.tryit.payload.TryItError;
-import com.xliic.openapi.tryit.payload.TryItResponse;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
 import com.xliic.openapi.webapp.editor.WebVirtualFile;
+import com.xliic.openapi.webapp.http.HttpResponseListener;
+import com.xliic.openapi.webapp.http.ShowHttpError;
+import com.xliic.openapi.webapp.http.ShowHttpResponse;
+import com.xliic.openapi.webapp.http.payload.HttpError;
+import com.xliic.openapi.webapp.http.payload.HttpResponse;
 
-public class JCEFScanConfPanel extends WebFileEditor implements FileListener, ScanListener, EnvListener, SettingsListener, Disposable {
+public class JCEFScanConfPanel extends WebFileEditor implements FileListener, ScanListener, EnvListener, SettingsListener, HttpResponseListener, Disposable {
 
     public static final String SCAN_CONF_PATH = "com.xliic.openapi.platform.scan.jcef.JCEFScanConfPanel[ScanConfPath]";
     
@@ -50,6 +51,7 @@ public class JCEFScanConfPanel extends WebFileEditor implements FileListener, Sc
         connection.subscribe(ScanListener.TOPIC, this);
         connection.subscribe(EnvListener.TOPIC, this);
         connection.subscribe(SettingsListener.TOPIC, this);
+        connection.subscribe(HttpResponseListener.TOPIC, this);
     }
 
     @Override
@@ -84,22 +86,6 @@ public class JCEFScanConfPanel extends WebFileEditor implements FileListener, Sc
     }
 
     @Override
-    public void showOperationResponse(@NotNull String toId, @NotNull TryItResponse payload) {
-        if (!Objects.equals(toId, myId)) {
-            return;
-        }
-        new ShowHttpResponse(payload).send(getCefBrowser());
-    }
-
-    @Override
-    public void showOperationError(@NotNull String toId, @NotNull TryItError error) {
-        if (!Objects.equals(toId, myId)) {
-            return;
-        }
-        new ShowHttpError(error).send(getCefBrowser());
-    }
-
-    @Override
     public void updateEnv(@NotNull Environment env) {
         new LoadEnv(env).send(getCefBrowser());
     }
@@ -126,5 +112,21 @@ public class JCEFScanConfPanel extends WebFileEditor implements FileListener, Sc
             }
         }
         return false;
+    }
+
+    @Override
+    public void showHttpResponse(@NotNull String webAppId, @NotNull HttpResponse payload) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new ShowHttpResponse(payload).send(getCefBrowser());
+    }
+
+    @Override
+    public void showHttpError(@NotNull String webAppId, @NotNull HttpError payload) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new ShowHttpError(payload).send(getCefBrowser());
     }
 }

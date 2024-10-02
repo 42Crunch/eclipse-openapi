@@ -3,6 +3,7 @@ package com.xliic.openapi.tryit.jcef;
 import static com.xliic.openapi.settings.Settings.TryIt.INSECURE_SSL_HOSTNAMES;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.swt.widgets.Composite;
@@ -32,16 +33,17 @@ import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.TryItListener;
 import com.xliic.openapi.tryit.TryItUtils;
-import com.xliic.openapi.tryit.jcef.messages.ShowHttpError;
-import com.xliic.openapi.tryit.jcef.messages.ShowHttpResponse;
 import com.xliic.openapi.tryit.jcef.messages.TryOperation;
-import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItOperation;
-import com.xliic.openapi.tryit.payload.TryItResponse;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.WebApp;
+import com.xliic.openapi.webapp.http.HttpResponseListener;
+import com.xliic.openapi.webapp.http.ShowHttpError;
+import com.xliic.openapi.webapp.http.ShowHttpResponse;
+import com.xliic.openapi.webapp.http.payload.HttpError;
+import com.xliic.openapi.webapp.http.payload.HttpResponse;
 
-public class JCEFTryItPanel extends WebApp implements FileListener, TryItListener, EnvListener, SettingsListener, Disposable {
+public class JCEFTryItPanel extends WebApp implements FileListener, TryItListener, EnvListener, SettingsListener, HttpResponseListener, Disposable {
 
     public static final String TRY_IT_OPERATION = "com.xliic.openapi.tryit.jcef.JCEFTryItPanel[TryItOperation]";
 
@@ -63,6 +65,7 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
         connection.subscribe(TryItListener.TOPIC, this);
         connection.subscribe(EnvListener.TOPIC, this);
         connection.subscribe(SettingsListener.TOPIC, this);
+        connection.subscribe(HttpResponseListener.TOPIC, this);
     }
     
     @Override
@@ -75,16 +78,6 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
         cache.put(TRY_IT_OPERATION, payload);
         cache.put(SavePreferences.PSI_FILE_PATH, payload.getPsiFile().getVirtualFile().getPath());
         new TryOperation(payload).send(getCefBrowser());
-    }
-
-    @Override
-    public void showOperationResponse(@NotNull TryItResponse payload) {
-        new ShowHttpResponse(payload).send(getCefBrowser());
-    }
-
-    @Override
-    public void showOperationError(@NotNull TryItError payload) {
-        new ShowHttpError(payload).send(getCefBrowser());
     }
 
     @Override
@@ -134,5 +127,21 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
         if (keys.contains(INSECURE_SSL_HOSTNAMES)) {
             new LoadConfig(new Config()).send(getCefBrowser());
         }
+    }
+
+    @Override
+    public void showHttpResponse(@NotNull String webAppId, @NotNull HttpResponse payload) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new ShowHttpResponse(payload).send(getCefBrowser());
+    }
+
+    @Override
+    public void showHttpError(@NotNull String webAppId, @NotNull HttpError payload) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new ShowHttpError(payload).send(getCefBrowser());
     }
 }

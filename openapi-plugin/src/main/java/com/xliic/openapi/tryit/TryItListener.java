@@ -6,17 +6,11 @@ import com.xliic.core.util.messages.Topic;
 import com.xliic.core.util.messages.TopicTryItListener;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.preferences.Preferences;
-import com.xliic.openapi.tryit.payload.TryItError;
 import com.xliic.openapi.tryit.payload.TryItOperation;
-import com.xliic.openapi.tryit.payload.TryItResponse;
 
 public interface TryItListener {
 
     Topic<TryItListener> TOPIC = new TopicTryItListener<>(TryItListener.class, Topic.BroadcastDirection.NONE);
 
     default void tryOperation(@NotNull TryItOperation payload, @NotNull Preferences prefs, @NotNull Environment env) {}
-
-    default void showOperationResponse(@NotNull TryItResponse payload) {}
-
-    default void showOperationError(@NotNull TryItError payload) {}
 }

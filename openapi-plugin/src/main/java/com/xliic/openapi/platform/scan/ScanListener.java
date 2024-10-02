@@ -10,31 +10,25 @@ import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfWithOas;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.preferences.Preferences;
-import com.xliic.openapi.tryit.payload.TryItError;
-import com.xliic.openapi.tryit.payload.TryItResponse;
 
 public interface ScanListener {
 
     Topic<ScanListener> TOPIC = new TopicScanListener<>(ScanListener.class, Topic.BroadcastDirection.NONE);
     
-    default void showScanConfOperation(@NotNull String toId,
+    default void showScanConfOperation(@NotNull String webAppId,
     								   @NotNull ScanConfOperation payload,
     		                           @NotNull Environment env,
     		                           @NotNull Preferences prefs) {}
 
-    default void loadUpdatedScanConf(@NotNull String toId, @NotNull ScanConfWithOas payload) {}
+    default void loadUpdatedScanConf(@NotNull String webAppId, @NotNull ScanConfWithOas payload) {}
 
-	default void showScanReport(@NotNull String toId, @NotNull ScanReport report) {}
+	default void showScanReport(@NotNull String webAppId, @NotNull ScanReport report) {}
 	
-	default void showFullScanReport(@NotNull String toId, @NotNull ScanReport report) {}
+	default void showFullScanReport(@NotNull String webAppId, @NotNull ScanReport report) {}
 	
-	default void showOperationResponse(@NotNull String toId, @NotNull TryItResponse payload) {}
+	default void showGeneralError(@NotNull String webAppId, @NotNull String message, @Nullable String code, @Nullable String details) {}
 	
-	default void showOperationError(@NotNull String toId, @NotNull TryItError payload) {}
+	default void startScan(@NotNull String webAppId) {}
 	
-	default void showGeneralError(@NotNull String toId, @NotNull String message, @Nullable String code, @Nullable String details) {}
-	
-	default void startScan(@NotNull String toId) {}
-	
-	default void sendLogMessage(@NotNull String toId, @NotNull String level, @NotNull String message) {}
+	default void sendLogMessage(@NotNull String webAppId, @NotNull String level, @NotNull String message) {}
 }

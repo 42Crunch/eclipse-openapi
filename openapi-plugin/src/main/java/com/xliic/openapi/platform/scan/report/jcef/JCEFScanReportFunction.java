@@ -11,20 +11,20 @@ import com.xliic.openapi.platform.scan.report.jcef.messages.SendCurlRequest;
 import com.xliic.openapi.platform.scan.report.jcef.messages.ShowAuditReport;
 import com.xliic.openapi.platform.scan.report.jcef.messages.ShowJsonPointer;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
-import com.xliic.openapi.tryit.jcef.messages.SendHttpRequest;
 import com.xliic.openapi.webapp.WebAppFunction;
+import com.xliic.openapi.webapp.http.SendHttpRequest;
 
 public class JCEFScanReportFunction extends WebAppFunction {
 
     public JCEFScanReportFunction(@NotNull Project project,
-    							  @NotNull String id, 
+    							  @NotNull String webAppId, 
     							  @NotNull Map<String, Object> cache,
     							  @NotNull Browser browser, 
     							  @NotNull String name) {
         super(browser, name);
         add(new ShowEnvWindow(project));
         add(new SavePreferences(project, cache));
-        add(new SendHttpRequest(project, id, false));
+        add(new SendHttpRequest(project, webAppId));
         add(new SendCurlRequest());
         add(new ShowJsonPointer(project, cache));
         add(new ShowAuditReport(project, cache));

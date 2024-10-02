@@ -24,8 +24,7 @@ public final class TerminalService implements ITerminalService, Disposable {
 
     public void sendText(@NotNull String tabName, @NotNull List<String> cmdList) throws Exception {
     	String cmd = cmdList.remove(0);
-    	String cmdArray[] = new String[cmdList.size()];
-        ExecUtils.asyncExecFile(cmd, cmdList.toArray(cmdArray));
+        ExecUtils.asyncExecFile(cmd, cmdList);
     }
 
     @Override
