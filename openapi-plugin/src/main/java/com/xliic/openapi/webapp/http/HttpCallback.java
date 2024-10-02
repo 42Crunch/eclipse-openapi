@@ -1,17 +1,23 @@
 package com.xliic.openapi.webapp.http;
 
-import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.project.Project;
-import com.xliic.openapi.webapp.http.payload.HttpError;
-import com.xliic.openapi.webapp.http.payload.HttpResponse;
-import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.project.Project;
+import com.xliic.openapi.webapp.http.payload.HttpError;
+import com.xliic.openapi.webapp.http.payload.HttpResponse;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class HttpCallback implements Callback {
 

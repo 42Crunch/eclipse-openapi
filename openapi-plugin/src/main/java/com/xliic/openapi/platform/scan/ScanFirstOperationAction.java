@@ -1,8 +1,10 @@
 package com.xliic.openapi.platform.scan;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.psi.PsiFile;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.actions.ProjectAction;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -11,7 +13,6 @@ import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
 
 public class ScanFirstOperationAction extends ProjectAction {
 

@@ -13,8 +13,8 @@ import com.xliic.openapi.config.jcef.messages.TestOverlordConnection;
 import com.xliic.openapi.config.jcef.messages.TestPlatformConnection;
 import com.xliic.openapi.config.jcef.messages.TestScandManagerConnection;
 import com.xliic.openapi.webapp.WebAppFunction;
-import com.xliic.openapi.webapp.messages.OpenLink;
 import com.xliic.openapi.webapp.http.SendHttpRequest;
+import com.xliic.openapi.webapp.messages.OpenLink;
 
 public class JCEFConfigFunction extends WebAppFunction {
 

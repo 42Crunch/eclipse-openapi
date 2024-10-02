@@ -5,9 +5,9 @@ import java.util.List;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.openapi.webapp.http.HttpResponseListener;
 import com.xliic.openapi.webapp.http.payload.HttpError;
 import com.xliic.openapi.webapp.http.payload.HttpResponse;
-import com.xliic.openapi.webapp.http.HttpResponseListener;
 
 public class TopicHttpResponseListener<L> extends Topic<L> {
 

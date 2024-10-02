@@ -1,10 +1,11 @@
 package com.xliic.openapi.webapp.http;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.util.messages.Topic;
 import com.xliic.core.util.messages.TopicHttpResponseListener;
 import com.xliic.openapi.webapp.http.payload.HttpError;
 import com.xliic.openapi.webapp.http.payload.HttpResponse;
-import org.jetbrains.annotations.NotNull;
 
 public interface HttpResponseListener {
 

@@ -9,8 +9,8 @@ import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;

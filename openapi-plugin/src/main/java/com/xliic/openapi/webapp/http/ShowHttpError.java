@@ -1,9 +1,10 @@
 package com.xliic.openapi.webapp.http;
 
-import com.xliic.openapi.webapp.http.payload.HttpError;
-import com.xliic.openapi.webapp.messages.WebAppConsume;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.webapp.http.payload.HttpError;
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class ShowHttpError extends WebAppConsume {
 
