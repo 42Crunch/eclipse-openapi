@@ -18,9 +18,6 @@ public class AuditCliResult {
     private final int statusCode;
     private final boolean hasError;
 
-    private long remainingFullAudit = -1;
-    private long remainingPerOperationAudit = -1;
-
     public AuditCliResult(@Nullable String report, @NotNull String stdOut) {
         this.report = report;
         this.stdOut = stdOut;
@@ -75,25 +72,9 @@ public class AuditCliResult {
     }
 
     public long getRemainingPerOperationAudit() {
-        if (remainingPerOperationAudit != -1) {
-            return remainingPerOperationAudit;
-        }
-        remainingPerOperationAudit = getRemainingValue("remainingPerOperationAudit");
-        return remainingPerOperationAudit;
-    }
-
-    public long getRemainingFullAudit() {
-        if (remainingFullAudit != -1) {
-            return remainingFullAudit;
-        }
-        remainingFullAudit = getRemainingValue("remainingFullAudit");
-        return remainingFullAudit;
-    }
-    
-    private long getRemainingValue(String key) {
         Node out = Utils.getJsonAST(stdOut);
         if (out != null) {
-            String value = out.getChildValue(key);
+            String value = out.getChildValue("remainingPerOperationAudit");
             if (value != null) {
                 return Long.parseLong(value);
             }

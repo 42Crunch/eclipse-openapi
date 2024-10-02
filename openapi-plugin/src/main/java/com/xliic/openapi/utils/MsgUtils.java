@@ -5,24 +5,32 @@ import static com.xliic.core.notification.NotificationAction.createSimpleExpirin
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.ide.BrowserUtil;
 import com.xliic.core.notification.NotificationGroupManager;
 import com.xliic.core.notification.NotificationType;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.Messages;
+import com.xliic.openapi.config.ConfigService;
 
 public class MsgUtils {
 
     private static final String GROUP_ID = "OpenAPI Editor general notifications";
     private static final String LIMIT_NOTIFICATIONS = "OpenAPI Editor limit left";
     private static final String UPGRADE_TEXT = "Upgrade";
-    private static final String UPGRADE_URL = "https://42crunch.com/ide-upgrade/";
     
-    public static void notifyLimit(@NotNull Project project, long left, @NotNull String type) {
-          String msg = "You have " + left + " " + type + " left this month. Your usage allowance resets every month. Upgrade to increase allowances.";
-          NotificationGroupManager.getInstance().getNotificationGroup(LIMIT_NOTIFICATIONS).
-          createNotification(msg, NotificationType.INFORMATION).addAction(
-                  createSimpleExpiring(UPGRADE_TEXT, () -> BrowserUtil.browse(UPGRADE_URL))).notify(project);
+    public static void notifyAuditsLimit(@NotNull Project project, long left) {
+        String msg = "You have " + left + " per-operation Security Audits left this month. " +
+                "Your usage allowance resets every month. Upgrade to increase allowances.";
+        NotificationGroupManager.getInstance().getNotificationGroup(LIMIT_NOTIFICATIONS).
+                createNotification(msg, NotificationType.INFORMATION).addAction(
+                        createSimpleExpiring(UPGRADE_TEXT, () -> ConfigService.getInstance(project).createAndOpenConfigWindow())).notify(project);
+    }
+
+    public static void notifyScansLimit(@NotNull Project project, long left) {
+        String msg = "You have " + left + " per-operation API Scans left this month. " +
+                "Your usage allowance resets every month. Upgrade to increase allowances.";
+        NotificationGroupManager.getInstance().getNotificationGroup(LIMIT_NOTIFICATIONS).
+                createNotification(msg, NotificationType.INFORMATION).addAction(
+                        createSimpleExpiring(UPGRADE_TEXT, () -> ConfigService.getInstance(project).createAndOpenConfigWindow())).notify(project);
     }
 
     public static void notifyError(@NotNull Project project, @NotNull String msg) {

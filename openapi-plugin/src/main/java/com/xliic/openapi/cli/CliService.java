@@ -22,7 +22,7 @@ import com.xliic.openapi.utils.Utils;
 public class CliService implements ICliService, Disposable {
 
     public static final String DEFAULT_VERSION = "0.0.0";
-    private static final long CLI_UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 8; // 8 hours
+    private static final long CLI_UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 1; // 1 hour
     private static final String MANIFEST_ERROR = "Failed to download 42Crunch API Security Testing Binary, manifest not found";
     private static final String PLATFORM_ERROR = "Unknown platform "  + Utils.getOs() + ", arch " + Utils.getOsArch();
 

@@ -53,6 +53,10 @@ public final class ScanConfService implements IScanConfService, Disposable {
         return project.getService(ScanConfService.class);
     }
     
+    public boolean isInProgress() {
+        return inProgress;
+    }
+    
     public void updateScanconf(@NotNull VirtualFile file, @NotNull String scanConfPath) {
         BundleService bundleService = BundleService.getInstance(project);
         BundleResult bundle = bundleService.getBundle(file.getPath());
@@ -101,7 +105,7 @@ public final class ScanConfService implements IScanConfService, Disposable {
             Credentials.configureCredentials(project, new WizardCallback() {
                 @Override
                 public void complete() {
-                    scanConfActionPerformed(file, payload, Credentials.getCredentialsType());
+                	new Thread(() -> scanConfActionPerformed(file, payload, Credentials.getCredentialsType())).start();
                 }
             });
         }
@@ -183,11 +187,11 @@ public final class ScanConfService implements IScanConfService, Disposable {
             if (type == Credentials.Type.AnondToken) {
                 // Free users must use CLI for scan, there is no need to fall back to anond for initial audit
                 // if there is no CLI available, they will not be able to run scan or create a scan config in any case
-                task = new ScanCliConfTask(project, bundle, scanConfPath, callback, true);
+                task = new ScanCliConfTask(project, bundle, scanConfPath, callback, false);
             } else {
                 final String runtime = SettingsService.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
                 if (RUNTIME_CLI.equals(runtime)) {
-                    task = new ScanCliConfTask(project, bundle, scanConfPath, callback, false);
+                    task = new ScanCliConfTask(project, bundle, scanConfPath, callback, true);
                 } else {
                     // This will run audit on the platform as well
                     task = new ScanPlatformConfTask(project, bundle, scanConfPath, callback);

@@ -1,11 +1,10 @@
-import { j as e, c as z, d as N, s as Z, a as G, n as J, u as K, b as Q, l as X, t as Y, q as s, T as l, e as ee, f as ne, R as oe, P as te, h as re, m as ie } from "./TriangleExclamation.uZuTZ4qX.js";
-import { c as g, u as b } from "./index.esm.FeZvylQh.js";
-import { D as se, o as w, s as C, F as y, I as A, T as ae } from "./Textarea.9VzdFbJ9.js";
-import { N as L } from "./ProgressButton.CSi1Kb1A.js";
-import { E as v } from "./Banner.BuGf3OMn.js";
-import { B as de } from "./Button.DWqE03xw.js";
-import { R as B, I as le } from "./index.C1yFBENH.js";
-import { S as ce } from "./Check.BrevffEk.js";
+import { j as e, c as z, d as N, s as Z, a as G, n as J, u as K, b as Q, l as X, t as Y, q as s, T as l, e as ee, f as ne, R as oe, P as te, h as re, m as ie } from "./TriangleExclamation.9XEPiFVq.js";
+import { c as g, u as b } from "./index.esm.DW1oUrXc.js";
+import { D as se, B as ae, o as w, s as C, F as y, I as A, T as de } from "./Button.Bto4eoJs.js";
+import { N as L } from "./ProgressButton.Cb1FbE6Z.js";
+import { E as v } from "./Banner.tXk4sjI7.js";
+import { R as B, I as le } from "./index.CZADjqP3.js";
+import { S as ce } from "./Check.CqQKP8F4.js";
 const pe = (n) => /* @__PURE__ */ e.jsxs("svg", { width: "60", height: "70", viewBox: "0 0 60 70", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
   /* @__PURE__ */ e.jsx(
     "path",
@@ -354,7 +353,7 @@ function Ue({
               }
             )
           ] }),
-          /* @__PURE__ */ e.jsx(ae, { label: "Token", name: "anondToken", disabled: a }),
+          /* @__PURE__ */ e.jsx(de, { label: "Token", name: "anondToken", disabled: a }),
           /* @__PURE__ */ e.jsx("div", { children: "Audit and Scan usage allowances apply, upgrade options available." }),
           /* @__PURE__ */ e.jsxs("div", { children: [
             "Developer support",
@@ -525,7 +524,7 @@ const S = s.div`
   display: flex;
   gap: 5px;
   align-items: center;
-`, Me = s(de)`
+`, Me = s(ae)`
   &:disabled {
     opacity: 0.4;
   }

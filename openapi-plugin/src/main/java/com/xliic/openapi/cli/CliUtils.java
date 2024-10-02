@@ -7,8 +7,10 @@ import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -78,22 +80,7 @@ public class CliUtils {
             progress.setText("Wrote Audit configuration to: " + dir.getPath());
             String cli = getCli();
             progress.setText("Running Security Audit using: " + cli);
-            String token = Credentials.getAnonCredentials();
-            if (token == null) {
-                PlatformConnection con = PlatformConnection.getOptions();
-                token = con.getApiToken();
-            }
-            final Map<String, String> env;
-            String httpProxy = NetUtils.getProxyString();
-            if (httpProxy != null) {
-                env = new HashMap<>();
-                env.put("HTTPS_PROXY", httpProxy);
-            } else {
-                env = null;
-            }
-            String output = ExecUtils.asyncExecFile(
-                cli,
-                new String[] {
+            List<String> args = new LinkedList<>(Arrays.asList(
                     "audit",
                     "run",
                     "openapi.json",
@@ -101,15 +88,31 @@ public class CliUtils {
                     "report.json",
                     "--output-format",
                     "json",
+//                  "--freemium-host",
+//                  "stateless.dev.42crunch.com:443",
                     "--verbose",
                     "error",
                     "--user-agent",
                     Utils.getUserAgent(),
-                    "--enrich=false",
-                    isFullAudit ? "" : "--is-operation",
-                    "--token",
-                    token
-                }, dir, env);
+                    "--enrich=false"));
+                if (!isFullAudit) {
+                    args.add("--is-operation");
+                }
+                final Map<String, String> env = new HashMap<>();
+                final Credentials.Type type = Credentials.getCredentialsType();
+                if (type == Credentials.Type.AnondToken) {
+                    args.add("--token");
+                    args.add(Credentials.getAnonCredentials());
+                } else {
+                    PlatformConnection con = PlatformConnection.getOptions();
+                    env.put("API_KEY", con.getApiToken());
+                    env.put("PLATFORM_HOST", con.getPlatformUrl());
+                }
+                String httpProxy = NetUtils.getProxyString();
+                if (httpProxy != null) {
+                    env.put("HTTPS_PROXY", httpProxy);
+                }
+                String output = ExecUtils.asyncExecFile(cli, args, dir, env);
             String report = FileUtils.readFile(dir, "report.json");
             removeFile(project, dir, "report.json");
             removeFile(project, dir,"openapi.json");

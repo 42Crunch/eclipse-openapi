@@ -2,7 +2,7 @@ package com.xliic.openapi.report.task;
 
 import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT_CLI;
 import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
-import static com.xliic.openapi.utils.MsgUtils.notifyLimit;
+import static com.xliic.openapi.utils.MsgUtils.notifyAuditsLimit;
 
 import java.util.Objects;
 
@@ -29,7 +29,6 @@ public class AuditCliTask extends Task.Backgroundable {
 
     public static final long UPGRADE_WARN_LIMIT = 10;
     private static final String ERROR_MSG = "Unexpected error when trying to audit API: ";
-
 
     @NotNull
     private final Project project;
@@ -82,10 +81,8 @@ public class AuditCliTask extends Task.Backgroundable {
                 }
                 return;
             }
-            if (!isFullAudit && result.getRemainingPerOperationAudit() < UPGRADE_WARN_LIMIT) {
-                notifyLimit(project, result.getRemainingPerOperationAudit(), "per-operation Security Audits");
-            } else if (isFullAudit && result.getRemainingFullAudit() < UPGRADE_WARN_LIMIT) {
-                notifyLimit(project, result.getRemainingFullAudit(), "Security Audits");
+            if (result.getRemainingPerOperationAudit() < UPGRADE_WARN_LIMIT) {
+                notifyAuditsLimit(project, result.getRemainingPerOperationAudit());
             }
             Node report = Utils.getJsonAST(Objects.requireNonNull(result.getReport()));
             callback.complete(Objects.requireNonNull(report), null, null);

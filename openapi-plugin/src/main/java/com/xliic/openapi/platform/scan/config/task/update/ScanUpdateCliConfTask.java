@@ -8,6 +8,7 @@ import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +39,7 @@ public class ScanUpdateCliConfTask extends ScanUpdateConfTask {
             String scanConfPath = tmpScanConfFile.getPath();
             String cli = CliUtils.getCli();
             ExecUtils.asyncExecFile(cli,
-                new String[] {
+            	List.of(
                     "scan",
                     "conf",
                     "generate",
@@ -47,7 +48,7 @@ public class ScanUpdateCliConfTask extends ScanUpdateConfTask {
                     "--output",
                     scanConfPath,
                     tmpFile.getPath()
-                }, tmpDir);
+                ), tmpDir);
             VirtualFile scanFile = LocalFileSystem.getInstance().findFileByIoFile(new File(scanConfPath));
             if (scanFile == null) {
                 throw new Exception("Failed to find config " + scanConfPath);

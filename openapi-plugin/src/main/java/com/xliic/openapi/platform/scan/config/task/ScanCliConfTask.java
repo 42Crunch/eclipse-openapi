@@ -1,6 +1,5 @@
 package com.xliic.openapi.platform.scan.config.task;
 
-import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
 import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
@@ -9,6 +8,7 @@ import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,6 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.utils.ExecUtils;
@@ -46,12 +45,10 @@ public class ScanCliConfTask extends ScanConfTask {
 
     @Override
     public void run(@NotNull ProgressIndicator progress) {
-        String apiId = null;
-        String collectionId = null;
         try {
             String oas = bundle.getJsonText();
             if (useAuditWithCli) {
-                AuditCliResult result = CliUtils.runAuditWithCliBinary(project, oas, false, progress);
+                AuditCliResult result = CliUtils.runAuditWithCliBinary(project, oas, true, progress);
                 if (result.hasError()) {
                     if (result.getStatusCode() == 3 && "limits_reached".equals(result.getStdOut())) {
                         ScanConfigUtils.offerUpgrade(project);
@@ -65,11 +62,6 @@ public class ScanCliConfTask extends ScanConfTask {
                 if (!"valid".equals(report.getChildValueRequireNonNull("openapiState"))) {
                     throw new Exception(API_INVALID_MSG);
                 }
-            } else {
-                collectionId = ScanUtils.findOrCreateTempCollection();
-                apiId = ScanUtils.createTempAPI(collectionId, oas);
-                progress.setText(RUNNING_SECURITY_AUDIT);
-                ScanUtils.auditTempAPI(getProject(), apiId);
             }
             tmpDir = createTempDirectory(project, "scan");
             VirtualFile tmpFile = writeFile(project, tmpDir, "openapi.json", oas);
@@ -78,7 +70,7 @@ public class ScanCliConfTask extends ScanConfTask {
             }
             String cli = CliUtils.getCli();
             ExecUtils.asyncExecFile(cli,
-                new String[] {
+            	List.of(
                     "scan",
                     "conf",
                     "generate",
@@ -87,7 +79,7 @@ public class ScanCliConfTask extends ScanConfTask {
                     "--output",
                     scanConfPath,
                     tmpFile.getPath()
-                }, tmpDir);
+                ), tmpDir);
             VirtualFile scanFile = LocalFileSystem.getInstance().findFileByIoFile(new File(scanConfPath));
             if (scanFile == null) {
                 throw new Exception("Failed to find config " + scanConfPath);
@@ -102,12 +94,6 @@ public class ScanCliConfTask extends ScanConfTask {
         } catch (Exception e) {
             callback.setRejected(e);
         } finally {
-            if (apiId != null) {
-                ScanUtils.deleteAPI(apiId);
-            }
-            if (collectionId != null) {
-                ScanUtils.clearTempApis(collectionId);
-            }
         	try {
                 if (tmpDir != null) {
                     removeFile(project, tmpDir,"openapi.json");

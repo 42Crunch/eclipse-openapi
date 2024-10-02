@@ -1,12 +1,10 @@
 package com.xliic.openapi.platform.scan.task;
 
 import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
 import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
-import static com.xliic.openapi.utils.MsgUtils.notifyLimit;
+import static com.xliic.openapi.utils.MsgUtils.notifyScansLimit;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 import java.io.File;
@@ -20,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,7 +36,6 @@ import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.platform.scan.config.ScanRunConfig;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Credentials;
-import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
@@ -88,11 +84,6 @@ public class ScanCliTask extends Task.Backgroundable {
             String cli = CliUtils.getCli();
             log(progress, "Running scan using: " + cli);
             String outputPath = Paths.get(scanTmpDir.getPath(), "report.json").toString();
-            String token = Credentials.getAnonCredentials();
-            if (token == null) {
-                PlatformConnection con = PlatformConnection.getOptions();
-                token = con.getApiToken();
-            }
             try {
             	List<String> args = new LinkedList<>(Arrays.asList(
                     "scan",
@@ -104,6 +95,8 @@ public class ScanCliTask extends Task.Backgroundable {
                     outputPath,
                     "--output-format",
                     "json",
+//                  "--freemium-host",
+//                  "stateless.dev.42crunch.com:443",
                     "--verbose",
                     "error",
                     "--user-agent",
@@ -116,29 +109,24 @@ public class ScanCliTask extends Task.Backgroundable {
                 Credentials.Type type = Credentials.getCredentialsType();
                 if (type == Credentials.Type.AnondToken) {
                     args.add("--token");
-                    args.add(token);
+                    args.add(Credentials.getAnonCredentials());
                 } else {
-                    String platformUrl = SettingsService.getInstance().getValue(URL);
-                    if (!StringUtils.isEmpty(platformUrl)) {
-                        env.put("PLATFORM_HOST", platformUrl);
-                    }
-                    String apiToken = SettingsService.getInstance().getValue(API_KEY, "");
-                    if (!StringUtils.isEmpty(apiToken)) {
-                        env.put("API_KEY", apiToken);
-                    }
+                    PlatformConnection con = PlatformConnection.getOptions();
+                    env.put("API_KEY", con.getApiToken());
+                    env.put("PLATFORM_HOST", con.getPlatformUrl());
                 }
                 String httpProxy = NetUtils.getProxyString();
                 if (httpProxy != null) {
                     env.put("HTTPS_PROXY", httpProxy);
                 }
-                String output = ExecUtils.asyncExecFile(cli, args.toArray(new String[0]), scanTmpDir, env);
+                String output = ExecUtils.asyncExecFile(cli, args, scanTmpDir, env);
                 Node out = Utils.getJsonAST(output);
                 if (out != null) {
-                	String value = out.getChildValue(isFullScan ? "remainingFullScan" : "remainingPerOperationScan");
+                	String value = out.getChildValue("remainingPerOperationScan");
                     if (value != null) {
                         long remainingValue = Long.parseLong(value);
                         if (remainingValue < UPGRADE_WARN_LIMIT) {
-                            notifyLimit(project, remainingValue, isFullScan ? "API Scans" : "per-operation API Scans");
+                            notifyScansLimit(project, remainingValue);
                         }
                     }
                     Node scanLogs = out.getChild("scanLogs");

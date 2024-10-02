@@ -49,8 +49,15 @@
         <command
             defaultHandler="com.xliic.openapi.actions.SecurityAuditAction"
             id="com.xliic.openapi.actions.SecurityAuditAction"
-            name="Perform Security Audit">
+            name="OpenAPI: API Audit">
         </command>
+        
+        <command
+            defaultHandler="com.xliic.openapi.platform.scan.ScanFirstOperationAction"
+            id="com.xliic.openapi.platform.scan.ScanFirstOperationAction"
+            name="OpenAPI: API Scan">
+        </command>
+        
         <command
             defaultHandler="com.xliic.openapi.preview.actions.PreviewAction"
             id="com.xliic.openapi.preview.actions.PreviewAction"
@@ -374,6 +381,11 @@
                     icon="icons/42crunch_icon.png"
                     style="push">
                 </command>
+                <command
+                    commandId="com.xliic.openapi.platform.scan.ScanFirstOperationAction"
+                    icon="icons/scan.png"
+                    style="push">
+                </command>
                 <menu
                     icon="icons/preview.png"
                     id="com.xliic.openapi.preview.menu"
@@ -436,6 +448,11 @@
                 <command
                     commandId="com.xliic.openapi.actions.SecurityAuditAction"
                     icon="icons/42crunch_icon.png"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.platform.scan.ScanFirstOperationAction"
+                    icon="icons/scan.png"
                     style="push">
                 </command>
                 <command

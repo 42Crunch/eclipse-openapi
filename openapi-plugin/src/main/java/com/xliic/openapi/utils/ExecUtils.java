@@ -73,18 +73,18 @@ public class ExecUtils {
     }
 
     @NotNull
-    public static String asyncExecFile(@NotNull String cmd, @NotNull String[] params) throws ExecException {
+    public static String asyncExecFile(@NotNull String cmd, @NotNull List<String> params) throws ExecException {
         return asyncExecFile(cmd, params, null, new HashMap<>());
     }
 
     @NotNull
-    public static String asyncExecFile(@NotNull String cmd, @NotNull String[] params, @Nullable VirtualFile dir) throws ExecException {
+    public static String asyncExecFile(@NotNull String cmd, @NotNull List<String> params, @Nullable VirtualFile dir) throws ExecException {
         return asyncExecFile(cmd, params, dir, null);
     }
 
     @NotNull
     public static String asyncExecFile(@NotNull String cmd,
-                                       @NotNull String[] params,
+                                       @NotNull List<String> params,
                                        @Nullable VirtualFile dir,
                                        @Nullable Map<String, String> cmdEnv) throws ExecException {
         List<String> args = new LinkedList<>();
@@ -97,7 +97,7 @@ public class ExecUtils {
             }
         }
         ProcessBuilder builder = new ProcessBuilder(args);
-        if (cmdEnv != null) {
+        if (cmdEnv != null && !cmdEnv.isEmpty()) {
             Map<String, String> env = builder.environment();
             env.putAll(cmdEnv);
         }
