@@ -8,8 +8,8 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.equo.middleware.api.handler.IResponseHandler;
-import com.equo.middleware.api.resource.Request;
+import com.xliic.core.browser.IResponseHandler;
+import com.xliic.core.browser.Request;
 import com.xliic.core.ui.UIManager;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;

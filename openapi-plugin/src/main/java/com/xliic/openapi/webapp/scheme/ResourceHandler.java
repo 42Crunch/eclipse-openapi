@@ -8,15 +8,15 @@ import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.equo.middleware.api.handler.IResponseConstants;
-import com.equo.middleware.api.resource.Request;
+import com.xliic.core.browser.Request;
 import com.xliic.openapi.utils.NetUtils;
 
 public class ResourceHandler {
 
     @SuppressWarnings("serial")
     private static final Map<String, String> HEADER = new HashMap<>() {{ put("Access-Control-Allow-Origin", "*"); }};
-
+    private static final String CONTENT_TYPE_HEADER = "Content-Type";
+    
     @NotNull
     private final String mimeType;
     @NotNull
@@ -35,7 +35,7 @@ public class ResourceHandler {
 
     public InputStream getResponseData(Request request, Map<String, String> headers) {
         headers.put("Status", "200");
-        headers.put(IResponseConstants.CONTENT_TYPE_HEADER, mimeType);
+        headers.put(CONTENT_TYPE_HEADER, mimeType);
         headers.putAll(HEADER);
         return inputStream;
     }

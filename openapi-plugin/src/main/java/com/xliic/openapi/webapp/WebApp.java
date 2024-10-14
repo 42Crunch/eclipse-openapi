@@ -85,7 +85,7 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
         ApplicationManager.getApplication().invokeAndWait(() -> {
         	manager = UIManager.getInstance();
             SCHEME_HANDLER_FACTORY.setUIManager(manager);
-            loadURL(HTTP_SCHEMA_PREFIX + resourceId + ".html");
+            loadHTML(cefApp.getContentFromUrl(HTTP_SCHEMA_PREFIX + resourceId + ".html"));
         });
     }
 

@@ -1,35 +1,58 @@
 package com.xliic.core;
 
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.stream.Stream;
+import java.util.HashMap;
 
-import com.equo.middleware.api.IMiddlewareService;
-import com.equo.middleware.api.handler.IResponseHandler;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.browser.IResponseHandler;
+import com.xliic.core.browser.Request;
 
 public class CefApp {
 
+    private static final String SCRIPT_TAG = "<script>";
+
     private static final CefApp self = new CefApp();
+
+    private IResponseHandler responseHandler = null;
 
     public static synchronized CefApp getInstance() throws UnsatisfiedLinkError {
         return self;
     }
 
-    public boolean registerSchemeHandlerFactory(String schemeName, String domainName, IResponseHandler responseHandler) {
-        BundleContext ctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-        if (ctx == null) {
-            return false;
-        }
-        IMiddlewareService mSrv = getService(IMiddlewareService.class, ctx);
-        if (mSrv == null) {
-            return false;
-        }
-        mSrv.addResourceHandler(schemeName, domainName, responseHandler);
+    public boolean registerSchemeHandlerFactory(@NotNull String schemeName, @NotNull String domainName, @NotNull IResponseHandler responseHandler) {
+    	this.responseHandler = responseHandler;
         return true;
     }
 
-    public static <T extends Object> T getService(final Class<T> clazz, BundleContext bundleContext) {
-        final ServiceReference<T> ref = bundleContext.getServiceReference(clazz);
-        return bundleContext.getService(ref);
+    public String getContentFromUrl(@NotNull String url) {
+    	if (responseHandler != null) {
+    		Map<String, String> headers = new HashMap<>();
+    		// Get HTML
+    		Request request = Request.create(url, "GET", headers);
+    		InputStream stream = responseHandler.getResponseData(request, headers);
+    		StringBuilder page = getContent(stream);
+    		// Get JS code
+    		request = Request.create(url.replace(".html", ".js"), "GET", headers);
+    		stream = responseHandler.getResponseData(request, headers);
+    		StringBuilder jsCode = getContent(stream);
+    		// Add JS into HTML
+            int offset = page.indexOf(SCRIPT_TAG) + SCRIPT_TAG.length();
+            page.insert(offset, jsCode.toString());
+            return page.toString();
+    	}
+    	return "<html><head></head><body><h1>Response handler not initialized</h1></body></html>";
+    }
+
+    private static StringBuilder getContent(InputStream stream2) {
+        Stream<String> stream = new BufferedReader(new InputStreamReader(stream2, StandardCharsets.UTF_8)).lines();
+        StringBuilder builder = new StringBuilder();
+        stream.forEach(line -> builder.append(line).append("\n"));
+        return builder;
     }
 }
