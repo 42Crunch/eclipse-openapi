@@ -20,43 +20,17 @@
 	</properties>
 
 	<repositories>
-
-		<repository>
-			<id>Equo-Middleware-Enterprise-Edition</id>
-			<url>https://dl.equo.dev/middleware/1.2/repo</url>
-			<layout>p2</layout>
-		</repository>
-
-		<repository>
-			<id>Equo-Comm-Enterprise-Edition</id>
-			<url>https://dl.equo.dev/comm/1.6/repo</url>
-			<layout>p2</layout>
-		</repository>
-
-		<repository>
+	    <repository>
 			<id>download.eclipse.org</id>
 			<layout>p2</layout>
 			<url>https://download.eclipse.org/releases/2021-03/202103171000</url>
 		</repository>
 
 		<repository>
-            <id>Equo-Chromium SWT</id>
-            <layout>p2</layout>
-  			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/swt/116.0.11/repository</url>
-		</repository> 
-
-		<repository>
-			<id>Equo-Chromium CEF</id>
-            <layout>p2</layout>
-            <url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/116.0.10/repository</url>
-        </repository>
-		
-		<repository>
-			<id>Equo-Chromium CEF (ARM)</id>
-			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/116.0.10-arm/repository</url>
+			<id>Equo-Chromium</id>
+			<url>https://dl.equo.dev/chromium-swt-ce/oss/p2/124</url>
 			<layout>p2</layout>
 		</repository>
-
 	</repositories>
 
 	<profiles>
@@ -101,15 +75,6 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
-					<dependency-resolution>
-					  <extraRequirements>
-						<requirement>
-						  <type>p2-installable-unit</type>
-						  <id>com.equo.middleware.ee.provider</id>
-						  <versionRange>0.0.0</versionRange>
-						</requirement>
-					  </extraRequirements>
-					</dependency-resolution>
 					<environments>
 						<environment>
 							<os>win32</os>
