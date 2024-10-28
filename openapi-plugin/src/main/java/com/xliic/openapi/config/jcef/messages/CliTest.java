@@ -37,6 +37,7 @@ public class CliTest extends WebAppProduce {
         }
         try {
             String version = getVersion(cli);
+            CliService.getInstance().checkForCliUpdate(project, version);
             showCliTest(true, version);
         } catch (ExecUtils.ExecException e) {
             showCliTest(false, e.toString());

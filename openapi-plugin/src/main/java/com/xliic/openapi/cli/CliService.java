@@ -17,6 +17,7 @@ import com.xliic.core.ui.Messages;
 import com.xliic.openapi.config.jcef.messages.CliTest;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.FileUtils;
+import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class CliService implements ICliService, Disposable {
@@ -25,6 +26,7 @@ public class CliService implements ICliService, Disposable {
     private static final long CLI_UPDATE_CHECK_INTERVAL = 1000 * 60 * 60 * 1; // 1 hour
     private static final String MANIFEST_ERROR = "Failed to download 42Crunch API Security Testing Binary, manifest not found";
     private static final String PLATFORM_ERROR = "Unknown platform "  + Utils.getOs() + ", arch " + Utils.getOsArch();
+    private static final String REPOSITORY_URL_ERROR = "Repository URL is not set";
 
     private volatile long lastCliUpdateCheckTime;
 
@@ -46,7 +48,7 @@ public class CliService implements ICliService, Disposable {
     public void downloadOrUpdateIfNecessary(@NotNull Project project, @NotNull Callback callback, boolean ask) {
         String repository = SettingsService.getInstance().getValue(REPOSITORY);
         if (StringUtils.isEmpty(repository)) {
-            callback.reject("Repository URL is not set");
+            callback.reject(REPOSITORY_URL_ERROR);
             return;
         }
         String platform = getCliAstPlatform();
@@ -65,6 +67,44 @@ public class CliService implements ICliService, Disposable {
                 return;
             }
             download(project, cliPath, repository, platform, callback, ask);
+        }
+    }
+
+    public void checkForCliUpdate(@NotNull Project project, @NotNull String version) {
+        String repository = SettingsService.getInstance().getValue(REPOSITORY);
+        if (StringUtils.isEmpty(repository)) {
+            MsgUtils.notifyError(project, REPOSITORY_URL_ERROR);
+            return;
+        }
+        String platform = getCliAstPlatform();
+        if (platform == null) {
+            MsgUtils.notifyError(project, PLATFORM_ERROR);
+            return;
+        }
+        CliAstManifestEntry manifest;
+        try {
+            manifest = CliUtils.getCliUpdate(repository, version, platform);
+        } catch (Exception e) {
+            return;
+        }
+        if (manifest != null) {
+            // Run in a new thread to not hold the caller
+            new Thread(() -> ApplicationManager.getApplication().invokeLater(() -> {
+                final int rc = getDialog(project, getAskToDownloadMessage(manifest));
+                if (rc == Messages.OK) {
+                    String cliPath = CliUtils.getCli();
+                    ProgressManager.getInstance().run(new CliBinaryTask(project, cliPath, manifest, new Callback() {
+                        @Override
+                        public void complete(@NotNull String cliPath) {}
+                        @Override
+                        public void reject(@NotNull String error) {
+                            MsgUtils.notifyError(project, error);
+                        }
+                        @Override
+                        public void cancel() {}
+                    }));
+                }
+            })).start();
         }
     }
 
@@ -87,7 +127,7 @@ public class CliService implements ICliService, Disposable {
                 return;
             }
             if (ask) {
-                final int rc = getDialog(project, "New version " + manifest.getVersion() + " of 42Crunch API Security Testing Binary is available, download?");
+                final int rc = getDialog(project, getAskToDownloadMessage(manifest));
                 if (rc != Messages.OK) {
                     return;
                 }
@@ -123,6 +163,10 @@ public class CliService implements ICliService, Disposable {
 
     private static int getDialog(Project project, String message) {
         return Messages.showOkCancelDialog(project, message,"Download", "Download", "Cancel", Messages.getQuestionIcon());
+    }
+
+    private static String getAskToDownloadMessage(CliAstManifestEntry manifest) {
+        return "New version " + manifest.getVersion() + " of 42Crunch API Security Testing Binary is available, download?";
     }
 
     @Override
