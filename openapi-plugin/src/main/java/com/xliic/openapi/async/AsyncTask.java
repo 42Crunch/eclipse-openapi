@@ -11,6 +11,7 @@ import com.xliic.core.vfs.VirtualFile;
 
 public class AsyncTask {
 
+    private static final Map<String, Object> EMPTY_MAP = new HashMap<>();
     private static final String ASYNC_TASK_COMPLETE_CALLBACK = "ASYNC_TASK_COMPLETE_CALLBACK";
 
     @NotNull
@@ -26,7 +27,7 @@ public class AsyncTask {
         this.project = project;
         this.file = file;
         this.type = type;
-        data = new HashMap<>();
+        data = EMPTY_MAP;
     }
 
     public AsyncTask(@NotNull Project project, @NotNull AsyncTaskType type, @NotNull VirtualFile file, @NotNull Map<String, Object> data) {
@@ -50,6 +51,11 @@ public class AsyncTask {
 
     public @NotNull VirtualFile getFile() {
         return file;
+    }
+
+    @NotNull
+    public Map<String, Object> getData() {
+		return data;
     }
 
     public Object get(String key) {

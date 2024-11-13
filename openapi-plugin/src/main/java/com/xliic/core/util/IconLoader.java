@@ -52,6 +52,8 @@ public class IconLoader {
 		put("/icons/configPanel", new Icon(OpenAPIImages.ConfigPanel));
 		put("/icons/signUpPanel", new Icon(OpenAPIImages.SignUpPanel));
 		put("/icons/welcomePanel", new Icon(OpenAPIImages.WelcomePanel));
+		put("/icons/tagsAnno", new Icon(OpenAPIImages.TagsAnno));
+		put("/icons/tagsAnnoPanel", new Icon(OpenAPIImages.TagsAnnoPanel));
 		put("/icons/auditAnno", new Icon(OpenAPIImages.AuditAnno));
 		put("/icons/audit", new Icon(OpenAPIImages.Audit));
 		put("/icons/copy", new Icon(OpenAPIImages.Copy));

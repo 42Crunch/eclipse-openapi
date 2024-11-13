@@ -16,6 +16,7 @@ import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.services.DictionaryService;
+import com.xliic.openapi.services.InlayHintsService;
 import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.PreviewService;
@@ -25,6 +26,7 @@ import com.xliic.openapi.services.TryItService;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.signup.SignUpService;
 import com.xliic.openapi.whatsnew.WhatsNewService;
+import com.xliic.openapi.tags.TagsService;
 
 public class CoreServiceFactory extends AbstractServiceFactory {
 	
@@ -77,6 +79,10 @@ public class CoreServiceFactory extends AbstractServiceFactory {
 			return new WhatsNewService(PROJECT);
 		} else if (ISignUpService.class.equals(serviceInterface)) {
 			return new SignUpService(PROJECT);
+		} else if (ITagsService.class.equals(serviceInterface)) {
+			return new TagsService(PROJECT);
+		} else if (IInlayHintsService.class.equals(serviceInterface)) {
+			return new InlayHintsService(PROJECT);
 		}
 		return null;
 	}

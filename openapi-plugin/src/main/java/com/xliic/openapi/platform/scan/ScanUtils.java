@@ -62,7 +62,7 @@ public class ScanUtils {
 
     @NotNull
     public static String createTempAPI(@NotNull String collectionId, @NotNull String oas) throws Exception {
-        PlatformAPI api = ScanUtils.createTempApi(collectionId, oas);
+        PlatformAPI api = ScanUtils.createTempApi(collectionId, oas, null);
         return api.getId();
     }
 
@@ -185,8 +185,14 @@ public class ScanUtils {
     }
 
     @NotNull
-    public static PlatformAPI createTempApi(@NotNull String collectionId, @NotNull String text) throws Exception {
-        List<String> tagIds = getTagIds();
+    public static PlatformAPI createTempApi(@NotNull String collectionId, @NotNull String text, @Nullable List<String> savedTagIds) throws Exception {
+        List<String> tagIds = getMandatoryTagIds();
+        if (savedTagIds != null && !savedTagIds.isEmpty()) {
+            // Do not add already existing tagIds
+            Set<String> setOfTagIds = new HashSet<>(tagIds);
+            setOfTagIds.addAll(new HashSet<>(savedTagIds));
+            tagIds = new LinkedList<>(setOfTagIds);
+        }
         // If the api naming convention is configured, use its example as the api name
         // this way we don't have to come up with a name that matches its pattern
         NamingConvention convention = PlatformUtils.getApiNamingConvention();
@@ -322,12 +328,12 @@ public class ScanUtils {
         return schemaNames;
     }
     
-    public static List<String> getTagIds() throws Exception {
+    public static List<String> getMandatoryTagIds() throws Exception {
         List<String> tagIds = new LinkedList<>();
         List<String> mandatoryTags = getMandatoryTags();
         if (!mandatoryTags.isEmpty()) {
-            List<Tag> platformTags = PlatformUtils.getTags();
-            tagIds.addAll(getMandatoryTagsIds(mandatoryTags, platformTags));
+            List<Tag> platformTags = PlatformUtils.getTags(false);
+            tagIds.addAll(getMandatoryTagIds(mandatoryTags, platformTags));
         }
         return tagIds;
     }
@@ -350,7 +356,7 @@ public class ScanUtils {
         return tags;
     }
 
-    private static List<String> getMandatoryTagsIds(List<String> tags, List<Tag> platformTags) throws Exception {
+    private static List<String> getMandatoryTagIds(List<String> tags, List<Tag> platformTags) throws Exception {
         List<String> tagIds = new LinkedList<>();
         for (String tag : tags) {
             boolean found = false;

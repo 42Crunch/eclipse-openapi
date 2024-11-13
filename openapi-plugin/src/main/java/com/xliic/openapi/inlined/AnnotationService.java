@@ -1,6 +1,7 @@
 package com.xliic.openapi.inlined;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +34,7 @@ import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.payload.TryItOperation;
+import com.xliic.openapi.tags.payload.TagsOperation;
 
 public final class AnnotationService implements IAnnotationService, FileListener, SettingsListener, Disposable {
 
@@ -77,7 +79,7 @@ public final class AnnotationService implements IAnnotationService, FileListener
         return cache.get(file.getPath()) != null;
     }
 
-    public void updateAnnotations(@NotNull PsiFile psiFile, @NotNull List<Object> payloads) {
+    public void updateAnnotations(@NotNull PsiFile psiFile, @NotNull List<Object> payloads, boolean redraw) {
         if (!isAnnotationsEnabled) {
             return;
         }
@@ -85,19 +87,22 @@ public final class AnnotationService implements IAnnotationService, FileListener
         InlinedAnnotationSupport support = cache.get(file.getPath());
         if (support != null) {
             Set<Integer> offsets = new HashSet<>();
-            Map<Integer, TryItOperation> tmap = new HashMap<>();
-            Map<Integer, ScanConfOperation> smap = new HashMap<>();
-            Map<Integer, AuditOperation> amap = new HashMap<>();
+            Map<Integer, TagsOperation> tagsOps = new HashMap<>();
+            Map<Integer, TryItOperation> tryItOps = new HashMap<>();
+            Map<Integer, ScanConfOperation> scanConfOps = new HashMap<>();
+            Map<Integer, AuditOperation> auditOps = new HashMap<>();
             for (Object payload : payloads) {
                 Operation op = (Operation) payload;
                 int offset = op.getOffset();
                 offsets.add(offset);
-                if (op instanceof TryItOperation) {
-                    tmap.put(offset, (TryItOperation) op);
+                if (op instanceof TagsOperation) {
+                	tagsOps.put(offset, (TagsOperation) op);
+                } else if (op instanceof TryItOperation) {
+                    tryItOps.put(offset, (TryItOperation) op);
                 } else if (payload instanceof ScanConfOperation) {
-                    smap.put(offset, (ScanConfOperation) op);
+                    scanConfOps.put(offset, (ScanConfOperation) op);
                 } else if (payload instanceof AuditOperation) {
-                    amap.put(offset, (AuditOperation) op);
+                    auditOps.put(offset, (AuditOperation) op);
                 }
             }
             Set<AbstractInlinedAnnotation> annotations = new HashSet<>();
@@ -106,14 +111,26 @@ public final class AnnotationService implements IAnnotationService, FileListener
                 Position pos = new Position(offset, 1);
                 AbstractInlinedAnnotation an = support.findExistingAnnotation(pos);
                 if (an == null) {
-                	TryItOperation top = tmap.get(offset);
-                	ScanConfOperation sop = smap.get(offset);
-                	AuditOperation aop = amap.get(offset);
-                	if (top != null || sop != null || aop != null) {
-                		an = new InlinedAnnotation(project, pos, viewer, top, sop, aop);	
+                	ArrayList<Operation> ops = new ArrayList<>(4);
+                    ops.add(tagsOps.get(offset));
+                	ops.add(tryItOps.get(offset));
+                	ops.add(scanConfOps.get(offset));
+                	ops.add(auditOps.get(offset));
+                	if (checkOperations(ops)) {
+                		an = new InlinedAnnotation(project, pos, viewer, ops);
                 	}
                 }
-                annotations.add(an);
+                if (an != null) {
+                    if (redraw) {
+                    	if (tagsOps.isEmpty()) {
+                    		((InlinedAnnotation) an).setTagsOperation(null);
+                    	} else if (tagsOps.get(offset) != null) {
+                    		((InlinedAnnotation) an).setTagsOperation(tagsOps.get(offset));
+                    	}
+                        an.redraw();
+                    }
+                    annotations.add(an);
+                }
             }
             support.updateAnnotations(annotations);
         }
@@ -148,6 +165,15 @@ public final class AnnotationService implements IAnnotationService, FileListener
             dropAllSupport();
             requestDfs();
         }
+    }
+
+    private boolean checkOperations(ArrayList<Operation> operations) {
+    	for (Operation op : operations) {
+    		if (op != null) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     private static AnnotationPainter createAnnotationPainter(ISourceViewer viewer) {
