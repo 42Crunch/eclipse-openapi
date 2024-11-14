@@ -169,28 +169,27 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
         bounds.add(x);
         double chWidth = fm.getAverageCharacterWidth();
         int shift = x;
-        int y0 = y + ((int) chWidth / 2);
         if (operations.get(TAGS_ID) != null) {
-            shift = addAnnotation(gc, TAGS_ICON, getTagsText(), TAGS_ID, color, shift, y, y0, chWidth);
+            shift = addAnnotation(gc, TAGS_ICON, getTagsText(), TAGS_ID, color, shift, y, chWidth);
         }
         bounds.add(shift);
         if (operations.get(TRYIT_ID) != null) {
-            shift = addAnnotation(gc, TRYIT_ICON, TRYIT_TEXT, TRYIT_ID, color, shift, y, y0, chWidth);
+            shift = addAnnotation(gc, TRYIT_ICON, TRYIT_TEXT, TRYIT_ID, color, shift, y, chWidth);
         }
         bounds.add(shift);
         if (operations.get(SCAN_ID) != null) {
-            shift = addAnnotation(gc, SCAN_ICON, SCAN_TEXT, SCAN_ID, color, shift, y, y0, chWidth);
+            shift = addAnnotation(gc, SCAN_ICON, SCAN_TEXT, SCAN_ID, color, shift, y, chWidth);
         }
         bounds.add(shift);
         if (operations.get(AUDIT_ID) != null) {
-            shift = addAnnotation(gc, AUDIT_ICON, AUDIT_TEXT, AUDIT_ID, color, shift, y, y0, chWidth);
+            shift = addAnnotation(gc, AUDIT_ICON, AUDIT_TEXT, AUDIT_ID, color, shift, y, chWidth);
         }
         bounds.add(shift);
         return bounds.get(bounds.size() - 1) - bounds.get(0);
     }
 
-    private int addAnnotation(GC gc, Image ico, String text, int myId, Color color, int x, int y, int y0, double chWidth) {
-        gc.drawImage(ico, x, y0); // Draw icon from y0 to align with text
+    private int addAnnotation(GC gc, Image ico, String text, int myId, Color color, int x, int y, double chWidth) {
+        gc.drawImage(ico, x, y);
         Color linkFgd = gc.getDevice().getSystemColor(SWT.COLOR_LINK_FOREGROUND);
         gc.setForeground(annoId == myId ? linkFgd : color);
         x += (ico.getBounds().width + 2); // Add some space between icon and text
