@@ -33,8 +33,20 @@
 	<java.semver.version>0.10.2</java.semver.version>
 	<commons.codec.version>1.16.1</commons.codec.version>
   </properties>
-  
+
   <dependencies>
+    <dependency>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs</artifactId>
+      <version>4.8.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-annotations</artifactId>
+      <version>4.8.5</version>
+      <optional>true</optional>
+    </dependency>
     <dependency>
 	  <groupId>junit</groupId>
 	  <artifactId>junit</artifactId>
@@ -42,9 +54,27 @@
 	  <scope>test</scope>
 	</dependency>
   </dependencies>
-  
+
   <build>
     <plugins>
+	  <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>4.8.5.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
+		  <sarifOutput>true</sarifOutput>
+		  <failOnError>false</failOnError>
+		  <quiet>true</quiet>
+        </configuration>
+      </plugin>
       <plugin>
 	    <groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-surefire-plugin</artifactId>
