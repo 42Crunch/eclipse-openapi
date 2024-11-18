@@ -114,12 +114,12 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     protected void beforeFileOpened(AsyncTask task) {
         // No real document content change has happened
         // This call must not fire the document change event
-        parse(task.getFile(), false);
+        parse(task.getFile(), task.getData(), false);
     }
 
     @Override
     protected void documentChanged(AsyncTask task) {
-        parse(task.getFile(), true);
+        parse(task.getFile(), task.getData(), true);
     }
 
     @Override
@@ -189,7 +189,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     protected void treeDfs(AsyncTask task) {
         VirtualFile file = task.getFile();
         Node root = cache.get(file.getPath());
-        runDfs(file.getPath(), root);
+        runDfs(file.getPath(), root, task.getData());
         if (root != null) {
             ApplicationManager.getApplication().invokeLater(() -> {
                 if (!project.isDisposed()) {
@@ -202,7 +202,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         }
     }
 
-    public void parse(@NotNull VirtualFile file, boolean documentChanged) {
+    private void parse(VirtualFile file, Map<String, Object> props, boolean documentChanged) {
         final String fileName = file.getPath();
         Node root = getRootNodeFromFile(fileName);
         putInCache(fileName, root);
@@ -217,7 +217,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
                 knownOpenAPIFiles.add(fileName);
             }
         }
-        runDfs(fileName, root);
+        runDfs(fileName, root, props);
         if (!astListenersMap.containsKey(fileName)) {
             ApplicationManager.getApplication().runReadAction(() -> {
                 Document document = FileDocumentManager.getInstance().getDocument(file);
@@ -339,9 +339,9 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         return (version == null) ? OpenApiVersion.Unknown : version;
     }
 
-    private void runDfs(String fileName, Node root) {
+    private void runDfs(String fileName, Node root, Map<String, Object> props) {
         OpenApiVersion version = getOpenAPIVersion(fileName);
-        dfsHandlers.forEach(handler -> handler.init(fileName, version));
+        dfsHandlers.forEach(handler -> handler.init(fileName, version, props));
         if (root == null) {
             dfsHandlers.forEach(handler -> handler.finish(false));
             return;

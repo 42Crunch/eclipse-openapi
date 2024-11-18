@@ -1,6 +1,6 @@
 package com.xliic.openapi.platform.tree.actions;
 
-import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
+import static com.xliic.openapi.platform.scan.ScanUtils.getMandatoryTagIds;
 
 import java.util.List;
 
@@ -102,7 +102,7 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
                         if (StringUtils.isEmpty(name)) {
                             name = Utils.getFileNameFromURL(href, "defaultAPI");
                         }
-                        List<String> tagIds = getTagIds();
+                        List<String> tagIds = getMandatoryTagIds();
                         PlatformAPIs.createAPI(collectionId, name, text, tagIds,
                                 new PlatformImportAPICallback(project, tree, collectionId, name, subRootDn));
                     }

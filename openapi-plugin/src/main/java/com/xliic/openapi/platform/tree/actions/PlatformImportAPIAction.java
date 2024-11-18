@@ -1,6 +1,6 @@
 package com.xliic.openapi.platform.tree.actions;
 
-import static com.xliic.openapi.platform.scan.ScanUtils.getTagIds;
+import static com.xliic.openapi.platform.scan.ScanUtils.getMandatoryTagIds;
 
 import java.util.List;
 
@@ -80,7 +80,7 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
                             name = name.substring(0, name.lastIndexOf('.'));
                         }
                         try {
-                            List<String> tagIds = getTagIds();
+                            List<String> tagIds = getMandatoryTagIds();
                             PlatformAPIs.createAPI(collectionId, name, text, tagIds,
                                     new PlatformImportAPICallback(project, tree, collectionId, name, subRootDn));
                         } catch (Exception e) {

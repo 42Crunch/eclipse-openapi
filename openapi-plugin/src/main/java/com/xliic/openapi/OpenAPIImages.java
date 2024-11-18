@@ -72,6 +72,8 @@ public class OpenAPIImages {
     public static final ImageDescriptor ConfigPanel;
     public static final ImageDescriptor SignUpPanel;
     public static final ImageDescriptor WelcomePanel;
+    public static final ImageDescriptor TagsAnno;
+    public static final ImageDescriptor TagsAnnoPanel;
 
     public static final ImageDescriptor GeneralNode;
     public static final ImageDescriptor GeneralDarkNode;
@@ -178,6 +180,8 @@ public class OpenAPIImages {
         ConfigPanel = createImageDescriptor("/icons/configPanel.png");
         SignUpPanel = createImageDescriptor("/icons/signUpPanel.png");
         WelcomePanel = createImageDescriptor("/icons/ppWeb.png");
+        TagsAnno = createImageDescriptor("/icons/tagsAnno.png");
+        TagsAnnoPanel = createImageDescriptor("/icons/tagsAnnoPanel.png");
 
         GeneralNode = createImageDescriptor("/icons/light/file-lines.png");
         GeneralDarkNode = createImageDescriptor("/icons/dark/file-lines.png");

@@ -10,11 +10,17 @@ public class Tag {
     private final String tagName;
     @NotNull
     private final String tagId;
-
+    private final boolean onlyAdminCanTag;
+    
     public Tag(@NotNull String categoryName, @NotNull String tagName, @NotNull String tagId) {
+        this(categoryName, tagName, tagId, false);
+    }
+
+    public Tag(@NotNull String categoryName, @NotNull String tagName, @NotNull String tagId, boolean onlyAdminCanTag) {
         this.categoryName = categoryName;
         this.tagName = tagName;
         this.tagId = tagId;
+        this.onlyAdminCanTag = onlyAdminCanTag;
     }
 
     public @NotNull String getCategoryName() {
@@ -27,6 +33,10 @@ public class Tag {
 
     public @NotNull String getTagId() {
         return tagId;
+    }
+
+    public boolean isOnlyAdminCanTag() {
+        return onlyAdminCanTag;
     }
 
     public boolean equals(@NotNull String tag) {

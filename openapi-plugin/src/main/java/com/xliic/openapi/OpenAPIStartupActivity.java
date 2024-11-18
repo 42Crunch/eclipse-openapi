@@ -17,6 +17,7 @@ import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.whatsnew.WhatsNewService;
+import com.xliic.openapi.tags.TagsService;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 
@@ -27,6 +28,8 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 
     @Override
     public void runActivity(@NotNull Project project) {
+        // Init eagerly to restore persistent state
+        TagsService.getInstance(project).loadState();
         // Download and cache KDB articles to boost first security audit
         AuditService.getInstance(project).downloadArticlesAsync();
         // Load quickfix configuration

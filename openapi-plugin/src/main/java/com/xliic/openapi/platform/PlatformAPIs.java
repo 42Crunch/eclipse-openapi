@@ -59,7 +59,7 @@ public class PlatformAPIs {
 
         @NotNull
         public static Response listApis(@NotNull String collectionId) throws IOException {
-            Request request = getRequestBuilder(String.format("api/v1/collections/%s/apis?withTags=true&perPage=0", collectionId)).build();
+            Request request = getRequestBuilder(String.format("api/v2/collections/%s/apis?withTags=true&perPage=0", collectionId)).build();
             return client.newCall(request).execute();
         }
         
@@ -78,6 +78,12 @@ public class PlatformAPIs {
         @NotNull
         public static Response getTags() throws IOException {
             Request request = getRequestBuilder("api/v2/tags").build();
+            return client.newCall(request).execute();
+        }
+        
+        @NotNull
+        public static Response getCategories() throws IOException {
+            Request request = getRequestBuilder("api/v2/categories").build();
             return client.newCall(request).execute();
         }
     }

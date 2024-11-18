@@ -3,6 +3,8 @@ package com.xliic.openapi.platform.dictionary;
 import static com.xliic.openapi.platform.PlatformConnection.isPlatformIntegrationEnabled;
 import static com.xliic.openapi.platform.dictionary.types.DataFormat.FORMAT;
 
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,8 +26,8 @@ public class DictionaryDfsHandler extends DfsHandler<Node> {
     }
 
     @Override
-    public void init(@NotNull String fileName, @Nullable OpenApiVersion version) {
-        super.init(fileName, version);
+    public void init(@NotNull String fileName, @Nullable OpenApiVersion version, @NotNull Map<String, Object> props) {
+        super.init(fileName, version, props);
         runDfs = isPlatformIntegrationEnabled() && isOpenAPI()
                 && !DictionaryService.getInstance(project).getDictionaries().isEmpty();
     }

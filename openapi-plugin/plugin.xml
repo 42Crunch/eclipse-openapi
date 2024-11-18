@@ -300,6 +300,12 @@
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
             <service serviceClass="com.xliic.core.services.ISignUpService"></service>
         </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.ITagsService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IInlayHintsService"></service>
+        </serviceFactory>
     </extension>
 
     <extension

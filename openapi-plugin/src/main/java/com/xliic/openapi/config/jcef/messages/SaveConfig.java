@@ -32,6 +32,8 @@ import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
+import com.xliic.openapi.settings.Credentials;
+import com.xliic.openapi.tags.TagsService;
 
 public class SaveConfig extends WebAppProduce {
 
@@ -50,6 +52,7 @@ public class SaveConfig extends WebAppProduce {
         if (payload instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) payload;
             SettingsService settingsService = SettingsService.getInstance();
+            Credentials.Type currentType = Credentials.getCredentialsType();
             settingsService.setCacheValue(URL, map.get("platformUrl"));
             settingsService.setCacheValue(API_KEY, map.get("platformApiToken"));
             settingsService.setCacheValue(TOKEN, map.get("anondToken"));
@@ -86,6 +89,10 @@ public class SaveConfig extends WebAppProduce {
             settingsService.setCacheValue(Settings.Platform.MANDATORY_TAGS, map.get("platformMandatoryTags"));
             settingsService.setCacheValue(APPROVED_HOST_CONFIG, map.get("approvedHosts"));
             settingsService.setCacheValue(CLI_DIRECTORY_OVERRIDE, map.get("cliDirectoryOverride"));
+            Credentials.Type newType = Credentials.getCredentialsType();
+            if (newType != currentType) {
+                TagsService.getInstance(project).updateCredentialsType(newType);
+            }
         }
     }
 

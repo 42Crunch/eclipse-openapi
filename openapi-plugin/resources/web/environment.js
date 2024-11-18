@@ -1,68 +1,69 @@
-import { a as y, l as w, t as S, d as C, s as $, q as o, T as s, j as e, f as F, R as k, P as V, m as A, h as R, n as M } from "./TriangleExclamation.9XEPiFVq.js";
-import { e as _, h as g, u as L, j as N, l as T } from "./slice.BMh66IVW.js";
-import { T as P } from "./Tabs.Bl72ehkQ.js";
-import { u as D, a as v, d as G, b as W, F as q } from "./index.esm.DW1oUrXc.js";
-import { S as H } from "./ExclamationCircle.D7uJcz_8.js";
-import { l as K, m as X, S as B } from "./variables.D_ud6PiV.js";
+import { a as y, l as w, t as S, d as C, s as $, q as o, T as s, j as e, f as F, R as k, P as V, m as A, h as R, n as M } from "./TriangleExclamation.nXQi8F2Q.js";
+import { e as _, h as g, u as L, j as N, l as T } from "./slice.ClxfPkCJ.js";
+import { T as P } from "./Tabs.BbfVcI6x.js";
+import { u as D, a as v, d as G, b as W, F as q } from "./index.esm.lNJZawDO.js";
+import { S as H } from "./ExclamationCircle.B-zBfie-.js";
+import { S as K } from "./TrashCan.BMVjN8By.js";
+import { l as X, m as B } from "./variables.DQFyen7Y.js";
 const I = {
   theme: S,
   env: _
-}, O = (n, t) => y({
+}, O = (r, t) => y({
   reducer: I,
-  middleware: (r) => r().prepend(n.middleware).concat(w),
+  middleware: (n) => n().prepend(r.middleware).concat(w),
   preloadedState: {
     theme: t
   }
 }), h = C(), z = h.startListening;
-function J(n) {
+function J(r) {
   return $({
     saveEnv: () => z({
       actionCreator: g,
-      effect: async (r, a) => {
-        n.postMessage({
+      effect: async (n, a) => {
+        r.postMessage({
           command: "saveEnv",
-          payload: r.payload
+          payload: n.payload
         });
       }
     })
   }), h;
 }
 function Q({
-  name: n,
+  name: r,
   remove: t,
-  password: r
+  password: n
 }) {
   const { control: a } = D(), {
-    field: u,
+    field: m,
     fieldState: { error: i }
   } = v({
-    name: `${n}.key`,
+    name: `${r}.key`,
     control: a,
     rules: {
       pattern: {
-        value: K(),
-        message: X
+        value: X(),
+        message: B
       }
     }
   }), { field: d } = v({
-    name: `${n}.value`,
+    name: `${r}.value`,
     control: a
   });
   return /* @__PURE__ */ e.jsxs(U, { children: [
     /* @__PURE__ */ e.jsxs(Y, { children: [
-      /* @__PURE__ */ e.jsx(Z, { type: "text", ...u }),
-      /* @__PURE__ */ e.jsx(ee, { type: r ? "password" : "text", ...d }),
+      /* @__PURE__ */ e.jsx(Z, { type: "text", ...m }),
+      /* @__PURE__ */ e.jsx(ee, { type: n ? "password" : "text", ...d }),
       /* @__PURE__ */ e.jsx(
-        ne,
+        re,
         {
           onClick: (l) => {
             l.preventDefault(), l.stopPropagation(), t();
           },
-          children: /* @__PURE__ */ e.jsx(B, {})
+          children: /* @__PURE__ */ e.jsx(K, {})
         }
       )
     ] }),
-    i && /* @__PURE__ */ e.jsxs(re, { children: [
+    i && /* @__PURE__ */ e.jsxs(ne, { children: [
       /* @__PURE__ */ e.jsx(H, {}),
       "  ",
       i.message
@@ -89,7 +90,7 @@ const U = o.div`
   background: transparent;
   border-bottom: 1px solid var(${s.border});
   color: var(${s.foreground});
-`, ne = o.button`
+`, re = o.button`
   background: none;
   border: none;
   padding: 0;
@@ -102,11 +103,11 @@ const U = o.div`
   > svg {
     fill: var(${s.foreground});
   }
-`, re = o.div`
+`, ne = o.div`
   padding: 4px;
   display: flex;
 `;
-function te({ append: n }) {
+function te({ append: r }) {
   return /* @__PURE__ */ e.jsxs(oe, { children: [
     /* @__PURE__ */ e.jsx(
       se,
@@ -114,7 +115,7 @@ function te({ append: n }) {
         placeholder: "name",
         value: "",
         onChange: (t) => {
-          n({ key: t.target.value, value: "" }, { shouldFocus: !0 });
+          r({ key: t.target.value, value: "" }, { shouldFocus: !0 });
         }
       }
     ),
@@ -138,50 +139,50 @@ const oe = o.div`
   margin-right: 1.5em;
 `;
 function x({
-  name: n,
+  name: r,
   data: t,
-  password: r
+  password: n
 }) {
-  const a = L(), u = de(t), i = G({
-    defaultValues: u,
+  const a = L(), m = de(t), i = G({
+    defaultValues: m,
     mode: "onChange"
   }), { handleSubmit: d, control: l } = i;
-  function p(m) {
-    const c = le(m);
-    a(g({ name: n, environment: c }));
+  function p(u) {
+    const c = le(u);
+    a(g({ name: r, environment: c }));
   }
   const { fields: b, append: j, remove: E } = W({
     control: l,
     name: "values"
   });
   return /* @__PURE__ */ e.jsx(q, { ...i, children: /* @__PURE__ */ e.jsxs(ie, { onChange: d(p), children: [
-    b.map((m, c) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
+    b.map((u, c) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
       Q,
       {
         name: `values.${c}`,
         remove: () => {
           E(c), d(p)();
         },
-        password: r
+        password: n
       }
-    ) }, m.id)),
+    ) }, u.id)),
     /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(te, { append: j }) })
   ] }) });
 }
 const ie = o.form`
   padding: 8px;
 `;
-function de(n) {
-  return { values: Object.entries(n).map(([r, a]) => ({ key: r, value: a })) };
+function de(r) {
+  return { values: Object.entries(r).map(([n, a]) => ({ key: n, value: a })) };
 }
-function le(n) {
+function le(r) {
   const t = {};
-  for (const r of n.values)
-    t[r.key] = r.value;
+  for (const n of r.values)
+    t[n.key] = n.value;
   return t;
 }
 function ce() {
-  const { data: n, ready: t } = N((r) => r.env);
+  const { data: r, ready: t } = N((n) => n.env);
   return t ? /* @__PURE__ */ e.jsx(f, { children: /* @__PURE__ */ e.jsx(
     P,
     {
@@ -189,12 +190,12 @@ function ce() {
         {
           id: "secrets",
           title: "Secrets",
-          content: /* @__PURE__ */ e.jsx(x, { name: "secrets", data: n.secrets, password: !0 })
+          content: /* @__PURE__ */ e.jsx(x, { name: "secrets", data: r.secrets, password: !0 })
         },
         {
           id: "default",
           title: "Default",
-          content: /* @__PURE__ */ e.jsx(x, { name: "default", data: n.default })
+          content: /* @__PURE__ */ e.jsx(x, { name: "default", data: r.default })
         }
       ]
     }
@@ -202,20 +203,20 @@ function ce() {
 }
 const f = o.div`
   margin: 4px;
-`, ue = {
+`, me = {
   changeTheme: M,
   loadEnv: T
 };
-function me() {
+function ue() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
     /* @__PURE__ */ e.jsx(R, {}),
     /* @__PURE__ */ e.jsx(ce, {})
   ] });
 }
-function pe(n, t) {
-  const r = O(J(n), t);
+function pe(r, t) {
+  const n = O(J(r), t);
   F(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(k.StrictMode, { children: /* @__PURE__ */ e.jsx(V, { store: r, children: /* @__PURE__ */ e.jsx(me, {}) }) })
-  ), window.addEventListener("message", A(r, ue));
+    /* @__PURE__ */ e.jsx(k.StrictMode, { children: /* @__PURE__ */ e.jsx(V, { store: n, children: /* @__PURE__ */ e.jsx(ue, {}) }) })
+  ), window.addEventListener("message", A(n, me));
 }
 window.renderWebView = pe;
