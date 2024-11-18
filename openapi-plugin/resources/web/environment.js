@@ -4,7 +4,7 @@ import { T as P } from "./Tabs.BbfVcI6x.js";
 import { u as D, a as v, d as G, b as W, F as q } from "./index.esm.lNJZawDO.js";
 import { S as H } from "./ExclamationCircle.B-zBfie-.js";
 import { S as K } from "./TrashCan.BMVjN8By.js";
-import { l as X, m as B } from "./variables.DbgbCk9z.js";
+import { l as X, m as B } from "./variables.DQFyen7Y.js";
 const I = {
   theme: S,
   env: _

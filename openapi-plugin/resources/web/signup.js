@@ -1,6 +1,6 @@
 import { j as e, c as z, d as H, s as N, a as Z, n as G, u as J, b as K, l as Q, t as X, q as s, T, f as Y, R as ee, P as ne, h as oe, m as te } from "./TriangleExclamation.nXQi8F2Q.js";
-import { c as f, u as k } from "./index.esm.lNJZawDO.js";
-import { B as re, o as w, s as g, F as y, I as v, T as ae } from "./Button.CNR72jjI.js";
+import { c as h, u as k } from "./index.esm.lNJZawDO.js";
+import { B as re, o as y, s as f, F as w, I as v, T as ae } from "./Button.CNR72jjI.js";
 import { N as B } from "./ProgressButton.D803B7LH.js";
 import { E as A } from "./Banner.DuR_FTGp.js";
 import { C as se } from "./Checkbox.JvCbh-EB.js";
@@ -111,14 +111,14 @@ const ie = (n) => /* @__PURE__ */ e.jsxs(
   showAnondTokenResponse: de,
   saveAnondEmail: ce,
   saveAnondToken: pe,
-  resetAnondTokenRequestResult: I,
+  resetAnondTokenRequestResult: E,
   anondSignUpComplete: q,
   showPlatformConnectionTestError: me,
   savePlatformCredentials: ue,
   platformSignUpComplete: M,
   saveAgreeToTermsAndConditions: he,
   showTermsAndConditionsError: fe,
-  openLink: b,
+  openLink: g,
   setCurrentFormId: j
 } = D.actions, ge = D.reducer, $ = H(), m = $.startListening;
 function xe(n) {
@@ -133,7 +133,7 @@ function xe(n) {
       }
     }),
     openLink: () => m({
-      actionCreator: b,
+      actionCreator: g,
       effect: async (t, r) => {
         n.postMessage({
           command: "openLink",
@@ -184,12 +184,12 @@ function ve({
     showTermsAndConditionsError: i,
     anondTokenRequestResult: l,
     waitingForAnondToken: a,
-    complete: E
-  } = d((C) => C.signup), O = w({
-    email: g().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
+    complete: U
+  } = d((C) => C.signup), O = y({
+    email: f().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
   });
   return /* @__PURE__ */ e.jsx(
-    y,
+    w,
     {
       data: n,
       saveData: (C) => t(ce(C.email)),
@@ -197,33 +197,33 @@ function ve({
       unwrapFormData: p,
       schema: O,
       useFormMode: "onBlur",
-      children: /* @__PURE__ */ e.jsxs(P, { children: [
-        /* @__PURE__ */ e.jsxs(F, { children: [
-          /* @__PURE__ */ e.jsx(S, { children: "Register" }),
+      children: /* @__PURE__ */ e.jsxs(S, { children: [
+        /* @__PURE__ */ e.jsxs(b, { children: [
+          /* @__PURE__ */ e.jsx(F, { children: "Register" }),
           /* @__PURE__ */ e.jsx(
             x,
             {
               text: "I have an existing account",
-              disabled: E || a,
+              disabled: U || a,
               backToPrevForm: o
             }
           )
         ] }),
-        /* @__PURE__ */ e.jsxs(R, { children: [
-          /* @__PURE__ */ e.jsx(v, { label: "Email", name: "email", disabled: E }),
+        /* @__PURE__ */ e.jsxs(P, { children: [
+          /* @__PURE__ */ e.jsx(v, { label: "Email", name: "email", disabled: U }),
           /* @__PURE__ */ e.jsx(_, { children: "Enter a valid email address to receive a once off access token." }),
-          l && !l.success && /* @__PURE__ */ e.jsx(W, { children: /* @__PURE__ */ e.jsx(A, { message: "Unexpected error when trying to request a token", children: l.message }) }),
+          l && !l.success && /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(A, { message: "Unexpected error when trying to request a token", children: l.message }) }),
           /* @__PURE__ */ e.jsx(Fe, {}),
           i && !r && /* @__PURE__ */ e.jsx(A, { message: "Please accept Terms and Conditions to continue" }),
           /* @__PURE__ */ e.jsxs("div", { children: [
-            "Register your own free account to:",
+            "Register for your free API security testing account to:",
             /* @__PURE__ */ e.jsxs("ul", { children: [
-              /* @__PURE__ */ e.jsx("li", { children: "Audit OpenAPI contracts" }),
-              /* @__PURE__ */ e.jsx("li", { children: "Scan APIs" })
+              /* @__PURE__ */ e.jsx("li", { children: "Audit your OpenAPI contracts for quality and conformance" }),
+              /* @__PURE__ */ e.jsx("li", { children: "Scan your APIs for conformance and security vulnerabilities" })
             ] })
           ] })
         ] }),
-        /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsx(Ae, {}) })
+        /* @__PURE__ */ e.jsx(R, { children: /* @__PURE__ */ e.jsx(Ae, {}) })
       ] })
     }
   );
@@ -248,7 +248,7 @@ function x({
 function Ae() {
   const n = c(), { agreeToTermsAndConditions: o, waitingForAnondToken: t, complete: r } = d(
     (a) => a.signup
-  ), i = f({ name: "email" }), {
+  ), i = h({ name: "email" }), {
     formState: { isValid: l }
   } = k();
   return /* @__PURE__ */ e.jsx(
@@ -268,11 +268,11 @@ function ke({
   backToPrevForm: o,
   backToPlatformSignup: t
 }) {
-  const r = c(), { complete: i } = d((a) => a.signup), l = w({
-    anondToken: g().min(1, { message: "This field has to be filled." })
+  const r = c(), { complete: i } = d((a) => a.signup), l = y({
+    anondToken: f().min(1, { message: "This field has to be filled." })
   });
   return /* @__PURE__ */ e.jsx(
-    y,
+    w,
     {
       data: n,
       saveData: (a) => r(pe(a.anondToken)),
@@ -280,9 +280,9 @@ function ke({
       unwrapFormData: p,
       schema: l,
       useFormMode: "onChange",
-      children: /* @__PURE__ */ e.jsxs(P, { children: [
-        /* @__PURE__ */ e.jsxs(F, { children: [
-          /* @__PURE__ */ e.jsx(S, { children: "Register" }),
+      children: /* @__PURE__ */ e.jsxs(S, { children: [
+        /* @__PURE__ */ e.jsxs(b, { children: [
+          /* @__PURE__ */ e.jsx(F, { children: "Register" }),
           /* @__PURE__ */ e.jsx(
             x,
             {
@@ -292,9 +292,9 @@ function ke({
             }
           )
         ] }),
-        /* @__PURE__ */ e.jsxs(R, { children: [
+        /* @__PURE__ */ e.jsxs(P, { children: [
           /* @__PURE__ */ e.jsxs("div", { children: [
-            /* @__PURE__ */ e.jsx("p", { children: "We just sent you an access token to the email address you provided. Enter the token below to activate your account." }),
+            /* @__PURE__ */ e.jsx("p", { children: "We just sent you an access token to the email address you provided. Enter the token below to activate your API security testing account." }),
             /* @__PURE__ */ e.jsx("p", { children: "If you did not get the token, check your spam mail." }),
             /* @__PURE__ */ e.jsx(
               x,
@@ -306,7 +306,22 @@ function ke({
             )
           ] }),
           /* @__PURE__ */ e.jsx(ae, { label: "Token", name: "anondToken", disabled: i }),
-          /* @__PURE__ */ e.jsx("div", { children: "Audit and Scan usage allowances apply, upgrade options available." }),
+          /* @__PURE__ */ e.jsxs("div", { children: [
+            "Audit and Scan usage allowances apply, upgrade",
+            " ",
+            /* @__PURE__ */ e.jsx(
+              "a",
+              {
+                href: "#",
+                onClick: (a) => {
+                  a.preventDefault(), a.stopPropagation(), r(g("https://42crunch.com/single-user-pricing/"));
+                },
+                children: "options"
+              }
+            ),
+            " ",
+            "available."
+          ] }),
           /* @__PURE__ */ e.jsxs("div", { children: [
             "Developer support",
             " ",
@@ -315,20 +330,20 @@ function ke({
               {
                 href: "#",
                 onClick: (a) => {
-                  a.preventDefault(), a.stopPropagation(), r(b("https://developers.42crunch.com/"));
+                  a.preventDefault(), a.stopPropagation(), r(g("https://developers.42crunch.com/"));
                 },
                 children: "community"
               }
             )
           ] })
         ] }),
-        /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsx(we, {}) })
+        /* @__PURE__ */ e.jsx(R, { children: /* @__PURE__ */ e.jsx(ye, {}) })
       ] })
     }
   );
 }
-function we() {
-  const n = c(), { anondCredentials: o, complete: t } = d((l) => l.signup), r = f({ name: "anondToken" });
+function ye() {
+  const n = c(), { anondCredentials: o, complete: t } = d((l) => l.signup), r = h({ name: "anondToken" });
   console.log("my token", r);
   const {
     formState: { isValid: i }
@@ -346,19 +361,19 @@ function we() {
     }
   );
 }
-function ye({
+function we({
   data: n,
   backToPrevForm: o
 }) {
-  const t = c(), { platformConnectionTestResult: r, complete: i } = d((a) => a.signup), l = w({
-    platformUrl: g().url().startsWith("https://"),
-    platformApiToken: g().regex(
+  const t = c(), { platformConnectionTestResult: r, complete: i } = d((a) => a.signup), l = y({
+    platformUrl: f().url().startsWith("https://"),
+    platformApiToken: f().regex(
       /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       "Token is invalid"
     )
   });
   return /* @__PURE__ */ e.jsx(
-    y,
+    w,
     {
       data: n,
       saveData: (a) => t(ue(a)),
@@ -366,24 +381,24 @@ function ye({
       unwrapFormData: p,
       schema: l,
       useFormMode: "onChange",
-      children: /* @__PURE__ */ e.jsxs(P, { children: [
-        /* @__PURE__ */ e.jsxs(F, { children: [
-          /* @__PURE__ */ e.jsx(S, { children: "Sign in" }),
+      children: /* @__PURE__ */ e.jsxs(S, { children: [
+        /* @__PURE__ */ e.jsxs(b, { children: [
+          /* @__PURE__ */ e.jsx(F, { children: "Sign in" }),
           /* @__PURE__ */ e.jsx(x, { text: "Register", disabled: i, backToPrevForm: o })
         ] }),
-        /* @__PURE__ */ e.jsxs(R, { children: [
+        /* @__PURE__ */ e.jsxs(P, { children: [
           /* @__PURE__ */ e.jsx(_, { children: "If you are an existing Teams or Enterprise customer, activate your account here." }),
           /* @__PURE__ */ e.jsx(v, { label: "Platform URL", name: "platformUrl", disabled: i }),
           /* @__PURE__ */ e.jsx(v, { label: "IDE token", name: "platformApiToken", disabled: i, password: !0 }),
-          r && /* @__PURE__ */ e.jsx(W, { children: /* @__PURE__ */ e.jsx(A, { message: "Failed to connect", children: r.error }) })
+          r && /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(A, { message: "Failed to connect", children: r.error }) })
         ] }),
-        /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsx(be, {}) })
+        /* @__PURE__ */ e.jsx(R, { children: /* @__PURE__ */ e.jsx(be, {}) })
       ] })
     }
   );
 }
 function be() {
-  const n = c(), { waitingForPlatformConnectionTest: o, complete: t } = d((a) => a.signup), r = f({ name: "platformUrl" }), i = f({ name: "platformApiToken" }), {
+  const n = c(), { waitingForPlatformConnectionTest: o, complete: t } = d((a) => a.signup), r = h({ name: "platformUrl" }), i = h({ name: "platformApiToken" }), {
     formState: { isValid: l }
   } = k();
   return /* @__PURE__ */ e.jsx(
@@ -415,7 +430,7 @@ function Fe() {
           {
             href: "#",
             onClick: (t) => {
-              t.preventDefault(), t.stopPropagation(), n(b("https://42crunch.com/websales-customer-agreement"));
+              t.preventDefault(), t.stopPropagation(), n(g("https://42crunch.com/websales-customer-agreement"));
             },
             children: "terms & conditions"
           }
@@ -425,7 +440,7 @@ function Fe() {
     }
   ) });
 }
-const F = s.div`
+const b = s.div`
   // border-bottom-color: var(${T.border});
   // border-bottom-width: 1px;
   // border-bottom-style: solid;
@@ -435,18 +450,18 @@ const F = s.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-`, S = s.p`
+`, F = s.p`
   margin: 0;
   font-size: 25px;
   line-height: 40px;
   font-weight: 600;
 `, _ = s.div`
   font-weight: normal;
-`, P = s.div`
+`, S = s.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-`, R = s.div`
+`, P = s.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -458,7 +473,7 @@ const F = s.div`
   ${({ disabled: n }) => n && "opacity: 0.4;"}
   ${({ disabled: n }) => n && "cursor: default;"}
   ${({ disabled: n }) => n && "pointer-events: none;"}
-`, U = s.div`
+`, R = s.div`
   display: flex;
   gap: 16px;
   align-items: stretch;
@@ -469,7 +484,7 @@ const F = s.div`
     height: 45px;
     border-radius: 2px;
   }
-`, W = s.div`
+`, V = s.div`
   > div {
     max-width: 410px;
     word-wrap: break-word;
@@ -489,17 +504,13 @@ function Ue() {
   const { currentFormId: n } = d((o) => o.signup);
   return /* @__PURE__ */ e.jsx(Ie, { children: /* @__PURE__ */ e.jsxs(De, { children: [
     /* @__PURE__ */ e.jsx(Le, { children: /* @__PURE__ */ e.jsx(ie, {}) }),
-    n === "AnondSignUpEmailForm" && /* @__PURE__ */ e.jsx(u, { children: "#1 API Security testing tools for your IDE, CI/CD and SaaS environments" }),
-    n === "AnondSignUpTokenForm" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-      /* @__PURE__ */ e.jsx(u, { children: "API Audit & Scan" }),
-      /* @__PURE__ */ e.jsx(h, { children: "Ensure your API conforms to the API contract and has no vulnerabilities." }),
-      /* @__PURE__ */ e.jsx(h, { children: "Check for BOLA, BFLA and other OWASP API risks." })
-    ] }),
+    n === "AnondSignUpEmailForm" && /* @__PURE__ */ e.jsx(u, { children: "Register to check your API for quality, conformance and security vulnerabilities, including BOLA, BFLA & BOPLA" }),
+    n === "AnondSignUpTokenForm" && /* @__PURE__ */ e.jsx(e.Fragment, { children: /* @__PURE__ */ e.jsx(u, { children: "#1 API Security testing tools for your IDE, CICD and SaaS environments" }) }),
     n === "PlatformSignUpForm" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
       /* @__PURE__ */ e.jsx(u, { children: "API Capture" }),
-      /* @__PURE__ */ e.jsx(h, { children: "Automatically generate OpenAPI definition files." }),
+      /* @__PURE__ */ e.jsx(I, { children: "Automatically generate OpenAPI definition files." }),
       /* @__PURE__ */ e.jsx(u, { children: "API Protect" }),
-      /* @__PURE__ */ e.jsx(h, { children: "Immediately protect APIs at runtime." })
+      /* @__PURE__ */ e.jsx(I, { children: "Immediately protect APIs at runtime." })
     ] })
   ] }) });
 }
@@ -507,9 +518,9 @@ function Ee() {
   const n = c(), { platformCredentials: o, anondCredentials: t, currentFormId: r } = d(
     (i) => i.signup
   );
-  return /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsxs(Be, { children: [
+  return /* @__PURE__ */ e.jsx(W, { children: /* @__PURE__ */ e.jsxs(Be, { children: [
     r === "PlatformSignUpForm" && /* @__PURE__ */ e.jsx(
-      ye,
+      we,
       {
         data: o,
         backToPrevForm: () => n(j("AnondSignUpEmailForm"))
@@ -527,21 +538,21 @@ function Ee() {
       {
         data: { anondToken: t.anondToken },
         backToPrevForm: () => {
-          n(I());
+          n(E());
         },
         backToPlatformSignup: () => {
-          n(I()), n(j("PlatformSignUpForm"));
+          n(E()), n(j("PlatformSignUpForm"));
         }
       }
     )
   ] }) });
 }
-const V = s.div`
+const W = s.div`
   display: flex;
   align-items: center;
   width: 50%;
   background-color: var(${T.computedOne});
-`, Ie = s(V)`
+`, Ie = s(W)`
   background-color: var(${T.computedTwo});
 `, Be = s.div`
   margin-right: auto;
@@ -571,7 +582,7 @@ const V = s.div`
   font-weight: 700;
   margin-top: 10px;
   margin-bottom: 10px;
-`, h = s.p`
+`, I = s.p`
   font-size: 26px;
   line-height: 36px;
   font-weight: 600;
