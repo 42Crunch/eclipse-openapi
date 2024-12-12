@@ -50,8 +50,10 @@ public abstract class State<T> implements Runnable {
 		synchronized(lock) {
 	    	isSaveScheduled = false;
 	    	saveToFile();
-	        future.cancel(true);
-	        future = null;
+            if (future != null) {
+                future.cancel(true);
+                future = null;
+            }
 		}
 	}
 
