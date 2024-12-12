@@ -1,6 +1,5 @@
 package com.xliic.openapi.report.types;
 
-import java.util.Base64;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,7 +81,7 @@ public class AuditBuilder {
         report.setMinimalReport(getBoolean("minimalReport", reportNode));
         report.setCompliance(compliance);
         if (!skipToDo && todoReport != null) {
-            String text = new String(Base64.getDecoder().decode((String) todoReport.getData().get("data")));
+            String text = todoReport.getText();
             Node todoReportNode = Utils.getJsonAST(text);
             if (todoReportNode != null) {
                 report.setTodoReport(build(todoReportNode, true));

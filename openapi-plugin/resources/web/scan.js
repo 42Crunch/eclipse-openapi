@@ -1,8 +1,8 @@
-import { c as oe, b as ae, a as Se, u as Ce, l as Ee, t as Oe, r as Re, d as Ae, s as Pe, i as Ie, q as h, T as f, e as N, j as e, S as ke, f as qe, R as Te, P as $e, g as Ne, m as He, h as De, k as Me, n as _e } from "./TriangleExclamation.nXQi8F2Q.js";
+import { c as oe, b as ae, a as Se, u as Ce, l as Ee, t as Oe, r as Re, d as Ae, s as Pe, i as Ie, q as h, T as x, e as N, j as e, S as ke, f as qe, R as Te, P as $e, g as Ne, m as He, h as De, k as Me, n as _e } from "./TriangleExclamation.nXQi8F2Q.js";
 import { g as Le, H as ce, e as Fe, s as Be, b as Ue, l as Ye } from "./slice.ClxfPkCJ.js";
 import { S as ze, e as Ke, b as We, c as Ve } from "./Xmark.WEKLQ6On.js";
-import { p as Ge, s as Qe, a as Je, S as F, l as Xe } from "./index.C8lC5c0B.js";
-import { c as Ze, l as et } from "./index.9-BhmzEZ.js";
+import { p as Ge, s as Qe, a as Je, S as F, l as Xe } from "./index.CRSROwzA.js";
+import { c as Ze, l as et } from "./index.6roWWdSq.js";
 import { s as tt } from "./listener.niZSXTOj.js";
 import { D } from "./datetime.DlW1FQ29.js";
 import { S as st } from "./AngleDown.DqhwqsZu.js";
@@ -10,7 +10,7 @@ import { S as nt } from "./AngleUp.CjOPB34P.js";
 import { S as $ } from "./Check.D1zKQeOf.js";
 import { S as q } from "./ExclamationCircle.B-zBfie-.js";
 import { C as it, A as rt, P as ot, R as at, T as ct, a as dt } from "./index.DHj6Gh4d.js";
-import { R as de } from "./Response.DiwEWEhL.js";
+import { R as de } from "./Response.BlJVN6A7.js";
 import { P as H } from "./Select.BLtR9ahA.js";
 import { T as lt } from "./Tabs.BbfVcI6x.js";
 import { C as ht } from "./CollapsibleCard.W6R9KNQr.js";
@@ -56,14 +56,14 @@ const pt = {
     },
     showScanReport: (t, s) => {
       var w;
-      const { oas: n, path: i, method: r, report: x } = s.payload, o = Le(n, i, r), l = (o == null ? void 0 : o.operationId) === void 0 ? `${i}:${r}` : o.operationId, a = (w = x.operations) == null ? void 0 : w[l];
-      a && (t.operations[l] = a);
-      const p = se(x), d = B(p, t.filter), { titles: u, paths: j, operationIds: S } = T(p), { grouped: v } = T(d);
-      t.issues = p, t.titles = u, t.paths = j, t.operationIds = S, t.grouped = v, t.oas = n, t.scanReport = x, t.waiting = !1;
+      const { oas: n, path: i, method: r, report: u } = s.payload, o = Le(n, i, r), c = (o == null ? void 0 : o.operationId) === void 0 ? `${i}:${r}` : o.operationId, a = (w = u.operations) == null ? void 0 : w[c];
+      a && (t.operations[c] = a);
+      const p = se(u), l = B(p, t.filter), { titles: f, paths: j, operationIds: S } = T(p), { grouped: v } = T(l);
+      t.issues = p, t.titles = f, t.paths = j, t.operationIds = S, t.grouped = v, t.oas = n, t.scanReport = u, t.waiting = !1;
     },
     showFullScanReport: (t, s) => {
-      const { oas: n, report: i } = s.payload, r = se(i), x = B(r, t.filter), { titles: o, paths: l, operationIds: a } = T(r), { grouped: p } = T(x);
-      t.oas = n, t.operations = { ...i.operations || {} }, t.issues = r, t.titles = o, t.paths = l, t.operationIds = a, t.grouped = p, t.scanReport = i, t.waiting = !1;
+      const { oas: n, report: i } = s.payload, r = se(i), u = B(r, t.filter), { titles: o, paths: c, operationIds: a } = T(r), { grouped: p } = T(u);
+      t.oas = n, t.operations = { ...i.operations || {} }, t.issues = r, t.titles = o, t.paths = c, t.operationIds = a, t.grouped = p, t.scanReport = i, t.waiting = !1;
     },
     changeFilter: (t, s) => {
       t.filter = s.payload;
@@ -111,21 +111,21 @@ const pt = {
 function se(t) {
   var n, i, r;
   const s = [];
-  for (const [x, o] of Object.entries((t == null ? void 0 : t.operations) || {}))
-    for (const l of [
+  for (const [u, o] of Object.entries((t == null ? void 0 : t.operations) || {}))
+    for (const c of [
       "conformanceRequestsResults",
       "authorizationRequestsResults",
       "customRequestsResults"
     ]) {
-      const a = o[l], p = o.path, d = o.method.toLocaleLowerCase();
-      for (const u of a || [])
-        s.push({ ...u, path: p, method: d, operationId: x });
+      const a = o[c], p = o.path, l = o.method.toLocaleLowerCase();
+      for (const f of a || [])
+        s.push({ ...f, path: p, method: l, operationId: u });
     }
-  for (const x of Object.keys((t == null ? void 0 : t.methodNotAllowed) || {}))
+  for (const u of Object.keys((t == null ? void 0 : t.methodNotAllowed) || {}))
     for (const o of ce) {
-      const l = (r = (i = (n = t == null ? void 0 : t.methodNotAllowed) == null ? void 0 : n[x]) == null ? void 0 : i[o]) == null ? void 0 : r.conformanceRequestsResults;
-      for (const a of l || [])
-        s.push({ ...a, path: x });
+      const c = (r = (i = (n = t == null ? void 0 : t.methodNotAllowed) == null ? void 0 : n[u]) == null ? void 0 : i[o]) == null ? void 0 : r.conformanceRequestsResults;
+      for (const a of c || [])
+        s.push({ ...a, path: u });
     }
   return s;
 }
@@ -134,33 +134,33 @@ function B(t, s) {
     var p;
     return (s == null ? void 0 : s.title) === void 0 || ((p = a.test) == null ? void 0 : p.key) === s.title;
   }, i = s.severity !== void 0 ? ze.indexOf(s.severity) + 1 : 0, r = (a) => {
-    var p, d;
-    return s.severity === void 0 || ((p = a.outcome) == null ? void 0 : p.criticality) === void 0 || ((d = a.outcome) == null ? void 0 : d.criticality) >= i;
-  }, x = (a) => (s == null ? void 0 : s.path) === void 0 || a.path === s.path, o = (a) => (s == null ? void 0 : s.method) === void 0 || a.method === s.method, l = (a) => (s == null ? void 0 : s.operationId) === void 0 || a.operationId === s.operationId;
-  return t.filter((a) => n(a) && r(a) && x(a) && o(a) && l(a));
+    var p, l;
+    return s.severity === void 0 || ((p = a.outcome) == null ? void 0 : p.criticality) === void 0 || ((l = a.outcome) == null ? void 0 : l.criticality) >= i;
+  }, u = (a) => (s == null ? void 0 : s.path) === void 0 || a.path === s.path, o = (a) => (s == null ? void 0 : s.method) === void 0 || a.method === s.method, c = (a) => (s == null ? void 0 : s.operationId) === void 0 || a.operationId === s.operationId;
+  return t.filter((a) => n(a) && r(a) && u(a) && o(a) && c(a));
 }
 function T(t) {
-  var o, l;
+  var o, c;
   const s = {}, n = {}, i = /* @__PURE__ */ new Set(), r = /* @__PURE__ */ new Set();
   for (const a of t) {
     const p = (o = a.test) == null ? void 0 : o.key;
-    p !== void 0 && (s[p] === void 0 && (s[p] = [], n[p] = (l = a.test) == null ? void 0 : l.description), s[p].push(a)), i.add(a.path), a.operationId && r.add(a.operationId);
+    p !== void 0 && (s[p] === void 0 && (s[p] = [], n[p] = (c = a.test) == null ? void 0 : c.description), s[p].push(a)), i.add(a.path), a.operationId && r.add(a.operationId);
   }
-  const x = Object.keys(s);
-  for (const a of x)
-    s[a].sort((p, d) => {
-      var u, j, S, v, w, O, R, P, I, k;
-      if (((u = p.outcome) == null ? void 0 : u.status) !== ((j = d.outcome) == null ? void 0 : j.status)) {
+  const u = Object.keys(s);
+  for (const a of u)
+    s[a].sort((p, l) => {
+      var f, j, S, v, w, O, R, P, I, k;
+      if (((f = p.outcome) == null ? void 0 : f.status) !== ((j = l.outcome) == null ? void 0 : j.status)) {
         if (((S = p.outcome) == null ? void 0 : S.status) === "error")
           return -1;
-        if (((v = d.outcome) == null ? void 0 : v.status) === "error")
+        if (((v = l.outcome) == null ? void 0 : v.status) === "error")
           return 1;
         if (((w = p.outcome) == null ? void 0 : w.status) === "defective")
           return -1;
-        if (((O = d.outcome) == null ? void 0 : O.status) === "defective")
+        if (((O = l.outcome) == null ? void 0 : O.status) === "defective")
           return 1;
       }
-      return ((R = p.outcome) == null ? void 0 : R.criticality) !== ((P = d.outcome) == null ? void 0 : P.criticality) ? ((I = p.outcome) == null ? void 0 : I.criticality) - ((k = d.outcome) == null ? void 0 : k.criticality) : 0;
+      return ((R = p.outcome) == null ? void 0 : R.criticality) !== ((P = l.outcome) == null ? void 0 : P.criticality) ? ((I = p.outcome) == null ? void 0 : I.criticality) - ((k = l.outcome) == null ? void 0 : k.criticality) : 0;
     });
   return {
     grouped: s,
@@ -202,10 +202,10 @@ function Rt(t, s) {
     savePrefs: () => C({
       matcher: Ie(Je, Qe),
       effect: async (i, r) => {
-        const { prefs: x } = r.getState();
+        const { prefs: u } = r.getState();
         t.postMessage({
           command: "savePrefs",
-          payload: x
+          payload: u
         });
       }
     }),
@@ -260,17 +260,17 @@ function At() {
     n.current && !i && (n.current.scrollTop = n.current.scrollHeight);
   }, [s, i]), s.length === 0)
     return null;
-  const x = () => {
+  const u = () => {
     const o = n.current;
     if (o) {
-      const l = o.scrollTop, a = o.scrollHeight, p = o.clientHeight;
-      a - (l + p) < 10 ? r(!1) : r(!0);
+      const c = o.scrollTop, a = o.scrollHeight, p = o.clientHeight;
+      a - (c + p) < 10 ? r(!1) : r(!0);
     }
   };
-  return /* @__PURE__ */ e.jsx(qt, { children: /* @__PURE__ */ e.jsx(It, { ref: n, onScroll: x, children: s.map((o, l, a) => /* @__PURE__ */ e.jsxs("div", { children: [
-    /* @__PURE__ */ e.jsx(Pt, { first: l === 0, last: l === a.length - 1 }),
+  return /* @__PURE__ */ e.jsx(qt, { children: /* @__PURE__ */ e.jsx(It, { ref: n, onScroll: u, children: s.map((o, c, a) => /* @__PURE__ */ e.jsxs("div", { children: [
+    /* @__PURE__ */ e.jsx(Pt, { first: c === 0, last: c === a.length - 1 }),
     /* @__PURE__ */ e.jsx("div", { children: o.message })
-  ] }, l)) }) });
+  ] }, c)) }) });
 }
 function Pt({ first: t, last: s }) {
   return /* @__PURE__ */ e.jsxs(kt, { first: t, last: s, children: [
@@ -280,8 +280,8 @@ function Pt({ first: t, last: s }) {
   ] });
 }
 const It = h.div`
-  color: var(${f.foreground});
-  background-color: var(${f.background});
+  color: var(${x.foreground});
+  background-color: var(${x.background});
   line-break: anywhere;
   overflow-y: scroll;
   max-height: 200px;
@@ -302,11 +302,11 @@ const It = h.div`
   > div:first-child {
     width: 1px;
     height: 8px;
-    ${({ first: t }) => !t && `background-color: var(${f.border});`}
+    ${({ first: t }) => !t && `background-color: var(${x.border});`}
   }
   > div:nth-child(2) {
-    background-color: var(${f.border});
-    border: 1px solid var(${f.border});
+    background-color: var(${x.border});
+    border: 1px solid var(${x.border});
     border-radius: 50%;
     width: 6px;
     height: 6px;
@@ -314,13 +314,13 @@ const It = h.div`
   > div:last-child {
     flex: 1;
     width: 1px;
-    ${({ last: t }) => !t && `background-color: var(${f.border});`}
+    ${({ last: t }) => !t && `background-color: var(${x.border});`}
   }
 `, qt = h.div`
   padding: 8px;
   margin: 8px;
   border-radius: 2px;
-  border: 1px solid var(${f.border});
+  border: 1px solid var(${x.border});
 `;
 function Tt() {
   const t = b((s) => s.scan.error);
@@ -330,9 +330,9 @@ function Tt() {
   ] }) }) : null;
 }
 const $t = h.div`
-  border: 1px solid var(${f.errorBorder});
-  color: var(${f.errorForeground});
-  background-color: var(${f.errorBackground});
+  border: 1px solid var(${x.errorBorder});
+  color: var(${x.errorForeground});
+  background-color: var(${x.errorBackground});
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding: 0.75rem;
@@ -358,8 +358,8 @@ function Dt({ first: t, last: s }) {
   ] });
 }
 const Mt = h.div`
-  color: var(${f.foreground});
-  background-color: var(${f.background});
+  color: var(${x.foreground});
+  background-color: var(${x.background});
   line-break: anywhere;
   padding: 8px;
 
@@ -379,11 +379,11 @@ const Mt = h.div`
   > div:first-child {
     width: 1px;
     height: 8px;
-    ${({ first: t }) => !t && `background-color: var(${f.border});`}
+    ${({ first: t }) => !t && `background-color: var(${x.border});`}
   }
   > div:nth-child(2) {
-    background-color: var(${f.border});
-    border: 1px solid var(${f.border});
+    background-color: var(${x.border});
+    border: 1px solid var(${x.border});
     border-radius: 50%;
     width: 6px;
     height: 6px;
@@ -391,7 +391,7 @@ const Mt = h.div`
   > div:last-child {
     flex: 1;
     width: 1px;
-    ${({ last: t }) => !t && `background-color: var(${f.border});`}
+    ${({ last: t }) => !t && `background-color: var(${x.border});`}
   }
 `;
 function Lt({
@@ -401,13 +401,13 @@ function Lt({
 }) {
   const i = y(), r = s.filter(
     (o) => {
-      var l, a;
-      return ((l = o == null ? void 0 : o.outcome) == null ? void 0 : l.criticality) && ((a = o.outcome) == null ? void 0 : a.criticality) >= 1;
+      var c, a;
+      return ((c = o == null ? void 0 : o.outcome) == null ? void 0 : c.criticality) && ((a = o.outcome) == null ? void 0 : a.criticality) >= 1;
     }
-  ).length, x = s.filter(
+  ).length, u = s.filter(
     (o) => {
-      var l, a;
-      return ((l = o == null ? void 0 : o.outcome) == null ? void 0 : l.criticality) && ((a = o.outcome) == null ? void 0 : a.criticality) >= 4;
+      var c, a;
+      return ((c = o == null ? void 0 : o.outcome) == null ? void 0 : c.criticality) && ((a = o.outcome) == null ? void 0 : a.criticality) >= 4;
     }
   ).length;
   return /* @__PURE__ */ e.jsxs(Ft, { children: [
@@ -471,7 +471,7 @@ function Lt({
           },
           children: [
             /* @__PURE__ */ e.jsxs("div", { children: [
-              x,
+              u,
               " ",
               /* @__PURE__ */ e.jsx(F, {})
             ] }),
@@ -496,14 +496,14 @@ const Ft = h.div`
     flex-direction: column;
     align-items: center;
     padding: 12px 8px;
-    border: 1px solid var(${f.border});
+    border: 1px solid var(${x.border});
   }
 `, Ut = h.div`
   display: flex;
-  border: 1px solid var(${f.border});
+  border: 1px solid var(${x.border});
   padding: 4px;
   & > div + div {
-    border-left: 2px solid var(${f.border});
+    border-left: 2px solid var(${x.border});
     padding-left: 4px;
     margin-left: 4px;
   }
@@ -539,47 +539,47 @@ const Yt = h.div``, zt = h.div`
     top: 6px;
     right: 6px;
     & > svg {
-      fill: var(${f.foreground});
+      fill: var(${x.foreground});
     }
   }
   padding: 4px;
   padding-right: 24px;
   position: relative;
   font-family: monospace;
-  background-color: var(${f.computedOne});
+  background-color: var(${x.computedOne});
 `, Kt = h(it)`
-  color: var(${f.notificationsForeground});
-  background-color: var(${f.notificationsBackground});
-  border: 1px solid var(${f.notificationsBorder});
+  color: var(${x.notificationsForeground});
+  background-color: var(${x.notificationsBackground});
+  border: 1px solid var(${x.notificationsBorder});
   border-radius: 4px;
   padding: 4px 8px;
   margin-right: 16px;
 `, Wt = h(rt)`
-  fill: var(${f.notificationsForeground});
+  fill: var(${x.notificationsForeground});
 `;
-function c(t) {
-  t === void 0 || this.initialize(t), this.maxHeaderSize = c.maxHeaderSize;
+function d(t) {
+  t === void 0 || this.initialize(t), this.maxHeaderSize = d.maxHeaderSize;
 }
-c.prototype.initialize = function(t, s) {
+d.prototype.initialize = function(t, s) {
   this.type = t, this.state = t + "_LINE", this.info = {
     headers: [],
     upgrade: !1
   }, this.trailers = [], this.line = "", this.isChunked = !1, this.connection = "", this.headerSize = 0, this.body_bytes = null, this.isUserCall = !1, this.hadError = !1;
 };
-c.encoding = "ascii";
-c.maxHeaderSize = 80 * 1024;
-c.REQUEST = "REQUEST";
-c.RESPONSE = "RESPONSE";
-var me = c.kOnHeaders = 1, U = c.kOnHeadersComplete = 2, _ = c.kOnBody = 3, Y = c.kOnMessageComplete = 4;
-c.prototype[me] = c.prototype[U] = c.prototype[_] = c.prototype[Y] = function() {
+d.encoding = "ascii";
+d.maxHeaderSize = 80 * 1024;
+d.REQUEST = "REQUEST";
+d.RESPONSE = "RESPONSE";
+var me = d.kOnHeaders = 1, U = d.kOnHeadersComplete = 2, _ = d.kOnBody = 3, Y = d.kOnMessageComplete = 4;
+d.prototype[me] = d.prototype[U] = d.prototype[_] = d.prototype[Y] = function() {
 };
 var ye = !0;
-Object.defineProperty(c, "kOnExecute", {
+Object.defineProperty(d, "kOnExecute", {
   get: function() {
     return ye = !1, 99;
   }
 });
-var je = c.methods = [
+var je = d.methods = [
   "DELETE",
   "GET",
   "HEAD",
@@ -615,11 +615,11 @@ var je = c.methods = [
   "UNLINK",
   "SOURCE"
 ], be = je.indexOf("CONNECT");
-c.prototype.reinitialize = c;
-c.prototype.close = c.prototype.pause = c.prototype.resume = c.prototype.free = function() {
+d.prototype.reinitialize = d;
+d.prototype.close = d.prototype.pause = d.prototype.resume = d.prototype.free = function() {
 };
-c.prototype._compatMode0_11 = !1;
-c.prototype.getAsyncId = function() {
+d.prototype._compatMode0_11 = !1;
+d.prototype.getAsyncId = function() {
   return 0;
 };
 var Vt = {
@@ -627,8 +627,8 @@ var Vt = {
   RESPONSE_LINE: !0,
   HEADER: !0
 };
-c.prototype.execute = function(t, s, n) {
-  if (!(this instanceof c))
+d.prototype.execute = function(t, s, n) {
+  if (!(this instanceof d))
     throw new TypeError("not a HTTPParser");
   s = s || 0, n = typeof n == "number" ? n : t.length, this.chunk = t, this.offset = s;
   var i = this.end = s + n;
@@ -640,42 +640,42 @@ c.prototype.execute = function(t, s, n) {
       throw r;
     return this.hadError = !0, r;
   }
-  return this.chunk = null, n = this.offset - s, Vt[this.state] && (this.headerSize += n, this.headerSize > (this.maxHeaderSize || c.maxHeaderSize)) ? new Error("max header size exceeded") : n;
+  return this.chunk = null, n = this.offset - s, Vt[this.state] && (this.headerSize += n, this.headerSize > (this.maxHeaderSize || d.maxHeaderSize)) ? new Error("max header size exceeded") : n;
 };
 var Gt = {
   REQUEST_LINE: !0,
   RESPONSE_LINE: !0,
   BODY_RAW: !0
 };
-c.prototype.finish = function() {
+d.prototype.finish = function() {
   if (!this.hadError) {
     if (!Gt[this.state])
       return new Error("invalid state for EOF");
     this.state === "BODY_RAW" && this.userCall()(this[Y]());
   }
 };
-c.prototype.consume = c.prototype.unconsume = c.prototype.getCurrentBuffer = function() {
+d.prototype.consume = d.prototype.unconsume = d.prototype.getCurrentBuffer = function() {
 };
-c.prototype.userCall = function() {
+d.prototype.userCall = function() {
   this.isUserCall = !0;
   var t = this;
   return function(s) {
     return t.isUserCall = !1, s;
   };
 };
-c.prototype.nextRequest = function() {
+d.prototype.nextRequest = function() {
   this.userCall()(this[Y]()), this.reinitialize(this.type);
 };
-c.prototype.consumeLine = function() {
+d.prototype.consumeLine = function() {
   for (var t = this.end, s = this.chunk, n = this.offset; n < t; n++)
     if (s[n] === 10) {
-      var i = this.line + s.toString(c.encoding, this.offset, n);
+      var i = this.line + s.toString(d.encoding, this.offset, n);
       return i.charAt(i.length - 1) === "\r" && (i = i.substr(0, i.length - 1)), this.line = "", this.offset = n + 1, i;
     }
-  this.line += s.toString(c.encoding, this.offset, this.end), this.offset = this.end;
+  this.line += s.toString(d.encoding, this.offset, this.end), this.offset = this.end;
 };
 var Qt = /^([^: \t]+):[ \t]*((?:.*[^ \t])|)/, Jt = /^[ \t]+(.*[^ \t])/;
-c.prototype.parseHeader = function(t, s) {
+d.prototype.parseHeader = function(t, s) {
   if (t.indexOf("\r") !== -1)
     throw L("HPE_LF_EXPECTED");
   var n = Qt.exec(t), i = n && n[1];
@@ -687,7 +687,7 @@ c.prototype.parseHeader = function(t, s) {
   }
 };
 var Xt = /^([A-Z-]+) ([^ ]+) HTTP\/(\d)\.(\d)$/;
-c.prototype.REQUEST_LINE = function() {
+d.prototype.REQUEST_LINE = function() {
   var t = this.consumeLine();
   if (t) {
     var s = Xt.exec(t);
@@ -699,7 +699,7 @@ c.prototype.REQUEST_LINE = function() {
   }
 };
 var Zt = /^HTTP\/(\d)\.(\d) (\d{3}) ?(.*)$/;
-c.prototype.RESPONSE_LINE = function() {
+d.prototype.RESPONSE_LINE = function() {
   var t = this.consumeLine();
   if (t) {
     var s = Zt.exec(t);
@@ -710,7 +710,7 @@ c.prototype.RESPONSE_LINE = function() {
     this.info.statusMessage = s[4], ((n / 100 | 0) === 1 || n === 204 || n === 304) && (this.body_bytes = 0), this.state = "HEADER";
   }
 };
-c.prototype.shouldKeepAlive = function() {
+d.prototype.shouldKeepAlive = function() {
   if (this.info.versionMajor > 0 && this.info.versionMinor > 0) {
     if (this.connection.indexOf("close") !== -1)
       return !1;
@@ -718,14 +718,14 @@ c.prototype.shouldKeepAlive = function() {
     return !1;
   return !!(this.body_bytes !== null || this.isChunked);
 };
-c.prototype.HEADER = function() {
+d.prototype.HEADER = function() {
   var t = this.consumeLine();
   if (t !== void 0) {
     var s = this.info;
     if (t)
       this.parseHeader(t, s.headers);
     else {
-      for (var n = s.headers, i = !1, r, x = !1, o = 0; o < n.length; o += 2)
+      for (var n = s.headers, i = !1, r, u = !1, o = 0; o < n.length; o += 2)
         switch (n[o].toLowerCase()) {
           case "transfer-encoding":
             this.isChunked = n[o + 1].toLowerCase() === "chunked";
@@ -741,12 +741,12 @@ c.prototype.HEADER = function() {
             this.connection += n[o + 1].toLowerCase();
             break;
           case "upgrade":
-            x = !0;
+            u = !0;
             break;
         }
-      this.isChunked && i && (i = !1, this.body_bytes = null), x && this.connection.indexOf("upgrade") != -1 ? s.upgrade = this.type === c.REQUEST || s.statusCode === 101 : s.upgrade = s.method === be, this.isChunked && s.upgrade && (this.isChunked = !1), s.shouldKeepAlive = this.shouldKeepAlive();
-      var l;
-      if (ye ? l = this.userCall()(this[U](s)) : l = this.userCall()(this[U](
+      this.isChunked && i && (i = !1, this.body_bytes = null), u && this.connection.indexOf("upgrade") != -1 ? s.upgrade = this.type === d.REQUEST || s.statusCode === 101 : s.upgrade = s.method === be, this.isChunked && s.upgrade && (this.isChunked = !1), s.shouldKeepAlive = this.shouldKeepAlive();
+      var c;
+      if (ye ? c = this.userCall()(this[U](s)) : c = this.userCall()(this[U](
         s.versionMajor,
         s.versionMinor,
         s.headers,
@@ -756,45 +756,45 @@ c.prototype.HEADER = function() {
         s.statusMessage,
         s.upgrade,
         s.shouldKeepAlive
-      )), l === 2)
+      )), c === 2)
         return this.nextRequest(), !0;
-      if (this.isChunked && !l)
+      if (this.isChunked && !c)
         this.state = "BODY_CHUNKHEAD";
       else {
-        if (l || this.body_bytes === 0)
+        if (c || this.body_bytes === 0)
           return this.nextRequest(), s.upgrade;
         this.body_bytes === null ? this.state = "BODY_RAW" : this.state = "BODY_SIZED";
       }
     }
   }
 };
-c.prototype.BODY_CHUNKHEAD = function() {
+d.prototype.BODY_CHUNKHEAD = function() {
   var t = this.consumeLine();
   t !== void 0 && (this.body_bytes = parseInt(t, 16), this.body_bytes ? this.state = "BODY_CHUNK" : this.state = "BODY_CHUNKTRAILERS");
 };
-c.prototype.BODY_CHUNK = function() {
+d.prototype.BODY_CHUNK = function() {
   var t = Math.min(this.end - this.offset, this.body_bytes);
   this.userCall()(this[_](this.chunk, this.offset, t)), this.offset += t, this.body_bytes -= t, this.body_bytes || (this.state = "BODY_CHUNKEMPTYLINE");
 };
-c.prototype.BODY_CHUNKEMPTYLINE = function() {
+d.prototype.BODY_CHUNKEMPTYLINE = function() {
   var t = this.consumeLine();
   t !== void 0 && (this.state = "BODY_CHUNKHEAD");
 };
-c.prototype.BODY_CHUNKTRAILERS = function() {
+d.prototype.BODY_CHUNKTRAILERS = function() {
   var t = this.consumeLine();
   t !== void 0 && (t ? this.parseHeader(t, this.trailers) : (this.trailers.length && this.userCall()(this[me](this.trailers, "")), this.nextRequest()));
 };
-c.prototype.BODY_RAW = function() {
+d.prototype.BODY_RAW = function() {
   var t = this.end - this.offset;
   this.userCall()(this[_](this.chunk, this.offset, t)), this.offset = this.end;
 };
-c.prototype.BODY_SIZED = function() {
+d.prototype.BODY_SIZED = function() {
   var t = Math.min(this.end - this.offset, this.body_bytes);
   this.userCall()(this[_](this.chunk, this.offset, t)), this.offset += t, this.body_bytes -= t, this.body_bytes || this.nextRequest();
 };
 ["Headers", "HeadersComplete", "Body", "MessageComplete"].forEach(function(t) {
-  var s = c["kOn" + t];
-  Object.defineProperty(c.prototype, "on" + t, {
+  var s = d["kOn" + t];
+  Object.defineProperty(d.prototype, "on" + t, {
     get: function() {
       return this[s];
     },
@@ -825,25 +825,25 @@ function we(t) {
   }
 }
 function es(t) {
-  const s = new c(c.RESPONSE);
-  let n = !1, i = 0, r, x, o = [], l = [];
-  if (s[c.kOnHeadersComplete] = function(d) {
-    d.shouldKeepAlive, d.upgrade, i = d.statusCode, d.statusMessage, r = d.versionMajor, x = d.versionMinor, o = d.headers;
-  }, s[c.kOnBody] = function(d, u, j) {
-    l.push(d.slice(u, u + j));
-  }, s[c.kOnHeaders] = function(d) {
-  }, s[c.kOnMessageComplete] = function() {
+  const s = new d(d.RESPONSE);
+  let n = !1, i = 0, r, u, o = [], c = [];
+  if (s[d.kOnHeadersComplete] = function(l) {
+    l.shouldKeepAlive, l.upgrade, i = l.statusCode, l.statusMessage, r = l.versionMajor, u = l.versionMinor, o = l.headers;
+  }, s[d.kOnBody] = function(l, f, j) {
+    c.push(l.slice(f, f + j));
+  }, s[d.kOnHeaders] = function(l) {
+  }, s[d.kOnMessageComplete] = function() {
     n = !0;
   }, s.execute(t), s.finish(), !n)
     throw new Error("Could not parse");
-  let a = l.join("");
+  let a = c.join("");
   const p = [];
-  for (let d = 0; d < o.length - 1; d++)
-    d % 2 === 0 && p.push([o[d], o[d + 1]]);
+  for (let l = 0; l < o.length - 1; l++)
+    l % 2 === 0 && p.push([o[l], o[l + 1]]);
   return {
     headers: p,
     statusCode: i,
-    httpVersion: `${r}.${x}`,
+    httpVersion: `${r}.${u}`,
     body: a
   };
 }
@@ -855,14 +855,14 @@ function ts({
   waiting: r
 }) {
   var k, z, K, W, V, G, Q, J, X, Z, ee;
-  const x = y(), [o, l] = N.useState(!0), { request: a, response: p, test: d, outcome: u } = t, j = (u == null ? void 0 : u.status) === "correct", S = u == null ? void 0 : u.conformant, v = u == null ? void 0 : u.error, w = u == null ? void 0 : u.excessiveDataExposure, O = !(j && S);
+  const u = y(), [o, c] = N.useState(!0), { request: a, response: p, test: l, outcome: f } = t, j = (f == null ? void 0 : f.status) === "correct", S = f == null ? void 0 : f.conformant, v = f == null ? void 0 : f.error, w = f == null ? void 0 : f.excessiveDataExposure, O = !(j && S);
   let R = "N/A", P = "N/A";
-  const I = ((z = (k = u == null ? void 0 : u.apiResponseAnalysis) == null ? void 0 : k[0]) == null ? void 0 : z.responseKey) === "response-http-status-scan" ? "No" : "Yes";
-  return I === "Yes" && (R = ((W = (K = u == null ? void 0 : u.apiResponseAnalysis) == null ? void 0 : K[0]) == null ? void 0 : W.responseKey) === "response-body-contenttype-scan" ? "No" : "Yes"), R === "Yes" && (P = ((G = (V = u == null ? void 0 : u.apiResponseAnalysis) == null ? void 0 : V[0]) == null ? void 0 : G.responseKey) === "response-body-badformat-scan" ? "No" : "Yes"), /* @__PURE__ */ e.jsxs(ss, { children: [
-    /* @__PURE__ */ e.jsxs(ns, { collapsed: o, onClick: () => l(!o), children: [
+  const I = ((z = (k = f == null ? void 0 : f.apiResponseAnalysis) == null ? void 0 : k[0]) == null ? void 0 : z.responseKey) === "response-http-status-scan" ? "No" : "Yes";
+  return I === "Yes" && (R = ((W = (K = f == null ? void 0 : f.apiResponseAnalysis) == null ? void 0 : K[0]) == null ? void 0 : W.responseKey) === "response-body-contenttype-scan" ? "No" : "Yes"), R === "Yes" && (P = ((G = (V = f == null ? void 0 : f.apiResponseAnalysis) == null ? void 0 : V[0]) == null ? void 0 : G.responseKey) === "response-body-badformat-scan" ? "No" : "Yes"), /* @__PURE__ */ e.jsxs(ss, { children: [
+    /* @__PURE__ */ e.jsxs(ns, { collapsed: o, onClick: () => c(!o), children: [
       /* @__PURE__ */ e.jsx("div", { children: o ? /* @__PURE__ */ e.jsx(st, {}) : /* @__PURE__ */ e.jsx(nt, {}) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(is, { children: d == null ? void 0 : d.description }),
+        /* @__PURE__ */ e.jsx(is, { children: l == null ? void 0 : l.description }),
         /* @__PURE__ */ e.jsxs(rs, { children: [
           v && /* @__PURE__ */ e.jsxs(A, { children: [
             /* @__PURE__ */ e.jsx(q, {}),
@@ -872,11 +872,11 @@ function ts({
           !v && O && /* @__PURE__ */ e.jsxs(A, { children: [
             /* @__PURE__ */ e.jsx(q, {}),
             " Failed",
-            u.criticality > 0 && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+            f.criticality > 0 && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
               "/",
-              /* @__PURE__ */ e.jsxs("span", { style: { fontWeight: cs[u.criticality] }, children: [
+              /* @__PURE__ */ e.jsxs("span", { style: { fontWeight: cs[f.criticality] }, children: [
                 " ",
-                as[u.criticality]
+                as[f.criticality]
               ] })
             ] })
           ] }),
@@ -921,7 +921,7 @@ function ts({
           /* @__PURE__ */ e.jsxs("div", { children: [
             p == null ? void 0 : p.httpStatusCode,
             " (Expected: ",
-            (Q = d == null ? void 0 : d.httpStatusExpected) == null ? void 0 : Q.join(", "),
+            (Q = l == null ? void 0 : l.httpStatusExpected) == null ? void 0 : Q.join(", "),
             ")"
           ] })
         ] }),
@@ -941,26 +941,26 @@ function ts({
           /* @__PURE__ */ e.jsx("div", { children: "Excessive data exposure found" }),
           /* @__PURE__ */ e.jsx("div", { children: w ? "Yes" : "No" })
         ] }),
-        ((X = (J = u == null ? void 0 : u.apiResponseAnalysis) == null ? void 0 : J[0]) == null ? void 0 : X.responseDescription) && /* @__PURE__ */ e.jsxs(m, { children: [
+        ((X = (J = f == null ? void 0 : f.apiResponseAnalysis) == null ? void 0 : J[0]) == null ? void 0 : X.responseDescription) && /* @__PURE__ */ e.jsxs(m, { children: [
           /* @__PURE__ */ e.jsx("div", { children: "Response analysis" }),
           /* @__PURE__ */ e.jsxs("div", { children: [
             " ",
-            (ee = (Z = u == null ? void 0 : u.apiResponseAnalysis) == null ? void 0 : Z[0]) == null ? void 0 : ee.responseDescription
+            (ee = (Z = f == null ? void 0 : f.apiResponseAnalysis) == null ? void 0 : Z[0]) == null ? void 0 : ee.responseDescription
           ] })
         ] }),
         /* @__PURE__ */ e.jsxs(m, { children: [
           /* @__PURE__ */ e.jsx("div", { children: "JSON Pointer" }),
-          /* @__PURE__ */ e.jsx("div", { children: d != null && d.jsonPointer ? /* @__PURE__ */ e.jsx(
+          /* @__PURE__ */ e.jsx("div", { children: l != null && l.jsonPointer ? /* @__PURE__ */ e.jsx(
             "a",
             {
               href: "#",
               onClick: (te) => {
-                te.preventDefault(), te.stopPropagation(), x(
-                  ue((d == null ? void 0 : d.jsonPointer) + "")
+                te.preventDefault(), te.stopPropagation(), u(
+                  ue((l == null ? void 0 : l.jsonPointer) + "")
                   // FIXME support indexed reports
                 );
               },
-              children: d == null ? void 0 : d.jsonPointer
+              children: l == null ? void 0 : l.jsonPointer
             }
           ) : "N/A" })
         ] }),
@@ -988,22 +988,22 @@ function ts({
 }
 const ss = h.div`
   margin: 8px;
-  border: 1px solid var(${f.border});
+  border: 1px solid var(${x.border});
 `, ns = h.div`
   display: flex;
   cursor: pointer;
   padding: 10px 10px 10px 0px;
-  background-color: var(${f.computedOne});
+  background-color: var(${x.computedOne});
   & > div:first-child {
     padding-left: 4px;
     padding-right: 8px;
     > svg {
-      fill: var(${f.foreground});
+      fill: var(${x.foreground});
     }
   }
   border-left: 5px solid transparent;
-  ${({ collapsed: t }) => !t && `border-bottom: 1px solid var(${f.border});
-    border-left: 5px solid var(${f.badgeBackground});`}
+  ${({ collapsed: t }) => !t && `border-bottom: 1px solid var(${x.border});
+    border-left: 5px solid var(${x.badgeBackground});`}
 `, is = h.div`
   font-weight: 600;
 `, rs = h.div`
@@ -1018,10 +1018,10 @@ const ss = h.div`
   opacity: 0.8;
   & > svg {
     margin-right: 4px;
-    fill: var(${f.foreground});
+    fill: var(${x.foreground});
   }
 `, os = h.div`
-  background-color: var(${f.computedOne});
+  background-color: var(${x.computedOne});
 `, m = h.div`
   display: flex;
   padding: 8px;
@@ -1080,15 +1080,15 @@ const ls = h.div`
   border-radius: 16px;
   width: 16px;
   height: 16px;
-  color: var(${f.buttonForeground});
-  background-color: var(${f.buttonBackground});
+  color: var(${x.buttonForeground});
+  background-color: var(${x.buttonBackground});
   font-size: 12px;
 `, ps = h.button`
   display: flex;
   align-items: center;
   cursor: pointer;
   background-color: transparent;
-  color: var(${f.buttonForeground});
+  color: var(${x.buttonForeground});
   border: none;
   ${({ waiting: t }) => t && "gap: 8px;"}
 
@@ -1098,7 +1098,7 @@ const ls = h.div`
   > svg {
     height: 16px;
     width: 16px;
-    fill: var(${f.foreground});
+    fill: var(${x.foreground});
   }
 `;
 function us() {
@@ -1261,14 +1261,14 @@ const Cs = h.div`
   width: 264px;
 `;
 function Es() {
-  const { filter: t, grouped: s } = b((l) => l.scan), [n, i] = N.useState(!0), x = ["severity", "title"].filter((l) => t && t[l] !== void 0).length, o = Object.keys(s).map((l) => s[l].length).reduce((l, a) => l + a, 0);
+  const { filter: t, grouped: s } = b((c) => c.scan), [n, i] = N.useState(!0), u = ["severity", "title"].filter((c) => t && t[c] !== void 0).length, o = Object.keys(s).map((c) => s[c].length).reduce((c, a) => c + a, 0);
   return /* @__PURE__ */ e.jsxs(Os, { children: [
     /* @__PURE__ */ e.jsxs(Rs, { children: [
       /* @__PURE__ */ e.jsxs("div", { children: [
         o,
         " issues"
       ] }),
-      /* @__PURE__ */ e.jsx(ds, { filters: x, onClick: () => i(!n) })
+      /* @__PURE__ */ e.jsx(ds, { filters: u, onClick: () => i(!n) })
     ] }),
     !n && /* @__PURE__ */ e.jsxs(As, { children: [
       /* @__PURE__ */ e.jsx(xs, {}),
@@ -1312,10 +1312,10 @@ function Ps({
 }) {
   return t.length === 0 ? /* @__PURE__ */ e.jsx(ie, { children: /* @__PURE__ */ e.jsx(Is, { children: "No test results available" }) }) : /* @__PURE__ */ e.jsxs(ie, { children: [
     /* @__PURE__ */ e.jsx(Es, {}),
-    Object.keys(r).map((x) => /* @__PURE__ */ e.jsxs("div", { children: [
-      /* @__PURE__ */ e.jsx(ks, { children: qs[x] ?? "Unknown test type" }),
-      r[x].map((o, l) => {
-        const a = `${x}-${l}`;
+    Object.keys(r).map((u) => /* @__PURE__ */ e.jsxs("div", { children: [
+      /* @__PURE__ */ e.jsx(ks, { children: qs[u] ?? "Unknown test type" }),
+      r[u].map((o, c) => {
+        const a = `${u}-${c}`;
         return /* @__PURE__ */ e.jsx(
           ts,
           {
@@ -1328,7 +1328,7 @@ function Ps({
           a
         );
       })
-    ] }, x))
+    ] }, u))
   ] });
 }
 const ie = h.div`
@@ -1336,7 +1336,7 @@ const ie = h.div`
 `, Is = h.div`
   margin: 8px;
   padding: 4px;
-  border: 1px solid var(${f.border});
+  border: 1px solid var(${x.border});
 `, ks = h.div`
   padding: 10px;
   font-size: 1.1em;
@@ -1371,19 +1371,19 @@ const ie = h.div`
   "schema-uniqueitems-unique-scan": "Scan sends a request containing an array value that does not follow the property 'uniqueItems' that constrains this value."
 };
 function Ts({ operation: t }) {
-  var p, d;
+  var p, l;
   const s = (p = t.scenarios) == null ? void 0 : p[0];
   if (s === void 0) {
-    const u = t.reason || "unknown";
+    const f = t.reason || "unknown";
     return /* @__PURE__ */ e.jsxs(Ns, { children: [
       "Happy path failed, reason: ",
-      u
+      f
     ] });
   }
-  const { request: n, response: i, outcome: r, happyPath: x } = s;
+  const { request: n, response: i, outcome: r, happyPath: u } = s;
   let o = "N/A";
-  const l = (r == null ? void 0 : r.status) === "correct" ? "Yes" : "No";
-  l === "Yes" && (o = r != null && r.conformant ? "Yes" : "No");
+  const c = (r == null ? void 0 : r.status) === "correct" ? "Yes" : "No";
+  c === "Yes" && (o = r != null && r.conformant ? "Yes" : "No");
   const a = r == null ? void 0 : r.excessiveDataExposure;
   return /* @__PURE__ */ e.jsxs($s, { children: [
     /* @__PURE__ */ e.jsxs(E, { children: [
@@ -1391,13 +1391,13 @@ function Ts({ operation: t }) {
       /* @__PURE__ */ e.jsxs("div", { children: [
         i == null ? void 0 : i.httpStatusCode,
         " (Expected: ",
-        (d = x == null ? void 0 : x.httpStatusExpected) == null ? void 0 : d.join(", "),
+        (l = u == null ? void 0 : u.httpStatusExpected) == null ? void 0 : l.join(", "),
         ")"
       ] })
     ] }),
     /* @__PURE__ */ e.jsxs(E, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Response code found in API Contract" }),
-      /* @__PURE__ */ e.jsx("div", { children: l })
+      /* @__PURE__ */ e.jsx("div", { children: c })
     ] }),
     /* @__PURE__ */ e.jsxs(E, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Response matches API Contract" }),
@@ -1423,7 +1423,7 @@ function Ts({ operation: t }) {
 }
 const $s = h.div`
   margin: 8px;
-  border: 1px solid var(${f.border});
+  border: 1px solid var(${x.border});
 `, Ns = h.div`
   margin: 16px;
 `, E = h.div`
@@ -1444,21 +1444,26 @@ function Hs({
   operationId: s,
   defaultCollapsed: n
 }) {
+  var o;
+  const i = (o = t.scenarios) == null ? void 0 : o.map((c) => {
+    var a;
+    return (a = c == null ? void 0 : c.outcome) == null ? void 0 : a.testSuccessful;
+  }), u = i !== void 0 && i.every((c) => c !== void 0) ? i.every((c) => c) : t.fuzzed;
   return /* @__PURE__ */ e.jsx(Ds, { children: /* @__PURE__ */ e.jsxs(ht, { defaultCollapsed: n, children: [
     /* @__PURE__ */ e.jsxs(Ms, { children: [
       /* @__PURE__ */ e.jsx("span", { children: s }),
-      /* @__PURE__ */ e.jsx("span", { children: t.fuzzed ? "Passed" : "Failed" })
+      /* @__PURE__ */ e.jsx("span", { children: u ? "Passed" : "Failed" })
     ] }),
     /* @__PURE__ */ e.jsxs(_s, { children: [
       /* @__PURE__ */ e.jsx(Ls, { children: t.method }),
       /* @__PURE__ */ e.jsx(Fs, { children: t.path }),
-      t.fuzzed ? /* @__PURE__ */ e.jsx($, {}) : /* @__PURE__ */ e.jsx(ke, {})
+      u ? /* @__PURE__ */ e.jsx($, {}) : /* @__PURE__ */ e.jsx(ke, {})
     ] }),
     /* @__PURE__ */ e.jsx(Ts, { operation: t })
   ] }) });
 }
 const Ds = h.div`
-  background-color: var(${f.computedOne});
+  background-color: var(${x.computedOne});
 `, Ms = h.div`
   display: flex;
   gap: 4px;
@@ -1481,11 +1486,11 @@ const Ds = h.div`
     margin-right: 2px;
     width: 14px;
     height: 14px;
-    fill: var(${f.foreground});
+    fill: var(${x.foreground});
   }
 `, Ls = h.div`
-  background-color: var(${f.badgeBackground});
-  color: var(${f.badgeForeground});
+  background-color: var(${x.badgeBackground});
+  color: var(${x.badgeForeground});
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -1498,7 +1503,7 @@ const Ds = h.div`
   line-break: anywhere;
 `;
 function Bs() {
-  const t = y(), { scanReport: s, operations: n, responses: i, errors: r, waitings: x, tab: o, issues: l, grouped: a } = b((d) => d.scan);
+  const t = y(), { scanReport: s, operations: n, responses: i, errors: r, waitings: u, tab: o, issues: c, grouped: a } = b((l) => l.scan);
   if (s === void 0)
     return /* @__PURE__ */ e.jsx(Us, { children: /* @__PURE__ */ e.jsx(zs, { children: "Report is not yet available" }) });
   const p = Object.entries(n);
@@ -1506,7 +1511,7 @@ function Bs() {
     lt,
     {
       activeTab: o,
-      setActiveTab: (d) => t(M(d)),
+      setActiveTab: (l) => t(M(l)),
       tabs: [
         {
           id: "summary",
@@ -1515,20 +1520,20 @@ function Bs() {
             /* @__PURE__ */ e.jsx(
               Lt,
               {
-                issues: l,
+                issues: c,
                 global: s.summary,
                 scanVersion: s.scanVersion
               }
             ),
             /* @__PURE__ */ e.jsx("div", { style: { fontWeight: 600, margin: "8px" }, children: "Happy Path Testing results" }),
-            p.map(([d, u]) => /* @__PURE__ */ e.jsx(
+            p.map(([l, f]) => /* @__PURE__ */ e.jsx(
               Hs,
               {
                 defaultCollapsed: p.length > 1,
-                operationId: d,
-                operation: u
+                operationId: l,
+                operation: f
               },
-              d
+              l
             ))
           ] })
         },
@@ -1538,11 +1543,11 @@ function Bs() {
           content: /* @__PURE__ */ e.jsx(
             Ps,
             {
-              issues: l,
+              issues: c,
               grouped: a,
               responses: i,
               errors: r,
-              waitings: x
+              waitings: u
             }
           )
         },

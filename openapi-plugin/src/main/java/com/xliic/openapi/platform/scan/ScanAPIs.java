@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -116,7 +117,7 @@ public class ScanAPIs {
     public static Response createAPI(@NotNull String collectionId,
                                      @NotNull String name,
                                      @NotNull String text,
-                                     @NotNull List<String> tags) throws IOException {
+                                     @NotNull Set<String> tags) throws IOException {
         @SuppressWarnings("serial")
 		RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("cid", collectionId);

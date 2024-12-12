@@ -22,6 +22,7 @@ const oe = {
         value: ""
       }
     },
+    auditRuntime: "platform",
     scanRuntime: "docker",
     scanImage: "",
     docker: {
@@ -51,7 +52,10 @@ const oe = {
     "platform-services": void 0,
     "temporary-collection": void 0,
     "mandatory-tags": void 0,
-    "scan-image": void 0,
+    "runtime-binary": void 0,
+    "runtime-docker": void 0,
+    "runtime-scand-manager": void 0,
+    "audit-runtime": void 0,
     "scan-runtime": void 0,
     "openapi-external-refs": void 0
   },
@@ -131,8 +135,8 @@ const {
   showConfigWindow: Ie,
   setError: Se,
   clearError: Fe,
-  testPlatformConnection: he,
-  showPlatformConnectionTest: ye,
+  testPlatformConnection: ye,
+  showPlatformConnectionTest: he,
   testOverlordConnection: Ee,
   showOverlordConnectionTest: be,
   testScandManagerConnection: xe,
@@ -163,8 +167,8 @@ function ne(e) {
   p.displayName = I;
   const l = e + "CollectionItemSlot", S = "data-radix-collection-item", F = T.forwardRef(
     (d, t) => {
-      const { scope: c, children: f, ...s } = d, a = T.useRef(null), h = A(t, a), y = C(l, c);
-      return T.useEffect(() => (y.itemMap.set(a, { ref: a, ...s }), () => void y.itemMap.delete(a))), /* @__PURE__ */ m.jsx(N, { [S]: "", ref: h, children: f });
+      const { scope: c, children: f, ...s } = d, a = T.useRef(null), y = A(t, a), h = C(l, c);
+      return T.useEffect(() => (h.itemMap.set(a, { ref: a, ...s }), () => void h.itemMap.delete(a))), /* @__PURE__ */ m.jsx(N, { [S]: "", ref: y, children: f });
     }
   );
   F.displayName = l;
@@ -175,7 +179,7 @@ function ne(e) {
       if (!f) return [];
       const s = Array.from(f.querySelectorAll(`[${S}]`));
       return Array.from(t.itemMap.values()).sort(
-        (y, b) => s.indexOf(y.ref.current) - s.indexOf(b.ref.current)
+        (h, b) => s.indexOf(h.ref.current) - s.indexOf(b.ref.current)
       );
     }, [t.collectionRef, t.itemMap]);
   }
@@ -213,12 +217,12 @@ var de = i.forwardRef((e, o) => {
     prop: R,
     defaultProp: I,
     onChange: p
-  }), [s, a] = i.useState(!1), h = Z(l), y = G(n), b = i.useRef(!1), [V, O] = i.useState(0);
+  }), [s, a] = i.useState(!1), y = Z(l), h = G(n), b = i.useRef(!1), [V, O] = i.useState(0);
   return i.useEffect(() => {
     const u = g.current;
     if (u)
-      return u.addEventListener(D, h), () => u.removeEventListener(D, h);
-  }, [h]), /* @__PURE__ */ m.jsx(
+      return u.addEventListener(D, y), () => u.removeEventListener(D, y);
+  }, [y]), /* @__PURE__ */ m.jsx(
     le,
     {
       scope: n,
@@ -255,7 +259,7 @@ var de = i.forwardRef((e, o) => {
             if (u.target === u.currentTarget && W && !s) {
               const _ = new CustomEvent(D, ae);
               if (u.currentTarget.dispatchEvent(_), !_.defaultPrevented) {
-                const M = y().filter((w) => w.focusable), Y = M.find((w) => w.active), q = M.find((w) => w.id === c), z = [Y, q, ...M].filter(
+                const M = h().filter((w) => w.focusable), Y = M.find((w) => w.active), q = M.find((w) => w.id === c), z = [Y, q, ...M].filter(
                   Boolean
                 ).map((w) => w.ref.current);
                 B(z, S);
@@ -363,9 +367,9 @@ export {
   Ne as f,
   je as g,
   Ee as h,
-  xe as i,
-  _e as j,
-  Pe as k,
+  _e as i,
+  Pe as j,
+  xe as k,
   Te as l,
   Fe as m,
   Se as n,
@@ -373,8 +377,8 @@ export {
   Re as p,
   ne as q,
   Ae as r,
-  ye as s,
-  he as t,
+  he as s,
+  ye as t,
   Le as u,
   He as v,
   se as w

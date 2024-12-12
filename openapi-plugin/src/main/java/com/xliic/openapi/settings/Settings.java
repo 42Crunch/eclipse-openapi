@@ -160,9 +160,13 @@ public class Settings {
 
         public static final String EMAIL = "openapi.generate.token.email.key";
         public static final String TOKEN = "openapi.generate.token.base64.key";
-
+        public static final String AUDIT_RUNTIME = "com.xliic.openapi.settings.audit.runtime";
+        public static final String AUDIT_RUNTIME_PLATFORM = "platform";
+        public static final String AUDIT_RUNTIME_CLI = "cli";
+        
         static {
             DEFAULTS.put(TOKEN, "");
+            DEFAULTS.put(AUDIT_RUNTIME, AUDIT_RUNTIME_PLATFORM);
         }
     }
 

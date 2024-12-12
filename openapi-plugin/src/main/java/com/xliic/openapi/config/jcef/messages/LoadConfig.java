@@ -70,7 +70,8 @@ public class LoadConfig extends WebAppConsume {
         result.put("platformMandatoryTags", config.getPlatformMandatoryTags());
         result.put("approvedHosts", config.getApprovedHosts().stream().map(ApprovedHostConfig::getPayload).collect(Collectors.toList()));
         result.put("cliDirectoryOverride", config.getCliDirectoryOverride());
-        
+        result.put("auditRuntime", config.getAuditRuntime());
+
         return result;
     }
 }

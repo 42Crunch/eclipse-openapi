@@ -3,12 +3,14 @@ package com.xliic.openapi.services;
 import static com.xliic.openapi.OpenApiBundle.message;
 import static com.xliic.openapi.ToolWindowId.OPEN_API_HTML_REPORT;
 import static com.xliic.openapi.ToolWindowId.OPEN_API_REPORT;
+import static com.xliic.openapi.settings.Settings.Audit.AUDIT_RUNTIME_CLI;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -416,7 +418,12 @@ public final class AuditService implements IAuditService, Disposable {
                 }
             }, true);
         } else if (type == Credentials.Type.ApiToken) {
-            startAuditTask(file, isFullAudit ? new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
+            String auditRuntime = SettingsService.getInstance().getValue(Settings.Audit.AUDIT_RUNTIME);
+            if (Objects.equals(auditRuntime, AUDIT_RUNTIME_CLI)) {
+                startAuditTask(file, isFullAudit ? new AuditCliTask(project, file, callback) : new AuditCliTask(project, payload, callback));
+            } else {
+                startAuditTask(file, isFullAudit ? new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
+            }
         }
     }
 

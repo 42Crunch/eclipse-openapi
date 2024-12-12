@@ -5,7 +5,7 @@ import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Set;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
@@ -199,7 +199,7 @@ public class PlatformAPIs {
     public static void createAPI(@NotNull String collectionId,
                                  @NotNull String name,
                                  @NotNull String text,
-                                 @NotNull List<String> tags,
+                                 @NotNull Set<String> tags,
                                  @NotNull EnqueueCallback callback) {
         RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("cid", collectionId);
