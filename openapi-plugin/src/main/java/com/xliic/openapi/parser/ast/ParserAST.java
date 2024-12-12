@@ -16,11 +16,14 @@ import org.snakeyaml.engine.v2.nodes.SequenceNode;
 
 public abstract class ParserAST {
 
+    // Default 3MB, increase to 20MB
+    private static final int CODE_POINT_LIMIT = 20 * 1024 * 1024;
+
     protected abstract com.xliic.openapi.parser.ast.node.Node createNode(Object node, com.xliic.openapi.parser.ast.node.Node parent, int depth,
             String pointer, String key);
 
     public com.xliic.openapi.parser.ast.node.Node parse(String text) {
-        LoadSettings settings = LoadSettings.builder().setDefaultMap(initSize -> new LinkedHashMap<>()).build();
+        LoadSettings settings = LoadSettings.builder().setDefaultMap(initSize -> new LinkedHashMap<>()).setCodePointLimit(CODE_POINT_LIMIT).build();
         Load load = new Load(settings, new BaseConstructor(settings) {
             @Override
             public Object constructSingleDocument(Optional<org.snakeyaml.engine.v2.nodes.Node> optionalNode) {
