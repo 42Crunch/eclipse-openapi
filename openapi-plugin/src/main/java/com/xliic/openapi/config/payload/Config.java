@@ -53,6 +53,8 @@ public class Config {
     private final List<ApprovedHostConfig> approvedHosts;
     @NotNull
     private final String cliDirectoryOverride;
+    @NotNull
+    private final String auditRuntime;
     
     public Config() {
         this(false);
@@ -82,6 +84,7 @@ public class Config {
         }
         approvedHosts = getApprovedHostsConfiguration();
         cliDirectoryOverride = settingsService.getValue(Settings.CliAst.CLI_DIRECTORY_OVERRIDE, "");
+        auditRuntime = settingsService.getValue(Settings.Audit.AUDIT_RUNTIME, "");
     }
 
     public @NotNull String getPlatformUrl() {
@@ -183,5 +186,9 @@ public class Config {
     
     public @NotNull String getCliDirectoryOverride() {
         return cliDirectoryOverride;
+    }
+    
+    public @NotNull String getAuditRuntime() {
+        return auditRuntime;
     }
 }

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -71,6 +72,7 @@ public class CliUtils {
     @NotNull
     public static AuditCliResult runAuditWithCliBinary(@NotNull Project project,
                                                        @NotNull String oas,
+                                                       @NotNull Set<String> tags,
                                                        boolean isFullAudit,
                                                        @NotNull ProgressIndicator progress) {
         try {
@@ -81,43 +83,51 @@ public class CliUtils {
             String cli = getCli();
             progress.setText("Running Security Audit using: " + cli);
             List<String> args = new LinkedList<>(Arrays.asList(
-                    "audit",
-                    "run",
-                    "openapi.json",
-                    "--output",
-                    "report.json",
-                    "--output-format",
-                    "json",
-//                  "--freemium-host",
-//                  "stateless.dev.42crunch.com:443",
-                    "--verbose",
-                    "error",
-                    "--user-agent",
-                    Utils.getUserAgent(),
-                    "--enrich=false"));
-                if (!isFullAudit) {
-                    args.add("--is-operation");
-                }
-                final Map<String, String> env = new HashMap<>();
-                final Credentials.Type type = Credentials.getCredentialsType();
-                if (type == Credentials.Type.AnondToken) {
-                    args.add("--token");
-                    args.add(Credentials.getAnonCredentials());
-                } else {
-                    PlatformConnection con = PlatformConnection.getOptions();
-                    env.put("API_KEY", con.getApiToken());
-                    env.put("PLATFORM_HOST", con.getPlatformUrl());
-                }
-                String httpProxy = NetUtils.getProxyString();
-                if (httpProxy != null) {
-                    env.put("HTTPS_PROXY", httpProxy);
-                }
-                String output = ExecUtils.asyncExecFile(cli, args, dir, env);
+                "audit",
+                "run",
+                "openapi.json",
+                "--output",
+                "report.json",
+                "--output-format",
+                "json",
+//              "--freemium-host",
+//              "stateless.dev.42crunch.com:443",
+                "--verbose",
+                "error",
+                "--user-agent",
+                Utils.getUserAgent(),
+                "--enrich=false"));
+            if (!isFullAudit) {
+                args.add("--is-operation");
+            }
+            if (!tags.isEmpty()) {
+                args.add("--tag");
+                args.add(String.join(",", tags));
+            }
+            final Map<String, String> env = new HashMap<>();
+            final Credentials.Type type = Credentials.getCredentialsType();
+            if (type == Credentials.Type.AnondToken) {
+                args.add("--token");
+                args.add(Credentials.getAnonCredentials());
+            } else {
+                PlatformConnection con = PlatformConnection.getOptions();
+                env.put("API_KEY", con.getApiToken());
+                env.put("PLATFORM_HOST", con.getPlatformUrl());
+            }
+            String httpProxy = NetUtils.getProxyString();
+            if (httpProxy != null) {
+                env.put("HTTPS_PROXY", httpProxy);
+            }
+            String output = ExecUtils.asyncExecFile(cli, args, dir, env);
             String report = FileUtils.readFile(dir, "report.json");
+            String todo = FileUtils.readFile(dir, "todo.json");
+            String sqg = FileUtils.readFile(dir, "sqg.json");
             removeFile(project, dir, "report.json");
             removeFile(project, dir,"openapi.json");
+            removeFile(project, dir,"todo.json");
+            removeFile(project, dir,"sqg.json");
             removeDir(project, dir);
-            return new AuditCliResult(report, output);
+            return new AuditCliResult(report, todo, sqg, output);
         } catch (ExecUtils.ExecException ex) {
             return new AuditCliResult(ex);
         } catch (IOException ex) {

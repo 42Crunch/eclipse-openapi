@@ -1,5 +1,6 @@
 package com.xliic.openapi.config.jcef.messages;
 
+import static com.xliic.openapi.settings.Settings.Audit.AUDIT_RUNTIME;
 import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
 import static com.xliic.openapi.settings.Settings.CliAst.CLI_DIRECTORY_OVERRIDE;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
@@ -89,6 +90,7 @@ public class SaveConfig extends WebAppProduce {
             settingsService.setCacheValue(Settings.Platform.MANDATORY_TAGS, map.get("platformMandatoryTags"));
             settingsService.setCacheValue(APPROVED_HOST_CONFIG, map.get("approvedHosts"));
             settingsService.setCacheValue(CLI_DIRECTORY_OVERRIDE, map.get("cliDirectoryOverride"));
+            settingsService.setCacheValue(AUDIT_RUNTIME, map.get("auditRuntime"));
             Credentials.Type newType = Credentials.getCredentialsType();
             if (newType != currentType) {
                 TagsService.getInstance(project).updateCredentialsType(newType);

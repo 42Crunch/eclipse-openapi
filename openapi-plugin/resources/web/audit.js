@@ -1190,7 +1190,7 @@ function U(i) {
   return Fi[i];
 }
 function Vi({ sqg: i, stats: t }) {
-  const o = x(), n = i.directives.issueRules, l = t.byIssue.filter((s) => n.includes(s.id));
+  const o = x(), n = i.directives.issueRules ?? [], l = t.byIssue.filter((s) => n.includes(s.id));
   return l.length === 0 ? null : /* @__PURE__ */ e.jsxs(Bi, { children: [
     /* @__PURE__ */ e.jsx("h4", { children: "Forbidden issues with problem found" }),
     l.map((s) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(

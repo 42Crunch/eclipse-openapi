@@ -2,6 +2,7 @@ package com.xliic.openapi.utils;
 
 import static com.xliic.openapi.OpenApiPanelKeys.OPENAPI_KEY;
 import static com.xliic.openapi.OpenApiPanelKeys.SWAGGER_KEY;
+import static com.xliic.openapi.parser.ast.ParserAST.escape;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -15,6 +16,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
+import java.util.List;
+import java.util.LinkedList;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +57,7 @@ import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.Range;
+import com.xliic.openapi.parser.ast.node.FastNode;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.editor.DocumentIndent;
 import com.xliic.openapi.refs.external.ExtRef;
@@ -88,10 +92,6 @@ public class Utils {
 
     public static String pointer(String parentPointer, String key) {
         return parentPointer + POINTER_SEPARATOR + escape(key);
-    }
-
-    public static String escape(String token) {
-        return token.replace("~", "~0").replace("/", "~1").replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
     public static String getRefTextFromPsiElement(@NotNull PsiElement psiElement) {
@@ -244,8 +244,23 @@ public class Utils {
 
     @Nullable
     public static Node getJsonAST(@NotNull String text) {
+        return getJsonAST(text, true);
+    }
+
+    @Nullable
+    public static Node getJsonAST(@NotNull String text, boolean ignoreOffsets) {
         try {
-            return new ParserJsonAST().parse(text);
+            if (ignoreOffsets) {
+                final Object result = deserialize(text);
+                if (result == null) {
+                    return null;
+                }
+                FastNode root = new FastNode(result, null, 0, "", "");
+                dfs(result, root);
+                return root;
+            } else {
+                return new ParserJsonAST().parse(text);
+            }
         } catch (Throwable t) {
             return null;
         }
@@ -500,5 +515,32 @@ public class Utils {
     private static VirtualFile getRefVirtualFile(VirtualFile file, String refFileName) {
         File rootFile = new File(Paths.get(file.getPath()).getParent().toString());
         return LocalFileSystem.getInstance().findFileByIoFile(new File(rootFile, refFileName));
+    }
+    
+    @SuppressWarnings("unchecked")
+    private static void dfs(Object object, FastNode astNode) {
+        int depth = astNode.getDepth();
+        String pointer = astNode.getJsonPointer();
+        if (object instanceof Map) {
+            List<Node> children = new LinkedList<>();
+            for (Map.Entry<String, Object> entry : ((Map<String, Object>) object).entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                FastNode child = new FastNode(value, astNode, depth + 1, pointer + "/" + escape(key), key);
+                children.add(child);
+                dfs(value, child);
+            }
+            astNode.addSortedChildren(children);
+        } else if (object instanceof List) {
+            int i = 0;
+            List<Node> children = new LinkedList<>();
+            for (Object value : (List<Object>) object) {
+                FastNode child = new FastNode(value, astNode, depth + 1, pointer + "/" + i, String.valueOf(i));
+                children.add(child);
+                dfs(value, child);
+                i++;
+            }
+            astNode.addSortedChildren(children);
+        }
     }
 }

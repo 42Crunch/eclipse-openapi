@@ -1,7 +1,6 @@
 package com.xliic.openapi.platform.scan;
 
 import static com.xliic.openapi.platform.NamingConvention.DEFAULT_COLLECTION_NAMING_PATTERN;
-import static com.xliic.openapi.platform.NamingConvention.TAGS_PATTERN;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -14,7 +13,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +28,6 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.NamingConvention;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.PlatformReportPuller;
-import com.xliic.openapi.platform.Tag;
 import com.xliic.openapi.platform.callback.PlatformCollectionCallback;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
@@ -41,6 +38,7 @@ import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.tags.TagsUtils;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.NetUtils;
 
@@ -185,19 +183,16 @@ public class ScanUtils {
     }
 
     @NotNull
-    public static PlatformAPI createTempApi(@NotNull String collectionId, @NotNull String text, @Nullable List<String> savedTagIds) throws Exception {
-        List<String> tagIds = getMandatoryTagIds();
-        if (savedTagIds != null && !savedTagIds.isEmpty()) {
-            // Do not add already existing tagIds
-            Set<String> setOfTagIds = new HashSet<>(tagIds);
-            setOfTagIds.addAll(new HashSet<>(savedTagIds));
-            tagIds = new LinkedList<>(setOfTagIds);
+    public static PlatformAPI createTempApi(@NotNull String collectionId, @NotNull String text, @Nullable Set<String> tagIds) throws Exception {
+        Set<String> apiTagIds = TagsUtils.getMandatoryTagIds();
+        if (tagIds != null) {
+            apiTagIds.addAll(tagIds);
         }
         // If the api naming convention is configured, use its example as the api name
         // this way we don't have to come up with a name that matches its pattern
         NamingConvention convention = PlatformUtils.getApiNamingConvention();
         String apiName = convention.getPattern().isEmpty() ? TMP_PREFIX + API_TEMP_NAME_DATE_FORMATTER.format(new Date()) : convention.getExample();
-        try (Response response = ScanAPIs.createAPI(collectionId, apiName, text, tagIds)) {
+        try (Response response = ScanAPIs.createAPI(collectionId, apiName, text, apiTagIds)) {
             Node body = NetUtils.getBodyNodeIgnoreCode(response);
             if (body != null) {
                 if (response.code() == 200) {
@@ -326,51 +321,5 @@ public class ScanUtils {
             }
         }
         return schemaNames;
-    }
-    
-    public static List<String> getMandatoryTagIds() throws Exception {
-        List<String> tagIds = new LinkedList<>();
-        List<String> mandatoryTags = getMandatoryTags();
-        if (!mandatoryTags.isEmpty()) {
-            List<Tag> platformTags = PlatformUtils.getTags(false);
-            tagIds.addAll(getMandatoryTagIds(mandatoryTags, platformTags));
-        }
-        return tagIds;
-    }
-
-    private static List<String> getMandatoryTags() throws Exception {
-        List<String> tags = new LinkedList<>();
-        String platformMandatoryTags = SettingsService.getInstance().getValue(Settings.Platform.MANDATORY_TAGS, "");
-        if (!StringUtils.isEmpty(platformMandatoryTags)) {
-            if (NamingConvention.match(platformMandatoryTags, TAGS_PATTERN)) {
-                for (String tag : platformMandatoryTags.split("[\\s,]+")) {
-                    if (!StringUtils.isEmpty(tag)) {
-                        tags.add(tag);
-                    }
-                }
-            } else {
-                throw new Exception("The mandatory tags " + platformMandatoryTags + " do not match the expected pattern. " +
-                        "Please change the mandatory tags in your settings.");
-            }
-        }
-        return tags;
-    }
-
-    private static List<String> getMandatoryTagIds(List<String> tags, List<Tag> platformTags) throws Exception {
-        List<String> tagIds = new LinkedList<>();
-        for (String tag : tags) {
-            boolean found = false;
-            for (Tag platformTag : platformTags) {
-                if (platformTag.equals(tag)) {
-                    tagIds.add(platformTag.getTagId());
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                throw new Exception("The mandatory tag " + tag + " is not found. Please change the mandatory tags in your settings.");
-            }
-        }
-        return tagIds;
     }
 }

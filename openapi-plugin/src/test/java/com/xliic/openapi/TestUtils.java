@@ -13,9 +13,11 @@ import java.util.stream.Stream;
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.ParserYamlAST;
 import com.xliic.openapi.parser.ast.Range;
+import com.xliic.openapi.parser.ast.node.FastNode;
 import com.xliic.openapi.parser.ast.node.JsonNode;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.parser.ast.node.YamlNode;
+import com.xliic.openapi.utils.Utils;
 
 public class TestUtils {
 
@@ -28,6 +30,14 @@ public class TestUtils {
         return parseYaml(loadFile(fileName));
     }
 
+    public static FastNode loadFastJson(String fileName) throws FileNotFoundException {
+        return parseFastJson(loadFile(fileName));
+    }
+
+    public static FastNode parseFastJson(String text) {
+        return (FastNode) Utils.getJsonAST(text);
+    }
+    
     public static JsonNode loadJson(String fileName) throws FileNotFoundException {
         return parseJson(loadFile(fileName));
     }

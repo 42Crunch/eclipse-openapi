@@ -23,10 +23,6 @@ public class Tag {
         this.onlyAdminCanTag = onlyAdminCanTag;
     }
 
-    public @NotNull String getCategoryName() {
-        return categoryName;
-    }
-
     public @NotNull String getTagName() {
         return tagName;
     }
@@ -40,6 +36,10 @@ public class Tag {
     }
 
     public boolean equals(@NotNull String tag) {
-        return tag.equals(categoryName + ":" + tagName);
+        return tag.equals(getFullTagName());
+    }
+    
+    public @NotNull String getFullTagName() {
+        return categoryName + ":" + tagName;
     }
 }

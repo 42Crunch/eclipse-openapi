@@ -13,7 +13,6 @@ import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.Computable;
-import com.xliic.core.util.SwingUtilities;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ToolWindowId;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -73,7 +72,7 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
             Node assessment = Objects.requireNonNull(node.find("/attr/data"));
             float grade = Float.parseFloat(assessment.getChildValueRequireNonNull("grade"));
             boolean isValid = Boolean.parseBoolean(assessment.getChildValueRequireNonNull("isValid"));
-            SwingUtilities.invokeLater(() ->
+            ApplicationManager.getApplication().invokeLater(() ->
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).auditReportForAPIUpdated(apiId, grade, isValid));
             Node reportNode = PlatformUtils.getAssessmentReportNode(node);
             if (reportNode == null) {
@@ -97,7 +96,8 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
             AuditService auditService = AuditService.getInstance(project);
             Audit prevReport = auditService.getAuditReport(file.getPath());
             if (prevReport != null) {
-                project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(prevReport);
+                 ApplicationManager.getApplication().invokeLater(() ->
+                 	project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(prevReport));
             }
             AuditDisplayOptions options;
             if (prevReport != null) {

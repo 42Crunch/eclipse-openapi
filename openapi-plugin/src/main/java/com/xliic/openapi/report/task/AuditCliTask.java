@@ -5,6 +5,8 @@ import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
 import static com.xliic.openapi.utils.MsgUtils.notifyAuditsLimit;
 
 import java.util.Objects;
+import java.util.Map;
+import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,10 +21,13 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.report.payload.AuditOperation;
+import com.xliic.openapi.report.types.AuditCompliance;
+import com.xliic.openapi.report.types.AuditToDoReport;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.tags.TagsUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class AuditCliTask extends Task.Backgroundable {
@@ -72,7 +77,8 @@ public class AuditCliTask extends Task.Backgroundable {
                 callback.reject("Security audit token is not set");
                 return;
             }
-            AuditCliResult result = CliUtils.runAuditWithCliBinary(project, text, isFullAudit, progress);
+            Set<String> tags = TagsUtils.getTags(project, file.getPath());
+            AuditCliResult result = CliUtils.runAuditWithCliBinary(project, text, tags, isFullAudit, progress);
             if (result.hasError()) {
                 if (result.getStatusCode() == 3 && "limits_reached".equals(result.getStdOut())) {
                     ScanConfigUtils.offerUpgrade(project);
@@ -85,11 +91,31 @@ public class AuditCliTask extends Task.Backgroundable {
                 notifyAuditsLimit(project, result.getRemainingPerOperationAudit());
             }
             Node report = Utils.getJsonAST(Objects.requireNonNull(result.getReport()));
-            callback.complete(Objects.requireNonNull(report), null, null);
+            AuditToDoReport todo = getAuditToDoReport(result.getTodo());
+            AuditCompliance compliance = getAuditCompliance(result.getCompliance());
+            callback.complete(Objects.requireNonNull(report), compliance, todo);
         } catch (Exception e) {
             callback.reject(e instanceof AuditService.KdbException ? e.getMessage() : ERROR_MSG + e);
         } finally {
             progress.cancel();
         }
+    }
+    
+    private static AuditToDoReport getAuditToDoReport(String toDoReport) {
+        if (toDoReport != null) {
+            return new AuditToDoReport(toDoReport);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static AuditCompliance getAuditCompliance(String compliance) {
+        if (compliance != null) {
+            Map<String, Object> data = (Map<String, Object>) Utils.deserialize(compliance);
+            if (data != null) {
+                return new AuditCompliance(data);
+            }
+        }
+        return null;
     }
 }

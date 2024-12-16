@@ -34,7 +34,7 @@ public class TryItOperation extends Operation {
     public void updateOas(@NotNull String oas) {
         setOas(oas);
         if (preferredExamplePointer != null) {
-            Node root = Utils.getJsonAST(oas);
+            Node root = Utils.getJsonAST(oas, false);
             if (root != null) {
                 Node target = root.find(preferredExamplePointer);
                 if (target != null) {

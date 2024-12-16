@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.HashSet;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,7 +49,7 @@ public class ScanCliConfTask extends ScanConfTask {
         try {
             String oas = bundle.getJsonText();
             if (useAuditWithCli) {
-                AuditCliResult result = CliUtils.runAuditWithCliBinary(project, oas, true, progress);
+                AuditCliResult result = CliUtils.runAuditWithCliBinary(project, oas, new HashSet<>(0), true, progress);
                 if (result.hasError()) {
                     if (result.getStatusCode() == 3 && "limits_reached".equals(result.getStdOut())) {
                         ScanConfigUtils.offerUpgrade(project);
