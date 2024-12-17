@@ -22,14 +22,6 @@ pipeline {
 
             steps {
                 sh 'cp /build/openapi-repository/target/openapi-repository-*.zip .'
-                script {
-                    //def issues = sh(script: 'cat /build/total-issues.txt', returnStdout: true).trim().toInteger()
-                    //def lines = sh(script: 'cat /build/total-lines.txt', returnStdout: true).trim().toInteger()
-                    //def errorsPerThousandLines = (issues / lines) * 1000
-                    //echo "Total lines of code: ${lines}"
-                    //echo "Total issues: ${issues}"
-                    //echo "Errors per thousand lines: ${errorsPerThousandLines}"
-                }
             }
         }
 
