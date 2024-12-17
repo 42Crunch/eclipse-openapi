@@ -1,16 +1,16 @@
-import { j as e, q as s, T as c, t as me, a as pe, n as he, l as fe, u as ge, e as S, d as xe, s as je, f as be, R as ve, P as ye, h as Ce, m as we } from "./TriangleExclamation.nXQi8F2Q.js";
-import { u as ae, a as Q, c as b, b as Te } from "./index.esm.lNJZawDO.js";
-import { S as ke } from "./SearchSidebar.CrGeLESi.js";
-import { c as Se, l as $e, s as Ae, b as Pe, d as Re, e as Fe, f as Ie, o as Y, u as y, g as P, t as De, h as Me, i as Be, j as Ee, k as He, m as se, n as ie, p as Ne } from "./index.6roWWdSq.js";
-import { B as ee, o as u, e as I, s as m, l as ce, T as le, I as d, u as Z, i as Oe, a as Ue, c as Le, b as ze, F as Ve } from "./Button.CNR72jjI.js";
-import { N as qe } from "./ProgressButton.D803B7LH.js";
-import { B as v, E as D } from "./Banner.DuR_FTGp.js";
-import { R as We, c as Ge, p as _, s as Je } from "./platform-api.CM3Eh_b7.js";
-import { w as _e, s as Ke, c as Qe, o as Ze } from "./listener.CHK1jPnb.js";
-import { S as M } from "./Select.BLtR9ahA.js";
-import { R as Xe, I as Ye } from "./index.DREknm5b.js";
-import { S as en } from "./Check.D1zKQeOf.js";
-import { o as nn, a as tn, b as rn, c as on, d as an, e as sn, f as cn } from "./listener.CV-pzHWC.js";
+import { j as e, q as s, T as c, t as me, a as pe, n as he, l as fe, u as ge, B as Y, e as S, d as xe, s as je, f as be, R as ve, P as ye, h as Ce, m as we } from "./TriangleExclamation.Bx9Cjic4.js";
+import { u as ae, a as Q, c as b, b as Te } from "./index.esm.BkhFKhi4.js";
+import { S as ke } from "./SearchSidebar.BqSlxpwA.js";
+import { c as Se, l as $e, s as Ae, b as Pe, d as Re, e as Fe, f as Ie, o as ee, u as y, g as P, t as De, h as Me, i as Be, j as Ee, k as He, m as se, n as ie, p as Ne } from "./index.DDL_J8y6.js";
+import { o as u, e as I, s as m, l as ce, T as le, I as d, u as Z, i as Oe, a as Ue, c as Le, b as ze, F as Ve } from "./Textarea.CN3byLZt.js";
+import { N as qe } from "./ProgressButton.DtD1VE2H.js";
+import { B as v, E as D } from "./Banner.DHdNW9_j.js";
+import { R as We, c as Ge, p as _, s as Je } from "./platform-api.C24oP8_G.js";
+import { w as _e, s as Ke, c as Qe, o as Ze } from "./listener.6kHeWaYC.js";
+import { S as M } from "./Select.AYETaB4E.js";
+import { R as Xe, I as Ye } from "./index.CFGjXlHc.js";
+import { S as en } from "./Check.BYlFq-hF.js";
+import { o as nn, a as tn, b as rn, c as on, d as an, e as sn, f as cn } from "./listener.DePfreIX.js";
 const ln = (n) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 576 512", width: "1em", height: "1em", ...n, children: /* @__PURE__ */ e.jsx("path", { d: "M288 288a64 64 0 0 0 0-128c-1 0-1.88.24-2.85.29a47.5 47.5 0 0 1-60.86 60.86c0 1-.29 1.88-.29 2.85a64 64 0 0 0 64 64zm284.52-46.6C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 96a128 128 0 1 1-128 128A128.14 128.14 0 0 1 288 96zm0 320c-107.36 0-205.46-61.31-256-160a294.78 294.78 0 0 1 129.78-129.33C140.91 153.69 128 187.17 128 224a160 160 0 0 0 320 0c0-36.83-12.91-70.31-33.78-97.33A294.78 294.78 0 0 1 544 256c-50.53 98.69-148.64 160-256 160z" }) });
 function $({
   label: n,
@@ -168,20 +168,20 @@ function yn({ token: n }) {
       /* @__PURE__ */ e.jsx(T, { children: "Upgrade or manage your subscription plan" }),
       /* @__PURE__ */ e.jsxs(k, { children: [
         t.subscriptionKind === "free" && /* @__PURE__ */ e.jsx(
-          ee,
+          Y,
           {
             onClick: (i) => {
-              i.preventDefault(), i.stopPropagation(), a(Y(`${ne}?email=${encodeURIComponent(t.userEmail)}`));
+              i.preventDefault(), i.stopPropagation(), a(ee(`${ne}?email=${encodeURIComponent(t.userEmail)}`));
             },
             children: "Upgrade"
           }
         ),
         t.subscriptionKind !== "free" && /* @__PURE__ */ e.jsx(
-          ee,
+          Y,
           {
             onClick: (i) => {
               i.preventDefault(), i.stopPropagation(), a(
-                Y(`${ne}?prefilled_email=${encodeURIComponent(t.userEmail)}`)
+                ee(`${ne}?prefilled_email=${encodeURIComponent(t.userEmail)}`)
               );
             },
             children: "Manage"
@@ -496,7 +496,7 @@ const Mn = u({
   ])
 }), O = {
   id: "runtime-binary",
-  label: "Binary",
+  label: "42Crunch Binary",
   schema: Mn,
   form: Dn
 };
