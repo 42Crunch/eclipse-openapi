@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse-openapi
 Bundle-SymbolicName: openapi-plugin;singleton:=true
-Bundle-Version: 1.0.78
+Bundle-Version: 1.0.79
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.13.700",
@@ -26,8 +26,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.net;bundle-version="1.3.1000"
 Automatic-Module-Name: eclipse.openapi
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Import-Package: javax.inject,
- org.eclipse.e4.ui.workbench
+Import-Package: org.eclipse.e4.ui.workbench
 Bundle-Activator: com.xliic.openapi.OpenAPIAbstractUIPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
