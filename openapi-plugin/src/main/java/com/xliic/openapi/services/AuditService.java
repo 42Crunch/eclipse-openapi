@@ -4,6 +4,8 @@ import static com.xliic.openapi.OpenApiBundle.message;
 import static com.xliic.openapi.ToolWindowId.OPEN_API_HTML_REPORT;
 import static com.xliic.openapi.ToolWindowId.OPEN_API_REPORT;
 import static com.xliic.openapi.settings.Settings.Audit.AUDIT_RUNTIME_CLI;
+import static com.xliic.openapi.utils.FileUtils.clearTempFile;
+import static com.xliic.openapi.utils.FileUtils.saveToTempFile;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditorManager;
@@ -33,6 +36,7 @@ import com.xliic.core.util.ActionCallback;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.cli.CliService;
+import com.xliic.openapi.parser.ast.node.FastNode;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAuditTask;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -61,13 +65,20 @@ import okhttp3.Call;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.PrettyPrinter;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+
 public final class AuditService implements IAuditService, Disposable {
 
     private static final int MAX_PLATFORM_AUDIT_LIMIT = 10;
     public static final String RUNNING_SECURITY_AUDIT = "Running API contract security audit";
     public static final String RUNNING_SECURITY_AUDIT_CLI = "Running Security Audit using 42Crunch CLI";
     public static final String LOADING_KDB_ARTICLES = "Loading API contract security audit KDB articles";
-
+    public static final String EXPORT_TEMP_DIR = "audit-report";
+    
     @NotNull
     private final Project project;
     @Nullable
@@ -191,6 +202,7 @@ public final class AuditService implements IAuditService, Disposable {
 
         Audit newReport = auditBuilder.setFileName(file.getPath()).setCompliance(compliance).setToDoReport(todoReport).build(response);
         setAuditReport(file.getPath(), newReport);
+        saveAuditReportToTempFile(newReport, response);
         ApplicationManager.getApplication().runReadAction((Computable<Void>) () -> {
             newReport.finalizeInReadAction();
             PsiFile psiFile = Utils.findPsiFile(project, file);
@@ -296,14 +308,18 @@ public final class AuditService implements IAuditService, Disposable {
                 }
             }
             if (keys.size() >= MAX_PLATFORM_AUDIT_LIMIT) {
-                cache.remove(keys.get((int) Math.round((keys.size() - 1) * Math.random())));
+            	removeAuditReport(keys.get((int) Math.round((keys.size() - 1) * Math.random())));
             }
         }
         cache.put(fileName, report);
     }
 
     public Audit removeAuditReport(@NotNull String fileName) {
-        return cache.remove(fileName);
+        Audit report = cache.remove(fileName);
+        if (report != null && report.isTempFileSaved()) {
+            clearAuditReportTempFile(report);
+        }
+        return report;
     }
 
     public boolean isNotAuditParticipantFile(@NotNull String fileName) {
@@ -369,6 +385,19 @@ public final class AuditService implements IAuditService, Disposable {
         } else {
             runAudit(project, file, payload, type);
         }
+    }
+    
+    public void saveAuditReportToTempFile(@NotNull Audit report, @NotNull Node reportNode) {
+        try {
+            String text = getTextFromNode(reportNode);
+            saveToTempFile(project, EXPORT_TEMP_DIR, report.getTempFile(), text, () -> report.setTempFileSaved(true));
+        } catch (IOException e) {
+            Logger.getInstance(AuditService.class).warn(e);
+        }
+    }
+
+    public void clearAuditReportTempFile(@NotNull Audit report) {
+        clearTempFile(project, EXPORT_TEMP_DIR, report.getTempFile());
     }
 
     private void updateAndRunAudit(FixGlobalDictionaryAction action,
@@ -448,6 +477,16 @@ public final class AuditService implements IAuditService, Disposable {
             }
         } catch (IOException e) {
             throw new KdbException("Failed to read articles.json: " + e);
+        }
+    }
+    
+    private String getTextFromNode(Node reportNode) throws JsonProcessingException {
+        PrettyPrinter printer = Utils.getPrinter("  ", "\n");
+        if (reportNode instanceof FastNode) {
+            return ((FastNode) reportNode).dump(printer);
+        } else {
+            JsonNode node = new YAMLMapper().readTree(reportNode.dump());
+            return new ObjectMapper().writer(printer).writeValueAsString(node).trim();
         }
     }
 }

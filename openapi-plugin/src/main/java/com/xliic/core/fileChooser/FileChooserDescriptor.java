@@ -12,8 +12,12 @@ public class FileChooserDescriptor {
     private final boolean myChooseMultiple;
     private String[] filterExtensions;
 
-    public FileChooserDescriptor(boolean chooseFiles, boolean chooseFolders, boolean chooseJars, boolean chooseJarsAsFiles, boolean chooseJarContents,
-            boolean chooseMultiple) {
+    public FileChooserDescriptor(boolean chooseFiles,
+                                 boolean chooseFolders,
+                                 boolean chooseJars,
+                                 boolean chooseJarsAsFiles,
+                                 boolean chooseJarContents,
+                                 boolean chooseMultiple) {
         this.myChooseFiles = chooseFiles;
         this.myChooseFolders = chooseFolders;
         this.myChooseJars = chooseJars;
@@ -51,8 +55,13 @@ public class FileChooserDescriptor {
         return filterExtensions;
     }
 
-    public FileChooserDescriptor withFileFilter(@NotNull String[] extensions) {
-        this.filterExtensions = extensions;
+    public FileChooserDescriptor withExtensionFilter(@NotNull String... extensions) {
+        this.filterExtensions = new String[extensions.length];
+        int i = 0;
+        for (String ext : extensions) {
+        	filterExtensions[i] = ext.startsWith("*.") ? ext : "*." + ext;  
+        	i += 1;
+        }
         return this;
     }
 }

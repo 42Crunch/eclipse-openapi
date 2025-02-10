@@ -12,6 +12,8 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.SERVICES;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -91,6 +93,8 @@ public class SaveConfig extends WebAppProduce {
             settingsService.setCacheValue(APPROVED_HOST_CONFIG, map.get("approvedHosts"));
             settingsService.setCacheValue(CLI_DIRECTORY_OVERRIDE, map.get("cliDirectoryOverride"));
             settingsService.setCacheValue(AUDIT_RUNTIME, map.get("auditRuntime"));
+            settingsService.setCacheValue(INTERNAL_FEATURES, map.get("internalFeatures"));
+            settingsService.setCacheValue(INTERNAL_USE_DEV_ENDPOINTS, map.get("internalUseDevEndpoints"));
             Credentials.Type newType = Credentials.getCredentialsType();
             if (newType != currentType) {
                 TagsService.getInstance(project).updateCredentialsType(newType);

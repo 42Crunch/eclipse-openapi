@@ -191,7 +191,18 @@ public class Settings {
         }
     }
     
+    public static class Internal {
+
+        public static final String INTERNAL_FEATURES = "com.xliic.openapi.settings.internal.features";
+        public static final String INTERNAL_USE_DEV_ENDPOINTS = "com.xliic.openapi.settings.internal.use.dev.endpoints";
+
+        static {
+            DEFAULTS.put(INTERNAL_FEATURES, false);
+            DEFAULTS.put(INTERNAL_USE_DEV_ENDPOINTS, false);
+        }
+    }
+    
     public static boolean hasPlatformKey(@NotNull Set<String> keys) {
-        return keys.contains(URL) || keys.contains(API_KEY);
+        return keys.contains(URL) || keys.contains(API_KEY) || keys.contains(Platform.Credentials.AUTH_TYPE);
     }
 }

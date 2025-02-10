@@ -23,6 +23,9 @@ import com.xliic.openapi.utils.Utils;
 
 public class ScanUpdateCliConfTask extends ScanUpdateConfTask {
 
+    private static final String OPENAPI_JSON = "openapi.json";
+    private static final String SCANCONF_JSON = "scanconfig.json";
+
     private VirtualFile tmpDir = null;
 
     public ScanUpdateCliConfTask(@NotNull Project project, @NotNull BundleResult bundle, @NotNull Callback callback) {
@@ -34,8 +37,8 @@ public class ScanUpdateCliConfTask extends ScanUpdateConfTask {
         try {
             String oas = bundle.getJsonText();
             tmpDir = createTempDirectory(project, "scanconf-update");
-            VirtualFile tmpFile = writeFile(project, tmpDir, "openapi.json", oas);
-            VirtualFile tmpScanConfFile = writeFile(project, tmpDir, "scanconf.json", "");
+            writeFile(project, tmpDir, OPENAPI_JSON, oas);
+            VirtualFile tmpScanConfFile = writeFile(project, tmpDir, SCANCONF_JSON, "");
             String scanConfPath = tmpScanConfFile.getPath();
             String cli = CliUtils.getCli();
             ExecUtils.asyncExecFile(cli,
@@ -46,15 +49,15 @@ public class ScanUpdateCliConfTask extends ScanUpdateConfTask {
                     "--output-format",
                     "json",
                     "--output",
-                    scanConfPath,
-                    tmpFile.getPath()
+                    SCANCONF_JSON,
+                    OPENAPI_JSON
                 ), tmpDir);
+            // Must always refresh before reading if files are updated externally
+            LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(tmpDir));
             VirtualFile scanFile = LocalFileSystem.getInstance().findFileByIoFile(new File(scanConfPath));
             if (scanFile == null) {
                 throw new Exception("Failed to find config " + scanConfPath);
             }
-            // Must always refresh before reading if files are updated externally
-            LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(scanFile));
             String config = Utils.getTextFromFile(scanFile.getPath(), true);
             if (config == null) {
                 throw new Exception("Failed to read config " + scanConfPath);
@@ -65,8 +68,8 @@ public class ScanUpdateCliConfTask extends ScanUpdateConfTask {
         } finally {
             try {
                 if (tmpDir != null) {
-                    removeFile(project, tmpDir,"openapi.json");
-                    removeFile(project, tmpDir,"scanconf.json");
+                    removeFile(project, tmpDir, OPENAPI_JSON);
+                    removeFile(project, tmpDir, SCANCONF_JSON);
                     removeDir(project, tmpDir);
                 }
             } catch (IOException ignored) {

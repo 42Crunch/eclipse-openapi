@@ -129,6 +129,7 @@ public class CliService implements ICliService, Disposable {
             if (ask) {
                 final int rc = getDialog(project, getAskToDownloadMessage(manifest));
                 if (rc != Messages.OK) {
+                	callback.complete(cliPath);
                     return;
                 }
             }

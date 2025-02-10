@@ -1,6 +1,9 @@
 package com.xliic.openapi;
 
 import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
+import static com.xliic.openapi.OpenAPIAbstractUIPlugin.XLIIC_PLUGIN_RUNTIME;
+import static com.xliic.openapi.OpenAPIAbstractUIPlugin.USE_DEV_MODE;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +27,8 @@ public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
     public OpenAPIStartupActivity() {
         // Load values into cache to avoid performance issues in EDT threads
     	SettingsService.getInstance().loadCache();
+        boolean isDevMode = USE_DEV_MODE.equalsIgnoreCase(System.getenv(XLIIC_PLUGIN_RUNTIME));
+        SettingsService.getInstance().setValue(INTERNAL_FEATURES, isDevMode);
     }
 
     @Override

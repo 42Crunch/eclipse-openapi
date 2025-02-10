@@ -14,6 +14,7 @@ import com.xliic.core.module.ModuleRootManager;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
@@ -49,6 +50,8 @@ public class GetIDEInfoAction extends AnAction implements DumbAware {
             }
         }
         addVersionInfo(project, builder);
+        builder.append("Plugin dev mode: ").append(System.getProperty("idea.plugin.xliic.dev.mode", "false")).append("\n");
+        builder.append("Use dev endpoints: ").append(SettingsService.getInstance().useDevEndpoints()).append("\n");
         MsgUtils.info(project, builder.toString(), true);
     }
     

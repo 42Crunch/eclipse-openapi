@@ -15,6 +15,7 @@ public abstract class WebFileEditor extends WebApp {
     public static final String WHATS_NEW_EDITOR_ID = "whatsnew";
     public static final String SIGNUP_EDITOR_ID = "signup";
     public static final String TAGS_EDITOR_ID = "tags";
+    public static final String CAPTURE_EDITOR_ID = "capture";
     
     public WebFileEditor(@NotNull Project project, @NotNull Composite parent, @NotNull WebVirtualFile file) {
         super(project, file.getId(), file.getResourceId(), parent, file.getHandler());

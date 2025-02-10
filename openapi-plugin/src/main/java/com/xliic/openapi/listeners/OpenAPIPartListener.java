@@ -1,6 +1,7 @@
 package com.xliic.openapi.listeners;
 
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SIGNUP_EDITOR_ID;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +21,12 @@ import com.xliic.core.ui.PanelViewPart;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.editor.OpenAPIEnterTypedHandler;
+import com.xliic.openapi.platform.scan.ScanService;
 import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.signup.SignUpService;
 import com.xliic.openapi.webapp.editor.WebFileEditorInput;
 import com.xliic.openapi.webapp.editor.WebFileEditorPart;
+import com.xliic.openapi.webapp.editor.WebVirtualFile;
 
 public class OpenAPIPartListener implements IPartListener {
 
@@ -75,9 +78,14 @@ public class OpenAPIPartListener implements IPartListener {
     public final void partClosed(final IWorkbenchPart part) {
     	if (part instanceof WebFileEditorPart) {
 			WebFileEditorInput input = (WebFileEditorInput) ((WebFileEditorPart) part).getEditorInput();
-	        if (SIGNUP_EDITOR_ID.equals(input.getVirtualFile().getResourceId())) {
-	            SignUpService.getInstance(project).dispose();
-    		}
+            WebVirtualFile webFile = input.getVirtualFile();
+            if (SIGNUP_EDITOR_ID.equals(webFile.getResourceId())) {
+                SignUpService.getInstance(project).dispose();
+            } else if (SCAN_EDITOR_ID.equals(webFile.getResourceId())) {
+                if (webFile.getGenFilePath() != null) {
+                    ScanService.getInstance(project).clearScanReportTempFile(webFile.getGenFilePath());
+                }
+            }
     	}
         IEditorInput input = getFileEditorInput(part);
         if (input != null) {

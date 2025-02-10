@@ -26,6 +26,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.Endpoints;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.settings.Credentials;
@@ -90,13 +91,15 @@ public class CliUtils {
                 "report.json",
                 "--output-format",
                 "json",
-//              "--freemium-host",
-//              "stateless.dev.42crunch.com:443",
                 "--verbose",
                 "error",
                 "--user-agent",
                 Utils.getUserAgent(),
                 "--enrich=false"));
+            if (SettingsService.getInstance().useDevEndpoints()) {
+                args.add("--freemium-host");
+                args.add(Endpoints.getCliFreemiumdHost());
+            }
             if (!isFullAudit) {
                 args.add("--is-operation");
             }

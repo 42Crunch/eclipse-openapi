@@ -2,6 +2,8 @@ package com.xliic.openapi.config.payload;
 
 import static com.xliic.openapi.platform.scan.ScanUtils.COLLECTION_TEMP_NAME;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -55,6 +57,8 @@ public class Config {
     private final String cliDirectoryOverride;
     @NotNull
     private final String auditRuntime;
+    private final boolean internalFeatures;
+    private final boolean internalUseDevEndpoints;
     
     public Config() {
         this(false);
@@ -85,6 +89,8 @@ public class Config {
         approvedHosts = getApprovedHostsConfiguration();
         cliDirectoryOverride = settingsService.getValue(Settings.CliAst.CLI_DIRECTORY_OVERRIDE, "");
         auditRuntime = settingsService.getValue(Settings.Audit.AUDIT_RUNTIME, "");
+        internalFeatures  = settingsService.getValue(INTERNAL_FEATURES, false);
+        internalUseDevEndpoints = settingsService.getValue(INTERNAL_USE_DEV_ENDPOINTS, false);
     }
 
     public @NotNull String getPlatformUrl() {
@@ -190,5 +196,13 @@ public class Config {
     
     public @NotNull String getAuditRuntime() {
         return auditRuntime;
+    }
+    
+    public boolean isInternalFeatures() {
+        return internalFeatures;
+    }
+
+    public boolean isInternalUseDevEndpoints() {
+        return internalUseDevEndpoints;
     }
 }

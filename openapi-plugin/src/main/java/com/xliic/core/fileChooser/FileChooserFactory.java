@@ -21,8 +21,19 @@ public class FileChooserFactory {
         return factory;
     }
 
-    public @NotNull FileChooserDialog createFileChooser(@NotNull FileChooserDescriptor descriptor, @Nullable Project project, @Nullable String text,
+    @NotNull
+    public FileChooserDialog createFileChooser(@NotNull FileChooserDescriptor descriptor, @Nullable Project project, @Nullable String text,
             @Nullable Component component) {
         return new FileChooserDialog(descriptor, project, text);
+    }
+    
+    @NotNull
+    public FileChooserDialog createFileChooser(@NotNull FileChooserDescriptor descriptor, @Nullable Project project, @Nullable Component component) {
+        return new FileChooserDialog(descriptor, project, "Select Path");
+    }
+    
+    @NotNull
+    public FileSaverDialog createSaveFileDialog(@NotNull FileSaverDescriptor descriptor, @Nullable Project project) {
+    	return new FileSaverDialog(descriptor, project);
     }
 }

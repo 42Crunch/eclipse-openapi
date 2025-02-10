@@ -213,19 +213,25 @@ public class TempFileUtils {
     }
     
     @NotNull
-    public static VirtualFile createTempDirectory(@NotNull Project project, @NotNull String prefix) throws IOException {
-         VirtualFile file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () -> {
-             try {
-                 createPluginTempDirIfMissing();
-                 Path target = Paths.get(getPluginTempFile().getPath(), FileUtils.getRandomDirName(prefix));
-                 return VfsUtil.createDirectoryIfMissing(target.toString());
-             } catch (Exception e) {
-                 return null;
-             }
+    public static VirtualFile createTempDirectory(@NotNull Project project, @NotNull String prefix, boolean isRand) throws IOException {
+        VirtualFile file = WriteCommandAction.runWriteCommandAction(project, (Computable<VirtualFile>) () -> {
+            try {
+                createPluginTempDirIfMissing();
+                final String dirName = isRand ? FileUtils.getRandomDirName(prefix) : prefix;
+                Path target = Paths.get(getPluginTempFile().getPath(), dirName);
+                return VfsUtil.createDirectoryIfMissing(target.toString());
+            } catch (Exception e) {
+                return null;
+            }
         });
         if (file == null) {
             throw new IOException("Failed to create temp dir with prefix " + prefix);
         }
         return file;
+    }
+
+    @NotNull
+    public static VirtualFile createTempDirectory(@NotNull Project project, @NotNull String prefix) throws IOException {
+        return createTempDirectory(project, prefix, true);
     }
 }

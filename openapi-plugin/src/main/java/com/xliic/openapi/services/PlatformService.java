@@ -180,6 +180,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 AuditDisplayOptions options = new AuditDisplayOptions(showInBrowser, showInProblemsList);
                 Audit newReport = auditBuilder.setFileName(file.getPath()).setAuditDisplayOptions(options).build(reportNode);
                 auditService.setAuditReport(file.getPath(), newReport);
+                auditService.saveAuditReportToTempFile(newReport, reportNode);
                 ApplicationManager.getApplication().runReadAction(() -> {
                     newReport.finalizeInReadAction();
                     PsiFile psiFile = Utils.findPsiFile(project, file);

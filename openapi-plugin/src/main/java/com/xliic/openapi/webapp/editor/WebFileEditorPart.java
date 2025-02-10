@@ -7,6 +7,7 @@ import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SIGNUP_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.WHATS_NEW_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.TAGS_EDITOR_ID;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.CAPTURE_EDITOR_ID;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,7 @@ import com.xliic.openapi.platform.scan.report.jcef.JCEFScanReportPanel;
 import com.xliic.openapi.signup.jcef.JCEFSignUpPanel;
 import com.xliic.openapi.whatsnew.jcef.JCEFWhatsNewPanel;
 import com.xliic.openapi.tags.jcef.JCEFTagsPanel;
+import com.xliic.openapi.capture.jcef.JCEFCapturePanel;
 
 public class WebFileEditorPart extends EditorPart {
 
@@ -38,6 +40,7 @@ public class WebFileEditorPart extends EditorPart {
 	private static final Image WHATS_NEW_EDITOR_IMAGE = OpenAPIImages.WelcomePanel.createImage();
 	private static final Image SIGNUP_EDITOR_IMAGE = OpenAPIImages.SignUpPanel.createImage();
 	private static final Image TAGS_EDITOR_IMAGE = OpenAPIImages.TagsAnnoPanel.createImage();
+	private static final Image CAPTURE_EDITOR_IMAGE = OpenAPIImages.CapturePanel.createImage();
 
     @SuppressWarnings("serial")
 	private static final Map<String, Long> TABS_LIMITS = new HashMap<>() {{
@@ -48,6 +51,7 @@ public class WebFileEditorPart extends EditorPart {
     	put(WHATS_NEW_EDITOR_ID, 1L);
     	put(SIGNUP_EDITOR_ID, 1L);
     	put(TAGS_EDITOR_ID, 1L);
+    	put(CAPTURE_EDITOR_ID, 1L);
     }};
     private static final Map<String, Long> OPENED_TABS = new HashMap<>();
 
@@ -84,6 +88,8 @@ public class WebFileEditorPart extends EditorPart {
 			setTitleImage(SIGNUP_EDITOR_IMAGE);
 		} else if (TAGS_EDITOR_ID.equals(resId)) {
 			setTitleImage(TAGS_EDITOR_IMAGE);
+		} else if (CAPTURE_EDITOR_ID.equals(resId)) {
+			setTitleImage(CAPTURE_EDITOR_IMAGE);
 		}
 	}
 
@@ -122,6 +128,9 @@ public class WebFileEditorPart extends EditorPart {
         	  break;
           case TAGS_EDITOR_ID:
         	  webEditor = new JCEFTagsPanel(project, parent, webFile);
+        	  break;
+          case CAPTURE_EDITOR_ID:
+        	  webEditor = new JCEFCapturePanel(project, parent, webFile);
         	  break;
           default:
         	  webEditor = new WebDefaultFileEditor(webFile, parent);

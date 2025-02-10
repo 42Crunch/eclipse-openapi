@@ -5,6 +5,8 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_DOCKER;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_SCAND_MANAGER;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
+import static com.xliic.openapi.utils.FileUtils.clearTempFile;
+import static com.xliic.openapi.utils.FileUtils.saveToTempFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,42 +17,36 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
-import com.xliic.core.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
-import com.xliic.core.psi.PsiFile;
 import com.xliic.core.services.IScanService;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.config.payload.ScandManagerConnection;
-import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.platform.scan.config.ScanRunConfig;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.platform.scan.task.ScanCliTask;
 import com.xliic.openapi.platform.scan.task.ScanDockerTask;
 import com.xliic.openapi.platform.scand.task.ScanJobTask;
-import com.xliic.openapi.report.types.Audit;
-import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
-import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
 
 public final class ScanService implements IScanService, Disposable {
 
     public static final String TERMINAL_TAB = "Scan";
-
+    public static final String EXPORT_TEMP_DIR = "scan-report";
+    
     @NotNull
     private final Project project;
     @NotNull
-    private final Map<String, Node> failedFileAndReport;
+    private final Map<String, ScanExport> exportData = new HashMap<>();
     private volatile boolean inProgress;
 
     public ScanService(@NotNull Project project) {
         this.project = project;
-        failedFileAndReport = new HashMap<>(1);
         inProgress = false;
     }
 
@@ -58,7 +54,7 @@ public final class ScanService implements IScanService, Disposable {
         return project.getService(ScanService.class);
     }
 
-    public void runScan(@NotNull ScanRunConfig config, boolean isFullScan) {
+    public void runScan(@NotNull VirtualFile file, @NotNull ScanRunConfig config, boolean isFullScan) {
         if (inProgress) {
             return;
         }
@@ -78,18 +74,14 @@ public final class ScanService implements IScanService, Disposable {
             @Override
             public void setDone(@NotNull String scanConfPath, @NotNull ScanReport report) {
                 inProgress = false;
-                resetFailedFileAndReport();
                 showScanResultsTab(scanConfPath, report, isFullScan);
+                saveScanReportToTempFile(file.getPath(), report.getReport());
             }
             @Override
             public void setRejected(@NotNull Exception e) {
                 inProgress = false;
-                resetFailedFileAndReport();
                 if (e instanceof ScanGeneralError) {
                 	ScanGeneralError ge = (ScanGeneralError) e;
-                    if (ge.getReport() != null) {
-                        saveFailedFileAndReport(ge.getReport());
-                    }
                     showGeneralError(tabId, ge.getMessage(), ge.getCode(), ge.getDetails());
                 } else {
                     showGeneralError(tabId, e.getMessage(), null, null);
@@ -97,7 +89,7 @@ public final class ScanService implements IScanService, Disposable {
             }
         };       
         Credentials.Type type = Credentials.getCredentialsType();
-        WindowUtils.openWebTab(project, SCAN_EDITOR_ID, tabId, () -> {
+        WindowUtils.openWebTab(project, SCAN_EDITOR_ID, tabId, file.getPath(), () -> {
             project.getMessageBus().syncPublisher(ScanListener.TOPIC).startScan(tabId);
             if (type == Credentials.Type.AnondToken) {
                 ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, callback, isFullScan));
@@ -112,6 +104,27 @@ public final class ScanService implements IScanService, Disposable {
             }
         });
     }
+    
+    @Nullable
+    public ScanExport getExportData(@NotNull String filePath) {
+        return exportData.get(filePath);
+    }
+
+    private void saveScanReportToTempFile(@NotNull String filePath, @NotNull String report) {
+        if (!exportData.containsKey(filePath)) {
+            exportData.put(filePath, new ScanExport());
+        }
+        ScanExport scanExport = exportData.get(filePath);
+        saveToTempFile(project, EXPORT_TEMP_DIR, scanExport.getTempFile(), report, () -> scanExport.setTempFileSaved(true));
+    }
+
+    public void clearScanReportTempFile(@NotNull String filePath) {
+        ScanExport scanExport = exportData.remove(filePath);
+        if (scanExport == null) {
+            return;
+        }
+        clearTempFile(project, EXPORT_TEMP_DIR, scanExport.getTempFile());
+    }
 
     private void showScanResultsTab(String scanConfPath, ScanReport report, boolean isFullScan) {
         String id = "Scan report " + getAlias(scanConfPath);
@@ -124,46 +137,9 @@ public final class ScanService implements IScanService, Disposable {
         });
     }
 
-    public @Nullable Node getFailedReport() {
-        return failedFileAndReport.size() == 1 ? failedFileAndReport.values().iterator().next() : null;
-    }
-
     @Override
     public void dispose() {
-        failedFileAndReport.clear();
-    }
-
-    private void saveFailedFileAndReport(Node report) {
-        if (failedFileAndReport.size() == 1) {
-            String filePath = failedFileAndReport.keySet().iterator().next();
-            saveFailedFileAndReport(filePath, report);
-        }
-    }
-
-    private void saveFailedFileAndReport(String filePath, Node report) {
-        failedFileAndReport.put(filePath, report);
-    }
-
-    private void resetFailedFileAndReport() {
-        if (failedFileAndReport.size() == 1) {
-            String filePath = failedFileAndReport.keySet().iterator().next();
-            resetFailedFileAndReport(filePath);
-        }
-    }
-
-    private void resetFailedFileAndReport(String filePath) {
-        AuditService auditService = AuditService.getInstance(project);
-        Audit report = auditService.removeAuditReport(filePath);
-        if (report != null) {
-            ApplicationManager.getApplication().invokeAndWait(() -> {
-                project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(report);
-                PsiFile psiFile = Utils.findPsiFile(project, filePath);
-                if (psiFile != null) {
-                    DaemonCodeAnalyzer.getInstance(project).restart(psiFile);
-                }
-            });
-        }
-        saveFailedFileAndReport(filePath, null);
+    	exportData.clear();
     }
 
     private void showGeneralError(String webAppId, String message, String code, String details) {

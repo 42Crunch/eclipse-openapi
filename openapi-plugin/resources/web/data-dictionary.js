@@ -1,8 +1,9 @@
-import { c as v, a as j, l as g, b, t as h, e as f, q as o, T as l, j as e, f as y, R as S, P as $, m as w, h as I, n as D } from "./TriangleExclamation.Bx9Cjic4.js";
+import { c as v, a as j, b as g, t as b, e as h, q as o, T as l, j as e, f, R as y, P as S, m as $, h as w, l as I } from "./webapp.CeAUXIIl.js";
+import { l as D } from "./TriangleExclamation.CgvJ-nl0.js";
 import { D as p } from "./datetime.DlW1FQ29.js";
-import { S as O } from "./AngleDown.BXHrY2zc.js";
-import { S as E } from "./AngleUp.BT-LmYBc.js";
-import { S as M } from "./SearchSidebar.BqSlxpwA.js";
+import { S as O } from "./AngleDown.Cf8-HIFo.js";
+import { S as E } from "./AngleUp.4zhx5nPt.js";
+import { S as M } from "./SearchSidebar.DYf2xzMO.js";
 const F = {
   dictionaries: [],
   formats: []
@@ -28,17 +29,17 @@ const F = {
     }
   }
 }), { showDictionary: T } = m.actions, P = m.reducer, k = {
-  theme: h,
+  theme: b,
   formats: P
 }, C = (i) => j({
   reducer: k,
-  middleware: (n) => n().prepend().concat(g),
+  middleware: (n) => n().prepend().concat(D),
   preloadedState: {
     theme: i
   }
-}), x = b;
+}), x = g;
 function L(i = !1) {
-  const [n, r] = f.useState(i);
+  const [n, r] = h.useState(i);
   return [n, () => r(!n)];
 }
 function A({ format: i }) {
@@ -179,19 +180,19 @@ function K() {
   );
 }
 const Q = {
-  changeTheme: D,
+  changeTheme: I,
   showDictionary: T
 };
 function X() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(I, {}),
+    /* @__PURE__ */ e.jsx(w, {}),
     /* @__PURE__ */ e.jsx(K, {})
   ] });
 }
 function Y(i, n) {
   const r = C(n);
-  y(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(S.StrictMode, { children: /* @__PURE__ */ e.jsx($, { store: r, children: /* @__PURE__ */ e.jsx(X, {}) }) })
-  ), window.addEventListener("message", w(r, Q));
+  f(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(y.StrictMode, { children: /* @__PURE__ */ e.jsx(S, { store: r, children: /* @__PURE__ */ e.jsx(X, {}) }) })
+  ), window.addEventListener("message", $(r, Q));
 }
 window.renderWebView = Y;

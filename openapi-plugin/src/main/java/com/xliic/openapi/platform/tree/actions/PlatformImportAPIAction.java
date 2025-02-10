@@ -57,7 +57,7 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
     @Override
     public void actionPerformed(@NotNull AnJActionEvent event) {
         FileChooserDescriptor descriptor = new FileChooserDescriptor(true, false, false, false, false, false)
-                .withFileFilter(new String[] { "*.json;*.yaml;*.yml" });
+                .withExtensionFilter("*.json; *.yaml; *.yml");
         VirtualFile[] choose = FileChooserFactory.getInstance().createFileChooser(descriptor, project, getText(), null).choose(null,
                 VirtualFile.EMPTY_ARRAY);
         if (choose.length == 1) {
