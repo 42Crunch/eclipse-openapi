@@ -57,6 +57,18 @@ public class LocalFileSystem {
         }
         return null;
     }
+    
+    @Nullable
+    public VirtualFile refreshAndFindFileByIoFile(@NotNull File file) {
+        IProject project = EclipseUtil.getProject(file.getAbsolutePath());
+        if (project != null) {
+            EclipseUtil.refreshProject(project);
+        }
+        if (file.exists()) {
+            return new VirtualFile(file);
+        }
+        return null;
+    }
 
     @NotNull
     public VirtualFile createChildFile(Object requestor, @NotNull VirtualFile vDir, @NotNull String fileName) throws IOException {

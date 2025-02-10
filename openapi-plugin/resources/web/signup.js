@@ -1,10 +1,12 @@
-import { j as e, c as z, d as H, s as N, a as Z, n as G, u as J, b as K, l as Q, t as X, q as s, T, B as Y, f as ee, R as ne, P as oe, h as te, m as re } from "./TriangleExclamation.Bx9Cjic4.js";
-import { c as h, u as k } from "./index.esm.BkhFKhi4.js";
-import { o as y, s as f, F as w, I as v, T as ae } from "./Textarea.CN3byLZt.js";
-import { N as B } from "./ProgressButton.DtD1VE2H.js";
-import { E as A } from "./Banner.DHdNW9_j.js";
-import { C as se } from "./Checkbox.BzOzv3J1.js";
-const ie = (n) => /* @__PURE__ */ e.jsxs(
+import { j as e, c as z, d as H, s as N, a as Z, l as G, u as J, b as K, t as Q, q as i, T, B as X, f as Y, R as ee, P as ne, h as oe, m as te } from "./webapp.CeAUXIIl.js";
+import { l as re } from "./TriangleExclamation.CgvJ-nl0.js";
+import { c as f, u as k } from "./index.esm.B6e3vWVZ.js";
+import { o as y, s as h, F as w, I as v } from "./Input.24y_a8TM.js";
+import { N as B } from "./ProgressButton.BnLJqsA7.js";
+import { E as A } from "./Banner.K84D_Xfm.js";
+import { T as ae } from "./Textarea.CbxhiBo5.js";
+import { C as ie } from "./Checkbox.BctjRCcP.js";
+const se = (n) => /* @__PURE__ */ e.jsxs(
   "svg",
   {
     width: "1em",
@@ -116,8 +118,8 @@ const ie = (n) => /* @__PURE__ */ e.jsxs(
   showPlatformConnectionTestError: me,
   savePlatformCredentials: ue,
   platformSignUpComplete: M,
-  saveAgreeToTermsAndConditions: he,
-  showTermsAndConditionsError: fe,
+  saveAgreeToTermsAndConditions: fe,
+  showTermsAndConditionsError: he,
   openLink: g,
   setCurrentFormId: j
 } = D.actions, ge = D.reducer, $ = H(), m = $.startListening;
@@ -162,7 +164,7 @@ function xe(n) {
   }), $;
 }
 const Te = {
-  theme: X,
+  theme: Q,
   signup: ge
 }, Ce = {
   changeTheme: G,
@@ -170,7 +172,7 @@ const Te = {
   showAnondTokenResponse: de
 }, je = (n, o) => Z({
   reducer: Te,
-  middleware: (t) => t().prepend(n.middleware).concat(Q),
+  middleware: (t) => t().prepend(n.middleware).concat(re),
   preloadedState: {
     theme: o
   }
@@ -181,12 +183,12 @@ function ve({
 }) {
   const t = c(), {
     agreeToTermsAndConditions: r,
-    showTermsAndConditionsError: i,
+    showTermsAndConditionsError: s,
     anondTokenRequestResult: l,
     waitingForAnondToken: a,
     complete: U
   } = d((C) => C.signup), O = y({
-    email: f().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
+    email: h().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
   });
   return /* @__PURE__ */ e.jsx(
     w,
@@ -214,7 +216,7 @@ function ve({
           /* @__PURE__ */ e.jsx(_, { children: "Enter a valid email address to receive a once off access token." }),
           l && !l.success && /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(A, { message: "Unexpected error when trying to request a token", children: l.message }) }),
           /* @__PURE__ */ e.jsx(Fe, {}),
-          i && !r && /* @__PURE__ */ e.jsx(A, { message: "Please accept Terms and Conditions to continue" }),
+          s && !r && /* @__PURE__ */ e.jsx(A, { message: "Please accept Terms and Conditions to continue" }),
           /* @__PURE__ */ e.jsxs("div", { children: [
             "Register for your free API security testing account to:",
             /* @__PURE__ */ e.jsxs("ul", { children: [
@@ -248,7 +250,7 @@ function x({
 function Ae() {
   const n = c(), { agreeToTermsAndConditions: o, waitingForAnondToken: t, complete: r } = d(
     (a) => a.signup
-  ), i = h({ name: "email" }), {
+  ), s = f({ name: "email" }), {
     formState: { isValid: l }
   } = k();
   return /* @__PURE__ */ e.jsx(
@@ -258,7 +260,7 @@ function Ae() {
       disabled: r || !l,
       waiting: t,
       onClick: (a) => {
-        n(o ? L(i) : fe(!0)), a.preventDefault(), a.stopPropagation();
+        n(o ? L(s) : he(!0)), a.preventDefault(), a.stopPropagation();
       }
     }
   );
@@ -268,8 +270,8 @@ function ke({
   backToPrevForm: o,
   backToPlatformSignup: t
 }) {
-  const r = c(), { complete: i } = d((a) => a.signup), l = y({
-    anondToken: f().min(1, { message: "This field has to be filled." })
+  const r = c(), { complete: s } = d((a) => a.signup), l = y({
+    anondToken: h().min(1, { message: "This field has to be filled." })
   });
   return /* @__PURE__ */ e.jsx(
     w,
@@ -287,7 +289,7 @@ function ke({
             x,
             {
               text: "I have an existing account",
-              disabled: i,
+              disabled: s,
               backToPrevForm: t
             }
           )
@@ -300,12 +302,12 @@ function ke({
               x,
               {
                 text: "Resubmit email request",
-                disabled: i,
+                disabled: s,
                 backToPrevForm: o
               }
             )
           ] }),
-          /* @__PURE__ */ e.jsx(ae, { label: "Token", name: "anondToken", disabled: i }),
+          /* @__PURE__ */ e.jsx(ae, { label: "Token", name: "anondToken", disabled: s }),
           /* @__PURE__ */ e.jsxs("div", { children: [
             "Audit and Scan usage allowances apply, upgrade",
             " ",
@@ -343,15 +345,15 @@ function ke({
   );
 }
 function ye() {
-  const n = c(), { anondCredentials: o, complete: t } = d((l) => l.signup), r = h({ name: "anondToken" });
+  const n = c(), { anondCredentials: o, complete: t } = d((l) => l.signup), r = f({ name: "anondToken" });
   console.log("my token", r);
   const {
-    formState: { isValid: i }
+    formState: { isValid: s }
   } = k();
   return /* @__PURE__ */ e.jsx(
     Re,
     {
-      disabled: t || !i,
+      disabled: t || !s,
       onClick: (l) => {
         n(
           q({ email: o.email, anondToken: r.trim() })
@@ -365,9 +367,9 @@ function we({
   data: n,
   backToPrevForm: o
 }) {
-  const t = c(), { platformConnectionTestResult: r, complete: i } = d((a) => a.signup), l = y({
-    platformUrl: f().url().startsWith("https://"),
-    platformApiToken: f().regex(
+  const t = c(), { platformConnectionTestResult: r, complete: s } = d((a) => a.signup), l = y({
+    platformUrl: h().url().startsWith("https://"),
+    platformApiToken: h().regex(
       /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       "Token is invalid"
     )
@@ -384,12 +386,12 @@ function we({
       children: /* @__PURE__ */ e.jsxs(S, { children: [
         /* @__PURE__ */ e.jsxs(b, { children: [
           /* @__PURE__ */ e.jsx(F, { children: "Sign in" }),
-          /* @__PURE__ */ e.jsx(x, { text: "Register", disabled: i, backToPrevForm: o })
+          /* @__PURE__ */ e.jsx(x, { text: "Register", disabled: s, backToPrevForm: o })
         ] }),
         /* @__PURE__ */ e.jsxs(P, { children: [
           /* @__PURE__ */ e.jsx(_, { children: "If you are an existing Teams or Enterprise customer, activate your account here." }),
-          /* @__PURE__ */ e.jsx(v, { label: "Platform URL", name: "platformUrl", disabled: i }),
-          /* @__PURE__ */ e.jsx(v, { label: "IDE token", name: "platformApiToken", disabled: i, password: !0 }),
+          /* @__PURE__ */ e.jsx(v, { label: "Platform URL", name: "platformUrl", disabled: s }),
+          /* @__PURE__ */ e.jsx(v, { label: "IDE token", name: "platformApiToken", disabled: s, password: !0 }),
           r && /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsx(A, { message: "Failed to connect", children: r.error }) })
         ] }),
         /* @__PURE__ */ e.jsx(R, { children: /* @__PURE__ */ e.jsx(be, {}) })
@@ -398,7 +400,7 @@ function we({
   );
 }
 function be() {
-  const n = c(), { waitingForPlatformConnectionTest: o, complete: t } = d((a) => a.signup), r = h({ name: "platformUrl" }), i = h({ name: "platformApiToken" }), {
+  const n = c(), { waitingForPlatformConnectionTest: o, complete: t } = d((a) => a.signup), r = f({ name: "platformUrl" }), s = f({ name: "platformApiToken" }), {
     formState: { isValid: l }
   } = k();
   return /* @__PURE__ */ e.jsx(
@@ -408,7 +410,7 @@ function be() {
       disabled: t || !l,
       waiting: o,
       onClick: (a) => {
-        n(M({ platformUrl: r, platformApiToken: i })), a.preventDefault(), a.stopPropagation();
+        n(M({ platformUrl: r, platformApiToken: s })), a.preventDefault(), a.stopPropagation();
       }
     }
   );
@@ -416,11 +418,11 @@ function be() {
 function Fe() {
   const n = c(), { agreeToTermsAndConditions: o } = d((t) => t.signup);
   return /* @__PURE__ */ e.jsx(Pe, { children: /* @__PURE__ */ e.jsx(
-    se,
+    ie,
     {
       value: o,
       onChange: (t) => {
-        n(he(t));
+        n(fe(t));
       },
       label: /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         "I agree to the",
@@ -440,7 +442,7 @@ function Fe() {
     }
   ) });
 }
-const b = s.div`
+const b = i.div`
   // border-bottom-color: var(${T.border});
   // border-bottom-width: 1px;
   // border-bottom-style: solid;
@@ -450,30 +452,30 @@ const b = s.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-`, F = s.p`
+`, F = i.p`
   margin: 0;
   font-size: 25px;
   line-height: 40px;
   font-weight: 600;
-`, _ = s.div`
+`, _ = i.div`
   font-weight: normal;
-`, S = s.div`
+`, S = i.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-`, P = s.div`
+`, P = i.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-width: 560px;
   height: 250px;
   padding: 16px;
-`, Se = s.a`
+`, Se = i.a`
   text-decoration: none;
   ${({ disabled: n }) => n && "opacity: 0.4;"}
   ${({ disabled: n }) => n && "cursor: default;"}
   ${({ disabled: n }) => n && "pointer-events: none;"}
-`, R = s.div`
+`, R = i.div`
   display: flex;
   gap: 16px;
   align-items: stretch;
@@ -484,18 +486,18 @@ const b = s.div`
     height: 45px;
     border-radius: 2px;
   }
-`, V = s.div`
+`, V = i.div`
   > div {
     max-width: 410px;
     word-wrap: break-word;
     overflow-y: auto;
     max-height: 50px;
   }
-`, Pe = s.div`
+`, Pe = i.div`
   display: flex;
   gap: 5px;
   align-items: center;
-`, Re = s(Y)`
+`, Re = i(X)`
   &:disabled {
     opacity: 0.4;
   }
@@ -503,7 +505,7 @@ const b = s.div`
 function Ue() {
   const { currentFormId: n } = d((o) => o.signup);
   return /* @__PURE__ */ e.jsx(Ie, { children: /* @__PURE__ */ e.jsxs(De, { children: [
-    /* @__PURE__ */ e.jsx(Le, { children: /* @__PURE__ */ e.jsx(ie, {}) }),
+    /* @__PURE__ */ e.jsx(Le, { children: /* @__PURE__ */ e.jsx(se, {}) }),
     n === "AnondSignUpEmailForm" && /* @__PURE__ */ e.jsx(u, { children: "Register to check your API for quality, conformance and security vulnerabilities, including BOLA, BFLA & BOPLA" }),
     n === "AnondSignUpTokenForm" && /* @__PURE__ */ e.jsx(e.Fragment, { children: /* @__PURE__ */ e.jsx(u, { children: "#1 API Security testing tools for your IDE, CICD and SaaS environments" }) }),
     n === "PlatformSignUpForm" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
@@ -516,7 +518,7 @@ function Ue() {
 }
 function Ee() {
   const n = c(), { platformCredentials: o, anondCredentials: t, currentFormId: r } = d(
-    (i) => i.signup
+    (s) => s.signup
   );
   return /* @__PURE__ */ e.jsx(W, { children: /* @__PURE__ */ e.jsxs(Be, { children: [
     r === "PlatformSignUpForm" && /* @__PURE__ */ e.jsx(
@@ -547,14 +549,14 @@ function Ee() {
     )
   ] }) });
 }
-const W = s.div`
+const W = i.div`
   display: flex;
   align-items: center;
   width: 50%;
   background-color: var(${T.computedOne});
-`, Ie = s(W)`
+`, Ie = i(W)`
   background-color: var(${T.computedTwo});
-`, Be = s.div`
+`, Be = i.div`
   margin-right: auto;
   margin-left: auto;
   margin-top: auto;
@@ -566,41 +568,41 @@ const W = s.div`
   // border-color: var(${T.border});
   // border-width: 2px;
   // border-style: solid;
-`, De = s.div`
+`, De = i.div`
   margin: auto;
   width: 70%;
   min-height: 430px;
-`, Le = s.div`
+`, Le = i.div`
   margin-bottom: 30px;
   > svg {
     width: 60px;
     height: 60px;
   }
-`, u = s.p`
+`, u = i.p`
   font-size: 42px;
   line-height: 54px;
   font-weight: 700;
   margin-top: 10px;
   margin-bottom: 10px;
-`, I = s.p`
+`, I = i.p`
   font-size: 26px;
   line-height: 36px;
   font-weight: 600;
 `;
 function qe(n, o) {
   const t = je(xe(n), o);
-  ee(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(ne.StrictMode, { children: /* @__PURE__ */ e.jsxs(oe, { store: t, children: [
-      /* @__PURE__ */ e.jsx(te, {}),
+  Y(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(ee.StrictMode, { children: /* @__PURE__ */ e.jsxs(ne, { store: t, children: [
+      /* @__PURE__ */ e.jsx(oe, {}),
       /* @__PURE__ */ e.jsxs(Me, { children: [
         /* @__PURE__ */ e.jsx(Ee, {}),
         /* @__PURE__ */ e.jsx(Ue, {})
       ] })
     ] }) })
-  ), window.addEventListener("message", re(t, Ce));
+  ), window.addEventListener("message", te(t, Ce));
 }
 window.renderWebView = qe;
-const Me = s.div`
+const Me = i.div`
   display: flex;
   position: absolute;
   height: 100%;

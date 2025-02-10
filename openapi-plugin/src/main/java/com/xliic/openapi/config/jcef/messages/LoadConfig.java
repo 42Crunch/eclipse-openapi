@@ -72,6 +72,9 @@ public class LoadConfig extends WebAppConsume {
         result.put("cliDirectoryOverride", config.getCliDirectoryOverride());
         result.put("auditRuntime", config.getAuditRuntime());
 
+        result.put("internalFeatures", config.isInternalFeatures());
+        result.put("internalUseDevEndpoints", config.isInternalUseDevEndpoints());
+
         return result;
     }
 }

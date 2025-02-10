@@ -1,31 +1,33 @@
 var Ih = Object.defineProperty;
 var Dh = (e, t, n) => t in e ? Ih(e, t, { enumerable: !0, configurable: !0, writable: !0, value: n }) : e[t] = n;
 var Oi = (e, t, n) => Dh(e, typeof t != "symbol" ? t + "" : t, n);
-import { j as a, e as _, o as Ph, p as $t, c as sn, b as ku, i as Fn, a as zh, n as Ah, u as Rh, l as Nh, t as Mh, r as qh, v as Fh, q as k, T as v, S as Qe, w as Lh, x as Bh, y as nr, z as Hh, O as Rs, C as Ns, A as Ms, D as qs, E as Fs, F as Ls, G as Bs, B as wu, H as Hs, I as ju, W as Su, R as St, J as Yi, K as se, L as Uh, M as Cu, N as ze, d as Vh, s as Wh, Q as Gh, U as Kh, f as Xh, P as Yh, g as Qh, V as Jh, m as Zh } from "./TriangleExclamation.Bx9Cjic4.js";
-import { a as Ln, S as ep } from "./SearchSidebar.BqSlxpwA.js";
-import { f as tp, k as fo, g as Us, m as _u, l as np, e as rp, c as ue, n as op, a as Po, o as ip, p as sp, d as En, q as Eu, r as zo, t as Tu, v as Ou, i as Ao, w as $u, x as ap, y as lp, s as Iu, H as cp } from "./slice.O08lSnJw.js";
-import { l as up, c as dp } from "./index.DDL_J8y6.js";
-import { l as fp, p as hp, c as Du, A as pp, d as gp, G as mp, L as yp, e as vp, f as xp, g as bp, h as kp, i as wp, j as jp, k as Sp, m as Cp, n as _p, o as Ep, q as Tp, C as Op, I as $p, r as Ip, t as Dp, u as Pp, v as zp, R as Ap, T as Rp, P as Np, w as Mp, x as qp, a as Pu, y as Fp, z as Lp, S as zu } from "./index.VoTi6eqY.js";
-import { c as Bp, w as Ro, s as No, o as Hp } from "./listener.6kHeWaYC.js";
-import { t as Up, o as Bn, s as Y, T as Vp, a as al, l as ll, d as Wp, F as Je, I as Xe, c as Ge, f as cl, b as ul } from "./Textarea.CN3byLZt.js";
-import { S as Er } from "./AngleDown.BXHrY2zc.js";
-import { S as Gp } from "./AngleUp.BT-LmYBc.js";
-import { D as Hn, S as Kp } from "./DescriptionTooltip.C5xxvOjw.js";
-import { S as Au, P as Xp } from "./ProgressButton.DtD1VE2H.js";
-import { T as ct, $ as Yp } from "./Tabs.CYtaWkhP.js";
-import { C as an, B as Un, a as ho, T as Ru } from "./CollapsibleCard.Dhy-4_vZ.js";
-import { l as Tn, m as On, D as Vs, r as dl, n as Qp, o as Jp, q as Zp, E as eg } from "./variables.DOtlLp1y.js";
-import { d as Nu, F as Mu, a as J, u as ln, b as cn, c as Tr } from "./index.esm.BkhFKhi4.js";
-import { S as Mo } from "./ExclamationCircle.DZfV_vy9.js";
-import { a as qo, u as Fo } from "./downshift.esm.Bjpfpcc2.js";
-import { S as tg } from "./Check.BYlFq-hF.js";
-import { C as ng, P as rg, R as og, T as ig, a as sg } from "./index.wUGuWQIC.js";
-import { a as ag, S as qu } from "./Switch.agb1XpZb.js";
-import { S as Ue } from "./TrashCan.B_9oEMnF.js";
-import { S as fl } from "./Select.AYETaB4E.js";
-import { o as lg, s as cg } from "./listener.BD7iG2ss.js";
-import { S as Or } from "./index.DaTfd4rN.js";
-import { E as Xt } from "./Banner.DHdNW9_j.js";
+import { j as a, e as _, n as Ph, o as $t, c as sn, b as ku, i as Fn, a as zh, l as Ah, u as Rh, t as Nh, r as Mh, p as qh, q as k, T as v, v as Fh, w as Lh, x as nr, y as Bh, O as Rs, C as Ns, z as Ms, A as qs, D as Fs, E as Ls, F as Bs, B as wu, G as Hs, H as ju, W as Su, R as St, I as Yi, J as se, K as Hh, L as Cu, M as ze, d as Uh, s as Vh, N as Wh, Q as Gh, f as Kh, P as Xh, g as Yh, S as Qh, m as Jh } from "./webapp.CeAUXIIl.js";
+import { a as Ln, S as Zh } from "./SearchSidebar.DYf2xzMO.js";
+import { f as ep, k as fo, g as Us, m as _u, l as tp, e as np, c as ue, n as rp, a as Po, o as op, p as ip, d as En, q as Eu, r as zo, t as Tu, v as Ou, i as Ao, w as $u, x as sp, y as ap, s as Iu, H as lp } from "./slice.BcUHZN3X.js";
+import { l as cp, S as Qe } from "./TriangleExclamation.CgvJ-nl0.js";
+import { l as up, c as dp } from "./index.CVo6ZNUd.js";
+import { l as fp, p as hp, c as Du, A as pp, d as gp, G as mp, L as yp, e as vp, f as xp, g as bp, h as kp, i as wp, j as jp, k as Sp, m as Cp, n as _p, o as Ep, q as Tp, C as Op, I as $p, r as Ip, t as Dp, u as Pp, v as zp, R as Ap, T as Rp, P as Np, w as Mp, x as qp, a as Pu, y as Fp, z as Lp, S as zu } from "./index.BiHYBvgH.js";
+import { c as Bp, w as Ro, s as No, o as Hp } from "./listener.CMrUlk8Y.js";
+import { t as Up, o as Bn, s as Y, a as al, l as ll, f as Vp, F as Je, I as Xe, c as Ge, d as cl, b as ul } from "./Input.24y_a8TM.js";
+import { S as Er } from "./AngleDown.Cf8-HIFo.js";
+import { S as Wp } from "./AngleUp.4zhx5nPt.js";
+import { D as Hn, S as Gp } from "./DescriptionTooltip.By3IfDRj.js";
+import { S as Au, P as Kp } from "./ProgressButton.BnLJqsA7.js";
+import { T as ct, $ as Xp } from "./Tabs.ao5WcNUe.js";
+import { C as an, B as Un, a as ho, T as Ru } from "./CollapsibleCard.sDBLV0pi.js";
+import { l as Tn, m as On, D as Vs, r as dl, n as Yp, o as Qp, q as Jp, E as Zp } from "./variables.B_WTOoYj.js";
+import { d as Nu, F as Mu, a as J, u as ln, b as cn, c as Tr } from "./index.esm.B6e3vWVZ.js";
+import { T as eg } from "./Textarea.CbxhiBo5.js";
+import { S as Mo } from "./ExclamationCircle.BBSMtR_9.js";
+import { a as qo, u as Fo } from "./downshift.esm.Di891BPN.js";
+import { S as tg } from "./Check.CWJARxxg.js";
+import { C as ng, P as rg, R as og, T as ig, a as sg } from "./index.9ZOXign7.js";
+import { a as ag, S as qu } from "./Switch.CTDoBjHS.js";
+import { S as Ue } from "./TrashCan.CcZ5QY-i.js";
+import { S as fl } from "./Select.DwYaPwwt.js";
+import { o as lg, s as cg } from "./listener.-cV7RRVl.js";
+import { S as Or } from "./index.BOfDP9Rm.js";
+import { E as Xt } from "./Banner.K84D_Xfm.js";
 const Fu = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M192 456c0 13.3-10.7 24-24 24H96c-53.02 0-96-42.98-96-96V128c0-53.02 42.98-96 96-96h72c13.3 0 24 10.74 24 24 0 13.25-10.7 24-24 24H96c-26.4 0-48 21.6-48 48v256c0 26.4 21.6 48 48 48h72c13.3 0 24 10.7 24 24zm313.5-216.4-127.1-136c-9.094-9.688-24.28-10.12-33.91-1.031-9.656 9.062-10.12 24.25-1.031 33.91L432.4 232H183.1c-12.4 0-23.1 10.8-23.1 24s10.75 24 23.1 24h248.4l-89.92 95.56c-9.094 9.656-8.625 24.84 1.031 33.91C348.2 413.8 354.1 416 359.1 416c6.375 0 12.75-2.531 17.47-7.562l127.1-136C514.2 263.2 514.2 248.8 505.5 239.6z" }) }), Lu = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 576 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M200 32h-80c-30.93 0-56 25.07-56 56v77.5a39.84 39.84 0 0 1-11.67 28.17L7 239c-4.5 4.5-7 10.6-7 17 0 6.375 2.5 12.5 7 17l45.33 45.33A39.783 39.783 0 0 1 64 346.5V424c0 30.9 25.07 56 56 56h80c13.3 0 24-10.7 24-24s-10.7-24-24-24h-80c-4.4 0-8-3.6-8-8v-77.5c0-23.44-9.337-45.91-25.95-62.45L57.88 256l28.18-28.05C102.7 211.4 112 188.9 112 165.5V88c0-4.4 3.6-8 8-8h80c13.3 0 24-10.75 24-24s-10.7-24-24-24zm369 207-45.33-45.33A39.783 39.783 0 0 1 512 165.5V88c0-30.93-25.1-56-56-56h-80c-13.3 0-24 10.75-24 23.1S362.7 80 375.1 80H456c4.4 0 8 3.6 8 8v77.5c0 23.37 9.284 45.78 25.81 62.31L517.1 256l-28.19 28.19C473.3 300.7 464 323.1 464 346.5V424c0 4.4-3.6 8-8 8h-80c-13.3 0-24 10.7-24 23.1s10.7 24.9 23.1 24.9H456c30.93 0 56-25.07 56-56v-77.5a39.84 39.84 0 0 1 11.67-28.17L569 273c4.5-4.5 7-10.6 7-17s-2.5-12.5-7-17z" }) }), ug = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M235.3 331.3c-6.2 6.3-16.4 6.3-22.6 0l-64-64c-6.3-6.2-6.3-16.4 0-22.6 6.2-6.3 16.4-6.3 22.6 0l52.7 52.7 116.7-116.7c6.2-6.3 16.4-6.3 22.6 0 6.3 6.2 6.3 16.4 0 22.6l-128 128zM512 256c0 141.4-114.6 256-256 256S0 397.4 0 256 114.6 0 256 0s256 114.6 256 256zM256 32C132.3 32 32 132.3 32 256s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32z" }) }), Bu = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M243.8 339.8c-10.9 10.9-28.7 10.9-39.6 0l-64-64c-10.9-10.9-10.9-28.7 0-39.6 10.9-10.9 28.7-10.9 39.6 0l44.2 44.2 108.2-108.2c10.9-10.9 28.7-10.9 39.6 0 10.9 10.9 10.9 28.7 0 39.6l-128 128zM512 256c0 141.4-114.6 256-256 256S0 397.4 0 256 114.6 0 256 0s256 114.6 256 256zM256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48z" }) }), dg = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h140.1l67.9 67.9V320c0 8.8-7.2 16-16 16zm-192 48h192c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9l-67.8-67.9c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64v256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64v256c0 35.3 28.7 64 64 64h192c35.3 0 64-28.7 64-64v-32h-48v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16h32v-48H64z" }) }), fg = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 128 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M64 368c26.51 0 48 21.5 48 48s-21.49 48-48 48-48-21.5-48-48 21.49-48 48-48zm0-160c26.51 0 48 21.5 48 48s-21.49 48-48 48-48-21.5-48-48 21.49-48 48-48zm0-64c-26.51 0-48-21.5-48-48 0-26.51 21.49-48 48-48s48 21.49 48 48c0 26.5-21.49 48-48 48z" }) }), hg = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 576 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "m568.1 303-80-80c-9.375-9.375-24.56-9.375-33.94 0s-9.375 24.56 0 33.94L494.1 296H216c-13.2 0-24 10.8-24 24s10.75 24 24 24h278.1l-39.03 39.03C450.3 387.7 448 393.8 448 400s2.344 12.28 7.031 16.97c9.375 9.375 24.56 9.375 33.94 0l80-80c9.329-9.37 9.329-24.57-.871-33.97zM360 384c-13.25 0-24 10.74-24 24v40c0 8.836-7.164 16-16 16H64.02c-8.836 0-16-7.164-16-16L48 64.13c0-8.836 7.164-16 16-16h160V128c0 17.67 14.33 32 32 32h79.1v72c0 13.25 10.74 24 23.1 24s25.8-10.7 25.8-24v-93.4c0-16.98-6.742-33.26-18.75-45.26L290.62 18.7C278.6 6.742 262.3 0 245.4 0H63.1C28.65 0-.002 28.66 0 64l.006 384c.002 35.34 28.65 64 64 64H320c35.2 0 64-28.8 64-64v-40c0-13.3-10.7-24-24-24z" }) }), pg = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M40 480c-22.09 0-40-17.9-40-40v-48c0-22.1 17.91-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40H40zm48-40v-48H40v48h48zm144 40c-22.1 0-40-17.9-40-40v-48c0-22.1 17.9-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40h-48zm48-40v-48h-48v48h48zM0 232c0-22.1 17.91-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40H40c-22.09 0-40-17.9-40-40v-48zm40 0v48h48v-48H40zm192 88c-22.1 0-40-17.9-40-40v-48c0-22.1 17.9-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40h-48zm48-40v-48h-48v48h48zM0 72c0-22.09 17.91-40 40-40h48c22.1 0 40 17.91 40 40v48c0 22.1-17.9 40-40 40H40c-22.09 0-40-17.9-40-40V72zm40 0v48h48V72H40zm192 88c-22.1 0-40-17.9-40-40V72c0-22.09 17.9-40 40-40h48c22.1 0 40 17.91 40 40v48c0 22.1-17.9 40-40 40h-48zm48-40V72h-48v48h48z" }) }), gg = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M336 144c0-17.7 14.3-32 32-32s32 14.3 32 32-14.3 32-32 32-32-14.3-32-32zm0 208c-9.5 0-18.8-.7-27.9-2.2l-28 26.3c-3.6 5.4-9.7 7.9-16.1 7.9h-40v40c0 13.3-10.7 24-24 24h-40v40c0 13.3-10.7 24-24 24H24c-13.25 0-24-10.7-24-24V376c0-6.4 2.529-12.5 7.029-17L162.2 203.9c-1.4-9.1-2.2-18.4-2.2-27.9C160 78.8 238.8 0 336 0s176 78.8 176 176-78.8 176-176 176zm0-48c70.7 0 128-57.3 128-128S406.7 48 336 48s-128 57.3-128 128c0 6.9.5 13.7 1.6 20.3l3.8 24.2L47.1 385.9V464h64v-64h64v-64h79l37.4-37.4 24.2 3.8c6.6 1.1 13.4 1.6 20.3 1.6z" }) }), mg = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M24.52 38.13a48.019 48.019 0 0 1 48.51.91L361 215c14.3 8.8 23 24.3 23 41s-8.7 32.2-23 40.1l-287.97 176c-14.82 9.9-33.37 10.3-48.51 1.8A48.02 48.02 0 0 1 0 432V80a48.02 48.02 0 0 1 24.52-41.87zM48 432l288-176L48 80v352z" }) }), $r = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M432 256c0 13.3-10.7 24-24 24H248v160c0 13.25-10.75 24.01-24 24.01S200 453.3 200 440V280H40c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h160V72c0-13.25 10.75-23.99 24-23.99S248 58.75 248 72v160h160c13.3 0 24 10.8 24 24z" }) }), yg = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M0 416c0 13.3 10.7 24 24 24h59.7c10.2 32.5 40.5 56 76.3 56s66.1-23.5 76.3-56H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H236.3c-10.2-32.5-40.5-56-76.3-56s-66.1 23.5-76.3 56H24c-13.3 0-24 10.7-24 24zm128 0a32 32 0 1 1 64 0 32 32 0 1 1-64 0zm192-160a32 32 0 1 1 64 0 32 32 0 1 1-64 0zm32-80c-35.8 0-66.1 23.5-76.3 56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h251.7c10.2 32.5 40.5 56 76.3 56s66.1-23.5 76.3-56H488c13.3 0 24-10.7 24-24s-10.7-24-24-24h-59.7c-10.2-32.5-40.5-56-76.3-56zm-160-48a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm76.3-56c-10.2-32.5-40.5-56-76.3-56s-66.1 23.5-76.3 56H24C10.7 72 0 82.7 0 96s10.7 24 24 24h91.7c10.2 32.5 40.5 56 76.3 56s66.1-23.5 76.3-56H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H268.3z" }) }), vg = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M64 80c-8.8 0-16 7.2-16 16v320c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96c0-35.3 28.7-64 64-64h320c35.3 0 64 28.7 64 64v320c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm200 248v-64h-64c-13.3 0-24-10.7-24-24s10.7-24 24-24h64v-64c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24h-64v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" }) }), Hu = _.createContext({
   dragDropManager: void 0
 });
@@ -2433,7 +2435,7 @@ const _y = function(t, n, r) {
   extraReducers: (e) => {
     e.addCase(Go, (t, { payload: { oas: n, playbook: r } }) => {
       var o, i, s, l, c;
-      t.oas = n, t.playbook = r, t.servers = tp(n), t.selectedCredentialGroup = 0, t.selectedCredential = (i = Object.keys(((o = r == null ? void 0 : r.authenticationDetails) == null ? void 0 : o[0]) || {})) == null ? void 0 : i[0], t.selectedCredential !== void 0 && (t.selectedSubcredential = (l = Object.keys(
+      t.oas = n, t.playbook = r, t.servers = ep(n), t.selectedCredentialGroup = 0, t.selectedCredential = (i = Object.keys(((o = r == null ? void 0 : r.authenticationDetails) == null ? void 0 : o[0]) || {})) == null ? void 0 : i[0], t.selectedCredential !== void 0 && (t.selectedSubcredential = (l = Object.keys(
         (s = r == null ? void 0 : r.authenticationDetails[0][t.selectedCredential]) == null ? void 0 : s.methods
       )) == null ? void 0 : l[0]), t.selectedAuthorizationTest = (c = Object.keys((r == null ? void 0 : r.authorizationTests) || {})) == null ? void 0 : c[0];
     });
@@ -2445,7 +2447,7 @@ function Qr(e, t) {
 const {
   saveSettings: dd,
   saveEnvironment: fd,
-  saveScanconf: KO,
+  saveScanconf: YO,
   addCredential: Zs,
   removeCredential: ea,
   addStage: It,
@@ -2781,33 +2783,33 @@ const Ny = {
     }
   }
 }), { updateScanconf: Od, showChanges: av, skipScanconfUpdate: $d } = Td.actions, lv = Td.reducer, cv = {
-  theme: Mh,
+  theme: Nh,
   client: Bp,
   scanconf: Dy,
   scanconfUpdate: lv,
   operations: Zy,
   requests: iv,
   auth: Ly,
-  router: qh,
-  env: rp,
+  router: Mh,
+  env: np,
   prefs: hp,
   config: dp,
   global: Gy,
   generalError: Ry,
-  confirmationDialog: Fh
+  confirmationDialog: qh
 }, uv = {
   changeTheme: Ah,
   showHttpError: Oy,
   showHttpResponse: Ty,
   showScanconfOperation: Wo,
   loadUpdatedScanconf: cd,
-  loadEnv: np,
+  loadEnv: tp,
   loadConfig: up,
   loadPrefs: fp,
   showGeneralError: ot
 }, dv = (e, t) => zh({
   reducer: cv,
-  middleware: (n) => n().prepend(e.middleware).concat(Nh),
+  middleware: (n) => n().prepend(e.middleware).concat(cp),
   preloadedState: {
     theme: t
   }
@@ -2838,7 +2840,7 @@ function Id({
           s.preventDefault(), s.stopPropagation(), t(!e);
         },
         children: [
-          e ? /* @__PURE__ */ a.jsx(Gp, {}) : /* @__PURE__ */ a.jsx(Er, {}),
+          e ? /* @__PURE__ */ a.jsx(Wp, {}) : /* @__PURE__ */ a.jsx(Er, {}),
           /* @__PURE__ */ a.jsxs(gv, { children: [
             typeof n == "string" ? /* @__PURE__ */ a.jsx(mv, { children: n }) : n,
             !!r && /* @__PURE__ */ a.jsx(bv, { children: r }),
@@ -2982,10 +2984,10 @@ const jv = k.div`
     }
   }
 `;
-var oa = "ContextMenu", [Cv, XO] = Lh(oa, [
+var oa = "ContextMenu", [Cv, QO] = Fh(oa, [
   Du
 ]), we = Du(), [_v, Dd] = Cv(oa), Pd = (e) => {
-  const { __scopeContextMenu: t, children: n, onOpenChange: r, dir: o, modal: i = !0 } = e, [s, l] = _.useState(!1), c = we(t), u = Hh(r), d = _.useCallback(
+  const { __scopeContextMenu: t, children: n, onOpenChange: r, dir: o, modal: i = !0 } = e, [s, l] = _.useState(!1), c = we(t), u = Bh(r), d = _.useCallback(
     (p) => {
       l(p), u(p);
     },
@@ -3026,7 +3028,7 @@ var zd = "ContextMenuTrigger", Ad = _.forwardRef(
     return _.useEffect(() => d, [d]), _.useEffect(() => void (r && d()), [r, d]), /* @__PURE__ */ a.jsxs(a.Fragment, { children: [
       /* @__PURE__ */ a.jsx(pp, { ...s, virtualRef: c }),
       /* @__PURE__ */ a.jsx(
-        Bh.span,
+        Lh.span,
         {
           "data-state": i.open ? "open" : "closed",
           "data-disabled": r ? "" : void 0,
@@ -3385,7 +3387,7 @@ function dx({
       onOpenChange: t,
       children: /* @__PURE__ */ a.jsxs(fx, { children: [
         /* @__PURE__ */ a.jsx(oe, { label: "Name", name: "varname" }),
-        /* @__PURE__ */ a.jsx(Vp, { label: "JSON Pointer", name: "jsonPointer" })
+        /* @__PURE__ */ a.jsx(eg, { label: "JSON Pointer", name: "jsonPointer" })
       ] })
     }
   );
@@ -4050,7 +4052,7 @@ const cb = k.div`
   gap: 8px;
 `;
 function ub(e) {
-  return e === "success" ? /* @__PURE__ */ a.jsx(ug, {}) : e === "failure" ? /* @__PURE__ */ a.jsx(Kp, { style: { fill: `var(${v.errorForeground})` } }) : /* @__PURE__ */ a.jsx(fb, {});
+  return e === "success" ? /* @__PURE__ */ a.jsx(ug, {}) : e === "failure" ? /* @__PURE__ */ a.jsx(Gp, { style: { fill: `var(${v.errorForeground})` } }) : /* @__PURE__ */ a.jsx(fb, {});
 }
 const db = Su`
   from {
@@ -4333,7 +4335,7 @@ function Eb({
       })
     ]),
     default: Y(),
-    methods: Wp()
+    methods: Vp()
   });
   return /* @__PURE__ */ a.jsx(
     Je,
@@ -10557,8 +10559,8 @@ const Y1 = k.div`
   }
 `;
 function Z1(e, t, n) {
-  const r = op(e, e.paths[t]), o = Po(e, t, n), i = ip(e, o);
-  return sp(e, r, i);
+  const r = rp(e, e.paths[t]), o = Po(e, t, n), i = op(e, o);
+  return ip(e, r, i);
 }
 function ew(e, t, n) {
   const r = Po(e, t, n);
@@ -11413,7 +11415,7 @@ function Hw({
     }
   );
 }
-const Uw = k(Yp)`
+const Uw = k(Xp)`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -11818,7 +11820,7 @@ function rj() {
 }
 function oj(e) {
   return () => e({
-    actionCreator: Uh,
+    actionCreator: Hh,
     effect: async (t, n) => {
       const r = n.getOriginalState().confirmationDialog.actions;
       for (const o of r)
@@ -15508,7 +15510,7 @@ async function* mh(e, t, n, r, o, i, s, l, c) {
       id: { type: "request-environment" },
       env: w.value,
       assignments: []
-    }, E = f.operationId !== void 0 ? (d = $u(r, f.operationId)) == null ? void 0 : d.operation : void 0, j = Qp(r, f.request, E, [
+    }, E = f.operationId !== void 0 ? (d = $u(r, f.operationId)) == null ? void 0 : d.operation : void 0, j = Yp(r, f.request, E, [
       ...l,
       ...u,
       C,
@@ -15526,7 +15528,7 @@ async function* mh(e, t, n, r, o, i, s, l, c) {
     }, O.length > 0) {
       yield {
         event: "http-request-prepare-error",
-        error: `failed to replace request variables: ${Jp(O)}`
+        error: `failed to replace request variables: ${Qp(O)}`
       };
       return;
     }
@@ -15685,7 +15687,7 @@ async function* fC(e, t, n, r, o, i, s, l, c) {
       return void 0;
     u.push(...p);
   }
-  const d = Zp(s.credential, u);
+  const d = Jp(s.credential, u);
   return d.missing.length, yield {
     event: "credential-variables-substituted",
     name: i,
@@ -16646,7 +16648,7 @@ function h_(e, t) {
   return s;
 }
 function jh(e) {
-  return (Ao(e) ? ap(e) : lp(e)).map(([n, r, o]) => ({
+  return (Ao(e) ? sp(e) : ap(e)).map(([n, r, o]) => ({
     path: n,
     method: r,
     operationId: _u(o.operationId, n, r)
@@ -16922,10 +16924,10 @@ function O_(e) {
     return [void 0, `${t}`];
   }
 }
-const Sh = Vh(), ve = Sh.startListening;
+const Sh = Uh(), ve = Sh.startListening;
 function $_(e, t) {
   const n = vC(ve), r = pC(ve), o = gC(ve), i = bC(ve), s = mC(ve), l = xC(ve), c = kC(ve), u = yC(ve), d = E_(ve, e);
-  return cg(ve, t), Wh({
+  return cg(ve, t), Vh({
     ...d,
     executeTryScenarioListener: n,
     executeMockScenarioListener: r,
@@ -17519,7 +17521,7 @@ function o2() {
           {
             onClick: (u) => u.stopPropagation(),
             onSelect: () => e(
-              Gh({
+              Wh({
                 title: "Delete scenario",
                 message: `Are you sure you want to delete scenario for operation "${l}"?`,
                 actions: [
@@ -17692,7 +17694,7 @@ function f2({
       mode: "json"
     },
     mode: "onChange"
-  }), n = cp.map((s) => ({ value: s, label: s.toUpperCase() })), [r, o] = _.useState(!1), i = (s) => {
+  }), n = lp.map((s) => ({ value: s, label: s.toUpperCase() })), [r, o] = _.useState(!1), i = (s) => {
     e(s.id, s.method, s.url, s.mode);
   };
   return /* @__PURE__ */ a.jsxs(
@@ -18347,7 +18349,7 @@ function Y2(e, t) {
 }
 function Q2(e, t) {
   const n = (e == null ? void 0 : e.type) || "string";
-  if (t.match(eg()) || n === "string")
+  if (t.match(Zp()) || n === "string")
     return t;
   if (n === "integer")
     return J2(t);
@@ -20163,7 +20165,7 @@ function FT() {
     (n) => n.scanconf.playbook.runtimeConfiguration
   );
   return /* @__PURE__ */ a.jsx(
-    ep,
+    Zh,
     {
       noSectionTitles: !0,
       sections: MT,
@@ -20423,7 +20425,7 @@ function oO() {
     ] }),
     /* @__PURE__ */ a.jsxs(sO, { children: [
       /* @__PURE__ */ a.jsx(
-        Xp,
+        Kp,
         {
           label: "Update",
           waiting: n,
@@ -20481,11 +20483,11 @@ function xu(e) {
       children: "What is API Conformance Scan"
     }), `
 `, a.jsx(t.p, {
-      children: `API Conformance Scan is a dynamic API testing tool designed to ensure that your API implementation aligns with its OpenAPI/Swagger definition.
+      children: `API Conformance Scan is a dynamic API testing tool designed to ensure that your API implementation aligns with its OpenAPI/Swagger definition.\r
 By comparing the documented API specification with the actual implementation, Scan helps you identify any discrepancies or inconsistencies.`
     }), `
 `, a.jsx(t.p, {
-      children: `To achieve this, Scan generates a multitude of requests that deviate from the declared OpenAPI file and sends them to your server.
+      children: `To achieve this, Scan generates a multitude of requests that deviate from the declared OpenAPI file and sends them to your server.\r
 The tool then evaluates each response, providing insights into how well your API implementation matches its documented counterpart.`
     }), `
 `, a.jsx(t.h2, {
@@ -20504,18 +20506,18 @@ The tool then evaluates each response, providing insights into how well your API
       children: "Default configuration"
     }), `
 `, a.jsx(t.p, {
-      children: `When you run Scan for the first time, it generates a default configuration for your OpenAPI file.
+      children: `When you run Scan for the first time, it generates a default configuration for your OpenAPI file.\r
 This initial setup produces a set of "happy path" requests, one for every operation defined in your OpenAPI specification.`
     }), `
 `, a.jsx(t.p, {
       children: 'The contents of each "happy path" request is available to you in the "Operations" tab of the Scan UI.'
     }), `
 `, a.jsx(t.p, {
-      children: `These "happy path" requests serve as the foundation for testing, establishing a reliable baseline of expected behavior for each operation.
+      children: `These "happy path" requests serve as the foundation for testing, establishing a reliable baseline of expected behavior for each operation.\r
 At the start of a test for each operation Scan expects to successfully execute a "happy path" request before running the rest of the test.`
     }), `
 `, a.jsx(t.p, {
-      children: `This default configuration is suitable for simple operations; however, more complex operations may require customizations
+      children: `This default configuration is suitable for simple operations; however, more complex operations may require customizations\r
 to ensure effective testing.`
     }), `
 `, a.jsx(t.h2, {
@@ -20525,22 +20527,22 @@ to ensure effective testing.`
       children: "Operations"
     }), `
 `, a.jsx(t.p, {
-      children: `You can change the default happy path requests by modifying their payloads within the Operations tab.
-Additionally, you can configure authentication details and fine-tune the body and parameters
+      children: `You can change the default happy path requests by modifying their payloads within the Operations tab.\r
+Additionally, you can configure authentication details and fine-tune the body and parameters\r
 of each operation either directly or utilize variable expressions.`
     }), `
 `, a.jsx(t.h3, {
       children: "Scenarios"
     }), `
 `, a.jsx(t.p, {
-      children: `When your API operation relies on pre-existing resources or requires post-execution cleanup,
-Scenarios come into play. This is particularly useful when you need to set up certain conditions
+      children: `When your API operation relies on pre-existing resources or requires post-execution cleanup,\r
+Scenarios come into play. This is particularly useful when you need to set up certain conditions\r
 before executing an operation and then tear them down afterwards.`
     }), `
 `, a.jsx(t.p, {
-      children: `A great example of this is the "update user" operation, which updates a user object.
-Before calling this operation, you'd typically want to ensure that the user object exists and after the update, remove it.
-Scenarios enable you to achieve this by adding operations to the "Before" block (e.g., creating the user),
+      children: `A great example of this is the "update user" operation, which updates a user object.\r
+Before calling this operation, you'd typically want to ensure that the user object exists and after the update, remove it.\r
+Scenarios enable you to achieve this by adding operations to the "Before" block (e.g., creating the user),\r
 using the resulting resource in the happy path of the scenario, and then performing cleanup in the "After" block (e.g., deleting the user).`
     }), `
 `, a.jsx(t.p, {
@@ -20556,15 +20558,15 @@ using the resulting resource in the happy path of the scenario, and then perform
       children: 'To facilitate this process, the Scan UI provides a "Try" feature.'
     }), `
 `, a.jsx(t.p, {
-      children: `When you click "Try" on an Operation or Scenario, the Scan UI will send relevant requests to the server and allow
+      children: `When you click "Try" on an Operation or Scenario, the Scan UI will send relevant requests to the server and allow\r
 you to inspect the details of the payload sent and the response received.`
     }), `
 `, a.jsx(t.h2, {
       children: "Starting the Scan"
     }), `
 `, a.jsx(t.p, {
-      children: `You can initiate scanning from the "Operations" tab in the Scan UI, where you have two options to do that:
-scan the entire API by clicking the "Scan all operations" button at the bottom of the list,
+      children: `You can initiate scanning from the "Operations" tab in the Scan UI, where you have two options to do that:\r
+scan the entire API by clicking the "Scan all operations" button at the bottom of the list,\r
 or click the "Scan" button at the top of a currently selected operation to test just that one operation.`
     }), `
 `, a.jsx(t.h1, {
@@ -20574,25 +20576,25 @@ or click the "Scan" button at the top of a currently selected operation to test 
       children: "Operations"
     }), `
 `, a.jsx(t.p, {
-      children: `Operations tab shows all operations defined in your OpenAPI file. Details of a request configured in this tab are used as a "happy path" request,
+      children: `Operations tab shows all operations defined in your OpenAPI file. Details of a request configured in this tab are used as a "happy path" request,\r
 if not overriden by a Scenario for this request.`
     }), `
 `, a.jsxs(t.p, {
-      children: [`You can edit details of a request body and parameters by editing them here.
+      children: [`You can edit details of a request body and parameters by editing them here.\r
 You can also use variable expressions (such as `, a.jsx(t.code, {
         children: "{{name}}"
-      }), `) to substitute parameters or parts of
+      }), `) to substitute parameters or parts of\r
 the body with values from a variables.`]
     }), `
 `, a.jsx(t.h3, {
       children: "Environment"
     }), `
 `, a.jsx(t.p, {
-      children: `The Environment tab in each Operation allows you to define variables that can be used in variable
+      children: `The Environment tab in each Operation allows you to define variables that can be used in variable\r
 expressions in request bodies and parameters.`
     }), `
 `, a.jsx(t.p, {
-      children: `You can also use variable expression within the VALUE field of environment entries,
+      children: `You can also use variable expression within the VALUE field of environment entries,\r
 creating values that combine other existing variables and constants.`
     }), `
 `, a.jsxs(t.p, {
@@ -20600,7 +20602,7 @@ creating values that combine other existing variables and constants.`
         children: "username"
       }), " with a value like ", a.jsx(t.code, {
         children: "user-{{$randomuint}}@company.com"
-      }), `,
+      }), `,\r
 you can set its actual value to something like `, a.jsx(t.code, {
         children: "user-555@company.com"
       }), "."]
@@ -20609,43 +20611,43 @@ you can set its actual value to something like `, a.jsx(t.code, {
       children: "Response processing"
     }), `
 `, a.jsx(t.p, {
-      children: `The Response Processing feature allows you to extract specific values from an operation's responses and
+      children: `The Response Processing feature allows you to extract specific values from an operation's responses and\r
 store them in variables, which can then be used in subsequent operations (particularly useful when multiple operations are part of a Scenario).`
     }), `
 `, a.jsx(t.p, {
-      children: `To achieve this, you can define response processing statements that specify what information to extract,
-where to find it, and where to store the retrieved data. These statements are organized by response code, so if your operation returns multiple
+      children: `To achieve this, you can define response processing statements that specify what information to extract,\r
+where to find it, and where to store the retrieved data. These statements are organized by response code, so if your operation returns multiple\r
 possible codes (e.g., 200, 400, 5XX), you can create separate groups for each.`
     }), `
 `, a.jsx(t.p, {
-      children: `Each response processing statement consists of a name of the variable where the extracted information will be stored, as well as a source,
-specifying the location where Scan should look for the desired information, such as request
+      children: `Each response processing statement consists of a name of the variable where the extracted information will be stored, as well as a source,\r
+specifying the location where Scan should look for the desired information, such as request\r
 or response body, headers, cookies, path or query string parameters.`
     }), `
 `, a.jsx(t.p, {
-      children: `Additionally, if you're extracting a value from a request or response body, you can use
+      children: `Additionally, if you're extracting a value from a request or response body, you can use\r
 JsonPointer or JsonPath to pinpoint the exact location of the value you're looking for.`
     }), `
 `, a.jsx(t.h3, {
       children: "Unset variables"
     }), `
 `, a.jsx(t.p, {
-      children: `In an Operation, every variable expression must resolve to a value before
-the Operation can be executed. However, it is possible to reference variables
+      children: `In an Operation, every variable expression must resolve to a value before\r
+the Operation can be executed. However, it is possible to reference variables\r
 that do not have a value set.`
     }), `
 `, a.jsx(t.p, {
-      children: `Unset variables in an Operation may be useful when you plan to use the same
-Operation in multiple Scenarios, each providing a different set of values
+      children: `Unset variables in an Operation may be useful when you plan to use the same\r
+Operation in multiple Scenarios, each providing a different set of values\r
 for every variable used in the Operation.`
     }), `
 `, a.jsx(t.p, {
-      children: `However, if an Operation contains an unset variable, you cannot utilize the
+      children: `However, if an Operation contains an unset variable, you cannot utilize the\r
 'Try' feature to test the Operation without first providing a value for it.`
     }), `
 `, a.jsx(t.p, {
-      children: `To resolve this issue, Scan UI lists all required variables for the Operation
-in "Unset variables" and enables you to provide values for them, allowing you
+      children: `To resolve this issue, Scan UI lists all required variables for the Operation\r
+in "Unset variables" and enables you to provide values for them, allowing you\r
 to use the 'Try' feature.`
     }), `
 `, a.jsx(t.p, {
@@ -20655,7 +20657,7 @@ to use the 'Try' feature.`
       children: "Scenarios"
     }), `
 `, a.jsx(t.p, {
-      children: `Use scenarios to create complex sequences of operations to implement a "happy path" request for any operation
+      children: `Use scenarios to create complex sequences of operations to implement a "happy path" request for any operation\r
 that cannot be tested with a single request defined in the Operations tab.`
     }), `
 `, a.jsx(t.p, {
@@ -20668,77 +20670,77 @@ that cannot be tested with a single request defined in the Operations tab.`
       children: "Happy path scenario"
     }), `
 `, a.jsx(t.p, {
-      children: `The  "happy path" scenario is the only type of scenario you can currently create in Scan.
+      children: `The  "happy path" scenario is the only type of scenario you can currently create in Scan.\r
 In future versions of Scan, we plan to introduce additional scenario types.`
     }), `
 `, a.jsx(t.p, {
-      children: `This scenario contains operation references that should be performed in order to execute the test.
+      children: `This scenario contains operation references that should be performed in order to execute the test.\r
 When creating a new scenario, it will initially contain just one reference to the operation selected during scenario creation.`
     }), `
 `, a.jsx(t.p, {
-      children: `You can add more operation references to the scenario by clicking the "Pick operation" button.
+      children: `You can add more operation references to the scenario by clicking the "Pick operation" button.\r
 These references can also be reordered within the scenario using drag-and-drop functionality.`
     }), `
 `, a.jsx(t.p, {
-      children: `Each operation reference within a scenario has its own distinct response processing configuration and
+      children: `Each operation reference within a scenario has its own distinct response processing configuration and\r
 environment variables, which take precedence over those defined at the operation level.`
     }), `
 `, a.jsx(t.h3, {
       children: "Before and after blocks"
     }), `
 `, a.jsx(t.p, {
-      children: `Before and after blocks are used to define operations that should be executed before and after the happy path scenario,
+      children: `Before and after blocks are used to define operations that should be executed before and after the happy path scenario,\r
 and serve mainly as setup and cleanup steps.`
     }), `
 `, a.jsx(t.p, {
-      children: `The "Before" and "After" blocks in Scan allow you to define operations that should be executed before and after your Scenario.
+      children: `The "Before" and "After" blocks in Scan allow you to define operations that should be executed before and after your Scenario.\r
 These blocks primarily serve as setup and cleanup steps. These blocks are shared between all scenarios.`
     }), `
 `, a.jsx(t.h3, {
       children: "Autorization tests"
     }), `
 `, a.jsx(t.p, {
-      children: `The Authorization Tests section enables you to apply Broken Object Level Authorization (BOLA)
+      children: `The Authorization Tests section enables you to apply Broken Object Level Authorization (BOLA)\r
 and Broken Function Level Authorization (BLFA) tests, as defined in the global Tests section, to your scenario.`
     }), `
 `, a.jsx(t.h2, {
       children: "Global blocks"
     }), `
 `, a.jsx(t.p, {
-      children: `The Global Before and After blocks provide an opportunity to execute setup and cleanup steps at the Scan level.
-These blocks are run only once, respectively, before and after the entire scan execution, allowing you to perform
+      children: `The Global Before and After blocks provide an opportunity to execute setup and cleanup steps at the Scan level.\r
+These blocks are run only once, respectively, before and after the entire scan execution, allowing you to perform\r
 global initialization and cleanup tasks.`
     }), `
 `, a.jsx(t.h2, {
       children: "Authentication"
     }), `
 `, a.jsx(t.p, {
-      children: `Certain operations may require authentication to function properly.
+      children: `Certain operations may require authentication to function properly.\r
 Configure authentication settings in the Scan UI's Authentication section.`
     }), `
 `, a.jsx(t.h3, {
       children: "Security schemes"
     }), `
 `, a.jsx(t.p, {
-      children: `A "Security Scheme" describes the type of authentication required by an operation,
+      children: `A "Security Scheme" describes the type of authentication required by an operation,\r
 closely following the contents of the relevant OpenAPI's Security Scheme.`
     }), `
 `, a.jsx(t.p, {
-      children: `These security schemes define the authentication requirements and how they should be sent.
+      children: `These security schemes define the authentication requirements and how they should be sent.\r
 For example, you can specify using an API key and sending it in a specific HTTP header.`
     }), `
 `, a.jsx(t.h3, {
       children: "Credentials"
     }), `
 `, a.jsx(t.p, {
-      children: `Credentials are primarily related to authorization aspects of your operations.
+      children: `Credentials are primarily related to authorization aspects of your operations.\r
 Although all operations might share the same authentication type, some may have different authorization requirements.`
     }), `
 `, a.jsx(t.p, {
       children: "For example, while most operations might be accessible to ordinary users, others might require admin privileges."
     }), `
 `, a.jsx(t.p, {
-      children: `To effectively test such APIs, you can create distinct Credentials for "ordinary" and
+      children: `To effectively test such APIs, you can create distinct Credentials for "ordinary" and\r
 "admin" users, configuring respective operations to use one or the other.`
     }), `
 `, a.jsx(t.h3, {
@@ -20751,14 +20753,14 @@ Although all operations might share the same authentication type, some may have 
       children: "The best practice is to avoid storing these sensitive values directly in your scan configuration."
     }), `
 `, a.jsx(t.p, {
-      children: `Instead, consider using variables to access secret values received from external sources.
-You can create a variable using the "External inputs" feature in the global Environment section of the scan configuration
+      children: `Instead, consider using variables to access secret values received from external sources.\r
+You can create a variable using the "External inputs" feature in the global Environment section of the scan configuration\r
 and then utilize variable expression to inject the value into your credential.`
     }), `
 `, a.jsxs(t.p, {
       children: ['For instance, you could create an entry in "External inputs" to define the ', a.jsx(t.code, {
         children: "password1"
-      }), ` variable,
+      }), ` variable,\r
 and then set credential value to `, a.jsx(t.code, {
         children: "{{password1}}"
       }), "."]
@@ -20773,12 +20775,12 @@ and then set credential value to `, a.jsx(t.code, {
       children: 'A common example is when all operations in an API require authentication with a token returned by a "login" operation.'
     }), `
 `, a.jsxs(t.p, {
-      children: [`To achieve this, you can add a call to the "login" operation within credential, extract the token from its
+      children: [`To achieve this, you can add a call to the "login" operation within credential, extract the token from its\r
 response and store it in a variable named `, a.jsx(t.code, {
         children: "token"
       }), ". Then, use the expression ", a.jsx(t.code, {
         children: "{{token}}"
-      }), ` in the credential value to access
+      }), ` in the credential value to access\r
 the dynamically retrieved token.`]
     }), `
 `, a.jsx(t.p, {
@@ -20788,7 +20790,7 @@ the dynamically retrieved token.`]
       children: "Tests"
     }), `
 `, a.jsx(t.p, {
-      children: `The Tests section enables you to define Broken Object Level Authorization (BOLA) and Broken Function Level Authorization (BLFA) tests,
+      children: `The Tests section enables you to define Broken Object Level Authorization (BOLA) and Broken Function Level Authorization (BLFA) tests,\r
 which can be applied to your scenarios and API operations.`
     }), `
 `, a.jsx(t.h2, {
@@ -20822,11 +20824,11 @@ which can be applied to your scenarios and API operations.`
 `]
     }), `
 `, a.jsx(t.p, {
-      children: `Each entry in this section defines a variable name that can be used in the Scan configuration "Name" and the corresponding environment
+      children: `Each entry in this section defines a variable name that can be used in the Scan configuration "Name" and the corresponding environment\r
 variable to pass the value to the Scan configuration "Source environment variable".`
     }), `
 `, a.jsx(t.p, {
-      children: `These entries are marked as either required or not. For non-required entries, you can specify a default value that will be us
+      children: `These entries are marked as either required or not. For non-required entries, you can specify a default value that will be us\r
 ed if an external value is not provided.`
     }), `
 `, a.jsxs(t.p, {
@@ -20844,7 +20846,7 @@ ed if an external value is not provided.`
       children: "Logging configuration"
     }), `
 `, a.jsx(t.p, {
-      children: `In this section, you can configure the logging level and log destination to control the verbosity and output location
+      children: `In this section, you can configure the logging level and log destination to control the verbosity and output location\r
 of logs generated during the scan.`
     }), `
 `, a.jsx(t.h3, {
@@ -20938,7 +20940,7 @@ of logs generated during the scan.`
       children: "Variables in JSON"
     }), `
 `, a.jsx(t.p, {
-      children: `When substituting variables in the request body, always quote
+      children: `When substituting variables in the request body, always quote\r
 the variable expression, even if you're substituting a number or boolean.`
     }), `
 `, a.jsx(t.p, {
@@ -20947,7 +20949,7 @@ the variable expression, even if you're substituting a number or boolean.`
 `, a.jsxs(t.p, {
       children: ["For example, if you define a variable ", a.jsx(t.code, {
         children: "age"
-      }), ` with a numeric value of 10, and use it in a request body like this:
+      }), ` with a numeric value of 10, and use it in a request body like this:\r
 `, a.jsx(t.code, {
         children: '{ "user_ age": "{{age}}"}'
       }), " the resulting JSON will be ", a.jsx(t.code, {
@@ -20998,10 +21000,10 @@ the variable expression, even if you're substituting a number or boolean.`
       children: "Keeping configuration in sync with OpenAPI"
     }), `
 `, a.jsx(t.p, {
-      children: `The scan configuration must be kept in sync with the OpenAPI file it is based on,
-as it is crucial for accurate and comprehensive testing. To help users keep
-their scan configuration in sync, the Scan UI checks if the scan configuration
-matches the OpenAPI file, and in the presence of changes, offers to update the scan configuration
+      children: `The scan configuration must be kept in sync with the OpenAPI file it is based on,\r
+as it is crucial for accurate and comprehensive testing. To help users keep\r
+their scan configuration in sync, the Scan UI checks if the scan configuration\r
+matches the OpenAPI file, and in the presence of changes, offers to update the scan configuration\r
 accordingly.`
     }), `
 `, a.jsx(t.p, {
@@ -21026,15 +21028,15 @@ accordingly.`
 `]
     }), `
 `, a.jsx(t.p, {
-      children: `However, changes to the schemas describing operation payloads (body, parameters, etc),
+      children: `However, changes to the schemas describing operation payloads (body, parameters, etc),\r
 adding or removing parameters, etc. are not handled by the Scan UI, as these can be customized by the user.`
     }), `
 `, a.jsx(t.p, {
-      children: `If such changes are made to the OpenAPI file, the user must make appropriate changes to
+      children: `If such changes are made to the OpenAPI file, the user must make appropriate changes to\r
 the scan configuration manually.`
     }), `
 `, a.jsx(t.p, {
-      children: `When changes are detected, the Scan UI will prompt you to update the
+      children: `When changes are detected, the Scan UI will prompt you to update the\r
 scan configuration to reflect the modifications made to the OpenAPI file.`
     })]
   });
@@ -21074,7 +21076,7 @@ function pO({ href: e, children: t }) {
     "a",
     {
       onClick: (r) => {
-        r.preventDefault(), r.stopPropagation(), n(Kh(e));
+        r.preventDefault(), r.stopPropagation(), n(Gh(e));
       },
       href: e,
       children: t
@@ -21224,8 +21226,8 @@ const mO = (e) => {
 ];
 function bO(e, t) {
   const n = dv($_(e, bu), t);
-  Xh(document.getElementById("root")).render(
-    /* @__PURE__ */ a.jsx(St.StrictMode, { children: /* @__PURE__ */ a.jsx(Yh, { store: n, children: /* @__PURE__ */ a.jsx(Qh.Provider, { value: bu, children: /* @__PURE__ */ a.jsx(Am, { backend: _y, children: /* @__PURE__ */ a.jsx(Jh, {}) }) }) }) })
-  ), window.addEventListener("message", Zh(n, uv));
+  Kh(document.getElementById("root")).render(
+    /* @__PURE__ */ a.jsx(St.StrictMode, { children: /* @__PURE__ */ a.jsx(Xh, { store: n, children: /* @__PURE__ */ a.jsx(Yh.Provider, { value: bu, children: /* @__PURE__ */ a.jsx(Am, { backend: _y, children: /* @__PURE__ */ a.jsx(Qh, {}) }) }) }) })
+  ), window.addEventListener("message", Jh(n, uv));
 }
 window.renderWebView = bO;

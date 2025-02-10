@@ -32,8 +32,22 @@ public class WindowUtils {
         void onLoadEnd();
     }
     
-    public static void openWebTab(@NotNull Project project, @NotNull String resourceId, @NotNull String tabId, @NotNull ViewPartHandler handler) {
-        WebVirtualFile webFile = new WebVirtualFile(tabId, resourceId, handler);
+    public static void openWebTab(@NotNull Project project,
+                                  @NotNull String resourceId,
+                                  @NotNull String tabId,
+                                  @NotNull String genFilePath,
+                                  @NotNull ViewPartHandler handler) {
+    	openWebTab(project, new WebVirtualFile(tabId, resourceId, genFilePath, handler));
+	}
+	
+	public static void openWebTab(@NotNull Project project,
+	                              @NotNull String resourceId,
+	                              @NotNull String tabId,
+                                  @NotNull ViewPartHandler handler) {
+		openWebTab(project, new WebVirtualFile(tabId, resourceId, handler));
+	}
+
+	private static void openWebTab(@NotNull Project project, @NotNull WebVirtualFile webFile) {
 		WebFileEditorInput input = new WebFileEditorInput(webFile);
 		ApplicationManager.getApplication().invokeLater(() -> {
 			List<IWorkbenchPage> pages = EclipseUtil.getAllSupportedPages();
@@ -43,7 +57,7 @@ public class WindowUtils {
 				if (window != null) {
 					IWorkbenchPage page = window.getActivePage();
 					if (page != null) {
-						openWebEditorOnPage(page, input, resourceId);	
+						openWebEditorOnPage(page, input, webFile.getResourceId());	
 					}
 				}
 				return;
@@ -57,7 +71,7 @@ public class WindowUtils {
 					return;
 				}
 			}
-			openWebEditorOnPage(pages.get(0), input, resourceId);
+			openWebEditorOnPage(pages.get(0), input, webFile.getResourceId());
 		});
     }
 

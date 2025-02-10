@@ -98,6 +98,7 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
             if (prevReport != null) {
                  ApplicationManager.getApplication().invokeLater(() ->
                  	project.getMessageBus().syncPublisher(AuditListener.TOPIC).handleAuditReportClean(prevReport));
+                 auditService.clearAuditReportTempFile(prevReport);
             }
             AuditDisplayOptions options;
             if (prevReport != null) {
@@ -108,6 +109,7 @@ public class PlatformAuditCallback extends SuccessASTResponseCallback {
             }
             Audit report = auditBuilder.setFileName(file.getPath()).setAuditDisplayOptions(options).build(reportNode);
             auditService.setAuditReport(file.getPath(), report);
+            auditService.saveAuditReportToTempFile(report, reportNode);
             ApplicationManager.getApplication().runReadAction((Computable<Void>) () -> {
                 try {
                     report.finalizeInReadAction();

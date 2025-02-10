@@ -3,24 +3,19 @@ package com.xliic.openapi.bundler;
 import org.jetbrains.annotations.NotNull;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.PrettyPrinter;
-import com.fasterxml.jackson.core.util.DefaultIndenter;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.xliic.openapi.utils.Utils;
 
 public class BundleSerializer extends Serializer {
 
     @NotNull
     private final ObjectWriter writer;
 
-    @SuppressWarnings("deprecation")
 	public BundleSerializer() {
         super();
         mapper.disable(SerializationFeature.INDENT_OUTPUT);
-        DefaultIndenter indenter = new DefaultIndenter("", "");
-        PrettyPrinter printer = new DefaultPrettyPrinter().withObjectIndenter(indenter).withArrayIndenter(indenter).withoutSpacesInObjectEntries();
-        writer = mapper.writer(printer);
+        writer = mapper.writer(Utils.getPrinter("", ""));
     }
 
     @Override

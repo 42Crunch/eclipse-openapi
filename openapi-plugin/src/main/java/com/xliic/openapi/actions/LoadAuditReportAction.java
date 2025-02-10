@@ -26,9 +26,16 @@ public class LoadAuditReportAction extends ProjectAction {
         super("load security audit report from file", false);
     }
 
-    private static boolean isReportValid(Node report) {
-        boolean result = (report.getChild("aid") != null) && (report.getChild("tid") != null);
-        return result && (report.getChild("data") != null) && (report.find("/data/assessmentVersion") != null);
+    private static Node getReportNode(Node report) {
+        if (report.find("/data/issues") != null) {
+            return report;
+        } else if (report.find("/data/data/issues") != null) {
+            return report.getChild("data");
+        } else if (report.find("/report/data/issues") != null) {
+            return report.getChild("report");
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -38,8 +45,7 @@ public class LoadAuditReportAction extends ProjectAction {
 
     @Override
     public void actionPerformed(@NotNull Project project, @NotNull VirtualFile currentFile) {
-        FileChooserDescriptor descriptor = new FileChooserDescriptor(true, false, false, false, false, false)
-                .withFileFilter(new String[] { "*.json" });
+        FileChooserDescriptor descriptor = new FileChooserDescriptor(true, false, false, false, false, false).withExtensionFilter("json");
         VirtualFile[] choose = FileChooserFactory.getInstance().createFileChooser(descriptor, project, "getText()", null).choose(null,
                 VirtualFile.EMPTY_ARRAY);
         if (choose.length == 1) {
@@ -47,8 +53,8 @@ public class LoadAuditReportAction extends ProjectAction {
             if (file != null) {
                 String text = Utils.getTextFromFile(file);
                 if (!StringUtils.isEmpty(text)) {
-                    Node report = Utils.getJsonAST(text);
-                    if (report != null && isReportValid(report)) {
+                    Node report = Utils.getJsonAST(text, false);
+                    if (report != null) {
                         ProgressManager.getInstance().run(new Task.Backgroundable(project, LOADING_KDB_ARTICLES, false) {
                             @Override
                             public void run(@NotNull ProgressIndicator progress) {
@@ -57,15 +63,18 @@ public class LoadAuditReportAction extends ProjectAction {
                                     auditService.downloadArticles(progress);
                                     ApplicationManager.getApplication().invokeAndWait(() -> {
                                         auditService.cleanAuditReport(currentFile);
-                                        auditService.processAuditReport(currentFile, report.getChildRequireNonNull("data"));
+                                        Node target = getReportNode(report);
+                                        if (target != null) {
+                                            auditService.processAuditReport(currentFile, target);
+                                        } else {
+                                            MsgUtils.notifyError(project, REPORT_ERROR_MSG);
+                                        }
                                     });
                                 } catch (AuditService.KdbException e) {
-                                    MsgUtils.error(project, e.getMessage(), true);
+                                    MsgUtils.notifyError(project, e.getMessage());
                                 }
                             }
                         });
-                    } else {
-                        MsgUtils.error(project, REPORT_ERROR_MSG, true);
                     }
                 }
             }

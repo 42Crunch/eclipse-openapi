@@ -5,11 +5,10 @@ import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.application.ApplicationInfo;
+import com.xliic.openapi.Endpoints;
 
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -17,9 +16,6 @@ import okhttp3.Response;
 
 public class AuditAPIs {
 
-    private static final String TOKEN_URL = "https://stateless.42crunch.com/api/v1/anon/token";
-    private static final String ASSESS_URL = "https://stateless.42crunch.com/api/v1/anon/assess/vscode";
-    private static final String ARTICLES_URL = "https://platform.42crunch.com/kdb/audit-with-yaml.json";
     private static final String USER_AGENT = "Eclipse/" + ApplicationInfo.getInstance().getFullVersion();
     private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
@@ -27,34 +23,20 @@ public class AuditAPIs {
 
         @NotNull
         public static Response getKDB() throws IOException {
-            Request request = getRequestBuilder(ARTICLES_URL).build();
-            return client.newCall(request).execute();
-        }
-
-        @NotNull
-        public static Response getAuditReport(@NotNull String token, @NotNull String fileName, @NotNull String text) throws IOException {
-            RequestBody part = RequestBody.create(text, MediaType.parse("application/json"));
-            RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("specfile", fileName, part).build();
-            Request request = getRequestBuilder(ASSESS_URL).addHeader("X-API-TOKEN", token).post(body).build();
-            return client.newCall(request).execute();
-        }
-
-        @NotNull
-        public static Response getAuditReportByToken(String respToken, String token) throws IOException {
-            Request request = getRequestBuilder(ASSESS_URL + "?token=" + respToken).addHeader("X-API-TOKEN", token).build();
+            Request request = getRequestBuilder(Endpoints.getKdbUrl()).build();
             return client.newCall(request).execute();
         }
 
         @NotNull
         public static Response getTokenByEmail(@NotNull String email) throws IOException {
             RequestBody body = new FormBody.Builder().add("email", email).build();
-            Request request = getRequestBuilder(TOKEN_URL).post(body).build();
+            Request request = getRequestBuilder(Endpoints.getFreemiumdUrl() + "/api/v1/anon/token").post(body).build();
             return client.newCall(request).execute();
         }
     }
 
     public static void getKDB(@NotNull Callback callback) throws IOException {
-        Request request = getRequestBuilder(ARTICLES_URL).build();
+        Request request = getRequestBuilder(Endpoints.getKdbUrl()).build();
         client.newCall(request).enqueue(callback);
     }
 

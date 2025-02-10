@@ -1,5 +1,7 @@
 package com.xliic.openapi.actions.internal;
 
+import static com.xliic.openapi.OpenAPIAbstractUIPlugin.XLIIC_PLUGIN_ENABLE_INTERNAL_ACTIONS;
+import static com.xliic.openapi.OpenAPIStartupActivity.XLIIC_PLUGIN_USE_DEV_MODE;
 import static com.xliic.openapi.whatsnew.WhatsNewService.getPluginVersion;
 import static com.xliic.openapi.whatsnew.WhatsNewService.getSavedVersion;
 
@@ -25,7 +27,7 @@ public class GetIDEInfoAction extends AnAction implements DumbAware {
     public @NotNull ActionUpdateThread getActionUpdateThread() {
         return ActionUpdateThread.BGT;
     }
-    
+
     @Override
     public void update(@NotNull AnActionEvent event) {
         event.getPresentation().setEnabled(event.getProject() != null);
@@ -49,9 +51,15 @@ public class GetIDEInfoAction extends AnAction implements DumbAware {
             }
         }
         addVersionInfo(project, builder);
+        builder.append("APPDATA: ").append(System.getenv("APPDATA")).append("\n");
+        builder.append("USE_DEV_MODE: ").append(System.getenv(XLIIC_PLUGIN_USE_DEV_MODE)).append("\n");
+        builder.append("ENABLE_INTERNAL_ACTIONS: ").append(System.getenv(XLIIC_PLUGIN_ENABLE_INTERNAL_ACTIONS)).append("\n");
+        builder.append("java.io.tmpdir: ").append(System.getProperty("java.io.tmpdir")).append("\n");
+        builder.append("user.home: ").append(System.getProperty("user.home")).append("\n");
+
         MsgUtils.info(project, builder.toString(), true);
     }
-    
+
     private static void addVersionInfo(Project project, StringBuilder builder) {
         builder.append("Saved version: ").append(getSavedVersion()).append("\n");
         String pluginVer = getPluginVersion();

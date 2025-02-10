@@ -40,25 +40,23 @@ public class RunScan extends WebAppProduce {
             Map<String, Object> env = (Map<String, Object>) map.get("env");
             Map<String, String> configEnv = env.entrySet().stream().collect(
                     Collectors.toMap(Map.Entry::getKey, e -> String.valueOf(e.getValue())));
-            String rawOas = null;
             String filePath = (String) cache.get(SavePreferences.PSI_FILE_PATH);
-            if (filePath != null) {
-                VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
-                if (file != null) {
-                    BundleService bundleService = BundleService.getInstance(project);
-                    BundleResult bundle = bundleService.getBundle(file.getPath());
-                    if (bundle != null && bundle.isBundleComplete()) {
-                        rawOas = bundle.getJsonText();
-                    }
-                }
-            }
             String scanConfPath = (String) cache.get(SCAN_CONF_PATH);
             String path = (String) map.get("path");
             String method = (String) map.get("method");
             String opId = (String) map.get("operationId");
             String scanconf = (String) map.get("scanconf");
-            if (scanconf != null && rawOas != null) {
-                ScanService.getInstance(project).runScan(new ScanRunConfig(path, method, opId, scanConfPath, scanconf, configEnv, rawOas), false);
+            if (filePath != null && scanconf != null) {
+                VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
+                if (file != null) {
+                    BundleService bundleService = BundleService.getInstance(project);
+                    BundleResult bundle = bundleService.getBundle(file.getPath());
+                    if (bundle != null && bundle.isBundleComplete()) {
+                        String rawOas = bundle.getJsonText();
+                        ScanRunConfig config = new ScanRunConfig(path, method, opId, scanConfPath, scanconf, configEnv, rawOas);
+                        ScanService.getInstance(project).runScan(file, config, false);
+                    }
+                }
             }
         }
     }

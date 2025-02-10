@@ -1,6 +1,7 @@
 package com.xliic.openapi.webapp.editor;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.ui.PanelViewPart.ViewPartHandler;
 
@@ -8,11 +9,25 @@ public class WebVirtualFile {
 
     private final @NotNull String id;
     private final @NotNull String resourceId;
+    private final @Nullable String genFilePath;
     private final @NotNull ViewPartHandler handler;
 
-    public WebVirtualFile(@NotNull String id, @NotNull String resourceId, @NotNull ViewPartHandler handler) {
+    public WebVirtualFile(@NotNull String id,
+            @NotNull String resourceId,
+            @NotNull String genFilePath,
+            @NotNull ViewPartHandler handler) {
         this.id = id;
         this.resourceId = resourceId;
+        this.genFilePath = genFilePath;
+        this.handler = handler;
+	}
+
+    public WebVirtualFile(@NotNull String id,
+                          @NotNull String resourceId,
+                          @NotNull ViewPartHandler handler) {
+        this.id = id;
+        this.resourceId = resourceId;
+        genFilePath = null;
         this.handler = handler;
     }
 
@@ -31,6 +46,10 @@ public class WebVirtualFile {
 
     public @NotNull String getName() {
         return id;
+    }
+
+    public @Nullable String getGenFilePath() {
+        return genFilePath;
     }
 
     @Override

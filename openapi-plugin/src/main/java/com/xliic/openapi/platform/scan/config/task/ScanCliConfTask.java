@@ -7,6 +7,10 @@ import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -29,10 +33,13 @@ import com.xliic.openapi.utils.Utils;
 
 public class ScanCliConfTask extends ScanConfTask {
 
+    private static final String OPENAPI_JSON = "openapi.json";
+    private static final String SCANCONF_JSON = "scanconfig.json";
     private static final String API_INVALID_MSG = "Your API has structural or semantic issues in its OpenAPI format. " +
             "Run Security Audit on this file and fix these issues first.";
 
     private VirtualFile tmpDir = null;
+    private VirtualFile scanConfigDir = null;
     private final boolean useAuditWithCli;
     
     public ScanCliConfTask(@NotNull Project project,
@@ -65,9 +72,9 @@ public class ScanCliConfTask extends ScanConfTask {
                 }
             }
             tmpDir = createTempDirectory(project, "scan");
-            VirtualFile tmpFile = writeFile(project, tmpDir, "openapi.json", oas);
+            writeFile(project, tmpDir, OPENAPI_JSON, oas);
             if (!FileUtils.exists(scanConfPath)) {
-                ScanConfigUtils.createScanConf(project, scanConfPath, "");
+                scanConfigDir = ScanConfigUtils.createScanConf(project, scanConfPath, "");
             }
             String cli = CliUtils.getCli();
             ExecUtils.asyncExecFile(cli,
@@ -78,15 +85,22 @@ public class ScanCliConfTask extends ScanConfTask {
                     "--output-format",
                     "json",
                     "--output",
-                    scanConfPath,
-                    tmpFile.getPath()
+                    SCANCONF_JSON,
+                    OPENAPI_JSON
                 ), tmpDir);
+
+            // Copy scanconfig to the destination
+            LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(tmpDir));
+            Path src = Paths.get(tmpDir.getPath(), SCANCONF_JSON);
+            Path dst = Paths.get(scanConfPath);
+            Files.copy(src, dst, StandardCopyOption.REPLACE_EXISTING);
+
+            // Read scanconfig
+            LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(scanConfigDir));
             VirtualFile scanFile = LocalFileSystem.getInstance().findFileByIoFile(new File(scanConfPath));
             if (scanFile == null) {
                 throw new Exception("Failed to find config " + scanConfPath);
             }
-            // Must always refresh before reading if files are updated externally
-            LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(scanFile));
             String config = Utils.getTextFromFile(scanFile.getPath(), true);
             if (config == null) {
                 throw new Exception("Failed to read config " + scanConfPath);
@@ -97,7 +111,8 @@ public class ScanCliConfTask extends ScanConfTask {
         } finally {
         	try {
                 if (tmpDir != null) {
-                    removeFile(project, tmpDir,"openapi.json");
+                	removeFile(project, tmpDir, SCANCONF_JSON);
+                    removeFile(project, tmpDir, OPENAPI_JSON);
                     removeDir(project, tmpDir);
                 }
             } catch (IOException ignored) {

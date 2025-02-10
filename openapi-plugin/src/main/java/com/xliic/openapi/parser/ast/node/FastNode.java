@@ -1,11 +1,17 @@
 package com.xliic.openapi.parser.ast.node;
 
 import com.xliic.openapi.parser.ast.Range;
+
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.PrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FastNode extends Node {
 
@@ -118,5 +124,10 @@ public class FastNode extends Node {
     @Override
     public String dump() {
         throw new UnsupportedOperationException("Dump is not supported");
+    }
+    
+    @NotNull
+    public String dump(@NotNull PrettyPrinter printer) throws JsonProcessingException {
+        return new ObjectMapper().writer(printer).writeValueAsString(value).trim();
     }
 }

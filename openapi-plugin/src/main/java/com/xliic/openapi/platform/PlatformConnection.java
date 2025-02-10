@@ -2,7 +2,8 @@ package com.xliic.openapi.platform;
 
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
-
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_API_TOKEN;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +30,10 @@ public class PlatformConnection {
     }
 
     public static boolean isPlatformIntegrationEnabled() {
+        String authType  = SettingsService.getInstance().getValue(AUTH_TYPE, "");
+        if (!AUTH_TYPE_API_TOKEN.equals(authType)) {
+            return false;
+        }
         String url = SettingsService.getInstance().getValue(URL);
         if (StringUtils.isEmpty(url)) {
             return false;

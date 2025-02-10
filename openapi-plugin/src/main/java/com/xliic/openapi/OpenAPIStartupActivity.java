@@ -1,6 +1,7 @@
 package com.xliic.openapi;
 
 import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,9 +22,13 @@ import com.xliic.openapi.tags.TagsService;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 
+    public static final String XLIIC_PLUGIN_USE_DEV_MODE = "XLIIC_PLUGIN_USE_DEV_MODE";
+
     public OpenAPIStartupActivity() {
         // Load values into cache to avoid performance issues in EDT threads
     	SettingsService.getInstance().loadCache();
+        boolean isDevMode = "true".equalsIgnoreCase(System.getenv(XLIIC_PLUGIN_USE_DEV_MODE));
+        SettingsService.getInstance().setValue(INTERNAL_FEATURES, isDevMode);
     }
 
     @Override

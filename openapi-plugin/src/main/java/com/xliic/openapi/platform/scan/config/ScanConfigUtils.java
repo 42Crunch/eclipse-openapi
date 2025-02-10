@@ -69,14 +69,16 @@ public class ScanConfigUtils {
             BrowserUtil.browse("https://42crunch.com/github-upgrade/");
         }
     }
-
-    public static void createScanConf(@NotNull Project project, @NotNull String scanConfPath, @NotNull String conf) throws IOException {
+    
+    @NotNull
+    public static VirtualFile createScanConf(@NotNull Project project, @NotNull String scanConfPath, @NotNull String conf) throws IOException {
         File file = new File(scanConfPath);
         VirtualFile dir = FileUtils.makeDir(project, file.getParent());
         if (dir == null) {
             throw new IOException("Failed to create dir " + file.getParent());
         }
         FileUtils.writeFile(project, dir, file.getName(), QuickFix.formatFixText(conf, true));
+        return dir;
     }
 
     @NotNull

@@ -27,6 +27,7 @@ import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.signup.SignUpService;
 import com.xliic.openapi.whatsnew.WhatsNewService;
 import com.xliic.openapi.tags.TagsService;
+import com.xliic.openapi.capture.CaptureService;
 
 public class CoreServiceFactory extends AbstractServiceFactory {
 	
@@ -83,6 +84,8 @@ public class CoreServiceFactory extends AbstractServiceFactory {
 			return new TagsService(PROJECT);
 		} else if (IInlayHintsService.class.equals(serviceInterface)) {
 			return new InlayHintsService(PROJECT);
+		} else if (ICaptureService.class.equals(serviceInterface)) {
+			return new CaptureService(PROJECT);
 		}
 		return null;
 	}
