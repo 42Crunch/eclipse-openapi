@@ -89,6 +89,11 @@
             name="Open Settings">
         </command>
         <command
+            defaultHandler="com.xliic.openapi.bigfiles.BigFilesAction"
+            id="com.xliic.openapi.bigfiles.BigFilesAction"
+            name="Test Big FILES">
+        </command>
+        <command
             defaultHandler="com.xliic.openapi.actions.internal.ClearAllPropsAction"
             id="com.xliic.openapi.actions.internal.ClearAllPropsAction"
             name="Clear All Properties">
@@ -306,6 +311,9 @@
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
             <service serviceClass="com.xliic.core.services.IInlayHintsService"></service>
         </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IBigFilesService"></service>
+        </serviceFactory>
     </extension>
 
     <extension
@@ -379,6 +387,11 @@
                 label="OpenAPI">
                 <command
                     commandId="com.xliic.openapi.config.ConfigAction"
+                    icon="icons/config.png"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.bigfiles.BigFilesAction"
                     icon="icons/config.png"
                     style="push">
                 </command>

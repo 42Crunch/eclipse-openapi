@@ -4,6 +4,7 @@ import org.eclipse.ui.services.AbstractServiceFactory;
 import org.eclipse.ui.services.IServiceLocator;
 
 import com.xliic.core.project.Project;
+import com.xliic.openapi.bigfiles.BigFilesService;
 import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.config.ConfigService;
 import com.xliic.openapi.environment.EnvService;
@@ -83,6 +84,8 @@ public class CoreServiceFactory extends AbstractServiceFactory {
 			return new TagsService(PROJECT);
 		} else if (IInlayHintsService.class.equals(serviceInterface)) {
 			return new InlayHintsService(PROJECT);
+		} else if (IBigFilesService.class.equals(serviceInterface)) {
+			return new BigFilesService(PROJECT);
 		}
 		return null;
 	}

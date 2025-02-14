@@ -1,9 +1,10 @@
-import { j as e, c as z, d as H, s as N, a as Z, n as G, u as J, b as K, l as Q, t as X, q as s, T, B as Y, f as ee, R as ne, P as oe, h as te, m as re } from "./TriangleExclamation.Bx9Cjic4.js";
-import { c as h, u as k } from "./index.esm.BkhFKhi4.js";
-import { o as y, s as f, F as w, I as v, T as ae } from "./Textarea.CN3byLZt.js";
-import { N as B } from "./ProgressButton.DtD1VE2H.js";
-import { E as A } from "./Banner.DHdNW9_j.js";
-import { C as se } from "./Checkbox.BzOzv3J1.js";
+import { j as e, c as z, d as H, s as N, a as Z, l as G, u as J, b as K, t as Q, q as s, T, B as X, f as Y, R as ee, P as ne, h as oe, m as te } from "./webapp.CeAUXIIl.js";
+import { l as re } from "./TriangleExclamation.CgvJ-nl0.js";
+import { c as f, u as k } from "./index.esm.B6e3vWVZ.js";
+import { o as y, s as h, F as w, I as v, T as ae } from "./Textarea.CVf1f2kL.js";
+import { N as B } from "./ProgressButton.BnLJqsA7.js";
+import { E as A } from "./Banner.K84D_Xfm.js";
+import { C as se } from "./Checkbox.BctjRCcP.js";
 const ie = (n) => /* @__PURE__ */ e.jsxs(
   "svg",
   {
@@ -116,8 +117,8 @@ const ie = (n) => /* @__PURE__ */ e.jsxs(
   showPlatformConnectionTestError: me,
   savePlatformCredentials: ue,
   platformSignUpComplete: M,
-  saveAgreeToTermsAndConditions: he,
-  showTermsAndConditionsError: fe,
+  saveAgreeToTermsAndConditions: fe,
+  showTermsAndConditionsError: he,
   openLink: g,
   setCurrentFormId: j
 } = D.actions, ge = D.reducer, $ = H(), m = $.startListening;
@@ -162,7 +163,7 @@ function xe(n) {
   }), $;
 }
 const Te = {
-  theme: X,
+  theme: Q,
   signup: ge
 }, Ce = {
   changeTheme: G,
@@ -170,7 +171,7 @@ const Te = {
   showAnondTokenResponse: de
 }, je = (n, o) => Z({
   reducer: Te,
-  middleware: (t) => t().prepend(n.middleware).concat(Q),
+  middleware: (t) => t().prepend(n.middleware).concat(re),
   preloadedState: {
     theme: o
   }
@@ -186,7 +187,7 @@ function ve({
     waitingForAnondToken: a,
     complete: U
   } = d((C) => C.signup), O = y({
-    email: f().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
+    email: h().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
   });
   return /* @__PURE__ */ e.jsx(
     w,
@@ -248,7 +249,7 @@ function x({
 function Ae() {
   const n = c(), { agreeToTermsAndConditions: o, waitingForAnondToken: t, complete: r } = d(
     (a) => a.signup
-  ), i = h({ name: "email" }), {
+  ), i = f({ name: "email" }), {
     formState: { isValid: l }
   } = k();
   return /* @__PURE__ */ e.jsx(
@@ -258,7 +259,7 @@ function Ae() {
       disabled: r || !l,
       waiting: t,
       onClick: (a) => {
-        n(o ? L(i) : fe(!0)), a.preventDefault(), a.stopPropagation();
+        n(o ? L(i) : he(!0)), a.preventDefault(), a.stopPropagation();
       }
     }
   );
@@ -269,7 +270,7 @@ function ke({
   backToPlatformSignup: t
 }) {
   const r = c(), { complete: i } = d((a) => a.signup), l = y({
-    anondToken: f().min(1, { message: "This field has to be filled." })
+    anondToken: h().min(1, { message: "This field has to be filled." })
   });
   return /* @__PURE__ */ e.jsx(
     w,
@@ -343,7 +344,7 @@ function ke({
   );
 }
 function ye() {
-  const n = c(), { anondCredentials: o, complete: t } = d((l) => l.signup), r = h({ name: "anondToken" });
+  const n = c(), { anondCredentials: o, complete: t } = d((l) => l.signup), r = f({ name: "anondToken" });
   console.log("my token", r);
   const {
     formState: { isValid: i }
@@ -366,8 +367,8 @@ function we({
   backToPrevForm: o
 }) {
   const t = c(), { platformConnectionTestResult: r, complete: i } = d((a) => a.signup), l = y({
-    platformUrl: f().url().startsWith("https://"),
-    platformApiToken: f().regex(
+    platformUrl: h().url().startsWith("https://"),
+    platformApiToken: h().regex(
       /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       "Token is invalid"
     )
@@ -398,7 +399,7 @@ function we({
   );
 }
 function be() {
-  const n = c(), { waitingForPlatformConnectionTest: o, complete: t } = d((a) => a.signup), r = h({ name: "platformUrl" }), i = h({ name: "platformApiToken" }), {
+  const n = c(), { waitingForPlatformConnectionTest: o, complete: t } = d((a) => a.signup), r = f({ name: "platformUrl" }), i = f({ name: "platformApiToken" }), {
     formState: { isValid: l }
   } = k();
   return /* @__PURE__ */ e.jsx(
@@ -420,7 +421,7 @@ function Fe() {
     {
       value: o,
       onChange: (t) => {
-        n(he(t));
+        n(fe(t));
       },
       label: /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         "I agree to the",
@@ -495,7 +496,7 @@ const b = s.div`
   display: flex;
   gap: 5px;
   align-items: center;
-`, Re = s(Y)`
+`, Re = s(X)`
   &:disabled {
     opacity: 0.4;
   }
@@ -589,15 +590,15 @@ const W = s.div`
 `;
 function qe(n, o) {
   const t = je(xe(n), o);
-  ee(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(ne.StrictMode, { children: /* @__PURE__ */ e.jsxs(oe, { store: t, children: [
-      /* @__PURE__ */ e.jsx(te, {}),
+  Y(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(ee.StrictMode, { children: /* @__PURE__ */ e.jsxs(ne, { store: t, children: [
+      /* @__PURE__ */ e.jsx(oe, {}),
       /* @__PURE__ */ e.jsxs(Me, { children: [
         /* @__PURE__ */ e.jsx(Ee, {}),
         /* @__PURE__ */ e.jsx(Ue, {})
       ] })
     ] }) })
-  ), window.addEventListener("message", re(t, Ce));
+  ), window.addEventListener("message", te(t, Ce));
 }
 window.renderWebView = qe;
 const Me = s.div`

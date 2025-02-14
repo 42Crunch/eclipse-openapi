@@ -25,4 +25,9 @@ public class FileChooserFactory {
             @Nullable Component component) {
         return new FileChooserDialog(descriptor, project, text);
     }
+    
+    @NotNull
+    public FileChooserDialog createFileChooser(@NotNull FileChooserDescriptor descriptor, @Nullable Project project, @Nullable Component component) {
+        return new FileChooserDialog(descriptor, project, "Select Path");
+    }
 }

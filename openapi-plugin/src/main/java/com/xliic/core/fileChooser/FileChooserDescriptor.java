@@ -55,4 +55,14 @@ public class FileChooserDescriptor {
         this.filterExtensions = extensions;
         return this;
     }
+    
+    public FileChooserDescriptor withExtensionFilter(@NotNull String... extensions) {
+        this.filterExtensions = new String[extensions.length];
+        int i = 0;
+        for (String ext : extensions) {
+        	filterExtensions[i] = ext.startsWith("*.") ? ext : "*." + ext;  
+        	i += 1;
+        }
+        return this;
+    }
 }
