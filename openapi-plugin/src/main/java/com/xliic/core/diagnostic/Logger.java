@@ -13,4 +13,8 @@ public class Logger {
     public void error(@NotNull Throwable t) {
     	t.printStackTrace();
     }
+    
+    public void warn(@NotNull Throwable t) {
+    	t.printStackTrace();
+    }
 }

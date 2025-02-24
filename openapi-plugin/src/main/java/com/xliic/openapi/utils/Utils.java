@@ -78,11 +78,12 @@ public class Utils {
     public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
     private static final String TAB_REPLACE_REGEXP = "(?<!\\\\)\\t";
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private static final PrettyPrinter PRINTER;
+    private static final PrettyPrinter PRINTER = getPrinter("", "");
 
-    static {
-        DefaultIndenter indenter = new DefaultIndenter("", "");
-        PRINTER = new DefaultPrettyPrinter().withObjectIndenter(indenter).withArrayIndenter(indenter).withoutSpacesInObjectEntries();
+    @NotNull
+    public static PrettyPrinter getPrinter(@NotNull String indent, @NotNull String eol) {
+        DefaultIndenter indenter = new DefaultIndenter(indent, eol);
+        return new DefaultPrettyPrinter().withObjectIndenter(indenter).withArrayIndenter(indenter).withoutSpacesInObjectEntries();
     }
 
     @NotNull

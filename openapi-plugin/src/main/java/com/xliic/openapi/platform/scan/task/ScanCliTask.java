@@ -26,6 +26,7 @@ import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.Endpoints;
 import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.environment.Environment;
@@ -36,6 +37,7 @@ import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.platform.scan.config.ScanRunConfig;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Credentials;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
@@ -95,14 +97,16 @@ public class ScanCliTask extends Task.Backgroundable {
                     outputPath,
                     "--output-format",
                     "json",
-//                  "--freemium-host",
-//                  "stateless.dev.42crunch.com:443",
                     "--verbose",
                     "error",
                     "--user-agent",
                     Utils.getUserAgent(),
                     "--enrich=false")
                 );
+                if (SettingsService.getInstance().useDevEndpoints()) {
+                    args.add("--freemium-host");
+                    args.add(Endpoints.getCliFreemiumdHost());
+                }
                 if (!isFullScan) {
                     args.add("--is-operation");
                 }

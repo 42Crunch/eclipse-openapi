@@ -38,11 +38,17 @@
             id="com.xliic.openapi.gotoCommand"
             name="Go to Definition" />
         <command
+            id="com.xliic.openapi.report.AuditExportReportAction"
+            name="Export Audit Report" />
+        <command
+            id="com.xliic.openapi.platform.scan.ScanExportReportAction"
+            name="Export Scan Report" />
+        <command
             id="com.xliic.openapi.actions.LoadAuditReportAction"
             name="Load Security Audit Report from File" />
         <command
             id="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
-            name="Update Data Dictionary Properties in File" />
+            name="Update Data Dictionary Properties" />
         <command
             id="com.xliic.openapi.platform.scan.config.ScanOpenConfigurationAction"
             name="Open Scan Configuration File" />
@@ -89,6 +95,11 @@
             name="Open Settings">
         </command>
         <command
+            defaultHandler="com.xliic.openapi.capture.CaptureAction"
+            id="com.xliic.openapi.capture.CaptureAction"
+            name="Convert HAR/Postman Files">
+        </command>
+        <command
             defaultHandler="com.xliic.openapi.actions.internal.ClearAllPropsAction"
             id="com.xliic.openapi.actions.internal.ClearAllPropsAction"
             name="Clear All Properties">
@@ -126,12 +137,38 @@
             commandId="com.xliic.openapi.actions.LoadAuditReportAction"
             class="com.xliic.openapi.actions.LoadAuditReportAction" />
         <handler
+            commandId="com.xliic.openapi.report.AuditExportReportAction"
+            class="com.xliic.openapi.report.AuditExportReportAction" />
+        <handler
+            commandId="com.xliic.openapi.platform.scan.ScanExportReportAction"
+            class="com.xliic.openapi.platform.scan.ScanExportReportAction" />
+        <handler
             commandId="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
             class="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction" />
     </extension>
 
    <extension
         point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?before=undo">
+            <command
+                commandId="com.xliic.openapi.platform.scan.ScanExportReportAction"
+                id="com.xliic.openapi.platform.scan.ScanExportReportAction"
+                label="Export Scan Report"
+                icon="icons/export.png"
+                style="push">
+            </command>
+        </menuContribution>
+        <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?before=undo">
+            <command
+                commandId="com.xliic.openapi.report.AuditExportReportAction"
+                id="com.xliic.openapi.report.AuditExportReportAction"
+                label="Export Audit Report"
+                icon="icons/export.png"
+                style="push">
+            </command>
+        </menuContribution>
         <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?before=undo">
             <command
@@ -146,7 +183,7 @@
             <command
                 commandId="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
                 id="com.xliic.openapi.platform.dictionary.quickfix.FixGlobalDictionaryAction"
-                label="Update Data Dictionary Properties in File"
+                label="Update Data Dictionary Properties"
                 icon="icons/platform-data-dictionary.png"
                 style="push">
             </command>
@@ -201,7 +238,7 @@
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.report.jcef.ui.JCEFReportPanelView"
-            icon="icons/toolWindowLogo.png"
+            icon="icons/toolWindowAuditLogo.png"
             id="com.xliic.openapi.report.jcef.ui.JCEFReportPanelView"
             inject="true"
             name="API Security Audit">
@@ -306,6 +343,9 @@
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
             <service serviceClass="com.xliic.core.services.IInlayHintsService"></service>
         </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.ICaptureService"></service>
+        </serviceFactory>
     </extension>
 
     <extension
@@ -382,6 +422,11 @@
                     icon="icons/config.png"
                     style="push">
                 </command>
+                <!-- <command
+                    commandId="com.xliic.openapi.capture.CaptureAction"
+                    icon="icons/capture.png"
+                    style="push">
+                </command> -->
                 <command
                     commandId="com.xliic.openapi.actions.SecurityAuditAction"
                     icon="icons/42crunch_icon.png"

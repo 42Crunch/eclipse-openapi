@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,6 +38,10 @@ public class Audit {
     private boolean minimalReport;
     private boolean valid;
 
+    @NotNull
+    private final String tempFile = "report-" + UUID.randomUUID() + ".json";
+    private volatile boolean tempFileSaved = false;
+    
     public Audit(@NotNull String auditFileName, boolean downloaded) {
         this.auditFileName = auditFileName;
         this.downloaded = downloaded;
@@ -187,6 +192,18 @@ public class Audit {
 
     public @NotNull List<Issue> getHiddenIssues() {
         return hiddenIssues;
+    }
+    
+    public @NotNull String getTempFile() {
+        return tempFile;
+    }
+
+    public boolean isTempFileSaved() {
+        return tempFileSaved;
+    }
+
+    public void setTempFileSaved(boolean tempFileSaved) {
+        this.tempFileSaved = tempFileSaved;
     }
 
     @NotNull

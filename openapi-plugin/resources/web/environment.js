@@ -1,22 +1,23 @@
-import { a as y, l as w, t as S, d as C, s as $, q as o, T as s, j as e, f as F, R as k, P as V, m as A, h as R, n as M } from "./TriangleExclamation.Bx9Cjic4.js";
-import { e as _, h as g, u as L, j as N, l as T } from "./slice.O08lSnJw.js";
-import { T as P } from "./Tabs.CYtaWkhP.js";
-import { u as D, a as v, d as G, b as W, F as q } from "./index.esm.BkhFKhi4.js";
-import { S as H } from "./ExclamationCircle.DZfV_vy9.js";
-import { S as K } from "./TrashCan.B_9oEMnF.js";
-import { l as X, m as B } from "./variables.DOtlLp1y.js";
+import { a as y, t as w, d as S, s as C, q as o, T as s, j as e, f as $, R as F, P as k, m as V, h as A, l as R } from "./webapp.CeAUXIIl.js";
+import { l as M } from "./TriangleExclamation.CgvJ-nl0.js";
+import { e as _, h as g, u as L, j as N, l as T } from "./slice.BcUHZN3X.js";
+import { T as P } from "./Tabs.ao5WcNUe.js";
+import { u as D, a as v, d as G, b as W, F as q } from "./index.esm.B6e3vWVZ.js";
+import { S as H } from "./ExclamationCircle.BBSMtR_9.js";
+import { S as K } from "./TrashCan.CcZ5QY-i.js";
+import { l as X, m as B } from "./variables.B_WTOoYj.js";
 const I = {
-  theme: S,
+  theme: w,
   env: _
 }, O = (r, t) => y({
   reducer: I,
-  middleware: (n) => n().prepend(r.middleware).concat(w),
+  middleware: (n) => n().prepend(r.middleware).concat(M),
   preloadedState: {
     theme: t
   }
-}), h = C(), z = h.startListening;
+}), h = S(), z = h.startListening;
 function J(r) {
-  return $({
+  return C({
     saveEnv: () => z({
       actionCreator: g,
       effect: async (n, a) => {
@@ -138,7 +139,7 @@ const oe = o.div`
   border-bottom: 1px solid var(${s.border});
   margin-right: 1.5em;
 `;
-function x({
+function f({
   name: r,
   data: t,
   password: n
@@ -183,40 +184,40 @@ function le(r) {
 }
 function ce() {
   const { data: r, ready: t } = N((n) => n.env);
-  return t ? /* @__PURE__ */ e.jsx(f, { children: /* @__PURE__ */ e.jsx(
+  return t ? /* @__PURE__ */ e.jsx(x, { children: /* @__PURE__ */ e.jsx(
     P,
     {
       tabs: [
         {
           id: "secrets",
           title: "Secrets",
-          content: /* @__PURE__ */ e.jsx(x, { name: "secrets", data: r.secrets, password: !0 })
+          content: /* @__PURE__ */ e.jsx(f, { name: "secrets", data: r.secrets, password: !0 })
         },
         {
           id: "default",
           title: "Default",
-          content: /* @__PURE__ */ e.jsx(x, { name: "default", data: r.default })
+          content: /* @__PURE__ */ e.jsx(f, { name: "default", data: r.default })
         }
       ]
     }
-  ) }) : /* @__PURE__ */ e.jsx(f, { children: "Loading environment data..." });
+  ) }) : /* @__PURE__ */ e.jsx(x, { children: "Loading environment data..." });
 }
-const f = o.div`
+const x = o.div`
   margin: 4px;
 `, me = {
-  changeTheme: M,
+  changeTheme: R,
   loadEnv: T
 };
 function ue() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(R, {}),
+    /* @__PURE__ */ e.jsx(A, {}),
     /* @__PURE__ */ e.jsx(ce, {})
   ] });
 }
 function pe(r, t) {
   const n = O(J(r), t);
-  F(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(k.StrictMode, { children: /* @__PURE__ */ e.jsx(V, { store: n, children: /* @__PURE__ */ e.jsx(ue, {}) }) })
-  ), window.addEventListener("message", A(n, me));
+  $(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(F.StrictMode, { children: /* @__PURE__ */ e.jsx(k, { store: n, children: /* @__PURE__ */ e.jsx(ue, {}) }) })
+  ), window.addEventListener("message", V(n, me));
 }
 window.renderWebView = pe;

@@ -40,22 +40,20 @@ public class RunFullScan extends WebAppProduce {
             Map<String, Object> env = (Map<String, Object>) map.get("env");
             Map<String, String> configEnv = env.entrySet().stream().collect(
                     Collectors.toMap(Map.Entry::getKey, e -> String.valueOf(e.getValue())));
-            String rawOas = null;
             String filePath = (String) cache.get(SavePreferences.PSI_FILE_PATH);
-            if (filePath != null) {
+            String scanConfPath = (String) cache.get(SCAN_CONF_PATH);
+            String scanconf = (String) map.get("scanconf");
+            if (filePath != null && scanconf != null) {
                 VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
                 if (file != null) {
                     BundleService bundleService = BundleService.getInstance(project);
                     BundleResult bundle = bundleService.getBundle(file.getPath());
                     if (bundle != null && bundle.isBundleComplete()) {
-                        rawOas = bundle.getJsonText();
+                        String rawOas = bundle.getJsonText();
+                        ScanFullRunConfig config = new ScanFullRunConfig(scanConfPath, scanconf, configEnv, rawOas);
+                        ScanService.getInstance(project).runScan(file, config, true);
                     }
                 }
-            }
-            String scanConfPath = (String) cache.get(SCAN_CONF_PATH);
-            String scanconf = (String) map.get("scanconf");
-            if (scanconf != null && rawOas != null) {
-                ScanService.getInstance(project).runScan(new ScanFullRunConfig(scanConfPath, scanconf, configEnv, rawOas), true);
             }
         }
     }

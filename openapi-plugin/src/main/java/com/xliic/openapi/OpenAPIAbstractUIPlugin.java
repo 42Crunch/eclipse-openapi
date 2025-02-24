@@ -60,8 +60,8 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
 
     public static final String TEXT_EDITOR_STRATEGY_PREFERENCE_KEY = "org.eclipse.ui.ide.textEditor";
     public static final String IGNORE_SHOW_PERSPECTIVE_ONCE = "openapi.ignore.show.perspective.once1";
+    public static final String XLIIC_PLUGIN_ENABLE_INTERNAL_ACTIONS = "XLIIC_PLUGIN_ENABLE_INTERNAL_ACTIONS";
     private static final String PLATFORM_MULE_PRODUCT_NAME = "Anypoint Studio";
-    private static final String DEBUG_PROPERTY = "com.xliic.openapi.debug";
 
     private static OpenAPIAbstractUIPlugin plugin;
     private static Project project = Project.getInstance();
@@ -75,11 +75,11 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
     private boolean isMuleIDE;
     private Version version;
     private String pluginId;
-    private final boolean pluginDebugMode;
+    private final boolean pluginEnableInternalActions;
 
     public OpenAPIAbstractUIPlugin() {
         plugin = this;
-        pluginDebugMode = "true".equals(System.getProperty(DEBUG_PROPERTY));
+        pluginEnableInternalActions = "true".equalsIgnoreCase(System.getenv(XLIIC_PLUGIN_ENABLE_INTERNAL_ACTIONS));
         OpenApiIcons.init();
         startupActivity = new OpenAPIStartupActivity();
         highlightingManager = HighlightingManager.getInstance(project);
@@ -128,7 +128,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
                 EclipseUtil.closeAllWebPages();
                 handleEditorsAtStartup();
                 handleTempFilesAtStartup();
-                MUtils.activateMenuInternalActions(pluginDebugMode);
+                MUtils.activateMenuInternalActions(pluginEnableInternalActions);
                 EclipseWorkbenchUtil.updateActionBars();
                 initStatusLineContributionItem();
             }

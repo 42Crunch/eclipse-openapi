@@ -1,6 +1,8 @@
 package com.xliic.core.vfs;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,5 +40,25 @@ public class VfsUtil {
             return child;
         }
         return parent.createChildDirectory(fileSystem, dirName);
+    }
+    
+    public static void saveText(@NotNull VirtualFile file, @NotNull String text) throws IOException {
+        Charset charset = file.getCharset();
+        OutputStream stream = file.getOutputStream(file);
+        try {
+            stream.write(text.getBytes(charset));
+        } catch (Throwable var7) {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (Throwable var6) {
+                    var7.addSuppressed(var6);
+                }
+            }
+            throw var7;
+        }
+        if (stream != null) {
+            stream.close();
+        }
     }
 }

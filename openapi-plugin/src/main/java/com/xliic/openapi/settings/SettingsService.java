@@ -16,6 +16,8 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_L
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.HEADER;
 import static com.xliic.openapi.settings.Settings.TryIt.INSECURE_SSL_HOSTNAMES;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -49,7 +51,8 @@ public class SettingsService implements ISettingsService, Disposable  {
     public static final String SUBSYSTEM = "xliic";
     private static final Set<String> IGNORED_KEYS = Set.of(TURNED_ON, TURNED_OFF);
     private static final Set<String> SAFE_KEYS = Set.of(API_KEY, ENV_SECRETS_KEY, HEADER, APPROVED_HOST_CONFIG);
-    private static final Set<String> BOOLEAN_KEYS = Set.of(ABC_SORT, REPLACE_LOCALHOST, USE_HOST_NETWORK, SHOW_OUTLINE_DEMO, ENABLE_FLAG);
+    private static final Set<String> BOOLEAN_KEYS = Set.of(ABC_SORT, REPLACE_LOCALHOST, USE_HOST_NETWORK, 
+    		SHOW_OUTLINE_DEMO, INTERNAL_FEATURES, INTERNAL_USE_DEV_ENDPOINTS, ENABLE_FLAG);
     private static final Set<String> LIST_KEYS = Set.of(APPROVED_HOSTNAMES, INSECURE_SSL_HOSTNAMES);
     private static final Map<String, Converter> CONVERTERS = new HashMap<>();
     
@@ -102,6 +105,10 @@ public class SettingsService implements ISettingsService, Disposable  {
                 }
             }
         }
+    }
+    
+    public boolean useDevEndpoints() {
+        return getBoolean(INTERNAL_USE_DEV_ENDPOINTS);
     }
 
     public void save(@NotNull Set<String> updatedKeys, @NotNull Map<String, Object> prevData) {
@@ -170,6 +177,11 @@ public class SettingsService implements ISettingsService, Disposable  {
     @NotNull
     public String getValue(@NotNull String key, @NotNull String defaultValue) {
         return Objects.requireNonNullElse(getValue(key), defaultValue);
+    }
+    
+    public boolean getValue(@NotNull String key, boolean defaultValue) {
+        Object value = getValueAsObject(key);
+        return value != null ? (boolean) value : defaultValue;
     }
 
     @SuppressWarnings("unchecked")

@@ -1,7 +1,9 @@
 package com.xliic.core.vfs;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -207,5 +209,13 @@ public class VirtualFile {
         }
         VirtualFile child = findChild(name);
         return child != null ? child : getFileSystem().createChildFile(requestor, this, name);
+    }
+    
+    @NotNull
+    public OutputStream getOutputStream(Object requestor) throws IOException {
+    	if (file == null) {
+    		throw new IOException("File stream is not found " + path);
+    	}
+        return new FileOutputStream(file);
     }
 }
