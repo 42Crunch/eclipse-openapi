@@ -1,0 +1,21 @@
+V3_1
+19
+0general
+1openapi
+1info
+1jsonSchemaDialect
+0tags
+0paths
+2/
+3get
+4parameters
+2/{pathTest}
+0operation id
+0servers
+0components
+2securitySchemes
+3mtls
+0webhooks
+2myWebhook
+3$ref
+0security

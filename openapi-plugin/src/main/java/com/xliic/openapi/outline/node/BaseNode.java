@@ -30,15 +30,6 @@ public abstract class BaseNode {
         copyEnabled = false;
     }
 
-    @NotNull
-    public static String getPanelName(@NotNull BaseNode baseNode) {
-        BaseNode parent = baseNode;
-        while (parent.getParent() != null && !(parent instanceof PanelNode)) {
-            parent = parent.getParent();
-        }
-        return parent.getName();
-    }
-
     public boolean isMoveToEnabled() {
         return isMoveToEnabled;
     }

@@ -101,13 +101,17 @@ public class OpenAPICreationPage extends WizardNewFileCreationPage {
 
         String id = null;
         if (fileType == OpenApiFileType.Json) {
-            if (version == OpenApiVersion.V3) {
+        	if (version == OpenApiVersion.V3_1) {
+                id = "Json OpenAPI version 31.json.ft";
+            } else if (version == OpenApiVersion.V3) {
                 id = "Json OpenAPI version 3.json.ft";
-            } else {
+            } else if (version == OpenApiVersion.V2) {
                 id = "Json OpenAPI version 2.json.ft";
             }
         } else if (fileType == OpenApiFileType.Yaml) {
-            if (version == OpenApiVersion.V3) {
+        	if (version == OpenApiVersion.V3_1) {
+                id = "Yaml OpenAPI version 31.yaml.ft";
+            } else if (version == OpenApiVersion.V3) {
                 id = "Yaml OpenAPI version 3.yaml.ft";
             } else {
                 id = "Yaml OpenAPI version 2.yaml.ft";

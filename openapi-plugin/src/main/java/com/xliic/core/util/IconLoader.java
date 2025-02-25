@@ -93,6 +93,8 @@ public class IconLoader {
 		put("/icons/dark/request", new Icon(OpenAPIImages.RequestBodiesDarkNode));
 		put("/icons/light/memo", new Icon(OpenAPIImages.DefaultOutlineNode));
 		put("/icons/dark/memo", new Icon(OpenAPIImages.DefaultOutlineDarkNode));
+		put("/icons/light/webhook", new Icon(OpenAPIImages.WebhookNode));
+		put("/icons/dark/webhook", new Icon(OpenAPIImages.WebhookDarkNode));
     }};
 
     @NotNull

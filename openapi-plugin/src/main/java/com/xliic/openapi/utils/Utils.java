@@ -76,6 +76,8 @@ public class Utils {
     public final static ElementPattern<PsiElement> YAML_REF_PATTERN = new YamlElementPattern<>();
 
     public final static Pattern VERSION_V3_REGEXP = Pattern.compile("^3\\.0\\.\\d(-.+)?$");
+    public final static Pattern VERSION_V3_1_REGEXP = Pattern.compile("^3\\.1\\.\\d(-.+)?$");
+
     private static final String TAB_REPLACE_REGEXP = "(?<!\\\\)\\t";
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final PrettyPrinter PRINTER = getPrinter("", "");
@@ -280,6 +282,8 @@ public class Utils {
                 String value = child.getValue().trim();
                 if (VERSION_V3_REGEXP.matcher(value).matches()) {
                     return OpenApiVersion.V3;
+                } else if (VERSION_V3_1_REGEXP.matcher(value).matches()) {
+                    return OpenApiVersion.V3_1;
                 }
             }
         }

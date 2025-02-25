@@ -1,0 +1,21 @@
+V3_1
+19
+0general
+1openapi
+1info
+0tags
+0paths
+0operation id
+0servers
+0components
+2schemas
+3Pet
+0webhooks
+2newPet
+3post
+4requestBody
+5description
+5content
+4responses
+5200
+0security

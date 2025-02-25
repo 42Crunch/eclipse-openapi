@@ -67,13 +67,17 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
         if (node.getParent() == null && node.getDepth() == 0) {
             int offset = node.getRange().getOffset();
             data.add(new AuditOperation(psiFile, "", "", offset));
-            ScanConfOperation op = getFirstScanConfOperation(node, psiFile, offset);
-            if (op != null) {
-            	data.add(op);
+            if (version != OpenApiVersion.V3_1) {
+	            ScanConfOperation op = getFirstScanConfOperation(node, psiFile, offset);
+	            if (op != null) {
+	            	data.add(op);
+	            }
             }
         } else if (isOperation(node)) {
-            TryItUtils.setActionsForOperation(psiFile, node, data);
-            ScanUtils.setActionsForOperation(psiFile, node, data);
+        	if (version != OpenApiVersion.V3_1) {
+                TryItUtils.setActionsForOperation(psiFile, node, data);
+                ScanUtils.setActionsForOperation(psiFile, node, data);
+        	}
             AuditUtils.setActionsForOperation(psiFile, node, data);
         }
         return true;

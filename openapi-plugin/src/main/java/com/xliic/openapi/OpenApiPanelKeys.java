@@ -12,12 +12,14 @@ public class OpenApiPanelKeys {
     public final static String SECURITY = "security";
     public final static String PARAMETERS = "parameters";
     public final static String RESPONSES = "responses";
+    public final static String REQUEST_BODY = "requestBody";
     public final static String DEFINITIONS = "definitions";
     public final static String SECURITY_DEFINITIONS = "securityDefinitions";
     public final static String OPERATION_ID = "operation id";
     public final static String TAGS = "tags";
     public final static String SCHEMAS = "schemas";
     public final static String SECURITY_SCHEMES = "securitySchemes";
+    public final static String WEBHOOKS = "webhooks";
     public final static String COMPONENTS_PREFIX = getPointerPrefix(COMPONENTS);
     public final static String TAGS_PREFIX = getPointerPrefix(TAGS);
     public final static String PATHS_PREFIX = getPointerPrefix(PATHS);
@@ -40,11 +42,24 @@ public class OpenApiPanelKeys {
                     OPERATION_ID,
                     SERVERS,
                     COMPONENTS,
+                    WEBHOOKS,
                     PARAMETERS,
                     RESPONSES,
                     DEFINITIONS,
                     SECURITY,
                     SECURITY_DEFINITIONS
+            );
+
+    public final static List<String> V3_1_PANEL_KEYS =
+            Arrays.asList(
+                    GENERAL,
+                    TAGS,
+                    PATHS,
+                    OPERATION_ID,
+                    SERVERS,
+                    COMPONENTS,
+                    WEBHOOKS,
+                    SECURITY
             );
 
     public final static List<String> V3_PANEL_KEYS =
