@@ -115,7 +115,9 @@ public class OpenAPIImages {
     public static final ImageDescriptor DefaultOutlineDarkNode;
     public static final ImageDescriptor AuthUserStatusBar;
     public static final ImageDescriptor AuthUserStatusBarDark;
-
+    public static final ImageDescriptor WebhookNode;
+    public static final ImageDescriptor WebhookDarkNode;
+    
     private static final URL BASE_URL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
 
     static {
@@ -223,6 +225,8 @@ public class OpenAPIImages {
         RequestBodiesDarkNode = createImageDescriptor("/icons/dark/request.png");
         DefaultOutlineNode = createImageDescriptor("icons/light/memo.png");
         DefaultOutlineDarkNode = createImageDescriptor("icons/dark/memo.png");
+        WebhookNode = createImageDescriptor("icons/light/webhook.png");
+        WebhookDarkNode = createImageDescriptor("icons/dark/webhook.png");
 
         AuthUserStatusBar = createImageDescriptor("icons/42crunch-status-bar-icon.png");
         AuthUserStatusBarDark = createImageDescriptor("icons/42crunch-status-bar-icon_dark.png");

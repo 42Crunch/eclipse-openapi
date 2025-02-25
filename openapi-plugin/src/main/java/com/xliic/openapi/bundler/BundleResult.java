@@ -140,7 +140,7 @@ public class BundleResult {
     }
 
     public boolean isOpenAPIBundle() {
-        return (version == OpenApiVersion.V2) || (version == OpenApiVersion.V3);
+        return version != OpenApiVersion.Unknown;
     }
 
     @NotNull

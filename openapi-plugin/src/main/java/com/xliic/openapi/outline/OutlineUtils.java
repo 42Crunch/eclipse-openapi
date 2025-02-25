@@ -39,12 +39,14 @@ public class OutlineUtils {
         TITLES.put("servers", "Servers");
         TITLES.put("tags", "Tags");
         TITLES.put("security", "Security");
-
+        TITLES.put("webhooks", "Webhooks");
+        
         LIGHT_THEME_ICONS.put("parameters", OpenApiIcons.ParametersNode);
         LIGHT_THEME_ICONS.put("responses", OpenApiIcons.ResponseNode);
         LIGHT_THEME_ICONS.put("securitySchemes", OpenApiIcons.SecuritySchemesNode);
         LIGHT_THEME_ICONS.put("schemas", OpenApiIcons.SchemasNode);
         LIGHT_THEME_ICONS.put("requestBodies", OpenApiIcons.RequestBodiesNode);
+        LIGHT_THEME_ICONS.put("requestBody", OpenApiIcons.RequestBodiesNode);
         LIGHT_THEME_ICONS.put("headers", OpenApiIcons.HeadersNode);
         LIGHT_THEME_ICONS.put("links", OpenApiIcons.LinksNode);
         LIGHT_THEME_ICONS.put("callbacks", OpenApiIcons.CallbacksNode);
@@ -58,12 +60,14 @@ public class OutlineUtils {
         LIGHT_THEME_ICONS.put("servers", OpenApiIcons.ServersNode);
         LIGHT_THEME_ICONS.put("tags", OpenApiIcons.TagsNode);
         LIGHT_THEME_ICONS.put("security", OpenApiIcons.SecurityNode);
-
+        LIGHT_THEME_ICONS.put("webhooks", OpenApiIcons.WebhookNode);
+        
         DARK_THEME_ICONS.put("parameters", OpenApiIcons.ParametersDarkNode);
         DARK_THEME_ICONS.put("responses", OpenApiIcons.ResponseDarkNode);
         DARK_THEME_ICONS.put("securitySchemes", OpenApiIcons.SecuritySchemesDarkNode);
         DARK_THEME_ICONS.put("schemas", OpenApiIcons.SchemasDarkNode);
         DARK_THEME_ICONS.put("requestBodies", OpenApiIcons.RequestBodiesDarkNode);
+        DARK_THEME_ICONS.put("requestBody", OpenApiIcons.RequestBodiesDarkNode);
         DARK_THEME_ICONS.put("headers", OpenApiIcons.HeadersDarkNode);
         DARK_THEME_ICONS.put("links", OpenApiIcons.LinksDarkNode);
         DARK_THEME_ICONS.put("callbacks", OpenApiIcons.CallbacksDarkNode);
@@ -77,6 +81,7 @@ public class OutlineUtils {
         DARK_THEME_ICONS.put("servers", OpenApiIcons.ServersDarkNode);
         DARK_THEME_ICONS.put("tags", OpenApiIcons.TagsDarkNode);
         DARK_THEME_ICONS.put("security", OpenApiIcons.SecurityDarkNode);
+        DARK_THEME_ICONS.put("webhooks", OpenApiIcons.WebhookDarkNode);
     }
 
     @Nullable

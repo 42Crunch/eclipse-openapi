@@ -33,6 +33,6 @@ public abstract class DfsHandler<T> {
     public abstract void finish(boolean success);
 
     protected boolean isOpenAPI() {
-        return version == OpenApiVersion.V2 || version == OpenApiVersion.V3;
+        return version != OpenApiVersion.Unknown;
     }
 }

@@ -356,6 +356,13 @@
         </category>
         <wizard
             category="com.xliic.openapi.wizard"
+            class="com.xliic.openapi.wizard.OpenAPICreationWizardJson31"
+            icon="icons/json.png"
+            id="com.xliic.openapi.wizard.json.v31"
+            name="JSON OpenAPI 3.1">
+        </wizard>
+        <wizard
+            category="com.xliic.openapi.wizard"
             class="com.xliic.openapi.wizard.OpenAPICreationWizardJson3"
             icon="icons/json.png"
             id="com.xliic.openapi.wizard.json.v3"
@@ -367,6 +374,13 @@
             icon="icons/json.png"
             id="com.xliic.openapi.wizard.json.v2"
             name="JSON OpenAPI 2.0">
+        </wizard>
+        <wizard
+            category="com.xliic.openapi.wizard"
+            class="com.xliic.openapi.wizard.OpenAPICreationWizardYaml31"
+            icon="icons/text.png"
+            id="com.xliic.openapi.wizard.yaml.v31"
+            name="YAML OpenAPI 3.1">
         </wizard>
         <wizard
             category="com.xliic.openapi.wizard"

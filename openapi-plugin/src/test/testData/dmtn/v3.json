@@ -1,0 +1,1061 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.4",
+    "title": "vFPC v4 API",
+    "description": "API for vFPC v4",
+    "termsOfService": "?????",
+    "contact": {
+      "email": "AAAAA@AAAAA.AAA"
+    },
+    "license": {
+      "name": "GPL-3.0-only",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://vfpc.tomjmills.co.uk/api/v4"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "write",
+        "read"
+      ]
+    },
+    {
+      "pppoi": [ ]
+    }
+  ],
+  "paths": {
+    "/Validation": {
+      "post": {
+        "tags": [
+          "Validation"
+        ],
+        "summary": "Post flight plan to Mimir's Well for validation.",
+        "description": "POST /Validation",
+        "operationId": "postValidation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/validationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "cURL function call successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accepted"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Invalid request format.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable. The server cannot produce a response matching the list of acceptable values defined in the request's headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/406"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "cURL function call failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rateLimitError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "cURL function call failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected or unidentified error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "write",
+              "read"
+            ]
+          }
+        ]
+      }
+    },
+    "/Plugin": {
+      "get": {
+        "tags": [
+          "Plugin Versioning"
+        ],
+        "summary": "Retrieve the current plugin version number",
+        "description": "Returns either 'OK' if the version matches the current version or a message indicating the version is out of date and what the current version number is.",
+        "responses": {
+          "200": {
+            "description": "Plugin version status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pluginStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Version not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/404"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable. The server cannot produce a response matching the list of acceptable values defined in the request's headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/406"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/429"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected or unidentified error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/docs/v{versionNumber}": {
+      "get": {
+        "tags": [
+          "Documentation"
+        ],
+        "summary": "Get a specification of the version documentation",
+        "description": "GET /docs/v{versionNumber}/",
+        "operationId": "getDocs",
+        "parameters": [
+          {
+            "name": "versionNumber",
+            "in": "path",
+            "description": "Version of the documentation being requested--major.minor.patch",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/versionNumber"
+            },
+            "example": "1.0.0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "The only response allowed for accepted validation requests.",
+                  "type": "string",
+                  "enum": [
+                    "Operation successful"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Documentation version not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/404"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable. The server cannot produce a response matching the list of acceptable values defined in the request's headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/406"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/429"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected or unidentified error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "write",
+              "read"
+            ]
+          }
+        ]
+      }
+    },
+    "/Ping": {
+      "get": {
+        "tags": [
+          "Server Heartbeat"
+        ],
+        "summary": "Server heartbeat operation",
+        "description": "This operation defines how to test current condition of the server.",
+        "security": [
+          {
+            "OAuth2": [
+              "write",
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "enum": [
+                        "OK"
+                      ],
+                      "example": "OK"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/404"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable. The server cannot produce a response matching the list of acceptable values defined in the request's headers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/406"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/429"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected or unidentified error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/500"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "scopes": {
+              "write": "modify objects in your account",
+              "read": "read objects in your account"
+            },
+            "authorizationUrl": "https://example.com/oauth/authorize",
+            "tokenUrl": "https://example.com/oauth/token"
+          }
+        }
+      }
+    },
+    "schemas": {
+      "400": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "The HTTP status code.",
+            "enum": [
+              400
+            ],
+            "example": 400
+          },
+          "errors": {
+            "type": "array",
+            "description": "A list of detailed error messages, especially useful when multiple validation errors occur.",
+            "items": {
+              "$ref": "#/components/schemas/sentencePattern"
+            },
+            "minItems": 1,
+            "maxItems": 5,
+            "example": [
+              "Could not authenticate user.",
+              "Plugin version is not current."
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "errors"
+        ]
+      },
+      "401": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "example": 401
+          },
+          "error": {
+            "type": "string",
+            "enum": [
+              "Unauthorized"
+            ],
+            "example": "Unauthorized"
+          },
+          "message": {
+            "type": "string",
+            "enum": [
+              "Invalid or missing authentication credentials."
+            ],
+            "example": "Invalid or missing authentication credentials."
+          }
+        },
+        "required": [
+          "status",
+          "error",
+          "message"
+        ]
+      },
+      "403": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "The HTTP status code.",
+            "example": 403
+          },
+          "error": {
+            "type": "string",
+            "description": "The type of error.",
+            "enum": [
+              "Forbidden"
+            ],
+            "example": "Forbidden"
+          },
+          "message": {
+            "type": "string",
+            "enum": [
+              "You do not have permission to access this resource."
+            ],
+            "description": "Access by requester is forbidden.",
+            "example": "You do not have permission to access this resource."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the error occurred.",
+            "example": "2023-10-18T08:47:25Z",
+            "pattern": "^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])T(?:[01][0-9]|2[0-3]):[0-5][0-9]:(?:[0-5][0-9]|60)(?:\\.[0-9]{1,15})?(?:Z|[+\\-](?:[01][0-9]|2[0-3]):[0-5][0-9])$",
+            "minLength": 20,
+            "maxLength": 38,
+            "x-42c-format": "o:date-time"
+          }
+        },
+        "required": [
+          "status",
+          "error",
+          "message",
+          "timestamp"
+        ]
+      },
+      "404": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code",
+            "example": 404
+          },
+          "error": {
+            "type": "string",
+            "description": "Error type",
+            "enum": [
+              "Not Found"
+            ],
+            "example": "Not Found"
+          },
+          "message": {
+            "type": "string",
+            "description": "A detailed error message",
+            "enum": [
+              "The requested resource could not be found."
+            ],
+            "example": "The requested resource could not be found."
+          }
+        },
+        "required": [
+          "status",
+          "error",
+          "message"
+        ]
+      },
+      "406": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "The HTTP status code.",
+            "enum": [
+              406
+            ],
+            "example": 406
+          },
+          "error": {
+            "type": "string",
+            "description": "Error type.",
+            "enum": [
+              "Not Acceptable"
+            ],
+            "example": "Not Acceptable"
+          },
+          "message": {
+            "type": "string",
+            "description": "A detailed message explaining the reason for the error.",
+            "enum": [
+              "The server cannot produce a response matching the list of acceptable values defined in the request's headers."
+            ],
+            "example": "The server cannot produce a response matching the list of acceptable values defined in the request's headers."
+          }
+        },
+        "required": [
+          "status",
+          "error",
+          "message"
+        ]
+      },
+      "429": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code",
+            "example": 429
+          },
+          "error": {
+            "type": "string",
+            "description": "Error type",
+            "enum": [
+              "Too Many Requests"
+            ],
+            "example": "Too Many Requests"
+          },
+          "message": {
+            "type": "string",
+            "description": "A detailed error message",
+            "enum": [
+              "You have exceeded your request rate limit."
+            ],
+            "example": "You have exceeded your request rate limit."
+          },
+          "retryAfter": {
+            "type": "string",
+            "description": "Informative message on when the client can retry",
+            "enum": [
+              "You may retry again in 1 minute."
+            ],
+            "example": "You may retry again in 1 minute."
+          }
+        },
+        "required": [
+          "status",
+          "error",
+          "message",
+          "retryAfter"
+        ]
+      },
+      "500": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "The HTTP status code.",
+            "example": 500
+          },
+          "error": {
+            "type": "string",
+            "description": "Error type.",
+            "enum": [
+              "Beats the hell out of me..."
+            ],
+            "example": "Beats the hell out of me..."
+          },
+          "message": {
+            "description": "A detailed message explaining the reason for the error.",
+            "enum": [
+              "An unexpected or unidentified error occurred. Please contact support."
+            ],
+            "example": "An unexpected or unidentified error occurred. Please contact support.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "error",
+          "message"
+        ]
+      },
+      "versionNumber": {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 9,
+        "pattern": "^(\\d+)\\.(\\d+)\\.(\\d+)$"
+      },
+      "sentencePattern": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 150,
+        "pattern": "^[A-Z][a-zA-Z0-9\\s(),-]{1,148}[.!?]$"
+      },
+      "validationRequest": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 5,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "callSign": {
+              "type": "string",
+              "pattern": "^[A-Z0-9]{5,6}$"
+            },
+            "dep": {
+              "type": "string",
+              "pattern": "^(EG[A-Z]{2}|EJ[A-Z]{2})$"
+            },
+            "dest": {
+              "type": "string",
+              "pattern": "^([A-Z]{4})$"
+            },
+            "aircraft_type": {
+              "type": "string",
+              "pattern": "^(E|J|T|P|[A-Z][A-Z0-9]{1,3})$"
+            },
+            "RFL": {
+              "type": "string",
+              "pattern": "^FL[0-5][0-9]{2}$"
+            },
+            "time_of_day": {
+              "type": "string",
+              "pattern": "^(0[0-9]|1[0-9]|2[0-3])[0-5][0-9]$"
+            },
+            "day_of_week": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ]
+            },
+            "SID": {
+              "type": "string",
+              "pattern": "^([A-Z]{3}|[A-Z]{5})[1-9][A-Z]$|^$"
+            },
+            "STAR": {
+              "type": "string",
+              "pattern": "^([A-Z]{3}|[A-Z]{5})[1-9][A-Z]$|^$"
+            },
+            "route": {
+              "type": "string",
+              "maxLength": 400,
+              "pattern": "^[A-Z0-9\\s]+(?:/[A-Z0-9\\s]+)*$"
+            }
+          },
+          "required": [
+            "callSign",
+            "dep",
+            "dest",
+            "aircraft_type",
+            "RFL",
+            "time_of_day",
+            "day_of_week",
+            "SID",
+            "STAR",
+            "route"
+          ]
+        },
+        "example": [
+          {
+            "callSign": "EXS44M",
+            "dep": "EGPH",
+            "dest": "LFML",
+            "aircraft_type": "J",
+            "RFL": "FL370",
+            "time_of_day": "1230",
+            "day_of_week": 3,
+            "SID": "GOSAM1C",
+            "STAR": "",
+            "route": "GOSAM P600 FENIK L612 BEBNI/N0460F330 UL612 DCS/N0460F350 UL612 HON XAMAB UL612 RESMI UM728 KETEX KOTIS KUKOR UTUVA/N0463F290 LERGA"
+          }
+        ]
+      },
+      "accepted": {
+        "description": "The only response allowed for accepted validation requests.",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "callSign": {
+              "type": "string",
+              "description": "The callsign for the flight.",
+              "pattern": "^[A-Z0-9]{5,6}$",
+              "example": "TOM123"
+            },
+            "validationResults": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "The type of validation result, e.g., 'WRN' for warning, 'ERR' for error, 'UIE' for user input error.",
+                    "enum": [
+                      "OK",
+                      "WRN",
+                      "ERR",
+                      "UIE"
+                    ],
+                    "example": "WRN"
+                  },
+                  "message": {
+                    "type": "string",
+                    "maxLength": 150,
+                    "minLength": 3,
+                    "pattern": "^[A-Z][a-zA-Z0-9\\s(),-]{1,148}[.!?]$",
+                    "description": "A detailed message explaining the validation result.",
+                    "example": "SRD route(s) found between EGCC and INBOB, but DESIG L975 GOLES Y70 VEGUS UT29 LIPSO UL975 ROPAL INBOB did not match any of them."
+                  }
+                },
+                "required": [
+                  "code",
+                  "message"
+                ]
+              },
+              "minItems": 1,
+              "maxItems": 5
+            }
+          },
+          "required": [
+            "callSign",
+            "validationResults"
+          ]
+        },
+        "maxItems": 5
+      },
+      "rateLimitError": {
+        "description": "The only response allowed when there server is overloaded.",
+        "type": "string",
+        "enum": [
+          "Too many requests. All flight plans rejected."
+        ]
+      },
+      "pluginStatus": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "OK"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ],
+            "example": {
+              "status": "OK"
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "Out of Date"
+                ]
+              },
+              "currentVersion": {
+                "type": "string",
+                "minLength": 5,
+                "maxLength": 9,
+                "pattern": "^(\\d+)\\.(\\d+)\\.(\\d+)$"
+              }
+            },
+            "required": [
+              "status",
+              "currentVersion"
+            ],
+            "example": {
+              "status": "Out of Date",
+              "currentVersion": "1.2.3"
+            }
+          }
+        ]
+      }
+    },
+    "responses": {
+      "rytu": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": { }
+          }
+        }
+      },
+      "iuoui": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": { }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "abc": {
+        "name": "abc",
+        "in": "query",
+        "required": true,
+        "description": ""
+      },
+      "qwe": {
+        "name": "qwe",
+        "in": "query",
+        "required": true,
+        "description": ""
+      }
+    },
+    "examples": {
+      "abc": {
+      },
+      "ttt": {
+      }
+    },
+    "requestBodies": {
+      "r1": {
+        "description": "xxx",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/400"
+            }
+          }
+        }
+      },
+      "r2": {
+        "description": "xxx",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/400"
+            }
+          }
+        }
+      }
+    },
+    "headers": {
+      "x-next": {
+        "description": "aaa",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "y-next": {
+        "description": "bbb",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "links": {
+      "address": {
+        "operationId": "getUserAddressByUUID",
+        "parameters": {
+          "userUuid": "$response.body#/uuid"
+        }
+      },
+      "address2": {
+        "operationId": "getUserAddressByUUID",
+        "parameters": {
+          "userUuid": "$response.body#/uuid"
+        }
+      }
+    },
+    "callbacks": {
+      "onData": {
+        "{$request.query.callbackUrl}/data": {
+          "post": {
+            "requestBody": {
+              "description": "subscription payload",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "userData": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "202": {
+                "description": "Your server implementation should return this HTTP status code\nif the data was received successfully\n"
+              },
+              "204": {
+                "description": "Your server should return this HTTP status code if no longer interested\nin further updates\n"
+              }
+            }
+          }
+        }
+      },
+      "onData2": {
+        "{$request.query.callbackUrl}/data": {
+          "post": {
+            "requestBody": {
+              "description": "subscription payload",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "userData": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "202": {
+                "description": "Your server implementation should return this HTTP status code\nif the data was received successfully\n"
+              },
+              "204": {
+                "description": "Your server should return this HTTP status code if no longer interested\nin further updates\n"
+              }
+            }
+          }
+        }
+      }
+    },
+    "NotAllowedPropertyHere!!!": {
+
+    }
+  }
+}

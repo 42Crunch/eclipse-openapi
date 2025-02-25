@@ -83,6 +83,8 @@ public interface OpenApiIcons {
     Icon ExamplesDarkNode = findIcon("message-code.svg", false);
     Icon RequestBodiesNode = findIcon("request.svg", true);
     Icon RequestBodiesDarkNode = findIcon("request.svg", false);
+    Icon WebhookNode = findIcon("webhook.svg", true);
+    Icon WebhookDarkNode = findIcon("webhook.svg", false);
     
     public static void init() {}
     
