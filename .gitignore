@@ -68,8 +68,14 @@ bin/
 # Typically, this file would be tracked if it contains build/dependency configurations:
 .project
 
-openapi-plugin/js/build
-openapi-plugin/js/src/*/*.js
 openapi-plugin/js/node_modules
+openapi-plugin/js/preview-redoc/dist
+openapi-plugin/js/preview-redoc/node_modules
+openapi-plugin/js/preview-redoc/tsconfig.tsbuildinfo
+openapi-plugin/js/preview-swaggerui/dist
+openapi-plugin/js/preview-swaggerui/node_modules
+openapi-plugin/js/preview-swaggerui/tsconfig.tsbuildinfo
+openapi-plugin/js/build
 openapi-plugin/js/dist
+
 .DS_Store

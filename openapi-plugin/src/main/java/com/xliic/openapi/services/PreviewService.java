@@ -80,6 +80,7 @@ public class PreviewService implements IPreviewService, Disposable {
         try {
             pluginTempDir = createPluginTempDirIfMissing();
             createTextResource(pluginTempDir, "preview", RENDERER_SWAGGERUI, ".html");
+            createTextResource(pluginTempDir, "preview", RENDERER_SWAGGERUI, ".css");
             createTextResource(pluginTempDir, "preview", RENDERER_SWAGGERUI, ".js");
             createTextResource(pluginTempDir, "preview", RENDERER_REDOC, ".html");
             createTextResource(pluginTempDir, "preview", RENDERER_REDOC, ".js");
