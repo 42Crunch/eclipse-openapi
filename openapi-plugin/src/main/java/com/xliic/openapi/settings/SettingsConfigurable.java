@@ -133,7 +133,7 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         items.add(new ItemCheckBox(sortCheckbox, Outline.ABC_SORT));
 
         inlinedPanel = new JPanel("Annotations", parent, SWT.NONE, 1);
-        inlinedCheckbox = new JCheckBox("Show TryIt/Audit/Scan Inlined Annotations", inlinedPanel);
+        inlinedCheckbox = new JCheckBox("Show Tags/TryIt/Audit/Scan Inlined Annotations", inlinedPanel);
         items.add(new ItemCheckBox(inlinedCheckbox, InlinedAnnotations.ENABLE_FLAG));
 
         previewPanel = new JPanel("Preview", parent, SWT.NONE, 2);

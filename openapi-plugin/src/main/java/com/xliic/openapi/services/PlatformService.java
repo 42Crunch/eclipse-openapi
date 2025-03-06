@@ -40,6 +40,7 @@ import com.xliic.openapi.listeners.PlatformDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.platform.PlatformFileData;
 import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.PlatformReopener;
 import com.xliic.openapi.platform.PlatformReportPuller;
@@ -81,6 +82,8 @@ public final class PlatformService implements IPlatformService, SettingsListener
     private final Map<DefaultMutableTreeNode, Callback> treeAsyncCallbacksMap;
     @NotNull
     private final PlatformReopener reopener;
+    @NotNull
+    private final Map<String, PlatformFileData> fileData = new HashMap<>();
     @NotNull
     private PlatformFavoriteState favoriteState = new PlatformFavoriteState();
     @NotNull
@@ -312,6 +315,38 @@ public final class PlatformService implements IPlatformService, SettingsListener
         fileIsDirtyMap.remove(deadFile.getPath());
         reopener.sheduleToReopenPlatformFile(deadFile);
     }
+    
+    public void setFileData(@NotNull String fileName, @NotNull PlatformFileData data) {
+        fileData.put(fileName, data);
+    }
+
+    @Nullable
+    public PlatformFileData getFileData(@NotNull String fileName) {
+        return fileData.get(fileName);
+    }
+
+    @NotNull
+    public List<PlatformFileData> getWaitingForTargetingFileData(@NotNull String colId) {
+        List<PlatformFileData> result = new LinkedList<>();
+        for (PlatformFileData data : fileData.values()) {
+            if (colId.equals(data.getColId()) && data.isWaitForTargeting()) {
+                result.add(data);
+            }
+        }
+        return result;
+    }
+
+    public void cancelWaitingForTargetingFileData(@NotNull String colId) {
+        for (PlatformFileData data : fileData.values()) {
+            if (colId.equals(data.getColId()) && data.isWaitForTargeting()) {
+                data.setWaitForTargeting(false);
+            }
+        }
+    }
+
+    public void removeFileData(@NotNull String fileName) {
+        fileData.remove(fileName);
+    }
 
     @Override
     public void dispose() {
@@ -323,5 +358,6 @@ public final class PlatformService implements IPlatformService, SettingsListener
         treeAsyncCallbacksMap.clear();
         reopener.dispose();
         assessmentLastDates.clear();
+        fileData.clear();
     }
 }

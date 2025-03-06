@@ -87,6 +87,7 @@ public class OpenAPIFileEditorManagerBeforeListener implements FileEditorManager
                         platformService.saveToPlatform(file, false);
                     }
                     platformService.removeListener(file);
+                    platformService.removeFileData(file.getPath());
                 }
             });
         }

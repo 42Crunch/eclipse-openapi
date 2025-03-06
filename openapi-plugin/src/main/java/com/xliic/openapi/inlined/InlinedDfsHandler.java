@@ -1,6 +1,7 @@
 package com.xliic.openapi.inlined;
 
 import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
+import static com.xliic.openapi.utils.TempFileUtils.isPlatformFile;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -60,13 +61,15 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
         }
         if (node.getDepth() == 0) {
         	TagsService tagsService = TagsService.getInstance(project);
-        	if (tagsService.hasApiTokenCredentials()) {
+        	if (tagsService.hasApiTokenCredentials() && !isPlatformFile(psiFile.getVirtualFile())) {
         		data.add(new TagsOperation(psiFile, node.getRange().getStartOffset()));
         	}
         }
         if (node.getParent() == null && node.getDepth() == 0) {
             int offset = node.getRange().getOffset();
-            data.add(new AuditOperation(psiFile, "", "", offset));
+            if (!isPlatformFile(psiFile.getVirtualFile())) {
+            	data.add(new AuditOperation(psiFile, "", "", offset));
+            }
             if (version != OpenApiVersion.V3_1) {
 	            ScanConfOperation op = getFirstScanConfOperation(node, psiFile, offset);
 	            if (op != null) {
@@ -78,7 +81,9 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
                 TryItUtils.setActionsForOperation(psiFile, node, data);
                 ScanUtils.setActionsForOperation(psiFile, node, data);
         	}
-            AuditUtils.setActionsForOperation(psiFile, node, data);
+        	if (!isPlatformFile(psiFile.getVirtualFile())) {
+        		AuditUtils.setActionsForOperation(psiFile, node, data);
+        	}
         }
         return true;
     }

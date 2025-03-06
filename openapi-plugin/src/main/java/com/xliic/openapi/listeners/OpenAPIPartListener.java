@@ -72,6 +72,9 @@ public class OpenAPIPartListener implements IPartListener {
                 listener.selectionChanged(new FileEditorManagerEvent(file, oldFile));
             }
         }
+        if (part instanceof PanelViewPart) {
+            ((PanelViewPart) part).refreshToolBarActions();
+        }
     }
 
     @Override

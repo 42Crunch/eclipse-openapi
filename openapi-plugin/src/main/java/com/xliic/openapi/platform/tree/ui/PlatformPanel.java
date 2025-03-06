@@ -21,6 +21,7 @@ import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.PlatformColoredTreeCellRenderer;
 import com.xliic.openapi.platform.tree.PlatformTreeKeyListener;
 import com.xliic.openapi.platform.tree.actions.PlatformRefreshAction;
+import com.xliic.openapi.platform.tree.actions.PlatformTargetAction;
 import com.xliic.openapi.platform.tree.mouse.PlatformDoubleClickListener;
 import com.xliic.openapi.platform.tree.mouse.PlatformMouseAdapter;
 import com.xliic.openapi.platform.tree.utils.PlatformAPIUtils;
@@ -56,6 +57,8 @@ public class PlatformPanel implements PlatformListener, Disposable {
         TreeUtil.expandAll(tree);
 
         List<AnJAction> titleActions = new ArrayList<>();
+        titleActions.add(new PlatformTargetAction(project, tree, false));
+        titleActions.add(new PlatformTargetAction(project, tree, true));
         titleActions.add(new PlatformRefreshAction(project, tree));
         toolWindow.setTitleActions(titleActions);
 

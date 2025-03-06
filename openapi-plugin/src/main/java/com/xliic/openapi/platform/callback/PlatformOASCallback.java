@@ -21,6 +21,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.platform.PlatformFileData;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.quickfix.QuickFix;
 import com.xliic.openapi.services.PlatformService;
@@ -54,6 +55,7 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
         try {
             Node desc = node.getChildRequireNonNull("desc");
             String id = desc.getChildValueRequireNonNull("id");
+            String cid = desc.getChildValueRequireNonNull("cid");
             String technicalName = desc.getChildValueRequireNonNull("technicalName");
             Date date = PlatformUtils.getLastAssessmentDate(node.getChild("assessment"));
             if (date != null) {
@@ -75,6 +77,7 @@ public class PlatformOASCallback extends SuccessASTResponseCallback {
                 PlatformService platformService = PlatformService.getInstance(project);
                 platformService.setFileReadOnly(file, isReadOnly(id, technicalName));
                 platformService.setFileDirty(file, false);
+                platformService.setFileData(file.getPath(), new PlatformFileData(cid, id));
                 PlatformAPIs.readAuditReport(id, new PlatformAuditCallback(project, file, tree, progressDMTN, showAsHTML, openInEditor));
             } else {
                 PlatformUtils.setInProgress(tree, progressDMTN, false);

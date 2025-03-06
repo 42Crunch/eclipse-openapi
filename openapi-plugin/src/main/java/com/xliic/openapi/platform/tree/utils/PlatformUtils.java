@@ -26,6 +26,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.SwingUtilities;
+import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.NamingConvention;
@@ -282,4 +283,40 @@ public class PlatformUtils {
         }
         return tags;
     }
+    
+    public static void targetTreeNode(@NotNull Tree tree,
+                                      @NotNull DefaultMutableTreeNode parent,
+                                      @NotNull DefaultMutableTreeNode child,
+                                      @NotNull Runnable onTargetCb) {
+		Object obj = parent.getUserObject();
+		if (!(obj instanceof Paginator)) {
+			// Should not happen if child is collection or API node
+			onTargetCb.run();
+			return;
+		}
+		int prevChildSize = -1;
+		boolean reloadMe = false;
+		Paginator paginator = (Paginator) obj;
+		// This logic must consider that the child node may not be visible in the tree due to pagination
+		while (true) {
+			List<DefaultMutableTreeNode> children = getVisibleChildren(parent);
+			if (prevChildSize >= children.size()) {
+				return;
+			}
+			prevChildSize = children.size();
+			if (children.contains(child)) {
+				if (reloadMe) {
+					PlatformAsyncTreeModel model = (PlatformAsyncTreeModel) tree.getModel();
+					List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
+					model.reload(parent);
+					TreeUtil.restoreExpandedPaths(tree, expandedPaths);
+				}
+				onTargetCb.run();
+				return;
+			} else {
+				paginator.increasePageSize();
+				reloadMe = true;
+			}
+		}
+	}
 }

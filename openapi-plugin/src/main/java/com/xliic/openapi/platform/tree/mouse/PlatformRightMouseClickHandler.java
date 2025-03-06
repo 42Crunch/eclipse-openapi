@@ -9,6 +9,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.treeStructure.MouseEvent;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.platform.tree.actions.PlatformAddToFavoriteAction;
+import com.xliic.openapi.platform.tree.actions.PlatformCopyUUIDAction;
 import com.xliic.openapi.platform.tree.actions.PlatformCreateNewCollectionAction;
 import com.xliic.openapi.platform.tree.actions.PlatformDeleteAPIAction;
 import com.xliic.openapi.platform.tree.actions.PlatformDeleteCollectionAction;
@@ -72,12 +73,14 @@ public class PlatformRightMouseClickHandler {
             actions.add(new PlatformImportAPIFromURLAction(project, tree, collectionId, subRootDn));
             actions.add(new PlatformOpenCollectionInWebUIAction(collectionId));
             actions.add(new PlatformRenameCollectionAction(project, tree, collectionId, collectionName));
+            actions.add(new PlatformCopyUUIDAction(collectionId));
         } else if (clickedObj instanceof PlatformAPI) {
             String apiId = ((PlatformAPI) clickedObj).getId();
             String apiName = ((PlatformAPI) clickedObj).getName();
             actions.add(new PlatformDeleteAPIAction(project, tree, apiId));
             actions.add(new PlatformOpenAPIInWebUIAction(apiId));
             actions.add(new PlatformRenameAPIAction(project, tree, apiId, apiName));
+            actions.add(new PlatformCopyUUIDAction(apiId));
         } else if (clickedObj instanceof PlatformFilterDecorator) {
             actions.add(new PlatformFilterRemoveAction(tree, clickedDMTN));
         }

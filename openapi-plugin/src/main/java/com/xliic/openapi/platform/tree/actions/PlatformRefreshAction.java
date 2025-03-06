@@ -14,7 +14,9 @@ import com.xliic.openapi.services.DictionaryService;
 
 public class PlatformRefreshAction extends AnJAction implements DumbAware {
 
+	@NotNull
     private final Project project;
+	@NotNull
     private final Tree tree;
 
     public PlatformRefreshAction(@NotNull Project project, @NotNull Tree tree) {
