@@ -70,7 +70,7 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
             if (!isPlatformFile(psiFile.getVirtualFile())) {
             	data.add(new AuditOperation(psiFile, "", "", offset));
             }
-            if (version != OpenApiVersion.V3_1) {
+            if (version != OpenApiVersion.V3_1 && !isPlatformFile(psiFile.getVirtualFile())) {
 	            ScanConfOperation op = getFirstScanConfOperation(node, psiFile, offset);
 	            if (op != null) {
 	            	data.add(op);
@@ -78,7 +78,9 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
             }
         } else if (isOperation(node)) {
         	if (version != OpenApiVersion.V3_1) {
-                TryItUtils.setActionsForOperation(psiFile, node, data);
+        		TryItUtils.setActionsForOperation(psiFile, node, data);
+        	}
+        	if (version != OpenApiVersion.V3_1  && !isPlatformFile(psiFile.getVirtualFile())) {
                 ScanUtils.setActionsForOperation(psiFile, node, data);
         	}
         	if (!isPlatformFile(psiFile.getVirtualFile())) {

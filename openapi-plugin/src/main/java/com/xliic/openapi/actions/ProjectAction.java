@@ -44,6 +44,9 @@ public abstract class ProjectAction extends AnAction implements DumbAware {
         if (file == null) {
             return;
         }
+        if (!performOnPlatformFiles && TempFileUtils.isPlatformFile(file)) {
+            return;
+        }
         ASTService astService = ASTService.getInstance(project);
         Node root = astService.getRootNode(file);
         if (root == null) {

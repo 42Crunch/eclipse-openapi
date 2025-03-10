@@ -11,6 +11,7 @@ import static com.xliic.openapi.OpenApiPanelKeys.SECURITY;
 import static com.xliic.openapi.OpenApiPanelKeys.SECURITY_DEFINITIONS;
 import static com.xliic.openapi.OpenApiPanelKeys.SECURITY_SCHEMES;
 import static com.xliic.openapi.OpenApiPanelKeys.SERVERS;
+import static com.xliic.openapi.utils.TempFileUtils.isPlatformFile;
 
 import java.io.File;
 import java.util.Arrays;
@@ -74,6 +75,9 @@ public class OutlineRightClickHandler {
         OpenApiVersion version = ASTService.getOpenAPIVersion(panel.getProject(), file);
         BaseNode node = (BaseNode) treeNode.getUserObject();
         QuickFixService quickFixService = QuickFixService.getInstance();
+        final boolean addAuditActions = !isPlatformFile(file);
+        final boolean addScanActions = !isPlatformFile(file) && (version != OpenApiVersion.V3_1);
+        final boolean addTryItActions = (version != OpenApiVersion.V3_1);
         // Define what snippets to show
         if (node instanceof PanelNode) {
             if (GENERAL.equals(node.getName()) && (version == OpenApiVersion.V3)) {
@@ -126,23 +130,41 @@ public class OutlineRightClickHandler {
             }
             if (node instanceof TagChildNode) {
                 Node operation = ((TagChildNode) node).getOperation();
-                AuditUtils.setActionsForOperation(psiFile, operation, actions);
-                ScanUtils.setActionsForOperation(psiFile, operation, actions);
-                TryItUtils.setActionsForOperation(psiFile, operation, actions);
+                if (addAuditActions) {
+                	AuditUtils.setActionsForOperation(psiFile, operation, actions);
+                }
+                if (addScanActions) {
+                	ScanUtils.setActionsForOperation(psiFile, operation, actions);
+                }
+                if (addTryItActions) {
+                	TryItUtils.setActionsForOperation(psiFile, operation, actions);
+                }
             } else if (node instanceof OpIdNode) {
                 Node operation = ((OpIdNode) node).getOperation().getNode();
                 if (operation != null) {
-                    AuditUtils.setActionsForOperation(psiFile, operation, actions);
-                    ScanUtils.setActionsForOperation(psiFile, operation, actions);
-                    TryItUtils.setActionsForOperation(psiFile, operation, actions);
+                	if (addAuditActions) {
+                		AuditUtils.setActionsForOperation(psiFile, operation, actions);
+                	}
+                	if (addScanActions) {
+                		ScanUtils.setActionsForOperation(psiFile, operation, actions);
+                	}
+                	if (addTryItActions) {
+                		TryItUtils.setActionsForOperation(psiFile, operation, actions);
+                	}
                 }
             }
         } else if (isOperation(treeNode)) {
             Node operation = node.getNode();
             if (operation != null) {
-                AuditUtils.setActionsForOperation(psiFile, operation, actions);
-                ScanUtils.setActionsForOperation(psiFile, operation, actions);
-                TryItUtils.setActionsForOperation(psiFile, operation, actions);
+            	if (addAuditActions) {
+            		AuditUtils.setActionsForOperation(psiFile, operation, actions);
+            	}
+            	if (addScanActions) {
+            		ScanUtils.setActionsForOperation(psiFile, operation, actions);
+            	}
+            	if (addTryItActions) {
+            		TryItUtils.setActionsForOperation(psiFile, operation, actions);
+            	}
                 actions.add(quickFixService.getPathOpDeleteFixAction(psiFile, treeNode));
             }
         }

@@ -5,11 +5,13 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.actions.ProjectAction;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.config.ScanConfService;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
+import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
@@ -18,6 +20,12 @@ public class ScanFirstOperationAction extends ProjectAction {
 
     public ScanFirstOperationAction() {
         super("scan", false);
+    }
+    
+    @Override
+    public boolean update(@NotNull Project project, @NotNull VirtualFile file) {
+        OpenApiVersion version = ASTService.getOpenAPIVersion(project, file);
+        return version != OpenApiVersion.Unknown && version != OpenApiVersion.V3_1;
     }
 
     @Override
