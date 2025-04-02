@@ -34,6 +34,7 @@ import com.xliic.openapi.platform.dictionary.DictionaryHighlightingPassFactory;
 import com.xliic.openapi.report.ReportHighlightingPassFactory;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.graphql.GraphQlReportHighlightingPassFactory;
 
 public class HighlightingManager extends TextEditorHighlightingPassRegistrar implements Runnable {
 
@@ -57,6 +58,7 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
         new BundleHighlightingPassFactory().registerHighlightingPassFactory(this, project);
         new ReportHighlightingPassFactory().registerHighlightingPassFactory(this, project);
         new DictionaryHighlightingPassFactory().registerHighlightingPassFactory(this, project);
+        new GraphQlReportHighlightingPassFactory().registerHighlightingPassFactory(this, project);
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(this, 1000, 1000, TimeUnit.MILLISECONDS);
         auditService = AuditService.getInstance(project);

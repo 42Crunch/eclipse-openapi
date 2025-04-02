@@ -1,10 +1,12 @@
 package com.xliic.openapi.listeners;
 
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 import static com.xliic.openapi.utils.TempFileUtils.isExtRefFile;
 import static com.xliic.openapi.utils.Utils.isOpenAPIFileType;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.fileEditor.FileEditorManager;
@@ -14,8 +16,10 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.async.AsyncTaskType;
 import com.xliic.openapi.services.ASTService;
+import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.PlaceHolderService;
 import com.xliic.openapi.services.PlatformService;
+import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.utils.TempFileUtils;
 
 public class OpenApiFileEditorManagerListener implements FileEditorManagerListener {
@@ -61,6 +65,14 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
     public void fileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
         if (source.getAllEditors().length == 0) {
             astService.runAsyncTask(project, AsyncTaskType.ALL_FILES_CLOSED, file);
+        }
+        if (isGraphQl(file)) {
+            ApplicationManager.getApplication().invokeLater(() -> {
+                if (!project.isDisposed()) {
+                    AuditService.getInstance(project).removeAuditReport(file.getPath());
+                    project.getMessageBus().syncPublisher(FileListener.TOPIC).handleClosedFile(file);
+                }
+            });
         }
     }
 }

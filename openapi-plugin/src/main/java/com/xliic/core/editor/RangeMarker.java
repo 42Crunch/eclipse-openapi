@@ -5,6 +5,8 @@ import org.eclipse.jface.text.Position;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.util.TextRange;
+
 public class RangeMarker {
 
     @Nullable
@@ -43,5 +45,10 @@ public class RangeMarker {
 
     public boolean isValid() {
         return !position.isDeleted();
+    }
+    
+    @NotNull
+    public TextRange getTextRange() {
+        return new TextRange(this.getStartOffset(), this.getEndOffset());
     }
 }

@@ -76,7 +76,7 @@ public class OutlineRightClickHandler {
         BaseNode node = (BaseNode) treeNode.getUserObject();
         QuickFixService quickFixService = QuickFixService.getInstance();
         final boolean addAuditActions = !isPlatformFile(file);
-        final boolean addScanActions = !isPlatformFile(file) && (version != OpenApiVersion.V3_1);
+        final boolean addScanActions = !isPlatformFile(file);
         final boolean addTryItActions = (version != OpenApiVersion.V3_1);
         // Define what snippets to show
         if (node instanceof PanelNode) {

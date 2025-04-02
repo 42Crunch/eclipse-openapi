@@ -7,6 +7,7 @@ import com.xliic.core.project.Project;
 import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.config.ConfigService;
 import com.xliic.openapi.environment.EnvService;
+import com.xliic.openapi.graphql.GraphQlService;
 import com.xliic.openapi.inlined.AnnotationService;
 import com.xliic.openapi.platform.scan.ScanService;
 import com.xliic.openapi.platform.scan.config.ScanConfService;
@@ -86,6 +87,8 @@ public class CoreServiceFactory extends AbstractServiceFactory {
 			return new InlayHintsService(PROJECT);
 		} else if (ICaptureService.class.equals(serviceInterface)) {
 			return new CaptureService(PROJECT);
+		} else if (IGraphQlService.class.equals(serviceInterface)) {
+			return new GraphQlService(PROJECT);
 		}
 		return null;
 	}

@@ -1,5 +1,8 @@
 package com.xliic.openapi.report.types;
 
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
+
+import java.io.File;
 import java.net.URI;
 import java.util.Objects;
 
@@ -9,13 +12,18 @@ import com.xliic.core.editor.Document;
 import com.xliic.core.editor.RangeMarker;
 import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.project.Project;
+import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleLocation;
 import com.xliic.openapi.bundler.BundleResult;
+import com.xliic.openapi.graphql.GraphQlService;
+import com.xliic.openapi.graphql.GraphQlUtils;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
+
+import graphql.schema.idl.TypeDefinitionRegistry;
 
 public class Issue {
 
@@ -66,6 +74,34 @@ public class Issue {
     }
 
     public void finalizeInReadAction() {
+        final boolean isGraphQl = isGraphQl(Objects.requireNonNull(auditFileName));
+        if (isGraphQl) {
+            finalizeGraphQlInReadAction();
+        } else {
+            finalizeOasInReadAction();
+        }
+    }
+
+    private void finalizeGraphQlInReadAction() {
+        fileName = auditFileName;
+        disposeRangeMarker();
+        TypeDefinitionRegistry reg = GraphQlService.getInstance(project).getTypeDefinitionRegistry(fileName);
+        if (reg != null) {
+            VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
+            if (file != null) {
+                Document document = FileDocumentManager.getInstance().getDocument(file);
+                if (document != null) {
+                    Range myRange = GraphQlUtils.getRangeByLocation(document, reg, pointer);
+                    if (myRange != null) {
+                        range = myRange;
+                        rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+                    }
+                }
+            }
+        }
+    }
+
+    private void finalizeOasInReadAction() {
         BundleLocation location;
         if (useLocationMap) {
             BundleResult result = BundleService.getInstance(project).getBundle(auditFileName);
@@ -92,7 +128,7 @@ public class Issue {
             }
         }
     }
-
+    
     @NotNull
     public static String getReadableScore(float score) {
         int rounded = Math.abs(Math.round(score));

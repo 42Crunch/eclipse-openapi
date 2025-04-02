@@ -50,7 +50,7 @@ public class AnonTokenWizardDialog extends WizardDialog {
           @Override
           public void run(@NotNull ProgressIndicator progressIndicator) {
               try {
-                  try (Response response = AuditAPIs.Sync.getTokenByEmail(email)) {
+                  try (Response response = AuditAPIs.Sync.getTokenByEmail(email, false)) {
                       Node body = NetUtils.getBodyNode(response);
                       if (body == null || getStatus(body) != ResponseStatus.SUCCESS) {
                           showError("invalid response status");

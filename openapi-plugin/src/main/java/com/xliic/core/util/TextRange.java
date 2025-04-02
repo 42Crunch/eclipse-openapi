@@ -33,4 +33,8 @@ public class TextRange {
     public String substring(@NotNull String str) {
         return str.substring(myStartOffset, myEndOffset);
     }
+    
+    public String toString() {
+        return "(" + this.myStartOffset + "," + this.myEndOffset + ")";
+    }
 }

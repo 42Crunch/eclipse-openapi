@@ -25,7 +25,7 @@ public class ScanFirstOperationAction extends ProjectAction {
     @Override
     public boolean update(@NotNull Project project, @NotNull VirtualFile file) {
         OpenApiVersion version = ASTService.getOpenAPIVersion(project, file);
-        return version != OpenApiVersion.Unknown && version != OpenApiVersion.V3_1;
+        return version != OpenApiVersion.Unknown;
     }
 
     @Override

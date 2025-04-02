@@ -65,4 +65,5 @@ Bundle-ClassPath: .,
  libs/websocket-client-9.4.54.v20240208.jar,
  libs/websocket-common-9.4.54.v20240208.jar,
  libs/websocket-server-9.4.54.v20240208.jar,
- libs/websocket-servlet-9.4.54.v20240208.jar
+ libs/websocket-servlet-9.4.54.v20240208.jar,
+ libs/graphql-java-22.3.jar

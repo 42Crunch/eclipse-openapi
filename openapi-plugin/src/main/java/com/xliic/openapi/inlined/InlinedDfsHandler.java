@@ -69,8 +69,6 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
             int offset = node.getRange().getOffset();
             if (!isPlatformFile(psiFile.getVirtualFile())) {
             	data.add(new AuditOperation(psiFile, "", "", offset));
-            }
-            if (version != OpenApiVersion.V3_1 && !isPlatformFile(psiFile.getVirtualFile())) {
 	            ScanConfOperation op = getFirstScanConfOperation(node, psiFile, offset);
 	            if (op != null) {
 	            	data.add(op);
@@ -80,10 +78,8 @@ public class InlinedDfsHandler extends DfsHandler<Object> {
         	if (version != OpenApiVersion.V3_1) {
         		TryItUtils.setActionsForOperation(psiFile, node, data);
         	}
-        	if (version != OpenApiVersion.V3_1  && !isPlatformFile(psiFile.getVirtualFile())) {
-                ScanUtils.setActionsForOperation(psiFile, node, data);
-        	}
         	if (!isPlatformFile(psiFile.getVirtualFile())) {
+                ScanUtils.setActionsForOperation(psiFile, node, data);
         		AuditUtils.setActionsForOperation(psiFile, node, data);
         	}
         }

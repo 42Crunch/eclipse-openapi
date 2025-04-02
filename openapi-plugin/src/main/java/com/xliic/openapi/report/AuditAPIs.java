@@ -28,8 +28,8 @@ public class AuditAPIs {
         }
 
         @NotNull
-        public static Response getTokenByEmail(@NotNull String email) throws IOException {
-            RequestBody body = new FormBody.Builder().add("email", email).build();
+        public static Response getTokenByEmail(@NotNull String email, boolean optIn) throws IOException {
+            RequestBody body = new FormBody.Builder().add("email", email).add("opt-in", String.valueOf(optIn)).build();
             Request request = getRequestBuilder(Endpoints.getFreemiumdUrl() + "/api/v1/anon/token").post(body).build();
             return client.newCall(request).execute();
         }

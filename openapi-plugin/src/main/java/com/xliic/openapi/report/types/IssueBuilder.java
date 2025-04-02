@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +20,9 @@ public class IssueBuilder {
     private static final String DESCRIPTION = "description";
     private static final String SCORE = "score";
     private static final String CRITICALITY = "criticality";
-
+    private static final String LOCATION = "location";
+    private static final String OCCURRENCES = "occurrences";
+    
     @NotNull
     private final Project project;
     @NotNull
@@ -39,6 +42,28 @@ public class IssueBuilder {
         this.pointers.addAll(pointers);
     }
 
+    @NotNull
+    public List<Issue> buildGraphQl(@NotNull Node node) {
+        List<Issue> issues = new LinkedList<>();
+        try {
+            Node issuesNode = node.getChildRequireNonNull(ISSUES);
+            for (Node issueNode : issuesNode.getChildren()) {
+                String id = issueNode.getKey();
+                String desc = Objects.requireNonNullElse(issueNode.getChildValue(DESCRIPTION), "");
+                Node occurrences = issueNode.getChildRequireNonNull(OCCURRENCES);
+                for (Node occNode : occurrences.getChildren()) {
+                    String pointer = Objects.requireNonNullElse(occNode.getChildValue(LOCATION), "");
+                    float score = getScore(occNode);
+                    int criticality = (int) Math.abs(score);
+                    issues.add(new Issue(project, fileName, id, desc, pointer, score, criticality, !downloaded));
+                }
+            }
+        } catch (Exception e) {
+            Logger.getInstance(IssueBuilder.class).info(e);
+        }
+        return issues;
+    }
+    
     @NotNull
     public List<Issue> build(@NotNull Node node, int defaultCriticality) {
         List<Issue> issues = new LinkedList<>();
