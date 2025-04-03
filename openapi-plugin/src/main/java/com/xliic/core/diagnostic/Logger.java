@@ -10,6 +10,10 @@ public class Logger {
         return LOGGER;
     }
     
+    public void info(@NotNull Throwable t) {
+    	t.printStackTrace();
+    }
+    
     public void error(@NotNull Throwable t) {
     	t.printStackTrace();
     }

@@ -81,12 +81,21 @@ public class ExecUtils {
     public static String asyncExecFile(@NotNull String cmd, @NotNull List<String> params, @Nullable VirtualFile dir) throws ExecException {
         return asyncExecFile(cmd, params, dir, null);
     }
-
+    
     @NotNull
     public static String asyncExecFile(@NotNull String cmd,
                                        @NotNull List<String> params,
                                        @Nullable VirtualFile dir,
                                        @Nullable Map<String, String> cmdEnv) throws ExecException {
+        return asyncExecFile(cmd, params, dir, cmdEnv, false);
+    }
+
+    @NotNull
+    public static String asyncExecFile(@NotNull String cmd,
+                                       @NotNull List<String> params,
+                                       @Nullable VirtualFile dir,
+                                       @Nullable Map<String, String> cmdEnv,
+                                       boolean redirectErrorStream) throws ExecException {
         List<String> args = new LinkedList<>();
         args.add(cmd);
         // System.out.println(">> cmd = " + cmd);
@@ -103,6 +112,9 @@ public class ExecUtils {
         }
         if (dir != null) {
             builder.directory(new File(dir.getPath()));
+        }
+        if (redirectErrorStream) {
+            builder.redirectErrorStream(true);
         }
         try {
             Process process = builder.start();

@@ -1,5 +1,7 @@
 package com.xliic.openapi.report.jcef.messages;
 
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
+
 import java.io.File;
 import java.net.URI;
 import java.util.Map;
@@ -10,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.graphql.GraphQlUtils;
 import com.xliic.openapi.refs.external.ExtRef;
 import com.xliic.openapi.refs.external.ExtRefService;
 import com.xliic.openapi.utils.Utils;
@@ -48,7 +51,11 @@ public class GoToLine extends WebAppProduce {
         String path = extRef == null ? uriObj.getPath() : extRef.getVirtualFile().getPath();
         VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(path));
         if (file != null) {
-            Utils.goToPointerInFile(project, file, pointer);
+            if (isGraphQl(file)) {
+                GraphQlUtils.goToLocationInFile(project, file, pointer);
+            } else {
+                Utils.goToPointerInFile(project, file, pointer);
+            }
         }
     }
 }

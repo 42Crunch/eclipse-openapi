@@ -14,6 +14,7 @@ import com.xliic.core.vfs.VirtualFileWrapper;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +57,7 @@ public abstract class ExportReportAction extends AnAction implements DumbAware {
             event.getPresentation().setEnabled(false);
             return;
         }
-        VirtualFile myFile = Utils.getSelectedOpenAPIFile(project);
+        VirtualFile myFile = getSelectedFile(project);
         if (myFile == null) {
             event.getPresentation().setEnabled(false);
             return;
@@ -73,7 +74,7 @@ public abstract class ExportReportAction extends AnAction implements DumbAware {
         Project project = event.getProject();
         if (project != null) {
             try {
-                VirtualFile myFile = Utils.getSelectedOpenAPIFile(project);
+                VirtualFile myFile = getSelectedFile(project);
                 if (myFile == null) {
                     MsgUtils.notifyError(project, NO_OPEN_API_FILE_SELECTED);
                     return;
@@ -105,6 +106,10 @@ public abstract class ExportReportAction extends AnAction implements DumbAware {
                 MsgUtils.notifyError(project, e.getMessage());
             }
         }
+    }
+    
+    public @Nullable VirtualFile getSelectedFile(@NotNull Project project) {
+        return Utils.getSelectedOpenAPIFile(project);
     }
 
     public abstract @NotNull String getTempFile(@NotNull Project project, @NotNull VirtualFile selectedFile);

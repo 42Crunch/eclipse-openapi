@@ -31,6 +31,14 @@ public class FileUtils {
         return prefix + "_" + RandomStringUtils.random(LENGTH, true, false).toLowerCase();
     }
 
+    public static boolean isGraphQl(@NotNull VirtualFile file) {
+        return isGraphQl(file.getPath());
+    }
+
+    public static boolean isGraphQl(@NotNull String fileName) {
+        return fileName.endsWith(".graphql");
+    }
+
     @Nullable
     public static String readFile(@NotNull VirtualFile dir, @NotNull String fileName) {
         return Utils.getTextFromFile(Paths.get(dir.getPath(), fileName).toString(), true);

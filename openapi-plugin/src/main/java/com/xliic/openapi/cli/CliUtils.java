@@ -27,6 +27,7 @@ import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Endpoints;
+import com.xliic.openapi.graphql.GraphQlCliResult;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.settings.Credentials;
@@ -68,6 +69,33 @@ public class CliUtils {
             }
         }
         return null;
+    }
+    
+    @NotNull
+    public static GraphQlCliResult runGraphQlAuditWithCliBinary(@NotNull Project project, @NotNull String text) {
+        try {
+            VirtualFile dir = createTempDirectory(project, "graphql-audit");
+            writeFile(project, dir, "input.graphql", text);
+            String cli = getCli();
+            List<String> args = new LinkedList<>(Arrays.asList(
+                "graphql",
+                "audit",
+                "input.graphql",
+                "--output",
+                "report.json"
+            ));
+            final Map<String, String> env = new HashMap<>();
+            String output = ExecUtils.asyncExecFile(cli, args, dir, env, false);
+            String report = FileUtils.readFile(dir, "report.json");
+            removeFile(project, dir, "report.json");
+            removeFile(project, dir,"input.graphql");
+            removeDir(project, dir);
+            return new GraphQlCliResult(report, text, output);
+        } catch (ExecUtils.ExecException ex) {
+            return new GraphQlCliResult(ex);
+        } catch (IOException ex) {
+            return new GraphQlCliResult(ex.toString());
+        }
     }
 
     @NotNull

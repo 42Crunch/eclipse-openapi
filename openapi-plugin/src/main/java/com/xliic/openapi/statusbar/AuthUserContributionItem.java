@@ -1,11 +1,5 @@
 package com.xliic.openapi.statusbar;
 
-import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
-
-import java.util.Map;
-import java.util.Set;
-
 import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.swt.SWT;
@@ -22,11 +16,9 @@ import com.xliic.core.ide.ui.LafManagerListener;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.config.ConfigService;
-import com.xliic.openapi.settings.Credentials;
-import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.webapp.messages.ChangeTheme;
 
-public class AuthUserContributionItem extends ContributionItem implements SettingsListener, LafManagerListener {
+public class AuthUserContributionItem extends ContributionItem implements LafManagerListener {
 
 	public static final String ID = "com.xliic.openapi.statusbar.AuthUserContributionItem";
 	private static final String TOOLTIP = "42Crunch Settings";
@@ -44,7 +36,6 @@ public class AuthUserContributionItem extends ContributionItem implements Settin
 		super(ID);
 		this.project = project;
 		this.statusLineManager = statusLineManager;
-        project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, this);
         project.getMessageBus().connect().subscribe(LafManagerListener.TOPIC, this);
 	}
 
@@ -61,20 +52,12 @@ public class AuthUserContributionItem extends ContributionItem implements Settin
 		});
 		setVisible(isVisible());
 	}
-	
+
 	@Override
 	public boolean isVisible() {
-		return Credentials.getCredentialsType() != null;
-	}
-
-    @Override
-    public void propertiesUpdated(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
-        if (keys.contains(API_KEY) || keys.contains(TOKEN)) {
-        	setVisible(isVisible());
-        	statusLineManager.update(true);
-        }
+		return true;
     }
-    
+
 	@Override
 	public void dispose() {
 		super.dispose();

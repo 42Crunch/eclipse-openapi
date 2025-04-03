@@ -1,5 +1,7 @@
 package com.xliic.openapi.report.types;
 
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
+
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,7 +65,8 @@ public class AuditBuilder {
     }
 
     public Audit build(@NotNull Node reportNode) {
-        Audit result = build(reportNode, false);
+        final boolean isGraphQl = isGraphQl(Objects.requireNonNull(fileName));
+        Audit result = isGraphQl ? buildGraphQl(reportNode) : build(reportNode, false);
         clear();
         return result;
     }
@@ -106,6 +109,26 @@ public class AuditBuilder {
         return report;
     }
 
+    private Audit buildGraphQl(@NotNull Node reportNode) {
+        Audit report = new Audit(Objects.requireNonNull(fileName), downloaded);
+        report.setSummary(Summary.DEFAULT_SUMMARY);
+        if (!getBoolean("valid", reportNode)) {
+            return report;
+        }
+        Grade dataGrade = getGrade(reportNode, Grade.DEF_DATA_GRADE);
+        Grade securityGrade = getGrade(reportNode, Grade.DEF_SECURITY_GRADE);
+        report.setSummary(new Summary(false, dataGrade, securityGrade));
+        report.setValid(getBoolean("valid", reportNode));
+        report.setMinimalReport(false);
+        report.setCompliance(compliance);
+        report.setDisplayOptions(displayOptions);
+        Objects.requireNonNull(issueBuilder).setPointers(new LinkedList<>());
+        List<Issue> issues = new LinkedList<>(issueBuilder.buildGraphQl(reportNode));
+        issues.sort(ISSUE_COMPARATOR);
+        report.addIssues(issues);
+        return report;
+    }
+    
     private void clear() {
         fileName = null;
         compliance = null;

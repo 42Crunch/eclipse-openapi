@@ -1,9 +1,8 @@
-import { c as v, a as j, b as g, t as b, e as h, q as o, T as l, j as e, f, R as y, P as S, m as $, h as w, l as I } from "./webapp.CeAUXIIl.js";
-import { l as D } from "./TriangleExclamation.CgvJ-nl0.js";
+import { c as v, a as g, l as j, b, t as h, f, e as o, T as l, j as e, g as y, R as S, P as $, k as w, n as I, p as D } from "./TriangleExclamation.pAuQxBo5.js";
 import { D as p } from "./datetime.DlW1FQ29.js";
-import { S as O } from "./AngleDown.Cf8-HIFo.js";
-import { S as E } from "./AngleUp.4zhx5nPt.js";
-import { S as M } from "./SearchSidebar.DYf2xzMO.js";
+import { S as O } from "./AngleDown.FqWubUL_.js";
+import { S as E } from "./AngleUp.phJPZ_ZE.js";
+import { S as M } from "./SearchSidebar.BQ3nahf4.js";
 const F = {
   dictionaries: [],
   formats: []
@@ -28,28 +27,28 @@ const F = {
       i.dictionaries = r, i.formats = d;
     }
   }
-}), { showDictionary: T } = m.actions, P = m.reducer, k = {
-  theme: b,
-  formats: P
-}, C = (i) => j({
-  reducer: k,
-  middleware: (n) => n().prepend().concat(D),
+}), { showDictionary: T } = m.actions, k = m.reducer, P = {
+  theme: h,
+  formats: k
+}, C = (i) => g({
+  reducer: P,
+  middleware: (n) => n().prepend().concat(j),
   preloadedState: {
     theme: i
   }
-}), x = g;
+}), x = b;
 function L(i = !1) {
-  const [n, r] = h.useState(i);
+  const [n, r] = f.useState(i);
   return [n, () => r(!n)];
 }
 function A({ format: i }) {
   const [n, r] = L();
   return /* @__PURE__ */ e.jsxs(N, { children: [
-    /* @__PURE__ */ e.jsxs(U, { collapsed: !n, onClick: r, children: [
+    /* @__PURE__ */ e.jsxs(U, { $collapsed: !n, onClick: r, children: [
       /* @__PURE__ */ e.jsx("div", { children: n ? /* @__PURE__ */ e.jsx(E, {}) : /* @__PURE__ */ e.jsx(O, {}) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
         /* @__PURE__ */ e.jsx(V, { children: i.name }),
-        /* @__PURE__ */ e.jsxs(q, { children: [
+        /* @__PURE__ */ e.jsxs(_, { children: [
           "Last updated on",
           " ",
           p.fromSeconds(parseInt(i.lastUpdate, 10)).toLocaleString(
@@ -58,8 +57,8 @@ function A({ format: i }) {
         ] })
       ] })
     ] }),
-    n && /* @__PURE__ */ e.jsxs(_, { children: [
-      /* @__PURE__ */ e.jsx(G, { children: i.description }),
+    n && /* @__PURE__ */ e.jsxs(G, { children: [
+      /* @__PURE__ */ e.jsx(q, { children: i.description }),
       R(i),
       W(i)
     ] })
@@ -133,20 +132,20 @@ const N = o.div`
     }
   }
   border-left: 5px solid transparent;
-  ${({ collapsed: i }) => !i && `border-bottom: 1px solid var(${l.border});
+  ${({ $collapsed: i }) => !i && `border-bottom: 1px solid var(${l.border});
     border-left: 5px solid var(${l.badgeBackground});`}
 `, V = o.div`
   font-weight: 600;
-`, q = o.div`
+`, _ = o.div`
   margin-top: 8px;
   display: flex;
   font-size: 90%;
   align-items: center;
   gap: 16px;
-`, _ = o.div`
+`, G = o.div`
   background-color: var(${l.computedOne});
   padding: 16px;
-`, G = o.div`
+`, q = o.div`
   padding-bottom: 16px;
   border-bottom: 1px solid var(${l.border});
 `, J = o.div`
@@ -180,19 +179,19 @@ function K() {
   );
 }
 const Q = {
-  changeTheme: I,
+  changeTheme: D,
   showDictionary: T
 };
 function X() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(w, {}),
+    /* @__PURE__ */ e.jsx(I, {}),
     /* @__PURE__ */ e.jsx(K, {})
   ] });
 }
 function Y(i, n) {
   const r = C(n);
-  f(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(y.StrictMode, { children: /* @__PURE__ */ e.jsx(S, { store: r, children: /* @__PURE__ */ e.jsx(X, {}) }) })
-  ), window.addEventListener("message", $(r, Q));
+  y(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(S.StrictMode, { children: /* @__PURE__ */ e.jsx($, { store: r, children: /* @__PURE__ */ e.jsx(X, {}) }) })
+  ), window.addEventListener("message", w(r, Q));
 }
 window.renderWebView = Y;

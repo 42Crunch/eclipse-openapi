@@ -3,6 +3,7 @@ package com.xliic.openapi.signup.jcef.messages;
 import static com.xliic.openapi.utils.Utils.getStatus;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,21 +31,25 @@ public class RequestAnondTokenByEmail extends WebAppProduce {
         this.project = project;
     }
 
-    @Override
+    @Override @SuppressWarnings("unchecked")
     public void run(@Nullable Object payload) {
-        String email = (String) payload;
-        if (email != null) {
-            try {
-                try (Response response = AuditAPIs.Sync.getTokenByEmail(email)) {
-                    Node body = NetUtils.getBodyNode(response);
-                    if (body != null && getStatus(body) == ResponseStatus.SUCCESS) {
-                        ApplicationManager.getApplication().invokeLater(() -> notify(true, ""));
-                    } else {
-                        ApplicationManager.getApplication().invokeLater(() -> notify(false, UNEXPECTED_ERROR));
+        if (payload instanceof Map) {
+            Map<String, Object> map = (Map<String, Object>) payload;
+            String email = (String) map.get("email");
+            if (email != null) {
+                try {
+                    boolean optIn = (boolean) map.get("optIn");
+                    try (Response response = AuditAPIs.Sync.getTokenByEmail(email, optIn)) {
+                        Node body = NetUtils.getBodyNode(response);
+                        if (body != null && getStatus(body) == ResponseStatus.SUCCESS) {
+                            ApplicationManager.getApplication().invokeLater(() -> notify(true, ""));
+                        } else {
+                            ApplicationManager.getApplication().invokeLater(() -> notify(false, UNEXPECTED_ERROR));
+                        }
                     }
+                } catch (IOException e) {
+                    ApplicationManager.getApplication().invokeLater(() -> notify(false, e.toString()));
                 }
-            } catch (IOException e) {
-                ApplicationManager.getApplication().invokeLater(() -> notify(false, e.toString()));
             }
         }
     }

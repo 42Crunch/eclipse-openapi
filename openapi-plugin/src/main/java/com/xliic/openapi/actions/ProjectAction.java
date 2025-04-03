@@ -20,8 +20,8 @@ import com.xliic.openapi.utils.Utils;
 
 public abstract class ProjectAction extends AnAction implements DumbAware {
 
-    private final String name;
-    private final boolean performOnPlatformFiles;
+	protected final String name;
+	protected final boolean performOnPlatformFiles;
 
     public ProjectAction(String name, boolean performOnPlatformFiles) {
         this.name = name;

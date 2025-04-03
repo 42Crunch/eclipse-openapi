@@ -346,6 +346,9 @@
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
             <service serviceClass="com.xliic.core.services.ICaptureService"></service>
         </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IGraphQlService"></service>
+        </serviceFactory>
     </extension>
 
     <extension

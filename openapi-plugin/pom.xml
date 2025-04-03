@@ -32,6 +32,7 @@
 	<ant.style.path.matcher.version>1.0.0</ant.style.path.matcher.version>
 	<java.semver.version>0.10.2</java.semver.version>
 	<commons.codec.version>1.16.1</commons.codec.version>
+	<graphql.java.version>22.3</graphql.java.version>
   </properties>
 
   <dependencies>
@@ -444,6 +445,15 @@
 			  <groupId>commons-codec</groupId>
 			  <artifactId>commons-codec</artifactId>
 			  <version>${commons.codec.version}</version>
+		      <type>jar</type>
+		      <overWrite>false</overWrite>
+		      <outputDirectory>libs</outputDirectory>    
+			</artifactItem>
+
+			<artifactItem>
+			  <groupId>com.graphql-java</groupId>
+			  <artifactId>graphql-java</artifactId>
+			  <version>${graphql.java.version}</version>
 		      <type>jar</type>
 		      <overWrite>false</overWrite>
 		      <outputDirectory>libs</outputDirectory>    
