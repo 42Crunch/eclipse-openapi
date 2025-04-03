@@ -1,6 +1,6 @@
-import { j as n, c as N, d as Z, s as G, a as J, p as K, u as Q, b as X, l as Y, t as ee, e as i, T, B as ne, g as oe, R as te, P as re, n as ae, k as se } from "./TriangleExclamation.pAuQxBo5.js";
-import { c as h, u as A } from "./index.esm.BxaCgf7s.js";
-import { o as w, s as g, F as y, I as v, T as ie } from "./Textarea.CDZwhD95.js";
+import { j as n, c as N, d as Z, s as G, a as Y, p as J, u as K, b as Q, l as X, t as ee, e as s, T, B as ne, g as oe, R as te, P as re, n as ae, k as ie } from "./TriangleExclamation.pAuQxBo5.js";
+import { c as g, u as y } from "./index.esm.BxaCgf7s.js";
+import { o as A, s as f, F as w, I as j, T as se } from "./Textarea.CDZwhD95.js";
 import { N as B } from "./ProgressButton.BTyIjiMI.js";
 import { E as k } from "./Banner.CPOTd1ij.js";
 import { C as D } from "./Checkbox.CG1UhkDk.js";
@@ -115,33 +115,33 @@ const le = (e) => /* @__PURE__ */ n.jsxs(
   showAnondTokenResponse: ce,
   saveAnondEmail: pe,
   saveAnondToken: me,
-  resetAnondTokenRequestResult: R,
+  resetAnondTokenRequestResult: U,
   anondSignUpComplete: M,
   showPlatformConnectionTestError: ue,
   savePlatformCredentials: he,
-  platformSignUpComplete: O,
+  platformSignUpComplete: $,
   saveAgreeToTermsAndConditions: ge,
   saveAgreeToEmailOptIn: fe,
   showTermsAndConditionsError: xe,
-  openLink: f,
-  setCurrentFormId: j
-} = L.actions, Te = L.reducer, $ = Z(), m = $.startListening;
+  openLink: m,
+  setCurrentFormId: v
+} = L.actions, Te = L.reducer, O = Z(), u = O.startListening;
 function Ce(e) {
   return G({
-    requestAnondTokenByEmail: () => m({
+    requestAnondTokenByEmail: () => u({
       actionCreator: q,
       effect: async (t, r) => {
         const {
-          signup: { agreeToEmailOptIn: s }
+          signup: { agreeToEmailOptIn: i }
         } = r.getState();
         e.postMessage({
           command: "requestAnondTokenByEmail",
-          payload: { email: t.payload, optIn: s }
+          payload: { email: t.payload, optIn: i }
         });
       }
     }),
-    openLink: () => m({
-      actionCreator: f,
+    openLink: () => u({
+      actionCreator: m,
       effect: async (t, r) => {
         e.postMessage({
           command: "openLink",
@@ -149,7 +149,7 @@ function Ce(e) {
         });
       }
     }),
-    anondSignUpComplete: () => m({
+    anondSignUpComplete: () => u({
       actionCreator: M,
       effect: async (t, r) => {
         e.postMessage({
@@ -158,8 +158,8 @@ function Ce(e) {
         });
       }
     }),
-    platformSignUpComplete: () => m({
-      actionCreator: O,
+    platformSignUpComplete: () => u({
+      actionCreator: $,
       effect: async (t, r) => {
         e.postMessage({
           command: "platformSignUpComplete",
@@ -167,37 +167,37 @@ function Ce(e) {
         });
       }
     })
-  }), $;
+  }), O;
 }
-const je = {
+const ve = {
   theme: ee,
   signup: Te
-}, ve = {
-  changeTheme: K,
+}, je = {
+  changeTheme: J,
   showPlatformConnectionTestError: ue,
   showAnondTokenResponse: ce
-}, ke = (e, o) => J({
-  reducer: je,
-  middleware: (t) => t().prepend(e.middleware).concat(Y),
+}, ke = (e, o) => Y({
+  reducer: ve,
+  middleware: (t) => t().prepend(e.middleware).concat(X),
   preloadedState: {
     theme: o
   }
-}), c = () => Q(), d = X, p = (e) => e;
-function Ae({
+}), d = () => K(), c = Q, p = (e) => e;
+function ye({
   data: e,
   backToPrevForm: o
 }) {
-  const t = c(), {
+  const t = d(), {
     agreeToTermsAndConditions: r,
-    showTermsAndConditionsError: s,
+    showTermsAndConditionsError: i,
     anondTokenRequestResult: l,
     waitingForAnondToken: a,
     complete: I
-  } = d((C) => C.signup), H = w({
-    email: g().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
+  } = c((C) => C.signup), H = A({
+    email: f().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
   });
   return /* @__PURE__ */ n.jsx(
-    y,
+    w,
     {
       data: e,
       saveData: (C) => t(pe(C.email)),
@@ -218,21 +218,15 @@ function Ae({
           )
         ] }),
         /* @__PURE__ */ n.jsxs(P, { children: [
-          /* @__PURE__ */ n.jsx(v, { label: "Email", name: "email", disabled: I }),
+          /* @__PURE__ */ n.jsx(j, { label: "Email", name: "email", disabled: I }),
           /* @__PURE__ */ n.jsx(_, { children: "Enter a valid email address to receive a once off access token." }),
           l && !l.success && /* @__PURE__ */ n.jsx(V, { children: /* @__PURE__ */ n.jsx(k, { message: "Unexpected error when trying to request a token", children: l.message }) }),
           /* @__PURE__ */ n.jsx(Pe, {}),
-          s && !r && /* @__PURE__ */ n.jsx(k, { message: "Please accept Terms and Conditions to continue" }),
-          /* @__PURE__ */ n.jsx(Ee, {}),
-          /* @__PURE__ */ n.jsxs("div", { children: [
-            "Register for your free API security testing account to:",
-            /* @__PURE__ */ n.jsxs("ul", { children: [
-              /* @__PURE__ */ n.jsx("li", { children: "Audit your OpenAPI contracts for quality and conformance" }),
-              /* @__PURE__ */ n.jsx("li", { children: "Scan your APIs for conformance and security vulnerabilities" })
-            ] })
-          ] })
+          i && !r && /* @__PURE__ */ n.jsx(k, { message: "Please accept Terms and Conditions to continue" }),
+          /* @__PURE__ */ n.jsx(Ie, {}),
+          /* @__PURE__ */ n.jsx(Ee, {})
         ] }),
-        /* @__PURE__ */ n.jsx(E, { children: /* @__PURE__ */ n.jsx(we, {}) })
+        /* @__PURE__ */ n.jsx(E, { children: /* @__PURE__ */ n.jsx(Ae, {}) })
       ] })
     }
   );
@@ -243,7 +237,7 @@ function x({
   backToPrevForm: t
 }) {
   return /* @__PURE__ */ n.jsx(
-    Ie,
+    Ue,
     {
       href: "#",
       $disabled: o,
@@ -254,12 +248,12 @@ function x({
     }
   );
 }
-function we() {
-  const e = c(), { agreeToTermsAndConditions: o, waitingForAnondToken: t, complete: r } = d(
+function Ae() {
+  const e = d(), { agreeToTermsAndConditions: o, waitingForAnondToken: t, complete: r } = c(
     (a) => a.signup
-  ), s = h({ name: "email" }), {
+  ), i = g({ name: "email" }), {
     formState: { isValid: l }
-  } = A();
+  } = y();
   return /* @__PURE__ */ n.jsx(
     B,
     {
@@ -267,21 +261,21 @@ function we() {
       disabled: r || !l,
       waiting: t,
       onClick: (a) => {
-        e(o ? q(s) : xe(!0)), a.preventDefault(), a.stopPropagation();
+        e(o ? q(i) : xe(!0)), a.preventDefault(), a.stopPropagation();
       }
     }
   );
 }
-function ye({
+function we({
   data: e,
   backToPrevForm: o,
   backToPlatformSignup: t
 }) {
-  const r = c(), { complete: s } = d((a) => a.signup), l = w({
-    anondToken: g().min(1, { message: "This field has to be filled." })
+  const r = d(), { complete: i } = c((a) => a.signup), l = A({
+    anondToken: f().min(1, { message: "This field has to be filled." })
   });
   return /* @__PURE__ */ n.jsx(
-    y,
+    w,
     {
       data: e,
       saveData: (a) => r(me(a.anondToken)),
@@ -296,7 +290,7 @@ function ye({
             x,
             {
               text: "I have an existing account",
-              disabled: s,
+              disabled: i,
               backToPrevForm: t
             }
           )
@@ -309,12 +303,12 @@ function ye({
               x,
               {
                 text: "Resubmit email request",
-                disabled: s,
+                disabled: i,
                 backToPrevForm: o
               }
             )
           ] }),
-          /* @__PURE__ */ n.jsx(ie, { label: "Token", name: "anondToken", disabled: s }),
+          /* @__PURE__ */ n.jsx(se, { label: "Token", name: "anondToken", disabled: i }),
           /* @__PURE__ */ n.jsxs("div", { children: [
             "Audit and Scan usage allowances apply, upgrade",
             " ",
@@ -323,7 +317,7 @@ function ye({
               {
                 href: "#",
                 onClick: (a) => {
-                  a.preventDefault(), a.stopPropagation(), r(f("https://42crunch.com/single-user-pricing/"));
+                  a.preventDefault(), a.stopPropagation(), r(m("https://42crunch.com/single-user-pricing/"));
                 },
                 children: "options"
               }
@@ -339,7 +333,7 @@ function ye({
               {
                 href: "#",
                 onClick: (a) => {
-                  a.preventDefault(), a.stopPropagation(), r(f("https://developers.42crunch.com/"));
+                  a.preventDefault(), a.stopPropagation(), r(m("https://developers.42crunch.com/"));
                 },
                 children: "community"
               }
@@ -352,15 +346,15 @@ function ye({
   );
 }
 function be() {
-  const e = c(), { anondCredentials: o, complete: t } = d((l) => l.signup), r = h({ name: "anondToken" });
+  const e = d(), { anondCredentials: o, complete: t } = c((l) => l.signup), r = g({ name: "anondToken" });
   console.log("my token", r);
   const {
-    formState: { isValid: s }
-  } = A();
+    formState: { isValid: i }
+  } = y();
   return /* @__PURE__ */ n.jsx(
     Re,
     {
-      disabled: t || !s,
+      disabled: t || !i,
       onClick: (l) => {
         e(
           M({ email: o.email, anondToken: r.trim() })
@@ -374,15 +368,15 @@ function Fe({
   data: e,
   backToPrevForm: o
 }) {
-  const t = c(), { platformConnectionTestResult: r, complete: s } = d((a) => a.signup), l = w({
-    platformUrl: g().url().startsWith("https://"),
-    platformApiToken: g().regex(
+  const t = d(), { platformConnectionTestResult: r, complete: i } = c((a) => a.signup), l = A({
+    platformUrl: f().url().startsWith("https://"),
+    platformApiToken: f().regex(
       /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       "Token is invalid"
     )
   });
   return /* @__PURE__ */ n.jsx(
-    y,
+    w,
     {
       data: e,
       saveData: (a) => t(he(a)),
@@ -393,12 +387,12 @@ function Fe({
       children: /* @__PURE__ */ n.jsxs(S, { children: [
         /* @__PURE__ */ n.jsxs(b, { children: [
           /* @__PURE__ */ n.jsx(F, { children: "Sign in" }),
-          /* @__PURE__ */ n.jsx(x, { text: "Register", disabled: s, backToPrevForm: o })
+          /* @__PURE__ */ n.jsx(x, { text: "Register", disabled: i, backToPrevForm: o })
         ] }),
         /* @__PURE__ */ n.jsxs(P, { children: [
           /* @__PURE__ */ n.jsx(_, { children: "If you are an existing Teams or Enterprise customer, activate your account here." }),
-          /* @__PURE__ */ n.jsx(v, { label: "Platform URL", name: "platformUrl", disabled: s }),
-          /* @__PURE__ */ n.jsx(v, { label: "IDE token", name: "platformApiToken", disabled: s, password: !0 }),
+          /* @__PURE__ */ n.jsx(j, { label: "Platform URL", name: "platformUrl", disabled: i }),
+          /* @__PURE__ */ n.jsx(j, { label: "IDE token", name: "platformApiToken", disabled: i, password: !0 }),
           r && /* @__PURE__ */ n.jsx(V, { children: /* @__PURE__ */ n.jsx(k, { message: "Failed to connect", children: r.error }) })
         ] }),
         /* @__PURE__ */ n.jsx(E, { children: /* @__PURE__ */ n.jsx(Se, {}) })
@@ -407,9 +401,9 @@ function Fe({
   );
 }
 function Se() {
-  const e = c(), { waitingForPlatformConnectionTest: o, complete: t } = d((a) => a.signup), r = h({ name: "platformUrl" }), s = h({ name: "platformApiToken" }), {
+  const e = d(), { waitingForPlatformConnectionTest: o, complete: t } = c((a) => a.signup), r = g({ name: "platformUrl" }), i = g({ name: "platformApiToken" }), {
     formState: { isValid: l }
-  } = A();
+  } = y();
   return /* @__PURE__ */ n.jsx(
     B,
     {
@@ -417,13 +411,13 @@ function Se() {
       disabled: t || !l,
       waiting: o,
       onClick: (a) => {
-        e(O({ platformUrl: r, platformApiToken: s })), a.preventDefault(), a.stopPropagation();
+        e($({ platformUrl: r, platformApiToken: i })), a.preventDefault(), a.stopPropagation();
       }
     }
   );
 }
 function Pe() {
-  const e = c(), { agreeToTermsAndConditions: o } = d((t) => t.signup);
+  const e = d(), { agreeToTermsAndConditions: o } = c((t) => t.signup);
   return /* @__PURE__ */ n.jsx(W, { children: /* @__PURE__ */ n.jsx(
     D,
     {
@@ -439,18 +433,36 @@ function Pe() {
           {
             href: "#",
             onClick: (t) => {
-              t.preventDefault(), t.stopPropagation(), e(f("https://42crunch.com/websales-customer-agreement"));
+              t.preventDefault(), t.stopPropagation(), e(m("https://42crunch.com/freemium-terms-and-conditions/"));
             },
             children: "terms & conditions"
           }
-        )
+        ),
+        ". 42Crunch will send you important freemium service notifications by email. You may unsubscribe at any time."
       ] }),
       size: "medium"
     }
   ) });
 }
 function Ee() {
-  const e = c(), { agreeToEmailOptIn: o } = d((t) => t.signup);
+  const e = d();
+  return /* @__PURE__ */ n.jsxs("div", { children: [
+    "42Crunch is committed to protecting and respecting your privacy.",
+    " ",
+    /* @__PURE__ */ n.jsx(
+      "a",
+      {
+        href: "#",
+        onClick: (o) => {
+          o.preventDefault(), o.stopPropagation(), e(m("https://42crunch.com/privacy-policy/"));
+        },
+        children: "Privacy Policy"
+      }
+    )
+  ] });
+}
+function Ie() {
+  const e = d(), { agreeToEmailOptIn: o } = c((t) => t.signup);
   return /* @__PURE__ */ n.jsx(W, { children: /* @__PURE__ */ n.jsx(
     D,
     {
@@ -463,7 +475,7 @@ function Ee() {
     }
   ) });
 }
-const b = i.div`
+const b = s.div`
   // border-bottom-color: var(${T.border});
   // border-bottom-width: 1px;
   // border-bottom-style: solid;
@@ -473,30 +485,30 @@ const b = i.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-`, F = i.p`
+`, F = s.p`
   margin: 0;
   font-size: 25px;
   line-height: 40px;
   font-weight: 600;
-`, _ = i.div`
+`, _ = s.div`
   font-weight: normal;
-`, S = i.div`
+`, S = s.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-`, P = i.div`
+`, P = s.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-width: 560px;
   height: 250px;
   padding: 16px;
-`, Ie = i.a`
+`, Ue = s.a`
   text-decoration: none;
   ${({ $disabled: e }) => e && "opacity: 0.4;"}
   ${({ $disabled: e }) => e && "cursor: default;"}
   ${({ $disabled: e }) => e && "pointer-events: none;"}
-`, E = i.div`
+`, E = s.div`
   display: flex;
   gap: 16px;
   align-items: stretch;
@@ -507,77 +519,77 @@ const b = i.div`
     height: 45px;
     border-radius: 2px;
   }
-`, V = i.div`
+`, V = s.div`
   > div {
     max-width: 410px;
     word-wrap: break-word;
     overflow-y: auto;
     max-height: 50px;
   }
-`, W = i.div`
+`, W = s.div`
   display: flex;
   gap: 5px;
   align-items: center;
-`, Re = i(ne)`
+`, Re = s(ne)`
   &:disabled {
     opacity: 0.4;
   }
 `;
-function Ue() {
-  const { currentFormId: e } = d((o) => o.signup);
-  return /* @__PURE__ */ n.jsx(De, { children: /* @__PURE__ */ n.jsxs(qe, { children: [
-    /* @__PURE__ */ n.jsx(Me, { children: /* @__PURE__ */ n.jsx(le, {}) }),
-    e === "AnondSignUpEmailForm" && /* @__PURE__ */ n.jsx(u, { children: "Register to check your API for quality, conformance and security vulnerabilities, including BOLA, BFLA & BOPLA" }),
-    e === "AnondSignUpTokenForm" && /* @__PURE__ */ n.jsx(n.Fragment, { children: /* @__PURE__ */ n.jsx(u, { children: "#1 API Security testing tools for your IDE, CICD and SaaS environments" }) }),
+function Be() {
+  const { currentFormId: e } = c((o) => o.signup);
+  return /* @__PURE__ */ n.jsx(Le, { children: /* @__PURE__ */ n.jsxs(Me, { children: [
+    /* @__PURE__ */ n.jsx($e, { children: /* @__PURE__ */ n.jsx(le, {}) }),
+    e === "AnondSignUpEmailForm" && /* @__PURE__ */ n.jsx(h, { children: "Check your API for quality, conformance and security vulnerabilities, including BOLA, BFLA & BOPLA" }),
+    e === "AnondSignUpTokenForm" && /* @__PURE__ */ n.jsx(n.Fragment, { children: /* @__PURE__ */ n.jsx(h, { children: "#1 API Security testing tools for your IDE, CICD and SaaS environments" }) }),
     e === "PlatformSignUpForm" && /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-      /* @__PURE__ */ n.jsx(u, { children: "API Capture" }),
-      /* @__PURE__ */ n.jsx(U, { children: "Automatically generate OpenAPI definition files." }),
-      /* @__PURE__ */ n.jsx(u, { children: "API Protect" }),
-      /* @__PURE__ */ n.jsx(U, { children: "Immediately protect APIs at runtime." })
+      /* @__PURE__ */ n.jsx(h, { children: "API Capture" }),
+      /* @__PURE__ */ n.jsx(R, { children: "Automatically generate OpenAPI definition files." }),
+      /* @__PURE__ */ n.jsx(h, { children: "API Protect" }),
+      /* @__PURE__ */ n.jsx(R, { children: "Immediately protect APIs at runtime." })
     ] })
   ] }) });
 }
-function Be() {
-  const e = c(), { platformCredentials: o, anondCredentials: t, currentFormId: r } = d(
-    (s) => s.signup
+function De() {
+  const e = d(), { platformCredentials: o, anondCredentials: t, currentFormId: r } = c(
+    (i) => i.signup
   );
-  return /* @__PURE__ */ n.jsx(z, { children: /* @__PURE__ */ n.jsxs(Le, { children: [
+  return /* @__PURE__ */ n.jsx(z, { children: /* @__PURE__ */ n.jsxs(qe, { children: [
     r === "PlatformSignUpForm" && /* @__PURE__ */ n.jsx(
       Fe,
       {
         data: o,
-        backToPrevForm: () => e(j("AnondSignUpEmailForm"))
+        backToPrevForm: () => e(v("AnondSignUpEmailForm"))
       }
     ),
     r === "AnondSignUpEmailForm" && /* @__PURE__ */ n.jsx(
-      Ae,
+      ye,
       {
         data: { email: t.email },
-        backToPrevForm: () => e(j("PlatformSignUpForm"))
+        backToPrevForm: () => e(v("PlatformSignUpForm"))
       }
     ),
     r === "AnondSignUpTokenForm" && /* @__PURE__ */ n.jsx(
-      ye,
+      we,
       {
         data: { anondToken: t.anondToken },
         backToPrevForm: () => {
-          e(R());
+          e(U());
         },
         backToPlatformSignup: () => {
-          e(R()), e(j("PlatformSignUpForm"));
+          e(U()), e(v("PlatformSignUpForm"));
         }
       }
     )
   ] }) });
 }
-const z = i.div`
+const z = s.div`
   display: flex;
   align-items: center;
   width: 50%;
   background-color: var(${T.computedOne});
-`, De = i(z)`
+`, Le = s(z)`
   background-color: var(${T.computedTwo});
-`, Le = i.div`
+`, qe = s.div`
   margin-right: auto;
   margin-left: auto;
   margin-top: auto;
@@ -589,23 +601,23 @@ const z = i.div`
   // border-color: var(${T.border});
   // border-width: 2px;
   // border-style: solid;
-`, qe = i.div`
+`, Me = s.div`
   margin: auto;
   width: 70%;
   min-height: 430px;
-`, Me = i.div`
+`, $e = s.div`
   margin-bottom: 30px;
   > svg {
     width: 60px;
     height: 60px;
   }
-`, u = i.p`
+`, h = s.p`
   font-size: 42px;
   line-height: 54px;
   font-weight: 700;
   margin-top: 10px;
   margin-bottom: 10px;
-`, U = i.p`
+`, R = s.p`
   font-size: 26px;
   line-height: 36px;
   font-weight: 600;
@@ -615,15 +627,15 @@ function Oe(e, o) {
   oe(document.getElementById("root")).render(
     /* @__PURE__ */ n.jsx(te.StrictMode, { children: /* @__PURE__ */ n.jsxs(re, { store: t, children: [
       /* @__PURE__ */ n.jsx(ae, {}),
-      /* @__PURE__ */ n.jsxs($e, { children: [
-        /* @__PURE__ */ n.jsx(Be, {}),
-        /* @__PURE__ */ n.jsx(Ue, {})
+      /* @__PURE__ */ n.jsxs(_e, { children: [
+        /* @__PURE__ */ n.jsx(De, {}),
+        /* @__PURE__ */ n.jsx(Be, {})
       ] })
     ] }) })
-  ), window.addEventListener("message", se(t, ve));
+  ), window.addEventListener("message", ie(t, je));
 }
 window.renderWebView = Oe;
-const $e = i.div`
+const _e = s.div`
   display: flex;
   position: absolute;
   height: 100%;
