@@ -103,11 +103,11 @@ public class DataFormat {
         this.writeOnly = getBooleanProperty(node,"writeOnly");
         this.nullable = getBooleanProperty(node,"nullable");
         // Additional details
-        this.sensitivity = getStringProperty(node, "sensitivity", DEFAULT_STRING);
+        this.sensitivity = String.valueOf(getIntegerProperty(node, "sensitivity", DEFAULT_INTEGER));
         this.pii = getStringProperty(node, "pii", DEFAULT_STRING);
         this.objectIdentifier = getStringProperty(node, "objectIdentifier", DEFAULT_STRING);
         // Hidden properties
-        this.lastUpdate = getStringProperty(node,"lastUpdate", DEFAULT_STRING);
+        this.lastUpdate = String.valueOf(getIntegerProperty(node,"lastUpdate", DEFAULT_INTEGER));
         this.lastChangeBy = getStringProperty(node,"lastChangeBy", DEFAULT_STRING);
     }
 

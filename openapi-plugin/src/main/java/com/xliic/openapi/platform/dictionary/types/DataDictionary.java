@@ -34,6 +34,7 @@ public class DataDictionary extends SuccessASTResponseCallback implements Compar
                           @NotNull AtomicInteger counter,
                           @NotNull DictionaryReloadCallback callback) {
         super(project);
+        setDoNotIgnoreOffsets();
         this.id = id;
         this.name = name;
         this.description = description;

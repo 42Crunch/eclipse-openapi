@@ -7,6 +7,8 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.utils.Utils;
 
 public abstract class SuccessASTResponseCallback extends SuccessBodyResponseCallback {
+	
+	private boolean ignoreOffsets = true;
 
     public SuccessASTResponseCallback(@NotNull Project project) {
         super(project);
@@ -20,11 +22,15 @@ public abstract class SuccessASTResponseCallback extends SuccessBodyResponseCall
 
     @Override
     public void onCode200WithBodyTextResponse(@NotNull String text) {
-        Node node = Utils.getJsonAST(text);
+        Node node = Utils.getJsonAST(text, ignoreOffsets);
         if (node != null) {
             onCode200ASTResponse(node);
         } else {
             onFailure("Response text is not JSON");
         }
+    }
+    
+    protected void setDoNotIgnoreOffsets() {
+        this.ignoreOffsets = false;
     }
 }
