@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.xliic.openapi</groupId>
 	<artifactId>openapi-parent</artifactId>
-	<version>1.0.86</version>
+	<version>1.0.87</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -23,13 +23,13 @@
 
 		<repository>
 			<id>Equo-Middleware-Enterprise-Edition</id>
-			<url>https://dl.equo.dev/middleware/1.2/repo</url>
+			<url>https://dl.equo.dev/middleware/1.4/repo</url>
 			<layout>p2</layout>
 		</repository>
 
 		<repository>
 			<id>Equo-Comm-Enterprise-Edition</id>
-			<url>https://dl.equo.dev/comm/1.6/repo</url>
+			<url>https://dl.equo.dev/comm/1.7/repo</url>
 			<layout>p2</layout>
 		</repository>
 
@@ -42,18 +42,18 @@
 		<repository>
             <id>Equo-Chromium SWT</id>
             <layout>p2</layout>
-  			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/swt/116.0.25/repository</url>
+  			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/swt/128.0.10/repository</url>
 		</repository> 
 
 		<repository>
 			<id>Equo-Chromium CEF</id>
             <layout>p2</layout>
-            <url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/116.0.20/repository</url>
+            <url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/128.0.10/repository</url>
         </repository>
 
 		<repository>
 			<id>Equo-Chromium CEF (ARM)</id>
-			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/116.0.20-arm/repository</url>
+			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/128.0.10-arm/repository</url>
 			<layout>p2</layout>
 		</repository>
 
