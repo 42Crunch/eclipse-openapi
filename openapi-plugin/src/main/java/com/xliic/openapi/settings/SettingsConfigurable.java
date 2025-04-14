@@ -39,11 +39,13 @@ import com.xliic.openapi.settings.Settings.InlinedAnnotations;
 import com.xliic.openapi.settings.Settings.Outline;
 import com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit;
 import com.xliic.openapi.settings.Settings.Preview;
+import com.xliic.openapi.settings.Settings.SnakeYamlSettings;
 import com.xliic.openapi.settings.Settings.TryIt;
 import com.xliic.openapi.settings.items.Item;
 import com.xliic.openapi.settings.items.ItemCheckBox;
 import com.xliic.openapi.settings.items.ItemComboBox;
 import com.xliic.openapi.settings.items.ItemHostsTable;
+import com.xliic.openapi.settings.items.ItemIntegerField;
 import com.xliic.openapi.settings.items.ItemPort;
 import com.xliic.openapi.settings.items.ItemTextArea;
 import com.xliic.openapi.settings.table.ApprovedHostsEditor;
@@ -86,7 +88,9 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
     private JPanel auditTokenPanel;
     private JTextArea auditTokenTextArea;
     private JButton auditTokenCleanButton;
-
+    private JPanel parserSettingsPanel;
+    private JTextField codePointLimitTextField;
+    
     private final List<Item> items = new LinkedList<>();
 
     public SettingsConfigurable() {
@@ -111,6 +115,11 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         infoIco.setImage(CONFIG_IMG);
         Label info = new Label(platformPanel.getComposite(), SWT.NULL);
         info.setText("Settings can be configured in Tools / OpenAPI (Swagger) Editor / Configure Settings...");
+        
+        parserSettingsPanel = new JPanel("Snake YAML Settings", parent, SWT.NONE, 2);
+        codePointLimitTextField = new JTextField(parserSettingsPanel);
+        // Parser default value is 3MB, increase min value up to 20MB
+        items.add(new ItemIntegerField(codePointLimitTextField, SnakeYamlSettings.CODE_POINT_LIMIT, 20, 2047));
 
         dictPanel = new JPanel("Data Dictionary", parent, SWT.NONE, 2);
         new Label(dictPanel.getComposite(), SWT.NULL).setText("Update document to match Data Dictionary definitions before runing Security Audit");

@@ -33,6 +33,7 @@ import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.refs.external.ExtRef;
 import com.xliic.openapi.refs.external.ExtRefService;
+import com.xliic.openapi.settings.SettingsService;
 
 public class BundleResult {
 
@@ -118,7 +119,9 @@ public class BundleResult {
             }
         };
 
-        Parser parser = new Parser(workspace);
+        Parser.Options options = new Parser.Options();
+        options.setMaxYamlCodepoints(SettingsService.getInstance().getCodePointLimit());
+        Parser parser = new Parser(workspace, options);
         Serializer serializer = new BundleSerializer();
         Bundler bundler;
         Document document;

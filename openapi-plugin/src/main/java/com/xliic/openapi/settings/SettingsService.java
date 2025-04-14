@@ -18,6 +18,7 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.HEADER;
 import static com.xliic.openapi.settings.Settings.TryIt.INSECURE_SSL_HOSTNAMES;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
+import static com.xliic.openapi.settings.Settings.SnakeYamlSettings.CODE_POINT_LIMIT;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -246,6 +247,12 @@ public class SettingsService implements ISettingsService, Disposable  {
 
     public @NotNull List<String> getKeys() {
         return Collections.unmodifiableList(keys);
+    }
+    
+    public int getCodePointLimit() {
+        final int value = getIntValue(CODE_POINT_LIMIT, "20");
+        // Value in MB, return bytes
+        return value * 1024 * 1024;
     }
 
     private CredentialAttributes getCredentialAttrs(@NotNull String key) {

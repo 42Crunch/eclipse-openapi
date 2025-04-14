@@ -32,6 +32,7 @@ public class FixManagerCombined extends FixManager {
     private final List<QuickFix> quickFixes;
     private final Map<QuickFix, Issue> fixToIssueMap;
 
+    // Do not set a code point limit, since fixes typically have a small size
     private static final Dump dump = new Dump(DumpSettings.builder().build());
     private static final Load load = new Load(LoadSettings.builder().build());
 

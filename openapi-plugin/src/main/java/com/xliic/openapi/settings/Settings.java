@@ -190,7 +190,16 @@ public class Settings {
         	DEFAULTS.put(ENABLE_FLAG, true);
         }
     }
-    
+
+    public static class SnakeYamlSettings {
+
+        public static final String CODE_POINT_LIMIT = "com.xliic.openapi.settings.snake.yaml.settings.code.point.limit";
+
+        static {
+            DEFAULTS.put(CODE_POINT_LIMIT, "20");
+        }
+    }
+
     public static class Internal {
 
         public static final String INTERNAL_FEATURES = "com.xliic.openapi.settings.internal.features";
