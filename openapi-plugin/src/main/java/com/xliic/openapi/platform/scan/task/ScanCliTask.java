@@ -62,7 +62,7 @@ public class ScanCliTask extends Task.Backgroundable {
     		           @NotNull ScanRunConfig runConfig, 
     		           @NotNull ScanRunTask.Callback callback, 
     		           boolean isFullScan) {
-        super(project, "Running Conformance Scan using 42c-ast binary", false);
+        super(project, "Running conformance scan using 42Crunch API security testing binary", false);
         this.project = project;
         this.runConfig = runConfig;
         this.callback = callback;
@@ -81,21 +81,40 @@ public class ScanCliTask extends Task.Backgroundable {
         }
         try {
             scanTmpDir = createTempDirectory(project, "scan");
-            VirtualFile tmpFile = writeFile(project, scanTmpDir, "openapi.json", runConfig.getRawOas());
-            VirtualFile tmpFile2 = writeFile(project, scanTmpDir, "scanconf.json", runConfig.getConfig());
+            writeFile(project, scanTmpDir, "openapi.json", runConfig.getRawOas());
+            writeFile(project, scanTmpDir, "scanconf.json", runConfig.getConfig());
             log(progress, "Wrote scan configuration to: " + scanTmpDir.getPath());
             String cli = CliUtils.getCli();
             log(progress, "Running scan using: " + cli);
             String outputPath = Paths.get(scanTmpDir.getPath(), "report.json").toString();
+
+            // First, validate the scanconf against the OpenAPI
+            List<String> validateArgs = new LinkedList<>(Arrays.asList(
+                "scan", "conf", "validate", "openapi.json", "--conf-file", "scanconf.json"
+            ));
+            String validateOutput = ExecUtils.asyncExecFile(cli, validateArgs, scanTmpDir, env);
+            Node validateReport = Utils.getJsonAST(validateOutput);
+            if (validateReport != null) {
+                Node errors = validateReport.find("/report/errors");
+                if (errors != null) {
+                    logger.log("error", "Scan configuration has failed validation");
+                    for (Node error : errors.getChildren()) {
+                        logger.log("error", error.getValue());
+                    }
+                    logger.log("error", "Please fix the scan configuration and try again");
+                    callback.cancel();
+                    return;
+                }
+            }
             try {
             	List<String> args = new LinkedList<>(Arrays.asList(
                     "scan",
                     "run",
-                    tmpFile.getPath(),
+                    "openapi.json",
                     "--conf-file",
-                    tmpFile2.getPath(),
+                    "scanconf.json",
                     "--output",
-                    outputPath,
+                    "report.json",
                     "--output-format",
                     "json",
                     "--verbose",
