@@ -172,6 +172,13 @@ public final class ScanConfService implements IScanConfService, Disposable {
                 }
                 Logger.getInstance(ScanConfService.class).error(e);
             }
+            @Override
+            public void cancel() {
+                inProgress = false;
+                if (turnedOff) {
+                    turnOnVcsShowConfirmation(project);
+                }
+            }
         };
         if (FileUtils.exists(scanConfPath)) {
             String oas = bundle.getJsonText();

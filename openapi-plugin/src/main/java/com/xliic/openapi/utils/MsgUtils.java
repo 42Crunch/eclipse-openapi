@@ -16,7 +16,20 @@ public class MsgUtils {
     private static final String GROUP_ID = "OpenAPI Editor general notifications";
     private static final String LIMIT_NOTIFICATIONS = "OpenAPI Editor limit left";
     private static final String UPGRADE_TEXT = "Upgrade";
-    
+
+    public static void offerUpgrade(@NotNull Project project, boolean isFull) {
+        final String message = isFull
+                ? "You have insufficient operations allowance left this month to run a full Audit or Scan. " +
+                "As an alternative you can run single-operation ones, upgrade to increase your allowance or wait until the monthly allowance resets."
+                : "Thank you for using the 42Crunch API Security Testing services. You have reached the limit of your monthly Freemium allowance. " +
+                "You have the option to wait until your free monthly allowance resets or upgrade your 42Crunch subscription.";
+        final int rc = Messages.showOkCancelDialog(project, message, "View Subscription",
+                "Upgrade", "Cancel", Messages.getQuestionIcon());
+        if (rc == Messages.OK) {
+            ConfigService.getInstance(project).createAndOpenConfigWindow();
+        }
+    }
+
     public static void notifyAuditsLimit(@NotNull Project project, long left) {
         String msg = "You have " + left + " per-operation Security Audits left this month. " +
                 "Your usage allowance resets every month. Upgrade to increase allowances.";

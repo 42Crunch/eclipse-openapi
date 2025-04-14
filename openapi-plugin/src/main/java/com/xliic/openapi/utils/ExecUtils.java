@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.parser.ast.node.Node;
 
 public class ExecUtils {
 
@@ -69,6 +70,15 @@ public class ExecUtils {
         @Override
         public String getMessage() {
             return toString();
+        }
+
+        public boolean isLimitsReached() {
+            Node out = Utils.getJsonAST(stdOut);
+            if (out != null) {
+                String value = out.getChildValue("statusMessage");
+                return "limits_reached".equals(value);
+            }
+            return false;
         }
     }
 

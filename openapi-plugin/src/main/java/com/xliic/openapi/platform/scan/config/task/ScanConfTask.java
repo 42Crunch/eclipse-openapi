@@ -20,6 +20,7 @@ public abstract class ScanConfTask extends Task.Backgroundable {
     public interface Callback {
         void setDone(@NotNull String oas, @NotNull String config, boolean configCreated);
         void setRejected(@NotNull Exception ex);
+        void cancel();
     }
 
     public ScanConfTask(@NotNull Project project,

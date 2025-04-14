@@ -99,4 +99,13 @@ public class AuditCliResult {
         }
         return Long.MAX_VALUE;
     }
+    
+    public boolean isLimitsReached() {
+        Node out = Utils.getJsonAST(stdOut);
+        if (out != null) {
+            String value = out.getChildValue("statusMessage");
+            return "limits_reached".equals(value);
+        }
+        return false;
+    }
 }

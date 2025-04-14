@@ -18,6 +18,7 @@ import java.util.HashSet;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
@@ -29,6 +30,7 @@ import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
+import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class ScanCliConfTask extends ScanConfTask {
@@ -58,8 +60,11 @@ public class ScanCliConfTask extends ScanConfTask {
             if (useAuditWithCli) {
                 AuditCliResult result = CliUtils.runAuditWithCliBinary(project, oas, new HashSet<>(0), true, progress);
                 if (result.hasError()) {
-                    if (result.getStatusCode() == 3 && "limits_reached".equals(result.getStdOut())) {
-                        ScanConfigUtils.offerUpgrade(project);
+                    if (result.getStatusCode() == 3 && result.isLimitsReached()) {
+                        ApplicationManager.getApplication().invokeAndWait(() -> {
+                            MsgUtils.offerUpgrade(project, true);
+                            callback.cancel();
+                        });
                     } else {
                         throw new Exception("Unexpected error running API Security Testing Binary Audit: " + result);
                     }

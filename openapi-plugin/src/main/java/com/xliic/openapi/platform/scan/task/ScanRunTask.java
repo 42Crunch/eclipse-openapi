@@ -45,6 +45,7 @@ public abstract class ScanRunTask extends Task.Backgroundable {
     public interface Callback {
         void setDone(@NotNull String scanConfPath, @NotNull ScanReport report);
         void setRejected(@NotNull Exception ex);
+        void cancel();
     }
 
     public ScanRunTask(@NotNull Project project, @NotNull String tabId, @NotNull ScanRunConfig runConfig, @NotNull Callback callback) {

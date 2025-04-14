@@ -98,6 +98,7 @@ public final class AuditService implements IAuditService, Disposable {
     public interface Callback {
         void complete(@NotNull Node report, @Nullable AuditCompliance compliance, @Nullable AuditToDoReport todoReport);
         void reject(@NotNull String error);
+        void cancel();
     }
 
     @SuppressWarnings("serial")
@@ -426,6 +427,12 @@ public final class AuditService implements IAuditService, Disposable {
                 ApplicationManager.getApplication().invokeLater(() ->
                         project.getMessageBus().syncPublisher(AuditListener.TOPIC).cancelAudit());
                 MsgUtils.notifyError(project, error);
+            }
+            @Override
+            public void cancel() {
+                pendingAudits.remove(file.getPath());
+                ApplicationManager.getApplication().invokeLater(() ->
+                        project.getMessageBus().syncPublisher(AuditListener.TOPIC).cancelAudit());
             }
         };
         boolean isFullAudit = payload == null || payload.isFull();

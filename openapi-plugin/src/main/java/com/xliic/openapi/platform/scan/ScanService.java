@@ -87,6 +87,10 @@ public final class ScanService implements IScanService, Disposable {
                     showGeneralError(tabId, e.getMessage(), null, null);
                 }
             }
+            @Override
+            public void cancel() {
+                inProgress = false;
+            }
         };       
         Credentials.Type type = Credentials.getCredentialsType();
         WindowUtils.openWebTab(project, SCAN_EDITOR_ID, tabId, file.getPath(), () -> {

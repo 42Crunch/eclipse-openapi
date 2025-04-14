@@ -19,12 +19,10 @@ import org.jetbrains.annotations.Nullable;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import com.xliic.core.ide.BrowserUtil;
 import com.xliic.core.module.Module;
 import com.xliic.core.module.ModuleManager;
 import com.xliic.core.module.ModuleRootManager;
 import com.xliic.core.project.Project;
-import com.xliic.core.ui.Messages;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
@@ -36,9 +34,6 @@ import com.xliic.openapi.utils.Utils;
 public class ScanConfigUtils {
 
     private static final int MAX_ALIAS_LENGTH = 32;
-    private static final String CONFIRM_MSG = "Thank you for using the 42Crunch API Security Testing services. "
-    		+ "You have reached the limit of your monthly Freemium allowance. "
-    		+ "You have the option to wait until your free monthly allowance resets or upgrade your 42Crunch subscription.";
 
     @NotNull
     public static String getScanTitle(@NotNull BundleResult bundle) {
@@ -60,14 +55,6 @@ public class ScanConfigUtils {
             return "unknown";
         }
         return filePath.substring(start + ".42c".length() + "scan".length() + 2, end - 1);
-    }
-
-    public static void offerUpgrade(@NotNull Project project) {
-        final int rc = Messages.showOkCancelDialog(project, CONFIRM_MSG, "Upgrade",
-                "Upgrade", "Cancel", Messages.getQuestionIcon());
-        if (rc == Messages.OK) {
-            BrowserUtil.browse("https://42crunch.com/github-upgrade/");
-        }
     }
     
     @NotNull

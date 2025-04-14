@@ -21,6 +21,7 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -33,12 +34,12 @@ import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
 import com.xliic.openapi.platform.scan.ScanLogger;
-import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.platform.scan.config.ScanRunConfig;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
+import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 
@@ -143,8 +144,11 @@ public class ScanCliTask extends Task.Backgroundable {
                     }
                 }
             } catch (ExecUtils.ExecException ex) {
-                if (ex.getCode() == 3 && "limits_reached".equals(ex.getStdOut())) {
-                    ScanConfigUtils.offerUpgrade(project);
+                if (ex.getCode() == 3 && ex.isLimitsReached()) {
+                    ApplicationManager.getApplication().invokeAndWait(() -> {
+                        MsgUtils.offerUpgrade(project, isFullScan);
+                        callback.cancel();
+                    });
                 } else {
                     throw new Exception("Unexpected error running Conformance Scan: " + ex);
                 }

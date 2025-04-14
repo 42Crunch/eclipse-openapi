@@ -12,6 +12,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -19,7 +20,6 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.cli.CliUtils;
 import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.report.types.AuditCompliance;
@@ -30,6 +30,7 @@ import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tags.TagsUtils;
+import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class AuditCliTask extends Task.Backgroundable {
@@ -92,8 +93,11 @@ public class AuditCliTask extends Task.Backgroundable {
             Set<String> tags = (type == Credentials.Type.AnondToken) ? new HashSet<>(0) : TagsUtils.getTags(project, file.getPath());
             AuditCliResult result = CliUtils.runAuditWithCliBinary(project, text, tags, isFullAudit, progress);
             if (result.hasError()) {
-                if (result.getStatusCode() == 3 && "limits_reached".equals(result.getStdOut())) {
-                    ScanConfigUtils.offerUpgrade(project);
+                if (result.getStatusCode() == 3 && result.isLimitsReached()) {
+                    ApplicationManager.getApplication().invokeAndWait(() -> {
+                        MsgUtils.offerUpgrade(project, isFullAudit);
+                        callback.cancel();
+                    });
                 } else {
                     callback.reject("Unexpected error running API Security Testing Binary Audit: " + result);
                 }
