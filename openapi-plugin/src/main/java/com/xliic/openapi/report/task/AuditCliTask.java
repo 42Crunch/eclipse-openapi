@@ -4,6 +4,7 @@ import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT_CLI
 import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
 import static com.xliic.openapi.utils.MsgUtils.notifyAuditsLimit;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +26,7 @@ import com.xliic.openapi.report.types.AuditCompliance;
 import com.xliic.openapi.report.types.AuditToDoReport;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tags.TagsUtils;
@@ -38,23 +40,33 @@ public class AuditCliTask extends Task.Backgroundable {
     @NotNull
     private final Project project;
     @NotNull
+    private final Credentials.Type type;
+    @NotNull
     private final VirtualFile file;
     @Nullable
     private final AuditOperation operation;
     @NotNull
     private final AuditService.Callback callback;
 
-    public AuditCliTask(@NotNull Project project, @NotNull VirtualFile file, @NotNull AuditService.Callback callback) {
+    public AuditCliTask(@NotNull Project project, 
+                        @NotNull Credentials.Type type, 
+                        @NotNull VirtualFile file, 
+                        @NotNull AuditService.Callback callback) {
         super(project, RUNNING_SECURITY_AUDIT_CLI, false);
         this.project = project;
+        this.type = type;
         this.file = file;
         operation = null;
         this.callback = callback;
     }
 
-    public AuditCliTask(@NotNull Project project, @NotNull AuditOperation operation, @NotNull AuditService.Callback callback) {
+    public AuditCliTask(@NotNull Project project, 
+                        @NotNull Credentials.Type type, 
+                        @NotNull AuditOperation operation,
+                        @NotNull AuditService.Callback callback) {
         super(project, RUNNING_SECURITY_AUDIT_CLI, false);
         this.project = project;
+        this.type = type;
         this.file = operation.getPsiFile().getVirtualFile();
         this.operation = operation;
         this.callback = callback;
@@ -77,7 +89,7 @@ public class AuditCliTask extends Task.Backgroundable {
                 callback.reject("Security audit token is not set");
                 return;
             }
-            Set<String> tags = TagsUtils.getTags(project, file.getPath());
+            Set<String> tags = (type == Credentials.Type.AnondToken) ? new HashSet<>(0) : TagsUtils.getTags(project, file.getPath());
             AuditCliResult result = CliUtils.runAuditWithCliBinary(project, text, tags, isFullAudit, progress);
             if (result.hasError()) {
                 if (result.getStatusCode() == 3 && "limits_reached".equals(result.getStdOut())) {

@@ -434,7 +434,8 @@ public final class AuditService implements IAuditService, Disposable {
             CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
                 @Override
                 public void complete(@NotNull String cliPath) {
-                    startAuditTask(file, isFullAudit ? new AuditCliTask(project, file, callback) : new AuditCliTask(project, payload, callback));
+                    startAuditTask(file, isFullAudit ? 
+                        new AuditCliTask(project, type, file, callback) : new AuditCliTask(project, type, payload, callback));
                 }
                 @Override
                 public void reject(@NotNull String error) {
@@ -449,9 +450,11 @@ public final class AuditService implements IAuditService, Disposable {
         } else if (type == Credentials.Type.ApiToken) {
             String auditRuntime = SettingsService.getInstance().getValue(Settings.Audit.AUDIT_RUNTIME);
             if (Objects.equals(auditRuntime, AUDIT_RUNTIME_CLI)) {
-                startAuditTask(file, isFullAudit ? new AuditCliTask(project, file, callback) : new AuditCliTask(project, payload, callback));
+                startAuditTask(file, isFullAudit ? 
+                    new AuditCliTask(project, type, file, callback) : new AuditCliTask(project, type, payload, callback));
             } else {
-                startAuditTask(file, isFullAudit ? new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
+                startAuditTask(file, isFullAudit ? 
+                    new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
             }
         }
     }
