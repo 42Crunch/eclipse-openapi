@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.xliic.openapi.parser.ast.node.JsonNode;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.quickfix.schema.SchemaUtils;
-import junit.framework.TestCase;
+import com.xliic.openapi.MockTestCase;
 
 import java.math.BigInteger;
 import java.io.FileNotFoundException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import static com.xliic.openapi.TestUtils.*;
 import static com.xliic.openapi.quickfix.schema.SchemaGenerator.generateSchema;
 
-public class SchemaUtilsTest extends TestCase {
+public class SchemaUtilsTest extends MockTestCase {
 
     public void testGenerateSchema1() throws FileNotFoundException {
 

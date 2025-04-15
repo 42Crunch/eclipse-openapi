@@ -2,14 +2,14 @@ package com.xliic.openapi.parser.ast;
 
 import com.xliic.openapi.parser.ast.node.JsonNode;
 import com.xliic.openapi.parser.ast.node.Node;
-import junit.framework.TestCase;
+import com.xliic.openapi.MockTestCase;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 
 import static com.xliic.openapi.TestUtils.*;
 
-public class JsonNodeTest extends TestCase {
+public class JsonNodeTest extends MockTestCase {
 
     public void testFindJsonTopLevelNode() throws FileNotFoundException {
 

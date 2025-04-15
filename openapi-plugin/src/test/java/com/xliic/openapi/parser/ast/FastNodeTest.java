@@ -2,7 +2,7 @@ package com.xliic.openapi.parser.ast;
 
 import com.xliic.openapi.parser.ast.node.FastNode;
 import com.xliic.openapi.parser.ast.node.Node;
-import junit.framework.TestCase;
+import com.xliic.openapi.MockTestCase;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 import static com.xliic.openapi.TestUtils.*;
 import static org.junit.Assert.assertThrows;
 
-public class FastNodeTest extends TestCase {
+public class FastNodeTest extends MockTestCase {
 
     public void testFindJsonTopLevelNode() throws FileNotFoundException {
 

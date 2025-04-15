@@ -2,7 +2,7 @@ package com.xliic.openapi.quickfix;
 
 import com.google.gson.JsonObject;
 import com.xliic.openapi.parser.ast.node.Node;
-import junit.framework.TestCase;
+import com.xliic.openapi.MockTestCase;
 
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
@@ -13,7 +13,7 @@ import static com.xliic.openapi.TestUtils.textAsOneLine;
 import static com.xliic.openapi.quickfix.schema.SchemaGenerator.generateOneOfSchema;
 import static com.xliic.openapi.quickfix.schema.SchemaGenerator.generateSchema;
 
-public class SchemaGenerateOneOfTest extends TestCase {
+public class SchemaGenerateOneOfTest extends MockTestCase {
 
     public void testGenerateOneOfSchema1() throws FileNotFoundException {
         final Node root = loadJson("test/testData/schema/oneof/schema-tc1.json");

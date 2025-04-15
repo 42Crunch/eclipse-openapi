@@ -1,14 +1,14 @@
 package com.xliic.openapi.parser.ast;
 
 import com.xliic.openapi.parser.ast.node.YamlNode;
-import junit.framework.TestCase;
 import org.yaml.snakeyaml.DumperOptions;
+import com.xliic.openapi.MockTestCase;
 
 import java.io.FileNotFoundException;
 
 import static com.xliic.openapi.TestUtils.*;
 
-public class NodeUtilsTest extends TestCase {
+public class NodeUtilsTest extends MockTestCase {
 
     public void testFindYamlTopLevelNode() throws FileNotFoundException {
 

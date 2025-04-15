@@ -4,9 +4,9 @@ import static com.xliic.openapi.parser.replace.ReplaceManager.replace;
 
 import java.util.LinkedList;
 
-import junit.framework.TestCase;
+import com.xliic.openapi.MockTestCase;
 
-public class ReplaceManagerJSONTest extends TestCase {
+public class ReplaceManagerJSONTest extends MockTestCase {
 
     @SuppressWarnings("serial")
 	public void testReplaceValue() {

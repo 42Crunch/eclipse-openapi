@@ -13,10 +13,9 @@ import java.util.List;
 
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.parser.ast.node.YamlNode;
+import com.xliic.openapi.MockTestCase;
 
-import junit.framework.TestCase;
-
-public class YamlNodeTest extends TestCase {
+public class YamlNodeTest extends MockTestCase {
 
     public void testFindYamlTopLevelNode() throws FileNotFoundException {
 

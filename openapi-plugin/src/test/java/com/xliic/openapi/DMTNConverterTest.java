@@ -7,12 +7,12 @@ import com.xliic.openapi.parser.ast.node.JsonNode;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.FileNotFoundException;
-import junit.framework.TestCase;
+import com.xliic.openapi.MockTestCase;
 
 import static com.xliic.openapi.TestUtils.loadFile;
 import static com.xliic.openapi.TestUtils.loadJson;
 
-public class DMTNConverterTest extends TestCase {
+public class DMTNConverterTest extends MockTestCase {
 
     public void testV3Stress() throws FileNotFoundException {
         final JsonNode root = loadJson("test/testData/dmtn/v3-stress.json");

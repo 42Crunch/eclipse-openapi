@@ -4,14 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.openapi.parser.ast.node.Node;
-import junit.framework.TestCase;
+import com.xliic.openapi.MockTestCase;
 
 import java.io.FileNotFoundException;
 
 import static com.xliic.openapi.TestUtils.loadFile;
 import static com.xliic.openapi.TestUtils.parseJson;
 
-public class ScanUtilsTest extends TestCase {
+public class ScanUtilsTest extends MockTestCase {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
