@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  
+
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>com.xliic.openapi</groupId>
     <artifactId>openapi-parent</artifactId>
     <version>1.0.89</version>
   </parent>
-  
+
   <artifactId>openapi-plugin</artifactId>
   <packaging>eclipse-plugin</packaging>
 
@@ -27,8 +27,9 @@
 	<jackson.version>2.17.1</jackson.version>
     <snakeyaml.engine.version>2.7</snakeyaml.engine.version>
     <snakeyaml.version>2.2</snakeyaml.version>
-    <javax.servlet.api.version>3.1.0</javax.servlet.api.version>
-	<jetty.version>9.4.54.v20240208</jetty.version>
+    <jakarta.version>2.1.1</jakarta.version>
+	<jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+	<jetty.version>12.0.19</jetty.version>
 	<ant.style.path.matcher.version>1.0.0</ant.style.path.matcher.version>
 	<java.semver.version>0.10.2</java.semver.version>
 	<commons.codec.version>1.16.1</commons.codec.version>
@@ -140,7 +141,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-          
+
             <artifactItem>
 	          <groupId>org.slf4j</groupId>
 	          <artifactId>slf4j-api</artifactId>
@@ -149,7 +150,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-                      
+
             <artifactItem>
 		      <groupId>javax.validation</groupId>
 		      <artifactId>validation-api</artifactId>
@@ -158,7 +159,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-          
+
             <artifactItem>
 		      <groupId>org.apache.commons</groupId>
 		      <artifactId>commons-lang3</artifactId>
@@ -167,7 +168,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
 		      <groupId>commons-io</groupId>
 		      <artifactId>commons-io</artifactId>
@@ -203,7 +204,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
 		      <groupId>org.jetbrains</groupId>
 		      <artifactId>annotations</artifactId>
@@ -212,7 +213,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
 		      <groupId>org.jetbrains.kotlin</groupId>
 		      <artifactId>kotlin-stdlib-common</artifactId>
@@ -221,7 +222,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
 		      <groupId>com.squareup.okhttp3</groupId>
 		      <artifactId>okhttp</artifactId>
@@ -229,8 +230,8 @@
               <type>jar</type>
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
-            </artifactItem>  
-                     
+            </artifactItem>
+
             <artifactItem>
 		      <groupId>com.squareup.okio</groupId>
 		      <artifactId>okio-jvm</artifactId>
@@ -239,7 +240,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
 		      <groupId>com.xliic</groupId>
 		      <artifactId>openapi-bundler</artifactId>
@@ -247,8 +248,8 @@
               <type>jar</type>
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
-            </artifactItem>             
-            
+            </artifactItem>
+
             <artifactItem>
 		      <groupId>com.fasterxml.jackson.core</groupId>
 		      <artifactId>jackson-core</artifactId>
@@ -257,7 +258,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
 		      <groupId>com.fasterxml.jackson.core</groupId>
 		      <artifactId>jackson-databind</artifactId>
@@ -266,7 +267,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
 		      <groupId>com.fasterxml.jackson.core</groupId>
 		      <artifactId>jackson-annotations</artifactId>
@@ -275,7 +276,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
 		      <groupId>com.fasterxml.jackson.dataformat</groupId>
 		      <artifactId>jackson-dataformat-yaml</artifactId>
@@ -284,7 +285,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-                  
+
             <artifactItem>
 		      <groupId>org.snakeyaml</groupId>
 		      <artifactId>snakeyaml-engine</artifactId>
@@ -293,7 +294,7 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
 		      <groupId>org.yaml</groupId>
 		      <artifactId>snakeyaml</artifactId>
@@ -302,149 +303,185 @@
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
+
             <artifactItem>
-			  <groupId>javax.servlet</groupId>
-			  <artifactId>javax.servlet-api</artifactId>
-			  <version>${javax.servlet.api.version}</version>
-              <type>jar</type>
-              <overWrite>false</overWrite>
-              <outputDirectory>libs</outputDirectory>
-			</artifactItem>
-  
-            <artifactItem>
-		      <groupId>org.eclipse.jetty.websocket</groupId>
-		      <artifactId>websocket-server</artifactId>
+		      <groupId>org.eclipse.jetty.ee10.websocket</groupId>
+		      <artifactId>jetty-ee10-websocket-jakarta-client</artifactId>
 		      <version>${jetty.version}</version>
               <type>jar</type>
               <overWrite>false</overWrite>
               <outputDirectory>libs</outputDirectory>
             </artifactItem>
-            
-		    <artifactItem>
-		      <groupId>org.eclipse.jetty.websocket</groupId>
-		      <artifactId>websocket-common</artifactId>
+
+			<artifactItem>
+		      <groupId>org.eclipse.jetty.ee10.websocket</groupId>
+		      <artifactId>jetty-ee10-websocket-jakarta-common</artifactId>
 		      <version>${jetty.version}</version>
-		      <type>jar</type>
-		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>
-		    </artifactItem>
-			
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
+            <artifactItem>
+		      <groupId>org.eclipse.jetty.ee10.websocket</groupId>
+		      <artifactId>jetty-ee10-websocket-jakarta-server</artifactId>
+		      <version>${jetty.version}</version>
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
+			<artifactItem>
+		      <groupId>org.eclipse.jetty.ee10.websocket</groupId>
+		      <artifactId>jetty-ee10-websocket-servlet</artifactId>
+		      <version>${jetty.version}</version>
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
 			<artifactItem>
 		      <groupId>org.eclipse.jetty.websocket</groupId>
-		      <artifactId>websocket-api</artifactId>
+		      <artifactId>jetty-websocket-core-client</artifactId>
 		      <version>${jetty.version}</version>
-		      <type>jar</type>
-		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>
-		    </artifactItem>
-			
-		    <artifactItem>
-		      <groupId>org.eclipse.jetty.websocket</groupId>
-		      <artifactId>websocket-client</artifactId>
-		      <version>${jetty.version}</version>
-		      <type>jar</type>
-		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>
-		    </artifactItem>
-			
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
 			<artifactItem>
 		      <groupId>org.eclipse.jetty.websocket</groupId>
-		      <artifactId>websocket-servlet</artifactId>
+		      <artifactId>jetty-websocket-core-common</artifactId>
 		      <version>${jetty.version}</version>
-		      <type>jar</type>
-		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>
-			</artifactItem>
-			
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
 			<artifactItem>
 		      <groupId>org.eclipse.jetty.websocket</groupId>
-		      <artifactId>websocket-common</artifactId>
+		      <artifactId>jetty-websocket-core-server</artifactId>
 		      <version>${jetty.version}</version>
-		      <type>jar</type>
-		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>
-			</artifactItem>
-		    
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
 			<artifactItem>
-		      <groupId>org.eclipse.jetty</groupId>
-		      <artifactId>jetty-servlet</artifactId>
+		      <groupId>org.eclipse.jetty.ee10</groupId>
+		      <artifactId>jetty-ee10-servlet</artifactId>
 		      <version>${jetty.version}</version>
-		      <type>jar</type>
-		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>
-		    </artifactItem>
-			
-		    <artifactItem>
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
+			<artifactItem>
+		      <groupId>jakarta.websocket</groupId>
+		      <artifactId>jakarta.websocket-client-api</artifactId>
+		      <version>${jakarta.version}</version>
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
+			<artifactItem>
+		      <groupId>jakarta.websocket</groupId>
+		      <artifactId>jakarta.websocket-api</artifactId>
+		      <version>${jakarta.version}</version>
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
+			<artifactItem>
+		      <groupId>jakarta.servlet</groupId>
+		      <artifactId>jakarta.servlet-api</artifactId>
+		      <version>6.0.0</version>
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
+			<artifactItem>
 		      <groupId>org.eclipse.jetty</groupId>
 		      <artifactId>jetty-http</artifactId>
 		      <version>${jetty.version}</version>
 		      <type>jar</type>
 		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
+		      <outputDirectory>libs</outputDirectory>
 			</artifactItem>
-		    
-			<artifactItem>
-		      <groupId>org.eclipse.jetty</groupId>
-		      <artifactId>jetty-server</artifactId>
-		      <version>${jetty.version}</version>
-		      <type>jar</type>
-		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
-			</artifactItem>
-		
+
 			<artifactItem>
 		      <groupId>org.eclipse.jetty</groupId>
 		      <artifactId>jetty-util</artifactId>
 		      <version>${jetty.version}</version>
-		      <type>jar</type>
-		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
-			</artifactItem>
-		
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>libs</outputDirectory>
+            </artifactItem>
+
 			<artifactItem>
 		      <groupId>org.eclipse.jetty</groupId>
 		      <artifactId>jetty-io</artifactId>
 		      <version>${jetty.version}</version>
 		      <type>jar</type>
 		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
+		      <outputDirectory>libs</outputDirectory>
 			</artifactItem>
-		
+
+			<artifactItem>
+		      <groupId>org.eclipse.jetty</groupId>
+		      <artifactId>jetty-server</artifactId>
+		      <version>${jetty.version}</version>
+		      <type>jar</type>
+		      <overWrite>false</overWrite>
+		      <outputDirectory>libs</outputDirectory>
+			</artifactItem>
+
+			<artifactItem>
+		      <groupId>org.eclipse.jetty</groupId>
+		      <artifactId>jetty-session</artifactId>
+		      <version>${jetty.version}</version>
+		      <type>jar</type>
+		      <overWrite>false</overWrite>
+		      <outputDirectory>libs</outputDirectory>
+			</artifactItem>
+
 			<artifactItem>
 		      <groupId>org.eclipse.jetty</groupId>
 		      <artifactId>jetty-client</artifactId>
 		      <version>${jetty.version}</version>
 		      <type>jar</type>
 		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
+		      <outputDirectory>libs</outputDirectory>
 			</artifactItem>
-		
+
 			<artifactItem>
 		      <groupId>org.eclipse.jetty</groupId>
 		      <artifactId>jetty-security</artifactId>
 		      <version>${jetty.version}</version>
 		      <type>jar</type>
 		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
+		      <outputDirectory>libs</outputDirectory>
 			</artifactItem>
-            
+
 			<artifactItem>
 		      <groupId>io.github.azagniotov</groupId>
 		      <artifactId>ant-style-path-matcher</artifactId>
 		      <version>${ant.style.path.matcher.version}</version>
 		      <type>jar</type>
 		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
+		      <outputDirectory>libs</outputDirectory>
 			</artifactItem>
-			
+
 			<artifactItem>
 		      <groupId>com.github.zafarkhaja</groupId>
 		      <artifactId>java-semver</artifactId>
 		      <version>${java.semver.version}</version>
 		      <type>jar</type>
 		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
+		      <outputDirectory>libs</outputDirectory>
 			</artifactItem>
 
 			<artifactItem>
@@ -453,7 +490,7 @@
 			  <version>${commons.codec.version}</version>
 		      <type>jar</type>
 		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
+		      <outputDirectory>libs</outputDirectory>
 			</artifactItem>
 
 			<artifactItem>
@@ -462,7 +499,7 @@
 			  <version>${graphql.java.version}</version>
 		      <type>jar</type>
 		      <overWrite>false</overWrite>
-		      <outputDirectory>libs</outputDirectory>    
+		      <outputDirectory>libs</outputDirectory>
 			</artifactItem>
 
           </artifactItems>
