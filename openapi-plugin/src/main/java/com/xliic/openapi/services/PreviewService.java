@@ -10,16 +10,14 @@ import static com.xliic.openapi.utils.TempFileUtils.createTextResource;
 import java.io.File;
 import java.net.BindException;
 import java.nio.file.Paths;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.websocket.jakarta.server.config.JakartaWebSocketServletContainerInitializer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.component.LifeCycle;
-import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.util.resource.Resource;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,26 +25,28 @@ import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.services.IPreviewService;
 import com.xliic.openapi.preview.PreviewCallback;
+import com.xliic.openapi.preview.PreviewConfigurator;
+import com.xliic.openapi.preview.PreviewEndpoint;
+import com.xliic.openapi.preview.PreviewPathResource;
 import com.xliic.openapi.preview.PreviewUtils;
-import com.xliic.openapi.preview.PreviewWebSocket;
-import com.xliic.openapi.preview.PreviewWebSocketHandler;
 import com.xliic.openapi.settings.SettingsService;
+
+import jakarta.websocket.server.ServerEndpointConfig;
 
 public class PreviewService implements IPreviewService, Disposable {
 
-    private final Map<String, PreviewWebSocket> sockets;
     private volatile Server server;
-    private PreviewWebSocketHandler socketHandler;
     private File pluginTempDir;
     private boolean initComplete;
+    @NotNull
+    private final PreviewConfigurator configurator;
 
     // This is app level service, no matter how many IDE projects are opened the
     // jetty server will be started only once
     public PreviewService() {
         server = null;
-        sockets = new ConcurrentHashMap<>();
-        socketHandler = null;
         initComplete = false;
+        configurator = new PreviewConfigurator();
     }
 
     public static PreviewService getInstance() {
@@ -59,10 +59,10 @@ public class PreviewService implements IPreviewService, Disposable {
 
     @Override
     public void sendText(String projectId, String canonicalPath, String text) {
-        for (int rendererIndex = 0; rendererIndex < 2; rendererIndex++) {
-            String query = PreviewUtils.getQuery(projectId, canonicalPath, rendererIndex);
-            if (sockets.containsKey(query) && !StringUtils.isEmpty(text)) {
-                sockets.get(query).sendText(text);
+        if (isServerStated()) {
+            for (int rendererIndex = 0; rendererIndex < 2; rendererIndex++) {
+                String query = PreviewUtils.getQuery(projectId, canonicalPath, rendererIndex);
+                configurator.sendText(query, text);
             }
         }
     }
@@ -101,10 +101,10 @@ public class PreviewService implements IPreviewService, Disposable {
     }
 
     private void shutDownServer(PreviewCallback callback) {
-        server.addLifeCycleListener(new LifeCycle.Listener() {
+        server.addEventListener(new LifeCycle.Listener() {
             @Override
             public void lifeCycleStopped(LifeCycle event) {
-                server.removeLifeCycleListener(this);
+            	server.removeEventListener(this);
                 ApplicationManager.getApplication().executeOnPooledThread(() -> createAndRunServer(getPort(), callback));
             }
         });
@@ -120,26 +120,28 @@ public class PreviewService implements IPreviewService, Disposable {
             server = new Server(port);
             server.setStopAtShutdown(true);
 
-            // Create web socket context
-            ContextHandler context0 = new ContextHandler();
-            context0.setContextPath("/preview");
-            socketHandler = new PreviewWebSocketHandler(sockets);
-            context0.setHandler(socketHandler);
+            ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            servletContextHandler.setContextPath("/preview");
+            server.setHandler(servletContextHandler);
+
+            JakartaWebSocketServletContainerInitializer.configure(servletContextHandler,
+                    (servletContext, container) ->
+                    container.addEndpoint(ServerEndpointConfig.Builder.create(
+                            PreviewEndpoint.class, "/ws").configurator(configurator).build()));
 
             // Create web resources context (html, js, ...)
             ResourceHandler resourceHandler = new ResourceHandler();
-            resourceHandler.setDirectoriesListed(false);
-            ContextHandler context1 = new ContextHandler();
-            context1.setContextPath("/");
-            Resource resource = new PathResource(Paths.get(pluginTempDir.getCanonicalPath()));
-            context1.setBaseResource(resource);
-            context1.setHandler(resourceHandler);
+            ContextHandler contextHandler = new ContextHandler();
+            contextHandler.setContextPath("/");
+            Resource resource = new PreviewPathResource(Paths.get(pluginTempDir.getCanonicalPath()));
+            contextHandler.setBaseResource(resource);
+            contextHandler.setHandler(resourceHandler);
 
-            server.setHandler(new ContextHandlerCollection(context1, context0));
-            server.addLifeCycleListener(new LifeCycle.Listener() {
+            server.setHandler(new ContextHandlerCollection(contextHandler, servletContextHandler));
+            server.addEventListener(new LifeCycle.Listener() {
                 @Override
                 public void lifeCycleStarted(LifeCycle event) {
-                    server.removeLifeCycleListener(this);
+                    server.removeEventListener(this);
                     callback.setDone();
                 }
             });
@@ -171,10 +173,7 @@ public class PreviewService implements IPreviewService, Disposable {
                 server.stop();
                 server = null;
             }
-            if (socketHandler != null) {
-                socketHandler.destroy();
-                socketHandler = null;
-            }
+            configurator.dispose();
         } catch (Throwable ignored) {
         }
     }
