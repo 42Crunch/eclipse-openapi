@@ -1,16 +1,16 @@
-import { j as e, e as s, T as c, t as pe, a as he, p as fe, l as ge, u as xe, B as te, f as S, d as je, s as ve, g as be, R as ye, P as Ce, n as we, k as Te } from "./TriangleExclamation.pAuQxBo5.js";
-import { u as se, a as Y, c as v, b as ke } from "./index.esm.BxaCgf7s.js";
-import { S as Se } from "./SearchSidebar.BQ3nahf4.js";
-import { c as $e, l as Pe, s as Ae, b as Re, d as Fe, e as Ie, f as De, o as re, u as y, g as A, t as Me, h as Be, i as Ue, j as Ee, k as He, m as ie, n as ce, p as Ne } from "./index.D0yLKFLk.js";
-import { o as m, e as I, s as g, l as le, T as de, I as u, u as ee, i as Oe, a as Le, c as ze, b as Ve, d as Ge, F as We } from "./Textarea.CDZwhD95.js";
-import { N as qe } from "./ProgressButton.BTyIjiMI.js";
-import { B as b, E as D } from "./Banner.CPOTd1ij.js";
-import { R as _e, c as Je, p as Q, s as Ke } from "./platform-api.BVh67ln-.js";
-import { w as Qe, s as Ze, c as Xe, o as Ye } from "./listener.CJJEzJ85.js";
-import { S as M } from "./Select.mcNZKCHB.js";
-import { R as en, I as nn } from "./index.KBA4ZGjU.js";
-import { S as tn } from "./Check.BVHXW7W2.js";
-import { o as rn, a as on, b as an, c as sn, d as cn, e as ln, f as dn } from "./listener.Q5KPhR8r.js";
+import { j as e, e as s, T as c, p as pe, a as he, t as fe, l as ge, u as xe, B as te, f as S, d as je, s as ve, g as be, R as ye, P as Ce, n as we, k as Te } from "./TriangleExclamation.D70Relru.js";
+import { u as se, a as Y, c as v, b as ke } from "./index.esm.8YE_rKYV.js";
+import { S as Se } from "./SearchSidebar.DE9axaGw.js";
+import { s as $e, b as Pe, d as Ae, e as Re, f as Fe, l as Ie, c as De, o as re, u as y, g as A, t as Me, h as Be, i as Ue, j as Ee, k as He, m as ie, n as ce, p as Ne } from "./slice.wn8w6fM5.js";
+import { o as m, s as g, e as I, l as le, T as de, I as u, u as ee, i as Oe, a as Le, c as ze, b as Ve, d as Ge, F as We } from "./Textarea.DCag3NeK.js";
+import { N as qe } from "./ProgressButton.B7v1By2N.js";
+import { B as b, E as D } from "./Banner.BiB2AAG7.js";
+import { R as _e, c as Je, p as Q, s as Ke } from "./platform-api.ZzbCAKhi.js";
+import { w as Qe, s as Ze, c as Xe, o as Ye } from "./listener.D31kKVVL.js";
+import { S as M } from "./Select.DN5L861x.js";
+import { R as en, I as nn } from "./index.DqymPi7Y.js";
+import { S as tn } from "./Check.XbYs6jvK.js";
+import { a as rn, b as on, c as an, d as sn, e as cn, f as ln, o as dn } from "./listener.BUdgLkRs.js";
 const un = (n) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 576 512", width: "1em", height: "1em", ...n, children: /* @__PURE__ */ e.jsx("path", { d: "M288 288a64 64 0 0 0 0-128c-1 0-1.88.24-2.85.29a47.5 47.5 0 0 1-60.86 60.86c0 1-.29 1.88-.29 2.85a64 64 0 0 0 64 64zm284.52-46.6C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 96a128 128 0 1 1-128 128A128.14 128.14 0 0 1 288 96zm0 320c-107.36 0-205.46-61.31-256-160a294.78 294.78 0 0 1 129.78-129.33C140.91 153.69 128 187.17 128 224a160 160 0 0 0 320 0c0-36.83-12.91-70.31-33.78-97.33A294.78 294.78 0 0 1 544 256c-50.53 98.69-148.64 160-256 160z" }) });
 function $({
   label: n,
@@ -139,19 +139,19 @@ const fn = s.div`
   clip-path: inset(0 ${({ $progress: n }) => 100 - n * 100}% 0 0);
   transition: clip-path 0.3s linear;
 `, jn = {
-  theme: pe,
-  config: $e,
+  theme: fe,
+  config: De,
   client: Xe,
   [Q.reducerPath]: Q.reducer,
   [F.reducerPath]: F.reducer
 }, vn = {
-  changeTheme: fe,
-  loadConfig: Pe,
-  showPlatformConnectionTest: Ae,
+  changeTheme: pe,
+  loadConfig: Ie,
+  showPlatformConnectionTest: Fe,
   showOverlordConnectionTest: Re,
-  showScandManagerConnectionTest: Fe,
-  showCliTest: Ie,
-  showCliDownload: De,
+  showScandManagerConnectionTest: Ae,
+  showCliTest: Pe,
+  showCliDownload: $e,
   showHttpError: () => null,
   showHttpResponse: () => null
 }, bn = (n, r) => {
@@ -404,8 +404,7 @@ function Pn() {
 function An(n) {
   const t = n || {
     pattern: ".*",
-    example: "",
-    description: "Any string"
+    example: ""
   };
   return {
     id: "temporary-collection",
@@ -707,7 +706,6 @@ const qn = m({
   schema: qn,
   form: Wn
 }, W = {
-  host: "",
   header: "Authorization",
   prefix: "Bearer",
   token: "Token"
@@ -946,20 +944,20 @@ function dt({ id: n }) {
 const me = je(), j = me.startListening;
 function ut(n) {
   const r = {
-    saveConfig: rn(j, n),
-    testOverlordConnection: on(j, n),
-    testScandManagerConnection: an(j, n),
+    saveConfig: dn(j, n),
+    testOverlordConnection: ln(j, n),
+    testScandManagerConnection: cn(j, n),
     testPlatformConnection: sn(j, n),
-    testCli: cn(j, n),
-    downloadCli: ln(j, n),
-    openLink: dn(j, n),
+    testCli: an(j, n),
+    downloadCli: on(j, n),
+    openLink: rn(j, n),
     sendHttpRequest: Ye(j, n)
   };
   return ve(r), me;
 }
 function mt(n, r) {
   const t = bn(ut(n), r);
-  be(document.getElementById("root")).render(
+  be.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ e.jsx(ye.StrictMode, { children: /* @__PURE__ */ e.jsxs(Ce, { store: t, children: [
       /* @__PURE__ */ e.jsx(we, {}),
       /* @__PURE__ */ e.jsx(lt, {})

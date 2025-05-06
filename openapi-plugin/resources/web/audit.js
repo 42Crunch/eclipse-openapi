@@ -1,13 +1,13 @@
-import { c as ae, a as re, u as le, b as de, l as ce, t as pe, r as ue, d as xe, i as he, s as ve, j as e, e as c, T as p, f as j, m as ge, g as fe, R as me, P as je, h as ye, k as be, n as $e, o as we, p as Ce } from "./TriangleExclamation.pAuQxBo5.js";
-import { S as L, C as Se, a as ke, b as Ae, c as Q, d as X, e as Y } from "./Xmark.DIV8bk0p.js";
-import { s as Ie } from "./listener.DBAk009r.js";
-import { T as Te } from "./Tabs.Dwliy_Nj.js";
-import { S as C } from "./ExclamationCircle.DcNm9nfm.js";
-import { S, a as Le } from "./Switch.x8oPqJF_.js";
-import { S as J } from "./AngleDown.FqWubUL_.js";
-import { S as Z } from "./AngleUp.phJPZ_ZE.js";
-import { P as A } from "./Select.mcNZKCHB.js";
-import { B as De, S as Pe } from "./Banner.CPOTd1ij.js";
+import { c as ae, a as re, u as le, b as de, r as ce, t as pe, l as ue, d as xe, i as he, s as ve, j as e, T as p, e as c, f as j, m as ge, g as fe, R as me, P as je, h as ye, k as be, n as $e, o as we, p as Ce } from "./TriangleExclamation.D70Relru.js";
+import { S as L, C as Se, a as ke, b as Ae, c as Q, d as X, e as Y } from "./Xmark.VDW9c44_.js";
+import { s as Ie } from "./listener.Bu2bxfzF.js";
+import { T as Te } from "./Tabs.AUjjoS6e.js";
+import { S as C } from "./ExclamationCircle.Cq_WR9mJ.js";
+import { S, a as Le } from "./Switch.BrSpXyYQ.js";
+import { S as J } from "./AngleDown.2OwRDDaK.js";
+import { S as Z } from "./AngleUp.D0kkfxZa.js";
+import { P as A } from "./Select.DN5L861x.js";
+import { B as De, S as Pe } from "./Banner.BiB2AAG7.js";
 const Re = {
   audit: {
     filename: "",
@@ -179,20 +179,20 @@ const Me = {
   showFullReport: z,
   showPartialReport: F,
   showNoReport: V,
-  loadKdb: Ge,
+  loadKdb: Ee,
   goToLine: B,
   copyIssueId: O,
   openLink: k,
   changeTab: m,
   changeFilter: u,
-  setSqgTodo: Ee
+  setSqgTodo: Ge
 } = ee.actions, He = ee.reducer, We = {
   audit: He,
   theme: pe,
-  router: ue
+  router: ce
 }, Ue = (i, t) => re({
   reducer: We,
-  middleware: (o) => o().prepend(i.middleware).concat(ce),
+  middleware: (o) => o().prepend(i.middleware).concat(ue),
   preloadedState: {
     theme: t
   }
@@ -739,7 +739,7 @@ const yi = c.div`
     flex: 1;
   }
 `;
-function G({ issueId: i, issues: t }) {
+function E({ issueId: i, issues: t }) {
   const o = x(), [n, d] = j.useState(!1), r = t.filter((a) => a.id === i), s = n ? r.length : 4, l = r.slice(0, s);
   return l.sort((a, g) => {
     const M = a.filename.localeCompare(g.filename);
@@ -826,7 +826,7 @@ function Ci() {
     audit: { filename: o }
   } = h((s) => s.audit), n = x(), d = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.count - s.count).slice(0, 4), r = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.score - s.score).slice(0, 4);
   return /* @__PURE__ */ e.jsxs(Si, { children: [
-    /* @__PURE__ */ e.jsx(E, { children: "Most common issues" }),
+    /* @__PURE__ */ e.jsx(G, { children: "Most common issues" }),
     d.map((s, l) => /* @__PURE__ */ e.jsxs(P, { children: [
       /* @__PURE__ */ e.jsx(R, { children: s.title }),
       /* @__PURE__ */ e.jsx(b, { children: /* @__PURE__ */ e.jsxs(b, { children: [
@@ -862,7 +862,7 @@ function Ci() {
         ] })
       ] }) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(G, { issueId: s.id, issues: t }),
+        /* @__PURE__ */ e.jsx(E, { issueId: s.id, issues: t }),
         /* @__PURE__ */ e.jsx(
           q,
           {
@@ -873,7 +873,7 @@ function Ci() {
         )
       ] })
     ] }, `issue-${l}`)),
-    /* @__PURE__ */ e.jsx(E, { children: "Opportunities" }),
+    /* @__PURE__ */ e.jsx(G, { children: "Opportunities" }),
     r.map((s, l) => /* @__PURE__ */ e.jsxs(P, { children: [
       /* @__PURE__ */ e.jsx(R, { children: s.title }),
       /* @__PURE__ */ e.jsx(b, { children: /* @__PURE__ */ e.jsxs(b, { children: [
@@ -895,7 +895,7 @@ function Ci() {
         ] })
       ] }) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(G, { issueId: s.id, issues: t }),
+        /* @__PURE__ */ e.jsx(E, { issueId: s.id, issues: t }),
         /* @__PURE__ */ e.jsx(
           q,
           {
@@ -910,7 +910,7 @@ function Ci() {
 }
 const Si = c.div`
   position: relative;
-`, E = c.div`
+`, G = c.div`
   margin: 14px;
   font-size: 12px;
   font-weight: 500;
@@ -1251,10 +1251,10 @@ const Mi = c.div`
 `;
 function Ni() {
   const { compliance: i, summary: t } = h((a) => a.audit.audit), o = h((a) => a.audit.stats), n = h((a) => a.audit.sqgTodo), d = x(), r = (a) => {
-    d(Ee(a));
+    d(Ge(a));
   }, [s, l] = j.useState(!1);
-  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Hi, { children: /* @__PURE__ */ e.jsx(De, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Gi, { children: [
-    /* @__PURE__ */ e.jsxs(Ei, { children: [
+  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Hi, { children: /* @__PURE__ */ e.jsx(De, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Ei, { children: [
+    /* @__PURE__ */ e.jsxs(Gi, { children: [
       /* @__PURE__ */ e.jsx(C, {}),
       /* @__PURE__ */ e.jsx("div", { children: "Security quality gates failed" }),
       /* @__PURE__ */ e.jsx(Le, { value: n, onChange: r }),
@@ -1271,13 +1271,13 @@ function Ni() {
     s && /* @__PURE__ */ e.jsx(Oi, { compliance: i, summary: t, stats: o })
   ] });
 }
-const Gi = c.div`
+const Ei = c.div`
   margin: 8px;
   border-radius: 2px;
   border: 1px solid var(${p.errorBorder});
   background-color: var(${p.errorBackground});
   color: var(${p.errorForeground});
-`, Ei = c.div`
+`, Gi = c.div`
   display: flex;
   padding: 8px;
   flex-direction: row;
@@ -1502,7 +1502,7 @@ const Ji = c.div`
   showFullReport: z,
   showPartialReport: F,
   showNoReport: V,
-  loadKdb: Ge,
+  loadKdb: Ee,
   changeTheme: Ce
 };
 function tt() {
@@ -1513,7 +1513,7 @@ function tt() {
 }
 function nt(i, t) {
   const o = Ue(Ke(i, _), t);
-  fe(document.getElementById("root")).render(
+  fe.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ e.jsx(me.StrictMode, { children: /* @__PURE__ */ e.jsx(je, { store: o, children: /* @__PURE__ */ e.jsx(ye.Provider, { value: _, children: /* @__PURE__ */ e.jsx(tt, {}) }) }) })
   ), window.addEventListener("message", be(o, it));
 }
