@@ -1,13 +1,13 @@
-import { c as ae, a as re, u as le, b as de, r as ce, t as pe, l as ue, d as xe, i as he, s as ve, j as e, T as p, e as c, f as j, m as ge, g as fe, R as me, P as je, h as ye, k as be, n as $e, o as we, p as Ce } from "./TriangleExclamation.D70Relru.js";
-import { S as L, C as Se, a as ke, b as Ae, c as Q, d as X, e as Y } from "./Xmark.VDW9c44_.js";
-import { s as Ie } from "./listener.Bu2bxfzF.js";
-import { T as Te } from "./Tabs.AUjjoS6e.js";
-import { S as C } from "./ExclamationCircle.Cq_WR9mJ.js";
-import { S, a as Le } from "./Switch.BrSpXyYQ.js";
-import { S as J } from "./AngleDown.2OwRDDaK.js";
-import { S as Z } from "./AngleUp.D0kkfxZa.js";
-import { P as A } from "./Select.DN5L861x.js";
-import { B as De, S as Pe } from "./Banner.BiB2AAG7.js";
+import { c as ae, a as re, u as le, b as de, l as ce, t as pe, r as ue, d as he, i as xe, s as ve, j as e, e as c, T as p, f as j, m as ge, g as fe, R as me, P as je, h as ye, k as be, n as $e, o as we, p as Ce } from "./TriangleExclamation.pAuQxBo5.js";
+import { S as T, C as Se, a as ke, b as Ae, c as Q, d as X, e as Y } from "./Xmark.DIV8bk0p.js";
+import { s as Ie } from "./listener.DBAk009r.js";
+import { T as Le } from "./Tabs.Dwliy_Nj.js";
+import { S as C } from "./ExclamationCircle.DcNm9nfm.js";
+import { S, a as Te } from "./Switch.x8oPqJF_.js";
+import { S as J } from "./AngleDown.FqWubUL_.js";
+import { S as Z } from "./AngleUp.phJPZ_ZE.js";
+import { P as A } from "./Select.mcNZKCHB.js";
+import { B as De, S as Pe } from "./Banner.CPOTd1ij.js";
 const Re = {
   audit: {
     filename: "",
@@ -48,12 +48,12 @@ const Re = {
     cancelAudit: (i, t) => {
     },
     showFullReport: (i, { payload: t }) => {
-      i.audit.filename !== t.filename && (i.tab = "priority", i.filter = {}, i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") ? "graphql" : "openapi"), (t.compliance === void 0 || t.compliance.acceptance === "yes") && (i.sqgTodo = !1), i.audit = t, $(i);
+      i.audit.filename !== t.filename && (i.tab = "priority", i.filter = {}, i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".graphqls") ? "graphql" : "openapi"), (t.compliance === void 0 || t.compliance.acceptance === "yes") && (i.sqgTodo = !1), i.audit = t, $(i);
     },
     showPartialReport: (i, {
       payload: { report: t, uri: o, ids: n }
     }) => {
-      i.audit = t, i.filter = { ids: n }, i.tab = "issues", i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") ? "graphql" : "openapi", $(i);
+      i.audit = t, i.filter = { ids: n }, i.tab = "issues", i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".graphqls") ? "graphql" : "openapi", $(i);
     },
     loadKdb: (i, { payload: t }) => {
       i.kdb = t, $(i);
@@ -92,7 +92,7 @@ function qe(i, t, o, n, d) {
   return { issues: r, filtered: a, stats: s, titles: l };
 }
 function ze(i, t) {
-  const o = (a, g) => t.ids === void 0 || t.ids.includes(g), n = (a) => t.domain === void 0 || a.domain === (t == null ? void 0 : t.domain), d = (a) => t.group === void 0 || a.group === (t == null ? void 0 : t.group), r = (a) => (t == null ? void 0 : t.rule) === void 0 || a.id === t.rule, s = t.severity !== void 0 ? L.indexOf(t.severity) + 1 : 0, l = (a) => t.severity === void 0 || a.criticality >= s;
+  const o = (a, g) => t.ids === void 0 || t.ids.includes(g), n = (a) => t.domain === void 0 || a.domain === (t == null ? void 0 : t.domain), d = (a) => t.group === void 0 || a.group === (t == null ? void 0 : t.group), r = (a) => (t == null ? void 0 : t.rule) === void 0 || a.id === t.rule, s = t.severity !== void 0 ? T.indexOf(t.severity) + 1 : 0, l = (a) => t.severity === void 0 || a.criticality >= s;
   return i.filter((a, g) => o(a, g) && n(a) && d(a) && r(a) && l(a));
 }
 function Fe(i, t, o, n) {
@@ -179,24 +179,24 @@ const Me = {
   showFullReport: z,
   showPartialReport: F,
   showNoReport: V,
-  loadKdb: Ee,
+  loadKdb: Ge,
   goToLine: B,
   copyIssueId: O,
   openLink: k,
   changeTab: m,
   changeFilter: u,
-  setSqgTodo: Ge
-} = ee.actions, He = ee.reducer, We = {
-  audit: He,
+  setSqgTodo: Ee
+} = ee.actions, We = ee.reducer, He = {
+  audit: We,
   theme: pe,
-  router: ce
+  router: ue
 }, Ue = (i, t) => re({
-  reducer: We,
-  middleware: (o) => o().prepend(i.middleware).concat(ue),
+  reducer: He,
+  middleware: (o) => o().prepend(i.middleware).concat(ce),
   preloadedState: {
     theme: t
   }
-}), x = () => le(), h = de, oe = xe(), w = oe.startListening;
+}), h = () => le(), x = de, oe = he(), w = oe.startListening;
 function Ke(i, t) {
   const o = {
     goToLine: () => w({
@@ -228,7 +228,7 @@ function Ke(i, t) {
     })
   };
   return w({
-    matcher: he(z, F, V),
+    matcher: xe(z, F, V),
     effect: async (n, d) => {
       window.scrollTo(0, 0);
     }
@@ -424,7 +424,7 @@ const Ze = c.div`
   }
 `;
 function ti() {
-  const i = h((n) => n.audit.filter), t = x(), o = [
+  const i = x((n) => n.audit.filter), t = h(), o = [
     { label: "All", value: "all" },
     { label: "Critical", value: "critical" },
     { label: "High", value: "high" },
@@ -449,7 +449,7 @@ const ni = c.div`
   width: 264px;
 `;
 function oi() {
-  const i = x();
+  const i = h();
   return /* @__PURE__ */ e.jsxs(
     si,
     {
@@ -477,7 +477,7 @@ const si = c.div`
   }
 `;
 function ai() {
-  const { issueTitles: i, filter: t } = h((n) => n.audit), o = x();
+  const { issueTitles: i, filter: t } = x((n) => n.audit), o = h();
   return /* @__PURE__ */ e.jsx(ri, { children: /* @__PURE__ */ e.jsx(
     A,
     {
@@ -495,7 +495,7 @@ const ri = c.div`
   width: 264px;
 `;
 function li() {
-  const i = h((n) => n.audit.filter), t = x(), o = [
+  const i = x((n) => n.audit.filter), t = h(), o = [
     { label: "All", value: "all" },
     { label: "Security", value: "security" },
     { label: "Data validation", value: "datavalidation" },
@@ -539,7 +539,7 @@ const di = c.div`
   ]
 };
 function pi() {
-  const i = h((n) => n.audit.filter), t = x(), o = i.domain !== void 0 ? ci[i.domain] : [];
+  const i = x((n) => n.audit.filter), t = h(), o = i.domain !== void 0 ? ci[i.domain] : [];
   return /* @__PURE__ */ e.jsx(ui, { children: /* @__PURE__ */ e.jsx(
     A,
     {
@@ -556,9 +556,9 @@ function pi() {
 const ui = c.div`
   width: 264px;
 `;
-function xi() {
-  const { filtered: i, filter: t, type: o } = h((a) => a.audit), n = x(), [d, r] = j.useState(!0), l = ["rule", "domain", "group", "severity"].filter((a) => t && t[a] !== void 0).length;
-  return /* @__PURE__ */ e.jsxs(hi, { children: [
+function hi() {
+  const { filtered: i, filter: t, type: o } = x((a) => a.audit), n = h(), [d, r] = j.useState(!0), l = ["rule", "domain", "group", "severity"].filter((a) => t && t[a] !== void 0).length;
+  return /* @__PURE__ */ e.jsxs(xi, { children: [
     t.ids !== void 0 && /* @__PURE__ */ e.jsxs(N, { children: [
       /* @__PURE__ */ e.jsxs("div", { children: [
         i.length,
@@ -596,7 +596,7 @@ function xi() {
     ] })
   ] });
 }
-const hi = c.div`
+const xi = c.div`
   margin: 8px;
   display: flex;
   flex-direction: column;
@@ -634,9 +634,9 @@ function fi() {
     filtered: t,
     type: o,
     audit: { filename: n }
-  } = h((r) => r.audit), d = x();
+  } = x((r) => r.audit), d = h();
   return /* @__PURE__ */ e.jsxs(mi, { children: [
-    /* @__PURE__ */ e.jsx(xi, {}),
+    /* @__PURE__ */ e.jsx(hi, {}),
     t.map((r, s) => /* @__PURE__ */ e.jsxs(P, { children: [
       /* @__PURE__ */ e.jsx(R, { children: r.description }),
       /* @__PURE__ */ e.jsx(b, { children: /* @__PURE__ */ e.jsxs(b, { children: [
@@ -739,8 +739,8 @@ const yi = c.div`
     flex: 1;
   }
 `;
-function E({ issueId: i, issues: t }) {
-  const o = x(), [n, d] = j.useState(!1), r = t.filter((a) => a.id === i), s = n ? r.length : 4, l = r.slice(0, s);
+function G({ issueId: i, issues: t }) {
+  const o = h(), [n, d] = j.useState(!1), r = t.filter((a) => a.id === i), s = n ? r.length : 4, l = r.slice(0, s);
   return l.sort((a, g) => {
     const M = a.filename.localeCompare(g.filename);
     return M === 0 ? a.lineNo - g.lineNo : M;
@@ -824,9 +824,9 @@ function Ci() {
     stats: i,
     issues: t,
     audit: { filename: o }
-  } = h((s) => s.audit), n = x(), d = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.count - s.count).slice(0, 4), r = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.score - s.score).slice(0, 4);
+  } = x((s) => s.audit), n = h(), d = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.count - s.count).slice(0, 4), r = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.score - s.score).slice(0, 4);
   return /* @__PURE__ */ e.jsxs(Si, { children: [
-    /* @__PURE__ */ e.jsx(G, { children: "Most common issues" }),
+    /* @__PURE__ */ e.jsx(E, { children: "Most common issues" }),
     d.map((s, l) => /* @__PURE__ */ e.jsxs(P, { children: [
       /* @__PURE__ */ e.jsx(R, { children: s.title }),
       /* @__PURE__ */ e.jsx(b, { children: /* @__PURE__ */ e.jsxs(b, { children: [
@@ -862,7 +862,7 @@ function Ci() {
         ] })
       ] }) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(E, { issueId: s.id, issues: t }),
+        /* @__PURE__ */ e.jsx(G, { issueId: s.id, issues: t }),
         /* @__PURE__ */ e.jsx(
           q,
           {
@@ -873,7 +873,7 @@ function Ci() {
         )
       ] })
     ] }, `issue-${l}`)),
-    /* @__PURE__ */ e.jsx(G, { children: "Opportunities" }),
+    /* @__PURE__ */ e.jsx(E, { children: "Opportunities" }),
     r.map((s, l) => /* @__PURE__ */ e.jsxs(P, { children: [
       /* @__PURE__ */ e.jsx(R, { children: s.title }),
       /* @__PURE__ */ e.jsx(b, { children: /* @__PURE__ */ e.jsxs(b, { children: [
@@ -895,7 +895,7 @@ function Ci() {
         ] })
       ] }) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(E, { issueId: s.id, issues: t }),
+        /* @__PURE__ */ e.jsx(G, { issueId: s.id, issues: t }),
         /* @__PURE__ */ e.jsx(
           q,
           {
@@ -910,7 +910,7 @@ function Ci() {
 }
 const Si = c.div`
   position: relative;
-`, G = c.div`
+`, E = c.div`
   margin: 14px;
   font-size: 12px;
   font-weight: 500;
@@ -948,7 +948,7 @@ function Ai({
   onSelect: o
 }) {
   return /* @__PURE__ */ e.jsx(Ii, { children: i.map((n, d) => /* @__PURE__ */ e.jsx(
-    Ti,
+    Li,
     {
       $selected: n.id === t,
       onClick: (r) => {
@@ -963,7 +963,7 @@ const Ii = c.div`
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-`, Ti = c.div`
+`, Li = c.div`
   display: flex;
   height: 28px;
   min-width: 100px;
@@ -980,7 +980,7 @@ const Ii = c.div`
 
   ${({ $selected: i }) => i ? `background-color: var(${p.computedTwo});` : `background-color: var(${p.computedOne});`}
 `;
-function Li({ sqg: i, summary: t }) {
+function Ti({ sqg: i, summary: t }) {
   const o = i.directives.minimumAssessmentScores;
   return i.directives.subcategoryRules, i.directives.issueRules, /* @__PURE__ */ e.jsxs(Di, { children: [
     /* @__PURE__ */ e.jsx("h4", { children: "Minimum acceptable score" }),
@@ -989,17 +989,17 @@ function Li({ sqg: i, summary: t }) {
       /* @__PURE__ */ e.jsx("div", { children: "current" }),
       /* @__PURE__ */ e.jsx("div", { children: "Minimum acceptable" })
     ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
+    /* @__PURE__ */ e.jsxs(L, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Global score" }),
       /* @__PURE__ */ e.jsx(y, { $highlight: t.all < o.global, children: t.all }),
       /* @__PURE__ */ e.jsx(y, { children: o.global })
     ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
+    /* @__PURE__ */ e.jsxs(L, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Security score" }),
       /* @__PURE__ */ e.jsx(y, { $highlight: t.security.value < o.security, children: t.security.value }),
       /* @__PURE__ */ e.jsx(y, { children: o.security })
     ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
+    /* @__PURE__ */ e.jsxs(L, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Data validation score" }),
       /* @__PURE__ */ e.jsx(y, { $highlight: t.datavalidation.value < o.dataValidation, children: t.datavalidation.value }),
       /* @__PURE__ */ e.jsx(y, { children: o.dataValidation })
@@ -1017,7 +1017,7 @@ const Di = c.div``, Pi = c.div`
     font-weight: 600;
     font-size: 12px;
   }
-`, T = c.div`
+`, L = c.div`
   display: flex;
   > div {
     flex: 1;
@@ -1027,7 +1027,7 @@ const Di = c.div``, Pi = c.div`
   ${({ $highlight: i }) => i && "font-weight: 700;"}
 `;
 function Ri({ sqg: i, stats: t }) {
-  const o = x(), n = i.directives.subcategoryRules, d = t.byGroup, r = {
+  const o = h(), n = i.directives.subcategoryRules, d = t.byGroup, r = {
     security: [
       {
         name: "Authentication",
@@ -1105,8 +1105,8 @@ function Ri({ sqg: i, stats: t }) {
       /* @__PURE__ */ e.jsx("div", { children: "threshold" }),
       /* @__PURE__ */ e.jsx("div", { children: "issues found" })
     ] }),
-    /* @__PURE__ */ e.jsx(H, { children: "Security" }),
-    r.security.filter((s) => s.violations.length > 0).map((s, l) => /* @__PURE__ */ e.jsxs(W, { children: [
+    /* @__PURE__ */ e.jsx(W, { children: "Security" }),
+    r.security.filter((s) => s.violations.length > 0).map((s, l) => /* @__PURE__ */ e.jsxs(H, { children: [
       /* @__PURE__ */ e.jsx("div", { children: s.name }),
       /* @__PURE__ */ e.jsx("div", { children: U(s.level) }),
       /* @__PURE__ */ e.jsx(
@@ -1126,8 +1126,8 @@ function Ri({ sqg: i, stats: t }) {
         }
       )
     ] }, l)),
-    /* @__PURE__ */ e.jsx(H, { children: "Data validation" }),
-    r.data.filter((s) => s.violations.length > 0).map((s, l) => /* @__PURE__ */ e.jsxs(W, { children: [
+    /* @__PURE__ */ e.jsx(W, { children: "Data validation" }),
+    r.data.filter((s) => s.violations.length > 0).map((s, l) => /* @__PURE__ */ e.jsxs(H, { children: [
       /* @__PURE__ */ e.jsx("div", { children: s.name }),
       /* @__PURE__ */ e.jsx("div", { children: U(s.level) }),
       /* @__PURE__ */ e.jsx(
@@ -1165,12 +1165,12 @@ const qi = c.div`
     font-weight: 600;
     font-size: 12px;
   }
-`, H = c.div`
+`, W = c.div`
   display: flex;
   background-color: var(${p.computedOne});
   border-radius: 2px;
   padding: 8px;
-`, W = c.div`
+`, H = c.div`
   display: flex;
   > a {
     flex: 1;
@@ -1185,8 +1185,8 @@ const qi = c.div`
 function f(i, t) {
   if (i === "none")
     return [];
-  const o = L.indexOf(i), n = [];
-  for (const d of L.slice(o))
+  const o = T.indexOf(i), n = [];
+  for (const d of T.slice(o))
     t[d] > 0 && n.push({ level: d, count: t[d] });
   return n;
 }
@@ -1202,7 +1202,7 @@ function U(i) {
   return Fi[i];
 }
 function Vi({ sqg: i, stats: t }) {
-  const o = x(), n = i.directives.issueRules ?? [], r = t.byIssue.filter((s) => n.includes(s.id));
+  const o = h(), n = i.directives.issueRules ?? [], r = t.byIssue.filter((s) => n.includes(s.id));
   return r.length === 0 ? null : /* @__PURE__ */ e.jsxs(Bi, { children: [
     /* @__PURE__ */ e.jsx("h4", { children: "Forbidden issues with problem found" }),
     r.map((s) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
@@ -1238,7 +1238,7 @@ function Oi({
         selected: i.sqgsDetail[n].id
       }
     ),
-    /* @__PURE__ */ e.jsx(Li, { sqg: r, summary: t }),
+    /* @__PURE__ */ e.jsx(Ti, { sqg: r, summary: t }),
     /* @__PURE__ */ e.jsx(Ri, { sqg: r, stats: o }),
     /* @__PURE__ */ e.jsx(Vi, { sqg: r, stats: o })
   ] });
@@ -1250,14 +1250,14 @@ const Mi = c.div`
   border-top: 1px solid var(${p.errorBorder});
 `;
 function Ni() {
-  const { compliance: i, summary: t } = h((a) => a.audit.audit), o = h((a) => a.audit.stats), n = h((a) => a.audit.sqgTodo), d = x(), r = (a) => {
-    d(Ge(a));
+  const { compliance: i, summary: t } = x((a) => a.audit.audit), o = x((a) => a.audit.stats), n = x((a) => a.audit.sqgTodo), d = h(), r = (a) => {
+    d(Ee(a));
   }, [s, l] = j.useState(!1);
-  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Hi, { children: /* @__PURE__ */ e.jsx(De, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Ei, { children: [
-    /* @__PURE__ */ e.jsxs(Gi, { children: [
+  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Wi, { children: /* @__PURE__ */ e.jsx(De, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Gi, { children: [
+    /* @__PURE__ */ e.jsxs(Ei, { children: [
       /* @__PURE__ */ e.jsx(C, {}),
       /* @__PURE__ */ e.jsx("div", { children: "Security quality gates failed" }),
-      /* @__PURE__ */ e.jsx(Le, { value: n, onChange: r }),
+      /* @__PURE__ */ e.jsx(Te, { value: n, onChange: r }),
       "Show only SQG to-do list",
       /* @__PURE__ */ e.jsx(
         ki,
@@ -1271,13 +1271,13 @@ function Ni() {
     s && /* @__PURE__ */ e.jsx(Oi, { compliance: i, summary: t, stats: o })
   ] });
 }
-const Ei = c.div`
+const Gi = c.div`
   margin: 8px;
   border-radius: 2px;
   border: 1px solid var(${p.errorBorder});
   background-color: var(${p.errorBackground});
   color: var(${p.errorForeground});
-`, Gi = c.div`
+`, Ei = c.div`
   display: flex;
   padding: 8px;
   flex-direction: row;
@@ -1289,11 +1289,11 @@ const Ei = c.div`
   > div:nth-child(2) {
     flex: 1;
   }
-`, Hi = c.div`
+`, Wi = c.div`
   margin: 8px;
 `;
-function Wi() {
-  const i = h((n) => n.audit.audit.summary), t = h((n) => n.audit.type), o = x();
+function Hi() {
+  const i = x((n) => n.audit.audit.summary), t = x((n) => n.audit.type), o = h();
   return /* @__PURE__ */ e.jsx(Ui, { children: /* @__PURE__ */ e.jsxs(Ki, { children: [
     /* @__PURE__ */ e.jsxs(
       "div",
@@ -1382,7 +1382,7 @@ const Ui = c.div`
   }
 `;
 function K() {
-  const i = x(), { tab: t, audit: o } = h((n) => n.audit);
+  const i = h(), { tab: t, audit: o } = x((n) => n.audit);
   return /* @__PURE__ */ e.jsxs(_i, { children: [
     o.valid === !1 && /* @__PURE__ */ e.jsx(
       ji,
@@ -1392,10 +1392,10 @@ function K() {
         }
       }
     ),
-    /* @__PURE__ */ e.jsx(Wi, {}),
+    /* @__PURE__ */ e.jsx(Hi, {}),
     /* @__PURE__ */ e.jsx(Ni, {}),
     /* @__PURE__ */ e.jsx(
-      Te,
+      Le,
       {
         activeTab: t,
         setActiveTab: (n) => i(m(n)),
@@ -1502,7 +1502,7 @@ const Ji = c.div`
   showFullReport: z,
   showPartialReport: F,
   showNoReport: V,
-  loadKdb: Ee,
+  loadKdb: Ge,
   changeTheme: Ce
 };
 function tt() {
@@ -1513,7 +1513,7 @@ function tt() {
 }
 function nt(i, t) {
   const o = Ue(Ke(i, _), t);
-  fe.createRoot(document.getElementById("root")).render(
+  fe(document.getElementById("root")).render(
     /* @__PURE__ */ e.jsx(me.StrictMode, { children: /* @__PURE__ */ e.jsx(je, { store: o, children: /* @__PURE__ */ e.jsx(ye.Provider, { value: _, children: /* @__PURE__ */ e.jsx(tt, {}) }) }) })
   ), window.addEventListener("message", be(o, it));
 }

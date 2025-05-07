@@ -43,6 +43,8 @@ import okhttp3.ResponseBody;
 
 public class CliUtils {
 
+    private static final String REPORT_JSON = "report.json";
+    private static final String INPUT_GRAPHQL = "input.graphql";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Nullable
@@ -70,25 +72,25 @@ public class CliUtils {
         }
         return null;
     }
-    
+
     @NotNull
     public static GraphQlCliResult runGraphQlAuditWithCliBinary(@NotNull Project project, @NotNull String text) {
         try {
             VirtualFile dir = createTempDirectory(project, "graphql-audit");
-            writeFile(project, dir, "input.graphql", text);
+            writeFile(project, dir, INPUT_GRAPHQL, text);
             String cli = getCli();
             List<String> args = new LinkedList<>(Arrays.asList(
                 "graphql",
                 "audit",
-                "input.graphql",
+                INPUT_GRAPHQL,
                 "--output",
-                "report.json"
+                REPORT_JSON
             ));
             final Map<String, String> env = new HashMap<>();
             String output = ExecUtils.asyncExecFile(cli, args, dir, env, false);
-            String report = FileUtils.readFile(dir, "report.json");
-            removeFile(project, dir, "report.json");
-            removeFile(project, dir,"input.graphql");
+            String report = FileUtils.readFile(dir, REPORT_JSON);
+            removeFile(project, dir, REPORT_JSON);
+            removeFile(project, dir, INPUT_GRAPHQL);
             removeDir(project, dir);
             return new GraphQlCliResult(report, text, output);
         } catch (ExecUtils.ExecException ex) {

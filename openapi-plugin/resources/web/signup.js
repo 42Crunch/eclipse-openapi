@@ -1,9 +1,9 @@
-import { j as n, c as N, d as Z, s as G, a as Y, p as J, t as K, l as Q, u as X, b as ee, T, e as s, B as ne, g as oe, R as te, P as re, n as ae, k as ie } from "./TriangleExclamation.D70Relru.js";
-import { c as g, u as y } from "./index.esm.8YE_rKYV.js";
-import { o as A, s as f, F as w, I as j, T as se } from "./Textarea.DCag3NeK.js";
-import { N as B } from "./ProgressButton.B7v1By2N.js";
-import { E as k } from "./Banner.BiB2AAG7.js";
-import { C as D } from "./Checkbox.Ckk-j_PA.js";
+import { j as n, c as N, d as Z, s as G, a as Y, p as J, u as K, b as Q, l as X, t as ee, e as s, T, B as ne, g as oe, R as te, P as re, n as ae, k as ie } from "./TriangleExclamation.pAuQxBo5.js";
+import { c as g, u as y } from "./index.esm.BxaCgf7s.js";
+import { o as A, s as f, F as w, I as j, T as se } from "./Textarea.CDZwhD95.js";
+import { N as B } from "./ProgressButton.BTyIjiMI.js";
+import { E as k } from "./Banner.CPOTd1ij.js";
+import { C as D } from "./Checkbox.CG1UhkDk.js";
 const le = (e) => /* @__PURE__ */ n.jsxs(
   "svg",
   {
@@ -170,7 +170,7 @@ function Ce(e) {
   }), O;
 }
 const ve = {
-  theme: K,
+  theme: ee,
   signup: Te
 }, je = {
   changeTheme: J,
@@ -178,11 +178,11 @@ const ve = {
   showAnondTokenResponse: ce
 }, ke = (e, o) => Y({
   reducer: ve,
-  middleware: (t) => t().prepend(e.middleware).concat(Q),
+  middleware: (t) => t().prepend(e.middleware).concat(X),
   preloadedState: {
     theme: o
   }
-}), d = () => X(), c = ee, p = (e) => e;
+}), d = () => K(), c = Q, p = (e) => e;
 function ye({
   data: e,
   backToPrevForm: o
@@ -624,7 +624,7 @@ const z = s.div`
 `;
 function Oe(e, o) {
   const t = ke(Ce(e), o);
-  oe.createRoot(document.getElementById("root")).render(
+  oe(document.getElementById("root")).render(
     /* @__PURE__ */ n.jsx(te.StrictMode, { children: /* @__PURE__ */ n.jsxs(re, { store: t, children: [
       /* @__PURE__ */ n.jsx(ae, {}),
       /* @__PURE__ */ n.jsxs(_e, { children: [

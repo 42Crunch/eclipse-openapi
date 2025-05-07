@@ -1,22 +1,22 @@
-import { a as y, t as w, l as S, d as C, s as $, e as o, T as s, j as e, g as k, R as F, P as V, k as A, p as R, n as M } from "./TriangleExclamation.D70Relru.js";
-import { e as _, h as g, u as L, j as N, l as T } from "./slice.BLpVpaID.js";
-import { T as P } from "./Tabs.AUjjoS6e.js";
-import { u as D, a as v, d as G, b as W, F as H } from "./index.esm.8YE_rKYV.js";
-import { S as K } from "./ExclamationCircle.Cq_WR9mJ.js";
-import { S as X } from "./TrashCan.Dm6pJI80.js";
-import { k as B, l as I } from "./variables.D-S2B_7f.js";
+import { a as y, l as w, t as S, d as k, s as C, e as o, T as s, j as e, g as $, R as F, P as V, k as A, n as R, p as M } from "./TriangleExclamation.pAuQxBo5.js";
+import { e as _, j as g, u as L, k as N, l as T } from "./slice.CbwSv40W.js";
+import { T as P } from "./Tabs.Dwliy_Nj.js";
+import { u as D, a as v, d as G, b as W, F as H } from "./index.esm.BxaCgf7s.js";
+import { S as K } from "./ExclamationCircle.DcNm9nfm.js";
+import { S as X } from "./TrashCan.CQjpiv0P.js";
+import { k as B, l as I } from "./variables.Brv1lW33.js";
 const O = {
-  theme: w,
+  theme: S,
   env: _
 }, q = (r, t) => y({
   reducer: O,
-  middleware: (n) => n().prepend(r.middleware).concat(S),
+  middleware: (n) => n().prepend(r.middleware).concat(w),
   preloadedState: {
     theme: t
   }
-}), h = C(), z = h.startListening;
+}), h = k(), z = h.startListening;
 function J(r) {
-  return $({
+  return C({
     saveEnv: () => z({
       actionCreator: g,
       effect: async (n, a) => {
@@ -41,8 +41,8 @@ function Q({
     control: a,
     rules: {
       pattern: {
-        value: I(),
-        message: B
+        value: B(),
+        message: I
       }
     }
   }), { field: d } = v({
@@ -204,18 +204,18 @@ function ce() {
 const f = o.div`
   margin: 4px;
 `, ue = {
-  changeTheme: R,
+  changeTheme: M,
   loadEnv: T
 };
 function me() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(M, {}),
+    /* @__PURE__ */ e.jsx(R, {}),
     /* @__PURE__ */ e.jsx(ce, {})
   ] });
 }
 function pe(r, t) {
   const n = q(J(r), t);
-  k.createRoot(document.getElementById("root")).render(
+  $(document.getElementById("root")).render(
     /* @__PURE__ */ e.jsx(F.StrictMode, { children: /* @__PURE__ */ e.jsx(V, { store: n, children: /* @__PURE__ */ e.jsx(me, {}) }) })
   ), window.addEventListener("message", A(n, ue));
 }
