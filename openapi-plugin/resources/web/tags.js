@@ -1,13 +1,13 @@
-import { j as r, c as re, d as ae, s as te, t as ne, a as se, p as ie, b as de, l as le, u as ce, e as l, T as g, R as w, f as N, g as ge, P as ue, n as pe, k as fe } from "./TriangleExclamation.pAuQxBo5.js";
-import { o as he, c as xe } from "./listener.CJJEzJ85.js";
-import { p as L, s as ve, u as me, r as k, a as be, O as je, G as we, I as ye, b as Ce, S as Ie, d as Te, e as Se, R as $e } from "./platform-api.BVh67ln-.js";
-import { c as ke, l as Ae } from "./index.D0yLKFLk.js";
-import { E as H } from "./Banner.CPOTd1ij.js";
-import { S as V } from "./TrashCan.CQjpiv0P.js";
-import { b as Le, u as j } from "./downshift.esm.Yx3WJBX-.js";
-import { S as He } from "./AngleDown.FqWubUL_.js";
-import { S as De } from "./Check.BVHXW7W2.js";
-import { a as Ne, M as Oe, I as Pe } from "./Checkbox.CG1UhkDk.js";
+import { j as r, c as re, d as ae, s as te, p as ne, a as se, t as ie, l as de, b as le, u as ce, e as l, T as g, R as w, f as N, g as ge, P as ue, n as pe, k as fe } from "./TriangleExclamation.Lif_Buog.js";
+import { o as he, c as xe } from "./listener.CZ47C78K.js";
+import { p as L, s as ve, u as me, r as k, a as be, I as je, b as we, S as ye, O as Ce, G as Ie, d as Te, e as Se, R as $e } from "./platform-api.03fgf0Gy.js";
+import { l as ke, c as Ae } from "./slice.Dt1x_9-1.js";
+import { E as H } from "./Banner.BavmcnLf.js";
+import { S as V } from "./TrashCan.TZ1aaKxZ.js";
+import { b as Le, u as j } from "./downshift.esm.DvtsI1R7.js";
+import { S as He } from "./AngleDown.iYZHNlwk.js";
+import { S as De } from "./Check.CszCql1H.js";
+import { M as Ne, I as Oe, a as Pe } from "./Checkbox.DIS8tvTQ.js";
 const E = (o) => /* @__PURE__ */ r.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...o, children: /* @__PURE__ */ r.jsx("path", { d: "M345 39.1c-9.3-9.4-24.5-9.5-33.9-.2s-9.5 24.5-.2 33.9l127.7 129.3c33.9 34.3 33.9 89.4 0 123.7L326.7 439.1c-9.3 9.4-9.2 24.6.2 33.9s24.6 9.2 33.9-.2l112-113.2c52.4-53 52.4-138.2 0-191.2L345 39.1zM242.7 50.7c-12-12-28.3-18.7-45.3-18.7H48C21.5 32 0 53.5 0 80v149.5c0 17 6.7 33.3 18.7 45.3l168 168c25 25 65.5 25 90.5 0l133.5-133.5c25-25 25-65.5 0-90.5l-168-168zM48 80h149.5c4.2 0 8.3 1.7 11.3 4.7l168 168c6.2 6.2 6.2 16.4 0 22.6L243.3 408.8c-6.2 6.2-16.4 6.2-22.6 0l-168-168c-3-3-4.7-7.1-4.7-11.3V80zm96 64a32 32 0 1 0-64 0 32 32 0 1 0 64 0z" }) }), Re = {
   targetFileName: "",
   tagData: void 0,
@@ -56,27 +56,27 @@ function Ue(o) {
   return te(a), G;
 }
 const Ge = {
-  theme: ne,
-  config: ke,
+  theme: ie,
+  config: Ae,
   client: xe,
   tags: Ee,
   [L.reducerPath]: L.reducer
 }, ze = {
-  changeTheme: ie,
+  changeTheme: ne,
   loadTags: Be,
-  loadConfig: Ae,
+  loadConfig: ke,
   showHttpResponse: Fe,
   showHttpError: Ve
 }, Qe = (o, a) => {
   const s = se({
     reducer: Ge,
-    middleware: (t) => t().prepend(o.middleware).concat(le, L.middleware),
+    middleware: (t) => t().prepend(o.middleware).concat(de, L.middleware),
     preloadedState: {
       theme: a
     }
   });
   return ve(s.dispatch), s;
-}, z = () => ce(), P = de;
+}, z = () => ce(), P = le;
 function Q({
   options: o,
   placeholder: a,
@@ -613,7 +613,7 @@ function po({
         }
       },
       children: [
-        /* @__PURE__ */ r.jsx(Oe, { checked: s, children: /* @__PURE__ */ r.jsx(Pe, { children: /* @__PURE__ */ r.jsx(De, {}) }) }),
+        /* @__PURE__ */ r.jsx(Ne, { checked: s, children: /* @__PURE__ */ r.jsx(Oe, { children: /* @__PURE__ */ r.jsx(De, {}) }) }),
         /* @__PURE__ */ r.jsx("label", { children: /* @__PURE__ */ r.jsx(T, { value: a.tagName, searchValue: t }) })
       ]
     }
@@ -639,13 +639,13 @@ function fo({
         }
       },
       children: [
-        !a.onlyAdminCanTag && /* @__PURE__ */ r.jsx(ye, { value: a.tagId, children: /* @__PURE__ */ r.jsx(Ce, { children: /* @__PURE__ */ r.jsx(Ie, {}) }) }),
+        !a.onlyAdminCanTag && /* @__PURE__ */ r.jsx(je, { value: a.tagId, children: /* @__PURE__ */ r.jsx(we, { children: /* @__PURE__ */ r.jsx(ye, {}) }) }),
         /* @__PURE__ */ r.jsx("label", { children: /* @__PURE__ */ r.jsx(T, { value: a.tagName, searchValue: t }) })
       ]
     }
   );
 }
-const ho = l(Ne)`
+const ho = l(Pe)`
   padding: 2px;
   border-width: 1px;
   border-style: solid;
@@ -662,7 +662,7 @@ const ho = l(Ne)`
     background-color: var(${g.listHoverBackground});
     border-color: var(${g.border});
   }
-`, xo = l(je)`
+`, xo = l(Ce)`
   padding: 2px;
   border-width: 1px;
   border-style: solid;
@@ -679,7 +679,7 @@ const ho = l(Ne)`
     background-color: var(${g.listHoverBackground});
     border-color: var(${g.border});
   }
-`, vo = l(we)`
+`, vo = l(Ie)`
   flex-direction: column;
 `, mo = l.span`
   font-weight: bold;
@@ -957,7 +957,7 @@ const Oo = l.div`
 `;
 function Ro(o, a) {
   const s = Qe(Ue(o), a);
-  ge(document.getElementById("root")).render(
+  ge.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ r.jsx(w.StrictMode, { children: /* @__PURE__ */ r.jsxs(ue, { store: s, children: [
       /* @__PURE__ */ r.jsx(pe, {}),
       /* @__PURE__ */ r.jsx(Do, {})

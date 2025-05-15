@@ -1,8 +1,8 @@
-import { c as v, a as g, l as j, b, t as h, f, e as o, T as l, j as e, g as y, R as S, P as $, k as w, n as I, p as D } from "./TriangleExclamation.pAuQxBo5.js";
-import { D as p } from "./datetime.DlW1FQ29.js";
-import { S as O } from "./AngleDown.FqWubUL_.js";
-import { S as E } from "./AngleUp.phJPZ_ZE.js";
-import { S as M } from "./SearchSidebar.BQ3nahf4.js";
+import { c as v, a as g, t as j, l as b, b as h, f, T as l, e as o, j as e, g as y, R as S, P as $, k as w, p as I, n as D } from "./TriangleExclamation.Lif_Buog.js";
+import { D as u } from "./datetime.C3A9-vc0.js";
+import { S as O } from "./AngleDown.iYZHNlwk.js";
+import { S as E } from "./AngleUp.Z7OHQD_M.js";
+import { S as M } from "./SearchSidebar.DeoSg2J6.js";
 const F = {
   dictionaries: [],
   formats: []
@@ -18,9 +18,9 @@ const F = {
           name: a.name,
           description: a.description
         });
-        for (const u of Object.values(a.formats))
+        for (const p of Object.values(a.formats))
           d.push({
-            ...u,
+            ...p,
             dictionaryId: a.id
           });
       }
@@ -28,15 +28,15 @@ const F = {
     }
   }
 }), { showDictionary: T } = m.actions, k = m.reducer, P = {
-  theme: h,
+  theme: j,
   formats: k
 }, C = (i) => g({
   reducer: P,
-  middleware: (n) => n().prepend().concat(j),
+  middleware: (n) => n().prepend().concat(b),
   preloadedState: {
     theme: i
   }
-}), x = b;
+}), x = h;
 function L(i = !1) {
   const [n, r] = f.useState(i);
   return [n, () => r(!n)];
@@ -51,8 +51,8 @@ function A({ format: i }) {
         /* @__PURE__ */ e.jsxs(_, { children: [
           "Last updated on",
           " ",
-          p.fromSeconds(parseInt(i.lastUpdate, 10)).toLocaleString(
-            p.DATETIME_MED
+          u.fromSeconds(parseInt(i.lastUpdate, 10)).toLocaleString(
+            u.DATETIME_MED
           )
         ] })
       ] })
@@ -162,9 +162,9 @@ const N = o.div`
   }
 `;
 function K() {
-  var u;
+  var p;
   const i = x((s) => s.formats.formats), n = x((s) => s.formats.dictionaries);
-  if (((u = n == null ? void 0 : n[0]) == null ? void 0 : u.id) === void 0)
+  if (((p = n == null ? void 0 : n[0]) == null ? void 0 : p.id) === void 0)
     return null;
   const r = n.filter((s) => s.id === "standard").map((s) => ({ ...s, label: s.name })), d = n.filter((s) => s.id !== "standard").map((s) => ({ ...s, label: s.name })), a = [
     { id: "standard", title: "Organization standard dictionary", items: r },
@@ -179,18 +179,18 @@ function K() {
   );
 }
 const Q = {
-  changeTheme: D,
+  changeTheme: I,
   showDictionary: T
 };
 function X() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(I, {}),
+    /* @__PURE__ */ e.jsx(D, {}),
     /* @__PURE__ */ e.jsx(K, {})
   ] });
 }
 function Y(i, n) {
   const r = C(n);
-  y(document.getElementById("root")).render(
+  y.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ e.jsx(S.StrictMode, { children: /* @__PURE__ */ e.jsx($, { store: r, children: /* @__PURE__ */ e.jsx(X, {}) }) })
   ), window.addEventListener("message", w(r, Q));
 }

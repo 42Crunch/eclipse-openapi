@@ -1,16 +1,16 @@
-import { j as e, e as s, T as c, t as pe, a as he, p as fe, l as ge, u as xe, B as te, f as S, d as je, s as ve, g as be, R as ye, P as Ce, n as we, k as Te } from "./TriangleExclamation.pAuQxBo5.js";
-import { u as se, a as Y, c as v, b as ke } from "./index.esm.BxaCgf7s.js";
-import { S as Se } from "./SearchSidebar.BQ3nahf4.js";
-import { c as $e, l as Pe, s as Ae, b as Re, d as Fe, e as Ie, f as De, o as re, u as y, g as A, t as Me, h as Be, i as Ue, j as Ee, k as He, m as ie, n as ce, p as Ne } from "./index.D0yLKFLk.js";
-import { o as m, e as I, s as g, l as le, T as de, I as u, u as ee, i as Oe, a as Le, c as ze, b as Ve, d as Ge, F as We } from "./Textarea.CDZwhD95.js";
-import { N as qe } from "./ProgressButton.BTyIjiMI.js";
-import { B as b, E as D } from "./Banner.CPOTd1ij.js";
-import { R as _e, c as Je, p as Q, s as Ke } from "./platform-api.BVh67ln-.js";
-import { w as Qe, s as Ze, c as Xe, o as Ye } from "./listener.CJJEzJ85.js";
-import { S as M } from "./Select.mcNZKCHB.js";
-import { R as en, I as nn } from "./index.KBA4ZGjU.js";
-import { S as tn } from "./Check.BVHXW7W2.js";
-import { o as rn, a as on, b as an, c as sn, d as cn, e as ln, f as dn } from "./listener.Q5KPhR8r.js";
+import { j as e, e as s, T as c, p as pe, a as he, t as fe, l as ge, u as xe, B as te, f as S, d as je, s as ve, g as be, R as ye, P as Ce, n as we, k as ke } from "./TriangleExclamation.Lif_Buog.js";
+import { u as se, a as Y, c as v, b as Te } from "./index.esm._Dt3pbxw.js";
+import { S as Se } from "./SearchSidebar.DeoSg2J6.js";
+import { s as $e, b as Pe, d as Ae, e as Re, f as Fe, l as De, c as Ie, o as re, u as y, g as A, t as Me, h as Be, i as Ue, j as Ee, k as He, m as ie, n as ce, p as Ne } from "./slice.Dt1x_9-1.js";
+import { o as m, s as g, e as D, l as le, T as de, I as u, u as ee, i as Oe, a as Le, c as ze, b as Ve, d as Ge, F as We } from "./Textarea.35srzm19.js";
+import { N as qe } from "./ProgressButton.DQ1MXUa8.js";
+import { B as b, E as I } from "./Banner.BavmcnLf.js";
+import { R as _e, c as Je, p as Q, s as Ke } from "./platform-api.03fgf0Gy.js";
+import { w as Qe, s as Ze, c as Xe, o as Ye } from "./listener.CZ47C78K.js";
+import { S as M } from "./Select.CFYaYomC.js";
+import { C as en, a as nn } from "./index.D3exu7vz.js";
+import { S as tn } from "./Check.CszCql1H.js";
+import { a as rn, b as on, c as an, d as sn, e as cn, f as ln, o as dn } from "./listener.CEH0hieF.js";
 const un = (n) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 576 512", width: "1em", height: "1em", ...n, children: /* @__PURE__ */ e.jsx("path", { d: "M288 288a64 64 0 0 0 0-128c-1 0-1.88.24-2.85.29a47.5 47.5 0 0 1-60.86 60.86c0 1-.29 1.88-.29 2.85a64 64 0 0 0 64 64zm284.52-46.6C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 96a128 128 0 1 1-128 128A128.14 128.14 0 0 1 288 96zm0 320c-107.36 0-205.46-61.31-256-160a294.78 294.78 0 0 1 129.78-129.33C140.91 153.69 128 187.17 128 224a160 160 0 0 0 320 0c0-36.83-12.91-70.31-33.78-97.33A294.78 294.78 0 0 1 544 256c-50.53 98.69-148.64 160-256 160z" }) });
 function $({
   label: n,
@@ -23,7 +23,7 @@ function $({
   return /* @__PURE__ */ e.jsx(qe, { disabled: !o, label: n, waiting: r, onClick: t });
 }
 function ne({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(b, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(D, { message: "Failed to connect", children: n.message }) : null;
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(b, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(I, { message: "Failed to connect", children: n.message }) : null;
 }
 const h = s.div`
   display: flex;
@@ -139,19 +139,19 @@ const fn = s.div`
   clip-path: inset(0 ${({ $progress: n }) => 100 - n * 100}% 0 0);
   transition: clip-path 0.3s linear;
 `, jn = {
-  theme: pe,
-  config: $e,
+  theme: fe,
+  config: Ie,
   client: Xe,
   [Q.reducerPath]: Q.reducer,
   [F.reducerPath]: F.reducer
 }, vn = {
-  changeTheme: fe,
-  loadConfig: Pe,
-  showPlatformConnectionTest: Ae,
+  changeTheme: pe,
+  loadConfig: De,
+  showPlatformConnectionTest: Fe,
   showOverlordConnectionTest: Re,
-  showScandManagerConnectionTest: Fe,
-  showCliTest: Ie,
-  showCliDownload: De,
+  showScandManagerConnectionTest: Ae,
+  showCliTest: Pe,
+  showCliDownload: $e,
   showHttpError: () => null,
   showHttpResponse: () => null
 }, bn = (n, r) => {
@@ -173,7 +173,7 @@ function Cn({
     pollingInterval: 6e5
     // refresh every 10 minutes
   }), d = yn(), { upgradeUrl: l } = ue(r);
-  return o ? /* @__PURE__ */ e.jsx(E, { children: /* @__PURE__ */ e.jsxs(D, { message: "Failed to load subscription status", children: [
+  return o ? /* @__PURE__ */ e.jsx(E, { children: /* @__PURE__ */ e.jsxs(I, { message: "Failed to load subscription status", children: [
     o.code,
     " ",
     o.message
@@ -183,8 +183,8 @@ function Cn({
         "Subscription type: ",
         t == null ? void 0 : t.subscriptionKind
       ] }),
-      /* @__PURE__ */ e.jsx(T, { children: "Upgrade or manage your subscription plan" }),
-      /* @__PURE__ */ e.jsxs(k, { children: [
+      /* @__PURE__ */ e.jsx(k, { children: "Upgrade or manage your subscription plan" }),
+      /* @__PURE__ */ e.jsxs(T, { children: [
         t.subscriptionKind === "free" && /* @__PURE__ */ e.jsx(
           te,
           {
@@ -209,13 +209,13 @@ function Cn({
     ] }),
     /* @__PURE__ */ e.jsxs(R, { children: [
       /* @__PURE__ */ e.jsx(w, { children: "Subscription date" }),
-      /* @__PURE__ */ e.jsx(T, { children: "Date when your monthly allowance started" }),
-      /* @__PURE__ */ e.jsx(k, { children: t.periodStart })
+      /* @__PURE__ */ e.jsx(k, { children: "Date when your monthly allowance started" }),
+      /* @__PURE__ */ e.jsx(T, { children: t.periodStart })
     ] }),
     /* @__PURE__ */ e.jsxs(R, { children: [
       /* @__PURE__ */ e.jsx(w, { children: "Audit" }),
-      /* @__PURE__ */ e.jsx(T, { children: "Monthly operation audits left" }),
-      /* @__PURE__ */ e.jsxs(k, { children: [
+      /* @__PURE__ */ e.jsx(k, { children: "Monthly operation audits left" }),
+      /* @__PURE__ */ e.jsxs(T, { children: [
         t.monthlyAudit - t.currentAuditUsage,
         " / ",
         t.monthlyAudit
@@ -224,8 +224,8 @@ function Cn({
     ] }),
     /* @__PURE__ */ e.jsxs(R, { children: [
       /* @__PURE__ */ e.jsx(w, { children: "Scan" }),
-      /* @__PURE__ */ e.jsx(T, { children: "Monthly operation scans left" }),
-      /* @__PURE__ */ e.jsxs(k, { children: [
+      /* @__PURE__ */ e.jsx(k, { children: "Monthly operation scans left" }),
+      /* @__PURE__ */ e.jsxs(T, { children: [
         t.monthlyScan - t.currentScanUsage,
         " / ",
         t.monthlyScan
@@ -241,10 +241,10 @@ const E = s.div`
   max-width: 560px;
 `, w = s.div`
   font-weight: 700;
-`, T = s.div`
+`, k = s.div`
   font-weight: 400;
   font-size: 90%;
-`, k = s.div`
+`, T = s.div`
   font-weight: 600;
   font-size: 110%;
   > div {
@@ -260,11 +260,11 @@ const E = s.div`
     grid-column: 1;
     grid-row: 1;
   }
-  > ${T} {
+  > ${k} {
     grid-column: 1;
     grid-row: 2;
   }
-  > ${k} {
+  > ${T} {
     grid-column: 2;
     grid-row: span 2;
     align-self: center;
@@ -318,8 +318,8 @@ function wn() {
     ] })
   ] });
 }
-const Tn = m({
-  platformAuthType: I(["anond-token", "api-token"]),
+const kn = m({
+  platformAuthType: D(["anond-token", "api-token"]),
   platformUrl: g().url().startsWith("https://").refine(
     (n) => {
       try {
@@ -341,10 +341,10 @@ const Tn = m({
 }), H = {
   id: "platform-connection",
   label: "Connection",
-  schema: Tn,
+  schema: kn,
   form: wn
 };
-function kn() {
+function Tn() {
   const n = y(), {
     overlordConnectionTestResult: r,
     waitingForOverlordConnectionTest: t
@@ -383,7 +383,7 @@ function kn() {
 }
 const Sn = m({
   platformServices: m({
-    source: I(["auto", "manual"]),
+    source: D(["auto", "manual"]),
     manual: g(),
     auto: ee()
   })
@@ -391,7 +391,7 @@ const Sn = m({
   id: "platform-services",
   label: "Services",
   schema: Sn,
-  form: kn
+  form: Tn
 }, oe = "^[\\w _.\\/:-]{1,2048}$", $n = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
 function Pn() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
@@ -404,8 +404,7 @@ function Pn() {
 function An(n) {
   const t = n || {
     pattern: ".*",
-    example: "",
-    description: "Any string"
+    example: ""
   };
   return {
     id: "temporary-collection",
@@ -443,7 +442,7 @@ const Fn = m({
     "Tags are invalid, must be a comma or space separated list of key:value pairs, e.g. env:dev app:myapp"
   )
 });
-function In() {
+function Dn() {
   return {
     id: "mandatory-tags",
     label: "Mandatory Tags",
@@ -451,8 +450,8 @@ function In() {
     form: Rn
   };
 }
-function Dn({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(b, { message: n.version }) : /* @__PURE__ */ e.jsx(D, { message: "Failed", children: n.message }) : null;
+function In({ result: n }) {
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(b, { message: n.version }) : /* @__PURE__ */ e.jsx(I, { message: "Failed", children: n.message }) : null;
 }
 function Mn() {
   const n = y(), {
@@ -497,7 +496,7 @@ function Mn() {
           }
         )
       ] }),
-      d !== void 0 && /* @__PURE__ */ e.jsx(D, { message: d }),
+      d !== void 0 && /* @__PURE__ */ e.jsx(I, { message: d }),
       l.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(b, { message: `Using 42Crunch API Security Testing Binary in ${l.location}` }),
         /* @__PURE__ */ e.jsxs(P, { children: [
@@ -511,7 +510,7 @@ function Mn() {
               }
             }
           ),
-          /* @__PURE__ */ e.jsx(Dn, { result: t })
+          /* @__PURE__ */ e.jsx(In, { result: t })
         ] })
       ] })
     ] })
@@ -671,7 +670,7 @@ function Vn() {
   ] });
 }
 const Gn = m({
-  auditRuntime: I(["platform", "cli"])
+  auditRuntime: D(["platform", "cli"])
 }), V = {
   id: "audit-runtime",
   label: "API Audit runtime",
@@ -700,14 +699,13 @@ function Wn() {
   ] });
 }
 const qn = m({
-  scanRuntime: I(["docker", "scand-manager", "cli"])
+  scanRuntime: D(["docker", "scand-manager", "cli"])
 }), G = {
   id: "scan-runtime",
   label: "API Scan runtime",
   schema: qn,
   form: Wn
 }, W = {
-  host: "",
   header: "Authorization",
   prefix: "Bearer",
   token: "Token"
@@ -748,7 +746,7 @@ function Jn({ name: n }) {
   ] });
 }
 function Kn() {
-  const { fields: n } = ke({
+  const { fields: n } = Te({
     name: "approvedHosts"
   });
   return /* @__PURE__ */ e.jsxs(Qn, { children: [
@@ -855,7 +853,7 @@ function ct(n) {
   return JSON.parse(JSON.stringify(n));
 }
 function lt() {
-  const n = y(), { ready: r, errors: t, data: o } = A((p) => p.config), a = In(), d = An(o.platformCollectionNamingConvention), l = [
+  const n = y(), { ready: r, errors: t, data: o } = A((p) => p.config), a = Dn(), d = An(o.platformCollectionNamingConvention), l = [
     {
       id: "platform",
       title: "42Crunch Platform",
@@ -946,24 +944,24 @@ function dt({ id: n }) {
 const me = je(), j = me.startListening;
 function ut(n) {
   const r = {
-    saveConfig: rn(j, n),
-    testOverlordConnection: on(j, n),
-    testScandManagerConnection: an(j, n),
+    saveConfig: dn(j, n),
+    testOverlordConnection: ln(j, n),
+    testScandManagerConnection: cn(j, n),
     testPlatformConnection: sn(j, n),
-    testCli: cn(j, n),
-    downloadCli: ln(j, n),
-    openLink: dn(j, n),
+    testCli: an(j, n),
+    downloadCli: on(j, n),
+    openLink: rn(j, n),
     sendHttpRequest: Ye(j, n)
   };
   return ve(r), me;
 }
 function mt(n, r) {
   const t = bn(ut(n), r);
-  be(document.getElementById("root")).render(
+  be.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ e.jsx(ye.StrictMode, { children: /* @__PURE__ */ e.jsxs(Ce, { store: t, children: [
       /* @__PURE__ */ e.jsx(we, {}),
       /* @__PURE__ */ e.jsx(lt, {})
     ] }) })
-  ), window.addEventListener("message", Te(t, vn));
+  ), window.addEventListener("message", ke(t, vn));
 }
 window.renderWebView = mt;

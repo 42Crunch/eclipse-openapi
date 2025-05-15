@@ -1,19 +1,19 @@
-import { j as n, c as he, a as be, b as ye, l as je, u as K, t as $e, r as Se, d as we, s as Ce, i as ke, e as u, T as c, f as x, S as B, g as Oe, R as Fe, P as Ee, h as Te, k as Re, n as Pe, o as Ne, p as Ie } from "./TriangleExclamation.pAuQxBo5.js";
-import { i as q, e as Ve, s as Y, d as T, u as Be, a as qe, c as De, f as He, h as Z, l as Ae } from "./slice.CbwSv40W.js";
-import { c as Me, a as Le, e as O, s as A, p as M, b as L, g as Je, h as We, d as ee, f as ze, i as Ge, j as re, E as _e, w as Ue, u as Qe } from "./variables.Brv1lW33.js";
-import { p as Xe, s as te, b as ne, S as Ke, l as Ye } from "./index.DXEBw5D9.js";
-import { c as Ze, a as er, r as rr, l as tr } from "./index.D0yLKFLk.js";
-import { s as nr } from "./listener.DBAk009r.js";
-import { o as or } from "./listener.Q5KPhR8r.js";
-import { u as h, a as w, b as D, c as sr, d as ir, F as ar } from "./index.esm.BxaCgf7s.js";
-import { T as cr } from "./Tabs.Dwliy_Nj.js";
-import { S as dr } from "./TrashCan.CQjpiv0P.js";
-import { u as lr } from "./downshift.esm.Yx3WJBX-.js";
-import { P as ur } from "./ProgressButton.BTyIjiMI.js";
-import { S as R } from "./index.agHA6EeO.js";
-import { R as pr, I as fr } from "./index.KBA4ZGjU.js";
-import { S as gr } from "./Check.BVHXW7W2.js";
-import { R as vr } from "./Response.BUYm-HRx.js";
+import { j as n, c as he, a as be, r as ye, t as je, l as $e, b as Se, u as K, d as we, s as Ce, i as ke, e as u, T as c, f as x, S as I, g as Oe, R as Fe, P as Ee, h as Te, k as Re, p as Pe, n as Ne, o as Ve } from "./TriangleExclamation.Lif_Buog.js";
+import { i as q, e as Be, s as Y, d as T, u as Ie, a as qe, b as De, c as He, f as Z, l as Ae } from "./slice.B7Vub8ny.js";
+import { c as Me, a as Le, e as O, s as A, p as M, b as L, g as Je, h as We, d as ee, f as ze, i as Ge, j as re, E as _e, w as Ue, u as Qe } from "./variables.BDm1qDaI.js";
+import { p as Xe, s as te, b as ne, S as Ke, l as Ye } from "./index.uDJPiUWW.js";
+import { c as Ze, a as er, r as rr, l as tr } from "./slice.Dt1x_9-1.js";
+import { s as nr } from "./listener.Bi3CVfjc.js";
+import { o as or } from "./listener.CEH0hieF.js";
+import { u as h, a as S, b as D, c as sr, d as ir, F as ar } from "./index.esm._Dt3pbxw.js";
+import { T as cr } from "./Tabs.0Qwc4hJe.js";
+import { S as dr } from "./TrashCan.TZ1aaKxZ.js";
+import { u as lr } from "./downshift.esm.DvtsI1R7.js";
+import { P as ur } from "./ProgressButton.DQ1MXUa8.js";
+import { S as R } from "./index.BcWII7a7.js";
+import { C as pr, a as fr } from "./index.D3exu7vz.js";
+import { S as gr } from "./Check.CszCql1H.js";
+import { R as vr } from "./Response.D9m6inl7.js";
 const mr = (e) => /* @__PURE__ */ n.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ n.jsx("path", { d: "M58.57 323.5 362.7 19.32c25-24.998 65.6-24.998 90.6 0l39.4 39.43c3.1 3.12 5.8 6.49 8.2 10.04 16.4 24.84 13.7 58.61-8.2 80.51L188.5 453.4c-1.3 1.3-2.6 1.7-4 3.8-9.6 8.5-21 13.9-33.4 18.4L30.77 511c-8.42 2.5-17.53.2-23.74-6.9-6.21-5.3-8.532-14.4-6.054-22.9L36.37 360.9c4.16-14.1 11.79-27 22.2-37.4zm23.85 50.9-22.98 78.2 78.16-23c5.5-1.9 12.2-5.4 17-10.1L383 191l-62.9-62.9L92.51 357.4c-.59.6-1.16 1.2-1.71 1.9-3.86 4.3-6.73 9.5-8.38 15.1z" }) }), xr = {
   oas: {
     openapi: "3.0.0",
@@ -74,19 +74,19 @@ const mr = (e) => /* @__PURE__ */ n.jsx("svg", { xmlns: "http://www.w3.org/2000/
   createSchema: ae,
   showGeneralError: yr
 } = oe.actions, jr = oe.reducer, $r = {
-  theme: $e,
+  theme: je,
   tryit: jr,
-  router: Se,
-  env: Ve,
+  router: ye,
+  env: Be,
   prefs: Xe,
   config: Ze
 }, Sr = (e, r) => be({
   reducer: $r,
-  middleware: (t) => t().prepend(e.middleware).concat(je),
+  middleware: (t) => t().prepend(e.middleware).concat($e),
   preloadedState: {
     theme: r
   }
-}), ce = () => K(), j = ye, de = we(), k = de.startListening;
+}), ce = () => K(), y = Se, de = we(), k = de.startListening;
 function wr(e, r) {
   const t = {
     sendHttpRequest: () => k({
@@ -132,7 +132,7 @@ function le({
   const { control: s, setError: i, clearErrors: a } = h(), {
     field: d,
     fieldState: { error: l }
-  } = w({
+  } = S({
     name: e,
     control: s,
     rules: {
@@ -172,7 +172,7 @@ function le({
       )
     ] }),
     l && /* @__PURE__ */ n.jsxs(kr, { children: [
-      /* @__PURE__ */ n.jsx(B, {}),
+      /* @__PURE__ */ n.jsx(I, {}),
       " ",
       l.message
     ] })
@@ -232,14 +232,14 @@ function Pr(e, r) {
   if (t === "integer")
     return Nr(r);
   if (t === "number")
-    return Ir(r);
+    return Vr(r);
   if (t === "boolean") {
     if (r === "true" || r === "false")
       return r === "true";
     throw new Error("failed to convert to 'boolean'");
   }
   if (t === "object" || t === "array")
-    return Vr(r);
+    return Br(r);
   throw new Error(`failed to convert, unsupported type: ${t}`);
 }
 function Nr(e) {
@@ -248,20 +248,20 @@ function Nr(e) {
     throw new Error("failed to convert to 'integer'");
   return r;
 }
-function Ir(e) {
+function Vr(e) {
   const r = Number.parseFloat(e);
   if (isNaN(r))
     throw new Error("failed to convert to 'number'");
   return r;
 }
-function Vr(e) {
+function Br(e) {
   try {
     return JSON.parse(e);
   } catch (r) {
     throw new Error(`failed to convert: ${r}`);
   }
 }
-function Br({
+function Ir({
   name: e,
   parameter: r,
   schema: t,
@@ -270,21 +270,21 @@ function Br({
   const {
     control: s,
     formState: { errors: i }
-  } = h(), { fields: a, append: d, prepend: l, remove: g, swap: v, move: p, insert: f } = D({
+  } = h(), { fields: a, append: d, remove: l } = D({
     control: s,
     name: e
   });
   return x.useEffect(() => (o.current[e] = d, () => {
     delete o.current[e];
-  }), []), /* @__PURE__ */ n.jsx(n.Fragment, { children: a.map((b, m) => /* @__PURE__ */ n.jsx("div", { children: /* @__PURE__ */ n.jsx(
+  }), []), /* @__PURE__ */ n.jsx(n.Fragment, { children: a.map((g, v) => /* @__PURE__ */ n.jsx("div", { children: /* @__PURE__ */ n.jsx(
     le,
     {
-      name: `${e}.${m}.value`,
+      name: `${e}.${v}.value`,
       parameter: r,
       schema: t,
-      onDelete: () => g(m)
+      onDelete: () => l(v)
     }
-  ) }, b.id)) });
+  ) }, g.id)) });
 }
 function qr({
   parameters: e,
@@ -351,7 +351,7 @@ const Hr = u.div`
   border-bottom: 1px solid var(${c.border});
   margin-right: 1.5em;
 `;
-function S({
+function $({
   oas: e,
   group: r
 }) {
@@ -362,8 +362,8 @@ function S({
     if (o.current[f] !== void 0)
       o.current[f]("");
     else {
-      const b = z(p) ? [""] : "";
-      a(f, b), await l(), d(f);
+      const w = z(p) ? [""] : "";
+      a(f, w), await l(), d(f);
     }
   };
   return /* @__PURE__ */ n.jsxs(Wr, { children: [
@@ -371,7 +371,7 @@ function S({
       const f = W(p);
       if (i(f) !== void 0)
         return z(p) ? /* @__PURE__ */ n.jsx(
-          Br,
+          Ir,
           {
             name: f,
             parameter: p,
@@ -426,13 +426,13 @@ function zr({
   const { control: t } = h();
   if (r === void 0)
     return null;
-  const { field: o } = w({
+  const { field: o } = S({
     name: "body.mediaType",
     control: t
   }), {
     field: s,
     fieldState: { error: i }
-  } = w({
+  } = S({
     name: "body.value",
     control: t,
     rules: {
@@ -479,7 +479,7 @@ function zr({
       }
     ),
     i && /* @__PURE__ */ n.jsxs(Ur, { children: [
-      /* @__PURE__ */ n.jsx(B, {}),
+      /* @__PURE__ */ n.jsx(I, {}),
       " ",
       i.message
     ] })
@@ -537,7 +537,7 @@ function Qr({
   const { control: t } = h(), {
     field: o,
     fieldState: { error: s }
-  } = w({
+  } = S({
     name: "body.value",
     control: t,
     rules: {
@@ -560,7 +560,7 @@ function Qr({
       }
     ),
     s && /* @__PURE__ */ n.jsxs(Kr, { children: [
-      /* @__PURE__ */ n.jsx(B, {}),
+      /* @__PURE__ */ n.jsx(I, {}),
       " ",
       s.message
     ] })
@@ -593,8 +593,8 @@ function Yr(e) {
   if (e instanceof Error)
     return e.message;
 }
-function I({ name: e, placeholder: r }) {
-  const t = j((m) => m.env.data.secrets), o = Be(), { control: s } = h(), { field: i } = w({
+function V({ name: e, placeholder: r }) {
+  const t = y((m) => m.env.data.secrets), o = Ie(), { control: s } = h(), { field: i } = S({
     name: e,
     control: s
   });
@@ -602,10 +602,10 @@ function I({ name: e, placeholder: r }) {
     return null;
   const [a, d] = x.useState(void 0), [l, g] = x.useState([]);
   x.useEffect(() => {
-    const m = Object.keys(t).map(($) => `{{secrets.${$}}}`);
-    g(a === void 0 ? m : m.filter(($) => $.toLowerCase().includes(a.toLowerCase())));
+    const m = Object.keys(t).map((j) => `{{secrets.${j}}}`);
+    g(a === void 0 ? m : m.filter((j) => j.toLowerCase().includes(a.toLowerCase())));
   }, [t, a]);
-  const { isOpen: v, getMenuProps: p, getInputProps: f, getItemProps: b } = lr({
+  const { isOpen: v, getMenuProps: p, getInputProps: f, getItemProps: w } = lr({
     initialInputValue: i.value,
     items: l,
     onInputValueChange: ({ inputValue: m }) => {
@@ -615,16 +615,16 @@ function I({ name: e, placeholder: r }) {
   return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
     /* @__PURE__ */ n.jsx(Zr, { ...f(), placeholder: r }),
     /* @__PURE__ */ n.jsx(et, { children: /* @__PURE__ */ n.jsxs(rt, { ...p(), $isOpen: v, children: [
-      v && l.map((m, $) => /* @__PURE__ */ n.jsx(
+      v && l.map((m, j) => /* @__PURE__ */ n.jsx(
         "li",
         {
-          ...b({
+          ...w({
             item: m,
-            index: $
+            index: j
           }),
           children: m
         },
-        `${m}${$}`
+        `${m}${j}`
       )),
       v && /* @__PURE__ */ n.jsxs(
         tt,
@@ -681,8 +681,8 @@ const Zr = u.input`
 `;
 function ue({ name: e }) {
   return /* @__PURE__ */ n.jsxs(nt, { children: [
-    /* @__PURE__ */ n.jsx("div", { children: /* @__PURE__ */ n.jsx(I, { name: `${e}.username`, placeholder: "username" }) }),
-    /* @__PURE__ */ n.jsx("div", { children: /* @__PURE__ */ n.jsx(I, { name: `${e}.password`, placeholder: "password" }) })
+    /* @__PURE__ */ n.jsx("div", { children: /* @__PURE__ */ n.jsx(V, { name: `${e}.username`, placeholder: "username" }) }),
+    /* @__PURE__ */ n.jsx("div", { children: /* @__PURE__ */ n.jsx(V, { name: `${e}.password`, placeholder: "password" }) })
   ] });
 }
 const nt = u.div`
@@ -697,7 +697,7 @@ const nt = u.div`
   }
 `;
 function pe({ name: e, placeholder: r }) {
-  return /* @__PURE__ */ n.jsx(ot, { children: /* @__PURE__ */ n.jsx(I, { name: e, placeholder: r }) });
+  return /* @__PURE__ */ n.jsx(ot, { children: /* @__PURE__ */ n.jsx(V, { name: e, placeholder: r }) });
 }
 const ot = u.div`
   display: flex;
@@ -730,7 +730,7 @@ function at({
 }) {
   if (r === void 0)
     return null;
-  const { control: t, formState: o } = h(), { field: s } = w({
+  const { control: t, formState: o } = h(), { field: s } = S({
     name: "securityIndex",
     control: t
   }), { fields: i } = D({
@@ -782,7 +782,7 @@ function ut({
 }) {
   if (r === void 0)
     return null;
-  const { control: t, formState: o } = h(), { field: s } = w({
+  const { control: t, formState: o } = h(), { field: s } = S({
     name: "securityIndex",
     control: t
   }), { fields: i } = D({
@@ -853,26 +853,26 @@ function vt(e, r, t) {
     {
       id: "path",
       title: "Path",
-      content: /* @__PURE__ */ n.jsx(S, { oas: e, group: o.path }),
-      disabled: !y(o.path)
+      content: /* @__PURE__ */ n.jsx($, { oas: e, group: o.path }),
+      disabled: !b(o.path)
     },
     {
       id: "query",
       title: "Query",
-      content: /* @__PURE__ */ n.jsx(S, { oas: e, group: o.query }),
-      disabled: !y(o.query)
+      content: /* @__PURE__ */ n.jsx($, { oas: e, group: o.query }),
+      disabled: !b(o.query)
     },
     {
       id: "header",
       title: "Header",
-      content: /* @__PURE__ */ n.jsx(S, { oas: e, group: o.header }),
-      disabled: !y(o.header)
+      content: /* @__PURE__ */ n.jsx($, { oas: e, group: o.header }),
+      disabled: !b(o.header)
     },
     {
       id: "cookie",
       title: "Cookie",
-      content: /* @__PURE__ */ n.jsx(S, { oas: e, group: o.cookie }),
-      disabled: !y(o.cookie)
+      content: /* @__PURE__ */ n.jsx($, { oas: e, group: o.cookie }),
+      disabled: !b(o.cookie)
     }
   ];
 }
@@ -883,41 +883,41 @@ function mt(e, r, t) {
       id: "body",
       title: "Body",
       content: /* @__PURE__ */ n.jsx(Qr, { oas: e, group: o.body }),
-      disabled: !y(o.body)
+      disabled: !b(o.body)
     },
     {
       id: "security",
       title: "Auth",
-      content: /* @__PURE__ */ n.jsx(ut, { oas: e, security: ze(e, r, t) }),
-      disabled: !Ge(e, r, t)
+      content: /* @__PURE__ */ n.jsx(ut, { oas: e, security: Ge(e, r, t) }),
+      disabled: !ze(e, r, t)
     },
     {
       id: "formData",
       title: "Form",
-      content: /* @__PURE__ */ n.jsx(S, { oas: e, group: o.formData }),
-      disabled: !y(o.formData)
+      content: /* @__PURE__ */ n.jsx($, { oas: e, group: o.formData }),
+      disabled: !b(o.formData)
     },
     {
       id: "path",
       title: "Path",
-      content: /* @__PURE__ */ n.jsx(S, { oas: e, group: o.path }),
-      disabled: !y(o.path)
+      content: /* @__PURE__ */ n.jsx($, { oas: e, group: o.path }),
+      disabled: !b(o.path)
     },
     {
       id: "query",
       title: "Query",
-      content: /* @__PURE__ */ n.jsx(S, { oas: e, group: o.query }),
-      disabled: !y(o.query)
+      content: /* @__PURE__ */ n.jsx($, { oas: e, group: o.query }),
+      disabled: !b(o.query)
     },
     {
       id: "header",
       title: "Header",
-      content: /* @__PURE__ */ n.jsx(S, { oas: e, group: o.header }),
-      disabled: !y(o.header)
+      content: /* @__PURE__ */ n.jsx($, { oas: e, group: o.header }),
+      disabled: !b(o.header)
     }
   ];
 }
-function y(e) {
+function b(e) {
   return e !== void 0 && Object.keys(e).length > 0;
 }
 function xt({
@@ -941,7 +941,7 @@ function bt({
   const { control: d } = h(), {
     field: { onChange: l, value: g, ref: v },
     fieldState: { error: p }
-  } = w({
+  } = S({
     name: "server",
     control: d
   });
@@ -954,7 +954,7 @@ function bt({
         value: g,
         ref: v,
         style: { width: "100%", textOverflow: "ellipsis" },
-        children: t.map((f, b) => /* @__PURE__ */ n.jsx("option", { value: f, children: `${f}${r}` }, `${f}-${b}`))
+        children: t.map((f, w) => /* @__PURE__ */ n.jsx("option", { value: f, children: `${f}${r}` }, `${f}-${w}`))
       }
     ) }),
     /* @__PURE__ */ n.jsx(
@@ -1103,12 +1103,12 @@ function Nt(e, r, t, o) {
   return { authorized: i };
 }
 function ge(e, r) {
-  return typeof e == "string" ? V(e, r) : e;
+  return typeof e == "string" ? B(e, r) : e;
 }
 function ve(e, r) {
-  return typeof e == "string" ? V(e, r) : typeof e == "object" ? He.simpleClone(e, (t) => typeof t == "string" ? V(t, r) : t) : e;
+  return typeof e == "string" ? B(e, r) : typeof e == "object" ? He.simpleClone(e, (t) => typeof t == "string" ? B(t, r) : t) : e;
 }
-function V(e, r) {
+function B(e, r) {
   const t = "secrets.";
   return e.replace(_e(), (o, s) => {
     if (s.startsWith(t)) {
@@ -1118,7 +1118,7 @@ function V(e, r) {
     return r.default.hasOwnProperty(s) ? r.default[s] : o;
   });
 }
-function It({ config: e }) {
+function Vt({ config: e }) {
   const r = K(), { control: t } = h(), o = sr({
     control: t,
     name: "server"
@@ -1127,13 +1127,13 @@ function It({ config: e }) {
     /* @__PURE__ */ n.jsx("h4", { children: "SSL Settings" }),
     s && /* @__PURE__ */ n.jsxs(U, { children: [
       /* @__PURE__ */ n.jsx(
-        Vt,
+        Bt,
         {
           checked: a,
           onCheckedChange: (d) => {
             r(d ? er(i) : rr(i));
           },
-          children: /* @__PURE__ */ n.jsx(Bt, { children: /* @__PURE__ */ n.jsx(gr, {}) })
+          children: /* @__PURE__ */ n.jsx(It, { children: /* @__PURE__ */ n.jsx(gr, {}) })
         }
       ),
       'Ignore SSL errors for "',
@@ -1143,7 +1143,7 @@ function It({ config: e }) {
     !s && /* @__PURE__ */ n.jsx(U, { children: "SSL Settings are not available" })
   ] });
 }
-const Vt = u(pr)`
+const Bt = u(pr)`
   margin-right: 0.5rem;
   width: 1.25rem;
   height: 1.25rem;
@@ -1155,7 +1155,7 @@ const Vt = u(pr)`
   border-color: var(${c.checkboxBorder});
   border-width: 1px;
   border-style: solid;
-`, Bt = u(fr)`
+`, It = u(fr)`
   fill: var(${c.checkboxForeground});
 `, qt = u.div`
   margin-left: 0.25rem;
@@ -1205,7 +1205,7 @@ const Lt = u.button`
   font-size: small;
 `;
 function Jt() {
-  const e = j((r) => r.tryit.response);
+  const e = y((r) => r.tryit.response);
   return /* @__PURE__ */ n.jsx(Wt, { children: /* @__PURE__ */ n.jsx(vr, { title: "Response", response: e, tools: /* @__PURE__ */ n.jsx(Dt, { response: e }) }) });
 }
 const Wt = u.div`
@@ -1213,7 +1213,7 @@ const Wt = u.div`
   padding: 4px;
 `;
 function zt() {
-  const e = j((r) => r.tryit.error);
+  const e = y((r) => r.tryit.error);
   return e ? /* @__PURE__ */ n.jsxs(_t, { children: [
     /* @__PURE__ */ n.jsx(Gt, { children: e.message }),
     e.sslError && /* @__PURE__ */ n.jsx("div", { children: "Failed to establish secure connection. Try disabling SSL validation in Settings" })
@@ -1231,7 +1231,7 @@ const Gt = u.div`
   padding: 8px;
 `;
 function Ut() {
-  const e = j((r) => r.tryit.gerror);
+  const e = y((r) => r.tryit.gerror);
   return e ? /* @__PURE__ */ n.jsx(Xt, { children: /* @__PURE__ */ n.jsx(Qt, { children: e.message }) }) : null;
 }
 const Qt = u.div`
@@ -1277,7 +1277,7 @@ const Q = u.div`
   }
 `;
 function Yt() {
-  const { path: e, method: r, oas: t, defaultValues: o } = j((l) => l.tryit), s = j((l) => l.prefs), i = rn(t, s.tryitServer, o.server), a = {
+  const { path: e, method: r, oas: t, defaultValues: o } = y((l) => l.tryit), s = y((l) => l.prefs), i = rn(t, s.tryitServer, o.server), a = {
     ...o,
     server: i,
     security: en(o.security, s.security)
@@ -1290,7 +1290,7 @@ function Zt({
   path: t,
   values: o
 }) {
-  const s = ce(), i = j((C) => C.env.data), { response: a, waiting: d } = j((C) => C.tryit), l = j((C) => C.config.data), [g, v] = x.useState(!1);
+  const s = ce(), i = y((C) => C.env.data), { response: a, waiting: d } = y((C) => C.tryit), l = y((C) => C.config.data), [g, v] = x.useState(!1);
   x.useEffect(() => {
     v(a !== void 0);
   }, [a]);
@@ -1321,7 +1321,7 @@ function Zt({
   }, f = ir({
     reValidateMode: "onChange",
     values: o
-  }), { handleSubmit: b, formState: m } = f, $ = Object.keys(m.errors || {}).length > 0;
+  }), { handleSubmit: w, formState: m } = f, j = Object.keys(m.errors || {}).length > 0;
   return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
     /* @__PURE__ */ n.jsxs(ar, { ...f, children: [
       /* @__PURE__ */ n.jsx(
@@ -1330,10 +1330,10 @@ function Zt({
           method: r,
           path: t,
           servers: Z(e),
-          onSubmit: b(p),
+          onSubmit: w(p),
           buttonText: "Send",
           waiting: d,
-          submitDisabled: $
+          submitDisabled: j
         }
       ),
       /* @__PURE__ */ n.jsx(
@@ -1346,7 +1346,7 @@ function Zt({
             xt,
             {
               oas: e,
-              settings: /* @__PURE__ */ n.jsx(It, { config: l }),
+              settings: /* @__PURE__ */ n.jsx(Vt, { config: l }),
               path: t,
               method: r
             }
@@ -1382,7 +1382,7 @@ const X = [
     when: se
   }
 ], tn = {
-  changeTheme: Ie,
+  changeTheme: Pe,
   tryOperation: se,
   showHttpResponse: hr,
   showHttpError: br,
@@ -1392,13 +1392,13 @@ const X = [
 };
 function nn() {
   return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    /* @__PURE__ */ n.jsx(Pe, {}),
-    /* @__PURE__ */ n.jsx(Ne, {})
+    /* @__PURE__ */ n.jsx(Ne, {}),
+    /* @__PURE__ */ n.jsx(Ve, {})
   ] });
 }
 function on(e, r) {
   const t = Sr(wr(e, X), r);
-  Oe(document.getElementById("root")).render(
+  Oe.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ n.jsx(Fe.StrictMode, { children: /* @__PURE__ */ n.jsx(Ee, { store: t, children: /* @__PURE__ */ n.jsx(Te.Provider, { value: X, children: /* @__PURE__ */ n.jsx(nn, {}) }) }) })
   ), window.addEventListener("message", Re(t, tn));
 }
