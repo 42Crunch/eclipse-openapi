@@ -76,20 +76,15 @@ public class GraphQlUtils {
         }
         String name;
         SourceLocation loc;
-        int columnCorrection = 0;
         if (fieldDef != null) {
             // Try to find more precise location
             String lastItem = items[items.length - 1];
-            if (SIMPLE_TYPE_PATTERN.matcher(lastItem).find()) {
+            if (SIMPLE_TYPE_PATTERN.matcher(lastItem).find() || LIST_TYPE_PATTERN.matcher(lastItem).find()) {
                 // id: ID or Mutation.usersAddEmailForAuthenticated()[0]: _
+                // Notifications(): [Notification] or Query.starship().Starship.coordinates: [[Float!]!]
                 Type<?> typeName = getTypeName(fieldDef.getType());
                 name = ((TypeName) typeName).getName();
                 loc = typeName.getSourceLocation();
-            } else if (LIST_TYPE_PATTERN.matcher(lastItem).find()) {
-                // Notifications(): [Notification]
-                name = lastItem.substring(lastItem.indexOf("[") + 1, lastItem.lastIndexOf("]")).trim();
-                loc = fieldDef.getType().getSourceLocation();
-                columnCorrection = 1;
             } else if (ARGUMENT_PATTERN.matcher(lastItem).find()) {
                 // Notifications(limit: Int) or Query.migration(exclude[0]: String)
                 name = lastItem.substring(lastItem.indexOf("(") + 1, lastItem.lastIndexOf(":")).trim();
@@ -121,7 +116,7 @@ public class GraphQlUtils {
         if (loc != null) {
             int line = loc.getLine() - 1;
             int lineOffset = document.getLineStartOffset(line);
-            int startOffset = lineOffset + loc.getColumn() - 1 + columnCorrection;
+            int startOffset = lineOffset + loc.getColumn() - 1;
             int endOffset = startOffset + name.length();
             return new Range(startOffset, endOffset, line, loc.getColumn());
         } else {

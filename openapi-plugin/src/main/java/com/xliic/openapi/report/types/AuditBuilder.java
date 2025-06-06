@@ -116,8 +116,8 @@ public class AuditBuilder {
             return report;
         }
         Grade dataGrade = getGrade(reportNode, Grade.DEF_DATA_GRADE);
-        Grade securityGrade = getGrade(reportNode, Grade.DEF_SECURITY_GRADE);
-        report.setSummary(new Summary(false, dataGrade, securityGrade));
+        // In graphQL there is only one score, it is in data grade, set zero score as security grade
+        report.setSummary(new Summary(false, dataGrade, Grade.DEF_SECURITY_GRADE));
         report.setValid(getBoolean("valid", reportNode));
         report.setMinimalReport(false);
         report.setCompliance(compliance);

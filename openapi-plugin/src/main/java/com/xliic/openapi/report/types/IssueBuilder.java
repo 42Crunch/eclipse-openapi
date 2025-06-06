@@ -54,7 +54,9 @@ public class IssueBuilder {
                 for (Node occNode : occurrences.getChildren()) {
                     String pointer = Objects.requireNonNullElse(occNode.getChildValue(LOCATION), "");
                     float score = getScore(occNode);
-                    int criticality = (int) Math.abs(score);
+                    // GraphQL report doesn't contain criticality property
+                    // Set default value to consider all issues as high severity ones
+                    int criticality = 4;
                     issues.add(new Issue(project, fileName, id, desc, pointer, score, criticality, !downloaded));
                 }
             }
