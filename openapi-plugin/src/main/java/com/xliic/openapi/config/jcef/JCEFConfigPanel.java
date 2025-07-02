@@ -46,7 +46,7 @@ public class JCEFConfigPanel extends WebFileEditor implements ConfigListener, Ht
     }
 
     @Override
-    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
+    protected @NotNull BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return new JCEFConfigFunction(project, myId, cache, browser, name);
     }
 

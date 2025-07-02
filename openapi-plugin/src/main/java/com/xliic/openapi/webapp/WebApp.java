@@ -1,7 +1,7 @@
 package com.xliic.openapi.webapp;
 
 import static com.xliic.openapi.webapp.scheme.SchemeHandlerFactory.DOMAIN;
-import static com.xliic.openapi.webapp.scheme.SchemeHandlerFactory.HTTP_SCHEMA_PREFIX;
+import static com.xliic.openapi.webapp.scheme.SchemeHandlerFactory.HTTPS_SCHEMA_PREFIX;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +46,7 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
 
     @NotNull
     private final CefLoadHandlerAdapter loadHandler;
-    @Nullable
+    @NotNull
     private final BrowserFunction fun;
     @NotNull
     protected final Map<String, Object> cache = new HashMap<>();
@@ -61,16 +61,23 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
         this.myId = id;
         this.resourceId = resourceId;
         fun = getBrowserFunction(getBrowser(), SchemeHandlerFactory.getBrowserFunctionName(resourceId));
+        if (fun instanceof WebAppFunction) {
+            ((WebAppFunction) fun).setOnStartedHandler(new WebAppStarted() {
+                @Override
+                public void onStarted(@NotNull String uuid) {
+                    onContentLoaded(handler);
+                }
+            });
+        }
         final WebApp thisApp = this;
         loadHandler = new CefLoadHandlerAdapter() {
             @Override
             public void onLoadingStateChange(JBCefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
                 if (!isLoading) {
                     browser.executeJavaScript(DOM_CONTENT_LOADED_JS, browser.getURL(), 0);
+                    browser.executeJavaScript("startWebApp()", browser.getURL(), 0);
                     new ChangeTheme(manager).send(getCefBrowser());
                     ApplicationManager.getApplication().getMessageBus().connect().subscribe(LafManagerListener.TOPIC, thisApp);
-                    WebApp.this.onLoadEnd();
-                    handler.onReady();
                 }
             }
         };
@@ -85,11 +92,11 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
         ApplicationManager.getApplication().invokeAndWait(() -> {
         	manager = UIManager.getInstance();
             SCHEME_HANDLER_FACTORY.setUIManager(manager);
-            loadURL(HTTP_SCHEMA_PREFIX + resourceId + ".html");
+            loadURL(HTTPS_SCHEMA_PREFIX + resourceId + ".html");
         });
     }
 
-    @Nullable
+    @NotNull
     protected abstract BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name);
     protected abstract void subscribe(@NotNull MessageBusConnection connection);
     protected void onLoadEnd() {}
@@ -112,5 +119,10 @@ public abstract class WebApp extends JBCefBrowser implements LafManagerListener 
     
     public String getId() {
         return myId;
+    }
+    
+    private void onContentLoaded(ViewPartHandler handler) {
+        WebApp.this.onLoadEnd();
+        handler.onReady();
     }
 }

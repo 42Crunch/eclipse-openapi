@@ -113,7 +113,7 @@ public abstract class ScanRunTask extends Task.Backgroundable {
             }
             runScan(progress, image, services, token, env);
             String reportId = ScanUtils.waitForScanReport(apiId);
-            ScanReport report = ScanUtils.readScanReport(runConfig.getPath(), runConfig.getMethod(), runConfig.getRawOas(), reportId);
+            ScanReport report = ScanUtils.readScanReport(reportId);
             log(progress, "Finished API Conformance Scan");
             callback.setDone(runConfig.getScanConfPath(), report);
 

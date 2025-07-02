@@ -1,22 +1,20 @@
 package com.xliic.openapi.platform.scan.report.payload;
 
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.openapi.parser.ast.node.Node;
 
 public class ScanReport {
 
-    @NotNull
-    private final String path;
-    @NotNull
-    private final String method;
-    @NotNull
+    @Nullable
     private final String report;
-    @NotNull
-    private final String oas;
+    @Nullable
+    private final Path filePath;
 
     @NotNull
     public static String getTaskId(@NotNull Node node) {
@@ -25,32 +23,27 @@ public class ScanReport {
     }
 
     @NotNull
-    public static ScanReport getInstance(@NotNull String path, @NotNull String method, @NotNull String oas, @NotNull Node node) {
+    public static ScanReport getInstance(@NotNull Node node) {
         String data = node.getChildValue("file");
         String report = new String(Base64.getDecoder().decode(data));
-        return new ScanReport(path, method, report, oas);
+        return new ScanReport(report);
     }
 
-    public ScanReport(@NotNull String path, @NotNull String method, @NotNull String report, @NotNull String oas) {
-        this.path = path;
-        this.method = method;
+    public ScanReport(@NotNull String report) {
         this.report = report;
-        this.oas = oas;
+        filePath = null;
     }
 
-    public @NotNull String getPath() {
-        return path;
+    public ScanReport(@NotNull Path filePath) {
+        report = null;
+        this.filePath = filePath;
     }
 
-    public @NotNull String getMethod() {
-        return method;
-    }
-
-    public @NotNull String getReport() {
+    public @Nullable String getReport() {
         return report;
     }
 
-    public @NotNull String getOas() {
-        return oas;
+    public @Nullable Path getFilePath() {
+        return filePath;
     }
 }

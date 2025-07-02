@@ -120,14 +120,11 @@ public class ScanUtils {
     }
 
     @NotNull
-    public static ScanReport readScanReport(@NotNull String path,
-                                            @NotNull String method,
-                                            @NotNull String oas,
-                                            @NotNull String reportId) throws Exception {
+    public static ScanReport readScanReport(@NotNull String reportId) throws Exception {
         try (Response response = ScanAPIs.readScanReport(reportId)) {
             Node body = NetUtils.getBodyNode(response);
             if (body != null) {
-                return ScanReport.getInstance(path, method, oas, body);
+                return ScanReport.getInstance(body);
             }
         }
         throw new Exception("Failed to read docker scan report");

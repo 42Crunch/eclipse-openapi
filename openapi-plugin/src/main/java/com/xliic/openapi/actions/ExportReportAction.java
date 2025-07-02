@@ -21,10 +21,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-
-import static com.xliic.openapi.utils.FileUtils.join;
-import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 public abstract class ExportReportAction extends AnAction implements DumbAware {
 
@@ -83,9 +79,11 @@ public abstract class ExportReportAction extends AnAction implements DumbAware {
                     MsgUtils.notifyError(project, noReportError);
                     return;
                 }
-                VirtualFile tmpDir = createTempDirectory(project, exportTempDir, false);
-                LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(tmpDir));
-                File file = new File(join(tmpDir.getPath(), getTempFile(project, myFile)));
+                File file = getTempFile(project, myFile);
+                if (file == null) {
+                    MsgUtils.notifyError(project, noReportError);
+                    return;
+                }
                 VirtualFile tmpFile = LocalFileSystem.getInstance().findFileByIoFile(file);
                 if (tmpFile == null) {
                     MsgUtils.notifyError(project, noReportError);
@@ -112,7 +110,7 @@ public abstract class ExportReportAction extends AnAction implements DumbAware {
         return Utils.getSelectedOpenAPIFile(project);
     }
 
-    public abstract @NotNull String getTempFile(@NotNull Project project, @NotNull VirtualFile selectedFile);
+    public abstract @Nullable File getTempFile(@NotNull Project project, @NotNull VirtualFile selectedFile);
 
     public abstract boolean isTempFileSaved(@NotNull Project project, @NotNull VirtualFile selectedFile);
 }

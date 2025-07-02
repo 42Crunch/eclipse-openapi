@@ -120,6 +120,11 @@
             name="Close Web Editors">
         </command>
         <command
+            defaultHandler="com.xliic.openapi.actions.internal.GenerateLargeScanReportAction"
+            id="com.xliic.openapi.actions.internal.GenerateLargeScanReportAction"
+            name="Generate Large Scan Report">
+        </command>
+        <command
             defaultHandler="com.xliic.openapi.actions.internal.WhatsNewAction"
             id="com.xliic.openapi.actions.internal.WhatsNewAction"
             name="Show What's New">
@@ -499,6 +504,10 @@
                 </command>
                 <command
                     commandId="com.xliic.openapi.actions.internal.CloseWebEditors"
+                    style="push">
+                </command>
+                <command
+                    commandId="com.xliic.openapi.actions.internal.GenerateLargeScanReportAction"
                     style="push">
                 </command>
                 <command

@@ -13,74 +13,41 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.HashSet;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.cli.CliUtils;
-import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
-import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
-import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class ScanCliConfTask extends ScanConfTask {
 
     private static final String OPENAPI_JSON = "openapi.json";
     private static final String SCANCONF_JSON = "scanconfig.json";
-    private static final String API_INVALID_MSG = "Your API has structural or semantic issues in its OpenAPI format. " +
-            "Run Security Audit on this file and fix these issues first.";
 
     private VirtualFile tmpDir = null;
     private VirtualFile scanConfigDir = null;
-    private final boolean useAuditWithCli;
     
     public ScanCliConfTask(@NotNull Project project,
                            @NotNull BundleResult bundle,
                            @NotNull String scanConfPath,
-                           @NotNull Callback callback,
-                           boolean useAuditWithCli) {
+                           @NotNull Callback callback) {
         super(project, bundle, scanConfPath, callback);
-        this.useAuditWithCli = useAuditWithCli;
     }
 
     @Override
     public void run(@NotNull ProgressIndicator progress) {
         try {
             String oas = bundle.getJsonText();
-            if (useAuditWithCli) {
-                AuditCliResult result = CliUtils.runAuditWithCliBinary(project, oas, new HashSet<>(0), true, progress);
-                if (result.hasError()) {
-                    if (result.getStatusCode() == 3 && result.isLimitsReached()) {
-                        ApplicationManager.getApplication().invokeAndWait(() -> {
-                            MsgUtils.offerUpgrade(project, true);
-                            callback.cancel();
-                        });
-                    } else {
-                        throw new Exception("Unexpected error running API Security Testing Binary Audit: " + result);
-                    }
-                    return;
-                }
-                String reportText = Objects.requireNonNull(result.getReport());
-                Node report = Objects.requireNonNull(Utils.getJsonAST(reportText));
-                if (!"valid".equals(report.getChildValueRequireNonNull("openapiState"))) {
-                    throw new Exception(API_INVALID_MSG);
-                }
-            }
             tmpDir = createTempDirectory(project, "scan");
             writeFile(project, tmpDir, OPENAPI_JSON, oas);
-            if (!FileUtils.exists(scanConfPath)) {
-                scanConfigDir = ScanConfigUtils.createScanConf(project, scanConfPath, "");
-            }
             String cli = CliUtils.getCli();
             ExecUtils.asyncExecFile(cli,
             	List.of(
@@ -95,6 +62,9 @@ public class ScanCliConfTask extends ScanConfTask {
                 ), tmpDir);
 
             // Copy scanconfig to the destination
+            if (!FileUtils.exists(scanConfPath)) {
+                scanConfigDir = ScanConfigUtils.createScanConf(project, scanConfPath, "");
+            }
             LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(tmpDir));
             Path src = Paths.get(tmpDir.getPath(), SCANCONF_JSON);
             Path dst = Paths.get(scanConfPath);

@@ -83,8 +83,8 @@ public class ChangeTheme extends WebAppConsume {
             updateColor("sidebarBackground", "Panel.background", colors, manager);
         }
         // Set scrollbar colors
-        colors.put("scrollbarThumb", colors.get("border"));
-        colors.put("scrollbarTrack", colors.get("background"));
+        colors.put("scrollbarThumbBackground", colors.get("border"));
+        colors.put("scrollbarTrackBackground", colors.get("background"));
         payload.put("theme", colors);
         return payload;
     }

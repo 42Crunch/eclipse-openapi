@@ -42,6 +42,10 @@ public class VirtualFile {
         this.path = filePathToIdeaFormat(file);
     }
 
+    public @NotNull Path toNioPath() {
+        return file.toPath();
+    }
+
     @Override
     public int hashCode() {
         return path.hashCode();

@@ -1,7 +1,6 @@
 package com.xliic.openapi.platform.scan.task;
 
 import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
-import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.MsgUtils.notifyScansLimit;
@@ -16,7 +15,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -179,10 +177,9 @@ public class ScanCliTask extends Task.Backgroundable {
             }
             // Must always refresh before reading if files are updated externally
             LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(outputFile));
-            String report = Objects.requireNonNull(Utils.getTextFromFile(outputPath, true));
             String scanConfPath = runConfig.getScanConfPath();
             log(progress, "Finished API Conformance Scan");
-            callback.setDone(scanConfPath, new ScanReport(runConfig.getPath(), runConfig.getMethod(), report, runConfig.getRawOas()));
+            callback.setDone(scanConfPath, new ScanReport(outputFile.toNioPath()));
         } catch (Exception e) {
             callback.setRejected(e);
         } finally {
@@ -190,8 +187,6 @@ public class ScanCliTask extends Task.Backgroundable {
                 if (scanTmpDir != null) {
                     removeFile(project, scanTmpDir,"openapi.json");
                     removeFile(project, scanTmpDir,"scanconf.json");
-                    removeFile(project, scanTmpDir,"report.json");
-                    removeDir(project, scanTmpDir);
                 }
             } catch (IOException ignored) {
             }
