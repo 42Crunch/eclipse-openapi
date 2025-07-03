@@ -391,7 +391,7 @@ public final class AuditService implements IAuditService, Disposable {
     public void saveAuditReportToTempFile(@NotNull Audit report, @NotNull Node reportNode) {
         try {
             String text = getTextFromNode(reportNode);
-            saveToTempFile(project, EXPORT_TEMP_DIR, report.getTempFile(), text, () -> report.setTempFileSaved(true));
+            saveToTempFile(project, EXPORT_TEMP_DIR, report.getTempFile(), text, (filePath) -> report.setTempFileSaved(true));
         } catch (IOException e) {
             Logger.getInstance(AuditService.class).warn(e);
         }

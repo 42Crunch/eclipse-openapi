@@ -85,9 +85,7 @@ public class OpenAPIPartListener implements IPartListener {
             if (SIGNUP_EDITOR_ID.equals(webFile.getResourceId())) {
                 SignUpService.getInstance(project).dispose();
             } else if (SCAN_EDITOR_ID.equals(webFile.getResourceId())) {
-                if (webFile.getGenFilePath() != null) {
-                    ScanService.getInstance(project).clearScanReportTempFile(webFile.getGenFilePath());
-                }
+            	ScanService.getInstance(project).onWebFileClosed(webFile);
             }
     	}
         IEditorInput input = getFileEditorInput(part);

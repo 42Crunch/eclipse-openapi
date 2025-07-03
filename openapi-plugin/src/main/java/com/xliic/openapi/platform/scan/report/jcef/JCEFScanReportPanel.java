@@ -23,15 +23,14 @@ import com.xliic.openapi.environment.EnvListener;
 import com.xliic.openapi.environment.Environment;
 import com.xliic.openapi.environment.jcef.messages.LoadEnv;
 import com.xliic.openapi.platform.scan.ScanListener;
-import com.xliic.openapi.platform.scan.report.jcef.messages.ShowFullScanReport;
 import com.xliic.openapi.platform.scan.report.jcef.messages.ShowGeneralError;
 import com.xliic.openapi.platform.scan.report.jcef.messages.ShowLog;
 import com.xliic.openapi.platform.scan.report.jcef.messages.ShowScanReport;
-import com.xliic.openapi.platform.scan.report.jcef.messages.StartScan;
-import com.xliic.openapi.platform.scan.report.payload.ScanReport;
 import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
+import com.xliic.openapi.webapp.chunks.ChunksListener;
+import com.xliic.openapi.webapp.chunks.jcef.messages.ParseChunk;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
 import com.xliic.openapi.webapp.editor.WebVirtualFile;
 import com.xliic.openapi.webapp.http.HttpResponseListener;
@@ -40,14 +39,15 @@ import com.xliic.openapi.webapp.http.ShowHttpResponse;
 import com.xliic.openapi.webapp.http.payload.HttpError;
 import com.xliic.openapi.webapp.http.payload.HttpResponse;
 
-public class JCEFScanReportPanel extends WebFileEditor implements FileListener, ScanListener, EnvListener, SettingsListener, HttpResponseListener, Disposable {
+public class JCEFScanReportPanel extends WebFileEditor 
+        implements FileListener, ScanListener, EnvListener, SettingsListener, HttpResponseListener, ChunksListener, Disposable {
 
     public JCEFScanReportPanel(@NotNull Project project, @NotNull Composite parent, @NotNull WebVirtualFile file) {
         super(project, parent, file);
     }
 
     @Override
-    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
+    protected @NotNull BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return new JCEFScanReportFunction(project, myId, cache, browser, name);
     }
     
@@ -58,30 +58,15 @@ public class JCEFScanReportPanel extends WebFileEditor implements FileListener, 
         connection.subscribe(EnvListener.TOPIC, this);
         connection.subscribe(SettingsListener.TOPIC, this);
         connection.subscribe(HttpResponseListener.TOPIC, this);
+        connection.subscribe(ChunksListener.TOPIC, this);
     }
 
     @Override
-    public void startScan(@NotNull String webAppId) {
+    public void showScanReport(@NotNull String webAppId, @NotNull String apiAlias) {
         if (!Objects.equals(webAppId, myId)) {
             return;
         }
-        new StartScan().send(getCefBrowser());
-    }
-
-    @Override
-    public void showScanReport(@NotNull String webAppId, @NotNull ScanReport report) {
-        if (!Objects.equals(webAppId, myId)) {
-            return;
-        }
-        new ShowScanReport(report).send(getCefBrowser());
-    }
-    
-    @Override
-    public void showFullScanReport(@NotNull String webAppId, @NotNull ScanReport report) {
-        if (!Objects.equals(webAppId, myId)) {
-            return;
-        }
-        new ShowFullScanReport(report).send(getCefBrowser());
+        new ShowScanReport(apiAlias).send(getCefBrowser());
     }
 
     @Override
@@ -143,5 +128,13 @@ public class JCEFScanReportPanel extends WebFileEditor implements FileListener, 
             return;
         }
         new ShowHttpError(payload).send(getCefBrowser());
+    }
+    
+    @Override
+    public void parseChunk(@NotNull String webAppId, @Nullable String chunk) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new ParseChunk(chunk).send(getCefBrowser());
     }
 }

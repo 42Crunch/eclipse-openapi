@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
@@ -55,7 +54,7 @@ public class JCEFTryItPanel extends WebApp implements FileListener, TryItListene
     }
 
     @Override
-    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
+    protected @NotNull BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return new JCEFTryItFunction(project, myId, cache, browser, name);
     }
 

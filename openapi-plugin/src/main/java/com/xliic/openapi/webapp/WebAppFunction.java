@@ -91,4 +91,10 @@ public class WebAppFunction extends BrowserFunction {
     protected void add(@NotNull WebAppProduce producer) {
         producers.put(producer.getName(), producer);
     }
+    
+    public void setOnStartedHandler(@NotNull WebAppStarted handler) {
+        if (producers.get(handler.getName()) == null) {
+            add(handler);
+        }
+    }
 }

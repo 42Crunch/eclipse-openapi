@@ -20,7 +20,7 @@ public class SchemeHandlerFactory implements IResponseHandler {
     // Domain for local UI debug 127.0.0.1:8887
 	public static final String PROTOCOL = "https";
     public static final String DOMAIN = "openapi.xliic.com";
-    public static final String HTTP_SCHEMA_PREFIX = PROTOCOL + "://" + DOMAIN + "/";
+    public static final String HTTPS_SCHEMA_PREFIX = PROTOCOL + "://" + DOMAIN + "/";
 
     @NotNull
     private final String indexHTML;
@@ -37,12 +37,12 @@ public class SchemeHandlerFactory implements IResponseHandler {
     }
 
     private ResourceHandler create(@NotNull String url) {
-        if (url.startsWith(HTTP_SCHEMA_PREFIX)) {
+        if (url.startsWith(HTTPS_SCHEMA_PREFIX)) {
             if (url.endsWith(".html")) {
-                String resourceId = url.replace(HTTP_SCHEMA_PREFIX, "").replace(".html", "");
+                String resourceId = url.replace(HTTPS_SCHEMA_PREFIX, "").replace(".html", "");
                 return new ResourceHandler(getResourceIndexHTML(resourceId));
             } else if (url.endsWith(".js")) {
-                return new ResourceHandler("application/javascript", url.replace(HTTP_SCHEMA_PREFIX, ""));
+                return new ResourceHandler("application/javascript", url.replace(HTTPS_SCHEMA_PREFIX, ""));
             }
         }
         return null;
@@ -55,7 +55,7 @@ public class SchemeHandlerFactory implements IResponseHandler {
         if (WHATS_NEW_EDITOR_ID.equals(resourceId)) {
             page = NetUtils.getWebAppResource(getClass(), resourceId + ".html") + "\n" + getColorizationScript();
         } else {
-            page = indexHTML.replace("${index-script}", HTTP_SCHEMA_PREFIX + resourceId + ".js");
+            page = indexHTML.replace("${index-script}", HTTPS_SCHEMA_PREFIX + resourceId + ".js");
             page = page.replace("window.__EclipseJTools.postMessage", getBrowserFunctionName(resourceId));
         }
         return page.replace("$theme", themePayload == null ? "" : themePayload);

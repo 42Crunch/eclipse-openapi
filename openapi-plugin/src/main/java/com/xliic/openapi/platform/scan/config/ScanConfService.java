@@ -166,7 +166,7 @@ public final class ScanConfService implements IScanConfService, Disposable {
             @Override
             public void setRejected(@NotNull Exception e) {
                 inProgress = false;
-                MsgUtils.notifyError(project,"Failed to create default config: " + e);
+                MsgUtils.notifyError(project, "Failed to create default config, please run Audit to check your OpenAPI for errors: " + e);
                 if (turnedOff) {
                     turnOnVcsShowConfirmation(project);
                 }
@@ -194,11 +194,11 @@ public final class ScanConfService implements IScanConfService, Disposable {
             if (type == Credentials.Type.AnondToken) {
                 // Free users must use CLI for scan, there is no need to fall back to anond for initial audit
                 // if there is no CLI available, they will not be able to run scan or create a scan config in any case
-                task = new ScanCliConfTask(project, bundle, scanConfPath, callback, false);
+                task = new ScanCliConfTask(project, bundle, scanConfPath, callback);
             } else {
                 final String runtime = SettingsService.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
                 if (RUNTIME_CLI.equals(runtime)) {
-                    task = new ScanCliConfTask(project, bundle, scanConfPath, callback, true);
+                    task = new ScanCliConfTask(project, bundle, scanConfPath, callback);
                 } else {
                     // This will run audit on the platform as well
                     task = new ScanPlatformConfTask(project, bundle, scanConfPath, callback);

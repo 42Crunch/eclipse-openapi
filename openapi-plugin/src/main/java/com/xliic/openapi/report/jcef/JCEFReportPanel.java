@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
@@ -41,7 +40,7 @@ public class JCEFReportPanel extends WebApp implements FileListener, AuditListen
     }
 
     @Override
-    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
+    protected @NotNull BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return new JCEFReportFunction(project, browser, name);
     }
     

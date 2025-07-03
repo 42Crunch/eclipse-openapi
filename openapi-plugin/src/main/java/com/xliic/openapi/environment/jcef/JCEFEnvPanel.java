@@ -2,7 +2,6 @@ package com.xliic.openapi.environment.jcef;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
@@ -27,7 +26,7 @@ public class JCEFEnvPanel extends WebApp implements EnvListener, Disposable {
     }
 
     @Override
-    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
+    protected @NotNull BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return new JCEFEnvFunction(project, browser, name);
     }
     

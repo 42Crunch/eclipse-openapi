@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.function.Consumer;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -126,7 +128,7 @@ public class FileUtils {
                                       @NotNull String tmpDirName,
                                       @NotNull String tmpFileName,
                                       @NotNull String text,
-                                      @NotNull Runnable onSave) {
+                                      @NotNull Consumer<Path> onSave) {
         try {
             VirtualFile tmpDir = createTempDirectory(project, tmpDirName, false);
             WriteCommandAction.runWriteCommandAction(project, () -> {
@@ -134,7 +136,7 @@ public class FileUtils {
                     VirtualFile target = tmpDir.createChildData(REQUESTOR, tmpFileName);
                     VfsUtil.saveText(target, text);
                     LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(tmpDir));
-                    onSave.run();
+                    onSave.accept(target.toNioPath());
                 } catch (Exception error) {
                     Logger.getInstance(FileUtils.class).warn(error);
                 }

@@ -14,7 +14,6 @@ import com.xliic.openapi.webapp.editor.WebVirtualFile;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class JCEFCapturePanel extends WebFileEditor implements CaptureListener, 
     }
     
     @Override
-    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
+    protected @NotNull BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return new JCEFCaptureFunction(project, browser, name);
     }
 

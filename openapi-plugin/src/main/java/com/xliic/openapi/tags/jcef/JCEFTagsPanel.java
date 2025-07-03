@@ -20,7 +20,6 @@ import com.xliic.openapi.webapp.http.payload.HttpResponse;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Objects;
@@ -38,7 +37,7 @@ public class JCEFTagsPanel extends WebFileEditor implements TagsListener, HttpRe
     }
 
     @Override
-    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
+    protected @NotNull BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
         return new JCEFTagsFunction(project, myId, cache, browser, name);
     }
 

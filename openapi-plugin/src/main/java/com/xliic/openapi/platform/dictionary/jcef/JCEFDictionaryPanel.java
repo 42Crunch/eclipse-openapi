@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
@@ -15,6 +14,7 @@ import com.xliic.openapi.platform.PlatformListener;
 import com.xliic.openapi.platform.dictionary.jcef.messages.ShowDictionary;
 import com.xliic.openapi.platform.dictionary.types.DataDictionary;
 import com.xliic.openapi.services.DictionaryService;
+import com.xliic.openapi.webapp.WebAppFunction;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
 import com.xliic.openapi.webapp.editor.WebVirtualFile;
 
@@ -31,8 +31,8 @@ public class JCEFDictionaryPanel extends WebFileEditor implements PlatformListen
     }
 
     @Override
-    protected @Nullable BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
-        return null;
+    protected @NotNull BrowserFunction getBrowserFunction(@NotNull Browser browser, @NotNull String name) {
+        return new WebAppFunction(browser, name);
     }
 
     @Override

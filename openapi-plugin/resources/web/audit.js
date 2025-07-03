@@ -1,14 +1,32 @@
-import { c as ae, a as re, u as le, b as de, r as ce, t as pe, l as ue, d as he, i as xe, s as ve, j as e, T as p, e as c, f as j, m as ge, g as fe, R as me, P as je, h as ye, k as be, n as we, o as $e, p as Ce } from "./TriangleExclamation.Lif_Buog.js";
-import { S as T, C as Se, a as ke, b as Ae, c as Q, d as X, e as Y } from "./Xmark.DnVKvPGJ.js";
-import { s as Ie } from "./listener.Bi3CVfjc.js";
-import { T as Le } from "./Tabs.0Qwc4hJe.js";
-import { S as C } from "./ExclamationCircle.CwKvlUqB.js";
-import { S, a as Te } from "./Switch.CJvbYEMU.js";
-import { S as J } from "./AngleDown.iYZHNlwk.js";
-import { S as Z } from "./AngleUp.Z7OHQD_M.js";
-import { P as A } from "./Select.CFYaYomC.js";
-import { B as De, S as Pe } from "./Banner.BavmcnLf.js";
-const Re = {
+import { c as re, a as le, u as de, b as ce, r as pe, t as ue, l as he, d as xe, i as ve, s as ge, j as e, T as p, e as c, f as y, m as fe, g as me, R as je, P as ye, h as be, k as we, n as $e, o as Ce, p as Se } from "./TriangleExclamation.D9eaO6CL.js";
+import { s as ke } from "./listener.BZpjxlz7.js";
+import { T as Ie } from "./Tabs.CM5QgBkU.js";
+import { S as Le, a as X, b as Y } from "./Xmark.D0-kB-EF.js";
+import { S } from "./ExclamationCircle.BOEd0fmc.js";
+import { S as k, a as Ae } from "./Switch.BzAn_djH.js";
+import { S as J } from "./AngleDown.B7UAvlAN.js";
+import { S as Z } from "./AngleUp.CDvZSUOX.js";
+import { P as L } from "./Select.CI3iWRSy.js";
+import { B as Te, S as De } from "./Banner.15bwNTL3.js";
+const D = ["info", "low", "medium", "high", "critical"], g = {
+  Info: 1,
+  Low: 2,
+  Medium: 3,
+  High: 4,
+  Critical: 5
+}, Pe = {
+  [g.Info]: "info",
+  [g.Low]: "low",
+  [g.Medium]: "medium",
+  [g.High]: "high",
+  [g.Critical]: "critical"
+}, ee = {
+  [g.Info]: "Info",
+  [g.Low]: "Low",
+  [g.Medium]: "Medium",
+  [g.High]: "High",
+  [g.Critical]: "Critical"
+}, Re = {
   audit: {
     filename: "",
     files: {},
@@ -32,14 +50,14 @@ const Re = {
   filtered: [],
   stats: {
     byIssue: [],
-    byGroup: ie([])
+    byGroup: te([])
   },
   kdb: {},
   issueTitles: [],
   filter: {},
   sqgTodo: !1,
   type: "openapi"
-}, ee = ae({
+}, ie = re({
   name: "audit",
   initialState: Re,
   reducers: {
@@ -48,24 +66,24 @@ const Re = {
     cancelAudit: (i, t) => {
     },
     showFullReport: (i, { payload: t }) => {
-      i.audit.filename !== t.filename && (i.tab = "priority", i.filter = {}, i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".graphqls") || t.filename.toLowerCase().endsWith(".sdl") ? "graphql" : "openapi"), (t.compliance === void 0 || t.compliance.acceptance === "yes") && (i.sqgTodo = !1), i.audit = t, w(i);
+      i.audit.filename !== t.filename && (i.tab = "priority", i.filter = {}, i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".graphqls") || t.filename.toLowerCase().endsWith(".sdl") ? "graphql" : "openapi"), (t.compliance === void 0 || t.compliance.acceptance === "yes") && (i.sqgTodo = !1), i.audit = t, $(i);
     },
     showPartialReport: (i, {
-      payload: { report: t, uri: o, ids: n }
+      payload: { report: t, uri: n, ids: o }
     }) => {
-      i.audit = t, i.filter = { ids: n }, i.tab = "issues", i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".graphqls") || t.filename.toLowerCase().endsWith(".sdl") ? "graphql" : "openapi", w(i);
+      i.audit = t, i.filter = { ids: o }, i.tab = "issues", i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".graphqls") || t.filename.toLowerCase().endsWith(".sdl") ? "graphql" : "openapi", $(i);
     },
     loadKdb: (i, { payload: t }) => {
-      i.kdb = t, w(i);
+      i.kdb = t, $(i);
     },
     changeTab: (i, t) => {
       i.tab = t.payload;
     },
     changeFilter: (i, { payload: t }) => {
-      i.filter = t, w(i);
+      i.filter = t, $(i);
     },
     setSqgTodo: (i, { payload: t }) => {
-      i.sqgTodo = t, i.filter = {}, w(i);
+      i.sqgTodo = t, i.filter = {}, $(i);
     },
     showNoReport: (i) => {
     },
@@ -77,52 +95,52 @@ const Re = {
     }
   }
 });
-function w(i) {
-  const { issues: t, filtered: o, stats: n, titles: d } = qe(
+function $(i) {
+  const { issues: t, filtered: n, stats: o, titles: d } = qe(
     i.sqgTodo ? i.audit.todo : i.audit.issues,
     i.audit.files,
     i.kdb,
     i.filter,
     i.type
   );
-  i.issues = t, i.filtered = o, i.stats = n, i.issueTitles = d;
+  i.issues = t, i.filtered = n, i.stats = o, i.issueTitles = d;
 }
-function qe(i, t, o, n, d) {
-  const r = Fe(i, t, o, d), s = Ve(r, o, d), l = Be(s), a = ze(r, n);
+function qe(i, t, n, o, d) {
+  const r = ze(i, t, n, d), s = Me(r, n, d), l = Ve(s), a = Fe(r, o);
   return { issues: r, filtered: a, stats: s, titles: l };
 }
-function ze(i, t) {
-  const o = (a, g) => t.ids === void 0 || t.ids.includes(g), n = (a) => t.domain === void 0 || a.domain === (t == null ? void 0 : t.domain), d = (a) => t.group === void 0 || a.group === (t == null ? void 0 : t.group), r = (a) => (t == null ? void 0 : t.rule) === void 0 || a.id === t.rule, s = t.severity !== void 0 ? T.indexOf(t.severity) + 1 : 0, l = (a) => t.severity === void 0 || a.criticality >= s;
-  return i.filter((a, g) => o(a, g) && n(a) && d(a) && r(a) && l(a));
+function Fe(i, t) {
+  const n = (a, f) => t.ids === void 0 || t.ids.includes(f), o = (a) => t.domain === void 0 || a.domain === (t == null ? void 0 : t.domain), d = (a) => t.group === void 0 || a.group === (t == null ? void 0 : t.group), r = (a) => (t == null ? void 0 : t.rule) === void 0 || a.id === t.rule, s = t.severity !== void 0 ? D.indexOf(t.severity) + 1 : 0, l = (a) => t.severity === void 0 || a.criticality >= s;
+  return i.filter((a, f) => n(a, f) && o(a) && d(a) && r(a) && l(a));
 }
-function Fe(i, t, o, n) {
+function ze(i, t, n, o) {
   return Object.entries(i).map(([r, s]) => s.map((l, a) => ({
     ...l,
-    domain: n === "graphql" ? "datavalidation" : o[l.id].group,
-    group: n === "graphql" ? "schema" : o[l.id].subgroup,
+    domain: o === "graphql" ? "datavalidation" : n[l.id].group,
+    group: o === "graphql" ? "schema" : n[l.id].subgroup,
     filename: t[l.documentUri].relative
   }))).reduce((r, s) => r.concat(s), []);
 }
-function Ve(i, t, o) {
-  const n = {};
+function Me(i, t, n) {
+  const o = {};
   for (const s of i)
-    n[s.id] || (n[s.id] = []), n[s.id].push(s);
-  const d = Object.keys(n).map((s) => ({
+    o[s.id] || (o[s.id] = []), o[s.id].push(s);
+  const d = Object.keys(o).map((s) => ({
     id: s,
-    kdb: o === "graphql" ? Ne : t[s] || Me,
-    title: o === "graphql" ? n[s][0].description : t[s].title.text.replace(/^<h1>|<\/h1>$/g, ""),
-    domain: n[s][0].domain,
-    score: n[s].reduce((l, a) => l + a.score, 0),
-    criticality: Math.max(...n[s].map((l) => l.criticality)),
-    displayScore: Oe(n[s].reduce((l, a) => l + a.score, 0)),
-    count: n[s].length,
-    important: n[s].some((l) => l.criticality >= Se.Low)
-  })), r = ie(i);
+    kdb: n === "graphql" ? He : t[s] || Oe,
+    title: n === "graphql" ? o[s][0].description : t[s].title.text.replace(/^<h1>|<\/h1>$/g, ""),
+    domain: o[s][0].domain,
+    score: o[s].reduce((l, a) => l + a.score, 0),
+    criticality: Math.max(...o[s].map((l) => l.criticality)),
+    displayScore: Be(o[s].reduce((l, a) => l + a.score, 0)),
+    count: o[s].length,
+    important: o[s].some((l) => l.criticality >= g.Low)
+  })), r = te(i);
   return { byIssue: d, byGroup: r };
 }
-function ie(i) {
-  var n, d;
-  const t = { info: 0, low: 0, medium: 0, high: 0, critical: 0 }, o = {
+function te(i) {
+  var o, d;
+  const t = { info: 0, low: 0, medium: 0, high: 0, critical: 0 }, n = {
     oasconformance: {
       validation: { ...t },
       semantics: { ...t },
@@ -142,23 +160,23 @@ function ie(i) {
     }
   };
   for (const r of i) {
-    const s = r.domain, l = r.group, a = ke[r.criticality];
+    const s = r.domain, l = r.group, a = Pe[r.criticality];
     s !== void 0 && l !== void 0 && //@ts-ignore
-    ((d = (n = o[s]) == null ? void 0 : n[l]) == null ? void 0 : d[a]) !== void 0 && o[s][l][a]++;
+    ((d = (o = n[s]) == null ? void 0 : o[l]) == null ? void 0 : d[a]) !== void 0 && n[s][l][a]++;
   }
-  return o;
+  return n;
 }
-function Be(i) {
-  return i.byIssue.map((t) => ({ value: t.id, label: t.title })).sort((t, o) => {
-    const n = t.value.toLowerCase(), d = o.value.toLowerCase();
-    return n < d ? -1 : n > d ? 1 : 0;
+function Ve(i) {
+  return i.byIssue.map((t) => ({ value: t.id, label: t.title })).sort((t, n) => {
+    const o = t.value.toLowerCase(), d = n.value.toLowerCase();
+    return o < d ? -1 : o > d ? 1 : 0;
   });
 }
-function Oe(i) {
+function Be(i) {
   const t = Math.abs(Math.round(i));
   return i === 0 ? "0" : t >= 1 ? t.toString() : "less than 1";
 }
-const Me = {
+const Oe = {
   title: {
     text: "<h1>Article not found</h1>"
   },
@@ -166,7 +184,7 @@ const Me = {
     text: `<p>Whoops! Looks like there has been an oversight and we are missing a page for this issue.</p>
            <p><a href="https://apisecurity.io/contact-us/">Let us know</a> the title of the issue, and we make sure to add it to the encyclopedia.</p>`
   }
-}, Ne = {
+}, He = {
   title: {
     text: ""
   },
@@ -174,89 +192,89 @@ const Me = {
     text: ""
   }
 }, {
-  startAudit: te,
+  startAudit: oe,
   cancelAudit: ne,
   showFullReport: z,
-  showPartialReport: F,
+  showPartialReport: M,
   showNoReport: V,
-  loadKdb: Ee,
+  loadKdb: Ne,
   goToLine: B,
   copyIssueId: O,
-  openLink: k,
-  changeTab: m,
+  openLink: I,
+  changeTab: j,
   changeFilter: u,
-  setSqgTodo: Ge
-} = ee.actions, We = ee.reducer, He = {
-  audit: We,
-  theme: pe,
-  router: ce
-}, Ue = (i, t) => re({
-  reducer: He,
-  middleware: (o) => o().prepend(i.middleware).concat(ue),
+  setSqgTodo: Ee
+} = ie.actions, Ge = ie.reducer, We = {
+  audit: Ge,
+  theme: ue,
+  router: pe
+}, Ue = (i, t) => le({
+  reducer: We,
+  middleware: (n) => n().prepend(i.middleware).concat(he),
   preloadedState: {
     theme: t
   }
-}), h = () => le(), x = de, oe = he(), $ = oe.startListening;
+}), h = () => de(), x = ce, se = xe(), C = se.startListening;
 function Ke(i, t) {
-  const o = {
-    goToLine: () => $({
+  const n = {
+    goToLine: () => C({
       actionCreator: B,
-      effect: async (n, d) => {
+      effect: async (o, d) => {
         i.postMessage({
           command: "goToLine",
-          payload: n.payload
+          payload: o.payload
         });
       }
     }),
-    copyIssueId: () => $({
+    copyIssueId: () => C({
       actionCreator: O,
-      effect: async (n, d) => {
+      effect: async (o, d) => {
         i.postMessage({
           command: "copyIssueId",
-          payload: n.payload
+          payload: o.payload
         });
       }
     }),
-    openLink: () => $({
-      actionCreator: k,
-      effect: async (n, d) => {
+    openLink: () => C({
+      actionCreator: I,
+      effect: async (o, d) => {
         i.postMessage({
           command: "openLink",
-          payload: n.payload
+          payload: o.payload
         });
       }
     })
   };
-  return $({
-    matcher: xe(z, F, V),
-    effect: async (n, d) => {
+  return C({
+    matcher: ve(z, M, V),
+    effect: async (o, d) => {
       window.scrollTo(0, 0);
     }
-  }), Ie($, t), ve(o), oe;
+  }), ke(C, t), ge(n), se;
 }
-const D = (i) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...i, children: /* @__PURE__ */ e.jsx("path", { d: "M476.3 0c-6.365 0-13.01 1.35-19.34 4.233-45.69 20.86-79.56 27.94-107.8 27.94-59.96 0-94.81-31.86-163.9-31.87-34.63 0-77.87 8.003-137.2 32.05V24C48 10.75 37.25 0 24 0S0 10.75 0 24v464c0 13.3 10.75 24 24 24s24-10.75 24-24V384c53.59-23.86 96.02-31.81 132.8-31.81 73.63 0 124.9 31.78 198.6 31.78 31.91 0 68.02-5.971 111.1-23.09 13.6-4.98 21.5-16.48 21.5-28.78V30.73C512 11.1 495.3 0 476.3 0zM464 319.8c-30.31 10.82-58.08 16.1-84.6 16.1-30.8 0-58.31-7-87.44-14.41-32.01-8.141-68.29-17.37-111.1-17.37-42.35 0-85.99 9.09-132.8 27.73V84.14l18.03-7.301c47.39-19.2 86.38-28.54 119.2-28.54 28.24.004 49.12 6.711 73.31 14.48 25.38 8.148 54.13 17.39 90.58 17.39 35.43 0 72.24-8.496 114.9-26.61V319.8z" }) });
-function P({
+const P = (i) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...i, children: /* @__PURE__ */ e.jsx("path", { d: "M476.3 0c-6.365 0-13.01 1.35-19.34 4.233-45.69 20.86-79.56 27.94-107.8 27.94-59.96 0-94.81-31.86-163.9-31.87-34.63 0-77.87 8.003-137.2 32.05V24C48 10.75 37.25 0 24 0S0 10.75 0 24v464c0 13.3 10.75 24 24 24s24-10.75 24-24V384c53.59-23.86 96.02-31.81 132.8-31.81 73.63 0 124.9 31.78 198.6 31.78 31.91 0 68.02-5.971 111.1-23.09 13.6-4.98 21.5-16.48 21.5-28.78V30.73C512 11.1 495.3 0 476.3 0M464 319.8c-30.31 10.82-58.08 16.1-84.6 16.1-30.8 0-58.31-7-87.44-14.41-32.01-8.141-68.29-17.37-111.1-17.37-42.35 0-85.99 9.09-132.8 27.73V84.14l18.03-7.301c47.39-19.2 86.38-28.54 119.2-28.54 28.24.004 49.12 6.711 73.31 14.48 25.38 8.148 54.13 17.39 90.58 17.39 35.43 0 72.24-8.496 114.9-26.61V319.8z" }) });
+function R({
   children: i,
   defaultCollapsed: t
 }) {
-  const [o, n] = j.useState(t ?? !0), d = i.slice(0, i.length - 1), r = i[i.length - 1];
+  const [n, o] = y.useState(t ?? !0), d = i.slice(0, i.length - 1), r = i[i.length - 1];
   return /* @__PURE__ */ e.jsxs(_e, { children: [
     /* @__PURE__ */ e.jsxs(
       Qe,
       {
-        $collapsed: o,
+        $collapsed: n,
         onClick: (s) => {
-          s.preventDefault(), s.stopPropagation(), n(!o);
+          s.preventDefault(), s.stopPropagation(), o(!n);
         },
         children: [
-          /* @__PURE__ */ e.jsx("div", { children: o ? /* @__PURE__ */ e.jsx(J, {}) : /* @__PURE__ */ e.jsx(Z, {}) }),
+          /* @__PURE__ */ e.jsx("div", { children: n ? /* @__PURE__ */ e.jsx(J, {}) : /* @__PURE__ */ e.jsx(Z, {}) }),
           /* @__PURE__ */ e.jsxs("div", { children: [
             ...d
           ] })
         ]
       }
     ),
-    !o && /* @__PURE__ */ e.jsx(Xe, { children: r })
+    !n && /* @__PURE__ */ e.jsx(Xe, { children: r })
   ] });
 }
 const _e = c.div`
@@ -292,12 +310,12 @@ const _e = c.div`
   border-left: 5px solid transparent;
   ${({ $collapsed: i }) => !i && `border-bottom: 1px solid var(${p.border});
     border-left: 5px solid var(${p.badgeBackground});`}
-`, R = c.div`
+`, q = c.div`
   display: flex;
   gap: 4px;
   align-items: center;
   font-weight: 600;
-`, b = c.div`
+`, w = c.div`
   //margin-top: 8px;
   display: flex;
   font-size: 90%;
@@ -314,38 +332,38 @@ const _e = c.div`
 `, Xe = c.div`
   //background-color: var(${p.computedOne});
 `;
-function q({
+function F({
   article: i,
   lang: t,
-  openLink: o
+  openLink: n
 }) {
-  const n = (s) => {
-    s.stopPropagation(), s.preventDefault(), o(s.target.href);
-  }, d = j.useRef(null);
-  j.useEffect(() => {
+  const o = (s) => {
+    s.stopPropagation(), s.preventDefault(), n(s.target.href);
+  }, d = y.useRef(null);
+  y.useEffect(() => {
     const s = d.current.querySelectorAll("a");
     return s.forEach((l) => {
-      l.addEventListener("click", n);
+      l.addEventListener("click", o);
     }), () => {
       s.forEach((l) => {
-        l.removeEventListener("click", n);
+        l.removeEventListener("click", o);
       });
     };
   });
   const r = [
     i ? i.description.text : "",
-    I(i.example, t),
-    I(i.exploit, t),
-    I(i.remediation, t)
+    A(i.example, t),
+    A(i.exploit, t),
+    A(i.remediation, t)
   ].join("");
   return /* @__PURE__ */ e.jsx(Ye, { ref: d, dangerouslySetInnerHTML: { __html: r } });
 }
-function I(i, t) {
-  return !i || !i.sections ? "" : i.sections.map((o) => {
-    if (o.text)
-      return o.text;
-    if (o.code)
-      return `<pre>${o.code[t]}</pre>`;
+function A(i, t) {
+  return !i || !i.sections ? "" : i.sections.map((n) => {
+    if (n.text)
+      return n.text;
+    if (n.code)
+      return `<pre>${n.code[t]}</pre>`;
   }).join("");
 }
 const Ye = c.div`
@@ -378,11 +396,11 @@ function Je({
   return /* @__PURE__ */ e.jsx(
     Ze,
     {
-      onClick: (o) => {
-        o.preventDefault(), o.stopPropagation(), t();
+      onClick: (n) => {
+        n.preventDefault(), n.stopPropagation(), t();
       },
       children: /* @__PURE__ */ e.jsxs(ii, { children: [
-        /* @__PURE__ */ e.jsx(Ae, {}),
+        /* @__PURE__ */ e.jsx(Le, {}),
         i !== 0 && /* @__PURE__ */ e.jsx(ei, { children: i })
       ] })
     }
@@ -424,7 +442,7 @@ const Ze = c.div`
   }
 `;
 function ti() {
-  const i = x((n) => n.audit.filter), t = h(), o = [
+  const i = x((o) => o.audit.filter), t = h(), n = [
     { label: "All", value: "all" },
     { label: "Critical", value: "critical" },
     { label: "High", value: "high" },
@@ -432,23 +450,23 @@ function ti() {
     { label: "Low", value: "low" },
     { label: "Info", value: "info" }
   ];
-  return /* @__PURE__ */ e.jsx(ni, { children: /* @__PURE__ */ e.jsx(
-    A,
+  return /* @__PURE__ */ e.jsx(oi, { children: /* @__PURE__ */ e.jsx(
+    L,
     {
       label: "Severity",
-      options: o,
+      options: n,
       placeholder: "All",
-      onSelectedItemChange: (n) => {
-        n && n.value !== "all" ? t(u({ ...i, severity: n == null ? void 0 : n.value })) : t(u({ ...i, severity: void 0 }));
+      onSelectedItemChange: (o) => {
+        o && o.value !== "all" ? t(u({ ...i, severity: o == null ? void 0 : o.value })) : t(u({ ...i, severity: void 0 }));
       },
       selected: (i == null ? void 0 : i.severity) || "all"
     }
   ) });
 }
-const ni = c.div`
+const oi = c.div`
   width: 264px;
 `;
-function oi() {
+function ni() {
   const i = h();
   return /* @__PURE__ */ e.jsxs(
     si,
@@ -457,7 +475,7 @@ function oi() {
         i(u({})), t.preventDefault(), t.stopPropagation();
       },
       children: [
-        /* @__PURE__ */ e.jsx(Q, {}),
+        /* @__PURE__ */ e.jsx(X, {}),
         " ",
         /* @__PURE__ */ e.jsx("span", { children: "Reset filters" })
       ]
@@ -477,15 +495,15 @@ const si = c.div`
   }
 `;
 function ai() {
-  const { issueTitles: i, filter: t } = x((n) => n.audit), o = h();
+  const { issueTitles: i, filter: t } = x((o) => o.audit), n = h();
   return /* @__PURE__ */ e.jsx(ri, { children: /* @__PURE__ */ e.jsx(
-    A,
+    L,
     {
       label: "Rules",
       options: [{ label: "All", value: "all" }, ...i],
       placeholder: "All",
-      onSelectedItemChange: (n) => {
-        n && n.value !== "all" ? o(u({ ...t, rule: n == null ? void 0 : n.value })) : o(u({ ...t, rule: void 0 }));
+      onSelectedItemChange: (o) => {
+        o && o.value !== "all" ? n(u({ ...t, rule: o == null ? void 0 : o.value })) : n(u({ ...t, rule: void 0 }));
       },
       selected: (t == null ? void 0 : t.severity) || "all"
     }
@@ -495,20 +513,20 @@ const ri = c.div`
   width: 264px;
 `;
 function li() {
-  const i = x((n) => n.audit.filter), t = h(), o = [
+  const i = x((o) => o.audit.filter), t = h(), n = [
     { label: "All", value: "all" },
     { label: "Security", value: "security" },
     { label: "Data validation", value: "datavalidation" },
     { label: "OpenAPI format requirements", value: "oasconformance" }
   ];
   return /* @__PURE__ */ e.jsx(di, { children: /* @__PURE__ */ e.jsx(
-    A,
+    L,
     {
       label: "Category",
-      options: o,
+      options: n,
       placeholder: "All",
-      onSelectedItemChange: (n) => {
-        n && n.value !== "all" ? t(u({ ...i, domain: n == null ? void 0 : n.value })) : t(u({ ...i, domain: void 0 }));
+      onSelectedItemChange: (o) => {
+        o && o.value !== "all" ? t(u({ ...i, domain: o == null ? void 0 : o.value })) : t(u({ ...i, domain: void 0 }));
       },
       selected: (i == null ? void 0 : i.domain) || "all"
     }
@@ -539,15 +557,15 @@ const di = c.div`
   ]
 };
 function pi() {
-  const i = x((n) => n.audit.filter), t = h(), o = i.domain !== void 0 ? ci[i.domain] : [];
+  const i = x((o) => o.audit.filter), t = h(), n = i.domain !== void 0 ? ci[i.domain] : [];
   return /* @__PURE__ */ e.jsx(ui, { children: /* @__PURE__ */ e.jsx(
-    A,
+    L,
     {
       label: "Group",
-      options: o,
+      options: n,
       placeholder: "All",
-      onSelectedItemChange: (n) => {
-        n && n.value !== "all" ? t(u({ ...i, group: n == null ? void 0 : n.value })) : t(u({ ...i, group: void 0 }));
+      onSelectedItemChange: (o) => {
+        o && o.value !== "all" ? t(u({ ...i, group: o == null ? void 0 : o.value })) : t(u({ ...i, group: void 0 }));
       },
       selected: (i == null ? void 0 : i.group) || "all"
     }
@@ -557,7 +575,7 @@ const ui = c.div`
   width: 264px;
 `;
 function hi() {
-  const { filtered: i, filter: t, type: o } = x((a) => a.audit), n = h(), [d, r] = j.useState(!0), l = ["rule", "domain", "group", "severity"].filter((a) => t && t[a] !== void 0).length;
+  const { filtered: i, filter: t, type: n } = x((a) => a.audit), o = h(), [d, r] = y.useState(!0), l = ["rule", "domain", "group", "severity"].filter((a) => t && t[a] !== void 0).length;
   return /* @__PURE__ */ e.jsxs(xi, { children: [
     t.ids !== void 0 && /* @__PURE__ */ e.jsxs(N, { children: [
       /* @__PURE__ */ e.jsxs("div", { children: [
@@ -568,10 +586,10 @@ function hi() {
         gi,
         {
           onClick: (a) => {
-            n(u({})), a.preventDefault(), a.stopPropagation();
+            o(u({})), a.preventDefault(), a.stopPropagation();
           },
           children: [
-            /* @__PURE__ */ e.jsx(Q, {}),
+            /* @__PURE__ */ e.jsx(X, {}),
             " ",
             /* @__PURE__ */ e.jsx("span", { children: "Reset filters" })
           ]
@@ -586,13 +604,13 @@ function hi() {
       /* @__PURE__ */ e.jsx(Je, { filters: l, onClick: () => r(!d) })
     ] }),
     !d && /* @__PURE__ */ e.jsxs(vi, { children: [
-      o === "openapi" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+      n === "openapi" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(li, {}),
         /* @__PURE__ */ e.jsx(pi, {})
       ] }),
       /* @__PURE__ */ e.jsx(ti, {}),
       /* @__PURE__ */ e.jsx(ai, {}),
-      /* @__PURE__ */ e.jsx(oi, {})
+      /* @__PURE__ */ e.jsx(ni, {})
     ] })
   ] });
 }
@@ -632,26 +650,26 @@ function fi() {
   const {
     kdb: i,
     filtered: t,
-    type: o,
-    audit: { filename: n }
+    type: n,
+    audit: { filename: o }
   } = x((r) => r.audit), d = h();
   return /* @__PURE__ */ e.jsxs(mi, { children: [
     /* @__PURE__ */ e.jsx(hi, {}),
-    t.map((r, s) => /* @__PURE__ */ e.jsxs(P, { children: [
-      /* @__PURE__ */ e.jsx(R, { children: r.description }),
-      /* @__PURE__ */ e.jsx(b, { children: /* @__PURE__ */ e.jsxs(b, { children: [
+    t.map((r, s) => /* @__PURE__ */ e.jsxs(R, { children: [
+      /* @__PURE__ */ e.jsx(q, { children: r.description }),
+      /* @__PURE__ */ e.jsx(w, { children: /* @__PURE__ */ e.jsxs(w, { children: [
         /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(C, {}),
+          /* @__PURE__ */ e.jsx(S, {}),
           " ",
-          X[r.criticality]
+          ee[r.criticality]
         ] }),
         /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(D, {}),
+          /* @__PURE__ */ e.jsx(P, {}),
           " Score Impact ",
           r.displayScore
         ] }),
         /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(S, {}),
+          /* @__PURE__ */ e.jsx(k, {}),
           /* @__PURE__ */ e.jsxs(
             "a",
             {
@@ -687,13 +705,13 @@ function fi() {
           )
         ] })
       ] }) }),
-      o !== "graphql" && /* @__PURE__ */ e.jsx(
-        q,
+      n !== "graphql" && /* @__PURE__ */ e.jsx(
+        F,
         {
-          lang: n.toLowerCase().endsWith("json") ? "json" : "yaml",
+          lang: o.toLowerCase().endsWith("json") ? "json" : "yaml",
           article: i[r.id],
           openLink: (l) => {
-            d(k(l));
+            d(I(l));
           }
         }
       )
@@ -709,7 +727,7 @@ function ji({ onShowIssues: i }) {
         t.preventDefault(), t.stopPropagation(), i();
       },
       children: /* @__PURE__ */ e.jsxs(bi, { children: [
-        /* @__PURE__ */ e.jsx(C, {}),
+        /* @__PURE__ */ e.jsx(S, {}),
         /* @__PURE__ */ e.jsxs("div", { children: [
           "Your API has structural or semantic issues in its OpenAPI format. Fix these issues first and run Security Audit again to get the full audit report. Click ",
           /* @__PURE__ */ e.jsx("a", { href: "#", children: "here" }),
@@ -740,23 +758,23 @@ const yi = c.div`
   }
 `;
 function E({ issueId: i, issues: t }) {
-  const o = h(), [n, d] = j.useState(!1), r = t.filter((a) => a.id === i), s = n ? r.length : 4, l = r.slice(0, s);
-  return l.sort((a, g) => {
-    const M = a.filename.localeCompare(g.filename);
-    return M === 0 ? a.lineNo - g.lineNo : M;
+  const n = h(), [o, d] = y.useState(!1), r = t.filter((a) => a.id === i), s = o ? r.length : 4, l = r.slice(0, s);
+  return l.sort((a, f) => {
+    const H = a.filename.localeCompare(f.filename);
+    return H === 0 ? a.lineNo - f.lineNo : H;
   }), /* @__PURE__ */ e.jsxs(wi, { children: [
     /* @__PURE__ */ e.jsxs("h2", { children: [
       r.length,
       " results with this issue"
     ] }),
     /* @__PURE__ */ e.jsx("div", { children: l.map((a) => /* @__PURE__ */ e.jsxs($i, { children: [
-      /* @__PURE__ */ e.jsx(S, {}),
+      /* @__PURE__ */ e.jsx(k, {}),
       /* @__PURE__ */ e.jsxs(
         "a",
         {
           href: "#",
-          onClick: (g) => {
-            g.preventDefault(), g.stopPropagation(), o(
+          onClick: (f) => {
+            f.preventDefault(), f.stopPropagation(), n(
               B({
                 uri: a.documentUri,
                 line: a.lineNo,
@@ -772,7 +790,7 @@ function E({ issueId: i, issues: t }) {
         }
       )
     ] }, `${a.filename}:${a.lineNo}`)) }),
-    !n && r.length > l.length && /* @__PURE__ */ e.jsxs(
+    !o && r.length > l.length && /* @__PURE__ */ e.jsxs(
       "a",
       {
         href: "#",
@@ -786,7 +804,7 @@ function E({ issueId: i, issues: t }) {
         ]
       }
     ),
-    n && /* @__PURE__ */ e.jsx(
+    o && /* @__PURE__ */ e.jsx(
       "a",
       {
         href: "#",
@@ -823,25 +841,25 @@ function Ci() {
   const {
     stats: i,
     issues: t,
-    audit: { filename: o }
-  } = x((s) => s.audit), n = h(), d = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.count - s.count).slice(0, 4), r = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.score - s.score).slice(0, 4);
+    audit: { filename: n }
+  } = x((s) => s.audit), o = h(), d = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.count - s.count).slice(0, 4), r = i.byIssue.filter((s) => s.important).slice().sort((s, l) => l.score - s.score).slice(0, 4);
   return /* @__PURE__ */ e.jsxs(Si, { children: [
     /* @__PURE__ */ e.jsx(G, { children: "Most common issues" }),
-    d.map((s, l) => /* @__PURE__ */ e.jsxs(P, { children: [
-      /* @__PURE__ */ e.jsx(R, { children: s.title }),
-      /* @__PURE__ */ e.jsx(b, { children: /* @__PURE__ */ e.jsxs(b, { children: [
+    d.map((s, l) => /* @__PURE__ */ e.jsxs(R, { children: [
+      /* @__PURE__ */ e.jsx(q, { children: s.title }),
+      /* @__PURE__ */ e.jsx(w, { children: /* @__PURE__ */ e.jsxs(w, { children: [
         /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(C, {}),
+          /* @__PURE__ */ e.jsx(S, {}),
           " ",
-          X[s.criticality]
+          ee[s.criticality]
         ] }),
         /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(D, {}),
+          /* @__PURE__ */ e.jsx(P, {}),
           " Score impact: ",
           s.displayScore
         ] }),
         /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(S, {}),
+          /* @__PURE__ */ e.jsx(k, {}),
           " ",
           s.count,
           " result(s)"
@@ -854,7 +872,7 @@ function Ci() {
             {
               href: "#",
               onClick: (a) => {
-                a.preventDefault(), a.stopPropagation(), n(O(s.id));
+                a.preventDefault(), a.stopPropagation(), o(O(s.id));
               },
               children: "Issue ID"
             }
@@ -864,31 +882,31 @@ function Ci() {
       /* @__PURE__ */ e.jsxs("div", { children: [
         /* @__PURE__ */ e.jsx(E, { issueId: s.id, issues: t }),
         /* @__PURE__ */ e.jsx(
-          q,
+          F,
           {
-            lang: o.toLowerCase().endsWith("json") ? "json" : "yaml",
+            lang: n.toLowerCase().endsWith("json") ? "json" : "yaml",
             article: s.kdb,
-            openLink: (a) => n(k(a))
+            openLink: (a) => o(I(a))
           }
         )
       ] })
     ] }, `issue-${l}`)),
     /* @__PURE__ */ e.jsx(G, { children: "Opportunities" }),
-    r.map((s, l) => /* @__PURE__ */ e.jsxs(P, { children: [
-      /* @__PURE__ */ e.jsx(R, { children: s.title }),
-      /* @__PURE__ */ e.jsx(b, { children: /* @__PURE__ */ e.jsxs(b, { children: [
+    r.map((s, l) => /* @__PURE__ */ e.jsxs(R, { children: [
+      /* @__PURE__ */ e.jsx(q, { children: s.title }),
+      /* @__PURE__ */ e.jsx(w, { children: /* @__PURE__ */ e.jsxs(w, { children: [
         /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(C, {}),
+          /* @__PURE__ */ e.jsx(S, {}),
           " Count ",
           s.count
         ] }),
         /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(D, {}),
+          /* @__PURE__ */ e.jsx(P, {}),
           " Score impact: ",
           s.displayScore
         ] }),
         /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(S, {}),
+          /* @__PURE__ */ e.jsx(k, {}),
           " ",
           s.count,
           " result(s)"
@@ -897,11 +915,11 @@ function Ci() {
       /* @__PURE__ */ e.jsxs("div", { children: [
         /* @__PURE__ */ e.jsx(E, { issueId: s.id, issues: t }),
         /* @__PURE__ */ e.jsx(
-          q,
+          F,
           {
-            lang: o.toLowerCase().endsWith("json") ? "json" : "yaml",
+            lang: n.toLowerCase().endsWith("json") ? "json" : "yaml",
             article: s.kdb,
-            openLink: (a) => n(k(a))
+            openLink: (a) => o(I(a))
           }
         )
       ] })
@@ -918,12 +936,12 @@ const Si = c.div`
 function ki({
   isOpen: i,
   style: t,
-  onClick: o
+  onClick: n
 }) {
   return i ? /* @__PURE__ */ e.jsx(
     Z,
     {
-      onClick: o,
+      onClick: n,
       style: {
         cursor: "pointer",
         fill: `var(${p.foreground})`,
@@ -933,7 +951,7 @@ function ki({
   ) : /* @__PURE__ */ e.jsx(
     J,
     {
-      onClick: o,
+      onClick: n,
       style: {
         cursor: "pointer",
         fill: `var(${p.foreground})`,
@@ -942,28 +960,28 @@ function ki({
     }
   );
 }
-function Ai({
+function Ii({
   sqgs: i,
   selected: t,
-  onSelect: o
+  onSelect: n
 }) {
-  return /* @__PURE__ */ e.jsx(Ii, { children: i.map((n, d) => /* @__PURE__ */ e.jsx(
-    Li,
+  return /* @__PURE__ */ e.jsx(Li, { children: i.map((o, d) => /* @__PURE__ */ e.jsx(
+    Ai,
     {
-      $selected: n.id === t,
+      $selected: o.id === t,
       onClick: (r) => {
-        r.preventDefault(), r.stopPropagation(), t !== n.id && o(d);
+        r.preventDefault(), r.stopPropagation(), t !== o.id && n(d);
       },
-      children: n.name
+      children: o.name
     },
-    n.id
+    o.id
   )) });
 }
-const Ii = c.div`
+const Li = c.div`
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-`, Li = c.div`
+`, Ai = c.div`
   display: flex;
   height: 28px;
   min-width: 100px;
@@ -981,7 +999,7 @@ const Ii = c.div`
   ${({ $selected: i }) => i ? `background-color: var(${p.computedTwo});` : `background-color: var(${p.computedOne});`}
 `;
 function Ti({ sqg: i, summary: t }) {
-  const o = i.directives.minimumAssessmentScores;
+  const n = i.directives.minimumAssessmentScores;
   return i.directives.subcategoryRules, i.directives.issueRules, /* @__PURE__ */ e.jsxs(Di, { children: [
     /* @__PURE__ */ e.jsx("h4", { children: "Minimum acceptable score" }),
     /* @__PURE__ */ e.jsxs(Pi, { children: [
@@ -989,20 +1007,20 @@ function Ti({ sqg: i, summary: t }) {
       /* @__PURE__ */ e.jsx("div", { children: "current" }),
       /* @__PURE__ */ e.jsx("div", { children: "Minimum acceptable" })
     ] }),
-    /* @__PURE__ */ e.jsxs(L, { children: [
+    /* @__PURE__ */ e.jsxs(T, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Global score" }),
-      /* @__PURE__ */ e.jsx(y, { $highlight: t.all < o.global, children: t.all }),
-      /* @__PURE__ */ e.jsx(y, { children: o.global })
+      /* @__PURE__ */ e.jsx(b, { $highlight: t.all < n.global, children: t.all }),
+      /* @__PURE__ */ e.jsx(b, { children: n.global })
     ] }),
-    /* @__PURE__ */ e.jsxs(L, { children: [
+    /* @__PURE__ */ e.jsxs(T, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Security score" }),
-      /* @__PURE__ */ e.jsx(y, { $highlight: t.security.value < o.security, children: t.security.value }),
-      /* @__PURE__ */ e.jsx(y, { children: o.security })
+      /* @__PURE__ */ e.jsx(b, { $highlight: t.security.value < n.security, children: t.security.value }),
+      /* @__PURE__ */ e.jsx(b, { children: n.security })
     ] }),
-    /* @__PURE__ */ e.jsxs(L, { children: [
+    /* @__PURE__ */ e.jsxs(T, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Data validation score" }),
-      /* @__PURE__ */ e.jsx(y, { $highlight: t.datavalidation.value < o.dataValidation, children: t.datavalidation.value }),
-      /* @__PURE__ */ e.jsx(y, { children: o.dataValidation })
+      /* @__PURE__ */ e.jsx(b, { $highlight: t.datavalidation.value < n.dataValidation, children: t.datavalidation.value }),
+      /* @__PURE__ */ e.jsx(b, { children: n.dataValidation })
     ] })
   ] });
 }
@@ -1017,38 +1035,38 @@ const Di = c.div``, Pi = c.div`
     font-weight: 600;
     font-size: 12px;
   }
-`, L = c.div`
+`, T = c.div`
   display: flex;
   > div {
     flex: 1;
     margin: 8px;
   }
-`, y = c.div`
+`, b = c.div`
   ${({ $highlight: i }) => i && "font-weight: 700;"}
 `;
 function Ri({ sqg: i, stats: t }) {
-  const o = h(), n = i.directives.subcategoryRules, d = t.byGroup, r = {
+  const n = h(), o = i.directives.subcategoryRules, d = t.byGroup, r = {
     security: [
       {
         name: "Authentication",
         domain: "security",
         group: "authentication",
-        level: n.security.authentication,
-        violations: f(n.security.authentication, d.security.authentication)
+        level: o.security.authentication,
+        violations: m(o.security.authentication, d.security.authentication)
       },
       {
         name: "Authorization",
         domain: "security",
         group: "authorization",
-        level: n.security.authorization,
-        violations: f(n.security.authorization, d.security.authorization)
+        level: o.security.authorization,
+        violations: m(o.security.authorization, d.security.authorization)
       },
       {
         name: "Transport",
         domain: "security",
         group: "transport",
-        level: n.security.transport,
-        violations: f(n.security.transport, d.security.transport)
+        level: o.security.transport,
+        violations: m(o.security.transport, d.security.transport)
       }
     ],
     data: [
@@ -1056,16 +1074,16 @@ function Ri({ sqg: i, stats: t }) {
         name: "Paths",
         domain: "datavalidation",
         group: "paths",
-        level: n.dataValidation.paths,
-        violations: f(n.dataValidation.paths, d.datavalidation.paths)
+        level: o.dataValidation.paths,
+        violations: m(o.dataValidation.paths, d.datavalidation.paths)
       },
       {
         name: "Parameters",
         domain: "datavalidation",
         group: "parameters",
-        level: n.dataValidation.parameters,
-        violations: f(
-          n.dataValidation.parameters,
+        level: o.dataValidation.parameters,
+        violations: m(
+          o.dataValidation.parameters,
           t.byGroup.datavalidation.parameters
         )
       },
@@ -1073,16 +1091,16 @@ function Ri({ sqg: i, stats: t }) {
         name: "Schema",
         domain: "datavalidation",
         group: "schema",
-        level: n.dataValidation.schema,
-        violations: f(n.dataValidation.schema, d.datavalidation.schema)
+        level: o.dataValidation.schema,
+        violations: m(o.dataValidation.schema, d.datavalidation.schema)
       },
       {
         name: "Response Definition",
         domain: "datavalidation",
         group: "responsedefinition",
-        level: n.dataValidation.responseDefinition,
-        violations: f(
-          n.dataValidation.responseDefinition,
+        level: o.dataValidation.responseDefinition,
+        violations: m(
+          o.dataValidation.responseDefinition,
           d.datavalidation.responsedefinition
         )
       },
@@ -1090,9 +1108,9 @@ function Ri({ sqg: i, stats: t }) {
         name: "Response Headers",
         domain: "datavalidation",
         group: "responseheader",
-        level: n.dataValidation.responseHeaders,
-        violations: f(
-          n.dataValidation.responseHeaders,
+        level: o.dataValidation.responseHeaders,
+        violations: m(
+          o.dataValidation.responseHeaders,
           d.datavalidation.responseheader
         )
       }
@@ -1100,21 +1118,21 @@ function Ri({ sqg: i, stats: t }) {
   };
   return /* @__PURE__ */ e.jsxs(qi, { children: [
     /* @__PURE__ */ e.jsx("h4", { children: "Allowed issue security levels" }),
-    /* @__PURE__ */ e.jsxs(zi, { children: [
+    /* @__PURE__ */ e.jsxs(Fi, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Category" }),
       /* @__PURE__ */ e.jsx("div", { children: "threshold" }),
       /* @__PURE__ */ e.jsx("div", { children: "issues found" })
     ] }),
     /* @__PURE__ */ e.jsx(W, { children: "Security" }),
-    r.security.filter((s) => s.violations.length > 0).map((s, l) => /* @__PURE__ */ e.jsxs(H, { children: [
+    r.security.filter((s) => s.violations.length > 0).map((s, l) => /* @__PURE__ */ e.jsxs(U, { children: [
       /* @__PURE__ */ e.jsx("div", { children: s.name }),
-      /* @__PURE__ */ e.jsx("div", { children: U(s.level) }),
+      /* @__PURE__ */ e.jsx("div", { children: K(s.level) }),
       /* @__PURE__ */ e.jsx(
         "a",
         {
           href: "#",
           onClick: (a) => {
-            a.stopPropagation(), a.preventDefault(), o(m("issues")), o(
+            a.stopPropagation(), a.preventDefault(), n(j("issues")), n(
               u({
                 severity: s.violations[0].level,
                 domain: s.domain,
@@ -1127,15 +1145,15 @@ function Ri({ sqg: i, stats: t }) {
       )
     ] }, l)),
     /* @__PURE__ */ e.jsx(W, { children: "Data validation" }),
-    r.data.filter((s) => s.violations.length > 0).map((s, l) => /* @__PURE__ */ e.jsxs(H, { children: [
+    r.data.filter((s) => s.violations.length > 0).map((s, l) => /* @__PURE__ */ e.jsxs(U, { children: [
       /* @__PURE__ */ e.jsx("div", { children: s.name }),
-      /* @__PURE__ */ e.jsx("div", { children: U(s.level) }),
+      /* @__PURE__ */ e.jsx("div", { children: K(s.level) }),
       /* @__PURE__ */ e.jsx(
         "a",
         {
           href: "#",
           onClick: (a) => {
-            a.stopPropagation(), a.preventDefault(), o(m("issues")), o(
+            a.stopPropagation(), a.preventDefault(), n(j("issues")), n(
               u({
                 severity: s.violations[0].level,
                 domain: s.domain,
@@ -1154,7 +1172,7 @@ const qi = c.div`
     margin-top: 8px;
     margin-bottom: 8px;
   }
-`, zi = c.div`
+`, Fi = c.div`
   display: flex;
   background-color: var(${p.computedTwo});
   border-radius: 2px;
@@ -1170,7 +1188,7 @@ const qi = c.div`
   background-color: var(${p.computedOne});
   border-radius: 2px;
   padding: 8px;
-`, H = c.div`
+`, U = c.div`
   display: flex;
   > a {
     flex: 1;
@@ -1182,15 +1200,15 @@ const qi = c.div`
     margin: 8px;
   }
 `;
-function f(i, t) {
+function m(i, t) {
   if (i === "none")
     return [];
-  const o = T.indexOf(i), n = [];
-  for (const d of T.slice(o))
-    t[d] > 0 && n.push({ level: d, count: t[d] });
-  return n;
+  const n = D.indexOf(i), o = [];
+  for (const d of D.slice(n))
+    t[d] > 0 && o.push({ level: d, count: t[d] });
+  return o;
 }
-const Fi = {
+const zi = {
   info: "All issues are rejected",
   low: "Issues up to level Info allowed, levels Low to Critical rejected",
   medium: "Issues up to level Low allowed, levels Medium to Critical rejected",
@@ -1198,66 +1216,66 @@ const Fi = {
   critical: "Only Critical issues are rejected",
   none: "No restrictions"
 };
-function U(i) {
-  return Fi[i];
+function K(i) {
+  return zi[i];
 }
-function Vi({ sqg: i, stats: t }) {
-  const o = h(), n = i.directives.issueRules ?? [], r = t.byIssue.filter((s) => n.includes(s.id));
-  return r.length === 0 ? null : /* @__PURE__ */ e.jsxs(Bi, { children: [
+function Mi({ sqg: i, stats: t }) {
+  const n = h(), o = i.directives.issueRules ?? [], r = t.byIssue.filter((s) => o.includes(s.id));
+  return r.length === 0 ? null : /* @__PURE__ */ e.jsxs(Vi, { children: [
     /* @__PURE__ */ e.jsx("h4", { children: "Forbidden issues with problem found" }),
     r.map((s) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
       "a",
       {
         href: "#",
         onClick: (l) => {
-          l.preventDefault(), l.stopPropagation(), o(m("issues")), o(u({ rule: s.id }));
+          l.preventDefault(), l.stopPropagation(), n(j("issues")), n(u({ rule: s.id }));
         },
         children: s.title
       }
     ) }))
   ] });
 }
-const Bi = c.div`
+const Vi = c.div`
   > div {
     margin-top: 8px;
     margin-bottom: 8px;
   }
 `;
-function Oi({
+function Bi({
   compliance: i,
   summary: t,
-  stats: o
+  stats: n
 }) {
-  const [n, d] = j.useState(0), r = i.sqgsDetail[n];
-  return /* @__PURE__ */ e.jsxs(Mi, { children: [
+  const [o, d] = y.useState(0), r = i.sqgsDetail[o];
+  return /* @__PURE__ */ e.jsxs(Oi, { children: [
     /* @__PURE__ */ e.jsx(
-      Ai,
+      Ii,
       {
         sqgs: i.sqgsDetail,
         onSelect: d,
-        selected: i.sqgsDetail[n].id
+        selected: i.sqgsDetail[o].id
       }
     ),
     /* @__PURE__ */ e.jsx(Ti, { sqg: r, summary: t }),
-    /* @__PURE__ */ e.jsx(Ri, { sqg: r, stats: o }),
-    /* @__PURE__ */ e.jsx(Vi, { sqg: r, stats: o })
+    /* @__PURE__ */ e.jsx(Ri, { sqg: r, stats: n }),
+    /* @__PURE__ */ e.jsx(Mi, { sqg: r, stats: n })
   ] });
 }
-const Mi = c.div`
+const Oi = c.div`
   padding: 8px;
   color: var(${p.foreground});
   background-color: var(${p.background});
   border-top: 1px solid var(${p.errorBorder});
 `;
-function Ni() {
-  const { compliance: i, summary: t } = x((a) => a.audit.audit), o = x((a) => a.audit.stats), n = x((a) => a.audit.sqgTodo), d = h(), r = (a) => {
-    d(Ge(a));
-  }, [s, l] = j.useState(!1);
-  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Wi, { children: /* @__PURE__ */ e.jsx(De, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Ei, { children: [
-    /* @__PURE__ */ e.jsxs(Gi, { children: [
-      /* @__PURE__ */ e.jsx(C, {}),
+function Hi() {
+  const { compliance: i, summary: t } = x((a) => a.audit.audit), n = x((a) => a.audit.stats), o = x((a) => a.audit.sqgTodo), d = h(), r = (a) => {
+    d(Ee(a));
+  }, [s, l] = y.useState(!1);
+  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Gi, { children: /* @__PURE__ */ e.jsx(Te, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Ni, { children: [
+    /* @__PURE__ */ e.jsxs(Ei, { children: [
+      /* @__PURE__ */ e.jsx(S, {}),
       /* @__PURE__ */ e.jsx("div", { children: "Security quality gates failed" }),
-      /* @__PURE__ */ e.jsx(Te, { value: n, onChange: r }),
+      /* @__PURE__ */ e.jsx(Ae, { value: o, onChange: r }),
       "Show only SQG to-do list",
       /* @__PURE__ */ e.jsx(
         ki,
@@ -1268,16 +1286,16 @@ function Ni() {
         }
       )
     ] }),
-    s && /* @__PURE__ */ e.jsx(Oi, { compliance: i, summary: t, stats: o })
+    s && /* @__PURE__ */ e.jsx(Bi, { compliance: i, summary: t, stats: n })
   ] });
 }
-const Ei = c.div`
+const Ni = c.div`
   margin: 8px;
   border-radius: 2px;
   border: 1px solid var(${p.errorBorder});
   background-color: var(${p.errorBackground});
   color: var(${p.errorForeground});
-`, Gi = c.div`
+`, Ei = c.div`
   display: flex;
   padding: 8px;
   flex-direction: row;
@@ -1289,17 +1307,17 @@ const Ei = c.div`
   > div:nth-child(2) {
     flex: 1;
   }
-`, Wi = c.div`
+`, Gi = c.div`
   margin: 8px;
 `;
-function Hi() {
-  const i = x((n) => n.audit.audit.summary), t = x((n) => n.audit.type), o = h();
+function Wi() {
+  const i = x((o) => o.audit.audit.summary), t = x((o) => o.audit.type), n = h();
   return /* @__PURE__ */ e.jsx(Ui, { children: /* @__PURE__ */ e.jsxs(Ki, { children: [
     /* @__PURE__ */ e.jsxs(
       "div",
       {
-        onClick: (n) => {
-          n.preventDefault(), n.stopPropagation(), o(m("issues")), o(u({}));
+        onClick: (o) => {
+          o.preventDefault(), o.stopPropagation(), n(j("issues")), n(u({}));
         },
         children: [
           /* @__PURE__ */ e.jsx("div", { children: "Global score" }),
@@ -1315,8 +1333,8 @@ function Hi() {
       /* @__PURE__ */ e.jsxs(
         "div",
         {
-          onClick: (n) => {
-            n.preventDefault(), n.stopPropagation(), o(m("issues")), o(u({ domain: "security" }));
+          onClick: (o) => {
+            o.preventDefault(), o.stopPropagation(), n(j("issues")), n(u({ domain: "security" }));
           },
           children: [
             /* @__PURE__ */ e.jsx("div", { children: "Security score" }),
@@ -1332,8 +1350,8 @@ function Hi() {
       /* @__PURE__ */ e.jsxs(
         "div",
         {
-          onClick: (n) => {
-            n.preventDefault(), n.stopPropagation(), o(m("issues")), o(u({ domain: "datavalidation" }));
+          onClick: (o) => {
+            o.preventDefault(), o.stopPropagation(), n(j("issues")), n(u({ domain: "datavalidation" }));
           },
           children: [
             /* @__PURE__ */ e.jsx("div", { children: "Data validation score" }),
@@ -1381,24 +1399,24 @@ const Ui = c.div`
     }
   }
 `;
-function K() {
-  const i = h(), { tab: t, audit: o } = x((n) => n.audit);
+function _() {
+  const i = h(), { tab: t, audit: n } = x((o) => o.audit);
   return /* @__PURE__ */ e.jsxs(_i, { children: [
-    o.valid === !1 && /* @__PURE__ */ e.jsx(
+    n.valid === !1 && /* @__PURE__ */ e.jsx(
       ji,
       {
         onShowIssues: () => {
-          i(m("issues")), i(u({ domain: "oasconformance", severity: "critical" }));
+          i(j("issues")), i(u({ domain: "oasconformance", severity: "critical" }));
         }
       }
     ),
+    /* @__PURE__ */ e.jsx(Wi, {}),
     /* @__PURE__ */ e.jsx(Hi, {}),
-    /* @__PURE__ */ e.jsx(Ni, {}),
     /* @__PURE__ */ e.jsx(
-      Le,
+      Ie,
       {
         activeTab: t,
-        setActiveTab: (n) => i(m(n)),
+        setActiveTab: (o) => i(j(o)),
         tabs: [
           {
             id: "priority",
@@ -1414,7 +1432,7 @@ function K() {
 const _i = c.div``;
 function Qi() {
   return /* @__PURE__ */ e.jsxs(Xi, { children: [
-    /* @__PURE__ */ e.jsx(Pe, {}),
+    /* @__PURE__ */ e.jsx(De, {}),
     "There is no Security Audit report available for this file"
   ] });
 }
@@ -1445,7 +1463,7 @@ const Ji = c.div`
   display: flex;
   flex-flow: column;
   gap: 8px;
-`, se = ge`
+`, ae = fe`
   0% {
     background-color: var(${p.computedOne});
   }
@@ -1463,20 +1481,20 @@ const Ji = c.div`
     height: 100px;
     flex-direction: column;
     border: 1px solid var(${p.border});
-    animation: ${se} 1s linear infinite alternate;
+    animation: ${ae} 1s linear infinite alternate;
   }
 `, et = c.div`
   border: 1px solid var(${p.border});
   height: 15rem;
-  animation: ${se} 1s linear infinite alternate;
-`, _ = [
+  animation: ${ae} 1s linear infinite alternate;
+`, Q = [
   { id: "starting", title: "Starting", element: /* @__PURE__ */ e.jsx("div", {}) },
   { id: "blank", title: "Blank", element: /* @__PURE__ */ e.jsx("div", {}), when: ne },
   {
     id: "start-audit",
     title: "Audit is starting",
     element: /* @__PURE__ */ e.jsx(Yi, {}),
-    when: te
+    when: oe
   },
   {
     id: "no-report",
@@ -1487,34 +1505,34 @@ const Ji = c.div`
   {
     id: "audit-report",
     title: "Security Audit",
-    element: /* @__PURE__ */ e.jsx(K, {}),
+    element: /* @__PURE__ */ e.jsx(_, {}),
     when: z
   },
   {
     id: "audit-report",
     title: "Security Audit",
-    element: /* @__PURE__ */ e.jsx(K, {}),
-    when: F
+    element: /* @__PURE__ */ e.jsx(_, {}),
+    when: M
   }
 ], it = {
-  startAudit: te,
+  startAudit: oe,
   cancelAudit: ne,
   showFullReport: z,
-  showPartialReport: F,
+  showPartialReport: M,
   showNoReport: V,
-  loadKdb: Ee,
-  changeTheme: Ce
+  loadKdb: Ne,
+  changeTheme: Se
 };
 function tt() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(we, {}),
-    /* @__PURE__ */ e.jsx($e, {})
+    /* @__PURE__ */ e.jsx($e, {}),
+    /* @__PURE__ */ e.jsx(Ce, {})
   ] });
 }
-function nt(i, t) {
-  const o = Ue(Ke(i, _), t);
-  fe.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(me.StrictMode, { children: /* @__PURE__ */ e.jsx(je, { store: o, children: /* @__PURE__ */ e.jsx(ye.Provider, { value: _, children: /* @__PURE__ */ e.jsx(tt, {}) }) }) })
-  ), window.addEventListener("message", be(o, it));
+function ot(i, t) {
+  const n = Ue(Ke(i, Q), t);
+  me.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(je.StrictMode, { children: /* @__PURE__ */ e.jsx(ye, { store: n, children: /* @__PURE__ */ e.jsx(be.Provider, { value: Q, children: /* @__PURE__ */ e.jsx(tt, {}) }) }) })
+  ), window.addEventListener("message", we(n, it));
 }
-window.renderWebView = nt;
+window.renderWebView = ot;

@@ -8,16 +8,17 @@
 				font-size: 13px;
                 zoom: 0.90;
             }
-            #root {
-                --scrollbar-track-background: #fff;
-                --scrollbar-thumb-background: #fff;
-            }
             ::-webkit-scrollbar {
                 width: 10px;
-                background: var(--scrollbar-track-background);
+            }
+            ::-webkit-scrollbar:horizontal {
+				height: 10px
+			}
+            ::-webkit-scrollbar-track {
+                background: var(--xliic-scrollbarTrackBackground);
             }
             ::-webkit-scrollbar-thumb {
-                background: var(--scrollbar-thumb-background);
+                background: var(--xliic-scrollbarThumbBackground);
             }
             a {
                 color: var(--xliic-linkForeground);
@@ -31,23 +32,17 @@
         <div id="root"></div>
         <script type="module" src="${index-script}"></script>
         <script>
-            window.fireDOMContentLoaded = function() {
-                window.runIDECommand = function(event) {
-                    if (event.detail.command === "changeTheme") {
-                        const theme = event.detail.payload.theme;
-                        const root = document.getElementById("root");
-                        if (root) {
-                            root.style.setProperty('--scrollbar-track-background', theme["scrollbarTrack"]);
-                            root.style.setProperty('--scrollbar-thumb-background', theme["scrollbarThumb"]);
-                        }
-                        delete theme["scrollbarTrack"];
-                        delete theme["scrollbarThumb"];
-                    }
-                    window.postMessage(event.detail);
-                };
-                const host = { postMessage: (message) => window.__EclipseJTools.postMessage(JSON.stringify(message)) };
-                window.renderWebView(host, $theme);
-            };
+		    window.__EclipseJTools = {};
+            const host = { postMessage: (message) => window.__EclipseJTools.postMessage(JSON.stringify(message)) };
+			window.runIDECommand = function(event) {
+				window.postMessage(event.detail);
+			};
+            function startWebApp() {
+                const result = window.renderWebView(host, $theme);
+                if (!result?.skipAutoStart) {
+                    host.postMessage({command: "started", payload: crypto.randomUUID()});
+                }
+            }
         </script>
     </body>
 </html>
