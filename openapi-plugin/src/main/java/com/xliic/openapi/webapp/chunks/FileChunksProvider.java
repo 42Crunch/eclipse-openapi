@@ -1,15 +1,16 @@
 package com.xliic.openapi.webapp.chunks;
 
-import com.xliic.core.project.Project;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.project.Project;
 
 public class FileChunksProvider extends ChunksProvider {
 

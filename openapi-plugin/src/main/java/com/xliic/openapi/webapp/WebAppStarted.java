@@ -1,8 +1,9 @@
 package com.xliic.openapi.webapp;
 
-import com.xliic.openapi.webapp.messages.WebAppProduce;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public abstract class WebAppStarted extends WebAppProduce {
 

@@ -1,7 +1,10 @@
 package com.xliic.openapi.platform.scan;
 
 import static com.xliic.openapi.platform.scan.config.ScanConfigUtils.getAlias;
-import static com.xliic.openapi.settings.Settings.Platform.Scan.*;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_DOCKER;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_SCAND_MANAGER;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
 
 import java.nio.file.Path;

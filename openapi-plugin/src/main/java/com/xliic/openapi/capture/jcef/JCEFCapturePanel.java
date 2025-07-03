@@ -1,5 +1,10 @@
 package com.xliic.openapi.capture.jcef;
 
+import java.util.List;
+
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+
 import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
@@ -11,11 +16,6 @@ import com.xliic.openapi.capture.jcef.messages.ShowCaptureWindow;
 import com.xliic.openapi.capture.payload.CaptureItem;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
 import com.xliic.openapi.webapp.editor.WebVirtualFile;
-
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class JCEFCapturePanel extends WebFileEditor implements CaptureListener, Disposable {
 

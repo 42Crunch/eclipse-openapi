@@ -26,10 +26,10 @@ import com.xliic.openapi.report.payload.AuditOperation;
 import com.xliic.openapi.services.InlayHintsService;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.tryit.TryItUtils;
-import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.tags.TagsService;
 import com.xliic.openapi.tags.payload.TagsOperation;
+import com.xliic.openapi.tryit.TryItUtils;
+import com.xliic.openapi.utils.Utils;
 
 public class InlinedDfsHandler extends DfsHandler<Object> {
 

@@ -1,17 +1,16 @@
 package com.xliic.openapi.parser.ast.node;
 
-import com.xliic.openapi.parser.ast.Range;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xliic.openapi.parser.ast.Range;
 
 public class FastNode extends Node {
 

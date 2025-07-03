@@ -1,12 +1,13 @@
 package com.xliic.openapi.tags.jcef.messages;
 
-import com.xliic.openapi.webapp.messages.WebAppConsume;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class LoadTags extends WebAppConsume {
 

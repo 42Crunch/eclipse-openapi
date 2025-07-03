@@ -1,8 +1,6 @@
 package com.xliic.openapi.capture;
 
-import com.xliic.openapi.Endpoints;
-import com.xliic.openapi.capture.payload.PrepareOptions;
-import okhttp3.*;
+import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
+import com.xliic.openapi.Endpoints;
+import com.xliic.openapi.capture.payload.PrepareOptions;
+
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class CaptureAPI {
 

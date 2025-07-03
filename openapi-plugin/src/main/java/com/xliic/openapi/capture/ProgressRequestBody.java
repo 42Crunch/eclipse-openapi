@@ -1,14 +1,15 @@
 package com.xliic.openapi.capture;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.jetbrains.annotations.NotNull;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.io.IOException;
 
 public class ProgressRequestBody extends RequestBody {
 

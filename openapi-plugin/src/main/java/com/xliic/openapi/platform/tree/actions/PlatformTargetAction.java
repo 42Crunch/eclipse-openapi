@@ -1,14 +1,20 @@
 package com.xliic.openapi.platform.tree.actions;
 
-import com.xliic.core.icons.AllIcons;
+import static com.xliic.openapi.platform.tree.utils.PlatformUtils.goToTreeNode;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnJAction;
 import com.xliic.core.actionSystem.AnJActionEvent;
+import com.xliic.core.icons.AllIcons;
 import com.xliic.core.project.DumbAware;
 import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
 import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformFileData;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
@@ -18,11 +24,6 @@ import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-
-import static com.xliic.openapi.platform.tree.utils.PlatformUtils.goToTreeNode;
 
 public class PlatformTargetAction extends AnJAction implements DumbAware {
 

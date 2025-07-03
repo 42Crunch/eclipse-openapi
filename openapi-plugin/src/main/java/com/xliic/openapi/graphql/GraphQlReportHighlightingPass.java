@@ -1,28 +1,5 @@
 package com.xliic.openapi.graphql;
 
-import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
-import com.xliic.core.codeInsight.HighlightInfo;
-import com.xliic.core.codeInsight.HighlightInfoType;
-import com.xliic.core.codeInsight.IntentionAction;
-import com.xliic.core.codeInsight.QuickFixAction;
-import com.xliic.core.codeInsight.UpdateHighlightersUtil;
-import com.xliic.core.codeInspection.ProblemHighlightType;
-import com.xliic.core.lang.HighlightSeverity;
-import com.xliic.core.editor.Editor;
-import com.xliic.core.editor.RangeMarker;
-import com.xliic.core.progress.ProgressIndicator;
-import com.xliic.core.util.TextRange;
-import com.xliic.core.psi.PsiFile;
-import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
-import com.xliic.openapi.report.types.Issue;
-import com.xliic.openapi.services.AuditService;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import static com.xliic.core.codeInsight.HighlightInfo.newHighlightInfo;
 import static com.xliic.core.codeInsight.SeverityRegistrar.getSeverityRegistrar;
 import static com.xliic.core.codeInspection.ProblemDescriptorUtil.getHighlightInfoType;
@@ -30,6 +7,30 @@ import static com.xliic.openapi.report.AuditUtils.getAuditOfText;
 import static com.xliic.openapi.report.AuditUtils.getScoreText;
 import static com.xliic.openapi.report.types.Severity.getHighlightSeverity;
 import static com.xliic.openapi.report.types.Severity.getProblemHighlightType;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
+import com.xliic.core.codeInsight.HighlightInfo;
+import com.xliic.core.codeInsight.HighlightInfoType;
+import com.xliic.core.codeInsight.IntentionAction;
+import com.xliic.core.codeInsight.QuickFixAction;
+import com.xliic.core.codeInsight.UpdateHighlightersUtil;
+import com.xliic.core.codeInspection.ProblemHighlightType;
+import com.xliic.core.editor.Editor;
+import com.xliic.core.editor.RangeMarker;
+import com.xliic.core.lang.HighlightSeverity;
+import com.xliic.core.progress.ProgressIndicator;
+import com.xliic.core.psi.PsiFile;
+import com.xliic.core.util.TextRange;
+import com.xliic.openapi.quickfix.actions.FixGoToHTMLAction;
+import com.xliic.openapi.report.types.Issue;
+import com.xliic.openapi.services.AuditService;
 
 public class GraphQlReportHighlightingPass extends TextEditorHighlightingPass {
 

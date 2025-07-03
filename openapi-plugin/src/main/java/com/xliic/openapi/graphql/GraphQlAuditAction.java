@@ -1,5 +1,11 @@
 package com.xliic.openapi.graphql;
 
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
+
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
@@ -9,11 +15,6 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
-
-import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 
 public class GraphQlAuditAction extends AnAction implements DumbAware {
 

@@ -1,11 +1,12 @@
 package com.xliic.openapi.tags;
 
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.util.messages.Topic;
 import com.xliic.core.util.messages.TopicTagsListener;
 import com.xliic.openapi.config.payload.Config;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
 
 public interface TagsListener {
 

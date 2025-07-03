@@ -1,5 +1,9 @@
 package com.xliic.openapi.graphql.task;
 
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -10,11 +14,9 @@ import com.xliic.openapi.graphql.GraphQlService;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.utils.Utils;
+
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class GraphQlCliTask extends Task.Backgroundable {
 

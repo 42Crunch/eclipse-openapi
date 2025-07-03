@@ -1,10 +1,11 @@
 package com.xliic.openapi.tags;
 
-import com.xliic.core.persistence.Converter;
-import com.xliic.openapi.utils.Utils;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import com.xliic.core.persistence.Converter;
+import com.xliic.openapi.utils.Utils;
 
 public class TagsStateConverter extends Converter<Map<String, Object>> {
 

@@ -1,8 +1,8 @@
 package com.xliic.openapi.report.types;
 
-import java.util.Map;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

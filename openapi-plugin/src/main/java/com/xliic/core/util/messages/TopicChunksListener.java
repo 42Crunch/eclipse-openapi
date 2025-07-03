@@ -1,12 +1,13 @@
 package com.xliic.core.util.messages;
 
-import java.util.List;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import com.xliic.openapi.webapp.chunks.ChunksListener;
 
 public class TopicChunksListener<L> extends Topic<L> {

@@ -1,5 +1,11 @@
 package com.xliic.openapi.actions.internal;
 
+import java.io.File;
+import java.nio.file.Files;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
@@ -11,11 +17,6 @@ import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.platform.scan.ScanService;
 import com.xliic.openapi.platform.scan.config.ScanConfigUtils;
 import com.xliic.openapi.utils.Utils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.nio.file.Files;
 
 public class GenerateLargeScanReportAction extends AnAction {
 

@@ -6,8 +6,8 @@ import java.util.Map;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.openapi.tags.TagsListener;
 import com.xliic.openapi.config.payload.Config;
+import com.xliic.openapi.tags.TagsListener;
 
 public class TopicTagsListener<L> extends Topic<L> {
 

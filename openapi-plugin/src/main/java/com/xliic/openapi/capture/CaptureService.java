@@ -1,5 +1,17 @@
 package com.xliic.openapi.capture;
 
+import static com.xliic.openapi.webapp.editor.WebFileEditor.CAPTURE_EDITOR_ID;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.Disposable;
@@ -17,19 +29,9 @@ import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
+
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.LockSupport;
-
-import static com.xliic.openapi.webapp.editor.WebFileEditor.CAPTURE_EDITOR_ID;
 
 public final class CaptureService implements ICaptureService, Disposable {
 

@@ -1,11 +1,11 @@
 package com.xliic.openapi.capture.payload;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
 
 public class PrepareOptions {
 

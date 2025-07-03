@@ -1,12 +1,17 @@
 package com.xliic.openapi.graphql;
 
-import com.xliic.core.codeHighlighting.*;
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.codeHighlighting.Pass;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPass;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPassFactory;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPassFactoryRegistrar;
+import com.xliic.core.codeHighlighting.TextEditorHighlightingPassRegistrar;
 import com.xliic.core.editor.Editor;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
-
-import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 
 final public class GraphQlReportHighlightingPassFactory implements TextEditorHighlightingPassFactory,
         TextEditorHighlightingPassFactoryRegistrar {

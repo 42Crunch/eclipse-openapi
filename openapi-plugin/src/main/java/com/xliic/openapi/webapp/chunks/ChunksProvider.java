@@ -1,8 +1,9 @@
 package com.xliic.openapi.webapp.chunks;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.project.Project;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class ChunksProvider {
 

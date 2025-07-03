@@ -1,10 +1,15 @@
 package com.xliic.openapi.capture.jcef;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.equo.chromium.swt.Browser;
 import com.xliic.core.project.Project;
-import com.xliic.openapi.capture.jcef.messages.*;
+import com.xliic.openapi.capture.jcef.messages.BrowseFiles;
+import com.xliic.openapi.capture.jcef.messages.Convert;
+import com.xliic.openapi.capture.jcef.messages.DeleteJob;
+import com.xliic.openapi.capture.jcef.messages.DownloadFile;
+import com.xliic.openapi.capture.jcef.messages.OpenFileLink;
 import com.xliic.openapi.webapp.WebAppFunction;
-import org.jetbrains.annotations.NotNull;
 
 public class JCEFCaptureFunction extends WebAppFunction {
 

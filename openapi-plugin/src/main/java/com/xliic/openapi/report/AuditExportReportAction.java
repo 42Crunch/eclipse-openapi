@@ -1,7 +1,15 @@
 package com.xliic.openapi.report;
 
+import static com.xliic.openapi.services.AuditService.EXPORT_TEMP_DIR;
 import static com.xliic.openapi.utils.FileUtils.join;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
@@ -9,15 +17,6 @@ import com.xliic.openapi.actions.ExportReportAction;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.utils.Utils;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
-
-import static com.xliic.openapi.services.AuditService.EXPORT_TEMP_DIR;
 
 public class AuditExportReportAction extends ExportReportAction {
 

@@ -1,11 +1,12 @@
 package com.xliic.openapi.capture;
 
-import com.xliic.core.util.messages.Topic;
-import com.xliic.openapi.capture.payload.CaptureItem;
-import org.jetbrains.annotations.NotNull;
-import com.xliic.core.util.messages.TopicCaptureListener;
-
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.util.messages.Topic;
+import com.xliic.core.util.messages.TopicCaptureListener;
+import com.xliic.openapi.capture.payload.CaptureItem;
 
 public interface CaptureListener {
 

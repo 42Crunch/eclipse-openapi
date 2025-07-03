@@ -31,10 +31,10 @@ import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
 import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.tags.payload.TagsOperation;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.tryit.payload.TryItOperation;
-import com.xliic.openapi.tags.payload.TagsOperation;
 
 public final class AnnotationService implements IAnnotationService, FileListener, SettingsListener, Disposable {
 

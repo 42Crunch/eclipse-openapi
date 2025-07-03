@@ -1,7 +1,7 @@
 package com.xliic.openapi.listeners;
 
-import static com.xliic.openapi.webapp.editor.WebFileEditor.SIGNUP_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.SIGNUP_EDITOR_ID;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,16 +1,51 @@
 package com.xliic.openapi.outline.dmtn;
 
-import com.xliic.openapi.OpenApiVersion;
-import com.xliic.openapi.outline.node.*;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.utils.Utils;
+import static com.xliic.openapi.OpenApiPanelKeys.COMPONENTS;
+import static com.xliic.openapi.OpenApiPanelKeys.DEFINITIONS;
+import static com.xliic.openapi.OpenApiPanelKeys.GENERAL;
+import static com.xliic.openapi.OpenApiPanelKeys.NAME_KEY;
+import static com.xliic.openapi.OpenApiPanelKeys.OPERATION_ID;
+import static com.xliic.openapi.OpenApiPanelKeys.OPERATION_ID_KEY;
+import static com.xliic.openapi.OpenApiPanelKeys.PARAMETERS;
+import static com.xliic.openapi.OpenApiPanelKeys.PARAMETERS_KEY;
+import static com.xliic.openapi.OpenApiPanelKeys.PATHS;
+import static com.xliic.openapi.OpenApiPanelKeys.REF_KEY;
+import static com.xliic.openapi.OpenApiPanelKeys.REQUEST_BODY;
+import static com.xliic.openapi.OpenApiPanelKeys.RESPONSES;
+import static com.xliic.openapi.OpenApiPanelKeys.RESPONSES_KEY;
+import static com.xliic.openapi.OpenApiPanelKeys.SECURITY;
+import static com.xliic.openapi.OpenApiPanelKeys.SECURITY_DEFINITIONS;
+import static com.xliic.openapi.OpenApiPanelKeys.SERVERS;
+import static com.xliic.openapi.OpenApiPanelKeys.TAGS;
+import static com.xliic.openapi.OpenApiPanelKeys.URL_KEY;
+import static com.xliic.openapi.OpenApiPanelKeys.V2_PANEL_KEYS;
+import static com.xliic.openapi.OpenApiPanelKeys.V3_1_PANEL_KEYS;
+import static com.xliic.openapi.OpenApiPanelKeys.V3_PANEL_KEYS;
+import static com.xliic.openapi.OpenApiPanelKeys.WEBHOOKS;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.*;
-
-import static com.xliic.openapi.OpenApiPanelKeys.*;
+import com.xliic.openapi.OpenApiVersion;
+import com.xliic.openapi.outline.node.BaseNode;
+import com.xliic.openapi.outline.node.OpIdNode;
+import com.xliic.openapi.outline.node.PanelNode;
+import com.xliic.openapi.outline.node.RootNode;
+import com.xliic.openapi.outline.node.SimpleNode;
+import com.xliic.openapi.outline.node.TagChildNode;
+import com.xliic.openapi.outline.node.TagNode;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.utils.Utils;
 
 public class DMTNConverter {
 

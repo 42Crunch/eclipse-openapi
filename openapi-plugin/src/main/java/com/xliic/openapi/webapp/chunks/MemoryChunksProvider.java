@@ -1,7 +1,8 @@
 package com.xliic.openapi.webapp.chunks;
 
-import com.xliic.core.project.Project;
 import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.project.Project;
 
 public class MemoryChunksProvider extends ChunksProvider {
 

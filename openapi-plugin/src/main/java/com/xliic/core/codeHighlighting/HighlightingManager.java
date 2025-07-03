@@ -30,11 +30,11 @@ import com.xliic.core.psi.PsiFile;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleHighlightingPassFactory;
+import com.xliic.openapi.graphql.GraphQlReportHighlightingPassFactory;
 import com.xliic.openapi.platform.dictionary.DictionaryHighlightingPassFactory;
 import com.xliic.openapi.report.ReportHighlightingPassFactory;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.graphql.GraphQlReportHighlightingPassFactory;
 
 public class HighlightingManager extends TextEditorHighlightingPassRegistrar implements Runnable {
 

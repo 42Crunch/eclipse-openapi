@@ -1,15 +1,16 @@
 package com.xliic.openapi.platform.scan;
 
-import com.xliic.core.project.Project;
-import com.xliic.core.vfs.VirtualFile;
-import com.xliic.openapi.actions.ExportReportAction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import static com.xliic.openapi.platform.scan.ScanService.EXPORT_TEMP_DIR;
 
 import java.io.File;
 import java.util.Objects;
 
-import static com.xliic.openapi.platform.scan.ScanService.EXPORT_TEMP_DIR;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.actions.ExportReportAction;
 
 public class ScanExportReportAction extends ExportReportAction {
 

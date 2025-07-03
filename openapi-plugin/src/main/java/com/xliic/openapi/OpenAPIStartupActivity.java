@@ -1,7 +1,7 @@
 package com.xliic.openapi;
 
-import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
+import static com.xliic.openapi.settings.Settings.Outline.SHOW_OUTLINE_DEMO;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -17,8 +17,8 @@ import com.xliic.openapi.services.DictionaryService;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.services.QuickFixService;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.whatsnew.WhatsNewService;
 import com.xliic.openapi.tags.TagsService;
+import com.xliic.openapi.whatsnew.WhatsNewService;
 
 public class OpenAPIStartupActivity implements StartupActivity.DumbAware {
 

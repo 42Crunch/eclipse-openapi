@@ -1,17 +1,17 @@
 package com.xliic.openapi.services;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
+import com.xliic.core.services.IInlayHintsService;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.async.AsyncTaskType;
-import com.xliic.core.services.IInlayHintsService;
-
-import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
-
-import org.jetbrains.annotations.NotNull;
 
 public class InlayHintsService implements IInlayHintsService, Disposable {
 

@@ -1,5 +1,11 @@
 package com.xliic.openapi.tags.jcef;
 
+import java.util.Map;
+import java.util.Objects;
+
+import org.eclipse.swt.widgets.Composite;
+import org.jetbrains.annotations.NotNull;
+
 import com.equo.chromium.swt.Browser;
 import com.equo.chromium.swt.BrowserFunction;
 import com.xliic.core.Disposable;
@@ -17,12 +23,6 @@ import com.xliic.openapi.webapp.http.ShowHttpError;
 import com.xliic.openapi.webapp.http.ShowHttpResponse;
 import com.xliic.openapi.webapp.http.payload.HttpError;
 import com.xliic.openapi.webapp.http.payload.HttpResponse;
-
-import org.eclipse.swt.widgets.Composite;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.Objects;
 
 public class JCEFTagsPanel extends WebFileEditor implements TagsListener, HttpResponseListener, Disposable {
 

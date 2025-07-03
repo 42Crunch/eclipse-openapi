@@ -1,7 +1,8 @@
 package com.xliic.openapi.webapp.chunks.jcef.messages;
 
-import com.xliic.openapi.webapp.messages.WebAppConsume;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class ParseChunk extends WebAppConsume {
 

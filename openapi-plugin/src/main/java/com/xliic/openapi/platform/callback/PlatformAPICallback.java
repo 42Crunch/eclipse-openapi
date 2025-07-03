@@ -17,8 +17,8 @@ import com.xliic.core.util.SwingUtilities;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformFileData;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
-import com.xliic.openapi.platform.tree.utils.PlatformAPIUtils;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
+import com.xliic.openapi.platform.tree.utils.PlatformAPIUtils;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.services.PlatformService;
 

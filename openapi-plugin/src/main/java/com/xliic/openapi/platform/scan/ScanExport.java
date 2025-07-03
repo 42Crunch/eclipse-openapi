@@ -2,18 +2,18 @@ package com.xliic.openapi.platform.scan;
 
 import static com.xliic.openapi.utils.FileUtils.saveToTempFile;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import com.xliic.core.project.Project;
-import com.xliic.openapi.quickfix.QuickFix;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.project.Project;
+import com.xliic.openapi.quickfix.QuickFix;
 
 public class ScanExport {
 

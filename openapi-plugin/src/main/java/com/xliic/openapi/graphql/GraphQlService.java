@@ -1,5 +1,13 @@
 package com.xliic.openapi.graphql;
 
+import static com.xliic.openapi.ToolWindowId.OPEN_API_HTML_REPORT;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.progress.ProgressManager;
@@ -15,14 +23,8 @@ import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.WindowUtils;
+
 import graphql.schema.idl.TypeDefinitionRegistry;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.xliic.openapi.ToolWindowId.OPEN_API_HTML_REPORT;
 
 public class GraphQlService implements IGraphQlService, Disposable {
 

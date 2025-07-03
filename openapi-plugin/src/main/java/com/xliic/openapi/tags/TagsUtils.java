@@ -1,5 +1,17 @@
 package com.xliic.openapi.tags;
 
+import static com.xliic.openapi.platform.NamingConvention.TAGS_PATTERN;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.project.Project;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.NamingConvention;
@@ -9,14 +21,8 @@ import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.NetUtils;
+
 import okhttp3.Response;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.xliic.openapi.platform.NamingConvention.TAGS_PATTERN;
 
 public class TagsUtils {
 

@@ -1,5 +1,12 @@
 package com.xliic.openapi.tags;
 
+import static com.xliic.openapi.webapp.editor.WebFileEditor.TAGS_EDITOR_ID;
+
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.fileEditor.FileEditorManager;
 import com.xliic.core.persistence.PersistentStateComponent;
@@ -13,14 +20,8 @@ import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.InlayHintsService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.tags.payload.TagsOperation;
-import com.xliic.openapi.utils.WindowUtils;
 import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import static com.xliic.openapi.webapp.editor.WebFileEditor.TAGS_EDITOR_ID;
-
-import java.util.List;
+import com.xliic.openapi.utils.WindowUtils;
 
 public final class TagsService implements ITagsService, PersistentStateComponent<TagsState>, Disposable {
 

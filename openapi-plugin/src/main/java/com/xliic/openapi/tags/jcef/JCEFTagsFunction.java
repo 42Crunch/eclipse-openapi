@@ -1,13 +1,14 @@
 package com.xliic.openapi.tags.jcef;
 
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.equo.chromium.swt.Browser;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.tags.jcef.messages.SaveTags;
 import com.xliic.openapi.webapp.WebAppFunction;
 import com.xliic.openapi.webapp.http.SendHttpRequest;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
 
 public class JCEFTagsFunction extends WebAppFunction {
 

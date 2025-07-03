@@ -1,17 +1,18 @@
 package com.xliic.openapi.capture.jcef.messages;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.fileChooser.FileChooserDescriptor;
 import com.xliic.core.fileChooser.FileChooserFactory;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.capture.CaptureService;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class BrowseFiles extends WebAppProduce {
 

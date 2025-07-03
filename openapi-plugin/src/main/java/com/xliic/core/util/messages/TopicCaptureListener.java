@@ -5,8 +5,8 @@ import java.util.List;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.openapi.capture.payload.CaptureItem;
 import com.xliic.openapi.capture.CaptureListener;
+import com.xliic.openapi.capture.payload.CaptureItem;
 
 public class TopicCaptureListener<L> extends Topic<L> {
 

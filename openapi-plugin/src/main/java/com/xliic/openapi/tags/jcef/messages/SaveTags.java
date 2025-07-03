@@ -1,13 +1,14 @@
 package com.xliic.openapi.tags.jcef.messages;
 
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.project.Project;
 import com.xliic.openapi.services.InlayHintsService;
 import com.xliic.openapi.tags.TagsService;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
 
 public class SaveTags extends WebAppProduce {
 

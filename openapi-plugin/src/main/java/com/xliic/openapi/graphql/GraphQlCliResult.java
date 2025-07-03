@@ -1,8 +1,9 @@
 package com.xliic.openapi.graphql;
 
-import com.xliic.openapi.utils.ExecUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.utils.ExecUtils;
 
 public class GraphQlCliResult {
 

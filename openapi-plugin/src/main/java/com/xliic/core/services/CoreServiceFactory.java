@@ -4,6 +4,7 @@ import org.eclipse.ui.services.AbstractServiceFactory;
 import org.eclipse.ui.services.IServiceLocator;
 
 import com.xliic.core.project.Project;
+import com.xliic.openapi.capture.CaptureService;
 import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.config.ConfigService;
 import com.xliic.openapi.environment.EnvService;
@@ -26,9 +27,8 @@ import com.xliic.openapi.services.TerminalService;
 import com.xliic.openapi.services.TryItService;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.signup.SignUpService;
-import com.xliic.openapi.whatsnew.WhatsNewService;
 import com.xliic.openapi.tags.TagsService;
-import com.xliic.openapi.capture.CaptureService;
+import com.xliic.openapi.whatsnew.WhatsNewService;
 
 public class CoreServiceFactory extends AbstractServiceFactory {
 	

@@ -4,6 +4,8 @@ import static com.xliic.openapi.settings.Settings.Audit.AUDIT_RUNTIME;
 import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
 import static com.xliic.openapi.settings.Settings.CliAst.CLI_DIRECTORY_OVERRIDE;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
@@ -12,8 +14,6 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.SERVICES;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_LOCALHOST;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
-import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
-import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,15 +28,15 @@ import com.xliic.core.project.Project;
 import com.xliic.openapi.config.ConfigListener;
 import com.xliic.openapi.config.payload.Config;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.Settings.Platform;
 import com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.tags.TagsService;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
-import com.xliic.openapi.settings.Credentials;
-import com.xliic.openapi.tags.TagsService;
 
 public class SaveConfig extends WebAppProduce {
 

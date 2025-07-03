@@ -5,8 +5,8 @@ import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
 import static com.xliic.openapi.utils.MsgUtils.notifyAuditsLimit;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;

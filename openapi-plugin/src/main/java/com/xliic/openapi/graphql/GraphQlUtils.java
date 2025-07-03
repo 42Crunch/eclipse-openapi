@@ -1,5 +1,11 @@
 package com.xliic.openapi.graphql;
 
+import java.util.Optional;
+import java.util.regex.Pattern;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.editor.Document;
 import com.xliic.core.fileEditor.OpenFileDescriptor;
@@ -9,13 +15,16 @@ import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.AuditService;
-import graphql.language.*;
-import graphql.schema.idl.TypeDefinitionRegistry;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-import java.util.regex.Pattern;
+import graphql.language.FieldDefinition;
+import graphql.language.InputValueDefinition;
+import graphql.language.ListType;
+import graphql.language.NonNullType;
+import graphql.language.ObjectTypeDefinition;
+import graphql.language.SourceLocation;
+import graphql.language.Type;
+import graphql.language.TypeName;
+import graphql.schema.idl.TypeDefinitionRegistry;
 
 public class GraphQlUtils {
 

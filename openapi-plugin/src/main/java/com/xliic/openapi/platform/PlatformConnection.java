@@ -1,9 +1,10 @@
 package com.xliic.openapi.platform;
 
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_API_TOKEN;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
+
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
