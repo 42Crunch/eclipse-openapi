@@ -8,7 +8,7 @@ import { l as hg, c as pg } from "./slice.CowX28_W.js";
 import { a as gg, e as mg, l as be, s as xd, H as yg } from "./index.kH9vjhWp.js";
 import { l as vg, p as xg, c as bd, b as bg, A as kg, d as wg, e as Sg, G as jg, L as Cg, f as _g, g as Eg, h as Og, i as Tg, j as $g, k as Ig, m as Dg, n as Pg, o as zg, R as Ag, T as Rg, P as Ng, C as Mg, I as qg, q as Fg, r as Lg, t as Bg, u as Hg, v as Ug, w as Vg, x as kd, y as Wg, z as Gg, S as wd } from "./index.BPIm86Lb.js";
 import { c as Kg, w as Zo, s as ei, o as Xg } from "./listener.Rix7NU77.js";
-import { t as Yg, o as Zn, s as oe, T as Qg, f as Jg, a as Nl, l as Ml, F as dt, I as ot, c as tt, d as ql, b as Fl } from "./Textarea.BDGWJ6FG.js";
+import { t as Yg, o as Zn, s as oe, T as Qg, f as Jg, a as Nl, l as Ml, F as dt, I as ot, c as tt, b as ql, d as Fl } from "./Textarea.1oXorfl2.js";
 import { S as qr } from "./AngleDown.B7UAvlAN.js";
 import { S as Zg } from "./AngleUp.CDvZSUOX.js";
 import { D as er, S as em } from "./DescriptionTooltip.DRuGB5yR.js";
@@ -21174,9 +21174,12 @@ const ST = S.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  height: 100%;
+  overflow: auto;
 `, jT = S.div`
   display: flex;
   gap: 8px;
+  padding-bottom: 32px;
 `, CT = S.div`
   display: flex;
   flex-direction: column;

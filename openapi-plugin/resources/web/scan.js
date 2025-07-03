@@ -3790,10 +3790,10 @@ class da {
       } catch {
       }
       const S = la(Ji());
-      this.db = new Zt(a), this.db.version(1).stores(S), await this.db.open();
+      this.db = new Zt(a), this.db.version(1).stores({ __metadata: "id", ...S }), await this.db.open(), await this.db.__metadata.clear();
       for (const A of Object.keys(S))
         await this.db[A].clear();
-      (u = this.successfullyStarted) == null || u.call(this);
+      await this.db.__metadata.put({ id: 0, created: (/* @__PURE__ */ new Date()).toISOString() }), (u = this.successfullyStarted) == null || u.call(this);
     } catch (S) {
       (c = this.failedToStart) == null || c.call(this, S);
     }

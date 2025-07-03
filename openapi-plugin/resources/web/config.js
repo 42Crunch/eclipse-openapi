@@ -1,11 +1,11 @@
-import { j as e, e as s, T as c, p as pe, a as he, t as fe, l as ge, u as xe, B as te, f as $, d as je, s as ve, g as be, R as ye, P as Ce, n as we, k as ke } from "./TriangleExclamation.D9eaO6CL.js";
-import { u as se, a as Y, c as v, b as Te } from "./index.esm.-yLMBe0J.js";
-import { S as Se } from "./SearchSidebar.p3DejnIj.js";
-import { s as $e, b as Pe, d as Ae, e as Re, f as Fe, l as De, c as Ie, o as re, u as w, g as R, t as Me, h as Be, i as Ee, j as Ue, k as He, m as ie, n as ce, p as Ne } from "./slice.CowX28_W.js";
-import { o as u, s as g, e as D, l as le, T as de, I as m, u as ee, i as Oe, a as Le, c as Ve, b as ze, d as Ge, F as We } from "./Textarea.BDGWJ6FG.js";
+import { j as e, e as s, T as c, p as he, a as fe, t as ge, l as xe, u as je, B as re, f as $, d as ve, s as be, g as ye, R as Ce, P as we, n as ke, k as Te } from "./TriangleExclamation.D9eaO6CL.js";
+import { u as ie, a as ee, c as v, b as Se } from "./index.esm.-yLMBe0J.js";
+import { S as $e } from "./SearchSidebar.p3DejnIj.js";
+import { s as Pe, b as Ae, d as Re, e as Fe, f as Ie, l as De, c as Me, o as oe, u as w, g as R, t as Be, h as Ee, i as Ue, j as He, k as Ne, m as ce, n as le, p as Oe } from "./slice.CowX28_W.js";
+import { o as m, s as h, e as I, l as de, T as me, I as u, u as ne, i as Le, a as Ve, c as ze, b as Q, d as Ge, F as We } from "./Textarea.1oXorfl2.js";
 import { N as qe } from "./ProgressButton.DMjNku-P.js";
-import { B as b, E as I } from "./Banner.15bwNTL3.js";
-import { R as _e, c as Je, p as Q, s as Ke } from "./platform-api.BKhUbHgi.js";
+import { B as b, E as D } from "./Banner.15bwNTL3.js";
+import { R as _e, c as Je, p as Z, s as Ke } from "./platform-api.BKhUbHgi.js";
 import { w as Qe, s as Ze, c as Xe, o as Ye } from "./listener.Rix7NU77.js";
 import { S as M } from "./Select.CI3iWRSy.js";
 import { C as en, a as nn } from "./index.Bn6tE3SE.js";
@@ -19,13 +19,13 @@ function P({
 }) {
   const {
     formState: { isValid: o }
-  } = se();
+  } = ie();
   return /* @__PURE__ */ e.jsx(qe, { disabled: !o, label: n, waiting: r, onClick: t });
 }
-function ne({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(b, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(I, { message: "Failed to connect", children: n.message }) : null;
+function te({ result: n }) {
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(b, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(D, { message: "Failed to connect", children: n.message }) : null;
 }
-const h = s.div`
+const f = s.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -45,12 +45,12 @@ const h = s.div`
     flex: 1;
     align-self: stretch;
   }
-`, f = s.div`
+`, g = s.div`
   font-weight: 700;
   margin-bottom: 16px;
 `;
 function un({ name: n, options: r }) {
-  const { field: t } = Y({
+  const { field: t } = ee({
     name: n
   });
   return /* @__PURE__ */ e.jsx(
@@ -62,7 +62,7 @@ function un({ name: n, options: r }) {
     }
   );
 }
-function me(n) {
+function ue(n) {
   return n ? {
     freemiumdUrl: "https://stateless.dev.42crunch.com",
     cliFreemiumdHost: "stateless.dev.42crunch.com:443",
@@ -89,7 +89,7 @@ const F = Je({
   })
 });
 async function pn(n, { signal: r, dispatch: t, getState: o }, a) {
-  const { freemiumdUrl: d } = me(o().config.data.internalUseDevEndpoints), l = `${d}/api/v1/anon/${n.path}`, i = Qe(
+  const { freemiumdUrl: d } = ue(o().config.data.internalUseDevEndpoints), l = `${d}/api/v1/anon/${n.path}`, i = Qe(
     { https: { rejectUnauthorized: !0 } },
     (k, B, E) => t(Ze({ id: k, request: B, config: E }))
   ), [p, x] = await i({
@@ -102,7 +102,7 @@ async function pn(n, { signal: r, dispatch: t, getState: o }, a) {
   return x !== void 0 ? { error: x } : p.statusCode !== 200 ? { error: { message: p.body, code: p.statusCode } } : { data: JSON.parse(p.body) };
 }
 const { useGetSubscriptionQuery: hn } = F;
-function Z({ progress: n, label: r }) {
+function X({ progress: n, label: r }) {
   const t = Math.ceil(n * 100), o = r !== void 0 ? r : `${t}%`;
   return /* @__PURE__ */ e.jsxs(fn, { children: [
     /* @__PURE__ */ e.jsx(gn, { children: o }),
@@ -139,31 +139,31 @@ const fn = s.div`
   clip-path: inset(0 ${({ $progress: n }) => 100 - n * 100}% 0 0);
   transition: clip-path 0.3s linear;
 `, jn = {
-  theme: fe,
-  config: Ie,
+  theme: ge,
+  config: Me,
   client: Xe,
-  [Q.reducerPath]: Q.reducer,
+  [Z.reducerPath]: Z.reducer,
   [F.reducerPath]: F.reducer
 }, vn = {
-  changeTheme: pe,
+  changeTheme: he,
   loadConfig: De,
-  showPlatformConnectionTest: Fe,
-  showOverlordConnectionTest: Re,
-  showScandManagerConnectionTest: Ae,
-  showCliTest: Pe,
-  showCliDownload: $e,
+  showPlatformConnectionTest: Ie,
+  showOverlordConnectionTest: Fe,
+  showScandManagerConnectionTest: Re,
+  showCliTest: Ae,
+  showCliDownload: Pe,
   showHttpError: () => null,
   showHttpResponse: () => null
 }, bn = (n, r) => {
-  const t = he({
+  const t = fe({
     reducer: jn,
-    middleware: (o) => o().prepend(n.middleware).concat(ge, Q.middleware, F.middleware),
+    middleware: (o) => o().prepend(n.middleware).concat(xe, Z.middleware, F.middleware),
     preloadedState: {
       theme: r
     }
   });
   return Ke(t.dispatch), t;
-}, yn = () => xe();
+}, yn = () => je();
 function Cn({
   token: n,
   useDevEndpoints: r
@@ -172,8 +172,8 @@ function Cn({
     refetchOnFocus: !0,
     pollingInterval: 6e5
     // refresh every 10 minutes
-  }), d = yn(), { upgradeUrl: l } = me(r);
-  return o ? /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsxs(I, { message: "Failed to load subscription status", children: [
+  }), d = yn(), { upgradeUrl: l } = ue(r);
+  return o ? /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsxs(D, { message: "Failed to load subscription status", children: [
     o.code,
     " ",
     o.message
@@ -186,20 +186,20 @@ function Cn({
       /* @__PURE__ */ e.jsx(S, { children: "Upgrade or manage your subscription plan" }),
       /* @__PURE__ */ e.jsxs(C, { children: [
         t.subscriptionKind === "free" && /* @__PURE__ */ e.jsx(
-          te,
+          re,
           {
             onClick: (i) => {
-              i.preventDefault(), i.stopPropagation(), d(re(`${l}?email=${encodeURIComponent(t.userEmail)}`));
+              i.preventDefault(), i.stopPropagation(), d(oe(`${l}?email=${encodeURIComponent(t.userEmail)}`));
             },
             children: "Upgrade"
           }
         ),
         t.subscriptionKind !== "free" && /* @__PURE__ */ e.jsx(
-          te,
+          re,
           {
             onClick: (i) => {
               i.preventDefault(), i.stopPropagation(), d(
-                re(`${l}?prefilled_email=${encodeURIComponent(t.userEmail)}`)
+                oe(`${l}?prefilled_email=${encodeURIComponent(t.userEmail)}`)
               );
             },
             children: "Manage"
@@ -224,7 +224,7 @@ function Cn({
         " / ",
         t.monthlyAudit
       ] }),
-      /* @__PURE__ */ e.jsx(Z, { label: "", progress: 1 - t.currentAuditUsage / t.monthlyAudit })
+      /* @__PURE__ */ e.jsx(X, { label: "", progress: 1 - t.currentAuditUsage / t.monthlyAudit })
     ] }),
     /* @__PURE__ */ e.jsxs(T, { children: [
       /* @__PURE__ */ e.jsx(y, { children: "Scan" }),
@@ -234,7 +234,7 @@ function Cn({
         " / ",
         t.monthlyScan
       ] }),
-      /* @__PURE__ */ e.jsx(Z, { label: "", progress: 1 - t.currentScanUsage / t.monthlyScan })
+      /* @__PURE__ */ e.jsx(X, { label: "", progress: 1 - t.currentScanUsage / t.monthlyScan })
     ] })
   ] });
 }
@@ -286,8 +286,8 @@ function wn() {
     data: { internalUseDevEndpoints: o }
   } = R((l) => l.config), a = v({ name: "platformAuthType" }), d = v({ name: "anondToken" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "Connection to 42Crunch Platform" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "Connection to 42Crunch Platform" }),
+    /* @__PURE__ */ e.jsxs(f, { children: [
       /* @__PURE__ */ e.jsx(
         un,
         {
@@ -299,12 +299,12 @@ function wn() {
         }
       ),
       a === "anond-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(de, { label: "Freemium token", name: "anondToken" }),
+        /* @__PURE__ */ e.jsx(me, { label: "Freemium token", name: "anondToken" }),
         d !== "" && /* @__PURE__ */ e.jsx(Cn, { token: d, useDevEndpoints: o })
       ] }),
       a === "api-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(m, { label: "Platform URL", name: "platformUrl" }),
-        /* @__PURE__ */ e.jsx(m, { label: "IDE token", name: "platformApiToken", password: !0 }),
+        /* @__PURE__ */ e.jsx(u, { label: "Platform URL", name: "platformUrl" }),
+        /* @__PURE__ */ e.jsx(u, { label: "IDE token", name: "platformApiToken", password: !0 }),
         /* @__PURE__ */ e.jsxs(A, { children: [
           /* @__PURE__ */ e.jsx(
             P,
@@ -312,19 +312,19 @@ function wn() {
               label: "Test connection",
               waiting: t,
               onClick: (l) => {
-                n(Me()), l.preventDefault(), l.stopPropagation();
+                n(Be()), l.preventDefault(), l.stopPropagation();
               }
             }
           ),
-          /* @__PURE__ */ e.jsx(ne, { result: r })
+          /* @__PURE__ */ e.jsx(te, { result: r })
         ] })
       ] })
     ] })
   ] });
 }
-const kn = u({
-  platformAuthType: D(["anond-token", "api-token"]),
-  platformUrl: g().url().startsWith("https://").refine(
+const kn = m({
+  platformAuthType: I(["anond-token", "api-token"]),
+  platformUrl: h().url().startsWith("https://").refine(
     (n) => {
       try {
         const r = new URL(n);
@@ -337,11 +337,11 @@ const kn = u({
       message: "Must be a valid HTTPS URL with empty path"
     }
   ),
-  anondToken: g().trim(),
-  platformApiToken: g().regex(
+  anondToken: h().trim(),
+  platformApiToken: h().regex(
     /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
     "Token is invalid"
-  ).or(le(""))
+  ).or(de(""))
 }), H = {
   id: "platform-connection",
   label: "Connection",
@@ -354,8 +354,8 @@ function Tn() {
     waitingForOverlordConnectionTest: t
   } = R((a) => a.config), o = v({ name: "platformServices.source" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "42Crunch Platform services" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "42Crunch Platform services" }),
+    /* @__PURE__ */ e.jsxs(f, { children: [
       /* @__PURE__ */ e.jsx(
         M,
         {
@@ -367,8 +367,8 @@ function Tn() {
           ]
         }
       ),
-      o == "manual" && /* @__PURE__ */ e.jsx(m, { label: "Host", name: "platformServices.manual" }),
-      o == "auto" && /* @__PURE__ */ e.jsx(m, { label: "Host (automatic, read-only)", name: "platformServices.auto", disabled: !0 }),
+      o == "manual" && /* @__PURE__ */ e.jsx(u, { label: "Host", name: "platformServices.manual" }),
+      o == "auto" && /* @__PURE__ */ e.jsx(u, { label: "Host (automatic, read-only)", name: "platformServices.auto", disabled: !0 }),
       /* @__PURE__ */ e.jsxs(A, { children: [
         /* @__PURE__ */ e.jsx(
           P,
@@ -376,33 +376,33 @@ function Tn() {
             label: "Test connection",
             waiting: t,
             onClick: (a) => {
-              n(Be()), a.preventDefault(), a.stopPropagation();
+              n(Ee()), a.preventDefault(), a.stopPropagation();
             }
           }
         ),
-        /* @__PURE__ */ e.jsx(ne, { result: r })
+        /* @__PURE__ */ e.jsx(te, { result: r })
       ] })
     ] })
   ] });
 }
-const Sn = u({
-  platformServices: u({
-    source: D(["auto", "manual"]),
-    manual: g(),
-    auto: ee()
+const Sn = m({
+  platformServices: m({
+    source: I(["auto", "manual"]),
+    manual: h(),
+    auto: ne()
   })
 }), N = {
   id: "platform-services",
   label: "Services",
   schema: Sn,
   form: Tn
-}, oe = "^[\\w _.\\/:-]{1,2048}$", $n = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
+}, ae = "^[\\w _.\\/:-]{1,2048}$", $n = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
 function Pn() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "Temporary Collection Name" }),
+    /* @__PURE__ */ e.jsx(g, { children: "Temporary Collection Name" }),
     /* @__PURE__ */ e.jsx("p", { children: "The name of the collection for temporary APIs. Make sure that the name matches the collection naming pattern defined in your organization." }),
     /* @__PURE__ */ e.jsx("p", { children: "WARNING: Do not use existing collection name. This collection will be used for temporary APIs, and all existing APIs in this collection will be deleted." }),
-    /* @__PURE__ */ e.jsx(h, { children: /* @__PURE__ */ e.jsx(m, { label: "Collection Name", name: "platformTemporaryCollectionName" }) })
+    /* @__PURE__ */ e.jsx(f, { children: /* @__PURE__ */ e.jsx(u, { label: "Collection Name", name: "platformTemporaryCollectionName" }) })
   ] });
 }
 function An(n) {
@@ -413,13 +413,13 @@ function An(n) {
   return {
     id: "temporary-collection",
     label: "Temporary Collection",
-    schema: u({
-      platformTemporaryCollectionName: Oe(
-        g().regex(
-          new RegExp(oe),
-          `Collection name is invalid, must match default pattern: ${oe}`
+    schema: m({
+      platformTemporaryCollectionName: Le(
+        h().regex(
+          new RegExp(ae),
+          `Collection name is invalid, must match default pattern: ${ae}`
         ),
-        g().regex(
+        h().regex(
           new RegExp(t.pattern),
           `Collection name does not match your origanization naming convention. Example of a valid name: ${t.example}`
         )
@@ -430,23 +430,23 @@ function An(n) {
 }
 function Rn() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "Mandatory Tags" }),
+    /* @__PURE__ */ e.jsx(g, { children: "Mandatory Tags" }),
     /* @__PURE__ */ e.jsx("p", { children: "42Crunch platform mandatory tags, these tags will be added to every API created on the platform." }),
     /* @__PURE__ */ e.jsxs("p", { children: [
       "Tags are specified in the format ",
       /* @__PURE__ */ e.jsx("code", { children: "category:tag" }),
       ", and multiple tags are separated by spaces or commas."
     ] }),
-    /* @__PURE__ */ e.jsx(h, { children: /* @__PURE__ */ e.jsx(de, { label: "Tags", name: "platformMandatoryTags" }) })
+    /* @__PURE__ */ e.jsx(f, { children: /* @__PURE__ */ e.jsx(me, { label: "Tags", name: "platformMandatoryTags" }) })
   ] });
 }
-const Fn = u({
-  platformMandatoryTags: g().regex(
+const Fn = m({
+  platformMandatoryTags: h().regex(
     new RegExp($n),
     "Tags are invalid, must be a comma or space separated list of key:value pairs, e.g. env:dev app:myapp"
   )
 });
-function Dn() {
+function In() {
   return {
     id: "mandatory-tags",
     label: "Mandatory Tags",
@@ -454,8 +454,8 @@ function Dn() {
     form: Rn
   };
 }
-function In({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(b, { message: n.version }) : /* @__PURE__ */ e.jsx(I, { message: "Failed", children: n.message }) : null;
+function Dn({ result: n }) {
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(b, { message: n.version }) : /* @__PURE__ */ e.jsx(D, { message: "Failed", children: n.message }) : null;
 }
 function Mn() {
   const n = w(), {
@@ -467,12 +467,12 @@ function Mn() {
     data: { cli: l }
   } = R((i) => i.config);
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "Configuration for 42Crunch Binary runtime" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "Configuration for 42Crunch Binary runtime" }),
+    /* @__PURE__ */ e.jsxs(f, { children: [
       /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(m, { label: "Download URL", name: "repository" }),
+        /* @__PURE__ */ e.jsx(u, { label: "Download URL", name: "repository" }),
         /* @__PURE__ */ e.jsx(
-          m,
+          u,
           {
             label: "Custom binary location (optional, uses default directory if empty)",
             name: "cliDirectoryOverride"
@@ -487,11 +487,11 @@ function Mn() {
               label: "Download",
               waiting: o,
               onClick: (i) => {
-                n(Ee()), i.preventDefault(), i.stopPropagation();
+                n(Ue()), i.preventDefault(), i.stopPropagation();
               }
             }
           ),
-          o && /* @__PURE__ */ e.jsx(Z, { progress: a })
+          o && /* @__PURE__ */ e.jsx(X, { progress: a })
         ] }),
         /* @__PURE__ */ e.jsx(
           b,
@@ -500,7 +500,7 @@ function Mn() {
           }
         )
       ] }),
-      d !== void 0 && /* @__PURE__ */ e.jsx(I, { message: d }),
+      d !== void 0 && /* @__PURE__ */ e.jsx(D, { message: d }),
       l.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(b, { message: `Using 42Crunch API Security Testing Binary in ${l.location}` }),
         /* @__PURE__ */ e.jsxs(A, { children: [
@@ -510,21 +510,21 @@ function Mn() {
               label: "Check",
               waiting: r,
               onClick: (i) => {
-                n(Ue()), i.preventDefault(), i.stopPropagation();
+                n(He()), i.preventDefault(), i.stopPropagation();
               }
             }
           ),
-          /* @__PURE__ */ e.jsx(In, { result: t })
+          /* @__PURE__ */ e.jsx(Dn, { result: t })
         ] })
       ] })
     ] })
   ] });
 }
-const Bn = u({
-  repository: g().url(),
-  cliDirectoryOverride: Le([
-    le(""),
-    g().regex(/^(\/.+|[A-Za-z]:\\.+)$/, {
+const Bn = m({
+  repository: h().url(),
+  cliDirectoryOverride: Ve([
+    de(""),
+    h().regex(/^(\/.+|[A-Za-z]:\\.+)$/, {
       message: "Must be an absolute path (e.g. /home/username/42crunch-cli or C:\\Users\\username\\42crunch-cli)"
     })
   ])
@@ -540,9 +540,9 @@ function En() {
     waitingForScandManagerConnectionTest: t
   } = R((a) => a.config), o = v({ name: "scandManager.auth" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "Configuration for Scand Manager runtime" }),
-    /* @__PURE__ */ e.jsx(h, { children: /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-      /* @__PURE__ */ e.jsx(m, { label: "Scand manager URL", name: "scandManager.url" }),
+    /* @__PURE__ */ e.jsx(g, { children: "Configuration for Scand Manager runtime" }),
+    /* @__PURE__ */ e.jsx(f, { children: /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+      /* @__PURE__ */ e.jsx(u, { label: "Scand manager URL", name: "scandManager.url" }),
       /* @__PURE__ */ e.jsx(
         M,
         {
@@ -555,12 +555,12 @@ function En() {
         }
       ),
       o === "header" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(m, { label: "Header name", name: "scandManager.header.name" }),
-        /* @__PURE__ */ e.jsx(m, { label: "Header value", name: "scandManager.header.value" })
+        /* @__PURE__ */ e.jsx(u, { label: "Header name", name: "scandManager.header.name" }),
+        /* @__PURE__ */ e.jsx(u, { label: "Header value", name: "scandManager.header.value" })
       ] }),
-      /* @__PURE__ */ e.jsx(m, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
+      /* @__PURE__ */ e.jsx(u, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
       /* @__PURE__ */ e.jsx(
-        m,
+        u,
         {
           label: "Maximum amount of time to check on scan completion (seconds)",
           name: "scandManager.timeout"
@@ -573,28 +573,28 @@ function En() {
             label: "Test connection",
             waiting: t,
             onClick: (a) => {
-              n(He()), a.preventDefault(), a.stopPropagation();
+              n(Ne()), a.preventDefault(), a.stopPropagation();
             }
           }
         ),
-        /* @__PURE__ */ e.jsx(ne, { result: r })
+        /* @__PURE__ */ e.jsx(te, { result: r })
       ] })
     ] }) })
   ] });
 }
-const Un = u({
-  scandManager: u({
-    timeout: Ve.number().int().min(1).max(60 * 60 * 24)
+const Un = m({
+  scandManager: m({
+    timeout: ze.number().int().min(1).max(60 * 60 * 24)
     // 1 day
-  }).catchall(ee())
+  }).catchall(ne())
 }), L = {
   id: "runtime-scand-manager",
   label: "Scand Manager",
   schema: Un,
   form: En
 };
-function X({ name: n, label: r }) {
-  const t = $.useId(), { field: o } = Y({
+function Y({ name: n, label: r }) {
+  const t = $.useId(), { field: o } = ee({
     name: n
   });
   return /* @__PURE__ */ e.jsxs(Hn, { children: [
@@ -633,21 +633,27 @@ const Hn = s.div`
 `;
 function Ln() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "Configuration for Docker runtime" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
-      /* @__PURE__ */ e.jsx(m, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
+    /* @__PURE__ */ e.jsx(g, { children: "Configuration for Docker runtime" }),
+    /* @__PURE__ */ e.jsxs(f, { children: [
+      /* @__PURE__ */ e.jsx(u, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
       /* @__PURE__ */ e.jsx(
-        X,
+        Y,
         {
           name: "docker.replaceLocalhost",
           label: 'Replace "localhost" hostname with "host.docker.internal" (Windows and Mac only)'
         }
       ),
-      /* @__PURE__ */ e.jsx(X, { name: "docker.useHostNetwork", label: 'Use "host" network (Linux only)' })
+      /* @__PURE__ */ e.jsx(Y, { name: "docker.useHostNetwork", label: 'Use "host" network (Linux only)' })
     ] })
   ] });
 }
-const Vn = u({}), V = {
+const Vn = m({
+  scanImage: h(),
+  docker: m({
+    replaceLocalhost: Q(),
+    useHostNetwork: Q()
+  })
+}), V = {
   id: "runtime-docker",
   label: "Docker",
   schema: Vn,
@@ -656,8 +662,8 @@ const Vn = u({}), V = {
 function zn() {
   const n = v({ name: "platformAuthType" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "Runtime for API Audit" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "Runtime for API Audit" }),
+    /* @__PURE__ */ e.jsxs(f, { children: [
       n === "api-token" && /* @__PURE__ */ e.jsx(
         M,
         {
@@ -673,8 +679,8 @@ function zn() {
     ] })
   ] });
 }
-const Gn = u({
-  auditRuntime: D(["platform", "cli"])
+const Gn = m({
+  auditRuntime: I(["platform", "cli"])
 }), z = {
   id: "audit-runtime",
   label: "API Audit runtime",
@@ -684,8 +690,8 @@ const Gn = u({
 function Wn() {
   const n = v({ name: "platformAuthType" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "Runtime for API Scan" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "Runtime for API Scan" }),
+    /* @__PURE__ */ e.jsxs(f, { children: [
       n === "api-token" && /* @__PURE__ */ e.jsx(
         M,
         {
@@ -702,8 +708,8 @@ function Wn() {
     ] })
   ] });
 }
-const qn = u({
-  scanRuntime: D(["docker", "scand-manager", "cli"])
+const qn = m({
+  scanRuntime: I(["docker", "scand-manager", "cli"])
 }), G = {
   id: "scan-runtime",
   label: "API Scan runtime",
@@ -715,7 +721,7 @@ const qn = u({
   token: "Token"
 };
 function q(n) {
-  const { name: r, children: t, ...o } = n, { field: a } = Y({ name: r });
+  const { name: r, children: t, ...o } = n, { field: a } = ee({ name: r });
   return /* @__PURE__ */ e.jsx(tt, { ...o, ...a, children: t });
 }
 function _n({ name: n }) {
@@ -750,7 +756,7 @@ function Jn({ name: n }) {
   ] });
 }
 function Kn() {
-  const { fields: n } = Te({
+  const { fields: n } = Se({
     name: "approvedHosts"
   });
   return /* @__PURE__ */ e.jsxs(Qn, { children: [
@@ -827,8 +833,8 @@ const Qn = s.div``, Zn = s.div`
     min-width: 14px;
     fill: var(${c.foreground});
   }
-`, at = u({
-  approvedHosts: ze(ee())
+`, at = m({
+  approvedHosts: Ge(ne())
 }), J = {
   id: "openapi-external-refs",
   label: "External References",
@@ -837,19 +843,19 @@ const Qn = s.div``, Zn = s.div`
 };
 function st() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(f, { children: "Use development versions of APIs" }),
-    /* @__PURE__ */ e.jsx(h, { children: /* @__PURE__ */ e.jsx(X, { label: "Use development endpoints", name: "internalUseDevEndpoints" }) })
+    /* @__PURE__ */ e.jsx(g, { children: "Use development versions of APIs" }),
+    /* @__PURE__ */ e.jsx(f, { children: /* @__PURE__ */ e.jsx(Y, { label: "Use development endpoints", name: "internalUseDevEndpoints" }) })
   ] });
 }
-const it = u({
-  internalUseDevEndpoints: Ge()
+const it = m({
+  internalUseDevEndpoints: Q()
 }), K = {
   id: "dev-endpoints",
   label: "Development endpoints",
   schema: it,
   form: st
 };
-function ae(n) {
+function se(n) {
   const r = JSON.parse(JSON.stringify(n));
   return r.platformApiToken === void 0 && (r.platformApiToken = ""), r;
 }
@@ -857,7 +863,7 @@ function ct(n) {
   return JSON.parse(JSON.stringify(n));
 }
 function lt() {
-  const n = w(), { ready: r, errors: t, data: o } = R((p) => p.config), a = Dn(), d = An(o.platformCollectionNamingConvention), l = [
+  const n = w(), { ready: r, errors: t, data: o } = R((p) => p.config), a = In(), d = An(o.platformCollectionNamingConvention), l = [
     {
       id: "platform",
       title: "42Crunch Platform",
@@ -900,16 +906,16 @@ function lt() {
     [K.id]: K
   };
   return $.useEffect(() => {
-    const p = ae(o);
+    const p = se(o);
     for (const x of Object.keys(i)) {
       const { success: k } = i[x].schema.safeParse(p);
-      n(k ? ie(x) : ce({
+      n(k ? ce(x) : le({
         screen: x,
         error: "Validation errors, configuration is not being saved"
       }));
     }
   }, [o]), r ? /* @__PURE__ */ e.jsx(
-    Se,
+    $e,
     {
       sections: l,
       errors: t,
@@ -920,9 +926,9 @@ function lt() {
           We,
           {
             data: o,
-            wrapFormData: ae,
+            wrapFormData: se,
             unwrapFormData: ct,
-            saveData: (E) => n(Ne(E)),
+            saveData: (E) => n(Oe(E)),
             schema: B,
             children: [
               /* @__PURE__ */ e.jsx(k, {}),
@@ -938,14 +944,14 @@ function dt({ id: n }) {
   const r = w(), {
     trigger: t,
     formState: { isValid: o }
-  } = se();
+  } = ie();
   return $.useEffect(() => {
     t();
   }, [n]), $.useEffect(() => {
-    r(o ? ie(n) : ce({ screen: n, error: "Validation errors, configuration is not being saved" }));
+    r(o ? ce(n) : le({ screen: n, error: "Validation errors, configuration is not being saved" }));
   }, [n, o]), null;
 }
-const ue = je(), j = ue.startListening;
+const pe = ve(), j = pe.startListening;
 function mt(n) {
   const r = {
     saveConfig: dn(j, n),
@@ -957,15 +963,15 @@ function mt(n) {
     openLink: rn(j, n),
     sendHttpRequest: Ye(j, n)
   };
-  return ve(r), ue;
+  return be(r), pe;
 }
 function ut(n, r) {
   const t = bn(mt(n), r);
-  be.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(ye.StrictMode, { children: /* @__PURE__ */ e.jsxs(Ce, { store: t, children: [
-      /* @__PURE__ */ e.jsx(we, {}),
+  ye.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(Ce.StrictMode, { children: /* @__PURE__ */ e.jsxs(we, { store: t, children: [
+      /* @__PURE__ */ e.jsx(ke, {}),
       /* @__PURE__ */ e.jsx(lt, {})
     ] }) })
-  ), window.addEventListener("message", ke(t, vn));
+  ), window.addEventListener("message", Te(t, vn));
 }
 window.renderWebView = ut;
