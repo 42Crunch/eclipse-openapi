@@ -6,12 +6,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import org.apache.commons.codec.binary.Hex;
@@ -21,9 +26,14 @@ import org.jetbrains.annotations.Nullable;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xliic.core.credentialStore.Credentials;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.util.ResourceUtil;
-import com.xliic.core.util.net.HttpConfigurable;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.proxy.CustomAuthenticator;
+import com.xliic.openapi.proxy.CustomProxyAuthentication;
+import com.xliic.openapi.proxy.CustomProxySelector;
+import com.xliic.openapi.proxy.ProxyEventListener;
 import com.xliic.openapi.report.AuditAPIs;
 
 import okhttp3.MediaType;
@@ -35,26 +45,73 @@ import okhttp3.ResponseBody;
 
 public class NetUtils {
 	
+    // All callers must use this client because it takes care of proxy configuration and authentication
+    // Also OkHttp performs best when you create a single OkHttpClient instance and reuse it for all of your HTTP calls
+    // Do not create other clients, use HTTP_CLIENT.newBuilder() if you need to customize
+    // But do not forget to set proxy handlers again (see getOkHttpClientForTest as example)
+    public static final OkHttpClient HTTP_CLIENT = getOkHttpClient();
+    
     public interface ProgressListener {
         void update(long bytesRead, long contentLength, boolean done, @NotNull String hash);
     }
+    
+    public static OkHttpClient getOkHttpClientForTest() {
+        OkHttpClient.Builder builder = HTTP_CLIENT.newBuilder();
+        builder.proxySelector(new CustomProxySelector());
+        builder.proxyAuthenticator(new CustomAuthenticator());
+        builder.eventListener(new ProxyEventListener());
+        builder.connectTimeout(5000, TimeUnit.MILLISECONDS);
+        return builder.build();
+    }
 
-    public static @Nullable String getProxyString() {
-        final HttpConfigurable settings = HttpConfigurable.getInstance();
-        if (settings != null && settings.USE_HTTP_PROXY) {
-            final String credentials;
-            if (settings.PROXY_AUTHENTICATION) {
-                credentials = String.format("%s:%s@", settings.getProxyLogin(), settings.getPlainProxyPassword());
-            } else {
-                credentials = "";
+    private static OkHttpClient getOkHttpClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.proxySelector(new CustomProxySelector());
+        builder.proxyAuthenticator(new CustomAuthenticator());
+        builder.eventListener(new ProxyEventListener());
+        return builder.build();
+    }
+
+    @Nullable
+    public static String getProxyString(String serverUrl) {
+        try {
+            // The host value doesn't contain protocol prefix, without it, select returns only proxy type DIRECT
+            List<Proxy> proxies = new CustomProxySelector().select(new URI(serverUrl));
+            if (!proxies.isEmpty()) {
+                List<String> urls = new LinkedList<>();
+                for (Proxy proxy : proxies) {
+                    if (proxy.type() == Proxy.Type.DIRECT) {
+                        return null;
+                    }
+                    // Socks proxy is not supported
+                    if (proxy.type() == Proxy.Type.SOCKS) {
+                        continue;
+                    }
+                    InetSocketAddress address = (InetSocketAddress) proxy.address();
+                    String host = address.getHostString();
+                    int port = address.getPort();
+                    Logger.getInstance(NetUtils.class).debug("Auth host " + host + " with port " + port);
+                    Credentials cr = new CustomProxyAuthentication().getKnownAuthentication(host, port);
+                    if (cr != null) {
+                        final boolean isPwdSet = cr.getPasswordAsString() != null;
+                        Logger.getInstance(NetUtils.class).debug("Auth user " + cr.getUserName() + " password set: " + isPwdSet);
+                    }
+                    if (cr != null && cr.getUserName() != null && cr.getPasswordAsString() != null) {
+                        urls.add(String.format("http://%s:%s@%s:%d", cr.getUserName(), cr.getPasswordAsString(), host, port));
+                    } else {
+                        urls.add(String.format("http://%s:%d", host, port));
+                    }
+                }
+                // Get first http proxy
+                return urls.get(0);
             }
-            return "http://" + credentials + String.format("%s:%d", settings.PROXY_HOST, settings.PROXY_PORT);
+        } catch (URISyntaxException ignored) {
         }
         return null;
     }
     
     public static void download(@NotNull String url, @NotNull String filePath, @NotNull ProgressListener listener) throws Exception {
-        Response response = new OkHttpClient().newCall(new Request.Builder().url(url).get().build()).execute();
+        Response response = HTTP_CLIENT.newCall(new Request.Builder().url(url).get().build()).execute();
         ResponseBody body = Objects.requireNonNull(response.body());
         final long total = body.contentLength();
         if (total <= 0) {

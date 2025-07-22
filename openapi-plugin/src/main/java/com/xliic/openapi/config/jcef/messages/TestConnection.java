@@ -17,7 +17,8 @@ public abstract class TestConnection extends WebAppProduce {
     private String message;
 
     public TestConnection(@NotNull String name, @NotNull Project project) {
-        super(name);
+        // Do not run in EDT to not suspend UI threads in case of possible network timeout
+        super(name, false, false);
         this.project = project;
         message = null;
     }

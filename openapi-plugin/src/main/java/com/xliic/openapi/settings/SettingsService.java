@@ -4,6 +4,7 @@ import static com.xliic.openapi.settings.Settings.DEFAULTS;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOSTNAMES;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.settings.Settings.InlinedAnnotations.ENABLE_FLAG;
+import static com.xliic.openapi.settings.Settings.Log.ENABLE_MAX_LOG_LEVEL_FLAG;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
 import static com.xliic.openapi.settings.Settings.Outline.ABC_SORT;
@@ -53,7 +54,7 @@ public class SettingsService implements ISettingsService, Disposable  {
     private static final Set<String> IGNORED_KEYS = Set.of(TURNED_ON, TURNED_OFF);
     private static final Set<String> SAFE_KEYS = Set.of(API_KEY, ENV_SECRETS_KEY, HEADER, APPROVED_HOST_CONFIG);
     private static final Set<String> BOOLEAN_KEYS = Set.of(ABC_SORT, REPLACE_LOCALHOST, USE_HOST_NETWORK, 
-    		SHOW_OUTLINE_DEMO, INTERNAL_FEATURES, INTERNAL_USE_DEV_ENDPOINTS, ENABLE_FLAG);
+    		SHOW_OUTLINE_DEMO, INTERNAL_FEATURES, INTERNAL_USE_DEV_ENDPOINTS, ENABLE_FLAG, ENABLE_MAX_LOG_LEVEL_FLAG);
     private static final Set<String> LIST_KEYS = Set.of(APPROVED_HOSTNAMES, INSECURE_SSL_HOSTNAMES);
     private static final Map<String, Converter> CONVERTERS = new HashMap<>();
     

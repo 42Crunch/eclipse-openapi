@@ -1,6 +1,7 @@
 package com.xliic.openapi.platform.tree.actions;
 
 import static com.xliic.openapi.tags.TagsUtils.getMandatoryTagIds;
+import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
 
 import java.util.Set;
 
@@ -25,7 +26,6 @@ import com.xliic.openapi.platform.tree.form.PlatformURLChooser;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -35,8 +35,6 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
     private static final String TITLE = "Import API from URL";
     private static final String ERROR_JSON_INVALID = "Not a valid JSON document";
     private static final String ERROR_JSON_OPENAPI_UNKNOWN = "Not a valid OpenAPI version";
-
-    private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     @NotNull
     private final Project project;
@@ -70,7 +68,7 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
             String href = chooser.getValue();
             if (!StringUtils.isEmpty(href)) {
                 Request request = new Request.Builder().url(href).build();
-                try (Response response = client.newCall(request).execute()) {
+                try (Response response = HTTP_CLIENT.newCall(request).execute()) {
                     ResponseBody body = response.body();
                     if (body != null) {
                         String text = body.string().trim();

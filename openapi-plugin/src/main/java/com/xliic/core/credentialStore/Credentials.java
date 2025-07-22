@@ -20,4 +20,12 @@ public class Credentials {
     public String getPassword() {
         return password;
     }
+
+    public String getUserName() {
+        return user;
+    }
+
+    public String getPasswordAsString() {
+        return password;
+    }
 }

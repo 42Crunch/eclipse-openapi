@@ -1,6 +1,7 @@
 package com.xliic.openapi.capture;
 
 import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
+import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,14 +13,11 @@ import com.xliic.openapi.Endpoints;
 import com.xliic.openapi.capture.payload.PrepareOptions;
 
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class CaptureAPI {
-
-    private static final OkHttpClient HTTP_CLIENT = new OkHttpClient().newBuilder().build();
 
     @SuppressWarnings("serial")
 	public static Response prepare(String token, PrepareOptions prepareOptions) throws IOException {
