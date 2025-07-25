@@ -1,7 +1,7 @@
 package com.xliic.openapi.platform.scand;
 
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.AUTH_HEADER;
-import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
+import static com.xliic.openapi.utils.NetUtils.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,14 +13,11 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.openapi.config.payload.ScandManagerConnection;
 import com.xliic.openapi.utils.Utils;
 
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ScandAPIs {
-
-    private static final OkHttpClient HTTP_CLIENT = new OkHttpClient().newBuilder().build();
 
     public static class Sync {
 
@@ -60,7 +57,7 @@ public class ScandAPIs {
         @NotNull
         public static Response testConnection() throws IOException {
             Request request = getRequestBuilder("api/job", true).build();
-            return HTTP_CLIENT.newCall(request).execute();
+            return getOkHttpClientForTest().newCall(request).execute();
         }
     }
 

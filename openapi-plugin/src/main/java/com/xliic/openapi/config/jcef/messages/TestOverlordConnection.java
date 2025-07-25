@@ -1,6 +1,7 @@
 package com.xliic.openapi.config.jcef.messages;
 
 import java.io.IOException;
+import okhttp3.Response;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +27,9 @@ public class TestOverlordConnection extends TestConnection {
 
     @Override
     protected @Nullable String test() throws IOException {
-        return ScanAPIs.Sync.http2Ping(platformServices.getServices()) ? null : "Socket handshake failed";
+        try (Response response = ScanAPIs.Sync.testConnection(platformServices.getServices())) {
+            return response.code() == 415 ? null : "Unexpected response code " + response.code();
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.xliic.openapi.platform.scan.task;
 
+import static com.xliic.openapi.utils.NetUtils.getProxyString;
 import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -38,7 +40,6 @@ import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.MsgUtils;
-import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 
 public class ScanCliTask extends Task.Backgroundable {
@@ -129,17 +130,22 @@ public class ScanCliTask extends Task.Backgroundable {
                     args.add("--is-operation");
                 }
                 Credentials.Type type = Credentials.getCredentialsType();
+                String serverUrl;
                 if (type == Credentials.Type.AnondToken) {
                     args.add("--token");
                     args.add(Credentials.getAnonCredentials());
+                    serverUrl = Endpoints.getFreemiumdUrl();
                 } else {
                     PlatformConnection con = PlatformConnection.getOptions();
                     env.put("API_KEY", con.getApiToken());
                     env.put("PLATFORM_HOST", con.getPlatformUrl());
+                    serverUrl = con.getPlatformUrl();
+                    Logger.getInstance(ScanCliTask.class).debug("Setting PLATFORM_HOST environment variable to: " + serverUrl);
                 }
-                String httpProxy = NetUtils.getProxyString();
+                String httpProxy = getProxyString(serverUrl);
                 if (httpProxy != null) {
                     env.put("HTTPS_PROXY", httpProxy);
+                    Logger.getInstance(ScanCliTask.class).debug("Setting HTTPS_PROXY environment variable to " + httpProxy);
                 }
                 String output = ExecUtils.asyncExecFile(cli, args, scanTmpDir, env);
                 Node out = Utils.getJsonAST(output);
@@ -161,6 +167,7 @@ public class ScanCliTask extends Task.Backgroundable {
                     }
                 }
             } catch (ExecUtils.ExecException ex) {
+            	Logger.getInstance(ScanCliTask.class).error("Error running Conformance Scan: " + ex);
                 if (ex.getCode() == 3 && ex.isLimitsReached()) {
                     ApplicationManager.getApplication().invokeAndWait(() -> {
                         MsgUtils.offerUpgrade(project, isFullScan);
@@ -181,6 +188,7 @@ public class ScanCliTask extends Task.Backgroundable {
             log(progress, "Finished API Conformance Scan");
             callback.setDone(scanConfPath, new ScanReport(outputFile.toNioPath()));
         } catch (Exception e) {
+        	Logger.getInstance(ScanCliTask.class).error("Error running Conformance Scan: " + e);
             callback.setRejected(e);
         } finally {
             try {

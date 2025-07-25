@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Label;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.module.Module;
 import com.xliic.core.options.Configurable;
 import com.xliic.core.options.SearchableConfigurable;
@@ -36,6 +37,7 @@ import com.xliic.openapi.OpenApiBundle;
 import com.xliic.openapi.settings.Settings.Audit;
 import com.xliic.openapi.settings.Settings.ExtRef;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
+import com.xliic.openapi.settings.Settings.Log;
 import com.xliic.openapi.settings.Settings.Outline;
 import com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit;
 import com.xliic.openapi.settings.Settings.Preview;
@@ -78,6 +80,10 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
     private JPanel inlinedPanel;
     private JCheckBox inlinedCheckbox;
 
+    // Inlined annotations
+    private JPanel logPanel;
+    private JCheckBox logCheckbox;
+    
     // Preview
     private JPanel previewPanel;
     private JComboBox<String> previewComboBox;
@@ -144,6 +150,16 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         inlinedPanel = new JPanel("Annotations", parent, SWT.NONE, 1);
         inlinedCheckbox = new JCheckBox("Show Tags/TryIt/Audit/Scan Inlined Annotations", inlinedPanel);
         items.add(new ItemCheckBox(inlinedCheckbox, InlinedAnnotations.ENABLE_FLAG));
+        
+        logPanel = new JPanel("Log Level", parent, SWT.NONE, 1);
+        logCheckbox = new JCheckBox("Enable max log level (DEBUG, TRACE)", logPanel);
+        items.add(new ItemCheckBox(logCheckbox, Log.ENABLE_MAX_LOG_LEVEL_FLAG) {
+            @Override
+            public void apply(@NotNull Set<String> keys, @NotNull Map<String, Object> prevData) {
+                super.apply(keys, prevData);
+                Logger.getInstance().setMaxLogLevel(logCheckbox.isSelected());
+            }
+        });
 
         previewPanel = new JPanel("Preview", parent, SWT.NONE, 2);
         new Label(previewPanel.getComposite(), SWT.NULL).setText("Default Preview Renderer");

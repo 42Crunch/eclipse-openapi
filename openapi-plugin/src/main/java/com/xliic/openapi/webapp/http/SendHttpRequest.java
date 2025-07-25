@@ -1,5 +1,7 @@
 package com.xliic.openapi.webapp.http;
 
+import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -17,6 +19,9 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
+import com.xliic.openapi.proxy.CustomAuthenticator;
+import com.xliic.openapi.proxy.CustomProxySelector;
+import com.xliic.openapi.proxy.ProxyEventListener;
 import com.xliic.openapi.services.TryItService;
 import com.xliic.openapi.tryit.TryItTrustManager;
 import com.xliic.openapi.webapp.http.payload.HttpRequest;
@@ -29,8 +34,7 @@ import okhttp3.internal.http.HttpMethod;
 
 public class SendHttpRequest extends WebAppProduce {
 
-    private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
-    private static final OkHttpClient sslClient = getSSLClient(new OkHttpClient().newBuilder());
+    private static final OkHttpClient SSL_CLIENT = getSSLClient(HTTP_CLIENT.newBuilder());
 
     @NotNull
     private final Project project;
@@ -79,14 +83,14 @@ public class SendHttpRequest extends WebAppProduce {
                 builder.addHeader(header.getKey(), header.getValue());
             }
             if (request.isHTTPS() && !request.isRejectUnauthorized()) {
-                if (sslClient == null) {
+                if (SSL_CLIENT == null) {
                     callback.onFailure("Failed to setup SSL context", true);
                 } else {
-                    sslClient.newCall(builder.build()).enqueue(callback);
+                	SSL_CLIENT.newCall(builder.build()).enqueue(callback);
                 }
                 return;
             }
-            client.newCall(builder.build()).enqueue(callback);
+            HTTP_CLIENT.newCall(builder.build()).enqueue(callback);
         } catch (Throwable t) {
             callback.onFailure(t);
         }
@@ -125,6 +129,9 @@ public class SendHttpRequest extends WebAppProduce {
             SSLSocketFactory trustAllSslSocketFactory = context.getSocketFactory();
             builder.sslSocketFactory(trustAllSslSocketFactory, (X509TrustManager) trustAllCerts[0]);
             builder.hostnameVerifier((hostname, session) -> true);
+            builder.proxySelector(new CustomProxySelector());
+            builder.proxyAuthenticator(new CustomAuthenticator());
+            builder.eventListener(new ProxyEventListener());
             return builder.build();
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             Logger.getInstance(TryItService.class).error(e);

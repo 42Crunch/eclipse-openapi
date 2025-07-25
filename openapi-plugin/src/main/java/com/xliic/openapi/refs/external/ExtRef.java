@@ -6,6 +6,7 @@ import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
 import static org.apache.commons.lang3.RandomStringUtils.random;
+import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
 
 import java.io.IOException;
 import java.net.URI;
@@ -34,7 +35,6 @@ import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.TempFileUtils;
 
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -43,7 +43,6 @@ public class ExtRef {
 
     public static final String EXT_FILE_PREFIX = "ext_ref_";
     private static final String INTERNAL_URL_PREFIX = "openapi-internal-";
-    private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
     @SuppressWarnings("serial")
     private static final Map<String, ContentType> CONTENT_TYPES = new HashMap<>() {
@@ -102,7 +101,7 @@ public class ExtRef {
             builder.addHeader(hostConfig.getHeaderName(), hostConfig.getHeaderValue());
         }
         Request request = builder.url(url).build();
-        Response response = client.newCall(request).execute();
+        Response response = HTTP_CLIENT.newCall(request).execute();
         contentType = getContentType(url.toString(), response);
         if (contentType == null) {
             throw new WorkspaceException("Failed to get content type for " + url);

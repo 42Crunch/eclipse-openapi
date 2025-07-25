@@ -5,6 +5,7 @@ import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
+import static com.xliic.openapi.utils.NetUtils.getProxyString;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zafarkhaja.semver.Version;
 import com.xliic.core.command.WriteCommandAction;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.Computable;
@@ -35,7 +37,6 @@ import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
-import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
 
 import okhttp3.Response;
@@ -139,17 +140,22 @@ public class CliUtils {
             }
             final Map<String, String> env = new HashMap<>();
             final Credentials.Type type = Credentials.getCredentialsType();
+            String serverUrl;
             if (type == Credentials.Type.AnondToken) {
                 args.add("--token");
                 args.add(Credentials.getAnonCredentials());
+                serverUrl = Endpoints.getFreemiumdUrl();
             } else {
                 PlatformConnection con = PlatformConnection.getOptions();
                 env.put("API_KEY", con.getApiToken());
                 env.put("PLATFORM_HOST", con.getPlatformUrl());
+                serverUrl = con.getPlatformUrl();
+                Logger.getInstance(CliUtils.class).debug("Setting PLATFORM_HOST environment variable to: " + serverUrl);
             }
-            String httpProxy = NetUtils.getProxyString();
+            String httpProxy = getProxyString(serverUrl);
             if (httpProxy != null) {
                 env.put("HTTPS_PROXY", httpProxy);
+                Logger.getInstance(CliUtils.class).debug("Setting HTTPS_PROXY environment variable to: " + httpProxy);
             }
             String output = ExecUtils.asyncExecFile(cli, args, dir, env);
             String report = FileUtils.readFile(dir, "report.json");
@@ -162,8 +168,10 @@ public class CliUtils {
             removeDir(project, dir);
             return new AuditCliResult(report, todo, sqg, output);
         } catch (ExecUtils.ExecException ex) {
+        	Logger.getInstance(CliUtils.class).error("Error running Security Audit: " + ex);
             return new AuditCliResult(ex);
         } catch (IOException ex) {
+        	Logger.getInstance(CliUtils.class).error("Error running Security Audit: " + ex);
             return new AuditCliResult(ex.toString());
         }
     }

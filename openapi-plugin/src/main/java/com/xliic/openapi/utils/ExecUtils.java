@@ -14,6 +14,7 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
@@ -108,11 +109,9 @@ public class ExecUtils {
                                        boolean redirectErrorStream) throws ExecException {
         List<String> args = new LinkedList<>();
         args.add(cmd);
-        // System.out.println(">> cmd = " + cmd);
         for (String param : params) {
             if (!param.isEmpty()) {
                 args.add(param);
-                // System.out.println(">> arg = " + param);
             }
         }
         ProcessBuilder builder = new ProcessBuilder(args);
@@ -126,6 +125,7 @@ public class ExecUtils {
         if (redirectErrorStream) {
             builder.redirectErrorStream(true);
         }
+        Logger.getInstance(ExecUtils.class).debug("Running the binary: " + String.join(" ", args));
         try {
             Process process = builder.start();
             String out = readOutput(process.getInputStream());

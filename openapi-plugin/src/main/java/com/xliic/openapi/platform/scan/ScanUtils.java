@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.actionSystem.DefaultActionGroup;
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
 import com.xliic.core.psi.PsiFile;
 import com.xliic.openapi.Puller;
@@ -53,7 +54,7 @@ public class ScanUtils {
     private static final int PULL_SCAN_REPORT_DURATION = 30000;
     private static final int PULL_REPORT_DURATION = 60000;
     private static final String TMP_PREFIX = "tmp-";
-    public static final int TEMP_API_CLEAN_TIMEOUT = 160000;
+    public static final int TEMP_API_CLEAN_TIMEOUT = 600000;
 
     public static final String LIMIT_REACHED_MSG = "You have reached your maximum number of APIs. " +
             "Please contact support@42crunch.com to upgrade your account.";
@@ -72,10 +73,12 @@ public class ScanUtils {
         }
     }
 
-    public static void deleteAPI(@NotNull String apiId) {
+    public static boolean deleteAPI(@NotNull String apiId) {
         try {
             ScanAPIs.deleteAPI(apiId);
+            return true;
         } catch (IOException ignored) {
+            return false;
         }
     }
 
@@ -210,25 +213,44 @@ public class ScanUtils {
         // Check if any of the old apis have to be deleted
         final long current = new Date().getTime();
         NamingConvention convention = PlatformUtils.getApiNamingConvention();
+        Logger.getInstance(ScanUtils.class).info("Clearing collection " + collectionId);
+        int deletedCount = 0;
+        int responseLength = 0;
         try (Response response = PlatformAPIs.Sync.listApis(collectionId)) {
             Node body = NetUtils.getBodyNodeRequireNonNull(response);
             Node list = body.find("/list");
             if (list != null) {
+            	responseLength = list.getChildren().size();
                 for (Node item : list.getChildren()) {
                     Node desc = item.getChildRequireNonNull("desc");
                     String name = desc.getChildValueRequireNonNull("name");
+                    String apiId = desc.getChildValueRequireNonNull("id");
+                    Logger.getInstance(ScanUtils.class).info("Checking API: " + name + " (" + apiId + ")");
                     if (name.startsWith(TMP_PREFIX)) {
                         Date date = API_TEMP_NAME_DATE_FORMATTER.parse(name.replace(TMP_PREFIX, ""));
                         if (current - date.getTime() > TEMP_API_CLEAN_TIMEOUT) {
-                            ScanUtils.deleteAPI(desc.getChildValueRequireNonNull("id"));
+                            if (ScanUtils.deleteAPI(apiId)) {
+                                deletedCount++;
+                                Logger.getInstance(ScanUtils.class).info("Deleting old temporary API: " + name + " (" + apiId + ")");
+                            }
                         }
                     } else if (!convention.getPattern().isEmpty() && name.equals(convention.getExample())) {
                         // If the api naming convention is configured, we don't have timestamps in the name
-                        ScanUtils.deleteAPI(desc.getChildValueRequireNonNull("id"));
+                        deletedCount++;
+                        Logger.getInstance(ScanUtils.class).info("Deleting old API with no timestamp: " + name + " (" + apiId + ")");
                     }
                 }
             }
         } catch (Exception ignored) {
+        }
+        if (responseLength == deletedCount) {
+            Logger.getInstance(ScanUtils.class).info("All temporary APIs in collection " + collectionId +
+                    " have been deleted, removing collection");
+            PlatformAPIs.deleteCollection(collectionId);
+        } else {
+            int remainingApis = responseLength - deletedCount;
+            Logger.getInstance(ScanUtils.class).info("Temporary collection has been cleared, but not all APIs were deleted. " +
+                    "Remaining APIs: " + remainingApis);
         }
     }
 
@@ -272,6 +294,7 @@ public class ScanUtils {
     }
 
     public static String findOrCreateTempCollection() throws Exception {
+    	Logger.getInstance(ScanUtils.class).info("Finding or creating temporary collection");
         NamingConvention namingConvention = PlatformUtils.getCollectionNamingConvention();
         String collectionName = SettingsService.getInstance().getValue(Settings.Platform.TEMP_COLLECTION_NAME, COLLECTION_TEMP_NAME);
         if (!namingConvention.match(collectionName)) {
@@ -297,11 +320,15 @@ public class ScanUtils {
                         Node body = NetUtils.getBodyNode(response);
                         if (body != null) {
                             PlatformCollection collection = PlatformCreateNewCollectionAction.getPlatformCollection(body);
+                            Logger.getInstance(ScanUtils.class).info("Created new temporary collection: " +
+                                    collection.getName() + " " + collection.getId());
                             return collection.getId();
                         }
                     }
                 } else {
-                    return writableCols.get(0).getId();
+                    String colId = writableCols.get(0).getId();
+                    Logger.getInstance(ScanUtils.class).info("Using existing temporary collection: " + colId);
+                    return colId;
                 }
             }
         }

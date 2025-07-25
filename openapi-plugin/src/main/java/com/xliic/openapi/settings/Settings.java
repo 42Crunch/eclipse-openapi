@@ -191,6 +191,15 @@ public class Settings {
         }
     }
 
+    public static class Log {
+
+        public static final String ENABLE_MAX_LOG_LEVEL_FLAG = "com.xliic.openapi.settings.log.enable.max.log.level.flag";
+
+        static {
+        	DEFAULTS.put(ENABLE_MAX_LOG_LEVEL_FLAG, false);
+        }
+    }
+
     public static class SnakeYamlSettings {
 
         public static final String CODE_POINT_LIMIT = "com.xliic.openapi.settings.snake.yaml.settings.code.point.limit";
