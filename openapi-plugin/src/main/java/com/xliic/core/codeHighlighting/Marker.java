@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IURIEditorInput;
@@ -137,16 +136,20 @@ public class Marker {
     public String getJsonPointer() {
         try {
             return (String) marker.getAttribute(JSON_POINTER);
-        } catch (CoreException e) {
+        } catch (Exception e) {
             return null;
         }
     }
 
-    public void activate(Map<IMarker, Marker> markersBinding) {
+    public boolean activate(Map<IMarker, Marker> markersBinding) {
         try {
             IFile ifile = file.getVirtualFile().getIFile();
             if (ifile == null) {
                 ifile = getFile(editor.getEditorInput());
+            }
+            // In some rare unclear cases ifile may be null here
+            if (ifile == null) {
+                return false;
             }
             marker = ifile.createMarker(IMarker.PROBLEM);
             marker.setAttribute(IMarker.SEVERITY, severity);
@@ -156,8 +159,10 @@ public class Marker {
             marker.setAttribute(IMarker.CHAR_END, charEnd);
             marker.setAttribute(JSON_POINTER, pointer);
             markersBinding.put(marker, this);
-        } catch (CoreException e) {
-            marker = null;
+            return true;
+        } catch (Exception e) {
+        	dispose(markersBinding);
+            return false;
         }
     }
 
@@ -169,7 +174,7 @@ public class Marker {
                 marker.delete();
                 marker = null;
             }
-        } catch (CoreException e) {
+        } catch (Exception e) {
         }
     }
 
@@ -177,7 +182,7 @@ public class Marker {
         try {
             Object attr = marker.getAttribute(JSON_POINTER);
             return attr != null && attr instanceof String;
-        } catch (CoreException e) {
+        } catch (Exception e) {
             return false;
         }
     }

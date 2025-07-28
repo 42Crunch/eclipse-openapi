@@ -214,8 +214,9 @@ public class HighlightingManager extends TextEditorHighlightingPassRegistrar imp
             // Create new markers
             for (Marker newMarker : newMarkers) {
                 if (!myMarkers.contains(newMarker)) {
-                    newMarker.activate(markersBinding);
-                    myMarkers.add(newMarker);
+                    if (newMarker.activate(markersBinding)) {
+                    	myMarkers.add(newMarker);
+                    }
                 }
             }
         }
