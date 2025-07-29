@@ -95,6 +95,11 @@
             name="Open Settings">
         </command>
         <command
+            defaultHandler="com.xliic.openapi.launchpad.LaunchPadAction"
+            id="com.xliic.openapi.launchpad.LaunchPadAction"
+            name="Main Menu">
+        </command>
+        <command
             defaultHandler="com.xliic.openapi.capture.CaptureAction"
             id="com.xliic.openapi.capture.CaptureAction"
             name="Convert HAR/Postman Files">
@@ -252,10 +257,10 @@
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
-            icon="icons/icon_42crunch_platform.png"
+            icon="icons/toolWindowCollectionsLogo.png"
             id="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
             inject="true"
-            name="42Crunch">
+            name="Collections">
         </view>
         <view
             allowMultiple="false"
@@ -275,6 +280,17 @@
             inject="true"
             name="Environment">
         </view>
+        
+        <view
+            allowMultiple="false"
+            category="eclipse-openapi"
+            class="com.xliic.openapi.launchpad.ui.LaunchPadPanelView"
+            icon="icons/toolWindowLaunchPadLogo.png"
+            id="com.xliic.openapi.launchpad.ui.LaunchPadPanelView"
+            inject="true"
+            name="42Crunch">
+        </view>
+        
     </extension>
 
     <extension
@@ -439,6 +455,11 @@
             <menu
                 id="com.xliic.openapi.menu"
                 label="OpenAPI">
+                <command
+                    commandId="com.xliic.openapi.launchpad.LaunchPadAction"
+                    icon="icons/launchpad.png"
+                    style="push">
+                </command>
                 <command
                     commandId="com.xliic.openapi.config.ConfigAction"
                     icon="icons/config.png"

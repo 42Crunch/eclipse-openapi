@@ -31,7 +31,8 @@ public class OpenAPIPerspectiveFactory implements IPerspectiveFactory {
         IFolderLayout abc = layout.createFolder("abc", IPageLayout.LEFT, (float) 0.20, editorArea);
         abc.addView(IPageLayout.ID_PROJECT_EXPLORER);
         abc.addPlaceholder(IPageLayout.ID_BOOKMARKS);
-
+        abc.addView(ToolWindowId.LAUNCH_PAD);
+        
         // Add a placeholder for the old navigator to maintain compatibility
         abc.addPlaceholder("org.eclipse.ui.views.ResourceNavigator");
 

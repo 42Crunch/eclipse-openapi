@@ -12,6 +12,7 @@ public class ToolWindowId {
     public static final String PLATFORM = "com.xliic.openapi.platform.tree.ui.PlatformPanelView";
     public static final String TRY_IT = "com.xliic.openapi.tryit.jcef.ui.JCEFTryItPanelView";
     public static final String ENV = "com.xliic.openapi.environment.jcef.ui.JCEFEnvPanelView";
+    public static final String LAUNCH_PAD = "com.xliic.openapi.launchpad.ui.LaunchPadPanelView";
 
     // Only web applications created in tool windows (not in editor)
     public static final Set<String> WEB_APP_IDS = new HashSet<>(
