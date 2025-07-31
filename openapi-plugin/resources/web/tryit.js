@@ -1,19 +1,19 @@
-import { j as n, c as he, a as be, r as ye, t as je, l as $e, b as Se, u as K, d as we, s as Ce, i as ke, e as u, T as c, f as x, S as I, g as Oe, R as Fe, P as Ee, h as Te, k as Re, p as Pe, n as Ne, o as Ve } from "./TriangleExclamation.D9eaO6CL.js";
-import { i as q, c as Be, a as Ie, e as O, d as T, s as A, p as M, b as L, g as qe, f as De, h as He, j as Ae, k as Y, l as Me, m as Le, n as Z, E as Je, w as We, o as ee, u as ze } from "./variables.C0azNbxQ.js";
-import { e as Ge, s as re, u as _e, l as Ue, a as Qe } from "./index.kH9vjhWp.js";
-import { p as Xe, s as te, a as ne, S as Ke, l as Ye } from "./index.BPIm86Lb.js";
-import { c as Ze, a as er, r as rr, l as tr } from "./slice.CowX28_W.js";
-import { s as nr } from "./listener.BZpjxlz7.js";
-import { o as or } from "./listener.E_nWJhZK.js";
-import { u as h, a as S, b as D, c as sr, d as ir, F as ar } from "./index.esm.-yLMBe0J.js";
-import { T as cr } from "./Tabs.CM5QgBkU.js";
-import { S as dr } from "./TrashCan.CF0qQPCb.js";
-import { u as lr } from "./downshift.esm.D1EeF21x.js";
-import { P as ur } from "./ProgressButton.DMjNku-P.js";
-import { S as R } from "./index.CW1R3fmh.js";
-import { C as pr, a as fr } from "./index.Bn6tE3SE.js";
-import { S as gr } from "./Check.C8MYPcb7.js";
-import { R as vr } from "./Response.BQe-S2Cp.js";
+import { j as n, c as he, a as be, r as ye, t as je, l as $e, b as Se, u as K, d as we, s as Ce, i as ke, e as u, T as c, f as x, S as I, g as Oe, R as Fe, P as Ee, h as Te, k as Re, p as Pe, n as Ne, o as Ve } from "./TriangleExclamation.D0e1MsJn.js";
+import { i as q, c as Be, a as Ie, e as O, d as T, s as A, p as M, b as L, g as qe, f as De, h as He, j as Ae, k as Y, l as Me, m as Le, n as Z, o as Je, E as We, w as ze, q as ee, u as Ge } from "./variables.pW_DOBkM.js";
+import { e as _e, s as re, u as Ue, l as Qe } from "./index.B9X4ewit.js";
+import { p as Xe, s as te, a as ne, S as Ke, l as Ye } from "./index.BN7TlfY6.js";
+import { c as Ze, a as er, r as rr, l as tr } from "./slice.DMxzMSHa.js";
+import { s as nr } from "./listener.BFeJqLAd.js";
+import { o as or } from "./listener.CB6EiO4B.js";
+import { u as h, a as S, b as D, c as sr, d as ir, F as ar } from "./index.esm.B-IUgjj6.js";
+import { T as cr } from "./Tabs.Ir0F6yfI.js";
+import { S as dr } from "./TrashCan.C6TcXDL5.js";
+import { u as lr } from "./downshift.esm.Qr9p8HjF.js";
+import { P as ur } from "./ProgressButton.BunSwTSP.js";
+import { S as R } from "./index.DRpgec5V.js";
+import { C as pr, a as fr } from "./index.DogJ_LlL.js";
+import { S as gr } from "./Check.ChIlL3ks.js";
+import { R as vr } from "./Response.BKoU5tyN.js";
 const mr = (e) => /* @__PURE__ */ n.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ n.jsx("path", { d: "M58.57 323.5 362.7 19.32c25-24.998 65.6-24.998 90.6 0l39.4 39.43c3.1 3.12 5.8 6.49 8.2 10.04 16.4 24.84 13.7 58.61-8.2 80.51L188.5 453.4c-1.3 1.3-2.6 1.7-4 3.8-9.6 8.5-21 13.9-33.4 18.4L30.77 511c-8.42 2.5-17.53.2-23.74-6.9-6.21-5.3-8.532-14.4-6.054-22.9L36.37 360.9c4.16-14.1 11.79-27 22.2-37.4m23.85 50.9-22.98 78.2 78.16-23c5.5-1.9 12.2-5.4 17-10.1L383 191l-62.9-62.9L92.51 357.4c-.59.6-1.16 1.2-1.71 1.9-3.86 4.3-6.73 9.5-8.38 15.1" }) }), xr = {
   oas: {
     openapi: "3.0.0",
@@ -77,7 +77,7 @@ const mr = (e) => /* @__PURE__ */ n.jsx("svg", { xmlns: "http://www.w3.org/2000/
   theme: je,
   tryit: jr,
   router: ye,
-  env: Ge,
+  env: _e,
   prefs: Xe,
   config: Ze
 }, Sr = (e, r) => be({
@@ -594,7 +594,7 @@ function Yr(e) {
     return e.message;
 }
 function V({ name: e, placeholder: r }) {
-  const t = y((m) => m.env.data.secrets), o = _e(), { control: s } = h(), { field: i } = S({
+  const t = y((m) => m.env.data.secrets), o = Ue(), { control: s } = h(), { field: i } = S({
     name: e,
     control: s
   });
@@ -1098,7 +1098,7 @@ function Nt(e, r, t, o) {
   const i = {};
   for (const a of Object.keys(s)) {
     const d = e[a], l = ge(s[a], o);
-    (d == null ? void 0 : d.type) === "oauth" ? i[a] = { token: { access_token: l } } : i[a] = l;
+    (d == null ? void 0 : d.type) === "oauth2" ? i[a] = { token: { access_token: l } } : i[a] = l;
   }
   return { authorized: i };
 }
@@ -1106,11 +1106,11 @@ function ge(e, r) {
   return typeof e == "string" ? B(e, r) : e;
 }
 function ve(e, r) {
-  return typeof e == "string" ? B(e, r) : typeof e == "object" ? Ue.simpleClone(e, (t) => typeof t == "string" ? B(t, r) : t) : e;
+  return typeof e == "string" ? B(e, r) : typeof e == "object" ? Je.simpleClone(e, (t) => typeof t == "string" ? B(t, r) : t) : e;
 }
 function B(e, r) {
   const t = "secrets.";
-  return e.replace(Je(), (o, s) => {
+  return e.replace(We(), (o, s) => {
     if (s.startsWith(t)) {
       const i = s.substring(t.length, s.length);
       return r.secrets.hasOwnProperty(i) ? r.secrets[i] : o;
@@ -1281,7 +1281,7 @@ function Yt() {
     ...o,
     server: i,
     security: en(o.security, s.security)
-  }, d = We(a);
+  }, d = ze(a);
   return /* @__PURE__ */ n.jsx(Zt, { oas: t, method: r, path: e, values: d });
 }
 function Zt({
@@ -1295,7 +1295,7 @@ function Zt({
     v(a !== void 0);
   }, [a]);
   const p = async (C) => {
-    const F = ze(C);
+    const F = Ge(C);
     try {
       const [P, me] = await wt(
         l,

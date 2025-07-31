@@ -1,15 +1,15 @@
-import { a as y, t as w, l as S, d as C, s as $, e as o, T as s, j as e, g as F, R as k, P as V, k as A, p as R, n as M } from "./TriangleExclamation.D9eaO6CL.js";
-import { e as _, b as g, u as L, c as N, a as T } from "./index.kH9vjhWp.js";
-import { T as P } from "./Tabs.CM5QgBkU.js";
-import { u as D, a as v, d as G, b as W, F as H } from "./index.esm.-yLMBe0J.js";
-import { S as K } from "./ExclamationCircle.BOEd0fmc.js";
-import { S as X } from "./TrashCan.CF0qQPCb.js";
-import { q, r as B } from "./variables.C0azNbxQ.js";
-const I = {
+import { a as y, t as w, l as S, d as C, s as $, e as o, T as s, j as e, g as F, R as k, P as V, k as A, p as R, n as M } from "./TriangleExclamation.D0e1MsJn.js";
+import { e as _, a as g, u as L, b as N, l as T } from "./index.B9X4ewit.js";
+import { T as P } from "./Tabs.Ir0F6yfI.js";
+import { u as D, a as v, d as G, b as W, F as H } from "./index.esm.B-IUgjj6.js";
+import { S as K } from "./ExclamationCircle.Cal4AUVQ.js";
+import { S as X } from "./TrashCan.C6TcXDL5.js";
+import { r as B, t as I } from "./variables.pW_DOBkM.js";
+const O = {
   theme: w,
   env: _
-}, O = (r, t) => y({
-  reducer: I,
+}, q = (r, t) => y({
+  reducer: O,
   middleware: (n) => n().prepend(r.middleware).concat(S),
   preloadedState: {
     theme: t
@@ -41,8 +41,8 @@ function Q({
     control: a,
     rules: {
       pattern: {
-        value: B(),
-        message: q
+        value: I(),
+        message: B
       }
     }
   }), { field: d } = v({
@@ -214,7 +214,7 @@ function me() {
   ] });
 }
 function pe(r, t) {
-  const n = O(J(r), t);
+  const n = q(J(r), t);
   F.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ e.jsx(k.StrictMode, { children: /* @__PURE__ */ e.jsx(V, { store: n, children: /* @__PURE__ */ e.jsx(me, {}) }) })
   ), window.addEventListener("message", A(n, ue));
