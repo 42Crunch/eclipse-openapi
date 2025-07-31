@@ -1,16 +1,18 @@
 package com.xliic.openapi.proxy;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.credentialStore.Credentials;
 import com.xliic.core.diagnostic.Logger;
+
 import okhttp3.Authenticator;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.Route;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 
 public class CustomAuthenticator implements Authenticator {
 

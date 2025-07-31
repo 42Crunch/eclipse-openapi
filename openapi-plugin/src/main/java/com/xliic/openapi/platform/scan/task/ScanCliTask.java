@@ -1,10 +1,10 @@
 package com.xliic.openapi.platform.scan.task;
 
-import static com.xliic.openapi.utils.NetUtils.getProxyString;
 import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.MsgUtils.notifyScansLimit;
+import static com.xliic.openapi.utils.NetUtils.getProxyString;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 import java.io.File;

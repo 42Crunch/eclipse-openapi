@@ -1,7 +1,9 @@
 package com.xliic.openapi.platform.scand;
 
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.AUTH_HEADER;
-import static com.xliic.openapi.utils.NetUtils.*;
+import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
+import static com.xliic.openapi.utils.NetUtils.getOkHttpClientForTest;
 
 import java.io.IOException;
 import java.util.HashMap;

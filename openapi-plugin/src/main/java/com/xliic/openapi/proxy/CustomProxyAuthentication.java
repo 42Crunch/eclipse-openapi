@@ -1,12 +1,12 @@
 package com.xliic.openapi.proxy;
 
-import com.xliic.core.credentialStore.Credentials;
-
 import org.eclipse.core.internal.net.ProxyManager;
 import org.eclipse.core.net.proxy.IProxyData;
 import org.eclipse.core.net.proxy.IProxyService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.core.credentialStore.Credentials;
 
 @SuppressWarnings("restriction")
 public class CustomProxyAuthentication {

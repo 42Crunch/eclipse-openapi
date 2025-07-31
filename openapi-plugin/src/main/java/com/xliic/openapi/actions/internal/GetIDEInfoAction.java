@@ -2,9 +2,9 @@ package com.xliic.openapi.actions.internal;
 
 import static com.xliic.openapi.OpenAPIAbstractUIPlugin.XLIIC_PLUGIN_ENABLE_INTERNAL_ACTIONS;
 import static com.xliic.openapi.OpenAPIStartupActivity.XLIIC_PLUGIN_USE_DEV_MODE;
+import static com.xliic.openapi.utils.NetUtils.getProxyString;
 import static com.xliic.openapi.whatsnew.WhatsNewService.getPluginVersion;
 import static com.xliic.openapi.whatsnew.WhatsNewService.getSavedVersion;
-import static com.xliic.openapi.utils.NetUtils.getProxyString;
 
 import org.jetbrains.annotations.NotNull;
 

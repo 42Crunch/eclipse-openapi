@@ -4,8 +4,8 @@ import static com.xliic.openapi.utils.FileUtils.join;
 import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
-import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 import static com.xliic.openapi.utils.NetUtils.getProxyString;
+import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 import java.io.IOException;
 import java.util.Arrays;

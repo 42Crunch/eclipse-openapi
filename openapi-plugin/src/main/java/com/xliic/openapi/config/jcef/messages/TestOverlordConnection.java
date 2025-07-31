@@ -1,7 +1,6 @@
 package com.xliic.openapi.config.jcef.messages;
 
 import java.io.IOException;
-import okhttp3.Response;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +9,8 @@ import com.xliic.core.project.Project;
 import com.xliic.openapi.config.ConfigListener;
 import com.xliic.openapi.config.payload.PlatformServices;
 import com.xliic.openapi.platform.scan.ScanAPIs;
+
+import okhttp3.Response;
 
 public class TestOverlordConnection extends TestConnection {
 

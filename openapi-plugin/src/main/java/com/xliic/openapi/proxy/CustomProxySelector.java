@@ -1,19 +1,19 @@
 package com.xliic.openapi.proxy;
 
-import com.xliic.core.diagnostic.Logger;
-
-import org.eclipse.core.internal.net.ProxyManager;
-import org.eclipse.core.net.proxy.IProxyData;
-import org.eclipse.core.net.proxy.IProxyService;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.SocketAddress;
 import java.net.URI;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
+
+import org.eclipse.core.internal.net.ProxyManager;
+import org.eclipse.core.net.proxy.IProxyData;
+import org.eclipse.core.net.proxy.IProxyService;
+
+import com.xliic.core.diagnostic.Logger;
 
 @SuppressWarnings("restriction")
 public class CustomProxySelector extends ProxySelector {

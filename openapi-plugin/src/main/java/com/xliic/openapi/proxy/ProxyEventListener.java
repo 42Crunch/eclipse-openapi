@@ -1,14 +1,16 @@
 package com.xliic.openapi.proxy;
 
-import com.xliic.core.diagnostic.Logger;
-import okhttp3.Call;
-import okhttp3.EventListener;
-import okhttp3.HttpUrl;
-import org.jetbrains.annotations.NotNull;
-
 import java.net.Proxy;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.diagnostic.Logger;
+
+import okhttp3.Call;
+import okhttp3.EventListener;
+import okhttp3.HttpUrl;
 
 public class ProxyEventListener extends EventListener {
 

@@ -2,11 +2,11 @@ package com.xliic.openapi.refs.external;
 
 import static com.xliic.openapi.quickfix.QuickFix.formatFixText;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
+import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
 import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
 import static org.apache.commons.lang3.RandomStringUtils.random;
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
 
 import java.io.IOException;
 import java.net.URI;

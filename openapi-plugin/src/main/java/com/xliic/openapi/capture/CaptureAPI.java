@@ -1,7 +1,7 @@
 package com.xliic.openapi.capture;
 
-import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 import java.io.File;
 import java.io.IOException;
