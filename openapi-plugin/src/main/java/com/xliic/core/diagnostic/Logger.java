@@ -23,6 +23,10 @@ public class Logger {
         return LOGGER;
     }
 
+    public boolean isTraceEnabled() {
+    	return maxLogLevel;
+    }
+
     public void info(@NotNull Throwable t) {
     	log.info("Exception: " + t.getMessage(), t);
     }
