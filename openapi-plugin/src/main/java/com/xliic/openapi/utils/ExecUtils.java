@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -125,7 +126,7 @@ public class ExecUtils {
         if (redirectErrorStream) {
             builder.redirectErrorStream(true);
         }
-        Logger.getInstance(ExecUtils.class).debug("Running the binary: " + String.join(" ", args));
+        debugExecArgs(args);
         try {
             Process process = builder.start();
             String out = readOutput(process.getInputStream());
@@ -152,5 +153,27 @@ public class ExecUtils {
             stdout.append(s).append("\n");
         }
         return stdout.toString();
+    }
+
+    private static void debugExecArgs(List<String> args) {
+        if (!args.isEmpty()) {
+            Logger logger = Logger.getInstance(ExecUtils.class);
+            if (logger.isDebugEnabled()) {
+                StringBuilder builder = new StringBuilder(args.get(0) + " ");
+                // Start with 1 as arguments go after cmd name
+                for (int i = 1; i < args.size(); i++) {
+                    String arg = args.get(i);
+                    if ("--token".equals(args.get(i - 1)) && !arg.startsWith("--")) {
+                        builder.append(StringUtils.isEmpty(arg) ? "" : "*");
+                    } else {
+                        builder.append(arg);
+                    }
+                    if (i < args.size() - 1) {
+                        builder.append(" ");
+                    }
+                }
+                logger.debug("Running the binary: " + builder);
+            }
+        }
     }
 }

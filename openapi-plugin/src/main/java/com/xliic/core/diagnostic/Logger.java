@@ -23,6 +23,10 @@ public class Logger {
         return LOGGER;
     }
 
+    public boolean isDebugEnabled() {
+    	return maxLogLevel;
+    }
+
     public boolean isTraceEnabled() {
     	return maxLogLevel;
     }
