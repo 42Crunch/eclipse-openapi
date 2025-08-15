@@ -39,7 +39,6 @@ public class OpenAPIImages {
     public static final ImageDescriptor MatchRegexSelected;
     public static final ImageDescriptor MatchWordSelected;
 
-    public static final ImageDescriptor Platform;
     public static final ImageDescriptor PlatformAll;
     public static final ImageDescriptor PlatformFavorite;
     public static final ImageDescriptor PlatformFolder;
@@ -154,7 +153,6 @@ public class OpenAPIImages {
         MatchRegexSelected = createImageDescriptor("icons/search/matchRegexSelected.png");
         MatchWordSelected = createImageDescriptor("icons/search/matchWordSelected.png");
 
-        Platform = createImageDescriptor("/icons/icon_42crunch_platform.png");
         PlatformAll = createImageDescriptor("/icons/platform-all.png");
         PlatformFavorite = createImageDescriptor("/icons/platform-favorite.png");
         PlatformFolder = createImageDescriptor("/icons/platform-folder.png");

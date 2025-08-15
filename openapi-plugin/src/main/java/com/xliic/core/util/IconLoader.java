@@ -15,7 +15,6 @@ public class IconLoader {
 		put("/icons/property", new Icon(OpenAPIImages.PropertyNode));
 		put("/icons/42crunch_icon", new Icon(OpenAPIImages.SecurityAudit));
 		put("/icons/extref", new Icon(OpenAPIImages.ExtRef));
-		put("/icons/icon_42crunch_platform", new Icon(OpenAPIImages.Platform));
 		put("/icons/platform-all", new Icon(OpenAPIImages.PlatformAll));
 		put("/icons/platform-favorite", new Icon(OpenAPIImages.PlatformFavorite));
 		put("/icons/platform-folder-locked", new Icon(OpenAPIImages.PlatformFolderLocked));

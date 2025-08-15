@@ -25,8 +25,7 @@ public class DeleteJob extends WebAppProduce {
         if (payload instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) payload;
             String id = (String) map.get("id");
-            String quickgenId = (String) map.get("quickgenId");
-            CaptureService.getInstance(project).deleteJob(id, quickgenId);
+            CaptureService.getInstance(project).deleteJob(id);
         }
     }
 }

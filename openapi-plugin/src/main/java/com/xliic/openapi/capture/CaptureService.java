@@ -5,6 +5,8 @@ import static com.xliic.openapi.webapp.editor.WebFileEditor.CAPTURE_EDITOR_ID;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
@@ -23,7 +25,7 @@ import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.capture.payload.CaptureItem;
 import com.xliic.openapi.capture.payload.PrepareOptions;
-import com.xliic.openapi.capture.payload.ProgressStatus;
+import com.xliic.openapi.capture.payload.Status;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
@@ -59,15 +61,14 @@ public final class CaptureService implements ICaptureService, Disposable {
                 project.getMessageBus().syncPublisher(CaptureListener.TOPIC).showCaptureWindow(items));
     }
 
-    public void browseFiles(@NotNull String id, @NotNull List<String> files, @Nullable Map<String, Object> options) {
+    public void selectFiles(@Nullable String id, @NotNull List<String> files) {
         CaptureItem item;
-        if (!id.isEmpty()) {
+        if (id != null) {
             item = findItem(id);
             if (!files.isEmpty()) {
-                item.setFiles(files);
-            }
-            if (options != null) {
-                item.setPrepareOptions(PrepareOptions.getInstance(options));
+                Set<String> newFiles = new HashSet<>(item.getFiles());
+                newFiles.addAll(files);
+                item.setFiles(new LinkedList<>(newFiles));
             }
         } else {
             item = new CaptureItem(files);
@@ -75,25 +76,30 @@ public final class CaptureService implements ICaptureService, Disposable {
         }
         saveCapture(item);
     }
+    
+    @SuppressWarnings("unchecked")
+    public void saveCaptureSettings(@NotNull String id, @NotNull Map<String, Object> settings) {
+        CaptureItem item = findItem(id);
+        item.setPrepareOptions(PrepareOptions.getInstance((Map<String, Object>) settings.get("prepareOptions")));
+        item.setFiles((List<String>) settings.get("files"));
+    }
 
-    public void convert(@NotNull String id, @NotNull List<String> files, @NotNull PrepareOptions options) {
+    public void convert(@NotNull String id) {
 
         String anondToken = SettingsService.getInstance().getValue(Settings.Audit.TOKEN, "");
         CaptureItem item = findItem(id);
-        item.setPrepareOptions(options);
-        item.setFiles(files);
         item.setLog(new LinkedList<>());
         item.setDownloadedFile(null);
 
         // Handle the case when restart requested
-        if (item.getQuickgenId() != null && item.getProgressStatus() == ProgressStatus.Failed) {
+        if (item.getQuickgenId() != null && item.getStatus() == Status.FAILED) {
             try {
                 requestDelete(anondToken, item.getQuickgenId());
             } catch (Exception error) {
                 // Silent removal
             }
         }
-        item.setProgressStatus(ProgressStatus.InProgress);
+        item.setStatus(Status.RUNNING);
 
         // Prepare request -> capture server
         String quickgenId = "";
@@ -108,7 +114,7 @@ public final class CaptureService implements ICaptureService, Disposable {
         // Upload request -> capture server
         try {
             requestUpload(anondToken, quickgenId, item.getFiles(), percent -> {
-                if (item.getProgressStatus() != ProgressStatus.Failed) {
+                if (item.getStatus() != Status.FAILED) {
                     showPrepareUploadFileResponse(item, true, "", percent == 1.0, percent);
                 }
             });
@@ -130,8 +136,9 @@ public final class CaptureService implements ICaptureService, Disposable {
         refreshJobStatus(item, anondToken);
     }
 
-    public void downloadFile(@NotNull String id, @NotNull String quickgenId, @NotNull VirtualFile target) {
+    public void downloadFile(@NotNull String id, @NotNull VirtualFile target) {
         CaptureItem item = findItem(id);
+        String quickgenId = item.getQuickgenId();
         String anondToken = SettingsService.getInstance().getValue(Settings.Audit.TOKEN, "");
         try {
             String fileText = requestDownload(anondToken, quickgenId);
@@ -150,11 +157,13 @@ public final class CaptureService implements ICaptureService, Disposable {
         }
     }
 
-    public void deleteJob(@NotNull String id, @Nullable String quickgenId) {
+    public void deleteJob(@NotNull String id) {
         int index = -1;
+        String quickgenId = null;
         for (int i = 0; i < this.items.size(); i++) {
             if (id.equals(items.get(i).getId())) {
                 index = i;
+                quickgenId = items.get(i).getQuickgenId();
                 break;
             }
         }
@@ -272,11 +281,10 @@ public final class CaptureService implements ICaptureService, Disposable {
     private void showPrepareResponse(CaptureItem item, String quickgenId, boolean success, String error) {
         if (success) {
             item.setQuickgenId(quickgenId);
-            item.setProgressStatus(ProgressStatus.InProgress);
-            item.getLog().add("Job " + quickgenId + " has been created");
+            item.getLog().add("Created quickgen job");
         } else {
-            item.setProgressStatus(ProgressStatus.Failed);
-            item.getLog().add("Failed to prepare: " + error);
+            item.setStatus(Status.FAILED);
+            item.getLog().add("Failed to prepare quickgen job: " + error);
         }
         saveCapture(item);
     }
@@ -288,7 +296,7 @@ public final class CaptureService implements ICaptureService, Disposable {
                 if (log.get(log.size() - 1).startsWith("Uploading files")) {
                     log.set(log.size() - 1, "Uploading files: 100%");
                 }
-                log.add("All files have been uploaded");
+                log.add("All files successfully uploaded");
             } else {
                 percent = Math.ceil(100 * percent);
                 if (log.get(log.size() - 1).startsWith("Uploading files")) {
@@ -298,18 +306,18 @@ public final class CaptureService implements ICaptureService, Disposable {
                 }
             }
         } else {
-            item.setProgressStatus(ProgressStatus.Failed);
-            item.getLog().add("Failed to upload: " + error);
+            item.setStatus(Status.FAILED);
+            item.getLog().add("Failed to upload files: " + error);
         }
         saveCapture(item);
     }
 
     private void showExecutionStartResponse(CaptureItem item, boolean success, String message) {
         if (success) {
-            item.getLog().add("Job has been started");
+            item.getLog().add("Quickgen job started");
         } else {
-            item.setProgressStatus(ProgressStatus.Failed);
-            item.getLog().add("Job failed to start: " + message);
+            item.setStatus(Status.FAILED);
+            item.getLog().add("Quickgen job failed to start: " + message);
         }
         saveCapture(item);
     }
@@ -317,19 +325,19 @@ public final class CaptureService implements ICaptureService, Disposable {
     private void showExecutionStatusResponse(CaptureItem item, String status, boolean success, String error) {
         if (success) {
             List<String> log = item.getLog();
-            if (log.get(log.size() - 1).startsWith("Job status: ")) {
-                log.set(log.size() - 1, "Job status: " + status);
+            if (log.get(log.size() - 1).startsWith("Quickgen job ")) {
+                log.set(log.size() - 1, "Quickgen job " + status);
             } else {
-                log.add("Job status: " + status);
+                log.add("Quickgen job " + status);
             }
             if (Objects.equals(status, "finished")) {
-                item.setProgressStatus(ProgressStatus.Finished);
+                item.setStatus(Status.FINISHED);
             } else if (Objects.equals(status, "failed")) {
-                item.setProgressStatus(ProgressStatus.Failed);
+                item.setStatus(Status.FAILED);
             }
         } else {
-            item.setProgressStatus(ProgressStatus.Failed);
-            item.getLog().add("Job execution failed: " + error);
+            item.setStatus(Status.FAILED);
+            item.getLog().add("Quickgen job execution failed: " + error);
         }
         saveCapture(item);
     }

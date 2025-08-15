@@ -252,10 +252,10 @@
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
-            icon="icons/icon_42crunch_platform.png"
+            icon="icons/toolWindowCollectionsLogo.png"
             id="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
             inject="true"
-            name="42Crunch">
+            name="Collections">
         </view>
         <view
             allowMultiple="false"
@@ -444,11 +444,11 @@
                     icon="icons/config.png"
                     style="push">
                 </command>
-                <!-- <command
+                <command
                     commandId="com.xliic.openapi.capture.CaptureAction"
                     icon="icons/capture.png"
                     style="push">
-                </command> -->
+                </command>
                 <command
                     commandId="com.xliic.openapi.actions.SecurityAuditAction"
                     icon="icons/42crunch_icon.png"
