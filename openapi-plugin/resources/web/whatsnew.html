@@ -56,6 +56,11 @@
 		<script>
 			window.__EclipseJTools = {};
 			const host = { postMessage: (message) => window.__EclipseJTools.postMessage(JSON.stringify(message)) };
+			window.runIDECommand = function(event) {
+				if (event.detail.command === "changeTheme") {
+					setColors(event.detail.payload.theme);
+				}
+			};
 			function startWebApp() {
 				const anchors = document.getElementsByTagName('a');
 				Array.from(anchors).forEach(anchor => {
@@ -65,18 +70,11 @@
 					});
 				});
 			}
-			setColors($theme);
-			window.fireDOMContentLoaded = function() {
-				window.runIDECommand = function(event) {
-					if (event.detail.command === "changeTheme") {
-						setColors(event.detail.payload.theme);
-					}
-				};
-			};
 			function setColors(colors) {
-				document.body.style.background = colors.background;
-				document.body.style.color = colors.foreground;
+				document.body.style.background = colors.theme.background;
+				document.body.style.color = colors.theme.foreground;
 			}
+            setColors($theme);
 		</script>
     </body>
 </html>
