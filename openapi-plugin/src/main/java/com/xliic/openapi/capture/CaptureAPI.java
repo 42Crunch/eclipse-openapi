@@ -4,6 +4,8 @@ import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -31,11 +33,11 @@ public class CaptureAPI {
 
     public static Response upload(String token, String quickgenId,
                                   List<String> files,
-                                  ProgressRequestBody.ProgressListener listener) throws IOException {
+                                  ProgressRequestBody.ProgressListener listener) throws IOException, URISyntaxException {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
         for (String fileName : files) {
-            RequestBody part = new ProgressRequestBody(new File(fileName), "text/csv", listener);
+            RequestBody part = new ProgressRequestBody(new File(new URI(fileName)), "text/csv", listener);
             builder.addFormDataPart("file", fileName, part);
         }
         RequestBody body = builder.build();

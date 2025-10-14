@@ -1,21 +1,20 @@
 package com.xliic.openapi.capture.jcef.messages;
 
-import java.util.Map;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.xliic.core.project.Project;
 import com.xliic.openapi.capture.CaptureService;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class DeleteJob extends WebAppProduce {
+import java.util.Map;
+
+public class SaveCaptureSettings extends WebAppProduce {
 
     @NotNull
-    protected final Project project;
+    private final Project project;
 
-    public DeleteJob(@NotNull Project project) {
-        super("deleteJob", false, false, -1);
+    public SaveCaptureSettings(@NotNull Project project) {
+        super("saveCaptureSettings");
         this.project = project;
     }
 
@@ -25,7 +24,9 @@ public class DeleteJob extends WebAppProduce {
         if (payload instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) payload;
             String id = (String) map.get("id");
-            CaptureService.getInstance(project).deleteJob(id);
+            Map<String, Object> settings = (Map<String, Object>) map.get("settings");
+            CaptureService.getInstance(project).saveCaptureSettings(id, settings);
         }
     }
 }
+

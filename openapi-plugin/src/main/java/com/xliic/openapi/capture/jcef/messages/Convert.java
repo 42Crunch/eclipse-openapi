@@ -1,6 +1,5 @@
 package com.xliic.openapi.capture.jcef.messages;
 
-import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
 import com.xliic.openapi.capture.CaptureService;
-import com.xliic.openapi.capture.payload.PrepareOptions;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public class Convert extends WebAppProduce {
@@ -27,9 +25,7 @@ public class Convert extends WebAppProduce {
         if (payload instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) payload;
             String id = (String) map.get("id");
-            Map<String, Object> options = (Map<String, Object>) map.get("options");
-            List<String> files = (List<String>) map.get("files");
-            CaptureService.getInstance(project).convert(id, files, PrepareOptions.getInstance(options));
+            CaptureService.getInstance(project).convert(id);
         }
     }
 }
