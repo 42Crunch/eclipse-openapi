@@ -30,9 +30,9 @@ public class PlatformPanelView extends PanelViewPart {
     private static final String MEMENTO_DELIMETER = ",";
     private static final String FAVORITE_STATE_PATH = "com.xliic.openapi.platform.tree.PlatformFavoriteState";
     private static final String HREF_ID = "com.xliic.openapi.platform.tree.ui.PlatformPanelView";
-    
+
     public PlatformPanelView() {
-        super(ToolWindowId.PLATFORM);
+        super(ToolWindowId.COLLECTIONS);
     }
 
     @Override

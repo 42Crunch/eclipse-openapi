@@ -90,6 +90,7 @@ public class CaptureItem {
         this.downloadedFile = downloadedFile;
     }
 
+    @SuppressWarnings("serial")
     @NotNull
     public Map<String, Object> getPayload() {
         return new HashMap<>() {{
