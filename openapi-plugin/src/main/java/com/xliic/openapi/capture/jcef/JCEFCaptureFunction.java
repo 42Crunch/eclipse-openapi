@@ -11,10 +11,11 @@ import com.xliic.openapi.capture.jcef.messages.OpenFileLink;
 import com.xliic.openapi.capture.jcef.messages.SaveCaptureSettings;
 import com.xliic.openapi.capture.jcef.messages.SelectFiles;
 import com.xliic.openapi.webapp.WebAppFunction;
+import com.xliic.openapi.webapp.http.SendHttpRequest;
 
 public class JCEFCaptureFunction extends WebAppFunction {
 
-    public JCEFCaptureFunction(@NotNull Project project, Browser browser, String name) {
+    public JCEFCaptureFunction(@NotNull Project project, @NotNull String webAppId, Browser browser, String name) {
     	super(browser, name);
         add(new SelectFiles(project));
         add(new SaveCaptureSettings(project));
@@ -22,5 +23,6 @@ public class JCEFCaptureFunction extends WebAppFunction {
         add(new DownloadFile(project));
         add(new DeleteJob(project));
         add(new OpenFileLink(project));
+        add(new SendHttpRequest(project, webAppId));
     }
 }
