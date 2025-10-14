@@ -95,7 +95,7 @@ public class AuditCliTask extends Task.Backgroundable {
             if (result.hasError()) {
                 if (result.getStatusCode() == 3 && result.isLimitsReached()) {
                     ApplicationManager.getApplication().invokeAndWait(() -> {
-                        MsgUtils.offerUpgrade(project, isFullAudit);
+                        MsgUtils.offerUpgrade(project);
                         callback.cancel();
                     });
                 } else {

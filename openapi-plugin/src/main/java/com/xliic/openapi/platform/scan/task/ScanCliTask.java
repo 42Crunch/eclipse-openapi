@@ -166,7 +166,7 @@ public class ScanCliTask extends Task.Backgroundable {
             	Logger.getInstance(ScanCliTask.class).error("Error running Conformance Scan: " + ex);
                 if (ex.getCode() == 3 && ex.isLimitsReached()) {
                     ApplicationManager.getApplication().invokeAndWait(() -> {
-                        MsgUtils.offerUpgrade(project, isFullScan);
+                        MsgUtils.offerUpgrade(project);
                         callback.cancel();
                     });
                 } else {

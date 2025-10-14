@@ -34,10 +34,11 @@ public final class SignUpService implements ISignUpService, SettingsListener, Di
         return project.getService(SignUpService.class);
     }
 
-    public void createAndOpenSignUpWindow(@NotNull WizardCallback callback) {
+    public void createAndOpenSignUpWindow(@NotNull WizardCallback callback, @NotNull SignUpType type) {
         WindowUtils.openWebTab(project, SIGNUP_EDITOR_ID, SIGNUP, () -> {
             // Keep only latest user action which requires signup
             onSignUpCompleteCallback = callback;
+            project.getMessageBus().syncPublisher(SignUpListener.TOPIC).setSignUpType(type);
         });
     }
 

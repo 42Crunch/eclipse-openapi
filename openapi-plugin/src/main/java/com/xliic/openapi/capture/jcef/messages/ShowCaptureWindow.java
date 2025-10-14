@@ -1,14 +1,14 @@
 package com.xliic.openapi.capture.jcef.messages;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import com.xliic.openapi.capture.payload.CaptureItem;
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.openapi.capture.payload.CaptureItem;
-import com.xliic.openapi.webapp.messages.WebAppConsume;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class ShowCaptureWindow extends WebAppConsume {
 
@@ -23,10 +23,12 @@ public class ShowCaptureWindow extends WebAppConsume {
     @Override
     @Nullable
     protected Object getPayload() {
-        List<Map<String, Object>> result = new LinkedList<>();
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> itemsPayload = new LinkedList<>();
         for (CaptureItem item : items) {
-            result.add(item.getPayload());
+            itemsPayload.add(item.getPayload());
         }
+        result.put("items", itemsPayload);
         return result;
     }
 }
