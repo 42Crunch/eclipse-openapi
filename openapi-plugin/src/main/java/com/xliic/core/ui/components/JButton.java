@@ -14,7 +14,10 @@ public class JButton {
     private Button buttonWidget;
 
     public JButton(String name, int style, JPanel parent) {
-        Composite composite = parent.getComposite();
+        this(name, style, parent.getComposite());
+    }
+    
+    public JButton(String name, int style, Composite composite) {
         buttonWidget = new Button(composite, style);
         buttonWidget.setFont(composite.getFont());
         buttonWidget.setText(name);

@@ -31,15 +31,13 @@ public class DownloadFile extends WebAppProduce {
         if (payload instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) payload;
             String id = (String) map.get("id");
-            String quickgenId = (String) map.get("quickgenId");
-            String[] extensions = { "json" };
-            FileSaverDescriptor descriptor = new FileSaverDescriptor("Save", "Save openAPI file", extensions);
+            FileSaverDescriptor descriptor = new FileSaverDescriptor("Save", "Save openAPI file", "json");
             FileSaverDialog saveDialog = FileChooserFactory.getInstance().createSaveFileDialog(descriptor, project);
             VirtualFileWrapper wrapper = saveDialog.save(null);
             if (wrapper != null) {
                 VirtualFile target = wrapper.getVirtualFile(true);
                 if (target != null) {
-                    CaptureService.getInstance(project).downloadFile(id, quickgenId, target);
+                    CaptureService.getInstance(project).downloadFile(id, target);
                 } else {
                     MsgUtils.notifyError(project, "Failed to save OpenAPI file");
                 }

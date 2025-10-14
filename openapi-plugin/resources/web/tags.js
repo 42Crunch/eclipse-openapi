@@ -1,13 +1,14 @@
-import { j as r, c as re, d as ae, s as te, p as ne, a as se, t as ie, l as de, b as le, u as ce, e as l, T as g, R as w, f as N, g as ge, P as ue, n as pe, k as fe } from "./TriangleExclamation.D0e1MsJn.js";
-import { o as he, c as xe } from "./listener.vgvTfpyF.js";
-import { p as L, s as ve, u as me, r as k, a as be, I as je, b as we, S as ye, O as Ce, G as Ie, d as Te, e as Se, R as $e } from "./platform-api.Df994OKZ.js";
-import { l as ke, c as Ae } from "./slice.DMxzMSHa.js";
-import { E as H } from "./Banner.C66VmuCw.js";
-import { S as V } from "./TrashCan.C6TcXDL5.js";
-import { b as Le, u as j } from "./downshift.esm.Qr9p8HjF.js";
-import { S as He } from "./AngleDown.CaeaMDqj.js";
-import { S as De } from "./Check.ChIlL3ks.js";
-import { M as Ne, I as Oe, a as Pe } from "./Checkbox.B-x1ZKJW.js";
+import { j as r, c as re, d as ae, s as te, p as ne, a as se, t as ie, l as de, b as le, u as ce, e as l, T as g, R as w, f as N, g as ge, P as ue, n as pe, k as fe } from "./TriangleExclamation.BF0l2qmp.js";
+import { o as he, c as xe } from "./listener.D2KcFJJ2.js";
+import { s as me } from "./rtk-query.modern.BHWOgwdd.js";
+import { p as L, u as ve, r as k, a as be, I as je, b as we, S as ye, O as Ce, G as Ie, d as Te, e as Se, R as $e } from "./platform-api.fMbRCjUS.js";
+import { l as ke, c as Ae } from "./slice.Wby8vjGq.js";
+import { E as H } from "./Banner.DJqRRpsi.js";
+import { S as V } from "./TrashCan.Cpk_76bJ.js";
+import { b as Le, u as j } from "./downshift.esm.CNWwzIZU.js";
+import { S as He } from "./AngleDown.DPHqtS_5.js";
+import { S as De } from "./Check.DjPR0aUI.js";
+import { M as Ne, I as Oe, a as Pe } from "./Checkbox.BfgZ1TWA.js";
 const E = (o) => /* @__PURE__ */ r.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...o, children: /* @__PURE__ */ r.jsx("path", { d: "M345 39.1c-9.3-9.4-24.5-9.5-33.9-.2s-9.5 24.5-.2 33.9l127.7 129.3c33.9 34.3 33.9 89.4 0 123.7L326.7 439.1c-9.3 9.4-9.2 24.6.2 33.9s24.6 9.2 33.9-.2l112-113.2c52.4-53 52.4-138.2 0-191.2zM242.7 50.7c-12-12-28.3-18.7-45.3-18.7H48C21.5 32 0 53.5 0 80v149.5c0 17 6.7 33.3 18.7 45.3l168 168c25 25 65.5 25 90.5 0l133.5-133.5c25-25 25-65.5 0-90.5l-168-168zM48 80h149.5c4.2 0 8.3 1.7 11.3 4.7l168 168c6.2 6.2 6.2 16.4 0 22.6L243.3 408.8c-6.2 6.2-16.4 6.2-22.6 0l-168-168c-3-3-4.7-7.1-4.7-11.3zm96 64a32 32 0 1 0-64 0 32 32 0 1 0 64 0" }) }), Re = {
   targetFileName: "",
   tagData: void 0,
@@ -36,7 +37,7 @@ const E = (o) => /* @__PURE__ */ r.jsx("svg", { xmlns: "http://www.w3.org/2000/s
   loadTags: Be,
   saveTagsInStateOnly: Me,
   saveTags: I,
-  sendHttpRequest: Wo,
+  sendHttpRequest: Ko,
   showHttpResponse: Fe,
   showHttpError: Ve
 } = U.actions, Ee = U.reducer, G = ae(), O = G.startListening;
@@ -75,7 +76,7 @@ const Ge = {
       theme: a
     }
   });
-  return ve(s.dispatch), s;
+  return me(s.dispatch), s;
 }, z = () => ce(), P = le;
 function Q({
   options: o,
@@ -90,13 +91,13 @@ function Q({
     selectedItems: o
   }), { isOpen: f, getToggleButtonProps: A, getMenuProps: b, getInputProps: S, getItemProps: $ } = j({
     items: p,
-    itemToString(v) {
-      return v ? v.label : "null";
+    itemToString(m) {
+      return m ? m.label : "null";
     },
     inputValue: d,
-    stateReducer(v, h) {
-      const { changes: x, type: m } = h;
-      switch (m) {
+    stateReducer(m, h) {
+      const { changes: x, type: v } = h;
+      switch (v) {
         case j.stateChangeTypes.InputKeyDownEnter:
         case j.stateChangeTypes.ItemClick:
           return {
@@ -107,7 +108,7 @@ function Q({
           return x;
       }
     },
-    onStateChange({ inputValue: v, type: h, selectedItem: x }) {
+    onStateChange({ inputValue: m, type: h, selectedItem: x }) {
       switch (h) {
         case j.stateChangeTypes.InputKeyDownEnter:
         case j.stateChangeTypes.ItemClick:
@@ -115,7 +116,7 @@ function Q({
           x && (i(x), s || c(""));
           break;
         case j.stateChangeTypes.InputChange:
-          c(v || "");
+          c(m || "");
           break;
       }
     }
@@ -133,7 +134,7 @@ function Q({
       ),
       /* @__PURE__ */ r.jsx(He, { ...y })
     ] }),
-    /* @__PURE__ */ r.jsx(C, { ...b(), $isOpen: f, children: f && p.map((v, h) => /* @__PURE__ */ r.jsx(Xe, { ...$({ item: v, index: h }), children: n(v, h, d) }, `li-${h}`)) })
+    /* @__PURE__ */ r.jsx(C, { ...b(), $isOpen: f, children: f && p.map((m, h) => /* @__PURE__ */ r.jsx(Xe, { ...$({ item: m, index: h }), children: n(m, h, d) }, `li-${h}`)) })
   ] });
 }
 function T({ value: o, searchValue: a }) {
@@ -330,7 +331,7 @@ function R({
   onOptionRemoved: e,
   onOptionSelected: n
 }) {
-  const { data: i, error: d, isLoading: c } = o === "collection" ? me(void 0, k) : be(t(), k);
+  const { data: i, error: d, isLoading: c } = o === "collection" ? ve(void 0, k) : be(t(), k);
   let p = [];
   i && i.forEach(
     (f) => p.push({
@@ -533,12 +534,12 @@ function go({
         return e.filter((d) => Y(d.value, i));
       },
       renderer: (e, n, i) => /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
-        /* @__PURE__ */ r.jsx(mo, { children: /* @__PURE__ */ r.jsx(T, { value: e.value.categoryName, searchValue: i }) }),
+        /* @__PURE__ */ r.jsx(vo, { children: /* @__PURE__ */ r.jsx(T, { value: e.value.categoryName, searchValue: i }) }),
         e.value.tags.length > 0 && e.value.multipleChoicesAllowed && !e.value.onlyAdminCanTag && /* @__PURE__ */ r.jsx(bo, { children: "Multiple choices are allowed" }),
         e.value.onlyAdminCanTag && /* @__PURE__ */ r.jsx(jo, { children: "Only admin can tag" }),
         !e.value.onlyAdminCanTag && /* @__PURE__ */ r.jsxs(wo, { children: [
           !e.value.multipleChoicesAllowed && /* @__PURE__ */ r.jsx(
-            vo,
+            mo,
             {
               value: uo(e.value, a),
               children: e.value.tags.filter((d) => F(e.value, d, i)).map((d, c) => /* @__PURE__ */ r.jsx(
@@ -679,9 +680,9 @@ const ho = l(Pe)`
     background-color: var(${g.listHoverBackground});
     border-color: var(${g.border});
   }
-`, vo = l(Ie)`
+`, mo = l(Ie)`
   flex-direction: column;
-`, mo = l.span`
+`, vo = l.span`
   font-weight: bold;
 `, bo = l.span`
   font-weight: smaller;
@@ -714,23 +715,23 @@ function yo({
   N.useEffect(() => {
     S(u);
   }, [o]);
-  const $ = function(y, C, v) {
+  const $ = function(y, C, m) {
     const h = new Set(b);
-    if (v) {
+    if (m) {
       h.add(C);
       for (const x of p)
         if (x.categoryId === y && !x.multipleChoicesAllowed) {
-          for (const m of x.tags)
-            m.tagId !== C && h.delete(m.tagId);
+          for (const v of x.tags)
+            v.tagId !== C && h.delete(v.tagId);
           break;
         }
     } else if (C === "") {
       const x = /* @__PURE__ */ new Set();
       p.forEach(
-        (m) => m.tags.forEach((oe) => x.add(oe.tagId))
+        (v) => v.tags.forEach((oe) => x.add(oe.tagId))
       );
-      for (const m of b)
-        x.has(m) || h.delete(m);
+      for (const v of b)
+        x.has(v) || h.delete(v);
     } else
       h.delete(C);
     S(h), A(I(So(o, p, h)));
