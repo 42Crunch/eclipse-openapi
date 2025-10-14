@@ -105,6 +105,11 @@
             name="Clear All Properties">
         </command>
         <command
+            defaultHandler="com.xliic.openapi.actions.internal.ClearCredentialsAction"
+            id="com.xliic.openapi.actions.internal.ClearCredentialsAction"
+            name="Clear Credentials">
+        </command>
+        <command
             defaultHandler="com.xliic.openapi.actions.internal.GetIDEInfoAction"
             id="com.xliic.openapi.actions.internal.GetIDEInfoAction"
             name="Show IDE Info">
@@ -492,6 +497,10 @@
                 </command>
                 <command
                     commandId="com.xliic.openapi.actions.internal.ClearAllPropsAction"
+                    style="push">
+                </command> 
+                <command
+                    commandId="com.xliic.openapi.actions.internal.ClearCredentialsAction"
                     style="push">
                 </command> 
                 <command
