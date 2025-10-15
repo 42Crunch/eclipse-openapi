@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.equo.middleware.api.handler.IResponseConstants;
 import com.equo.middleware.api.resource.Request;
+import com.xliic.core.util.ResourceUtil;
 import com.xliic.openapi.utils.NetUtils;
 
 public class ResourceHandler {
@@ -29,8 +30,12 @@ public class ResourceHandler {
 
     public ResourceHandler(@NotNull String mimeType, @NotNull String resourceFileName) {
         this.mimeType = mimeType;
-        String text = NetUtils.getWebAppResource(getClass(), resourceFileName);
-        inputStream = new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8));
+        if (mimeType.startsWith("image/")) {
+            inputStream = ResourceUtil.getImageAsStream(getClass().getClassLoader(), resourceFileName);
+        } else {
+            String text = NetUtils.getWebAppResource(getClass(), resourceFileName);
+            inputStream = new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8));
+        }
     }
 
     public InputStream getResponseData(Request request, Map<String, String> headers) {

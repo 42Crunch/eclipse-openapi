@@ -43,6 +43,9 @@ public class SchemeHandlerFactory implements IResponseHandler {
                 return new ResourceHandler(getResourceIndexHTML(resourceId));
             } else if (url.endsWith(".js")) {
                 return new ResourceHandler("application/javascript", url.replace(HTTPS_SCHEMA_PREFIX, ""));
+            } else if (url.endsWith(".png")) {
+            	int lastSlash = url.lastIndexOf('/');
+            	return new ResourceHandler("image/png", url.substring(lastSlash + 1));
             }
         }
         return null;

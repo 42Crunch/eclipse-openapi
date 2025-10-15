@@ -32,4 +32,15 @@ public class ResourceUtil {
         }
         return null;
     }
+
+    public static InputStream getImageAsStream(ClassLoader classLoader, String fileName) {
+        try {
+            URL baseURL = OpenAPIAbstractUIPlugin.getInstance().getBundle().getEntry("/");
+            URL url = new URL(baseURL, "resources/images/" + fileName);
+            return classLoader.getResourceAsStream(url.getFile());
+        } catch (MalformedURLException e) {
+        	Logger.getInstance(ResourceUtil.class).error(e);
+        }
+        return null;
+    }
 }
