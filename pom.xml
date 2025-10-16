@@ -42,18 +42,18 @@
 		<repository>
             <id>Equo-Chromium SWT</id>
             <layout>p2</layout>
-  			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/swt/128.0.10/repository</url>
+  			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/swt/128.0.21/repository</url>
 		</repository> 
 
 		<repository>
 			<id>Equo-Chromium CEF</id>
             <layout>p2</layout>
-            <url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/128.0.10/repository</url>
+            <url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/128.0.21/repository</url>
         </repository>
 
 		<repository>
 			<id>Equo-Chromium CEF (ARM)</id>
-			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/128.0.10-arm/repository</url>
+			<url>https://dl.equo.dev/chromium-swt-ee/42crunch/p2/cef/128.0.21-arm/repository</url>
 			<layout>p2</layout>
 		</repository>
 
