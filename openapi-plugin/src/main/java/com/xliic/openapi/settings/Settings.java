@@ -65,6 +65,7 @@ public class Settings {
         public static class Scan {
 
             public static final String IMAGE = "com.xliic.openapi.settings.platform.scan.image";
+            public static final String PROXY = "com.xliic.openapi.settings.platform.scan.proxy";
             public static final String SERVICES = "com.xliic.openapi.settings.platform.scan.services";
             public static final String ENV_DEFAULT_KEY = "com.xliic.openapi.settings.platform.scan.default.env";
             public static final String ENV_SECRETS_KEY = "com.xliic.openapi.settings.platform.scan.secrets.env";

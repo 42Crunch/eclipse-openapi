@@ -24,6 +24,7 @@ const c = {
     auditRuntime: "platform",
     scanRuntime: "docker",
     scanImage: "",
+    scanProxy: "",
     docker: {
       replaceLocalhost: !0,
       useHostNetwork: !0
@@ -149,8 +150,8 @@ const {
   showCliTest: M,
   downloadCli: E,
   showCliDownload: H,
-  openLink: k
-} = a.actions, O = s, P = l, b = a.reducer;
+  openLink: P
+} = a.actions, k = s, O = l, b = a.reducer;
 export {
   R as a,
   M as b,
@@ -158,7 +159,7 @@ export {
   S as d,
   h as e,
   T as f,
-  P as g,
+  O as g,
   g as h,
   E as i,
   D as j,
@@ -166,10 +167,10 @@ export {
   f as l,
   C as m,
   v as n,
-  k as o,
+  P as o,
   m as p,
   F as r,
   H as s,
   w as t,
-  O as u
+  k as u
 };

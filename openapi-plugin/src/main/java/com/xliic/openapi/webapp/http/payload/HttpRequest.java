@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,19 +30,23 @@ public class HttpRequest {
     @Nullable
     protected final String id;
     protected final boolean rejectUnauthorized;
-
+    @Nullable
+    protected final String proxy;
+    
     public HttpRequest(@NotNull String url,
                        @NotNull String method,
                        @NotNull Map<String, String> headers,
                        @Nullable Object body,
                        @Nullable String id,
-                       boolean rejectUnauthorized) {
+                       boolean rejectUnauthorized,
+                       @Nullable String proxy) {
         this.url = url;
         this.method = method;
         this.headers = headers;
         this.body = body;
         this.id = id;
         this.rejectUnauthorized = rejectUnauthorized;
+        this.proxy = proxy;
     }
 
     @NotNull @SuppressWarnings("unchecked")
@@ -113,5 +118,13 @@ public class HttpRequest {
 
     public @Nullable String getId() {
         return id;
+    }
+    
+    public @Nullable String getProxy() {
+        return proxy;
+    }
+
+    public boolean hasCustomProxy() {
+        return !StringUtils.isEmpty(proxy);
     }
 }

@@ -4,8 +4,8 @@ import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.MsgUtils.notifyScansLimit;
-import static com.xliic.openapi.utils.NetUtils.getProxyString;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
+import static com.xliic.openapi.cli.CliUtils.setProxyEnv;
 
 import java.io.File;
 import java.io.IOException;
@@ -142,11 +142,7 @@ public class ScanCliTask extends Task.Backgroundable {
                     serverUrl = con.getPlatformUrl();
                     Logger.getInstance(ScanCliTask.class).debug("Setting PLATFORM_HOST environment variable to: " + serverUrl);
                 }
-                String httpProxy = getProxyString(serverUrl);
-                if (httpProxy != null) {
-                    env.put("HTTPS_PROXY", httpProxy);
-                    Logger.getInstance(ScanCliTask.class).debug("Setting HTTPS_PROXY environment variable to " + httpProxy);
-                }
+                setProxyEnv(env, serverUrl, env.get("SCAN42C_HOST"));
                 String output = ExecUtils.asyncExecFile(cli, args, scanTmpDir, env);
                 Node out = Utils.getJsonAST(output);
                 if (out != null) {

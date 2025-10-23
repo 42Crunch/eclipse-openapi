@@ -1,6 +1,6 @@
 package com.xliic.openapi.report;
 
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 
 import java.io.IOException;
 
@@ -24,20 +24,20 @@ public class AuditAPIs {
         @NotNull
         public static Response getKDB() throws IOException {
             Request request = getRequestBuilder(Endpoints.getKdbUrl()).build();
-            return HTTP_CLIENT.newCall(request).execute();
+            return getHttpClient().newCall(request).execute();
         }
 
         @NotNull
         public static Response getTokenByEmail(@NotNull String email, boolean optIn) throws IOException {
             RequestBody body = new FormBody.Builder().add("email", email).add("opt-in", String.valueOf(optIn)).build();
             Request request = getRequestBuilder(Endpoints.getFreemiumdUrl() + "/api/v1/anon/token").post(body).build();
-            return HTTP_CLIENT.newCall(request).execute();
+            return getHttpClient().newCall(request).execute();
         }
     }
 
     public static void getKDB(@NotNull Callback callback) throws IOException {
         Request request = getRequestBuilder(Endpoints.getKdbUrl()).build();
-        HTTP_CLIENT.newCall(request).enqueue(callback);
+        getHttpClient().newCall(request).enqueue(callback);
     }
 
     private static Request.Builder getRequestBuilder(String url) {

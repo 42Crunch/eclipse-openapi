@@ -2,7 +2,7 @@ package com.xliic.openapi.refs.external;
 
 import static com.xliic.openapi.quickfix.QuickFix.formatFixText;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
@@ -101,7 +101,7 @@ public class ExtRef {
             builder.addHeader(hostConfig.getHeaderName(), hostConfig.getHeaderValue());
         }
         Request request = builder.url(url).build();
-        Response response = HTTP_CLIENT.newCall(request).execute();
+        Response response = getHttpClient().newCall(request).execute();
         contentType = getContentType(url.toString(), response);
         if (contentType == null) {
             throw new WorkspaceException("Failed to get content type for " + url);

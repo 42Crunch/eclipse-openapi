@@ -1,6 +1,6 @@
 package com.xliic.openapi.capture;
 
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 import java.io.File;
@@ -26,7 +26,7 @@ public class CaptureAPI {
             put("servers", prepareOptions.getServers());
         }}));
         Request request = getRequestBuilder("prepare", token).post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response upload(String token, String quickgenId,
@@ -40,28 +40,28 @@ public class CaptureAPI {
         }
         RequestBody body = builder.build();
         Request request = getRequestBuilder(String.format("%s/prepare/upload-file", quickgenId), token).post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response start(String token, String quickgenId) throws IOException {
         RequestBody body = RequestBody.create("", null);
         Request request = getRequestBuilder(String.format("%s/execution/start", quickgenId), token).post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response status(String token, String quickgenId) throws IOException {
         Request request = getRequestBuilder(String.format("%s/execution/status", quickgenId), token).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response download(String token, String quickgenId) throws IOException {
         Request request = getRequestBuilder(String.format("%s/results/openapi", quickgenId), token).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response delete(String token, String quickgenId) throws IOException {
         Request request = getRequestBuilder(String.format("%s/delete", quickgenId), token).delete().build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     private static Request.Builder getRequestBuilder(String url, String token) throws IOException {

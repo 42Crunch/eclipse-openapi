@@ -1,5 +1,6 @@
 package com.xliic.openapi.platform.scan.task;
 
+import static com.xliic.openapi.cli.CliUtils.setProxyEnv;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.USE_HOST_NETWORK;
 
 import java.util.LinkedList;
@@ -35,7 +36,8 @@ public class ScanDockerTask extends ScanRunTask {
 
         env.put("SCAN_TOKEN", token);
         env.put("PLATFORM_SERVICE", service);
-
+        setProxyEnv(env, "https://" + env.get("PLATFORM_SERVICE"), env.get("SCAN42C_HOST"));
+        
         List<String> cmdList = new LinkedList<>();
         boolean useHostNetwork = SettingsService.getInstance().getBoolean(USE_HOST_NETWORK) &&
         		(SystemInfoRt.isLinux || SystemInfoRt.isFreeBSD);

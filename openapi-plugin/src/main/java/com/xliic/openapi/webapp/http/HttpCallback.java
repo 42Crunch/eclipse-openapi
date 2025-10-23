@@ -49,16 +49,16 @@ public class HttpCallback implements Callback {
                 fireHttpResponseError(new HttpResponse(httpVersion, statusCode, statusMessage, headers, body.string(), requestId));
             }
         } catch (IOException e) {
-            fireHttpErrorEvent(new HttpError(e.getMessage(), requestId, false));
+            fireHttpErrorEvent(new HttpError(e.toString(), requestId, false));
         }
     }
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        onFailure(e.getMessage(), HttpResponse.isSslError(e));
+        onFailure(e.toString(), HttpResponse.isSslError(e));
     }
 
     public void onFailure(@NotNull Throwable t) {
-        onFailure(t.getMessage(), false);
+        onFailure(t.toString(), false);
     }
 
     public void onFailure(@NotNull String msg, boolean sslError) {
