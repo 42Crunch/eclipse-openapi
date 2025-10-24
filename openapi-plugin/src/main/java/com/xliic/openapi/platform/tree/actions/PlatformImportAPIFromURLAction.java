@@ -1,7 +1,7 @@
 package com.xliic.openapi.platform.tree.actions;
 
 import static com.xliic.openapi.tags.TagsUtils.getMandatoryTagIds;
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 
 import java.util.Set;
 
@@ -68,7 +68,7 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
             String href = chooser.getValue();
             if (!StringUtils.isEmpty(href)) {
                 Request request = new Request.Builder().url(href).build();
-                try (Response response = HTTP_CLIENT.newCall(request).execute()) {
+                try (Response response = getHttpClient().newCall(request).execute()) {
                     ResponseBody body = response.body();
                     if (body != null) {
                         String text = body.string().trim();

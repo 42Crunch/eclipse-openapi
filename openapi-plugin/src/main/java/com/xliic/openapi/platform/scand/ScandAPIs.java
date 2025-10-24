@@ -1,7 +1,7 @@
 package com.xliic.openapi.platform.scand;
 
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.AUTH_HEADER;
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 import static com.xliic.openapi.utils.NetUtils.getOkHttpClientForTest;
 
@@ -36,24 +36,24 @@ public class ScandAPIs {
                 put("env", env);
             }}));
             Request request = getRequestBuilder("api/job", true).post(body).build();
-            return HTTP_CLIENT.newCall(request).execute();
+            return getHttpClient().newCall(request).execute();
         }
 
         @NotNull
         public static Response readJobStatus(@NotNull String name) throws IOException {
             Request request = getRequestBuilder(String.format("api/job/%s", name), true).build();
-            return HTTP_CLIENT.newCall(request).execute();
+            return getHttpClient().newCall(request).execute();
         }
 
         @NotNull
         public static Response readJobLog(@NotNull String name) throws IOException {
             Request request = getRequestBuilder(String.format("api/logs/%s", name), false).build();
-            return HTTP_CLIENT.newCall(request).execute();
+            return getHttpClient().newCall(request).execute();
         }
 
         public static void deleteJob(@NotNull String name) throws IOException {
             Request request = getRequestBuilder(String.format("api/job/%s", name), true).delete().build();
-            HTTP_CLIENT.newCall(request).execute().close();
+            getHttpClient().newCall(request).execute().close();
         }
 
         @NotNull

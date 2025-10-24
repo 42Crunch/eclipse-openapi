@@ -1,6 +1,6 @@
 package com.xliic.openapi.platform.scan;
 
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 import static com.xliic.openapi.utils.NetUtils.getOkHttpClientForTest;
 
@@ -30,13 +30,13 @@ public class ScanAPIs {
     @NotNull
     public static Response listScanReports(@NotNull String apiId) throws IOException {
         Request request = PlatformAPIs.getRequestBuilder(String.format("api/v2/apis/%s/scanReports", apiId)).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     @NotNull
     public static Response listScanConfigs(@NotNull String apiId) throws IOException {
         Request request = PlatformAPIs.getRequestBuilder(String.format("api/v2/apis/%s/scanConfigurations", apiId)).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     @NotNull
@@ -54,25 +54,25 @@ public class ScanAPIs {
 			}
 		}}));
 		Request request = PlatformAPIs.getRequestBuilder(String.format("api/v2/apis/%s/scanConfigurations", apiId)).post(body).build();
-		return HTTP_CLIENT.newCall(request).execute();
+		return getHttpClient().newCall(request).execute();
 	}
 
     @NotNull
     public static Response readScanReport(@NotNull String reportId) throws IOException {
         Request request = PlatformAPIs.getRequestBuilder(String.format("api/v2/scanReports/%s", reportId)).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static void deleteAPI(String apiId) throws IOException {
         Request request = PlatformAPIs.getRequestBuilder(String.format("api/v1/apis/%s", apiId)).delete().build();
-        Response response = HTTP_CLIENT.newCall(request).execute();
+        Response response = getHttpClient().newCall(request).execute();
         response.close();
     }
 
     @NotNull
     public static Response readScanConfig(@NotNull String configId) throws IOException {
         Request request = PlatformAPIs.getRequestBuilder(String.format("api/v2/scanConfigurations/%s", configId)).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     @NotNull
@@ -82,13 +82,13 @@ public class ScanAPIs {
             put("name", "default");
         }}));
         Request request = PlatformAPIs.getRequestBuilder(String.format("api/v2/apis/%s/scanConfigurations/default", apiId)).post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     @NotNull
     public static Response searchCollections(@NotNull String name) throws IOException {
         Request request = PlatformAPIs.getRequestBuilder(String.format("api/v1/search/collections?collectionName=%s", name)).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     @NotNull
@@ -98,7 +98,7 @@ public class ScanAPIs {
             put("name", name);
         }}));
         Request request = PlatformAPIs.getRequestBuilder("api/v1/collections").post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     @NotNull
@@ -114,6 +114,6 @@ public class ScanAPIs {
             put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
         }}));
         Request request = PlatformAPIs.getRequestBuilder("api/v2/apis").post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 }

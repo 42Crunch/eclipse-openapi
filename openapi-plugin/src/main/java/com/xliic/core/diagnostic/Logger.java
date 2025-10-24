@@ -32,15 +32,15 @@ public class Logger {
     }
 
     public void info(@NotNull Throwable t) {
-    	log.info("Exception: " + t.getMessage(), t);
+    	log.info("Exception: " + t, t);
     }
 
     public void warn(@NotNull Throwable t) {
-        log.warn("Exception: " + t.getMessage(), t);
+        log.warn("Exception: " + t, t);
     }
 
     public void error(@NotNull Throwable t) {
-    	log.error("Exception: " + t.getMessage(), t);
+    	log.error("Exception: " + t, t);
     }
 
     public void info(@NotNull String msg) {
@@ -49,6 +49,10 @@ public class Logger {
 
     public void warn(@NotNull String msg) {
     	log.warn(msg);
+    }
+    
+    public void warn(@NotNull String msg, @NotNull Throwable t) {
+    	log.warn(msg + ": " + t);
     }
 
     public void error(@NotNull String msg) {

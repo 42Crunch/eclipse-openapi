@@ -1,6 +1,6 @@
 package com.xliic.openapi.cli;
 
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class CliAPIs {
         @NotNull
         public static Response getManifest(String repository) throws IOException {
             Request request = getRequestBuilder(repository + "/42c-ast-manifest.json").build();
-            return HTTP_CLIENT.newCall(request).execute();
+            return getHttpClient().newCall(request).execute();
         }
     }
 

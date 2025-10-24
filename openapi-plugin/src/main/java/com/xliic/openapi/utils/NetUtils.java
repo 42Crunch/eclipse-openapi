@@ -12,12 +12,19 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +40,12 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.proxy.CustomAuthenticator;
 import com.xliic.openapi.proxy.CustomProxyAuthentication;
 import com.xliic.openapi.proxy.CustomProxySelector;
+import com.xliic.openapi.proxy.PredefinedAuthenticator;
+import com.xliic.openapi.proxy.PredefinedProxySelector;
 import com.xliic.openapi.proxy.ProxyEventListener;
 import com.xliic.openapi.report.AuditAPIs;
+import com.xliic.openapi.tryit.TryItTrustManager;
+import com.xliic.openapi.webapp.http.SendHttpRequest;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -44,17 +55,36 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class NetUtils {
-	
-    // All callers must use this client because it takes care of proxy configuration and authentication
-    // Also OkHttp performs best when you create a single OkHttpClient instance and reuse it for all of your HTTP calls
-    // Do not create other clients, use HTTP_CLIENT.newBuilder() if you need to customize
-    // But do not forget to set proxy handlers again (see getOkHttpClientForTest as example)
-    public static final OkHttpClient HTTP_CLIENT = getOkHttpClient();
-    
+
+    // OkHttpClient keeps using old proxy for an existing connection even in dynamic proxy selectors
+    // The client caches DNS and connection information, which can cause it to continue using old proxy settings
+    // The safest why to fix that is to create a new OkHttpClient instance with newBuilder()
+    private static final OkHttpClient HTTP_CLIENT = new OkHttpClient.Builder().build();
+
     public interface ProgressListener {
         void update(long bytesRead, long contentLength, boolean done, @NotNull String hash);
     }
-    
+
+    @NotNull
+    public static OkHttpClient getHttpClient() {
+        return getHttpClient(null);
+    }
+
+    @NotNull
+    public static OkHttpClient getHttpClient(@Nullable String proxy) {
+        OkHttpClient.Builder builder = HTTP_CLIENT.newBuilder();
+        if (proxy == null) {
+            builder.proxySelector(new CustomProxySelector());
+            builder.proxyAuthenticator(new CustomAuthenticator());
+        } else {
+            builder.proxySelector(new PredefinedProxySelector(proxy));
+            builder.proxyAuthenticator(new PredefinedAuthenticator(proxy));
+        }
+        builder.eventListener(new ProxyEventListener());
+        return builder.build();
+    }
+
+    @NotNull
     public static OkHttpClient getOkHttpClientForTest() {
         OkHttpClient.Builder builder = HTTP_CLIENT.newBuilder();
         builder.proxySelector(new CustomProxySelector());
@@ -64,12 +94,34 @@ public class NetUtils {
         return builder.build();
     }
 
-    private static OkHttpClient getOkHttpClient() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.proxySelector(new CustomProxySelector());
-        builder.proxyAuthenticator(new CustomAuthenticator());
-        builder.eventListener(new ProxyEventListener());
-        return builder.build();
+    @Nullable
+    public static OkHttpClient getSSLClient() {
+        return getSSLClient(null);
+    }
+
+    @Nullable
+    public static OkHttpClient getSSLClient(@Nullable String proxy) {
+        OkHttpClient.Builder builder = HTTP_CLIENT.newBuilder();
+        TrustManager[] trustAllCerts = new TrustManager[] { new TryItTrustManager() };
+        try {
+            SSLContext context = SSLContext.getInstance("SSL");
+            context.init(null, trustAllCerts, new java.security.SecureRandom());
+            SSLSocketFactory trustAllSslSocketFactory = context.getSocketFactory();
+            builder.sslSocketFactory(trustAllSslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+            builder.hostnameVerifier((hostname, session) -> true);
+            if (proxy == null) {
+                builder.proxySelector(new CustomProxySelector());
+                builder.proxyAuthenticator(new CustomAuthenticator());
+            } else {
+                builder.proxySelector(new PredefinedProxySelector(proxy));
+                builder.proxyAuthenticator(new PredefinedAuthenticator(proxy));
+            }
+            builder.eventListener(new ProxyEventListener());
+            return builder.build();
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            Logger.getInstance(SendHttpRequest.class).info(e);
+        }
+        return null;
     }
 
     @Nullable
@@ -109,7 +161,7 @@ public class NetUtils {
         }
         return null;
     }
-    
+
     public static void download(@NotNull String url, @NotNull String filePath, @NotNull ProgressListener listener) throws Exception {
         Response response = HTTP_CLIENT.newCall(new Request.Builder().url(url).get().build()).execute();
         ResponseBody body = Objects.requireNonNull(response.body());

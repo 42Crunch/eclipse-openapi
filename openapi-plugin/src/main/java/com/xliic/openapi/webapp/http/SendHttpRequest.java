@@ -1,29 +1,17 @@
 package com.xliic.openapi.webapp.http;
 
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
+import static com.xliic.openapi.utils.NetUtils.getSSLClient;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.project.Project;
-import com.xliic.openapi.proxy.CustomAuthenticator;
-import com.xliic.openapi.proxy.CustomProxySelector;
-import com.xliic.openapi.proxy.ProxyEventListener;
-import com.xliic.openapi.services.TryItService;
-import com.xliic.openapi.tryit.TryItTrustManager;
 import com.xliic.openapi.webapp.http.payload.HttpRequest;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
 
@@ -33,8 +21,6 @@ import okhttp3.RequestBody;
 import okhttp3.internal.http.HttpMethod;
 
 public class SendHttpRequest extends WebAppProduce {
-
-    private static final OkHttpClient SSL_CLIENT = getSSLClient(HTTP_CLIENT.newBuilder());
 
     @NotNull
     private final Project project;
@@ -59,9 +45,10 @@ public class SendHttpRequest extends WebAppProduce {
             String method = (String) request.get("method");
             Map<String, String> headers = (Map<String, String>) request.get("headers");
             boolean rejectUnauthorized = (Boolean) https.get("rejectUnauthorized");
+            String proxy = (String) https.get("proxy");
             Object body = request.get("body");
             String id = (String) map.get("id");
-            HttpRequest httpRequest = new HttpRequest(url, method, headers, body, id, rejectUnauthorized);
+            HttpRequest httpRequest = new HttpRequest(url, method, headers, body, id, rejectUnauthorized, proxy);
             send(httpRequest, new HttpCallback(project, webAppId, httpRequest.getId()));
         }
     }
@@ -83,14 +70,29 @@ public class SendHttpRequest extends WebAppProduce {
                 builder.addHeader(header.getKey(), header.getValue());
             }
             if (request.isHTTPS() && !request.isRejectUnauthorized()) {
-                if (SSL_CLIENT == null) {
-                    callback.onFailure("Failed to setup SSL context", true);
+                if (request.hasCustomProxy()) {
+                    String proxy = request.getProxy();
+                    OkHttpClient sslProxyClient = getSSLClient(proxy);
+                    if (sslProxyClient != null) {
+                        sslProxyClient.newCall(builder.build()).enqueue(callback);
+                    } else {
+                        callback.onFailure("Failed to initialize SSL client with proxy " + proxy, true);
+                    }
                 } else {
-                	SSL_CLIENT.newCall(builder.build()).enqueue(callback);
+                    OkHttpClient sslClient = getSSLClient();
+                    if (sslClient != null) {
+                        sslClient.newCall(builder.build()).enqueue(callback);
+                    } else {
+                        callback.onFailure("Failed to initialize SSL client", true);
+                    }
                 }
                 return;
             }
-            HTTP_CLIENT.newCall(builder.build()).enqueue(callback);
+            if (request.hasCustomProxy()) {
+                getHttpClient(request.getProxy()).newCall(builder.build()).enqueue(callback);
+            } else {
+            	getHttpClient().newCall(builder.build()).enqueue(callback);
+            }
         } catch (Throwable t) {
             callback.onFailure(t);
         }
@@ -119,23 +121,5 @@ public class SendHttpRequest extends WebAppProduce {
             return false;
         }
         return true;
-    }
-
-    private static OkHttpClient getSSLClient(OkHttpClient.Builder builder) {
-        TrustManager[] trustAllCerts = new TrustManager[] { new TryItTrustManager() };
-        try {
-            SSLContext context = SSLContext.getInstance("SSL");
-            context.init(null, trustAllCerts, new java.security.SecureRandom());
-            SSLSocketFactory trustAllSslSocketFactory = context.getSocketFactory();
-            builder.sslSocketFactory(trustAllSslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-            builder.hostnameVerifier((hostname, session) -> true);
-            builder.proxySelector(new CustomProxySelector());
-            builder.proxyAuthenticator(new CustomAuthenticator());
-            builder.eventListener(new ProxyEventListener());
-            return builder.build();
-        } catch (NoSuchAlgorithmException | KeyManagementException e) {
-            Logger.getInstance(TryItService.class).error(e);
-        }
-        return null;
     }
 }

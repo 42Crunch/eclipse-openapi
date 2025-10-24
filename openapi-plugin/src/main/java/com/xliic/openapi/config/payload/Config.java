@@ -34,6 +34,8 @@ public class Config {
     @NotNull
     private final String scanImage;
     @NotNull
+    private final String scanProxy;
+    @NotNull
     private final String scanRuntime;
     @NotNull
     private final PlatformServices platformServices;
@@ -71,6 +73,7 @@ public class Config {
         platformAuthType  = settingsService.getValue(Settings.Platform.Credentials.AUTH_TYPE, "");
         anondToken = settingsService.getValue(Settings.Audit.TOKEN, "");
         scanImage = settingsService.getValue(Settings.Platform.Scan.IMAGE, "");
+        scanProxy = settingsService.getValue(Settings.Platform.Scan.PROXY, "");
         scanRuntime = settingsService.getValue(Settings.Platform.Scan.RUNTIME, Settings.Platform.Scan.RUNTIME_DOCKER);
         platformServices = new PlatformServices();
         scandManager = new ScandManagerConnection();
@@ -103,6 +106,10 @@ public class Config {
 
     public @NotNull String getScanImage() {
         return scanImage;
+    }
+    
+    public @NotNull String getScanProxy() {
+        return scanProxy;
     }
 
     public @NotNull String getScanRuntime() {

@@ -6,8 +6,11 @@ import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.NetUtils.getProxyString;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
+import static com.xliic.openapi.settings.Settings.Platform.Scan.PROXY;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -152,11 +155,7 @@ public class CliUtils {
                 serverUrl = con.getPlatformUrl();
                 Logger.getInstance(CliUtils.class).debug("Setting PLATFORM_HOST environment variable to: " + serverUrl);
             }
-            String httpProxy = getProxyString(serverUrl);
-            if (httpProxy != null) {
-                env.put("HTTPS_PROXY", httpProxy);
-                Logger.getInstance(CliUtils.class).debug("Setting HTTPS_PROXY environment variable to: " + httpProxy);
-            }
+            setProxyEnv(env, serverUrl, null);
             String output = ExecUtils.asyncExecFile(cli, args, dir, env);
             String report = FileUtils.readFile(dir, "report.json");
             String todo = FileUtils.readFile(dir, "todo.json");
@@ -245,5 +244,44 @@ public class CliUtils {
             return "linux-amd64";
         }
         return null;
+    }
+    
+    public static void setProxyEnv(@NotNull Map<String, String> env, @NotNull String backendUrl, @Nullable String apiUrl) {
+        String backendProxy = getProxyString(backendUrl);
+        if (backendProxy != null) {
+            env.put("HTTP_PROXY", backendProxy);
+            env.put("HTTPS_PROXY", backendProxy);
+            Logger.getInstance(CliUtils.class).debug("Setting HTTPS_PROXY and HTTP_PROXY environment variables to " + backendProxy);
+        }
+        if (apiUrl != null) {
+            String scanProxy = SettingsService.getInstance().getValue(PROXY);
+            if (!StringUtils.isEmpty(scanProxy)) {
+                env.put("HTTP_PROXY_API", scanProxy);
+                env.put("HTTPS_PROXY_API", scanProxy);
+                Logger.getInstance(CliUtils.class).debug("Set HTTPS_PROXY_API and HTTP_PROXY_API " +
+                        "environment variables using 'API Scan proxy' setting to: " + scanProxy);
+            } else {
+                String apiProxy = getProxyString(apiUrl);
+                if (apiProxy != null) {
+                    env.put("HTTP_PROXY_API", apiProxy);
+                    env.put("HTTPS_PROXY_API", apiProxy);
+                    Logger.getInstance(CliUtils.class).debug("Set HTTPS_PROXY_API and HTTP_PROXY_API environment variables to: " + apiProxy);
+                } else {
+                    URL parsedApiUrl = getURL(apiUrl);
+                    if (parsedApiUrl != null && !StringUtils.isEmpty(parsedApiUrl.getHost())) {
+                        env.put("NO_PROXY", parsedApiUrl.getHost());
+                        Logger.getInstance(CliUtils.class).debug("Setting NO_PROXY for API host: " + parsedApiUrl.getHost());
+                    }
+                }
+            }
+        }
+    }
+    
+    private static URL getURL(String url) {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            return null;
+        }
     }
 }
