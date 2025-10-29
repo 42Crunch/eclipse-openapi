@@ -1,30 +1,31 @@
-import { j as a, f as $, v as Dp, w as At, c as Yn, i as Qn, a as $p, p as Pp, x as zp, r as Ap, t as Rp, l as Np, u as Mp, b as qp, e as S, T as k, S as ct, y as Fp, z as Lp, A as Bp, C as cr, D as ea, E as ta, F as na, G as ra, H as oa, B as ud, I as ia, J as dd, O as sa, K as aa, m as fd, R as Tt, L as ds, M as ye, N as Up, Q as Hp, d as Vp, s as Wp, U as Gp, V as Kp, g as Xp, P as Yp, h as Qp, W as Jp, k as Zp } from "./TriangleExclamation.BpqlFGl9.js";
-import { a as Jn, S as eg } from "./SearchSidebar.B3jQN6uR.js";
-import { q as tg, v as zo, x as ng, y as hd, t as zn, r as An, o as Rt, f as la, D as ca, z as pd, A as Nr, B as gd, C as md, i as ua, d as _r, F as rg, G as Rl, H as yd, I as og, J as ig, K as sg, E as ag, g as lg, j as cg } from "./variables.ze7E1hZD.js";
-import { l as ug, c as dg } from "./slice.DwBUGlQH.js";
-import { l as fg, e as hg, c as it, s as vd, H as pg } from "./index.DPcRHHv9.js";
-import { l as gg, p as mg, u as yg, b as vg, c as xd, d as xg, e as bg, S as bd } from "./slice.BjKD6Vju.js";
-import { s as yt, g as kg, I as pe, S as wg, M as bt, a as Nt, b as Sg, c as jg, d as Cg, C as Nl, e as Ml, G as _g } from "./GeneralError.XlUbhePL.js";
-import { c as Eg, w as Zo, s as ei, o as Og } from "./listener.CdSWsSat.js";
-import { t as Tg, o as Zn, s as oe, f as Ig, a as ql, l as Fl, F as ut, c as Ze, b as Ll, d as Bl } from "./types.Bh3_WBou.js";
-import { S as Mr } from "./AngleDown.BkAy0nuo.js";
-import { S as Dg } from "./AngleUp.BYw8HKWc.js";
-import { S as $g, D as qr } from "./DescriptionTooltip.ChnkXcZ4.js";
-import { S as kd, P as Pg } from "./ProgressButton.D-UOd5wU.js";
-import { T as kt, C as zg } from "./Tabs.D978wxwd.js";
-import { C as pn, B as er, a as Ao, T as wd } from "./CollapsibleCard.HNpmvMGk.js";
-import { c as Sd, a as Ag, A as Rg, b as Ng, d as Mg, G as qg, L as Fg, e as Lg, f as Bg, g as Ug, h as Hg, i as Vg, S as Wg, j as Gg, k as Kg, l as Xg } from "./index.BB4HUxcU.js";
-import { d as jd, F as Cd, a as ae, u as gn, b as mn, c as Fr } from "./index.esm.BK0U62pm.js";
-import { T as Yg, I as nt } from "./Textarea.BSdF3Wts.js";
-import { S as ti } from "./ExclamationCircle.BZDZ8ecp.js";
-import { a as ni, u as ri } from "./downshift.esm.BilWsFyj.js";
-import { P as Qg, R as Jg, T as Zg, a as em, C as tm } from "./index.4GgKfp3M.js";
-import { a as nm, S as _d } from "./Switch.BvRE658q.js";
-import { S as Ye } from "./TrashCan.tMjt3t-E.js";
-import { S as Ul } from "./Select.Dq7QXAJf.js";
-import { o as rm, s as om } from "./listener.Dzash3X1.js";
-import { S as Lr } from "./index.BYh-FXa8.js";
-import { E as Qt } from "./Banner.B4d2g7Mo.js";
+import { j as a, f as $, v as Dp, w as At, c as Yn, i as Qn, a as $p, p as Pp, x as zp, r as Ap, t as Rp, l as Np, u as Mp, b as qp, e as S, T as k, S as ct, y as Fp, z as Lp, A as Bp, C as cr, D as ea, E as ta, F as na, G as ra, H as oa, B as ud, I as ia, J as dd, O as sa, K as aa, m as fd, R as Tt, L as ds, M as ye, N as Up, Q as Hp, d as Vp, s as Wp, U as Gp, V as Kp, g as Xp, P as Yp, h as Qp, W as Jp, k as Zp } from "./TriangleExclamation.DrtDYmuA.js";
+import { a as Jn, S as eg } from "./SearchSidebar.Ci4kBDjT.js";
+import { q as tg, v as zo, x as ng, y as hd, t as zn, r as An, o as Rt, f as la, D as ca, z as pd, A as Nr, B as gd, C as md, i as ua, d as _r, F as rg, G as Rl, H as yd, I as og, J as ig, K as sg, E as ag, g as lg, j as cg } from "./variables.DElIGxPf.js";
+import { l as ug, c as dg } from "./slice.CJJQpZuN.js";
+import { l as fg, e as hg, c as it, s as vd, H as pg } from "./index._qgotw_w.js";
+import { l as gg, p as mg, u as yg, b as vg, c as xd, d as xg, e as bg, S as bd } from "./slice.DIinnMJD.js";
+import { s as yt, g as kg, S as wg, M as bt, a as Nt, b as Sg, c as jg, d as Cg, C as Nl, e as Ml, G as _g } from "./GeneralError.DD1N1rnF.js";
+import { c as Eg, w as Zo, s as ei, o as Og } from "./listener.Cd9yvFW1.js";
+import { f as Tg, o as Zn, s as oe, g as Ig, a as ql, l as Fl, F as ut, c as Ze, b as Ll, d as Bl } from "./types.h_AaHWF9.js";
+import { S as Mr } from "./AngleDown.mnq0UxQI.js";
+import { S as Dg } from "./AngleUp.BzadahNt.js";
+import { S as $g, D as qr } from "./DescriptionTooltip.B-ro5uOC.js";
+import { S as kd, P as Pg } from "./ProgressButton.DrT-x9ld.js";
+import { T as kt, C as zg } from "./Tabs.DbA_NbZQ.js";
+import { C as pn, B as er, a as Ao, T as wd } from "./CollapsibleCard.O1PQKE1U.js";
+import { c as Sd, a as Ag, A as Rg, b as Ng, d as Mg, G as qg, L as Fg, e as Lg, f as Bg, g as Ug, h as Hg, i as Vg, S as Wg, j as Gg, k as Kg, l as Xg } from "./index.BC135G0X.js";
+import { d as jd, F as Cd, a as ae, u as gn, b as mn, c as Fr } from "./index.esm.B9REA_Vl.js";
+import { I as pe } from "./Input.RWnDfcXi.js";
+import { T as Yg, I as nt } from "./Textarea.CDYN1NOa.js";
+import { S as ti } from "./ExclamationCircle.B52mCnLi.js";
+import { a as ni, u as ri } from "./downshift.esm.B74gIEnU.js";
+import { P as Qg, R as Jg, T as Zg, a as em, C as tm } from "./index.BnYkte3L.js";
+import { a as nm, S as _d } from "./Switch.9_FKivxn.js";
+import { S as Ye } from "./TrashCan.C7YMAGUy.js";
+import { S as Ul } from "./Select.DFlflRyd.js";
+import { o as rm, s as om } from "./listener.SmuvmntO.js";
+import { S as Lr } from "./index.Us-mrztX.js";
+import { E as Qt } from "./Banner.xHM1dtia.js";
 const Ed = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M192 456c0 13.3-10.7 24-24 24H96c-53.02 0-96-42.98-96-96V128c0-53.02 42.98-96 96-96h72c13.3 0 24 10.74 24 24 0 13.25-10.7 24-24 24H96c-26.4 0-48 21.6-48 48v256c0 26.4 21.6 48 48 48h72c13.3 0 24 10.7 24 24m313.5-216.4-127.1-136c-9.094-9.688-24.28-10.12-33.91-1.031-9.656 9.062-10.12 24.25-1.031 33.91L432.4 232H183.1c-12.4 0-23.1 10.8-23.1 24s10.75 24 23.1 24h248.4l-89.92 95.56c-9.094 9.656-8.625 24.84 1.031 33.91C348.2 413.8 354.1 416 359.1 416c6.375 0 12.75-2.531 17.47-7.562l127.1-136C514.2 263.2 514.2 248.8 505.5 239.6" }) }), Od = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 576 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M200 32h-80c-30.93 0-56 25.07-56 56v77.5a39.84 39.84 0 0 1-11.67 28.17L7 239c-4.5 4.5-7 10.6-7 17 0 6.375 2.5 12.5 7 17l45.33 45.33A39.78 39.78 0 0 1 64 346.5V424c0 30.9 25.07 56 56 56h80c13.3 0 24-10.7 24-24s-10.7-24-24-24h-80c-4.4 0-8-3.6-8-8v-77.5c0-23.44-9.337-45.91-25.95-62.45L57.88 256l28.18-28.05C102.7 211.4 112 188.9 112 165.5V88c0-4.4 3.6-8 8-8h80c13.3 0 24-10.75 24-24s-10.7-24-24-24m369 207-45.33-45.33A39.78 39.78 0 0 1 512 165.5V88c0-30.93-25.1-56-56-56h-80c-13.3 0-24 10.75-24 23.1S362.7 80 375.1 80H456c4.4 0 8 3.6 8 8v77.5c0 23.37 9.284 45.78 25.81 62.31L517.1 256l-28.19 28.19C473.3 300.7 464 323.1 464 346.5V424c0 4.4-3.6 8-8 8h-80c-13.3 0-24 10.7-24 23.1s10.7 24.9 23.1 24.9H456c30.93 0 56-25.07 56-56v-77.5a39.84 39.84 0 0 1 11.67-28.17L569 273c4.5-4.5 7-10.6 7-17s-2.5-12.5-7-17" }) }), Td = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M243.8 339.8c-10.9 10.9-28.7 10.9-39.6 0l-64-64c-10.9-10.9-10.9-28.7 0-39.6s28.7-10.9 39.6 0l44.2 44.2 108.2-108.2c10.9-10.9 28.7-10.9 39.6 0s10.9 28.7 0 39.6zM512 256c0 141.4-114.6 256-256 256S0 397.4 0 256 114.6 0 256 0s256 114.6 256 256M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48" }) }), im = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h140.1l67.9 67.9V320c0 8.8-7.2 16-16 16m-192 48h192c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9l-67.8-67.9c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64v256c0 35.3 28.7 64 64 64M64 128c-35.3 0-64 28.7-64 64v256c0 35.3 28.7 64 64 64h192c35.3 0 64-28.7 64-64v-32h-48v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16h32v-48z" }) }), sm = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M40 480c-22.09 0-40-17.9-40-40v-48c0-22.1 17.91-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40zm48-40v-48H40v48zm144 40c-22.1 0-40-17.9-40-40v-48c0-22.1 17.9-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40zm48-40v-48h-48v48zM0 232c0-22.1 17.91-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40H40c-22.09 0-40-17.9-40-40zm40 0v48h48v-48zm192 88c-22.1 0-40-17.9-40-40v-48c0-22.1 17.9-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40zm48-40v-48h-48v48zM0 72c0-22.09 17.91-40 40-40h48c22.1 0 40 17.91 40 40v48c0 22.1-17.9 40-40 40H40c-22.09 0-40-17.9-40-40zm40 0v48h48V72zm192 88c-22.1 0-40-17.9-40-40V72c0-22.09 17.9-40 40-40h48c22.1 0 40 17.91 40 40v48c0 22.1-17.9 40-40 40zm48-40V72h-48v48z" }) }), am = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M336 144c0-17.7 14.3-32 32-32s32 14.3 32 32-14.3 32-32 32-32-14.3-32-32m0 208c-9.5 0-18.8-.7-27.9-2.2l-28 26.3c-3.6 5.4-9.7 7.9-16.1 7.9h-40v40c0 13.3-10.7 24-24 24h-40v40c0 13.3-10.7 24-24 24H24c-13.25 0-24-10.7-24-24V376c0-6.4 2.529-12.5 7.029-17L162.2 203.9c-1.4-9.1-2.2-18.4-2.2-27.9C160 78.8 238.8 0 336 0s176 78.8 176 176-78.8 176-176 176m0-48c70.7 0 128-57.3 128-128S406.7 48 336 48s-128 57.3-128 128c0 6.9.5 13.7 1.6 20.3l3.8 24.2L47.1 385.9V464h64v-64h64v-64h79l37.4-37.4 24.2 3.8c6.6 1.1 13.4 1.6 20.3 1.6" }) }), lm = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M24.52 38.13a48.02 48.02 0 0 1 48.51.91L361 215c14.3 8.8 23 24.3 23 41s-8.7 32.2-23 40.1l-287.97 176c-14.82 9.9-33.37 10.3-48.51 1.8A48.02 48.02 0 0 1 0 432V80a48.02 48.02 0 0 1 24.52-41.87M48 432l288-176L48 80z" }) }), Br = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M432 256c0 13.3-10.7 24-24 24H248v160c0 13.25-10.75 24.01-24 24.01S200 453.3 200 440V280H40c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h160V72c0-13.25 10.75-23.99 24-23.99S248 58.75 248 72v160h160c13.3 0 24 10.8 24 24" }) }), cm = (e) => /* @__PURE__ */ a.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ a.jsx("path", { d: "M64 80c-8.8 0-16 7.2-16 16v320c0 8.8 7.2 16 16 16h320c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16zM0 96c0-35.3 28.7-64 64-64h320c35.3 0 64 28.7 64 64v320c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64zm200 248v-64h-64c-13.3 0-24-10.7-24-24s10.7-24 24-24h64v-64c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24h-64v64c0 13.3-10.7 24-24 24s-24-10.7-24-24" }) }), Id = $.createContext({
   dragDropManager: void 0
 });
@@ -2439,7 +2440,7 @@ function oo(e, t) {
 const {
   saveSettings: Jd,
   saveEnvironment: Zd,
-  saveScanconf: F2,
+  saveScanconf: L2,
   addCredential: va,
   removeCredential: xa,
   addStage: Mt,
@@ -16357,24 +16358,27 @@ function uC(e, t) {
           playbook: { before: o, after: i, operations: s }
         },
         operations: { scenarioId: l, operationId: c },
-        prefs: { useGlobalBlocks: u, rejectUnauthorized: d }
-      } = r.getState(), h = s[c], f = [
+        prefs: { useGlobalBlocks: u, rejectUnauthorized: d },
+        config: {
+          data: { scanProxy: h }
+        }
+      } = r.getState(), f = s[c], p = [
         { name: "Global Before", requests: u ? o : [] },
-        { name: "Before", requests: h.before },
-        { name: "Scenario", requests: h.scenarios[l].requests },
-        { name: "After", requests: h.after },
+        { name: "Before", requests: f.before },
+        { name: "Scenario", requests: f.scenarios[l].requests },
+        { name: "After", requests: f.after },
         { name: "Global After", requests: u ? i : [] }
-      ].filter((p) => p.requests.length > 0);
+      ].filter((y) => y.requests.length > 0);
       await xn(
         r.getState(),
         Zo(
-          { https: { rejectUnauthorized: d } },
-          (p, y, g) => r.dispatch(ei({ id: p, request: y, config: g }))
+          { https: { rejectUnauthorized: d, proxy: h } },
+          (y, g, m) => r.dispatch(ei({ id: y, request: g, config: m }))
         ),
         r.dispatch,
         Fv,
         Lv,
-        f,
+        p,
         n
       );
     }
@@ -16387,26 +16391,29 @@ function dC(e, t) {
       const {
         scanconf: { oas: o, playbook: i, selectedCredential: s, selectedSubcredential: l },
         env: { data: c },
-        prefs: { rejectUnauthorized: u }
+        prefs: { rejectUnauthorized: u },
+        config: {
+          data: { scanProxy: d }
+        }
       } = r.getState();
       if (s === void 0 || l === void 0)
         return;
-      const d = [yp(i, c)];
+      const h = [yp(i, c)];
       r.dispatch(Ev()), r.dispatch(Wi({ event: "playbook-started", name: "" })), r.dispatch(Wi({ event: "request-started" }));
-      for await (const h of mp(
+      for await (const f of mp(
         Jh(),
         Zo(
-          { https: { rejectUnauthorized: u } },
-          (f, p, y) => r.dispatch(ei({ id: f, request: p, config: y }))
+          { https: { rejectUnauthorized: u, proxy: d } },
+          (p, y, g) => r.dispatch(ei({ id: p, request: y, config: g }))
         ),
         o,
         n,
         i,
         [`${s}/${l}`],
-        d,
+        h,
         0
       ))
-        r.dispatch(Wi(h));
+        r.dispatch(Wi(f));
     }
   });
 }
@@ -16419,22 +16426,25 @@ function fC(e, t) {
         scanconf: {
           playbook: { before: s, after: l }
         },
-        prefs: { useGlobalBlocks: c, rejectUnauthorized: u }
-      } = o.getState(), d = [
+        prefs: { useGlobalBlocks: c, rejectUnauthorized: u },
+        config: {
+          data: { scanProxy: d }
+        }
+      } = o.getState(), h = [
         { name: "Global Before", requests: c ? s : [] },
         { name: "Request", requests: [{ ref: i }] },
         { name: "Global After", requests: c ? l : [] }
-      ].filter((h) => h.requests.length > 0);
+      ].filter((f) => f.requests.length > 0);
       await xn(
         o.getState(),
         Zo(
-          { https: { rejectUnauthorized: u } },
-          (h, f, p) => o.dispatch(ei({ id: h, request: f, config: p }))
+          { https: { rejectUnauthorized: u, proxy: d } },
+          (f, p, y) => o.dispatch(ei({ id: f, request: p, config: y }))
         ),
         o.dispatch,
         Hv,
         Vv,
-        d,
+        h,
         r,
         [{ id: { type: "try-inputs" }, env: n, assignments: [] }]
       );
@@ -16450,18 +16460,21 @@ function hC(e, t) {
           playbook: { before: o, after: i }
         },
         global: { selected: s },
-        prefs: { rejectUnauthorized: l }
-      } = r.getState(), c = s === "before" ? [{ name: "Global Before", requests: o }] : [{ name: "Global After", requests: i }];
+        prefs: { rejectUnauthorized: l },
+        config: {
+          data: { scanProxy: c }
+        }
+      } = r.getState(), u = s === "before" ? [{ name: "Global Before", requests: o }] : [{ name: "Global After", requests: i }];
       await xn(
         r.getState(),
         Zo(
-          { https: { rejectUnauthorized: l } },
-          (u, d, h) => r.dispatch(ei({ id: u, request: d, config: h }))
+          { https: { rejectUnauthorized: l, proxy: c } },
+          (d, h, f) => r.dispatch(ei({ id: d, request: h, config: f }))
         ),
         r.dispatch,
         $v,
         Pv,
-        c,
+        u,
         n
       );
     }

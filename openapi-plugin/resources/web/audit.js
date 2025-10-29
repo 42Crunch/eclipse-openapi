@@ -1,13 +1,13 @@
-import { c as ae, a as le, u as de, b as ce, r as pe, t as ue, l as he, d as xe, i as ve, s as fe, j as e, T as p, e as c, f as y, m as ge, g as me, R as je, P as ye, h as be, k as we, n as Ce, o as $e, p as Se } from "./TriangleExclamation.BpqlFGl9.js";
-import { s as ke } from "./listener.Dzash3X1.js";
-import { T as Le } from "./Tabs.D978wxwd.js";
-import { S as Ie, a as X, b as Y } from "./Xmark.DB7_pGZU.js";
-import { S } from "./ExclamationCircle.BZDZ8ecp.js";
-import { S as k, a as Ae } from "./Switch.BvRE658q.js";
-import { S as J } from "./AngleDown.BkAy0nuo.js";
-import { S as Z } from "./AngleUp.BYw8HKWc.js";
-import { P as I } from "./Select.Dq7QXAJf.js";
-import { B as Te, S as De } from "./Banner.B4d2g7Mo.js";
+import { c as ae, a as le, u as de, b as ce, r as pe, t as ue, l as he, d as xe, i as ve, s as fe, j as e, T as p, e as c, f as y, m as ge, g as me, R as je, P as ye, h as be, k as we, n as Ce, o as $e, p as Se } from "./TriangleExclamation.DrtDYmuA.js";
+import { s as ke } from "./listener.SmuvmntO.js";
+import { T as Le } from "./Tabs.DbA_NbZQ.js";
+import { S as Ie, a as X, b as Y } from "./Xmark.y5cXCeRF.js";
+import { S } from "./ExclamationCircle.B52mCnLi.js";
+import { S as k, a as Ae } from "./Switch.9_FKivxn.js";
+import { S as J } from "./AngleDown.mnq0UxQI.js";
+import { S as Z } from "./AngleUp.BzadahNt.js";
+import { P as I } from "./Select.DFlflRyd.js";
+import { B as Te, S as De } from "./Banner.xHM1dtia.js";
 const D = ["info", "low", "medium", "high", "critical"], f = {
   Info: 1,
   Low: 2,
@@ -728,7 +728,7 @@ function ji({ onShowIssues: i }) {
       children: /* @__PURE__ */ e.jsxs(bi, { children: [
         /* @__PURE__ */ e.jsx(S, {}),
         /* @__PURE__ */ e.jsxs("div", { children: [
-          "Your API has structural or semantic issues in its OpenAPI format. Fix these issues first and run Security Audit again to get the full audit report. Click ",
+          "Your API has structural or semantic issues. Fix these first and run Security Audit again to get the full audit report. Click ",
           /* @__PURE__ */ e.jsx("a", { href: "#", children: "here" }),
           " to display the issues."
         ] })
