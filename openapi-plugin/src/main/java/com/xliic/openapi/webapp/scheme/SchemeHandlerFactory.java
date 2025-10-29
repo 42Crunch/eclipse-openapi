@@ -43,6 +43,9 @@ public class SchemeHandlerFactory implements IResponseHandler {
                 return new ResourceHandler(getResourceIndexHTML(resourceId));
             } else if (url.endsWith(".js")) {
                 return new ResourceHandler("application/javascript", url.replace(HTTPS_SCHEMA_PREFIX, ""));
+            } else if (url.endsWith(".png")) {
+            	int lastSlash = url.lastIndexOf('/');
+            	return new ResourceHandler("image/png", url.substring(lastSlash + 1));
             }
         }
         return null;
@@ -53,11 +56,11 @@ public class SchemeHandlerFactory implements IResponseHandler {
         String page;
         String themePayload = Utils.serialize(ChangeTheme.getChangeThemePayload(manager), true);
         if (WHATS_NEW_EDITOR_ID.equals(resourceId)) {
-            page = NetUtils.getWebAppResource(getClass(), resourceId + ".html") + "\n" + getColorizationScript();
+            page = NetUtils.getWebAppResource(getClass(), resourceId + ".html");
         } else {
             page = indexHTML.replace("${index-script}", HTTPS_SCHEMA_PREFIX + resourceId + ".js");
-            page = page.replace("window.__EclipseJTools.postMessage", getBrowserFunctionName(resourceId));
         }
+        page = page.replace("window.__EclipseJTools.postMessage", getBrowserFunctionName(resourceId));
         return page.replace("$theme", themePayload == null ? "" : themePayload);
     }
 
@@ -78,21 +81,5 @@ public class SchemeHandlerFactory implements IResponseHandler {
 
     public static String getBrowserFunctionName(@NotNull String resourceId) {
         return resourceId.replace("-", "") + "PostMessageToEclipseIDE";
-    }
-    
-    private static String getColorizationScript() {
-        return "<script>"
-        		+ "setColors($theme);\n"
-        		+ "window.fireDOMContentLoaded = function() {\n"
-        		+ "	window.runIDECommand = function(event) {\n"
-        		+ "		if (event.detail.command === \"changeTheme\") {\n"
-        		+ "			setColors(event.detail.payload.theme);\n"
-        		+ "		}\n"
-        		+ "	};\n"
-        		+ "};\n"
-        		+ "function setColors(colors) {\n"
-        		+ "	document.body.style.background = colors.background;\n"
-        		+ "	document.body.style.color = colors.foreground;\n"
-        		+ "}</script>";
     }
 }

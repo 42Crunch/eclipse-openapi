@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class VirtualFileWrapper {
 
+	@NotNull
     private final File myFile;
 
     public VirtualFileWrapper(@NotNull File file) {
@@ -33,4 +34,9 @@ public class VirtualFileWrapper {
         }
         return this.getVirtualFile();
     }
+
+    @NotNull
+	public File getFile() {
+		return myFile;
+	}
 }

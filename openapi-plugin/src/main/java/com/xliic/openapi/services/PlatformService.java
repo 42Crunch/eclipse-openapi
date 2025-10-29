@@ -206,7 +206,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
         if (Settings.hasPlatformKey(keys) && !project.isDisposed()) {
             ToolWindowManager manager = ToolWindowManager.getInstance(project);
             if (PlatformConnection.isPlatformIntegrationEnabled()) {
-                ToolWindow platformWindow = manager.getToolWindow(ToolWindowId.PLATFORM);
+                ToolWindow platformWindow = manager.getToolWindow(ToolWindowId.COLLECTIONS);
                 if (platformWindow != null && !platformWindow.isDisposed()) {
                     PlatformPanelView view = (PlatformPanelView) platformWindow.getView();
                     if (view != null && !view.isReady()) {
@@ -218,7 +218,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
                 // perspective scope
                 createPlatformWindow(true);
             } else {
-                ToolWindow window = manager.getToolWindow(ToolWindowId.PLATFORM);
+                ToolWindow window = manager.getToolWindow(ToolWindowId.COLLECTIONS);
                 if (window != null && !window.isDisposed()) {
                     window.remove();
                 }
@@ -231,7 +231,7 @@ public final class PlatformService implements IPlatformService, SettingsListener
     public void createPlatformWindow(boolean activate) {
         if (activate) {
             ApplicationManager.getApplication().invokeAndWait(() -> {
-                WindowUtils.activateToolWindow(project, ToolWindowId.PLATFORM);
+                WindowUtils.activateToolWindow(project, ToolWindowId.COLLECTIONS);
                 project.getMessageBus().syncPublisher(PlatformListener.TOPIC).reloadAll();
             });
         }

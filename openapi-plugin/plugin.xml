@@ -97,12 +97,17 @@
         <command
             defaultHandler="com.xliic.openapi.capture.CaptureAction"
             id="com.xliic.openapi.capture.CaptureAction"
-            name="Convert HAR/Postman Files">
+            name="API Contract Generator">
         </command>
         <command
             defaultHandler="com.xliic.openapi.actions.internal.ClearAllPropsAction"
             id="com.xliic.openapi.actions.internal.ClearAllPropsAction"
             name="Clear All Properties">
+        </command>
+        <command
+            defaultHandler="com.xliic.openapi.actions.internal.ClearCredentialsAction"
+            id="com.xliic.openapi.actions.internal.ClearCredentialsAction"
+            name="Clear Credentials">
         </command>
         <command
             defaultHandler="com.xliic.openapi.actions.internal.GetIDEInfoAction"
@@ -252,10 +257,10 @@
             allowMultiple="false"
             category="eclipse-openapi"
             class="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
-            icon="icons/icon_42crunch_platform.png"
+            icon="icons/toolWindowCollectionsLogo.png"
             id="com.xliic.openapi.platform.tree.ui.PlatformPanelView"
             inject="true"
-            name="42Crunch">
+            name="Collections">
         </view>
         <view
             allowMultiple="false"
@@ -444,11 +449,11 @@
                     icon="icons/config.png"
                     style="push">
                 </command>
-                <!-- <command
+                <command
                     commandId="com.xliic.openapi.capture.CaptureAction"
                     icon="icons/capture.png"
                     style="push">
-                </command> -->
+                </command>
                 <command
                     commandId="com.xliic.openapi.actions.SecurityAuditAction"
                     icon="icons/42crunch_icon.png"
@@ -492,6 +497,10 @@
                 </command>
                 <command
                     commandId="com.xliic.openapi.actions.internal.ClearAllPropsAction"
+                    style="push">
+                </command> 
+                <command
+                    commandId="com.xliic.openapi.actions.internal.ClearCredentialsAction"
                     style="push">
                 </command> 
                 <command

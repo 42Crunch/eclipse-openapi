@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.signup.SignUpService;
+import com.xliic.openapi.signup.SignUpType;
 
 public class Credentials {
 
@@ -38,7 +39,11 @@ public class Credentials {
     }
 
     public static void configureCredentials(@NotNull Project project, @NotNull WizardCallback callback) {
-    	SignUpService.getInstance(project).createAndOpenSignUpWindow(callback);
+        SignUpService.getInstance(project).createAndOpenSignUpWindow(callback, SignUpType.REGULAR);
+    }
+
+    public static void configureCredentials(@NotNull Project project, @NotNull SignUpType type, @NotNull WizardCallback callback) {
+        SignUpService.getInstance(project).createAndOpenSignUpWindow(callback, type);
     }
 
     @Nullable

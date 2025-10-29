@@ -1,13 +1,9 @@
 package com.xliic.openapi.capture.payload;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
 
 public class CaptureItem {
 
@@ -20,7 +16,7 @@ public class CaptureItem {
     @NotNull
     private PrepareOptions prepareOptions;
     @NotNull
-    private ProgressStatus progressStatus;
+    private Status status;
     private int pollingCounter;
     @NotNull
     private List<String> log;
@@ -31,8 +27,8 @@ public class CaptureItem {
         id = UUID.randomUUID().toString();
         this.files = files;
         quickgenId = null;
-        prepareOptions = new PrepareOptions("/", new LinkedList<>());
-        progressStatus = ProgressStatus.New;
+        prepareOptions = new PrepareOptions("/", List.of("https://server.example.com"));
+        status = Status.PENDING;
         pollingCounter = 0;
         log = new LinkedList<>();
         downloadedFile = null;
@@ -50,8 +46,8 @@ public class CaptureItem {
         return quickgenId;
     }
 
-    public @NotNull ProgressStatus getProgressStatus() {
-        return progressStatus;
+    public @NotNull Status getStatus() {
+        return status;
     }
 
     public int getPollingCounter() {
@@ -82,8 +78,8 @@ public class CaptureItem {
         this.pollingCounter = pollingCounter;
     }
 
-    public void setProgressStatus(@NotNull ProgressStatus progressStatus) {
-        this.progressStatus = progressStatus;
+    public void setStatus(@NotNull Status status) {
+        this.status = status;
     }
 
     public void setLog(@NotNull List<String> log) {
@@ -95,14 +91,14 @@ public class CaptureItem {
     }
 
     @SuppressWarnings("serial")
-	@NotNull
+    @NotNull
     public Map<String, Object> getPayload() {
         return new HashMap<>() {{
             put("id", id);
             put("files", files);
             put("quickgenId", quickgenId);
             put("prepareOptions", prepareOptions.getPayload());
-            put("progressStatus", progressStatus);
+            put("status", status.toString());
             put("pollingCounter", pollingCounter);
             put("log", log);
             put("downloadedFile", downloadedFile);

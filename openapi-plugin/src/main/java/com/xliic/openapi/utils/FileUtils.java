@@ -22,6 +22,7 @@ import com.xliic.core.util.Computable;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.core.vfs.VirtualFileWrapper;
 
 public class FileUtils {
 
@@ -162,6 +163,16 @@ public class FileUtils {
             }
         } catch (IOException e) {
             Logger.getInstance(FileUtils.class).warn(e);
+        }
+    }
+    
+    @NotNull
+    public static VirtualFileWrapper fixWrapperExt(@NotNull VirtualFileWrapper wrapper, @NotNull String ext) {
+        String path = wrapper.getFile().getAbsolutePath();
+        if (path.endsWith("." + ext)) {
+            return wrapper;
+        } else {
+            return new VirtualFileWrapper(new File(path + "." + ext));
         }
     }
 }
