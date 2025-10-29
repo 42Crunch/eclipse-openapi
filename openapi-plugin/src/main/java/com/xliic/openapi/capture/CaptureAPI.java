@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static com.xliic.openapi.utils.NetUtils.HTTP_CLIENT;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 public class CaptureAPI {
@@ -27,7 +27,7 @@ public class CaptureAPI {
             put("servers", prepareOptions.getServers());
         }}));
         Request request = getRequestBuilder(connection, "prepare").post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response upload(CaptureConnection connection,
@@ -42,28 +42,28 @@ public class CaptureAPI {
         }
         RequestBody body = builder.build();
         Request request = getRequestBuilder(connection, String.format("%s/prepare/upload-file", quickgenId)).post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response start(CaptureConnection connection, String quickgenId) throws IOException {
         RequestBody body = RequestBody.create("", null);
         Request request = getRequestBuilder(connection, String.format("%s/execution/start", quickgenId)).post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response status(CaptureConnection connection, String quickgenId) throws IOException {
         Request request = getRequestBuilder(connection, String.format("%s/execution/status", quickgenId)).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response download(CaptureConnection connection, String quickgenId) throws IOException {
         Request request = getRequestBuilder(connection, String.format("%s/results/openapi", quickgenId)).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     public static Response delete(CaptureConnection connection, String quickgenId) throws IOException {
         Request request = getRequestBuilder(connection, String.format("%s/delete", quickgenId)).delete().build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     @SuppressWarnings("serial")
@@ -72,7 +72,7 @@ public class CaptureAPI {
             put("freemiumToken", freemiumToken);
         }}));
         Request request = getDiscoverRequestBuilder().post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     @SuppressWarnings("serial")
@@ -82,7 +82,7 @@ public class CaptureAPI {
             put("apiKey", apiKey);
         }}));
         Request request = getDiscoverRequestBuilder().post(body).build();
-        return HTTP_CLIENT.newCall(request).execute();
+        return getHttpClient().newCall(request).execute();
     }
 
     private static Request.Builder getDiscoverRequestBuilder() throws IOException {

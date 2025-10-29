@@ -29,36 +29,38 @@
         </style>
     </head>
     <body>
-		<h1 id="whats-new-version-50">What&#39;s New Version 5.0</h1>
-		<p>Welcome to version 5.0 of the industry's favorite OpenAPI Editor tool to help improve the overall performance and security of your APIs.</p>
-		<h2 id="introducing-api-contract-generator">Introducing API Contract Generator</h2>
-		<p>Speed up the creation of new OpenAPI files with our API Contract Generator auto-generation feature. Now, at the click of a button, you can automatically build OpenAPI files from your Postman Collections and HAR files, all within the IDE. This saves you time and effort creating new OpenAPI files from scratch.</p>
-		<p>If you're already a free or enterprise user then you can automatically avail of this feature (free limits apply). Otherwise register to avail of the API Contract Generator service and also get some of the other functional additions delivered in our recent prior versions.</p>
-		<p>To access API Contract Generator in the IDE click on the 42C Icon on the Left Toolbar.</p>
-		<p>Access the <a href="https://github.com/42Crunch/vscode-openapi/blob/master/CHANGELOG.md">full changelog</a> of the OpenAPI editor</p>
-		<p><img src="https://openapi.xliic.com/42Crunch/vscode-openapi/master/images/AuditIssuesList.png" alt="Screenshot"></p>
-		<h1 id="some-other-major-updates-from-prior-versions-4xx">Some other major updates from prior versions 4.x.x</h1>
-		<p>We have added API security services to the OpenAPI Editor. These services enable you do much more than simply create and edit your OpenAPI definition, they allow you to test your APIs locally for quality, conformance and security directly in the IDE.</p>
-		<ul>
-		<li>Local version of <a href="https://42crunch.com/api-security-audit/">API Audit</a>, A static analysis of your OpenAPI definition file that checks for quality, conformance (to the OpenAPI specification) and security as you work on it.</li>
-		<li>Local version of <a href="https://42crunch.com/api-conformance-scan/">API Scan</a>. A dynamic analysis of your API that tests your API for conformance to the API Design and for security vulnerabilities including tests for BOLA and BFLA.</li>
-		<li>Try it: Allows you to send HTTP requests directly from the editor to test the functionality of the API endpoints.</li>
-		</ul>
-		<p><a href="command:openapi.platform.openSignUp">Registration</a> is required (email address only) to enable the API security testing services of API Audit and API Scan. You receive a free monthly usage allowance with the option to upgrade to a paid subscription if you require extra usage.</p>
-		<p>Freemium includes:</p>
-		<ul>
-		<li>Free monthly allowance of 100 operation-level audits and 100 operation-level scans.</li>
-		<li>Allowances are calculated at the operation level. You can run full audits and full scans, but the number of operations included in the API will be counted and deducted from your monthly allowance.</li>
-		<li>You can track your allowance and usage in the plugin settings/connection section.</li>
-		<li>You can upgrade to a single user license if you want to increase your monthly allowances of API Audit and API Scan. <a href="https://42crunch.com/single-user-pricing/">Prices</a> start from $15 a month.</li>
-		<li>Learn more about the <a href="https://42crunch.com/freemium/">freemium</a>.</li>
-		</ul>
+        <div>
+            <h1 id="whats-new-version-50">What&#39;s New Version 5.0</h1>
+            <p>Welcome to version 5.0 of the industry's favorite OpenAPI Editor tool to help improve the overall performance and security of your APIs.</p>
+            <h2 id="introducing-api-contract-generator">Introducing API Contract Generator</h2>
+            <p>Speed up the creation of new OpenAPI files with our API Contract Generator auto-generation feature. Now, at the click of a button, you can automatically build OpenAPI files from your Postman Collections and HAR files, all within the IDE. This saves you time and effort creating new OpenAPI files from scratch.</p>
+            <p>If you're already a free or enterprise user then you can automatically avail of this feature (free limits apply). Otherwise register to avail of the API Contract Generator service and also get some of the other functional additions delivered in our recent prior versions.</p>
+            <p>To access API Contract Generator in the IDE click on the 42C Icon on the Left Toolbar.</p>
+            <p>Access the <a href="https://github.com/42Crunch/vscode-openapi/blob/master/CHANGELOG.md">full changelog</a> of the OpenAPI editor</p>
+            <p><img src="https://raw.githubusercontent.com/42Crunch/vscode-openapi/master/images/AuditIssuesList.png" alt="Screenshot" style="height: 500px;"></p>
+            <h1 id="some-other-major-updates-from-prior-versions-4xx">Some other major updates from prior versions 4.x.x</h1>
+            <p>We have added API security services to the OpenAPI Editor. These services enable you do much more than simply create and edit your OpenAPI definition, they allow you to test your APIs locally for quality, conformance and security directly in the IDE.</p>
+            <ul>
+                <li>Local version of <a href="https://42crunch.com/api-security-audit/">API Audit</a>, A static analysis of your OpenAPI definition file that checks for quality, conformance (to the OpenAPI specification) and security as you work on it.</li>
+                <li>Local version of <a href="https://42crunch.com/api-conformance-scan/">API Scan</a>. A dynamic analysis of your API that tests your API for conformance to the API Design and for security vulnerabilities including tests for BOLA and BFLA.</li>
+                <li>Try it: Allows you to send HTTP requests directly from the editor to test the functionality of the API endpoints.</li>
+            </ul>
+            <p><a href="command:openapi.platform.openSignUp">Registration</a> is required (email address only) to enable the API security testing services of API Audit and API Scan. You receive a free monthly usage allowance with the option to upgrade to a paid subscription if you require extra usage.</p>
+            <p>Freemium includes:</p>
+            <ul>
+                <li>Free monthly allowance of 100 operation-level audits and 100 operation-level scans.</li>
+                <li>Allowances are calculated at the operation level. You can run full audits and full scans, but the number of operations included in the API will be counted and deducted from your monthly allowance.</li>
+                <li>You can track your allowance and usage in the plugin settings/connection section.</li>
+                <li>You can upgrade to a single user license if you want to increase your monthly allowances of API Audit and API Scan. <a href="https://42crunch.com/single-user-pricing/">Prices</a> start from $15 a month.</li>
+                <li>Learn more about the <a href="https://42crunch.com/freemium/">freemium</a>.</li>
+            </ul>
+        </div>
 		<script>
 			window.__EclipseJTools = {};
 			const host = { postMessage: (message) => window.__EclipseJTools.postMessage(JSON.stringify(message)) };
 			window.runIDECommand = function(event) {
 				if (event.detail.command === "changeTheme") {
-					setColors(event.detail.payload.theme);
+					setColors(event.detail.payload);
 				}
 			};
 			function startWebApp() {
@@ -69,10 +71,17 @@
 						event.preventDefault();
 					});
 				});
+				host.postMessage({command: "started", payload: crypto.randomUUID()});
 			}
 			function setColors(colors) {
 				document.body.style.background = colors.theme.background;
 				document.body.style.color = colors.theme.foreground;
+                const allLinks = document.querySelectorAll('a');
+                if (allLinks && allLinks.length > 0) {
+                    allLinks.forEach(link => {
+                        link.style.color = colors.theme.linkActiveForeground;
+                    });
+                }
 			}
             setColors($theme);
 		</script>

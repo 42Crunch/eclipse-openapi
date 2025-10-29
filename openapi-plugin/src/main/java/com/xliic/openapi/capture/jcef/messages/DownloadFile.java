@@ -1,5 +1,7 @@
 package com.xliic.openapi.capture.jcef.messages;
 
+import static com.xliic.openapi.utils.FileUtils.fixWrapperExt;
+
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +37,7 @@ public class DownloadFile extends WebAppProduce {
             FileSaverDialog saveDialog = FileChooserFactory.getInstance().createSaveFileDialog(descriptor, project);
             VirtualFileWrapper wrapper = saveDialog.save(null);
             if (wrapper != null) {
-                VirtualFile target = wrapper.getVirtualFile(true);
+                VirtualFile target = fixWrapperExt(wrapper, "json").getVirtualFile(true);
                 if (target != null) {
                     CaptureService.getInstance(project).downloadFile(id, target);
                 } else {

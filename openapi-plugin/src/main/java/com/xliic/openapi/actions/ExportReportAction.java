@@ -1,5 +1,7 @@
 package com.xliic.openapi.actions;
 
+import static com.xliic.openapi.utils.FileUtils.fixWrapperExt;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,7 +29,6 @@ public abstract class ExportReportAction extends AnAction implements DumbAware {
 
     private static final String NO_OPEN_API_FILE_SELECTED = "No OpenAPI file selected";
     private static final String FILE_SAVE_ERROR = "Failed to save document in file saver";
-    private static final String[] FILE_SAVER_EXTENSIONS = { "json" };
 
     @NotNull
     private final String exportTempDir;
@@ -90,11 +91,11 @@ public abstract class ExportReportAction extends AnAction implements DumbAware {
                     MsgUtils.notifyError(project, noReportError);
                     return;
                 }
-                FileSaverDescriptor descriptor = new FileSaverDescriptor("Export", exportDescription, FILE_SAVER_EXTENSIONS);
+                FileSaverDescriptor descriptor = new FileSaverDescriptor("Export", exportDescription, "json");
                 FileSaverDialog saveDialog = FileChooserFactory.getInstance().createSaveFileDialog(descriptor, project);
                 VirtualFileWrapper wrapper = saveDialog.save(null);
                 if (wrapper != null) {
-                    VirtualFile dstReportFile = wrapper.getVirtualFile(true);
+                    VirtualFile dstReportFile = fixWrapperExt(wrapper, "json").getVirtualFile(true);
                     if (dstReportFile != null) {
                         Files.copy(Paths.get(tmpFile.getPath()), Paths.get(dstReportFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
                     } else {
