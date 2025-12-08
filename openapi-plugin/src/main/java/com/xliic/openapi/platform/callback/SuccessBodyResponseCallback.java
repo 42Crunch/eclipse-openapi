@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.callback;
 
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
+
 import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +48,7 @@ public abstract class SuccessBodyResponseCallback implements EnqueueCallback {
 
     @Override
     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-        try (ResponseBody body = response.body()) {
+        try (ResponseBody body = getResponseBody(response)) {
             String msg = null;
             int code = response.code();
             if (code == 200) {

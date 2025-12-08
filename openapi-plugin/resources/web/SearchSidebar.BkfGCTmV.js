@@ -42,6 +42,7 @@ const z = t.ul`
   overflow: hidden;
   > span.label {
     flex: 1;
+    overflow-wrap: anywhere;
   }
 `, D = t(b)`
   background-color: var(${o.listActiveSelectionBackground});

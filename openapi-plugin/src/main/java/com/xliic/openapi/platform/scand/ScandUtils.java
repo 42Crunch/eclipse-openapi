@@ -1,5 +1,6 @@
 package com.xliic.openapi.platform.scand;
 
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.TIMEOUT;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.TIMEOUT_DEFAULT;
 
@@ -45,7 +46,7 @@ public class ScandUtils {
     @Nullable
     public static String readJobLog(@NotNull String name) {
         try (Response response = ScandAPIs.Sync.readJobLog(name)) {
-            try (ResponseBody body = response.body()) {
+            try (ResponseBody body = getResponseBody(response)) {
                 if (response.code() == 200 && body != null) {
                     return body.string();
                 }

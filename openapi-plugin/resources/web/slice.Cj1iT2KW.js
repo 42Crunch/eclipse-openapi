@@ -19,7 +19,11 @@ const c = {
       header: {
         name: "",
         value: ""
-      }
+      },
+      httpProxy: "",
+      httpsProxy: "",
+      httpProxyApi: "",
+      httpsProxyApi: ""
     },
     auditRuntime: "platform",
     scanRuntime: "docker",
@@ -133,9 +137,9 @@ function d(o) {
   }
 }
 const {
-  loadConfig: f,
-  saveConfig: m,
-  showConfigWindow: p,
+  loadConfig: p,
+  saveConfig: f,
+  showConfigWindow: m,
   setError: v,
   clearError: C,
   testPlatformConnection: w,
@@ -147,30 +151,30 @@ const {
   addInsecureSslHostname: R,
   removeInsecureSslHostname: F,
   testCli: D,
-  showCliTest: M,
-  downloadCli: E,
-  showCliDownload: H,
-  openLink: P
-} = a.actions, k = s, O = l, b = a.reducer;
+  showCliTest: P,
+  downloadCli: M,
+  showCliDownload: E,
+  openLink: H
+} = a.actions, k = s, O = l, x = a.reducer;
 export {
   R as a,
-  M as b,
-  b as c,
+  P as b,
+  x as c,
   S as d,
   h as e,
   T as f,
   O as g,
   g as h,
-  E as i,
+  M as i,
   D as j,
   y as k,
-  f as l,
+  p as l,
   C as m,
   v as n,
-  P as o,
-  m as p,
+  H as o,
+  f as p,
   F as r,
-  H as s,
+  E as s,
   w as t,
   k as u
 };

@@ -20,7 +20,7 @@ function x({
     {
       className: l,
       onClick: u,
-      $disabled: d || e,
+      disabled: d || e,
       $waiting: e,
       children: [
         /* @__PURE__ */ o.jsx("span", { children: t }),

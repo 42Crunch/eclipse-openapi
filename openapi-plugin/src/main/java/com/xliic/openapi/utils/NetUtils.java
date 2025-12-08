@@ -1,18 +1,32 @@
 package com.xliic.openapi.utils;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xliic.core.credentialStore.Credentials;
+import com.xliic.core.diagnostic.Logger;
+import com.xliic.core.util.ResourceUtil;
+import com.xliic.openapi.LogRedactor;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.proxy.*;
+import com.xliic.openapi.report.AuditAPIs;
+import com.xliic.openapi.tryit.TryItTrustManager;
+import com.xliic.openapi.webapp.http.SendHttpRequest;
+import okhttp3.*;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.*;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.KeyManagementException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,38 +35,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xliic.core.credentialStore.Credentials;
-import com.xliic.core.diagnostic.Logger;
-import com.xliic.core.util.ResourceUtil;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.proxy.CustomAuthenticator;
-import com.xliic.openapi.proxy.CustomProxyAuthentication;
-import com.xliic.openapi.proxy.CustomProxySelector;
-import com.xliic.openapi.proxy.PredefinedAuthenticator;
-import com.xliic.openapi.proxy.PredefinedProxySelector;
-import com.xliic.openapi.proxy.ProxyEventListener;
-import com.xliic.openapi.report.AuditAPIs;
-import com.xliic.openapi.tryit.TryItTrustManager;
-import com.xliic.openapi.webapp.http.SendHttpRequest;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import static com.xliic.openapi.LogRedactor.Scope.REQUEST_QUERY;
 
 public class NetUtils {
 
@@ -60,6 +43,7 @@ public class NetUtils {
     // The client caches DNS and connection information, which can cause it to continue using old proxy settings
     // The safest why to fix that is to create a new OkHttpClient instance with newBuilder()
     private static final OkHttpClient HTTP_CLIENT = new OkHttpClient.Builder().build();
+    private static final LogRedactor REDACTOR = new LogRedactor.Builder().addQueryRule("token").build();
 
     public interface ProgressListener {
         void update(long bytesRead, long contentLength, boolean done, @NotNull String hash);
@@ -67,11 +51,21 @@ public class NetUtils {
 
     @NotNull
     public static OkHttpClient getHttpClient() {
-        return getHttpClient(null);
+        return getHttpClient(false);
+    }
+
+    @NotNull
+    public static OkHttpClient getHttpClient(boolean logRequestBody) {
+        return getHttpClient(null, logRequestBody);
     }
 
     @NotNull
     public static OkHttpClient getHttpClient(@Nullable String proxy) {
+        return getHttpClient(proxy, false);
+    }
+
+    @NotNull
+    public static OkHttpClient getHttpClient(@Nullable String proxy, boolean logRequestBody) {
         OkHttpClient.Builder builder = HTTP_CLIENT.newBuilder();
         if (proxy == null) {
             builder.proxySelector(new CustomProxySelector());
@@ -80,7 +74,7 @@ public class NetUtils {
             builder.proxySelector(new PredefinedProxySelector(proxy));
             builder.proxyAuthenticator(new PredefinedAuthenticator(proxy));
         }
-        builder.eventListener(new ProxyEventListener());
+        builder.eventListener(new ProxyEventListener(logRequestBody));
         return builder.build();
     }
 
@@ -164,14 +158,14 @@ public class NetUtils {
 
     public static void download(@NotNull String url, @NotNull String filePath, @NotNull ProgressListener listener) throws Exception {
         Response response = HTTP_CLIENT.newCall(new Request.Builder().url(url).get().build()).execute();
-        ResponseBody body = Objects.requireNonNull(response.body());
+        ResponseBody body = Objects.requireNonNull(getResponseBody(response));
         final long total = body.contentLength();
         if (total <= 0) {
             throw new Exception("Unexpected contentLength " + total);
         }
         if (response.code() == 200 || response.code() == 201) {
-        	MessageDigest hash = MessageDigest.getInstance("SHA-256");
-            try (InputStream inputStream = response.body().byteStream()) {
+            MessageDigest hash = MessageDigest.getInstance("SHA-256");
+            try (InputStream inputStream = body.byteStream()) {
                 byte[] buff = new byte[4096];
                 long transferred = 0;
                 OutputStream output = new FileOutputStream(filePath);
@@ -204,7 +198,7 @@ public class NetUtils {
     @Nullable
     public static String getKDB() throws IOException {
         try (Response response = AuditAPIs.Sync.getKDB()) {
-            try (ResponseBody body = response.body()) {
+            try (ResponseBody body = getResponseBody(response)) {
                 if (response.code() == 200) {
                     if (body != null) {
                         return body.string().trim();
@@ -228,7 +222,7 @@ public class NetUtils {
 
     @Nullable
     public static Node getBodyNode(@NotNull Response response) {
-        try (ResponseBody body = response.body()) {
+        try (ResponseBody body = getResponseBody(response)) {
             if (response.code() == 200 && body != null) {
                 try {
                     return Utils.getJsonAST(body.string());
@@ -241,7 +235,7 @@ public class NetUtils {
 
     @Nullable
     public static Object getBodyObject(@NotNull Response response) {
-        try (ResponseBody body = response.body()) {
+        try (ResponseBody body = getResponseBody(response)) {
             if (response.code() == 200 && body != null) {
                 try {
                     return Utils.deserialize(body.string());
@@ -257,7 +251,7 @@ public class NetUtils {
         if (response.code() != 200) {
             throw new Exception("Unexpected response code " + response.code());
         }
-        try (ResponseBody body = response.body()) {
+        try (ResponseBody body = getResponseBody(response)) {
             if (body == null) {
                 throw new Exception("Unexpected response body");
             }
@@ -275,7 +269,7 @@ public class NetUtils {
 
     @Nullable
     public static Node getBodyNodeIgnoreCode(@NotNull Response response) {
-        try (ResponseBody body = response.body()) {
+        try (ResponseBody body = getResponseBody(response)) {
             if (body != null) {
                 try {
                     return Utils.getJsonAST(body.string());
@@ -313,6 +307,16 @@ public class NetUtils {
     }
 
     @NotNull
+    public static String getFileNameFromURL(@NotNull String href, @NotNull String defaultName) {
+        try {
+            URL url = new URL(href);
+            return FilenameUtils.getBaseName(url.getPath());
+        } catch (MalformedURLException ignored) {
+        }
+        return defaultName;
+    }
+
+    @NotNull
     public static String getWebAppResource(@NotNull Class<?> loaderClass, @NotNull String fileName) {
         InputStream stream = ResourceUtil.getResourceAsStream(loaderClass.getClassLoader(), "web", fileName);
         InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
@@ -320,5 +324,42 @@ public class NetUtils {
         StringBuilder builder = new StringBuilder();
         bufferedReader.forEach(line -> builder.append(line).append("\n"));
         return builder.toString();
+    }
+
+    @Nullable
+    public static ResponseBody getResponseBody(@NotNull Response response) {
+        Logger logger = Logger.getInstance(NetUtils.class);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Response {method=" + response.request().method() +
+                    ", url=" + getSafeUrl(response.request().url()) + ", code=" + response.code() + "}");
+        }
+        return response.body();
+    }
+
+    @NotNull
+    public static String getSafeUrl(@NotNull HttpUrl url) {
+        HttpUrl.Builder builder = new HttpUrl.Builder().scheme(url.scheme()).host(url.host()).port(url.port()).
+                username(url.username()).password(url.password()).encodedPath(url.encodedPath()).fragment(url.fragment());
+        if (StringUtils.isEmpty(url.query())) {
+            builder.query(url.query());
+        } else {
+            for (String name : url.queryParameterNames()) {
+                // Value is decoded
+                String value = url.queryParameter(name);
+                if (value != null) {
+                    String safeValue = REDACTOR.redact(name, value, REQUEST_QUERY);
+                    if (Objects.equals(safeValue, value)) {
+                        builder.addEncodedQueryParameter(name, URLEncoder.encode(safeValue, StandardCharsets.UTF_8));
+                    } else {
+                        // No need to encode the mask value
+                        builder.addEncodedQueryParameter(name, safeValue);
+                    }
+
+                } else {
+                    builder.addEncodedQueryParameter(name, null);
+                }
+            }
+        }
+        return builder.build().toString();
     }
 }

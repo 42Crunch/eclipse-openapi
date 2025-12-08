@@ -6,6 +6,7 @@ import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 
 import java.io.IOException;
@@ -106,7 +107,7 @@ public class ExtRef {
         if (contentType == null) {
             throw new WorkspaceException("Failed to get content type for " + url);
         }
-        final ResponseBody body = response.body();
+        final ResponseBody body = getResponseBody(response);
         if (body == null) {
             throw new WorkspaceException("Failed to get response body for " + url);
         }
@@ -182,7 +183,7 @@ public class ExtRef {
 
     private ContentType getContentType(String uri, Response response) {
         String contentType = "";
-        ResponseBody body = response.body();
+        ResponseBody body = getResponseBody(response);
         if (body != null) {
             MediaType mediaType = body.contentType();
             if (mediaType != null) {

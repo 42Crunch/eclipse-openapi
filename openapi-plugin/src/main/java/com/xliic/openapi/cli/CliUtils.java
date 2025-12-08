@@ -5,6 +5,7 @@ import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.NetUtils.getProxyString;
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.PROXY;
 
@@ -57,7 +58,7 @@ public class CliUtils {
                                                    @NotNull String currentVersion,
                                                    @NotNull String platform) throws Exception {
         try (Response response = CliAPIs.Sync.getManifest(repository)) {
-            try (ResponseBody body = response.body()) {
+            try (ResponseBody body =  getResponseBody(response)) {
                 if (body != null && response.code() == 200) {
                     List<Map<String, String>> manifest = OBJECT_MAPPER.readValue(body.string(), List.class);
                     if (manifest != null) {

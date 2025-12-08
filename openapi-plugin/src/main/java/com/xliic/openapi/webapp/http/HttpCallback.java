@@ -1,5 +1,7 @@
 package com.xliic.openapi.webapp.http;
 
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -44,7 +46,7 @@ public class HttpCallback implements Callback {
         for (int i = 0; i < respHeaders.size(); i++) {
             headers.add(new LinkedList<>(Arrays.asList(respHeaders.name(i), respHeaders.value(i))));
         }
-        try (ResponseBody body = response.body()) {
+        try (ResponseBody body = getResponseBody(response)) {
             if (body != null) {
                 fireHttpResponseError(new HttpResponse(httpVersion, statusCode, statusMessage, headers, body.string(), requestId));
             }
