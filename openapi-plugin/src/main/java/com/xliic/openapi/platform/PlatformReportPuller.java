@@ -1,5 +1,8 @@
 package com.xliic.openapi.platform;
 
+import static com.xliic.openapi.platform.PlatformAPIs.Sync.readAuditReport;
+import static com.xliic.openapi.platform.PlatformAPIs.Sync.readBrMainAuditReport;
+
 import java.io.IOException;
 import java.util.Date;
 
@@ -23,12 +26,18 @@ public class PlatformReportPuller extends Puller<Node> {
     private final Project project;
     @NotNull
     private final String apiId;
+    private final boolean useBrMain;
     private final long lastDate;
 
     public PlatformReportPuller(@NotNull Project project, @NotNull String apiId, int pause, int duration) {
+        this(project, apiId, pause, duration, false);
+    }
+
+    public PlatformReportPuller(@NotNull Project project, @NotNull String apiId, int pause, int duration, boolean useBrMain) {
         super(pause, duration);
         this.project = project;
         this.apiId = apiId;
+        this.useBrMain = useBrMain;
         PlatformService platformService = PlatformService.getInstance(project);
         Date date = platformService.getAssessmentLastDate(apiId);
         lastDate = (date == null) ? DEFAULT_LAST_DATE.getTime() : date.getTime();
@@ -36,7 +45,7 @@ public class PlatformReportPuller extends Puller<Node> {
 
     @Override
     protected @NotNull Response send() throws IOException {
-        return PlatformAPIs.Sync.readApi(apiId, false);
+        return useBrMain ? PlatformAPIs.Sync.readBrMainApi(apiId) : PlatformAPIs.Sync.readApi(apiId, false);
     }
 
     @Override
@@ -53,16 +62,16 @@ public class PlatformReportPuller extends Puller<Node> {
             PlatformService platformService = PlatformService.getInstance(project);
             platformService.setAssessmentLastDate(apiId, date);
             try {
-                return NetUtils.getBodyNode(PlatformAPIs.Sync.readAuditReport(apiId));
+                return NetUtils.getBodyNode(useBrMain ? readBrMainAuditReport(apiId) : readAuditReport(apiId));
             } catch (Exception ignored) {
             }
         }
         return null;
     }
 
-    @Override
     @NotNull
     protected Exception timeout() {
         return new Exception("Failed to get assessment report");
     }
 }
+

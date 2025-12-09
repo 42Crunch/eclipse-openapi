@@ -157,7 +157,7 @@ public class NetUtils {
     }
 
     public static void download(@NotNull String url, @NotNull String filePath, @NotNull ProgressListener listener) throws Exception {
-        Response response = HTTP_CLIENT.newCall(new Request.Builder().url(url).get().build()).execute();
+        Response response = getHttpClient().newCall(new Request.Builder().url(url).get().build()).execute();
         ResponseBody body = Objects.requireNonNull(getResponseBody(response));
         final long total = body.contentLength();
         if (total <= 0) {

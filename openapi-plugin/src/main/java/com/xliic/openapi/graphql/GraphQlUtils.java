@@ -1,7 +1,12 @@
 package com.xliic.openapi.graphql;
 
+import static com.xliic.openapi.platform.scan.ScanUtils.*;
+
+import java.util.Date;
 import java.util.Optional;
 import java.util.regex.Pattern;
+
+import okhttp3.Response;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,9 +17,15 @@ import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.Range;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.platform.NamingConvention;
+import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
+import com.xliic.openapi.platform.tree.node.PlatformAPI;
+import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.report.types.Issue;
 import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.utils.NetUtils;
 
 import graphql.language.FieldDefinition;
 import graphql.language.InputValueDefinition;
@@ -31,6 +42,29 @@ public class GraphQlUtils {
     private static final Pattern ARGUMENT_PATTERN = Pattern.compile("\\(.*:.*\\)$");
     private static final Pattern LIST_TYPE_PATTERN = Pattern.compile(":\\s*\\[.*]!?$");
     private static final Pattern SIMPLE_TYPE_PATTERN = Pattern.compile(":\\s*[^()\\[\\]]+$");
+
+    @NotNull
+    public static PlatformAPI createTempApi(@NotNull String collectionId, @NotNull String text) throws Exception {
+        // If the api naming convention is configured, use its example as the api name
+        // this way we don't have to come up with a name that matches its pattern
+        NamingConvention convention = PlatformUtils.getApiNamingConvention();
+        String apiName = convention.getPattern().isEmpty() ? TMP_PREFIX + API_TEMP_NAME_DATE_FORMATTER.format(new Date()) : convention.getExample();
+        try (Response response = GraphQlAPIs.createAPI(collectionId, apiName, text)) {
+            Node body = NetUtils.getBodyNodeIgnoreCode(response);
+            if (body != null) {
+                if (response.code() == 200) {
+                    return PlatformImportAPICallback.getPlatformAPI(body, apiName);
+                } else {
+                    String code = body.getChildValue("code");
+                    String message = body.getChildValue("message");
+                    if ("109".equals(code) && "limit reached".equals(message)) {
+                        throw new Exception(LIMIT_REACHED_MSG);
+                    }
+                }
+            }
+        }
+        throw new Exception("Failed to create temporary api " + apiName);
+    }
 
     public static void goToLocationInFile(@NotNull Project project, @NotNull VirtualFile file, @NotNull String pointer) {
         AuditService auditService = AuditService.getInstance(project);

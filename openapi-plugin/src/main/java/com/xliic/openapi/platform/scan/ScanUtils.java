@@ -48,12 +48,12 @@ import okhttp3.Response;
 public class ScanUtils {
 
     public static final String COLLECTION_TEMP_NAME = "IDE Temp Collection";
-    private static final SimpleDateFormat API_TEMP_NAME_DATE_FORMATTER = new SimpleDateFormat("HHmmssddMMyyyy");
+    public static final SimpleDateFormat API_TEMP_NAME_DATE_FORMATTER = new SimpleDateFormat("HHmmssddMMyyyy");
     private static final int PAUSE = 1000;
     private static final int PULL_SCAN_CONFIG_DURATION = 30000;
     private static final int PULL_SCAN_REPORT_DURATION = 30000;
     private static final int PULL_REPORT_DURATION = 60000;
-    private static final String TMP_PREFIX = "tmp-";
+    public static final String TMP_PREFIX = "tmp-";
     public static final int TEMP_API_CLEAN_TIMEOUT = 600000;
 
     public static final String LIMIT_REACHED_MSG = "You have reached your maximum number of APIs. " +
