@@ -41,7 +41,8 @@ const c = {
     platformMandatoryTags: "",
     approvedHosts: [],
     internalUseDevEndpoints: !1,
-    internalFeatures: !1
+    internalFeatures: !1,
+    internalDisableLogRedaction: !1
   },
   platformConnectionTestResult: void 0,
   waitingForPlatformConnectionTest: !1,
@@ -64,7 +65,7 @@ const c = {
     "audit-runtime": void 0,
     "scan-runtime": void 0,
     "openapi-external-refs": void 0,
-    "dev-endpoints": void 0
+    "internal-settings": void 0
   },
   hasErrors: !1
 }, a = i({
@@ -143,12 +144,12 @@ const {
   setError: v,
   clearError: C,
   testPlatformConnection: w,
-  showPlatformConnectionTest: T,
-  testOverlordConnection: g,
+  showPlatformConnectionTest: g,
+  testOverlordConnection: T,
   showOverlordConnectionTest: h,
   testScandManagerConnection: y,
-  showScandManagerConnectionTest: S,
-  addInsecureSslHostname: R,
+  showScandManagerConnectionTest: R,
+  addInsecureSslHostname: S,
   removeInsecureSslHostname: F,
   testCli: D,
   showCliTest: P,
@@ -157,14 +158,14 @@ const {
   openLink: H
 } = a.actions, k = s, O = l, x = a.reducer;
 export {
-  R as a,
+  S as a,
   P as b,
   x as c,
-  S as d,
+  R as d,
   h as e,
-  T as f,
+  g as f,
   O as g,
-  g as h,
+  T as h,
   M as i,
   D as j,
   y as k,

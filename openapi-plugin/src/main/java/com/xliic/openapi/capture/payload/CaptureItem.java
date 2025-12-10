@@ -101,7 +101,8 @@ public class CaptureItem {
         this.downloadedFile = downloadedFile;
     }
 
-    @NotNull
+    @SuppressWarnings("serial")
+	@NotNull
     public Map<String, Object> getPayload() {
         return new HashMap<>() {{
             put("id", id);

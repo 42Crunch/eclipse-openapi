@@ -1,6 +1,7 @@
 package com.xliic.openapi;
 
 import static com.xliic.openapi.platform.PlatformConnection.isPlatformIntegrationEnabled;
+import static com.xliic.openapi.settings.Settings.Log.ENABLE_MAX_LOG_LEVEL_FLAG;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +49,7 @@ import com.xliic.openapi.listeners.OpenAPIBulkFileListener;
 import com.xliic.openapi.listeners.OpenAPIPartListener;
 import com.xliic.openapi.listeners.OpenAPIProjectManagerListener;
 import com.xliic.openapi.services.PlatformService;
+import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.statusbar.AuthUserContributionItem;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
@@ -95,6 +97,7 @@ public class OpenAPIAbstractUIPlugin extends AbstractUIPlugin {
         pluginId = (context == null) ? "unknown" : context.getBundle().getSymbolicName();
         version = (context == null) ? Version.emptyVersion : context.getBundle().getVersion();
         startupActivity.runActivity(project);
+        Logger.getInstance().setMaxLogLevel(SettingsService.getInstance().getBoolean(ENABLE_MAX_LOG_LEVEL_FLAG));
         project.getMessageBus().connect().subscribe(FileListener.TOPIC, actionUpdater);
         project.getMessageBus().connect().subscribe(SettingsListener.TOPIC, actionUpdater);
     }

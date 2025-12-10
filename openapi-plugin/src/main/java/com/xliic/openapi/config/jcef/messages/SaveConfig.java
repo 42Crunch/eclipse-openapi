@@ -6,6 +6,7 @@ import static com.xliic.openapi.settings.Settings.CliAst.CLI_DIRECTORY_OVERRIDE;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_DISABLE_LOG_REDACTION;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.API_KEY;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
 import static com.xliic.openapi.settings.Settings.Platform.Credentials.URL;
@@ -97,6 +98,7 @@ public class SaveConfig extends WebAppProduce {
             settingsService.setCacheValue(AUDIT_RUNTIME, map.get("auditRuntime"));
             settingsService.setCacheValue(INTERNAL_FEATURES, map.get("internalFeatures"));
             settingsService.setCacheValue(INTERNAL_USE_DEV_ENDPOINTS, map.get("internalUseDevEndpoints"));
+            settingsService.setCacheValue(INTERNAL_DISABLE_LOG_REDACTION, map.get("internalDisableLogRedaction"));
             Credentials.Type newType = Credentials.getCredentialsType();
             if (newType != currentType) {
                 TagsService.getInstance(project).updateCredentialsType(newType);

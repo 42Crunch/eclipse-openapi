@@ -1,7 +1,7 @@
 import { j as a, f as $, v as Dp, w as At, c as Yn, i as Qn, a as $p, p as Pp, x as zp, r as Ap, t as Rp, l as Np, u as Mp, b as qp, e as S, T as k, S as ct, y as Fp, z as Lp, A as Bp, C as cr, D as ta, E as na, F as ra, G as oa, H as ia, B as ud, I as sa, J as dd, O as aa, K as la, m as fd, R as Tt, L as fs, M as ye, N as Up, Q as Hp, d as Vp, s as Wp, U as Gp, V as Kp, g as Xp, P as Yp, h as Qp, W as Jp, k as Zp } from "./TriangleExclamation.DrtDYmuA.js";
 import { a as Jn, S as eg } from "./SearchSidebar.BkfGCTmV.js";
 import { q as tg, v as Ao, x as ng, y as hd, t as zn, r as An, o as Rt, f as ca, D as ua, z as pd, A as Mr, B as gd, C as md, i as da, d as Er, F as rg, G as Nl, H as yd, I as og, J as ig, K as sg, E as ag, g as lg, j as cg } from "./variables.DElIGxPf.js";
-import { l as ug, c as dg } from "./slice.Cj1iT2KW.js";
+import { l as ug, c as dg } from "./slice.CPtQvM1w.js";
 import { l as fg, e as hg, c as it, s as vd, H as pg } from "./index._qgotw_w.js";
 import { l as gg, p as mg, u as yg, b as vg, c as xd, d as xg, e as bg, S as bd } from "./slice.DIinnMJD.js";
 import { s as yt, g as kg, S as wg, M as bt, a as Nt, b as Sg, c as jg, d as Cg, C as Ml, e as ql, G as _g } from "./GeneralError.DD1N1rnF.js";
@@ -16665,7 +16665,7 @@ function TC(e, t, n) {
       }
     },
     void 0
-  ] : (n.in === "header" || n.in === "query" || n.in === "cookie") && (n.from == "response" || n.from == "request") ? [
+  ] : (n.in === "header" || n.in === "query" || n.in === "cookie" || n.in === "path") && (n.from == "response" || n.from == "request") ? [
     {
       in: n.in,
       from: n.from,

@@ -1,11 +1,14 @@
 package com.xliic.openapi;
 
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_DISABLE_LOG_REDACTION;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
+import com.xliic.openapi.settings.SettingsService;
 
 public class LogRedactor {
 
@@ -29,6 +32,9 @@ public class LogRedactor {
 
     @NotNull
     public String redact(@NotNull String field, @NotNull String value, @NotNull Scope scope) {
+        if (isRedactionDisabled()) {
+            return value;
+        }
         for (Rule rule : rules) {
             if (rule.scope == scope && rule.field != null && areFieldsEqual(rule.field, field, scope)) {
                 if (scope == Scope.CMD_EXEC_ARGS) {
@@ -43,6 +49,9 @@ public class LogRedactor {
 
     @NotNull
     public String redact(@NotNull String value, @NotNull Scope scope) {
+        if (isRedactionDisabled()) {
+            return value;
+        }
         String result = value;
         for (Rule rule : rules) {
             if (rule.scope == scope && rule.pattern != null) {
@@ -50,6 +59,10 @@ public class LogRedactor {
             }
         }
         return result;
+    }
+    
+    private static boolean isRedactionDisabled() {
+        return SettingsService.getInstance().getBoolean(INTERNAL_DISABLE_LOG_REDACTION);
     }
 
     private static boolean areFieldsEqual(String field1, String field2, Scope scope) {
