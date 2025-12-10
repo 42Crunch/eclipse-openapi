@@ -30,7 +30,7 @@ public class LogRedactor {
     @NotNull
     public String redact(@NotNull String field, @NotNull String value, @NotNull Scope scope) {
         for (Rule rule : rules) {
-            if (rule.scope == scope && rule.field != null && rule.field.equals(field)) {
+            if (rule.scope == scope && rule.field != null && areFieldsEqual(rule.field, field, scope)) {
                 if (scope == Scope.CMD_EXEC_ARGS) {
                     return value.startsWith("--") ? value : rule.mask;
                 } else {
@@ -50,6 +50,15 @@ public class LogRedactor {
             }
         }
         return result;
+    }
+
+    private static boolean areFieldsEqual(String field1, String field2, Scope scope) {
+        if (scope == Scope.REQUEST_HEADER) {
+            // HTTP header names are case-insensitive according to the HTTP specification
+            return field1.equalsIgnoreCase(field2);
+        } else {
+            return field1.equals(field2);
+        }
     }
 
     private static class Rule {
