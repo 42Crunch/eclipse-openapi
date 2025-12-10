@@ -257,6 +257,11 @@ public class SettingsService implements ISettingsService, Disposable  {
         return value * 1024 * 1024;
     }
 
+    public int getConnectionTimeout() {
+        // Same value for Connect / Read/ Write timeouts
+        return getIntValue(Settings.NetworkSettings.CONNECTION_TIMEOUT, "10");
+    }
+    
     private CredentialAttributes getCredentialAttrs(@NotNull String key) {
         return new CredentialAttributes(CredentialAttributesKt.generateServiceName(SUBSYSTEM, key));
     }

@@ -11,6 +11,7 @@ import com.xliic.openapi.proxy.*;
 import com.xliic.openapi.report.AuditAPIs;
 import com.xliic.openapi.tryit.TryItTrustManager;
 import com.xliic.openapi.webapp.http.SendHttpRequest;
+import com.xliic.openapi.settings.SettingsService;
 import okhttp3.*;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FilenameUtils;
@@ -75,6 +76,7 @@ public class NetUtils {
             builder.proxyAuthenticator(new PredefinedAuthenticator(proxy));
         }
         builder.eventListener(new ProxyEventListener(logRequestBody));
+        setTimeouts(builder);
         return builder.build();
     }
 
@@ -111,6 +113,7 @@ public class NetUtils {
                 builder.proxyAuthenticator(new PredefinedAuthenticator(proxy));
             }
             builder.eventListener(new ProxyEventListener());
+            setTimeouts(builder);
             return builder.build();
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             Logger.getInstance(SendHttpRequest.class).info(e);
@@ -361,5 +364,15 @@ public class NetUtils {
             }
         }
         return builder.build().toString();
+    }
+    
+    private static void setTimeouts(OkHttpClient.Builder builder) {
+        final int timeout = SettingsService.getInstance().getConnectionTimeout();
+        // Connect Timeout is time to establish a connection to the server, includes TCP handshake, SSL handshake
+        builder.connectTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS);
+        // Read Timeout is time between bytes received from the server, maximum time between data packets
+        builder.readTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS);
+        // Write Timeout is time between bytes sent to the server, maximum time between sending data packets
+        builder.writeTimeout(timeout, java.util.concurrent.TimeUnit.SECONDS);
     }
 }

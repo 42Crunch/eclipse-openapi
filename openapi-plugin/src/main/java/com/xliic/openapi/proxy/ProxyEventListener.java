@@ -35,15 +35,21 @@ public class ProxyEventListener extends EventListener {
     }
 
     @Override
-    public void proxySelectEnd(@NotNull Call call, @NotNull HttpUrl url, @NotNull List<Proxy> proxies) {
-        // This will trigger on every HTTP request, so be careful with performance below
+    public void callStart(@NotNull Call call) {
         Logger logger = Logger.getInstance(ProxyEventListener.class);
         if (logger.isTraceEnabled()) {
             logger.trace(getRequestString(((RealCall) call).getOriginalRequest()));
-            if (!proxies.isEmpty()) {
-                for (Proxy proxy : proxies) {
-                    logger.trace("Proxy " + url + " " + proxy);
-                }
+            logger.trace("Client timeouts {" + getTimeouts(((RealCall) call).getClient()) + "}");
+        }
+    }
+
+    @Override
+    public void proxySelectEnd(@NotNull Call call, @NotNull HttpUrl url, @NotNull List<Proxy> proxies) {
+        // This will trigger on every HTTP request, so be careful with performance below
+        Logger logger = Logger.getInstance(ProxyEventListener.class);
+        if (logger.isTraceEnabled() && !proxies.isEmpty()) {
+            for (Proxy proxy : proxies) {
+                logger.trace("Proxy " + url + " " + proxy);
             }
         }
     }
@@ -95,5 +101,10 @@ public class ProxyEventListener extends EventListener {
 
     private static boolean isAppJsonType(MediaType contentType) {
         return "json".equals(contentType.subtype()) && "application".equals(contentType.type());
+    }
+    
+    private static String getTimeouts(OkHttpClient client) {
+        return "connect=" + client.connectTimeoutMillis() + ", " + "read=" + client.readTimeoutMillis() + ", " +
+                "write=" + client.writeTimeoutMillis() + ", " + "call=" + client.callTimeoutMillis();
     }
 }

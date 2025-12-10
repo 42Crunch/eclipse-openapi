@@ -38,6 +38,7 @@ import com.xliic.openapi.settings.Settings.Audit;
 import com.xliic.openapi.settings.Settings.ExtRef;
 import com.xliic.openapi.settings.Settings.InlinedAnnotations;
 import com.xliic.openapi.settings.Settings.Log;
+import com.xliic.openapi.settings.Settings.NetworkSettings;
 import com.xliic.openapi.settings.Settings.Outline;
 import com.xliic.openapi.settings.Settings.Platform.Dictionary.PreAudit;
 import com.xliic.openapi.settings.Settings.Preview;
@@ -56,6 +57,8 @@ import com.xliic.openapi.settings.table.host.HostNameTableEditor;
 import com.xliic.openapi.topic.SettingsListener;
 
 public class SettingsConfigurable extends SearchableConfigurable implements Configurable.NoScroll {
+	
+	private static final int MAX_CONNECTION_TIMEOUT = (int) Math.floor((double) Integer.MAX_VALUE / 1000);
 
     // 42Crunch Platform Credentials
     private JPanel platformPanel;
@@ -96,6 +99,8 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
     private JButton auditTokenCleanButton;
     private JPanel parserSettingsPanel;
     private JTextField codePointLimitTextField;
+    private JPanel networkPanel;
+    private JTextField connectionTimeout;
     
     private final List<Item> items = new LinkedList<>();
 
@@ -121,6 +126,11 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         infoIco.setImage(CONFIG_IMG);
         Label info = new Label(platformPanel.getComposite(), SWT.NULL);
         info.setText("Settings can be configured in Tools / OpenAPI (Swagger) Editor / Configure Settings...");
+        
+        networkPanel = new JPanel("Network Settings", parent, SWT.NONE, 2);
+        connectionTimeout = new JTextField(networkPanel);
+        // OkHttpClient default value is 10sec (same for connect/read/write timeouts)
+        items.add(new ItemIntegerField(connectionTimeout, NetworkSettings.CONNECTION_TIMEOUT, 10, MAX_CONNECTION_TIMEOUT));
         
         parserSettingsPanel = new JPanel("Snake YAML Settings", parent, SWT.NONE, 2);
         codePointLimitTextField = new JTextField(parserSettingsPanel);

@@ -183,6 +183,15 @@ public class Settings {
         }
     }
 
+    public static class NetworkSettings {
+
+        public static final String CONNECTION_TIMEOUT = "com.xliic.openapi.settings.network.settings.connection.timeout";
+
+        static {
+            DEFAULTS.put(CONNECTION_TIMEOUT, "10");
+        }
+    }
+
     public static class InlinedAnnotations {
 
         public static final String ENABLE_FLAG = "com.xliic.openapi.settings.inlined.annotations.enable.flag";

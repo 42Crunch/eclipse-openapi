@@ -130,6 +130,11 @@
             name="Generate Large Scan Report">
         </command>
         <command
+            defaultHandler="com.xliic.openapi.actions.internal.TestTimeoutAction"
+            id="com.xliic.openapi.actions.internal.TestTimeoutAction"
+            name="Test Timeout">
+        </command>
+        <command
             defaultHandler="com.xliic.openapi.actions.internal.WhatsNewAction"
             id="com.xliic.openapi.actions.internal.WhatsNewAction"
             name="Show What's New">
@@ -519,6 +524,10 @@
                     commandId="com.xliic.openapi.actions.internal.GenerateLargeScanReportAction"
                     style="push">
                 </command>
+                <command
+                    commandId="com.xliic.openapi.actions.internal.TestTimeoutAction"
+                    style="push">
+        		</command>
                 <command
                     commandId="com.xliic.openapi.actions.internal.WhatsNewAction"
                     style="push">
