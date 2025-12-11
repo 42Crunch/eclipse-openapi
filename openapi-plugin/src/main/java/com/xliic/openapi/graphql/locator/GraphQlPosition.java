@@ -1,7 +1,13 @@
 package com.xliic.openapi.graphql.locator;
 
-import graphql.language.*;
 import org.jetbrains.annotations.NotNull;
+
+import graphql.language.DirectiveDefinition;
+import graphql.language.FieldDefinition;
+import graphql.language.ObjectTypeDefinition;
+import graphql.language.SourceLocation;
+import graphql.language.StringValue;
+import graphql.language.TypeName;
 
 public class GraphQlPosition {
 

@@ -1,21 +1,29 @@
 package com.xliic.openapi.proxy;
 
-import com.xliic.core.diagnostic.Logger;
-import com.xliic.openapi.LogRedactor;
-import kotlin.Pair;
-import okhttp3.*;
-import okhttp3.internal.connection.RealCall;
-import okio.Buffer;
-import org.jetbrains.annotations.NotNull;
+import static com.xliic.openapi.LogRedactor.Scope.REQUEST_BODY;
+import static com.xliic.openapi.LogRedactor.Scope.REQUEST_HEADER;
+import static com.xliic.openapi.utils.NetUtils.getSafeUrl;
 
 import java.io.IOException;
 import java.net.Proxy;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.xliic.openapi.LogRedactor.Scope.REQUEST_BODY;
-import static com.xliic.openapi.LogRedactor.Scope.REQUEST_HEADER;
-import static com.xliic.openapi.utils.NetUtils.getSafeUrl;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.diagnostic.Logger;
+import com.xliic.openapi.LogRedactor;
+
+import kotlin.Pair;
+import okhttp3.Call;
+import okhttp3.EventListener;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.internal.connection.RealCall;
+import okio.Buffer;
 
 public class ProxyEventListener extends EventListener {
 

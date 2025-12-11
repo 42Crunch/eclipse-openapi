@@ -1,30 +1,20 @@
 package com.xliic.openapi.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xliic.core.credentialStore.Credentials;
-import com.xliic.core.diagnostic.Logger;
-import com.xliic.core.util.ResourceUtil;
-import com.xliic.openapi.LogRedactor;
-import com.xliic.openapi.parser.ast.node.Node;
-import com.xliic.openapi.proxy.*;
-import com.xliic.openapi.report.AuditAPIs;
-import com.xliic.openapi.tryit.TryItTrustManager;
-import com.xliic.openapi.webapp.http.SendHttpRequest;
-import com.xliic.openapi.settings.SettingsService;
-import okhttp3.*;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import static com.xliic.openapi.LogRedactor.Scope.REQUEST_QUERY;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.MessageDigest;
@@ -36,7 +26,42 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import static com.xliic.openapi.LogRedactor.Scope.REQUEST_QUERY;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xliic.core.credentialStore.Credentials;
+import com.xliic.core.diagnostic.Logger;
+import com.xliic.core.util.ResourceUtil;
+import com.xliic.openapi.LogRedactor;
+import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.proxy.CustomAuthenticator;
+import com.xliic.openapi.proxy.CustomProxyAuthentication;
+import com.xliic.openapi.proxy.CustomProxySelector;
+import com.xliic.openapi.proxy.PredefinedAuthenticator;
+import com.xliic.openapi.proxy.PredefinedProxySelector;
+import com.xliic.openapi.proxy.ProxyEventListener;
+import com.xliic.openapi.report.AuditAPIs;
+import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.tryit.TryItTrustManager;
+import com.xliic.openapi.webapp.http.SendHttpRequest;
+
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class NetUtils {
 

@@ -1,13 +1,7 @@
 package com.xliic.openapi.capture;
 
-import com.xliic.openapi.Endpoints;
-import com.xliic.openapi.capture.payload.PrepareOptions;
-import okhttp3.MultipartBody;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
+import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +10,16 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static com.xliic.openapi.utils.NetUtils.getHttpClient;
-import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.Endpoints;
+import com.xliic.openapi.capture.payload.PrepareOptions;
+
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class CaptureAPI {
 

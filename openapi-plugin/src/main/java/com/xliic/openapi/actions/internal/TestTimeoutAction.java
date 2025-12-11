@@ -1,16 +1,18 @@
 package com.xliic.openapi.actions.internal;
 
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.actionSystem.ActionUpdateThread;
 import com.xliic.core.actionSystem.AnAction;
 import com.xliic.core.actionSystem.AnActionEvent;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.MsgUtils;
+
 import okhttp3.Request;
 import okhttp3.Response;
-import org.jetbrains.annotations.NotNull;
-
-import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 
 public class TestTimeoutAction extends AnAction {
 

@@ -1,10 +1,19 @@
 package com.xliic.openapi.graphql.locator;
 
-import graphql.language.*;
+import java.util.regex.Pattern;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.regex.Pattern;
+import graphql.language.DirectiveDefinition;
+import graphql.language.FieldDefinition;
+import graphql.language.InputValueDefinition;
+import graphql.language.ListType;
+import graphql.language.NonNullType;
+import graphql.language.ObjectTypeDefinition;
+import graphql.language.StringValue;
+import graphql.language.Type;
+import graphql.language.TypeName;
 
 class GraphQlLocator {
 

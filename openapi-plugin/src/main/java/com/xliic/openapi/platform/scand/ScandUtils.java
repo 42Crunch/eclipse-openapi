@@ -1,8 +1,8 @@
 package com.xliic.openapi.platform.scand;
 
-import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.TIMEOUT;
 import static com.xliic.openapi.settings.Settings.Platform.Scan.ScandMgr.TIMEOUT_DEFAULT;
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 
 import java.io.IOException;
 

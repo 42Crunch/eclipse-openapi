@@ -1,12 +1,14 @@
 package com.xliic.openapi.graphql.locator;
 
-import com.xliic.core.editor.Document;
-import com.xliic.openapi.parser.ast.Range;
-import graphql.schema.idl.TypeDefinitionRegistry;
+import static com.xliic.openapi.graphql.locator.GraphQlLocator.ARGUMENT_PATTERN;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.xliic.openapi.graphql.locator.GraphQlLocator.ARGUMENT_PATTERN;
+import com.xliic.core.editor.Document;
+import com.xliic.openapi.parser.ast.Range;
+
+import graphql.schema.idl.TypeDefinitionRegistry;
 
 public class GraphQlHandler {
 

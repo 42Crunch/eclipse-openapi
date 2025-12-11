@@ -1,12 +1,20 @@
 package com.xliic.openapi.graphql.locator;
 
-import graphql.language.*;
-import graphql.schema.idl.TypeDefinitionRegistry;
+import java.util.Map;
+import java.util.Optional;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-import java.util.Optional;
+import graphql.language.Argument;
+import graphql.language.ArrayValue;
+import graphql.language.Directive;
+import graphql.language.DirectiveDefinition;
+import graphql.language.FieldDefinition;
+import graphql.language.ObjectTypeDefinition;
+import graphql.language.StringValue;
+import graphql.language.Value;
+import graphql.schema.idl.TypeDefinitionRegistry;
 
 class GraphQlFinder {
 

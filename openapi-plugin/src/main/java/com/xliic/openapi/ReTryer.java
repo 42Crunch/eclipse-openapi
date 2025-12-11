@@ -1,10 +1,10 @@
 package com.xliic.openapi;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
+
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ReTryer<T> {
 

@@ -1,12 +1,13 @@
 package com.xliic.openapi.capture.jcef.messages;
 
-import com.xliic.core.project.Project;
-import com.xliic.openapi.capture.CaptureService;
-import com.xliic.openapi.webapp.messages.WebAppProduce;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
+import com.xliic.core.project.Project;
+import com.xliic.openapi.capture.CaptureService;
+import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public class SaveCaptureSettings extends WebAppProduce {
 

@@ -2,9 +2,9 @@ package com.xliic.openapi.config.payload;
 
 import static com.xliic.openapi.platform.scan.ScanUtils.COLLECTION_TEMP_NAME;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_DISABLE_LOG_REDACTION;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
-import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_DISABLE_LOG_REDACTION;
 
 import java.util.HashMap;
 import java.util.LinkedList;

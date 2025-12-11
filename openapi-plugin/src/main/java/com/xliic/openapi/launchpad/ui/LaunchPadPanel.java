@@ -1,18 +1,18 @@
 package com.xliic.openapi.launchpad.ui;
 
-import com.xliic.core.Disposable;
-import com.xliic.core.project.Project;
-import com.xliic.core.ui.Color;
-import com.xliic.core.ui.components.JButton;
-import com.xliic.core.wm.ToolWindow;
-import com.xliic.openapi.capture.CaptureService;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.jetbrains.annotations.NotNull;
+
+import com.xliic.core.Disposable;
+import com.xliic.core.project.Project;
+import com.xliic.core.ui.Color;
+import com.xliic.core.ui.components.JButton;
+import com.xliic.core.wm.ToolWindow;
+import com.xliic.openapi.capture.CaptureService;
 
 public class LaunchPadPanel implements Disposable {
 

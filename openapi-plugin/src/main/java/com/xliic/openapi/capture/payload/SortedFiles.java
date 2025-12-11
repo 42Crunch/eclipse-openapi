@@ -1,8 +1,8 @@
 package com.xliic.openapi.capture.payload;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 
 public class SortedFiles {
 

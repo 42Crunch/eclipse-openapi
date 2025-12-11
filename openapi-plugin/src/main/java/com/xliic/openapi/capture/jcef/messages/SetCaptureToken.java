@@ -1,8 +1,9 @@
 package com.xliic.openapi.capture.jcef.messages;
 
-import com.xliic.openapi.webapp.messages.WebAppConsume;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.xliic.openapi.webapp.messages.WebAppConsume;
 
 public class SetCaptureToken extends WebAppConsume {
 

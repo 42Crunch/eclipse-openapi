@@ -1,5 +1,12 @@
 package com.xliic.openapi.graphql.task;
 
+import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
+
+import java.util.Base64;
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
@@ -13,14 +20,9 @@ import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.utils.Utils;
+
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Base64;
-import java.util.Objects;
-
-import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT;
 
 public class PlatformGraphQlAuditTask extends Task.Backgroundable {
 

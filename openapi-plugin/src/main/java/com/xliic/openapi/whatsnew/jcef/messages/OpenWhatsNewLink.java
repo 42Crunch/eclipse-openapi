@@ -1,12 +1,13 @@
 package com.xliic.openapi.whatsnew.jcef.messages;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.core.project.Project;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.webapp.messages.OpenLink;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class OpenWhatsNewLink extends OpenLink {
 

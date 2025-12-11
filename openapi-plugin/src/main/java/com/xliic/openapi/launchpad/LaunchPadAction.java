@@ -11,8 +11,8 @@ import com.xliic.core.project.Project;
 import com.xliic.core.wm.ToolWindow;
 import com.xliic.core.wm.ToolWindowManager;
 import com.xliic.openapi.ToolWindowId;
-import com.xliic.openapi.utils.WindowUtils;
 import com.xliic.openapi.launchpad.ui.LaunchPadPanelView;
+import com.xliic.openapi.utils.WindowUtils;
 
 public class LaunchPadAction extends AnAction implements DumbAware {
 

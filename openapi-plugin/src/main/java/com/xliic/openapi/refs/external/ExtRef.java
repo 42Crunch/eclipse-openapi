@@ -3,10 +3,10 @@ package com.xliic.openapi.refs.external;
 import static com.xliic.openapi.quickfix.QuickFix.formatFixText;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.utils.NetUtils.getHttpClient;
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
-import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 
 import java.io.IOException;

@@ -1,5 +1,24 @@
 package com.xliic.openapi.capture;
 
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_ANOND_TOKEN;
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.CAPTURE_EDITOR_ID;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.Disposable;
@@ -10,11 +29,11 @@ import com.xliic.core.services.ICaptureService;
 import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.ReTryer;
-import com.xliic.openapi.capture.payload.SortedFiles;
 import com.xliic.openapi.capture.payload.CaptureFileType;
 import com.xliic.openapi.capture.payload.CaptureItem;
 import com.xliic.openapi.capture.payload.FileUploadStatus;
 import com.xliic.openapi.capture.payload.PrepareOptions;
+import com.xliic.openapi.capture.payload.SortedFiles;
 import com.xliic.openapi.capture.payload.Status;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -25,21 +44,9 @@ import com.xliic.openapi.signup.SignUpType;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
+
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.File;
-import java.util.*;
-
-import static com.xliic.openapi.utils.NetUtils.getResponseBody;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_ANOND_TOKEN;
-import static com.xliic.openapi.webapp.editor.WebFileEditor.CAPTURE_EDITOR_ID;
 
 public final class CaptureService implements ICaptureService, Disposable {
 

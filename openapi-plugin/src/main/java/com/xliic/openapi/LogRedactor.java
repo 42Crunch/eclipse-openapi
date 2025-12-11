@@ -2,12 +2,13 @@ package com.xliic.openapi;
 
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_DISABLE_LOG_REDACTION;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.xliic.openapi.settings.SettingsService;
 
 public class LogRedactor {

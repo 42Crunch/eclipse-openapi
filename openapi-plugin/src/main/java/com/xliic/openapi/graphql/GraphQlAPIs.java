@@ -1,10 +1,7 @@
 package com.xliic.openapi.graphql;
 
-import com.xliic.openapi.platform.PlatformAPIs;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import org.jetbrains.annotations.NotNull;
+import static com.xliic.openapi.utils.NetUtils.getHttpClient;
+import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -12,8 +9,13 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.xliic.openapi.utils.NetUtils.getHttpClient;
-import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
+import org.jetbrains.annotations.NotNull;
+
+import com.xliic.openapi.platform.PlatformAPIs;
+
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class GraphQlAPIs {
 
