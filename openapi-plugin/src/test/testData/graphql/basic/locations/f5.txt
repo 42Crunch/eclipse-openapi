@@ -1,0 +1,3 @@
+Query.getRestaurant().Restaurant.id: ID!
+Query.getRestaurant().Restaurant.name: String!
+Query.getRestaurant().Restaurant.menuItems[0]: String

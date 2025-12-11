@@ -1,0 +1,16 @@
+directive @list(
+    maxItems: Int,
+    minItems: Int
+) on FIELD_DEFINITION
+
+directive @cost(weight: String!) on FIELD_DEFINITION
+
+type Restaurant {
+    id: ID!
+    name: String!
+    menuItems: [String]! @list(maxItems: 100, minItems: 0)
+}
+
+type Query {
+    getRestaurant: Restaurant @cost(weight: "1.0")
+}

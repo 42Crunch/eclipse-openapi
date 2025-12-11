@@ -17,7 +17,8 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleLocation;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.graphql.GraphQlService;
-import com.xliic.openapi.graphql.GraphQlUtils;
+import com.xliic.openapi.graphql.locator.GraphQlHandler;
+import com.xliic.openapi.graphql.locator.GraphQlPosition;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
@@ -91,9 +92,9 @@ public class Issue {
             if (file != null) {
                 Document document = FileDocumentManager.getInstance().getDocument(file);
                 if (document != null) {
-                    Range myRange = GraphQlUtils.getRangeByLocation(document, reg, pointer);
-                    if (myRange != null) {
-                        range = myRange;
+                    GraphQlPosition pos = new GraphQlHandler(reg).getPosition(pointer);
+                    if (pos != null) {
+                        range = GraphQlHandler.getRange(document, pos);
                         rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
                     }
                 }

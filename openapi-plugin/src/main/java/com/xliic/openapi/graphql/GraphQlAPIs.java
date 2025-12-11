@@ -17,7 +17,8 @@ import static com.xliic.openapi.utils.NetUtils.getJsonRequestBody;
 
 public class GraphQlAPIs {
 
-    @NotNull
+    @SuppressWarnings("serial")
+	@NotNull
     public static Response createAPI(@NotNull String collectionId,
                                      @NotNull String name,
                                      @NotNull String text) throws IOException {
