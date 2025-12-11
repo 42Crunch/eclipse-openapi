@@ -23,6 +23,8 @@ public class TopicCaptureListener<L> extends Topic<L> {
             listener.showCaptureWindow((List<CaptureItem>) args.get(0));
         } else if (funcId == 1) {
             listener.saveCapture((CaptureItem) args.get(0));
+        } else if (funcId == 2) {
+        	listener.setCaptureToken((String) args.get(0));
         }
     }
 
@@ -31,7 +33,7 @@ public class TopicCaptureListener<L> extends Topic<L> {
     @SuppressWarnings("unchecked")
     public <T> T syncPublisher(@NotNull IEventBroker eventBroker) {
         return (T) new CaptureListener() {
-        	
+
         	@Override
         	public void showCaptureWindow(@NotNull List<CaptureItem> items) {
         		eventBroker.send(getTopic(), getArgs(0, List.of(items)));
@@ -40,6 +42,11 @@ public class TopicCaptureListener<L> extends Topic<L> {
         	@Override
         	public void saveCapture(@NotNull CaptureItem item) {
         		eventBroker.send(getTopic(), getArgs(1, List.of(item)));
+        	}
+
+        	@Override
+        	public void setCaptureToken(@NotNull String token) {
+        		eventBroker.send(getTopic(), getArgs(2, List.of(token)));
         	}
         };
     }
