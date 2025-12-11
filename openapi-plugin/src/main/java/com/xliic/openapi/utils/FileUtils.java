@@ -168,11 +168,20 @@ public class FileUtils {
     
     @NotNull
     public static VirtualFileWrapper fixWrapperExt(@NotNull VirtualFileWrapper wrapper, @NotNull String ext) {
-        String path = wrapper.getFile().getAbsolutePath();
-        if (path.endsWith("." + ext)) {
+        if (hasExtension(wrapper.getFile())) {
             return wrapper;
         } else {
+            String path = wrapper.getFile().getAbsolutePath();
             return new VirtualFileWrapper(new File(path + "." + ext));
         }
+    }
+    
+    private static boolean hasExtension(File file) {
+        if (file == null) {
+            return false;
+        }
+        String fileName = file.getName();
+        int index = fileName.lastIndexOf('.');
+        return index > 0 && index < fileName.length() - 1;
     }
 }

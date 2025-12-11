@@ -33,7 +33,7 @@ public class DownloadFile extends WebAppProduce {
         if (payload instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) payload;
             String id = (String) map.get("id");
-            FileSaverDescriptor descriptor = new FileSaverDescriptor("Save", "Save openAPI file", "json");
+            FileSaverDescriptor descriptor = new FileSaverDescriptor("Save", "Save OpenAPI file", "json");
             FileSaverDialog saveDialog = FileChooserFactory.getInstance().createSaveFileDialog(descriptor, project);
             VirtualFileWrapper wrapper = saveDialog.save(null);
             if (wrapper != null) {

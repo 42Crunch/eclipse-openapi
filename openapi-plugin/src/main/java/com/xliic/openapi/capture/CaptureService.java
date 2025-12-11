@@ -172,7 +172,7 @@ public final class CaptureService implements ICaptureService, Disposable {
         // Upload request -> capture server
         try {
             for (String postman : files.getPostman()) {
-                requestUpload(connection, item, postman, files.getEnv().get(0));
+                requestUpload(connection, item, postman, files.getEnv().isEmpty() ? null : files.getEnv().get(0));
             }
             for (String other : files.getOther()) {
                 requestUpload(connection, item, other, null);
