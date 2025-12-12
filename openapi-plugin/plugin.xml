@@ -448,15 +448,10 @@
             locationURI="menu:org.eclipse.ui.main.menu?after=help">
             <menu
                 id="com.xliic.openapi.menu"
-                label="OpenAPI">
+                label="42Crunch">
                 <command
                     commandId="com.xliic.openapi.config.ConfigAction"
                     icon="icons/config.png"
-                    style="push">
-                </command>
-                <command
-                    commandId="com.xliic.openapi.capture.CaptureAction"
-                    icon="icons/capture.png"
                     style="push">
                 </command>
                 <command
@@ -500,6 +495,19 @@
                     icon="icons/platform-save.png"
                     style="push">
                 </command>
+                <menu
+                    id="com.xliic.openapi.tools.menu"
+                    label="Tools"
+                    icon="icons/tools.png">
+                    <command
+                        commandId="com.xliic.openapi.capture.CaptureAction"
+                        icon="icons/capture.png"
+                        id="com.xliic.openapi.capture.CaptureAction"
+                        label="API Contract Generator"
+                        style="push"
+                        tooltip="Convert HAR/Postman files to OpenAPI">
+                    </command>
+                </menu>
                 <command
                     commandId="com.xliic.openapi.actions.internal.ClearAllPropsAction"
                     style="push">
