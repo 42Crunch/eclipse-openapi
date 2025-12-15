@@ -102,22 +102,23 @@ public class ExtRef {
             builder.addHeader(hostConfig.getHeaderName(), hostConfig.getHeaderValue());
         }
         Request request = builder.url(url).build();
-        Response response = getHttpClient().newCall(request).execute();
-        contentType = getContentType(url.toString(), response);
-        if (contentType == null) {
-            throw new WorkspaceException("Failed to get content type for " + url);
+        try (Response response = getHttpClient().newCall(request).execute()) {
+	        contentType = getContentType(url.toString(), response);
+	        if (contentType == null) {
+	            throw new WorkspaceException("Failed to get content type for " + url);
+	        }
+	        final ResponseBody body = getResponseBody(response);
+	        if (body == null) {
+	            throw new WorkspaceException("Failed to get response body for " + url);
+	        }
+	        String text = formatFixText(body.string(), contentType == ContentType.JSON);
+	        IProject requestor = EclipseUtil.getProject(rootFileName);
+	        String fileName = (file == null) ? getFileName() : file.getName();
+	        file = WriteCommandAction.runWriteCommandAction(project,
+	                (Computable<VirtualFile>) () -> TempFileUtils.createExtRefFile(requestor, fileName, text));
+	        file.setReadOnly(true);
+	        LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
         }
-        final ResponseBody body = getResponseBody(response);
-        if (body == null) {
-            throw new WorkspaceException("Failed to get response body for " + url);
-        }
-        String text = formatFixText(body.string(), contentType == ContentType.JSON);
-        IProject requestor = EclipseUtil.getProject(rootFileName);
-        String fileName = (file == null) ? getFileName() : file.getName();
-        file = WriteCommandAction.runWriteCommandAction(project,
-                (Computable<VirtualFile>) () -> TempFileUtils.createExtRefFile(requestor, fileName, text));
-        file.setReadOnly(true);
-        LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
     }
 
     public void dispose() {

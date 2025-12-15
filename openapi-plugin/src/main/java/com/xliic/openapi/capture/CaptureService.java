@@ -210,6 +210,10 @@ public final class CaptureService implements ICaptureService, Disposable {
                         throw new Exception(getResponseError(response));
                     }
                 }
+                @Override
+                protected void dispose(@NotNull Response response) {
+                    response.close();
+                }
             }.run();
             updateItem(item, null, "Conversion started, waiting for completion");
         } catch (Exception error) {

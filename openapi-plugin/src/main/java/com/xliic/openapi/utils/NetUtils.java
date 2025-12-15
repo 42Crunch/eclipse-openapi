@@ -185,41 +185,42 @@ public class NetUtils {
     }
 
     public static void download(@NotNull String url, @NotNull String filePath, @NotNull ProgressListener listener) throws Exception {
-        Response response = getHttpClient().newCall(new Request.Builder().url(url).get().build()).execute();
-        ResponseBody body = Objects.requireNonNull(getResponseBody(response));
-        final long total = body.contentLength();
-        if (total <= 0) {
-            throw new Exception("Unexpected contentLength " + total);
-        }
-        if (response.code() == 200 || response.code() == 201) {
-            MessageDigest hash = MessageDigest.getInstance("SHA-256");
-            try (InputStream inputStream = body.byteStream()) {
-                byte[] buff = new byte[4096];
-                long transferred = 0;
-                OutputStream output = new FileOutputStream(filePath);
-                listener.update(0L, total, false, "");
-                double percent = (double) transferred / total;
-                while (transferred <= total) {
-                    int read = inputStream.read(buff);
-                    if (read == -1) {
-                        break;
-                    }
-                    output.write(buff, 0, read);
-                    hash.update(buff, 0, read);
-                    transferred += read;
-                    double p = (double) transferred / total;
-                    double delta = 100 * (p - percent);
-                    if (delta >= 1) {
-                        percent = p;
-                        listener.update(transferred, total, false, "");
-                    }
-                }
-                output.flush();
-                output.close();
-                listener.update(transferred, total, true, Hex.encodeHexString(hash.digest()));
-            }
-        } else {
-            throw new Exception("Unexpected response code " + response.code());
+        try (Response response = getHttpClient().newCall(new Request.Builder().url(url).get().build()).execute()) {
+	        ResponseBody body = Objects.requireNonNull(getResponseBody(response));
+	        final long total = body.contentLength();
+	        if (total <= 0) {
+	            throw new Exception("Unexpected contentLength " + total);
+	        }
+	        if (response.code() == 200 || response.code() == 201) {
+	            MessageDigest hash = MessageDigest.getInstance("SHA-256");
+	            try (InputStream inputStream = body.byteStream()) {
+	                byte[] buff = new byte[4096];
+	                long transferred = 0;
+	                OutputStream output = new FileOutputStream(filePath);
+	                listener.update(0L, total, false, "");
+	                double percent = (double) transferred / total;
+	                while (transferred <= total) {
+	                    int read = inputStream.read(buff);
+	                    if (read == -1) {
+	                        break;
+	                    }
+	                    output.write(buff, 0, read);
+	                    hash.update(buff, 0, read);
+	                    transferred += read;
+	                    double p = (double) transferred / total;
+	                    double delta = 100 * (p - percent);
+	                    if (delta >= 1) {
+	                        percent = p;
+	                        listener.update(transferred, total, false, "");
+	                    }
+	                }
+	                output.flush();
+	                output.close();
+	                listener.update(transferred, total, true, Hex.encodeHexString(hash.digest()));
+	            }
+	        } else {
+	            throw new Exception("Unexpected response code " + response.code());
+	        }
         }
     }
 

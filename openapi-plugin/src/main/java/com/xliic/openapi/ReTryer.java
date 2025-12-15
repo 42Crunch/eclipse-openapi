@@ -24,16 +24,27 @@ public abstract class ReTryer<T> {
 
     protected abstract boolean keepRetrying(@NotNull T result) throws Exception;
 
+    protected void dispose(@NotNull T result) {
+        // Do nothing by default
+    }
+
     public void run() throws Exception {
         long start = new Date().getTime();
         long time = start;
+        T result = null;
         while (time - start < duration) {
-            T result = execute();
-            if (keepRetrying(result)) {
-                LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(pause));
-                time = new Date().getTime();
-            } else {
-                return;
+        	try {
+	            result = execute();
+	            if (keepRetrying(result)) {
+	                LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(pause));
+	                time = new Date().getTime();
+	            } else {
+	                return;
+	            }
+            } finally {
+                if (result != null) {
+                    dispose(result);
+                }
             }
         }
         throw new Exception(timeoutMsg);
