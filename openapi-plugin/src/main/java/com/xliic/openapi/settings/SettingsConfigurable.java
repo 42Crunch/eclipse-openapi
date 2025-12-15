@@ -126,13 +126,15 @@ public class SettingsConfigurable extends SearchableConfigurable implements Conf
         infoIco.setImage(CONFIG_IMG);
         Label info = new Label(platformPanel.getComposite(), SWT.NULL);
         info.setText("Settings can be configured in Tools / OpenAPI (Swagger) Editor / Configure Settings...");
-        
+
         networkPanel = new JPanel("Network Settings", parent, SWT.NONE, 2);
+        new Label(networkPanel.getComposite(), SWT.NULL).setText("Connect/Read/Write Timeout (sec)");
         connectionTimeout = new JTextField(networkPanel);
         // OkHttpClient default value is 10sec (same for connect/read/write timeouts)
         items.add(new ItemIntegerField(connectionTimeout, NetworkSettings.CONNECTION_TIMEOUT, 10, MAX_CONNECTION_TIMEOUT));
-        
+
         parserSettingsPanel = new JPanel("Snake YAML Settings", parent, SWT.NONE, 2);
+        new Label(parserSettingsPanel.getComposite(), SWT.NULL).setText("Code Point Limit (MB)");
         codePointLimitTextField = new JTextField(parserSettingsPanel);
         // Parser default value is 3MB, increase min value up to 20MB
         items.add(new ItemIntegerField(codePointLimitTextField, SnakeYamlSettings.CODE_POINT_LIMIT, 20, 2047));
