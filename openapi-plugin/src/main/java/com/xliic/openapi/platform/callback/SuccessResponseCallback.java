@@ -1,6 +1,7 @@
 package com.xliic.openapi.platform.callback;
 
 import static com.xliic.openapi.platform.callback.SuccessBodyResponseCallback.FAILED_TO_CONNECT;
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 
 import java.io.IOException;
 
@@ -35,7 +36,7 @@ public abstract class SuccessResponseCallback implements EnqueueCallback {
 
     @Override
     public void onResponse(@NotNull Call call, @NotNull Response response) {
-        try (ResponseBody ignored = response.body()) {
+        try (ResponseBody ignored = getResponseBody(response)) {
             int code = response.code();
             if (code == 200) {
                 onCode200Response();

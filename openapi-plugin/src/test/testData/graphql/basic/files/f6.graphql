@@ -1,0 +1,102 @@
+
+directive @list(
+    maxItems: Int = -1,
+    minItems: Int = 0
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @stringValue(
+    maximumLength: Int,
+    minimumLength: Int
+) on SCALAR | FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @numberValue(
+    max: Int,
+    min: Int
+) on SCALAR | FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+scalar NonNegativeFloat @stringValue(maximumLength: 20, minimumLength: 0)
+scalar PositiveFloat @stringValue(maximumLength: 20, minimumLength: 0)
+scalar PositiveInt @numberValue(max: 20, min: 0)
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    findAllCafe: [Cafe]! @list(maxItems: 99999, minItems: 0)
+    findCafeByID(id:ID!):Cafe
+    findAllRestaurant: [Restaurant]! @list(maxItems: 99999, minItems: 0)
+    findAllDishes: [Dish]! @list(maxItems: 99999, minItems: 0)
+    findMenuItemsByRestaurantName(input: String): [MenuItem]! @list(maxItems: 99999, minItems: 0)
+    findAllMenuItems: [MenuItem]! @list(maxItems: 99999, minItems: 0)
+}
+
+type Mutation {
+    createRestaurant(input: CreateRestaurantDTO!): Restaurant!
+    createCafe(name: String!):Cafe!
+    createDish(input: CreateDishDTO!): Dish!
+    createMenuItem(input: CreateMenuItem!): MenuItem!
+}
+
+input CreateMenuItem {
+    price: NonNegativeFloat
+    dishId: ID!
+    restaurantId: ID!
+}
+
+input CreateRestaurantDTO {
+    name: String!
+    floor: String
+    cafeId: ID!
+}
+
+input CreateDishDTO {
+    name: String!
+    type: DishType!
+    description: String!
+    calories: PositiveInt
+    fat: NonNegativeFloat
+    carbohydrates: NonNegativeFloat
+    dietryFibre: NonNegativeFloat
+    protein: NonNegativeFloat
+}
+
+#
+#  Below types are Entities
+#
+type Cafe {
+    id: ID!
+    name: String!
+}
+
+type Restaurant {
+    id: ID!
+    name: String!
+    floor: String
+    cafe: Cafe
+}
+
+type Dish {
+    id: ID!
+    name: String!
+    type: DishType!
+    description: String!
+    calories: PositiveInt
+    fat: NonNegativeFloat
+    carbohydrates: NonNegativeFloat
+    dietryFibre: NonNegativeFloat
+    protein: NonNegativeFloat
+}
+
+type MenuItem {
+    id: ID!
+    price: NonNegativeFloat!
+    dish: Dish!
+    restaurant: Restaurant!
+}
+
+enum DishType {
+    NON_VEG,
+    VEG
+}

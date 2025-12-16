@@ -1,5 +1,8 @@
 package com.xliic.openapi.utils;
 
+import static com.xliic.openapi.LogRedactor.Scope.CMD_EXEC_ARGS;
+import static com.xliic.openapi.LogRedactor.Scope.CMD_EXEC_ENV;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -11,16 +14,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.LogRedactor;
 import com.xliic.openapi.parser.ast.node.Node;
 
 public class ExecUtils {
+	
+    private static final LogRedactor REDACTOR = new LogRedactor.Builder().
+            addCmdExecArgsRule("--token").addCmdExecEnvRules("API_KEY", "SCAN_TOKEN").build();
 
     @SuppressWarnings("serial")
 	public static class ExecException extends Exception {
@@ -126,6 +132,7 @@ public class ExecUtils {
         if (redirectErrorStream) {
             builder.redirectErrorStream(true);
         }
+        debugExecEnv(cmdEnv);
         debugExecArgs(args);
         try {
             Process process = builder.start();
@@ -163,16 +170,32 @@ public class ExecUtils {
                 // Start with 1 as arguments go after cmd name
                 for (int i = 1; i < args.size(); i++) {
                     String arg = args.get(i);
-                    if ("--token".equals(args.get(i - 1)) && !arg.startsWith("--")) {
-                        builder.append(StringUtils.isEmpty(arg) ? "" : "*");
-                    } else {
-                        builder.append(arg);
-                    }
+                    builder.append(REDACTOR.redact(args.get(i - 1), arg, CMD_EXEC_ARGS));
                     if (i < args.size() - 1) {
                         builder.append(" ");
                     }
                 }
                 logger.debug("Running the binary: " + builder);
+            }
+        }
+    }
+    
+    private static void debugExecEnv(Map<String, String> cmdEnv) {
+        if (cmdEnv != null && !cmdEnv.isEmpty()) {
+            Logger logger = Logger.getInstance(ExecUtils.class);
+            if (logger.isDebugEnabled()) {
+                int index = 0;
+                StringBuilder builder = new StringBuilder();
+                for (Map.Entry<String, String> entry : cmdEnv.entrySet()) {
+                    builder.append(entry.getKey());
+                    builder.append('=');
+                    builder.append(REDACTOR.redact(entry.getKey(), entry.getValue(), CMD_EXEC_ENV));
+                    if (index < cmdEnv.size() - 1) {
+                        builder.append(", ");
+                    }
+                    index += 1;
+                }
+                logger.debug("Exec environment: " + builder);
             }
         }
     }

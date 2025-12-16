@@ -25,10 +25,21 @@ public class PlatformAPIs {
             Request request = getRequestBuilder(String.format("api/v1/apis/%s?specfile=%b", apiId, spec)).build();
             return getHttpClient().newCall(request).execute();
         }
+        
+        public static Response readBrMainApi(@NotNull String apiId) throws IOException {
+            Request request = getRequestBuilder(String.format("api/v2/apis/%s/branches/main?readAssessment=true", apiId)).build();
+            return getHttpClient().newCall(request).execute();
+        }
 
         public static Response readAuditReport(@NotNull String apiId) throws IOException {
             //noinspection SpellCheckingInspection
             Request request = getRequestBuilder(String.format("api/v1/apis/%s/assessmentreport", apiId)).build();
+            return getHttpClient().newCall(request).execute();
+        }
+        
+        public static Response readBrMainAuditReport(@NotNull String apiId) throws IOException {
+            //noinspection SpellCheckingInspection
+            Request request = getRequestBuilder(String.format("api/v2/apis/%s/branches/main/assessmentreport", apiId)).build();
             return getHttpClient().newCall(request).execute();
         }
 

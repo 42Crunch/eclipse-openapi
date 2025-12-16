@@ -8,7 +8,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.stream.Stream;
+import java.io.IOException;
 
 import com.xliic.openapi.parser.ast.ParserJsonAST;
 import com.xliic.openapi.parser.ast.ParserYamlAST;
@@ -65,6 +68,11 @@ public class TestUtils {
         StringBuilder builder = new StringBuilder();
         stream.forEach(line -> builder.append(line).append(eol));
         return builder.toString();
+    }
+    
+	public static List<String> readAllLines(String fileName) throws IOException {
+    	String joinPath = CURRENT_PATH.endsWith("src") ? "/" : "/src/";
+        return Files.readAllLines(Paths.get(CURRENT_PATH + joinPath + fileName));
     }
 
     public static String getTextInRange(String text, Range range) {

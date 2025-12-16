@@ -6,6 +6,7 @@ import static com.xliic.openapi.ToolWindowId.OPEN_API_REPORT;
 import static com.xliic.openapi.settings.Settings.Audit.AUDIT_RUNTIME_CLI;
 import static com.xliic.openapi.utils.FileUtils.clearTempFile;
 import static com.xliic.openapi.utils.FileUtils.saveToTempFile;
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -145,7 +146,7 @@ public final class AuditService implements IAuditService, Disposable {
                 }
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    try (ResponseBody body = response.body()) {
+                    try (ResponseBody body = getResponseBody(response)) {
                         if (response.code() == 200) {
                             if (body != null) {
                                 setArticles(body.string().trim());

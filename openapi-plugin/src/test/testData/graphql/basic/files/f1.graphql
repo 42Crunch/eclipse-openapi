@@ -1,0 +1,19 @@
+directive @cost(weight: String!) on FIELD_DEFINITION
+directive @stringValue(minLength: Int, maxLength: Int, pattern: String) on SCALAR
+directive @numberValue(min: Int, max: Int) on SCALAR
+
+scalar UserName @stringValue(minLength: 1, maxLength: 50, pattern: "^[a-zA-Z]+$")
+scalar UserAge @numberValue(min: 0, max: 120)
+scalar UserId @stringValue(minLength: 1, maxLength: 36, pattern: "^[a-zA-Z0-9-]+$")
+scalar SearchTerm @stringValue(minLength: 1, maxLength: 100, pattern: ".*")
+
+type User {
+  name: UserName! @cost(weight: "1.0")
+  age: UserAge @cost(weight: "1.0")
+  email: String
+}
+
+type Query {
+  getUser(id: UserId!): User @cost(weight: "2.0")
+  searchUsers(name: SearchTerm): [User!]!
+}

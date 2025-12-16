@@ -1,9 +1,13 @@
 package com.xliic.openapi.capture.payload;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
 
 public class CaptureItem {
 
@@ -11,6 +15,8 @@ public class CaptureItem {
     private final String id;
     @NotNull
     private List<String> files;
+    @NotNull
+    private Map<String, FileUploadStatus> uploadStatus;
     @Nullable
     private String quickgenId;
     @NotNull
@@ -26,6 +32,7 @@ public class CaptureItem {
     public CaptureItem(@NotNull List<String> files) {
         id = UUID.randomUUID().toString();
         this.files = files;
+        uploadStatus = new HashMap<>();
         quickgenId = null;
         prepareOptions = new PrepareOptions("/", List.of("https://server.example.com"));
         status = Status.PENDING;
@@ -40,6 +47,14 @@ public class CaptureItem {
 
     public @NotNull List<String> getFiles() {
         return files;
+    }
+
+    public @NotNull Map<String, FileUploadStatus> getUploadStatus() {
+        return uploadStatus;
+    }
+
+    public void setUploadStatus(@NotNull Map<String, FileUploadStatus> uploadStatus) {
+        this.uploadStatus = uploadStatus;
     }
 
     public @Nullable String getQuickgenId() {
@@ -91,11 +106,12 @@ public class CaptureItem {
     }
 
     @SuppressWarnings("serial")
-    @NotNull
+	@NotNull
     public Map<String, Object> getPayload() {
         return new HashMap<>() {{
             put("id", id);
             put("files", files);
+            put("uploadStatus", uploadStatus);
             put("quickgenId", quickgenId);
             put("prepareOptions", prepareOptions.getPayload());
             put("status", status.toString());

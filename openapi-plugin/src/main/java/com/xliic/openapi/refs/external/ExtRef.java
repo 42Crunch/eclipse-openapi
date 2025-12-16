@@ -3,6 +3,7 @@ package com.xliic.openapi.refs.external;
 import static com.xliic.openapi.quickfix.QuickFix.formatFixText;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.utils.NetUtils.getHttpClient;
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
 import static com.xliic.openapi.utils.Utils.REF_DELIMITER;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
@@ -101,22 +102,23 @@ public class ExtRef {
             builder.addHeader(hostConfig.getHeaderName(), hostConfig.getHeaderValue());
         }
         Request request = builder.url(url).build();
-        Response response = getHttpClient().newCall(request).execute();
-        contentType = getContentType(url.toString(), response);
-        if (contentType == null) {
-            throw new WorkspaceException("Failed to get content type for " + url);
+        try (Response response = getHttpClient().newCall(request).execute()) {
+	        contentType = getContentType(url.toString(), response);
+	        if (contentType == null) {
+	            throw new WorkspaceException("Failed to get content type for " + url);
+	        }
+	        final ResponseBody body = getResponseBody(response);
+	        if (body == null) {
+	            throw new WorkspaceException("Failed to get response body for " + url);
+	        }
+	        String text = formatFixText(body.string(), contentType == ContentType.JSON);
+	        IProject requestor = EclipseUtil.getProject(rootFileName);
+	        String fileName = (file == null) ? getFileName() : file.getName();
+	        file = WriteCommandAction.runWriteCommandAction(project,
+	                (Computable<VirtualFile>) () -> TempFileUtils.createExtRefFile(requestor, fileName, text));
+	        file.setReadOnly(true);
+	        LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
         }
-        final ResponseBody body = response.body();
-        if (body == null) {
-            throw new WorkspaceException("Failed to get response body for " + url);
-        }
-        String text = formatFixText(body.string(), contentType == ContentType.JSON);
-        IProject requestor = EclipseUtil.getProject(rootFileName);
-        String fileName = (file == null) ? getFileName() : file.getName();
-        file = WriteCommandAction.runWriteCommandAction(project,
-                (Computable<VirtualFile>) () -> TempFileUtils.createExtRefFile(requestor, fileName, text));
-        file.setReadOnly(true);
-        LocalFileSystem.getInstance().refreshFiles(Collections.singletonList(file));
     }
 
     public void dispose() {
@@ -182,7 +184,7 @@ public class ExtRef {
 
     private ContentType getContentType(String uri, Response response) {
         String contentType = "";
-        ResponseBody body = response.body();
+        ResponseBody body = getResponseBody(response);
         if (body != null) {
             MediaType mediaType = body.contentType();
             if (mediaType != null) {

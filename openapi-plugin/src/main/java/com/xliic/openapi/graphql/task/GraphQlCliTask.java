@@ -40,6 +40,7 @@ public class GraphQlCliTask extends Task.Backgroundable {
     @Override
     public void run(@NotNull ProgressIndicator progress) {
         try {
+            AuditService.getInstance(project).downloadArticles(progress);
             String text = Utils.getTextFromFile(file.getPath(), true);
             if (text == null) {
                 callback.reject("Failed to get text");

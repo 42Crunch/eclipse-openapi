@@ -1,17 +1,19 @@
 package com.xliic.openapi.proxy;
 
-import com.xliic.core.diagnostic.Logger;
-import okhttp3.Authenticator;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.Route;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.URL;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.net.MalformedURLException;
-import java.net.Proxy;
-import java.net.URL;
+import com.xliic.core.diagnostic.Logger;
+
+import okhttp3.Authenticator;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.Route;
 
 public class PredefinedAuthenticator implements Authenticator {
 

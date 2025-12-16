@@ -370,11 +370,6 @@ public class Utils {
         return new File(fileName).toURI().toString();
     }
 
-    @Nullable
-    public static String getURI(@Nullable VirtualFile file) {
-        return file == null ? null : getURI(file.getPath());
-    }
-
     @NotNull
     public static String convertAllTabsToSpaces(@NotNull String text, int indent) {
         return text.replaceAll(TAB_REPLACE_REGEXP, new DocumentIndent(indent, ' ').toString());

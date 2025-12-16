@@ -1,8 +1,9 @@
 package com.xliic.openapi.signup.jcef.messages;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.openapi.signup.SignUpType;
 import com.xliic.openapi.webapp.messages.WebAppConsume;
-import org.jetbrains.annotations.NotNull;
 
 public class SetSignUpType extends WebAppConsume {
 

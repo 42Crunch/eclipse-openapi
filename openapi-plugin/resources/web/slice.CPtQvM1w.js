@@ -19,7 +19,11 @@ const c = {
       header: {
         name: "",
         value: ""
-      }
+      },
+      httpProxy: "",
+      httpsProxy: "",
+      httpProxyApi: "",
+      httpsProxyApi: ""
     },
     auditRuntime: "platform",
     scanRuntime: "docker",
@@ -37,7 +41,8 @@ const c = {
     platformMandatoryTags: "",
     approvedHosts: [],
     internalUseDevEndpoints: !1,
-    internalFeatures: !1
+    internalFeatures: !1,
+    internalDisableLogRedaction: !1
   },
   platformConnectionTestResult: void 0,
   waitingForPlatformConnectionTest: !1,
@@ -60,7 +65,7 @@ const c = {
     "audit-runtime": void 0,
     "scan-runtime": void 0,
     "openapi-external-refs": void 0,
-    "dev-endpoints": void 0
+    "internal-settings": void 0
   },
   hasErrors: !1
 }, a = i({
@@ -133,44 +138,44 @@ function d(o) {
   }
 }
 const {
-  loadConfig: f,
-  saveConfig: m,
-  showConfigWindow: p,
+  loadConfig: p,
+  saveConfig: f,
+  showConfigWindow: m,
   setError: v,
   clearError: C,
   testPlatformConnection: w,
-  showPlatformConnectionTest: T,
-  testOverlordConnection: g,
+  showPlatformConnectionTest: g,
+  testOverlordConnection: T,
   showOverlordConnectionTest: h,
   testScandManagerConnection: y,
-  showScandManagerConnectionTest: S,
-  addInsecureSslHostname: R,
+  showScandManagerConnectionTest: R,
+  addInsecureSslHostname: S,
   removeInsecureSslHostname: F,
   testCli: D,
-  showCliTest: M,
-  downloadCli: E,
-  showCliDownload: H,
-  openLink: P
-} = a.actions, k = s, O = l, b = a.reducer;
+  showCliTest: P,
+  downloadCli: M,
+  showCliDownload: E,
+  openLink: H
+} = a.actions, k = s, O = l, x = a.reducer;
 export {
-  R as a,
-  M as b,
-  b as c,
-  S as d,
+  S as a,
+  P as b,
+  x as c,
+  R as d,
   h as e,
-  T as f,
+  g as f,
   O as g,
-  g as h,
-  E as i,
+  T as h,
+  M as i,
   D as j,
   y as k,
-  f as l,
+  p as l,
   C as m,
   v as n,
-  P as o,
-  m as p,
+  H as o,
+  f as p,
   F as r,
-  H as s,
+  E as s,
   w as t,
   k as u
 };

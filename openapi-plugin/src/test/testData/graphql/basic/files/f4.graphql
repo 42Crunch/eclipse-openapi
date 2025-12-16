@@ -1,0 +1,166 @@
+# Schema definition explicitly excluding query
+schema {
+  mutation: RootMutationType
+  subscription: RootSubscriptionType
+}
+
+# Root Mutation Type
+type RootMutationType {
+  # User operations
+  createUser(input: CreateUserInput!): UserPayload!
+  updateUser(id: ID!, input: UpdateUserInput!): UserPayload!
+  deleteUser(id: ID!): DeletePayload!
+  
+  # Resource operations
+  createResource(input: ResourceInput!): ResourcePayload!
+  updateResource(id: ID!, input: ResourceInput!): ResourcePayload!
+  deleteResource(id: ID!): DeletePayload!
+  
+  # Authentication operations
+  login(email: String!, password: String!): AuthPayload!
+  logout: LogoutPayload!
+  resetPassword(token: String!, newPassword: String!): ResetPasswordPayload!
+}
+
+# Root Subscription Type
+type RootSubscriptionType {
+  # Real-time notifications
+  userUpdated(id: ID): User
+  resourceCreated: Resource
+  resourceUpdated(id: ID): Resource
+  resourceDeleted: DeleteNotification
+  
+  # Status updates
+  systemStatus: SystemStatus
+  processProgress(processId: ID!): ProcessProgress
+}
+
+# Input Types
+input CreateUserInput {
+  name: String!
+  email: String!
+  role: UserRole!
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  role: UserRole
+}
+
+input ResourceInput {
+  name: String!
+  description: String
+  type: ResourceType!
+  metadata: JSON
+}
+
+# Output Types
+type UserPayload {
+  user: User
+  errors: [Error!]
+}
+
+type ResourcePayload {
+  resource: Resource
+  errors: [Error!]
+}
+
+type DeletePayload {
+  success: Boolean!
+  errors: [Error!]
+}
+
+type AuthPayload {
+  token: String
+  user: User
+  errors: [Error!]
+}
+
+type LogoutPayload {
+  success: Boolean!
+}
+
+type ResetPasswordPayload {
+  success: Boolean!
+  errors: [Error!]
+}
+
+type DeleteNotification {
+  id: ID!
+  type: String!
+  timestamp: DateTime!
+}
+
+# Entity Types
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  role: UserRole!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Resource {
+  id: ID!
+  name: String!
+  description: String
+  type: ResourceType!
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Error {
+  path: String
+  message: String!
+}
+
+type SystemStatus {
+  status: SystemState!
+  message: String
+  updatedAt: DateTime!
+}
+
+type ProcessProgress {
+  processId: ID!
+  progress: Float!
+  status: ProcessStatus!
+  message: String
+}
+
+# Enums
+enum UserRole {
+  ADMIN
+  MANAGER
+  USER
+  GUEST
+}
+
+enum ResourceType {
+  DOCUMENT
+  IMAGE
+  VIDEO
+  AUDIO
+  OTHER
+}
+
+enum SystemState {
+  OPERATIONAL
+  DEGRADED
+  MAINTENANCE
+  DOWN
+}
+
+enum ProcessStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+# Scalars
+scalar DateTime
+scalar JSON

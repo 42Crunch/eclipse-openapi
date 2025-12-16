@@ -1,5 +1,24 @@
 package com.xliic.openapi.capture;
 
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
+import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_ANOND_TOKEN;
+import static com.xliic.openapi.utils.NetUtils.getResponseBody;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.CAPTURE_EDITOR_ID;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xliic.core.Disposable;
@@ -9,8 +28,12 @@ import com.xliic.core.project.Project;
 import com.xliic.core.services.ICaptureService;
 import com.xliic.core.vfs.VfsUtil;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.openapi.ReTryer;
+import com.xliic.openapi.capture.payload.CaptureFileType;
 import com.xliic.openapi.capture.payload.CaptureItem;
+import com.xliic.openapi.capture.payload.FileUploadStatus;
 import com.xliic.openapi.capture.payload.PrepareOptions;
+import com.xliic.openapi.capture.payload.SortedFiles;
 import com.xliic.openapi.capture.payload.Status;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformConnection;
@@ -21,28 +44,16 @@ import com.xliic.openapi.signup.SignUpType;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
+
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.LockSupport;
-
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE;
-import static com.xliic.openapi.settings.Settings.Platform.Credentials.AUTH_TYPE_ANOND_TOKEN;
-import static com.xliic.openapi.webapp.editor.WebFileEditor.CAPTURE_EDITOR_ID;
 
 public final class CaptureService implements ICaptureService, Disposable {
 
     private static final String CAPTURE = "API Contract Generator";
     private static final String FAILED_CON_ERROR = "Failed to establish connection to capture server";
-
-    private static final int POLLING_DELAY_MS = 5 * 1000; // 5s
-    private static final int POLLING_TIME_MS = 5 * 60 * 1000; // 5min
-    private static final int POLLING_LIMIT = (int) Math.floor((double) POLLING_TIME_MS / POLLING_DELAY_MS);
-
+    private static final String EXCEEDED_MAXIMUM_RETRIES = "Conversion failed: exceeded maximum retries";
+    
     @NotNull
     private final Project project;
     @NotNull
@@ -115,71 +126,128 @@ public final class CaptureService implements ICaptureService, Disposable {
     }
 
     public void convert(@NotNull String id) {
-
-        CaptureConnection captureConnection;
+        CaptureConnection connection;
         CaptureItem item = findItem(id);
         item.setLog(new LinkedList<>());
+        item.setUploadStatus(new HashMap<>());
         item.setDownloadedFile(null);
 
+        SortedFiles files = sortFiles(item.getFiles());
+        if (files.getEnv().size() > 1) {
+            updateItem(item, Status.FAILED,"Multiple environment files provided. Please provide only one environment file.");
+            return;
+        } else if (files.getPostman().isEmpty() && files.getOther().isEmpty()) {
+            updateItem(item, Status.FAILED, "No valid Postman or HAR files provided. Please provide at least one Postman or HAR file.");
+            return;
+        }
+
         try {
-            captureConnection = getCaptureConnection();
+            connection = getCaptureConnection();
         } catch (Exception e) {
-            this.showExecutionStatusResponse(item, "failed", false, e.toString());
+            updateItem(item, Status.FAILED, "Failed to establish connection to capture server: " + getError(e));
             return;
         }
 
         // Handle the case when restart requested
         if (item.getQuickgenId() != null && item.getStatus() == Status.FAILED) {
             try {
-                CaptureConnection connection = connections.remove(item.getQuickgenId());
-                if (connection != null) {
-                    requestDelete(connection, item.getQuickgenId());
+                CaptureConnection itemConnection = connections.remove(item.getQuickgenId());
+                if (itemConnection != null) {
+                    requestDelete(itemConnection, item.getQuickgenId());
                 }
             } catch (Exception error) {
                 // Silent removal
             }
         }
-        item.setStatus(Status.RUNNING);
+        updateItem(item, Status.RUNNING, "Started new session");
 
         // Prepare request -> capture server
         String quickgenId = "";
         try {
-            quickgenId = requestPrepare(captureConnection, item.getPrepareOptions());
+            quickgenId = requestPrepare(connection, item.getPrepareOptions());
             // Mapping below will be removed if user deletes or restarts the task
-            connections.put(quickgenId, captureConnection);
-            showPrepareResponse(item, quickgenId, true, "");
+            connections.put(quickgenId, connection);
+            item.setQuickgenId(quickgenId);
+            updateItem(item, null, "Created quickgen job");
+            updateItem(item, null, "Starting file uploads");
         } catch (Exception error) {
-            showPrepareResponse(item, quickgenId, false, getError(error));
+            updateItem(item, Status.FAILED, "Failed to prepare quickgen job: " + getError(error));
             maybeOfferUpgrade(error);
             return;
         }
 
         // Upload request -> capture server
         try {
-            requestUpload(captureConnection, quickgenId, item.getFiles(), percent -> {
-                if (item.getStatus() != Status.FAILED) {
-                    showPrepareUploadFileResponse(item, true, "", percent == 1.0, percent);
-                }
-            });
+            for (String postman : files.getPostman()) {
+                requestUpload(connection, item, postman, files.getEnv().isEmpty() ? null : files.getEnv().get(0));
+            }
+            for (String other : files.getOther()) {
+                requestUpload(connection, item, other, null);
+            }
+            updateItem(item, null, "All files uploaded, starting conversion");
         } catch (Exception error) {
-            showPrepareUploadFileResponse(item, false, getError(error), false, 0.0);
+            updateItem(item, Status.FAILED, getError(error));
             maybeOfferUpgrade(error);
             return;
         }
 
         // Start request -> capture server
         try {
-            Thread.sleep(500); // TODO: remove later
-            requestStart(captureConnection, quickgenId);
-            showExecutionStartResponse(item, true, "");
+            new ReTryer<Response>(500, 30, EXCEEDED_MAXIMUM_RETRIES) {
+                @Override
+                protected @NotNull Response execute() throws Exception {
+                    String quickgenId = Objects.requireNonNull(item.getQuickgenId());
+                    return CaptureAPI.start(Objects.requireNonNull(connection), quickgenId);
+                }
+                @Override
+                protected boolean keepRetrying(@NotNull Response response) throws Exception {
+                    final int code = response.code();
+                    if (code == 200) {
+                        return false;
+                    } else if (code == 409) {
+                        return true;
+                    } else {
+                        throw new Exception(getResponseError(response));
+                    }
+                }
+                @Override
+                protected void dispose(@NotNull Response response) {
+                    response.close();
+                }
+            }.run();
+            updateItem(item, null, "Conversion started, waiting for completion");
         } catch (Exception error) {
-            showExecutionStartResponse(item, false, getError(error));
+            updateItem(item, Status.FAILED, "Failed to start conversion: " + getError(error));
+            List<String> uploadSummary = getUploadSummary(connection, item);
+            updateItem(item, null, uploadSummary);
+            updateItem(item, Status.FAILED, "Conversion failed");
             maybeOfferUpgrade(error);
             return;
         }
 
         // Wait for correct status request -> capture server
-        refreshJobStatus(captureConnection, item);
+        try {
+            new ReTryer<String>(2000, 60, EXCEEDED_MAXIMUM_RETRIES) {
+                @Override
+                protected @NotNull String execute() throws Exception {
+                    return requestStatus(connection, item.getQuickgenId());
+                }
+                @Override
+                protected boolean keepRetrying(@NotNull String status) {
+                    return Objects.equals(status, "pending") || Objects.equals(status, "running");
+                }
+            }.run();
+        } catch (Exception error) {
+            List<String> uploadSummary = getUploadSummary(connection, item);
+            updateItem(item, null, uploadSummary);
+            updateItem(item, Status.FAILED, "Conversion failed: " + getError(error));
+            maybeOfferUpgrade(error);
+            return;
+        }
+
+        List<String> uploadSummary = getUploadSummary(connection, item);
+        updateItem(item, null, uploadSummary);
+        updateItem(item, Status.FINISHED, "Conversion completed");
     }
 
     public void downloadFile(@NotNull String id, @NotNull VirtualFile target) {
@@ -251,24 +319,6 @@ public final class CaptureService implements ICaptureService, Disposable {
         connections.clear();
     }
 
-    private void refreshJobStatus(CaptureConnection connection, CaptureItem item) {
-        try {
-            String status = requestStatus(connection, item.getQuickgenId());
-            item.setPollingCounter(item.getPollingCounter() + 1);
-            showExecutionStatusResponse(item, status, true, "");
-            boolean keepPolling = item.getPollingCounter() <= POLLING_LIMIT;
-            if ((Objects.equals(status, "pending") || Objects.equals(status, "running")) && keepPolling) {
-                new Thread(() -> {
-                    LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(POLLING_DELAY_MS));
-                    refreshJobStatus(connection, item);
-                }).start();
-            }
-        } catch (Exception error) {
-            showExecutionStatusResponse(item, "finished", false, getError(error));
-            maybeOfferUpgrade(error);
-        }
-    }
-
     private void saveCapture(@NotNull CaptureItem item) {
         ApplicationManager.getApplication().invokeLater(() -> project.getMessageBus().syncPublisher(CaptureListener.TOPIC).saveCapture(item));
     }
@@ -276,7 +326,8 @@ public final class CaptureService implements ICaptureService, Disposable {
     private CaptureConnection getCaptureConnection() throws Exception {
         Credentials.Type type = Credentials.getCredentialsType();
         if (type == Credentials.Type.AnondToken) {
-            try (Response response = CaptureAPI.requestDiscover(Credentials.getAnonCredentials())) {
+            String token = Objects.requireNonNull(Credentials.getAnonCredentials());
+            try (Response response = CaptureAPI.requestDiscover(token)) {
                 return getCaptureConnection(response);
             }
         } else if (type == Credentials.Type.ApiToken) {
@@ -306,120 +357,41 @@ public final class CaptureService implements ICaptureService, Disposable {
 
     private void requestDelete(CaptureConnection connection, String quickgenId) throws Exception {
         try (Response response = CaptureAPI.delete(connection, quickgenId)) {
-            Node body = getBodyNode(response, 200);
-            if (body != null) {
-                body.getChildValue("detail");
-                return;
-            }
+            getBodyNode(response, 200);
         }
-        throw new RuntimeException("HTTPError: unable to get quickgen_id");
     }
 
     private String requestPrepare(CaptureConnection connection, PrepareOptions prepareOptions) throws Exception {
         try (Response response = CaptureAPI.prepare(connection, prepareOptions)) {
-            Node body = getBodyNode(response, 201);
-            if (body != null) {
-                return body.getChildValue("quickgen_id");
-            }
+            return getBodyNode(response, 201).getChildValueRequireNonNull("quickgen_id");
         }
-        throw new RuntimeException("HTTPError: unable to get quickgen_id");
     }
 
-    private void requestUpload(CaptureConnection connection,
-                               String quickgenId,
-                               List<String> files,
-                               ProgressRequestBody.ProgressListener listener) throws Exception {
-        try (Response response = CaptureAPI.upload(connection, quickgenId, files, listener)) {
+    private void requestUpload(CaptureConnection connection, CaptureItem item, String dataFile, String envFile) throws Exception {
+        String fileId;
+        String quickgenId = Objects.requireNonNull(item.getQuickgenId());
+        item.getUploadStatus().put(dataFile, new FileUploadStatus(0, null));
+        saveCapture(item);
+        try (Response response = CaptureAPI.upload(connection, quickgenId, dataFile, envFile, percent -> {
+            item.getUploadStatus().put(dataFile, new FileUploadStatus(percent, null));
+            saveCapture(item);
+        })) {
             Node body = getBodyNode(response, 200);
             if (body == null || body.getChildValue("file_id") == null) {
-                throw new RuntimeException("HTTPError: unable to get file_id");
+                throw new Exception("Upload failed for file " + dataFile + ": response missing required field 'file_id'");
             }
+            fileId = body.getChildValue("file_id");
+        } catch (Exception e) {
+            throw new Exception("Upload failed for file " + dataFile + ": " + getError(e));
         }
-    }
-
-    private void requestStart(CaptureConnection connection, String quickgenId) throws Exception {
-        try (Response response = CaptureAPI.start(connection, quickgenId)) {
-            Node body = getBodyNode(response, 200);
-            if (body != null) {
-                body.getChildValue("detail");
-                return;
-            }
-        }
-        throw new RuntimeException("HTTPError: unable to get quickgen_id");
+        item.getUploadStatus().put(dataFile, new FileUploadStatus(100, fileId));
+        saveCapture(item);
     }
 
     private String requestStatus(CaptureConnection connection, String quickgenId) throws Exception {
         try (Response response = CaptureAPI.status(connection, quickgenId)) {
-            Node body = getBodyNode(response, 200);
-            if (body != null) {
-                return body.getChildValue("status");
-            }
+            return getBodyNode(response, 200).getChildValueRequireNonNull("status");
         }
-        throw new RuntimeException("HTTPError: unable to get status");
-    }
-
-    private void showPrepareResponse(CaptureItem item, String quickgenId, boolean success, String error) {
-        if (success) {
-            item.setQuickgenId(quickgenId);
-            item.getLog().add("Created quickgen job");
-        } else {
-            item.setStatus(Status.FAILED);
-            item.getLog().add("Failed to prepare quickgen job: " + error);
-        }
-        saveCapture(item);
-    }
-
-    private void showPrepareUploadFileResponse(CaptureItem item, boolean success, String error, boolean completed, double percent) {
-        if (success) {
-            List<String> log = item.getLog();
-            if (completed) {
-                if (log.get(log.size() - 1).startsWith("Uploading files")) {
-                    log.set(log.size() - 1, "Uploading files: 100%");
-                }
-                log.add("All files successfully uploaded");
-            } else {
-                percent = Math.ceil(100 * percent);
-                if (log.get(log.size() - 1).startsWith("Uploading files")) {
-                    log.set(log.size() - 1, "Uploading files: " + percent + "%");
-                } else {
-                    log.add("Uploading files: " + percent + "%");
-                }
-            }
-        } else {
-            item.setStatus(Status.FAILED);
-            item.getLog().add("Failed to upload files: " + error);
-        }
-        saveCapture(item);
-    }
-
-    private void showExecutionStartResponse(CaptureItem item, boolean success, String message) {
-        if (success) {
-            item.getLog().add("Quickgen job started");
-        } else {
-            item.setStatus(Status.FAILED);
-            item.getLog().add("Quickgen job failed to start: " + message);
-        }
-        saveCapture(item);
-    }
-
-    private void showExecutionStatusResponse(CaptureItem item, String status, boolean success, String error) {
-        if (success) {
-            List<String> log = item.getLog();
-            if (log.get(log.size() - 1).startsWith("Quickgen job ")) {
-                log.set(log.size() - 1, "Quickgen job " + status);
-            } else {
-                log.add("Quickgen job " + status);
-            }
-            if (Objects.equals(status, "finished")) {
-                item.setStatus(Status.FINISHED);
-            } else if (Objects.equals(status, "failed")) {
-                item.setStatus(Status.FAILED);
-            }
-        } else {
-            item.setStatus(Status.FAILED);
-            item.getLog().add("Quickgen job execution failed: " + error);
-        }
-        saveCapture(item);
     }
 
     private void showDownloadResult(CaptureItem item, String downloadedFile, boolean success, String error) {
@@ -431,7 +403,7 @@ public final class CaptureService implements ICaptureService, Disposable {
         saveCapture(item);
     }
 
-    private String getError(Exception error) {
+    private static String getError(Exception error) {
         return error.getMessage();
     }
 
@@ -440,23 +412,31 @@ public final class CaptureService implements ICaptureService, Disposable {
     }
 
     private static String getBodyContent(Response response, int okCode) throws Exception {
-        try (ResponseBody body = response.body()) {
-            if (body == null) {
-                throw new RuntimeException("Unexpected response with no body");
-            }
-            String bodyText = body.string();
+        try (ResponseBody body = getResponseBody(response)) {
             if (response.code() == okCode) {
-                return bodyText;
+                return Objects.requireNonNull(body).string();
             } else {
-                Node node = Utils.getJsonAST(bodyText);
-                String error = getErrorFromResponseCode(response.code());
-                if (node != null) {
-                    String detail = node.getChildValue("detail");
-                    error = error + ", " + detail;
-                }
-                throw new RuntimeException(error);
+                throw new Exception(getResponseError(response));
             }
         }
+    }
+
+    private static String getResponseError(Response response) {
+        String error = getErrorFromResponseCode(response.code());
+        try (ResponseBody body = getResponseBody(response)) {
+            if (body != null) {
+                String text = body.string();
+                Node node = Utils.getJsonAST(text);
+                if (node != null) {
+                    String detail = node.getChildValue("detail");
+                    error = error + ", " + Objects.requireNonNullElse(detail, text);
+                } else if (!StringUtils.isEmpty(text)) {
+                    error = error + ", " + text;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return error;
     }
 
     private void showGeneralError(String details) {
@@ -475,5 +455,90 @@ public final class CaptureService implements ICaptureService, Disposable {
                 ApplicationManager.getApplication().invokeLater(() -> MsgUtils.offerUpgrade(project));
             }
         }
+    }
+    
+    @NotNull
+    private static SortedFiles sortFiles(List<String> files) {
+        List<String> env = new LinkedList<>();
+        List<String> postman = new LinkedList<>();
+        List<String> other = new LinkedList<>();
+        for (String file : files) {
+            CaptureFileType type = checkFileType(file);
+            if (type == CaptureFileType.ENV) {
+                env.add(file);
+            } else if (type == CaptureFileType.POSTMAN) {
+                postman.add(file);
+            } else {
+                other.add(file);
+            }
+        }
+        return new SortedFiles(env, postman, other);
+    }
+
+    private static CaptureFileType checkFileType(String uri) {
+        String filePath = uri.replace("file:///", "");
+        String text = Utils.getTextFromFile(new File(filePath).getAbsolutePath(), true);
+        Node parsed = (text != null) && ("json".equals(Utils.getFileLanguage(uri))) ? Utils.getJsonAST(text, false) : null;
+        if (parsed != null && parsed.isObject()) {
+            Node values = parsed.getChild("values");
+            if (values != null && values.isArray()) {
+                return CaptureFileType.ENV;
+            } else {
+                return CaptureFileType.POSTMAN;
+            }
+        }
+        return CaptureFileType.OTHER;
+    }
+
+    private void updateItem(CaptureItem item, Status status, String message) {
+        if (status != null) {
+            item.setStatus(status);
+        }
+        item.getLog().add(message);
+        saveCapture(item);
+    }
+
+    private void updateItem(CaptureItem item, Status status, List<String> message) {
+        if (status != null) {
+            item.setStatus(status);
+        }
+        item.getLog().addAll(message);
+        saveCapture(item);
+    }
+
+    private List<String> getUploadSummary(CaptureConnection captureConnection, CaptureItem item) {
+        List<String> uploadSummary = new LinkedList<>();
+        for (Map.Entry<String, FileUploadStatus> entry : item.getUploadStatus().entrySet()) {
+            FileUploadStatus status = entry.getValue();
+            String filename = FilenameUtils.getBaseName(entry.getKey());
+            if (status.getFileId() != null) {
+                try {
+                    List<String> summary = requestSummary(captureConnection, item.getQuickgenId(), status.getFileId());
+                    for (String line : summary) {
+                        uploadSummary.add("Error in " + filename + ": " + line);
+                    }
+                } catch (Exception e) {
+                    uploadSummary.add("Failed to get summary for file " + filename + ": " + getError(e));
+                }
+            }
+        }
+        return uploadSummary;
+    }
+
+    private static List<String> requestSummary(CaptureConnection captureConnection, String quickgenId, String fileId) throws Exception {
+        List<String> result = new LinkedList<>();
+        try (Response response = CaptureAPI.summary(captureConnection, quickgenId, fileId)) {
+            Node body = getBodyNode(response, 200);
+            if (body != null) {
+                Node errors = body.getChild("errors");
+                if (errors != null) {
+                    for (Node error : errors.getChildren()) {
+                        result.add(error.getChildValue("detail"));
+                    }
+                    return result;
+                }
+            }
+        }
+        throw new RuntimeException("Unknown error getting capture summary");
     }
 }

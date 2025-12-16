@@ -1,0 +1,22 @@
+directive @list(
+    maxItems: Int,
+    minItems: Int
+) on ARGUMENT_DEFINITION
+
+directive @stringValue(
+    maximumLength: Int,
+    minimumLength: Int
+) on SCALAR
+
+scalar CustomString @stringValue(maximumLength: 100, minimumLength: 1)
+
+type Query {
+    # Test 1: List with NonNull
+    searchWithNonNull(tags: [CustomString]! @list(maxItems: 10, minItems: 1)): String
+    
+    # Test 2: List without NonNull
+    searchWithoutNonNull(tags: [CustomString] @list(maxItems: 10, minItems: 1)): String
+    
+    # Test 3: Nested list with NonNull markers
+    searchNested(matrix: [[CustomString]!]! @list(maxItems: 5, minItems: 1)): String
+}
