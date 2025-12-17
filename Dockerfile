@@ -10,5 +10,5 @@ RUN syft -o spdx-json . > spdx-report.json
 RUN find /build -name '*.java' -print0 | xargs -0 cat | wc -l > total-lines.txt
 
 # Build
-RUN cd openapi-plugin && mvn dependency:copy
-RUN mvn install
+RUN cd openapi-plugin && mvn dependency:copy -Declipse.p2.mirrors=false
+RUN mvn install -Declipse.p2.mirrors=false
