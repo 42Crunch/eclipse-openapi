@@ -35,6 +35,7 @@ import com.xliic.openapi.bundler.BundleError;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.listeners.BundleDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
+import com.xliic.openapi.preview.PreviewService;
 import com.xliic.openapi.refs.external.ExtRefService;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;

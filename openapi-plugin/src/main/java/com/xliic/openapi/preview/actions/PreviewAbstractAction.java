@@ -13,8 +13,8 @@ import com.xliic.openapi.actions.ProjectAction;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.preview.PreviewCallback;
 import com.xliic.openapi.preview.PreviewDialog;
+import com.xliic.openapi.preview.PreviewService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.PreviewService;
 
 public abstract class PreviewAbstractAction extends ProjectAction {
 

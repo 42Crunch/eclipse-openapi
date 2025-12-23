@@ -1,4 +1,4 @@
-package com.xliic.openapi.services;
+package com.xliic.openapi.preview;
 
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_REDOC;
 import static com.xliic.openapi.preview.PreviewUtils.RENDERER_SWAGGERUI;
@@ -24,11 +24,6 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.services.IPreviewService;
-import com.xliic.openapi.preview.PreviewCallback;
-import com.xliic.openapi.preview.PreviewConfigurator;
-import com.xliic.openapi.preview.PreviewEndpoint;
-import com.xliic.openapi.preview.PreviewPathResource;
-import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.settings.SettingsService;
 
 import jakarta.websocket.server.ServerEndpointConfig;
