@@ -1,10 +1,6 @@
 package com.xliic.openapi.preview;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.jetbrains.annotations.NotNull;
+import static com.xliic.openapi.utils.NetUtils.getPreviewResource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +8,12 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.xliic.openapi.utils.NetUtils.getPreviewResource;
+import org.jetbrains.annotations.NotNull;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 public class PreviewServlet extends HttpServlet {

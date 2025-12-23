@@ -1,9 +1,9 @@
 package com.xliic.openapi.preview;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
+import org.jetbrains.annotations.NotNull;
 
 public class PreviewResource {
 
