@@ -1,34 +1,23 @@
-package com.xliic.openapi.services;
+package com.xliic.openapi.preview;
 
-import static com.xliic.openapi.preview.PreviewUtils.RENDERER_REDOC;
-import static com.xliic.openapi.preview.PreviewUtils.RENDERER_SWAGGERUI;
+import static com.xliic.openapi.preview.PreviewUtils.getSecurityHandler;
 import static com.xliic.openapi.settings.Settings.Preview.DEFAULT_PORT;
 import static com.xliic.openapi.settings.Settings.Preview.PORT;
-import static com.xliic.openapi.utils.TempFileUtils.createPluginTempDirIfMissing;
-import static com.xliic.openapi.utils.TempFileUtils.createTextResource;
 
-import java.io.File;
 import java.net.BindException;
-import java.nio.file.Paths;
+import java.util.UUID;
 
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.ee10.websocket.jakarta.server.config.JakartaWebSocketServletContainerInitializer;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.component.LifeCycle;
-import org.eclipse.jetty.util.resource.Resource;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
 import com.xliic.core.services.IPreviewService;
-import com.xliic.openapi.preview.PreviewCallback;
-import com.xliic.openapi.preview.PreviewConfigurator;
-import com.xliic.openapi.preview.PreviewEndpoint;
-import com.xliic.openapi.preview.PreviewPathResource;
-import com.xliic.openapi.preview.PreviewUtils;
 import com.xliic.openapi.settings.SettingsService;
 
 import jakarta.websocket.server.ServerEndpointConfig;
@@ -36,16 +25,20 @@ import jakarta.websocket.server.ServerEndpointConfig;
 public class PreviewService implements IPreviewService, Disposable {
 
     private volatile Server server;
-    private File pluginTempDir;
-    private boolean initComplete;
+    @NotNull
+    private final String token;
+    @NotNull
+    private final String password;
     @NotNull
     private final PreviewConfigurator configurator;
 
-    // This is app level service, no matter how many IDE projects are opened the
-    // jetty server will be started only once
+    // This is app level service, no matter how many IDE projects are opened the jetty server will be started only once
     public PreviewService() {
         server = null;
-        initComplete = false;
+        // Use to protect web socket channel
+        token = UUID.randomUUID().toString();
+        // Use to protect static server content (html, js, CSS)
+        password = UUID.randomUUID().toString();
         configurator = new PreviewConfigurator();
     }
 
@@ -69,27 +62,15 @@ public class PreviewService implements IPreviewService, Disposable {
 
     @Override
     public void start(@NotNull PreviewCallback callback) {
-        if (initComplete) {
-            runServer(callback);
-        } else {
-            initServerResources(callback);
-        }
+    	runServer(callback);
+    }
+    
+    public @NotNull String getToken() {
+        return token;
     }
 
-    private void initServerResources(PreviewCallback callback) {
-        try {
-            pluginTempDir = createPluginTempDirIfMissing();
-            createTextResource(pluginTempDir, "preview", RENDERER_SWAGGERUI, ".html");
-            createTextResource(pluginTempDir, "preview", RENDERER_SWAGGERUI, ".css");
-            createTextResource(pluginTempDir, "preview", RENDERER_SWAGGERUI, ".js");
-            createTextResource(pluginTempDir, "preview", RENDERER_REDOC, ".html");
-            createTextResource(pluginTempDir, "preview", RENDERER_REDOC, ".js");
-            initComplete = true;
-            runServer(callback);
-        } catch (Throwable e) {
-            initComplete = false;
-            callback.reject("Failed to init preview server: " + e.getMessage());
-        }
+    public @NotNull String getPassword() {
+        return password;
     }
 
     private void runServer(PreviewCallback callback) {
@@ -130,14 +111,16 @@ public class PreviewService implements IPreviewService, Disposable {
                             PreviewEndpoint.class, "/ws").configurator(configurator).build()));
 
             // Create web resources context (html, js, ...)
-            ResourceHandler resourceHandler = new ResourceHandler();
-            ContextHandler contextHandler = new ContextHandler();
+            ServletContextHandler contextHandler = new ServletContextHandler();
             contextHandler.setContextPath("/");
-            Resource resource = new PreviewPathResource(Paths.get(pluginTempDir.getCanonicalPath()));
-            contextHandler.setBaseResource(resource);
-            contextHandler.setHandler(resourceHandler);
+            ServletHolder holder = new ServletHolder(new PreviewServlet(token));
+            contextHandler.addServlet(holder, "/*");
 
-            server.setHandler(new ContextHandlerCollection(contextHandler, servletContextHandler));
+            ContextHandlerCollection handlerCollection = new ContextHandlerCollection();
+            handlerCollection.addHandler(getSecurityHandler("/*", password, contextHandler));
+            handlerCollection.addHandler(getSecurityHandler("/preview/*", token, servletContextHandler));
+
+            server.setHandler(handlerCollection);
             server.addEventListener(new LifeCycle.Listener() {
                 @Override
                 public void lifeCycleStarted(LifeCycle event) {

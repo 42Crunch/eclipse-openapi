@@ -49034,7 +49034,7 @@ cy.useEventSource = function(e, t, r) {
   } });
 })(TM);
 const tee = /* @__PURE__ */ og(TM), ree = () => {
-  const e = new URLSearchParams(window.location.search), t = e.get("project"), r = e.get("filename"), n = e.get("renderer"), i = window.location.port, { sendMessage: s, lastMessage: o, readyState: a } = tee("ws://localhost:" + i + "/preview/ws?project=" + t + "&filename=" + r + "&renderer=" + n);
-  return o ? /* @__PURE__ */ Zb.jsx(xZ.RedocStandalone, { options: { disableSearch: !0, hideDownloadButton: !0 }, spec: JSON.parse(o.data) }) : /* @__PURE__ */ Zb.jsx("p", { children: "Loading..." });
+  const e = new URLSearchParams(window.location.search), t = e.get("project"), r = e.get("filename"), n = e.get("renderer"), i = window.previewToken, s = window.location.port, { sendMessage: o, lastMessage: a, readyState: l } = tee("ws://preview:" + i + "@localhost:" + s + "/preview/ws?project=" + t + "&filename=" + r + "&renderer=" + n);
+  return a ? /* @__PURE__ */ Zb.jsx(xZ.RedocStandalone, { options: { disableSearch: !0, hideDownloadButton: !0 }, spec: JSON.parse(a.data) }) : /* @__PURE__ */ Zb.jsx("p", { children: "Loading..." });
 };
 gI.render(/* @__PURE__ */ Zb.jsx(ree, {}), document.getElementById("root"));

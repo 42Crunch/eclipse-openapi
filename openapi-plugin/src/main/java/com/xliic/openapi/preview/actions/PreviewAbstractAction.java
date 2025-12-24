@@ -1,6 +1,5 @@
 package com.xliic.openapi.preview.actions;
 
-import java.net.MalformedURLException;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
@@ -13,8 +12,8 @@ import com.xliic.openapi.actions.ProjectAction;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.preview.PreviewCallback;
 import com.xliic.openapi.preview.PreviewDialog;
+import com.xliic.openapi.preview.PreviewService;
 import com.xliic.openapi.services.BundleService;
-import com.xliic.openapi.services.PreviewService;
 
 public abstract class PreviewAbstractAction extends ProjectAction {
 
@@ -60,12 +59,12 @@ public abstract class PreviewAbstractAction extends ProjectAction {
         }
     }
 
-    public abstract void browse(Project project, VirtualFile file) throws MalformedURLException;
+    public abstract void browse(Project project, VirtualFile file) throws Exception;
 
     private void process(Project project, VirtualFile file) {
         try {
             browse(project, file);
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
         	Logger.getInstance(PreviewAbstractAction.class).error(e);
         }
     }

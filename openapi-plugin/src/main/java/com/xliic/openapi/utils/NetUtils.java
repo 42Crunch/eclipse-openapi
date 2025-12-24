@@ -347,7 +347,16 @@ public class NetUtils {
 
     @NotNull
     public static String getWebAppResource(@NotNull Class<?> loaderClass, @NotNull String fileName) {
-        InputStream stream = ResourceUtil.getResourceAsStream(loaderClass.getClassLoader(), "web", fileName);
+        return getResource(loaderClass, "web", fileName);
+    }
+
+    @NotNull
+    public static String getPreviewResource(@NotNull Class<?> loaderClass, @NotNull String fileName) {
+        return getResource(loaderClass, "preview", fileName);
+    }
+
+    private static String getResource(@NotNull Class<?> loaderClass, @NotNull String basePath, @NotNull String fileName) {
+        InputStream stream = ResourceUtil.getResourceAsStream(loaderClass.getClassLoader(), basePath, fileName);
         InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
         Stream<String> bufferedReader = new BufferedReader(reader).lines();
         StringBuilder builder = new StringBuilder();

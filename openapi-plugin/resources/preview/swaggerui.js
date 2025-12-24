@@ -50205,7 +50205,7 @@ fb.useEventSource = function(e, t, r) {
   } });
 })(g7);
 const BVe = /* @__PURE__ */ Je(g7), UVe = () => {
-  const e = new URLSearchParams(window.location.search), t = e.get("project"), r = e.get("filename"), n = e.get("renderer"), s = window.location.port, { sendMessage: i, lastMessage: o, readyState: a } = BVe("ws://localhost:" + s + "/preview/ws?project=" + t + "&filename=" + r + "&renderer=" + n);
-  return o ? (console.log("last message", o), /* @__PURE__ */ MS.jsx(dh, { spec: JSON.parse(o.data) })) : /* @__PURE__ */ MS.jsx("p", { children: "Loading..." });
+  const e = new URLSearchParams(window.location.search), t = e.get("project"), r = e.get("filename"), n = e.get("renderer"), s = window.previewToken, i = window.location.port, { sendMessage: o, lastMessage: a, readyState: l } = BVe("ws://preview:" + s + "@localhost:" + i + "/preview/ws?project=" + t + "&filename=" + r + "&renderer=" + n);
+  return a ? /* @__PURE__ */ MS.jsx(dh, { spec: JSON.parse(a.data) }) : /* @__PURE__ */ MS.jsx("p", { children: "Loading..." });
 };
 O3.render(/* @__PURE__ */ MS.jsx(UVe, {}), document.getElementById("root"));
