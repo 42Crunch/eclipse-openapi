@@ -9,6 +9,7 @@ import com.xliic.core.fileEditor.OpenFileDescriptor;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
+import com.xliic.core.ide.BrowserUtil;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public class OpenFileLink extends WebAppProduce {
@@ -24,9 +25,14 @@ public class OpenFileLink extends WebAppProduce {
     @Override
     public void run(@Nullable Object payload) {
         if (payload instanceof String) {
-            VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File((String) payload));
-            if (file != null) {
-                new OpenFileDescriptor(project, file).navigate(true);
+            String url = (String)payload;
+            if(url.startsWith("file")) {
+                VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(url));
+                if (file != null) {
+                    new OpenFileDescriptor(project, file).navigate(true);
+                }
+            } else {
+                BrowserUtil.browse(url);
             }
         }
     }
