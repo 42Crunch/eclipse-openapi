@@ -1,9 +1,9 @@
-import { j as e, c as q, d as _, s as Q, M as X, i as Y, p as Z, a as ee, x as te, r as se, t as ie, l as ne, u as re, b as oe, T as l, e as a, m as ae, B as M, g as le, R as de, P as ce, h as pe, a0 as ge, k as he } from "./TriangleExclamation.DrtDYmuA.js";
-import { s as ue } from "./listener.SmuvmntO.js";
+import { j as e, c as K, d as _, s as Q, M as X, i as Y, p as Z, a as ee, x as te, r as se, t as ie, l as ne, u as re, b as oe, T as l, e as a, m as ae, B as M, g as le, R as de, P as ce, h as pe, a0 as ue, k as he } from "./TriangleExclamation.DrtDYmuA.js";
+import { s as ge } from "./listener.SmuvmntO.js";
 import { o as me, c as xe } from "./listener.Cd9yvFW1.js";
 import { s as fe } from "./rtk-query-react.modern.Do0gBnMl.js";
 import { l as ve, c as je } from "./slice.CPtQvM1w.js";
-import { s as we, g as ye, M as E, a as R, b as be, G as Ce, S as Se } from "./GeneralError.DD1N1rnF.js";
+import { s as ye, g as we, M as E, a as R, b as be, G as Ce, S as Se } from "./GeneralError.DD1N1rnF.js";
 import { f as $, u as Fe, g as Ie } from "./freemiumd-api.DyefyGjJ.js";
 import { S as T } from "./TrashCan.C7YMAGUy.js";
 import { a as Pe } from "./SearchSidebar.BkfGCTmV.js";
@@ -15,7 +15,7 @@ const Be = (t) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/
   items: [],
   selectedId: void 0,
   token: void 0
-}, z = q({
+}, H = K({
   name: "capture",
   initialState: Re,
   reducers: {
@@ -55,21 +55,21 @@ const Be = (t) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/
     }
   }
 }), {
-  showCaptureWindow: H,
+  showCaptureWindow: z,
   selectFiles: C,
-  saveCaptureSettings: V,
-  convert: G,
+  saveCaptureSettings: G,
+  convert: V,
   saveCapture: Te,
   downloadFile: W,
   deleteJob: J,
   deleteFile: N,
   openLink: b,
   setSelectedItemId: Ue,
-  setCaptureToken: ze
-} = z.actions, He = z.reducer, K = _(), c = K.startListening;
-function Ve(t, s) {
+  setCaptureToken: He
+} = H.actions, ze = H.reducer, q = _(), c = q.startListening;
+function Ge(t, s) {
   const n = () => c({
-    actionCreator: H,
+    actionCreator: z,
     effect: async (r, o) => {
       o.dispatch(X(["main", "capture"]));
     }
@@ -84,7 +84,7 @@ function Ve(t, s) {
       }
     }),
     saveCaptureSettings: () => c({
-      matcher: Y(V, N),
+      matcher: Y(G, N),
       effect: async (r, o) => {
         const d = r.payload.id, f = o.getState().capture.items.find((S) => S.id === d);
         t.postMessage({
@@ -100,7 +100,7 @@ function Ve(t, s) {
       }
     }),
     convert: () => c({
-      actionCreator: G,
+      actionCreator: V,
       effect: async (r, o) => {
         t.postMessage({
           command: "convert",
@@ -137,29 +137,29 @@ function Ve(t, s) {
     }),
     sendHttpRequest: me(c, t)
   };
-  return ue(c, s), Q({ ...i, onShowCaptureWindow: n }), K;
+  return ge(c, s), Q({ ...i, onShowCaptureWindow: n }), q;
 }
-const Ge = {
+const Ve = {
   theme: ie,
-  capture: He,
+  capture: ze,
   router: se,
   confirmationDialog: te,
   config: je,
   client: xe,
-  generalError: ye,
+  generalError: we,
   [$.reducerPath]: $.reducer
 }, We = {
   changeTheme: Z,
-  showCaptureWindow: H,
-  setCaptureToken: ze,
+  showCaptureWindow: z,
+  setCaptureToken: He,
   saveCapture: Te,
   loadConfig: ve,
   showHttpError: () => null,
   showHttpResponse: () => null,
-  showGeneralError: we
+  showGeneralError: ye
 }, Je = (t, s) => {
   const n = ee({
-    reducer: Ge,
+    reducer: Ve,
     middleware: (i) => i().prepend(t.middleware).concat(ne, $.middleware),
     preloadedState: {
       theme: s
@@ -170,8 +170,8 @@ const Ge = {
 function k({ progress: t, label: s }) {
   const n = Math.ceil(t * 100), i = s !== void 0 ? s : `${n}%`;
   return /* @__PURE__ */ e.jsxs(Ne, { children: [
-    /* @__PURE__ */ e.jsx(Ke, { children: i }),
-    /* @__PURE__ */ e.jsx(qe, { $progress: t, children: i })
+    /* @__PURE__ */ e.jsx(qe, { children: i }),
+    /* @__PURE__ */ e.jsx(Ke, { $progress: t, children: i })
   ] });
 }
 const Ne = a.div`
@@ -182,7 +182,7 @@ const Ne = a.div`
   border: 1px solid var(${l.buttonBorder});
   border-radius: 6px;
   overflow: hidden;
-`, Ke = a.div`
+`, qe = a.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -190,7 +190,7 @@ const Ne = a.div`
   background-color: var(${l.computedOne});
   color: var(${l.foreground});
   border-radius: 6px;
-`, qe = a.div`
+`, Ke = a.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -216,7 +216,7 @@ function _e() {
       schema: dt,
       saveData: (r) => {
         t(
-          V({
+          G({
             id: i.id,
             settings: { files: i.files, prepareOptions: r }
           })
@@ -233,9 +233,10 @@ function Qe({ item: t }) {
   return /* @__PURE__ */ e.jsxs("div", { children: [
     /* @__PURE__ */ e.jsx(h, { children: "API Contract Generator" }),
     /* @__PURE__ */ e.jsxs("ul", { children: [
-      /* @__PURE__ */ e.jsx("li", { children: "Add up to 10 files" }),
+      /* @__PURE__ */ e.jsx("li", { children: "Max 10 files" }),
       /* @__PURE__ */ e.jsx("li", { children: "Max size of combined files is 250MB" }),
-      /* @__PURE__ */ e.jsx("li", { children: "Supports Postman collections and HAR files" })
+      /* @__PURE__ */ e.jsx("li", { children: "Supports multiple Postman collections and HAR files" }),
+      /* @__PURE__ */ e.jsx("li", { children: "Supports one environment variable file per OpenAPI file" })
     ] }),
     /* @__PURE__ */ e.jsx(v, {}),
     /* @__PURE__ */ e.jsx(h, { children: "Selected files" }),
@@ -268,7 +269,7 @@ function Qe({ item: t }) {
             $disabled: !n,
             $primary: !0,
             onClick: (i) => {
-              n && s(G({ id: t.id })), i.stopPropagation(), i.preventDefault();
+              n && s(V({ id: t.id })), i.stopPropagation(), i.preventDefault();
             },
             children: [
               /* @__PURE__ */ e.jsx(be, {}),
@@ -284,7 +285,7 @@ function Qe({ item: t }) {
       /* @__PURE__ */ e.jsx(
         L,
         {
-          label: "Base Path",
+          label: "Base path",
           name: "basePath",
           description: "The URL prefix for all API paths, relative to the host root"
         }
@@ -313,7 +314,7 @@ function Qe({ item: t }) {
           }
         ),
         t.downloadedFile && /* @__PURE__ */ e.jsxs("div", { children: [
-          "OpenAPI file saved to",
+          "OpenAPI file saved as",
           " ",
           /* @__PURE__ */ e.jsx(
             "a",
@@ -370,7 +371,7 @@ const F = a.div`
     visibility: visible;
   }
 `, h = a.div`
-  margin-top: 16px;
+  margin-top: 0px;
   margin-bottom: 16px;
   font-size: 13px;
   font-weight: 600;
@@ -411,7 +412,7 @@ const F = a.div`
 `, ot = a.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 `, v = a.hr`
   border: none;
   border-top: 1px solid var(${l.border});
@@ -451,7 +452,7 @@ function ct({
     refetchOnFocus: !0,
     pollingInterval: 6e5
     // refresh every 10 minutes
-  }), o = x(), d = m((g) => g.config.data.platformAuthType), { upgradeUrl: f, stripeBillingUrl: S } = Ie(s);
+  }), o = x(), d = m((u) => u.config.data.platformAuthType), { upgradeUrl: f, stripeBillingUrl: S } = Ie(s);
   return i ? /* @__PURE__ */ e.jsx(P, { children: /* @__PURE__ */ e.jsxs(Me, { message: "Failed to load subscription status", children: [
     i.code,
     " ",
@@ -459,9 +460,9 @@ function ct({
   ] }) }) : r || n === void 0 ? /* @__PURE__ */ e.jsx(P, { children: /* @__PURE__ */ e.jsx(Le, { message: "Loading..." }) }) : /* @__PURE__ */ e.jsxs(P, { children: [
     d === "anond-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
       /* @__PURE__ */ e.jsxs(j, { children: [
-        /* @__PURE__ */ e.jsx(u, { children: "API Contract Generator" }),
-        /* @__PURE__ */ e.jsx(w, { children: "Monthly operations left" }),
-        /* @__PURE__ */ e.jsxs(y, { children: [
+        /* @__PURE__ */ e.jsx(g, { children: "API Contract Generator" }),
+        /* @__PURE__ */ e.jsx(y, { children: "Monthly operations left" }),
+        /* @__PURE__ */ e.jsxs(w, { children: [
           n.monthlyCapture - n.currentCaptureUsage,
           " / ",
           n.monthlyCapture
@@ -469,17 +470,17 @@ function ct({
         /* @__PURE__ */ e.jsx(k, { label: "", progress: 1 - n.currentCaptureUsage / n.monthlyCapture })
       ] }),
       /* @__PURE__ */ e.jsxs(j, { children: [
-        /* @__PURE__ */ e.jsxs(u, { children: [
+        /* @__PURE__ */ e.jsxs(g, { children: [
           "Subscription type: ",
           n?.subscriptionKind
         ] }),
-        /* @__PURE__ */ e.jsx(w, { children: "Upgrade or manage your subscription plan" }),
-        /* @__PURE__ */ e.jsxs(y, { children: [
+        /* @__PURE__ */ e.jsx(y, { children: "Upgrade or manage your subscription plan" }),
+        /* @__PURE__ */ e.jsxs(w, { children: [
           n.subscriptionKind === "free" && /* @__PURE__ */ e.jsx(
             M,
             {
-              onClick: (g) => {
-                g.preventDefault(), g.stopPropagation(), o(b(`${f}?email=${encodeURIComponent(n.userEmail)}`));
+              onClick: (u) => {
+                u.preventDefault(), u.stopPropagation(), o(b(`${f}?email=${encodeURIComponent(n.userEmail)}`));
               },
               children: "Upgrade"
             }
@@ -487,8 +488,8 @@ function ct({
           n.subscriptionKind !== "free" && /* @__PURE__ */ e.jsx(
             M,
             {
-              onClick: (g) => {
-                g.preventDefault(), g.stopPropagation(), o(
+              onClick: (u) => {
+                u.preventDefault(), u.stopPropagation(), o(
                   b(
                     `${S}?prefilled_email=${encodeURIComponent(n.userEmail)}`
                   )
@@ -502,9 +503,9 @@ function ct({
     ] }),
     d === "api-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
       /* @__PURE__ */ e.jsxs(j, { children: [
-        /* @__PURE__ */ e.jsx(u, { children: "Tenant Allowance" }),
-        /* @__PURE__ */ e.jsx(w, { children: "Monthly operations left" }),
-        /* @__PURE__ */ e.jsxs(y, { children: [
+        /* @__PURE__ */ e.jsx(g, { children: "Tenant Allowance" }),
+        /* @__PURE__ */ e.jsx(y, { children: "Monthly operations left" }),
+        /* @__PURE__ */ e.jsxs(w, { children: [
           n.monthlyCapture - n.currentCaptureUsage,
           " / ",
           n.monthlyCapture
@@ -512,7 +513,7 @@ function ct({
         /* @__PURE__ */ e.jsx(k, { label: "", progress: 1 - n.currentCaptureUsage / n.monthlyCapture })
       ] }),
       /* @__PURE__ */ e.jsxs(j, { children: [
-        /* @__PURE__ */ e.jsxs(u, { children: [
+        /* @__PURE__ */ e.jsxs(g, { children: [
           "Subscription type: ",
           n?.subscriptionKind
         ] }),
@@ -527,12 +528,12 @@ const P = a.div`
   flex-direction: column;
   gap: 8px;
   max-width: 560px;
-`, u = a.div`
+`, g = a.div`
   font-weight: 700;
-`, w = a.div`
+`, y = a.div`
   font-weight: 400;
   font-size: 90%;
-`, y = a.div`
+`, w = a.div`
   font-weight: 600;
   font-size: 110%;
   > div {
@@ -544,15 +545,15 @@ const P = a.div`
   gap: 4px;
   padding-top: 8px;
   border-top: 1px solid var(${l.border});
-  > ${u} {
+  > ${g} {
     grid-column: 1;
     grid-row: 1;
   }
-  > ${w} {
+  > ${y} {
     grid-column: 1;
     grid-row: 2;
   }
-  > ${y} {
+  > ${w} {
     grid-column: 2;
     grid-row: span 2;
     align-self: center;
@@ -565,31 +566,31 @@ const P = a.div`
 `;
 function pt() {
   const t = x(), s = m((i) => i.config.data.internalUseDevEndpoints), n = m((i) => i.capture.token);
-  return /* @__PURE__ */ e.jsxs(gt, { children: [
+  return /* @__PURE__ */ e.jsxs(ut, { children: [
     /* @__PURE__ */ e.jsx("h1", { children: "Welcome to API Contract Generator" }),
-    /* @__PURE__ */ e.jsx("p", { children: "Save time by reducing the manual creation of OpenAPI files; generate OpenAPI files automatically from Postman collections or HAR files, directly in your IDE. Saving you time and effort of manually creating OpenAPI files." }),
+    /* @__PURE__ */ e.jsx("p", { children: "Generate OpenAPI files automatically from Postman collections and HAR files, directly in your IDE. This saves you time and avoids extra manual effort." }),
     /* @__PURE__ */ e.jsxs(
-      ut,
+      gt,
       {
         onClick: (i) => {
           t(C({ id: void 0 })), i.stopPropagation(), i.preventDefault();
         },
         children: [
           /* @__PURE__ */ e.jsx(A, {}),
-          "Select Postman/HAR files"
+          "Select Postman or HAR files"
         ]
       }
     ),
     /* @__PURE__ */ e.jsx("p", { children: /* @__PURE__ */ e.jsx(p, { children: "Get started now!" }) }),
     /* @__PURE__ */ e.jsxs("p", { children: [
       /* @__PURE__ */ e.jsx(p, { children: "Step 1" }),
-      " - Click on ",
-      /* @__PURE__ */ e.jsx(p, { children: "Add files" }),
-      " to upload the Postman collection for your API and / or HAR files recording traffic to it"
+      " - Click ",
+      /* @__PURE__ */ e.jsx(p, { children: "Select Postman or HAR files" }),
+      " to upload one or more Postman collections and HAR files. If you use environment variables in your Postman collections, also include an environment variable file."
     ] }),
     /* @__PURE__ */ e.jsxs("p", { children: [
       /* @__PURE__ */ e.jsx(p, { children: "Step 2" }),
-      " - Click on ",
+      " - Click ",
       /* @__PURE__ */ e.jsx(p, { children: "Generate" }),
       " to automatically generate your OpenAPI file."
     ] }),
@@ -597,22 +598,22 @@ function pt() {
       /* @__PURE__ */ e.jsx(p, { children: "Step 3" }),
       " - ",
       /* @__PURE__ */ e.jsx(p, { children: "Download" }),
-      " your new OpenAPI file, or ",
-      /* @__PURE__ */ e.jsx(p, { children: "open" }),
-      " it in the IDE for further editing."
+      " your new OpenAPI file or ",
+      /* @__PURE__ */ e.jsx(p, { children: "edit" }),
+      " it it directly in the IDE. We recommend your run audit on your API contract to improve its quality and security."
     ] }),
     n !== void 0 && /* @__PURE__ */ e.jsx(ht, { children: /* @__PURE__ */ e.jsx(ct, { token: n, useDevEndpoints: s }) }),
     /* @__PURE__ */ e.jsx(Ce, {})
   ] });
 }
-const gt = a.div`
+const ut = a.div`
   max-width: 600px;
 `, ht = a.div`
   margin-top: 2em;
   margin-bottom: 2em;
 `, p = a.span`
   font-weight: 600;
-`, ut = a.div`
+`, gt = a.div`
   margin-top: 2em;
   margin-bottom: 2em;
   display: flex;
@@ -620,7 +621,7 @@ const gt = a.div`
   gap: 4px;
   align-items: center;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
   color: var(
     ${({ $disabled: t }) => t ? l.disabledForeground : l.linkForeground}
@@ -738,9 +739,9 @@ const vt = a.div`
   }
 ];
 function jt(t, s) {
-  const n = Je(Ve(t, O), s);
+  const n = Je(Ge(t, O), s);
   le.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(de.StrictMode, { children: /* @__PURE__ */ e.jsx(ce, { store: n, children: /* @__PURE__ */ e.jsx(pe.Provider, { value: O, children: /* @__PURE__ */ e.jsx(ge, {}) }) }) })
+    /* @__PURE__ */ e.jsx(de.StrictMode, { children: /* @__PURE__ */ e.jsx(ce, { store: n, children: /* @__PURE__ */ e.jsx(pe.Provider, { value: O, children: /* @__PURE__ */ e.jsx(ue, {}) }) }) })
   ), window.addEventListener("message", he(n, We));
 }
 window.renderWebView = jt;

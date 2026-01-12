@@ -1,11 +1,11 @@
 import { j as e, e as s, T as i, p as ue, a as he, t as xe, l as ge, u as fe, B as te, f as S, d as je, s as be, g as ye, R as ve, P as Ce, n as Te, k as we } from "./TriangleExclamation.DrtDYmuA.js";
-import { u as se, a as Z, c as f, b as ke } from "./index.esm.B9REA_Vl.js";
+import { u as se, a as Z, c as j, b as ke } from "./index.esm.B9REA_Vl.js";
 import { S as Pe } from "./SearchSidebar.BkfGCTmV.js";
-import { s as Se, b as $e, d as Ae, e as Re, f as Ie, l as Fe, c as De, o as re, u as w, g as R, t as Me, h as Be, i as Ee, j as He, k as Ue, m as ie, n as le, p as Le } from "./slice.CPtQvM1w.js";
-import { o as p, s as m, e as M, l as y, u as ee, i as Oe, a as Ne, c as Ve, b as F, d as _e, F as ze } from "./types.h_AaHWF9.js";
-import { T as ce, I as c } from "./Textarea.CDYN1NOa.js";
+import { s as Se, b as $e, d as Ae, e as Re, f as Ie, l as Fe, c as De, o as re, u as k, g as R, t as Me, h as Be, i as Ee, j as He, k as Ue, m as ie, n as le, p as Le } from "./slice.CPtQvM1w.js";
+import { o as m, s as c, e as M, l as v, u as ee, i as Oe, a as Ne, c as Ve, b as F, d as _e, F as ze } from "./types.h_AaHWF9.js";
+import { T as ce, I as l } from "./Textarea.CDYN1NOa.js";
 import { N as We } from "./ProgressButton.CKH84UAo.js";
-import { B as v, E as B } from "./Banner.xHM1dtia.js";
+import { B as C, E as B } from "./Banner.xHM1dtia.js";
 import { R as Ge, p as q } from "./platform-api.DivS31Sc.js";
 import { f as Q, u as Je, g as Xe } from "./freemiumd-api.DyefyGjJ.js";
 import { s as Ye } from "./rtk-query-react.modern.Do0gBnMl.js";
@@ -27,9 +27,9 @@ function $({
   return /* @__PURE__ */ e.jsx(We, { disabled: !a, label: n, waiting: r, onClick: t });
 }
 function ne({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(v, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(B, { message: "Failed to connect", children: n.message }) : null;
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(C, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(B, { message: "Failed to connect", children: n.message }) : null;
 }
-const h = s.div`
+const x = s.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -49,7 +49,7 @@ const h = s.div`
     flex: 1;
     align-self: stretch;
   }
-`, x = s.div`
+`, g = s.div`
   font-weight: 700;
   margin-bottom: 16px;
 `;
@@ -136,24 +136,24 @@ function bn({
     refetchOnFocus: !0,
     pollingInterval: 6e5
     // refresh every 10 minutes
-  }), u = jn(), { upgradeUrl: d } = Xe(r);
+  }), u = jn(), { upgradeUrl: d, stripeBillingUrl: p } = Xe(r);
   return a ? /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsxs(B, { message: "Failed to load subscription status", children: [
     a.code,
     " ",
     a.message
-  ] }) }) : o || t === void 0 ? /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsx(v, { message: "Loading subscription status..." }) }) : /* @__PURE__ */ e.jsxs(U, { children: [
-    /* @__PURE__ */ e.jsxs(C, { children: [
-      /* @__PURE__ */ e.jsxs(j, { children: [
+  ] }) }) : o || t === void 0 ? /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsx(C, { message: "Loading subscription status..." }) }) : /* @__PURE__ */ e.jsxs(U, { children: [
+    /* @__PURE__ */ e.jsxs(T, { children: [
+      /* @__PURE__ */ e.jsxs(b, { children: [
         "Subscription type: ",
         t?.subscriptionKind
       ] }),
-      /* @__PURE__ */ e.jsx(T, { children: "Upgrade or manage your subscription plan" }),
-      /* @__PURE__ */ e.jsxs(b, { children: [
+      /* @__PURE__ */ e.jsx(w, { children: "Upgrade or manage your subscription plan" }),
+      /* @__PURE__ */ e.jsxs(y, { children: [
         t.subscriptionKind === "free" && /* @__PURE__ */ e.jsx(
           te,
           {
-            onClick: (l) => {
-              l.preventDefault(), l.stopPropagation(), u(re(`${d}?email=${encodeURIComponent(t.userEmail)}`));
+            onClick: (h) => {
+              h.preventDefault(), h.stopPropagation(), u(re(`${d}?email=${encodeURIComponent(t.userEmail)}`));
             },
             children: "Upgrade"
           }
@@ -161,9 +161,11 @@ function bn({
         t.subscriptionKind !== "free" && /* @__PURE__ */ e.jsx(
           te,
           {
-            onClick: (l) => {
-              l.preventDefault(), l.stopPropagation(), u(
-                re(`${d}?prefilled_email=${encodeURIComponent(t.userEmail)}`)
+            onClick: (h) => {
+              h.preventDefault(), h.stopPropagation(), u(
+                re(
+                  `${p}?prefilled_email=${encodeURIComponent(t.userEmail)}`
+                )
               );
             },
             children: "Manage"
@@ -171,39 +173,39 @@ function bn({
         )
       ] })
     ] }),
-    /* @__PURE__ */ e.jsxs(C, { children: [
-      /* @__PURE__ */ e.jsx(j, { children: "Registered email" }),
-      /* @__PURE__ */ e.jsx(b, { children: t.userEmail })
+    /* @__PURE__ */ e.jsxs(T, { children: [
+      /* @__PURE__ */ e.jsx(b, { children: "Registered email" }),
+      /* @__PURE__ */ e.jsx(y, { children: t.userEmail })
     ] }),
-    /* @__PURE__ */ e.jsxs(C, { children: [
-      /* @__PURE__ */ e.jsx(j, { children: "Subscription date" }),
-      /* @__PURE__ */ e.jsx(T, { children: "Date when your monthly allowance started" }),
-      /* @__PURE__ */ e.jsx(b, { children: t.periodStart })
+    /* @__PURE__ */ e.jsxs(T, { children: [
+      /* @__PURE__ */ e.jsx(b, { children: "Subscription date" }),
+      /* @__PURE__ */ e.jsx(w, { children: "Date when your monthly allowance started" }),
+      /* @__PURE__ */ e.jsx(y, { children: t.periodStart })
     ] }),
-    /* @__PURE__ */ e.jsxs(C, { children: [
-      /* @__PURE__ */ e.jsx(j, { children: "Audit" }),
-      /* @__PURE__ */ e.jsx(T, { children: "Monthly operation audits left" }),
-      /* @__PURE__ */ e.jsxs(b, { children: [
+    /* @__PURE__ */ e.jsxs(T, { children: [
+      /* @__PURE__ */ e.jsx(b, { children: "Audit" }),
+      /* @__PURE__ */ e.jsx(w, { children: "Monthly operation audits left" }),
+      /* @__PURE__ */ e.jsxs(y, { children: [
         t.monthlyAudit - t.currentAuditUsage,
         " / ",
         t.monthlyAudit
       ] }),
       /* @__PURE__ */ e.jsx(I, { label: "", progress: 1 - t.currentAuditUsage / t.monthlyAudit })
     ] }),
-    /* @__PURE__ */ e.jsxs(C, { children: [
-      /* @__PURE__ */ e.jsx(j, { children: "Scan" }),
-      /* @__PURE__ */ e.jsx(T, { children: "Monthly operation scans left" }),
-      /* @__PURE__ */ e.jsxs(b, { children: [
+    /* @__PURE__ */ e.jsxs(T, { children: [
+      /* @__PURE__ */ e.jsx(b, { children: "Scan" }),
+      /* @__PURE__ */ e.jsx(w, { children: "Monthly operation scans left" }),
+      /* @__PURE__ */ e.jsxs(y, { children: [
         t.monthlyScan - t.currentScanUsage,
         " / ",
         t.monthlyScan
       ] }),
       /* @__PURE__ */ e.jsx(I, { label: "", progress: 1 - t.currentScanUsage / t.monthlyScan })
     ] }),
-    /* @__PURE__ */ e.jsxs(C, { children: [
-      /* @__PURE__ */ e.jsx(j, { children: "API Contract Generator" }),
-      /* @__PURE__ */ e.jsx(T, { children: "Monthly operations left" }),
-      /* @__PURE__ */ e.jsxs(b, { children: [
+    /* @__PURE__ */ e.jsxs(T, { children: [
+      /* @__PURE__ */ e.jsx(b, { children: "API Contract Generator" }),
+      /* @__PURE__ */ e.jsx(w, { children: "Monthly operations left" }),
+      /* @__PURE__ */ e.jsxs(y, { children: [
         t.monthlyCapture - t.currentCaptureUsage,
         " / ",
         t.monthlyCapture
@@ -217,32 +219,32 @@ const U = s.div`
   flex-direction: column;
   gap: 8px;
   max-width: 560px;
-`, j = s.div`
+`, b = s.div`
   font-weight: 700;
-`, T = s.div`
+`, w = s.div`
   font-weight: 400;
   font-size: 90%;
-`, b = s.div`
+`, y = s.div`
   font-weight: 600;
   font-size: 110%;
   > div {
     font-size: 80%;
   }
-`, C = s.div`
+`, T = s.div`
   display: grid;
   grid-template-columns: 7fr 3fr;
   gap: 4px;
   padding-top: 8px;
   border-top: 1px solid var(${i.border});
-  > ${j} {
+  > ${b} {
     grid-column: 1;
     grid-row: 1;
   }
-  > ${T} {
+  > ${w} {
     grid-column: 1;
     grid-row: 2;
   }
-  > ${b} {
+  > ${y} {
     grid-column: 2;
     grid-row: span 2;
     align-self: center;
@@ -254,14 +256,14 @@ const U = s.div`
   }
 `;
 function yn() {
-  const n = w(), {
+  const n = k(), {
     platformConnectionTestResult: r,
     waitingForPlatformConnectionTest: t,
     data: { internalUseDevEndpoints: a }
-  } = R((d) => d.config), o = f({ name: "platformAuthType" }), u = f({ name: "anondToken" });
+  } = R((d) => d.config), o = j({ name: "platformAuthType" }), u = j({ name: "anondToken" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "Connection to 42Crunch Platform" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "Connection to 42Crunch Platform" }),
+    /* @__PURE__ */ e.jsxs(x, { children: [
       /* @__PURE__ */ e.jsx(
         mn,
         {
@@ -277,8 +279,8 @@ function yn() {
         u !== "" && /* @__PURE__ */ e.jsx(bn, { token: u, useDevEndpoints: a })
       ] }),
       o === "api-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(c, { label: "Platform URL", name: "platformUrl" }),
-        /* @__PURE__ */ e.jsx(c, { label: "IDE token", name: "platformApiToken", password: !0 }),
+        /* @__PURE__ */ e.jsx(l, { label: "Platform URL", name: "platformUrl" }),
+        /* @__PURE__ */ e.jsx(l, { label: "IDE token", name: "platformApiToken", password: !0 }),
         /* @__PURE__ */ e.jsxs(A, { children: [
           /* @__PURE__ */ e.jsx(
             $,
@@ -296,9 +298,9 @@ function yn() {
     ] })
   ] });
 }
-const vn = p({
+const vn = m({
   platformAuthType: M(["anond-token", "api-token"]),
-  platformUrl: m().url().startsWith("https://").refine(
+  platformUrl: c().url().startsWith("https://").refine(
     (n) => {
       try {
         const r = new URL(n);
@@ -311,11 +313,11 @@ const vn = p({
       message: "Must be a valid HTTPS URL with empty path"
     }
   ),
-  anondToken: m().trim(),
-  platformApiToken: m().regex(
+  anondToken: c().trim(),
+  platformApiToken: c().regex(
     /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
     "Token is invalid"
-  ).or(y(""))
+  ).or(v(""))
 }), L = {
   id: "platform-connection",
   label: "Connection",
@@ -323,13 +325,13 @@ const vn = p({
   form: yn
 };
 function Cn() {
-  const n = w(), {
+  const n = k(), {
     overlordConnectionTestResult: r,
     waitingForOverlordConnectionTest: t
-  } = R((o) => o.config), a = f({ name: "platformServices.source" });
+  } = R((o) => o.config), a = j({ name: "platformServices.source" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "42Crunch Platform services" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "42Crunch Platform services" }),
+    /* @__PURE__ */ e.jsxs(x, { children: [
       /* @__PURE__ */ e.jsx(
         E,
         {
@@ -341,8 +343,8 @@ function Cn() {
           ]
         }
       ),
-      a == "manual" && /* @__PURE__ */ e.jsx(c, { label: "Host", name: "platformServices.manual" }),
-      a == "auto" && /* @__PURE__ */ e.jsx(c, { label: "Host (automatic, read-only)", name: "platformServices.auto", disabled: !0 }),
+      a == "manual" && /* @__PURE__ */ e.jsx(l, { label: "Host", name: "platformServices.manual" }),
+      a == "auto" && /* @__PURE__ */ e.jsx(l, { label: "Host (automatic, read-only)", name: "platformServices.auto", disabled: !0 }),
       /* @__PURE__ */ e.jsxs(A, { children: [
         /* @__PURE__ */ e.jsx(
           $,
@@ -359,10 +361,10 @@ function Cn() {
     ] })
   ] });
 }
-const Tn = p({
-  platformServices: p({
+const Tn = m({
+  platformServices: m({
     source: M(["auto", "manual"]),
-    manual: m(),
+    manual: c(),
     auto: ee()
   })
 }), O = {
@@ -373,10 +375,10 @@ const Tn = p({
 }, ae = "^[\\w _.\\/:-]{1,2048}$", wn = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
 function kn() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "Temporary Collection Name" }),
+    /* @__PURE__ */ e.jsx(g, { children: "Temporary Collection Name" }),
     /* @__PURE__ */ e.jsx("p", { children: "The name of the collection for temporary APIs. Make sure that the name matches the collection naming pattern defined in your organization." }),
     /* @__PURE__ */ e.jsx("p", { children: "WARNING: Do not use existing collection name. This collection will be used for temporary APIs, and all existing APIs in this collection will be deleted." }),
-    /* @__PURE__ */ e.jsx(h, { children: /* @__PURE__ */ e.jsx(c, { label: "Collection Name", name: "platformTemporaryCollectionName" }) })
+    /* @__PURE__ */ e.jsx(x, { children: /* @__PURE__ */ e.jsx(l, { label: "Collection Name", name: "platformTemporaryCollectionName" }) })
   ] });
 }
 function Pn(n) {
@@ -387,13 +389,13 @@ function Pn(n) {
   return {
     id: "temporary-collection",
     label: "Temporary Collection",
-    schema: p({
+    schema: m({
       platformTemporaryCollectionName: Oe(
-        m().regex(
+        c().regex(
           new RegExp(ae),
           `Collection name is invalid, must match default pattern: ${ae}`
         ),
-        m().regex(
+        c().regex(
           new RegExp(t.pattern),
           `Collection name does not match your origanization naming convention. Example of a valid name: ${t.example}`
         )
@@ -404,18 +406,18 @@ function Pn(n) {
 }
 function Sn() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "Mandatory Tags" }),
+    /* @__PURE__ */ e.jsx(g, { children: "Mandatory Tags" }),
     /* @__PURE__ */ e.jsx("p", { children: "42Crunch platform mandatory tags, these tags will be added to every API created on the platform." }),
     /* @__PURE__ */ e.jsxs("p", { children: [
       "Tags are specified in the format ",
       /* @__PURE__ */ e.jsx("code", { children: "category:tag" }),
       ", and multiple tags are separated by spaces or commas."
     ] }),
-    /* @__PURE__ */ e.jsx(h, { children: /* @__PURE__ */ e.jsx(ce, { label: "Tags", name: "platformMandatoryTags" }) })
+    /* @__PURE__ */ e.jsx(x, { children: /* @__PURE__ */ e.jsx(ce, { label: "Tags", name: "platformMandatoryTags" }) })
   ] });
 }
-const $n = p({
-  platformMandatoryTags: m().regex(
+const $n = m({
+  platformMandatoryTags: c().regex(
     new RegExp(wn),
     "Tags are invalid, must be a comma or space separated list of key:value pairs, e.g. env:dev app:myapp"
   )
@@ -429,24 +431,24 @@ function An() {
   };
 }
 function Rn({ result: n }) {
-  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(v, { message: n.version }) : /* @__PURE__ */ e.jsx(B, { message: "Failed", children: n.message }) : null;
+  return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(C, { message: n.version }) : /* @__PURE__ */ e.jsx(B, { message: "Failed", children: n.message }) : null;
 }
 function In() {
-  const n = w(), {
+  const n = k(), {
     waitingForCliTest: r,
     cliTestResult: t,
     waitingForCliDownload: a,
     cliDownloadPercent: o,
     cliDownloadError: u,
     data: { cli: d }
-  } = R((l) => l.config);
+  } = R((p) => p.config);
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "Configuration for 42Crunch Binary runtime" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "Configuration for 42Crunch Binary runtime" }),
+    /* @__PURE__ */ e.jsxs(x, { children: [
       /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(c, { label: "Download URL", name: "repository" }),
+        /* @__PURE__ */ e.jsx(l, { label: "Download URL", name: "repository" }),
         /* @__PURE__ */ e.jsx(
-          c,
+          l,
           {
             label: "Custom binary location (optional, uses default directory if empty)",
             name: "cliDirectoryOverride"
@@ -460,15 +462,15 @@ function In() {
             {
               label: "Download",
               waiting: a,
-              onClick: (l) => {
-                n(Ee()), l.preventDefault(), l.stopPropagation();
+              onClick: (p) => {
+                n(Ee()), p.preventDefault(), p.stopPropagation();
               }
             }
           ),
           a && /* @__PURE__ */ e.jsx(I, { progress: o })
         ] }),
         /* @__PURE__ */ e.jsx(
-          v,
+          C,
           {
             message: `Download 42Crunch API Security Testing Binary, the binary was not found in ${d.location}`
           }
@@ -476,15 +478,15 @@ function In() {
       ] }),
       u !== void 0 && /* @__PURE__ */ e.jsx(B, { message: u }),
       d.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(v, { message: `Using 42Crunch API Security Testing Binary in ${d.location}` }),
+        /* @__PURE__ */ e.jsx(C, { message: `Using 42Crunch API Security Testing Binary in ${d.location}` }),
         /* @__PURE__ */ e.jsxs(A, { children: [
           /* @__PURE__ */ e.jsx(
             $,
             {
               label: "Check",
               waiting: r,
-              onClick: (l) => {
-                n(He()), l.preventDefault(), l.stopPropagation();
+              onClick: (p) => {
+                n(He()), p.preventDefault(), p.stopPropagation();
               }
             }
           ),
@@ -494,11 +496,11 @@ function In() {
     ] })
   ] });
 }
-const Fn = p({
-  repository: m().url(),
+const Fn = m({
+  repository: c().url(),
   cliDirectoryOverride: Ne([
-    y(""),
-    m().regex(/^(\/.+|[A-Za-z]:\\.+)$/, {
+    v(""),
+    c().regex(/^(\/.+|[A-Za-z]:\\.+)$/, {
       message: "Must be an absolute path (e.g. /home/username/42crunch-cli or C:\\Users\\username\\42crunch-cli)"
     })
   ])
@@ -509,14 +511,14 @@ const Fn = p({
   form: In
 };
 function Dn() {
-  const n = w(), {
+  const n = k(), {
     scandManagerConnectionTestResult: r,
     waitingForScandManagerConnectionTest: t
-  } = R((o) => o.config), a = f({ name: "scandManager.auth" });
+  } = R((o) => o.config), a = j({ name: "scandManager.auth" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "Configuration for Scand Manager runtime" }),
-    /* @__PURE__ */ e.jsx(h, { children: /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-      /* @__PURE__ */ e.jsx(c, { label: "Scand manager URL", name: "scandManager.url" }),
+    /* @__PURE__ */ e.jsx(g, { children: "Configuration for Scand Manager runtime" }),
+    /* @__PURE__ */ e.jsx(x, { children: /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+      /* @__PURE__ */ e.jsx(l, { label: "Scand manager URL", name: "scandManager.url" }),
       /* @__PURE__ */ e.jsx(
         E,
         {
@@ -529,22 +531,22 @@ function Dn() {
         }
       ),
       a === "header" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(c, { label: "Header name", name: "scandManager.header.name" }),
-        /* @__PURE__ */ e.jsx(c, { label: "Header value", name: "scandManager.header.value" })
+        /* @__PURE__ */ e.jsx(l, { label: "Header name", name: "scandManager.header.name" }),
+        /* @__PURE__ */ e.jsx(l, { label: "Header value", name: "scandManager.header.value" })
       ] }),
-      /* @__PURE__ */ e.jsx(c, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
+      /* @__PURE__ */ e.jsx(l, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
       /* @__PURE__ */ e.jsx(
-        c,
+        l,
         {
           label: "Maximum amount of time to check on scan completion (seconds)",
           name: "scandManager.timeout"
         }
       ),
       /* @__PURE__ */ e.jsx("p", { children: "Environment variables for proxy configuration" }),
-      /* @__PURE__ */ e.jsx(c, { label: "HTTP_PROXY", name: "scandManager.httpProxy" }),
-      /* @__PURE__ */ e.jsx(c, { label: "HTTPS_PROXY", name: "scandManager.httpsProxy" }),
-      /* @__PURE__ */ e.jsx(c, { label: "HTTP_PROXY_API", name: "scandManager.httpProxyApi" }),
-      /* @__PURE__ */ e.jsx(c, { label: "HTTPS_PROXY_API", name: "scandManager.httpsProxyApi" }),
+      /* @__PURE__ */ e.jsx(l, { label: "HTTP_PROXY", name: "scandManager.httpProxy" }),
+      /* @__PURE__ */ e.jsx(l, { label: "HTTPS_PROXY", name: "scandManager.httpsProxy" }),
+      /* @__PURE__ */ e.jsx(l, { label: "HTTP_PROXY_API", name: "scandManager.httpProxyApi" }),
+      /* @__PURE__ */ e.jsx(l, { label: "HTTPS_PROXY_API", name: "scandManager.httpsProxyApi" }),
       /* @__PURE__ */ e.jsxs(A, { children: [
         /* @__PURE__ */ e.jsx(
           $,
@@ -561,14 +563,14 @@ function Dn() {
     ] }) })
   ] });
 }
-const Mn = p({
-  scandManager: p({
+const Mn = m({
+  scandManager: m({
     timeout: Ve.number().int().min(1).max(3600 * 24),
     // 1 day
-    httpProxy: m().url().optional().or(y("")),
-    httpsProxy: m().url().optional().or(y("")),
-    httpProxyApi: m().url().optional().or(y("")),
-    httpsProxyApi: m().url().optional().or(y(""))
+    httpProxy: c().url().optional().or(v("")),
+    httpsProxy: c().url().optional().or(v("")),
+    httpProxyApi: c().url().optional().or(v("")),
+    httpsProxyApi: c().url().optional().or(v(""))
   }).catchall(ee())
 }), V = {
   id: "runtime-scand-manager",
@@ -616,9 +618,9 @@ const Bn = s.div`
 `;
 function Un() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "Configuration for Docker runtime" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
-      /* @__PURE__ */ e.jsx(c, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
+    /* @__PURE__ */ e.jsx(g, { children: "Configuration for Docker runtime" }),
+    /* @__PURE__ */ e.jsxs(x, { children: [
+      /* @__PURE__ */ e.jsx(l, { label: "Docker image for 'scand-agent'", name: "scanImage" }),
       /* @__PURE__ */ e.jsx(
         D,
         {
@@ -630,9 +632,9 @@ function Un() {
     ] })
   ] });
 }
-const Ln = p({
-  scanImage: m(),
-  docker: p({
+const Ln = m({
+  scanImage: c(),
+  docker: m({
     replaceLocalhost: F(),
     useHostNetwork: F()
   })
@@ -643,10 +645,10 @@ const Ln = p({
   form: Un
 };
 function On() {
-  const n = f({ name: "platformAuthType" });
+  const n = j({ name: "platformAuthType" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "Runtime for API Audit" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "Runtime for API Audit" }),
+    /* @__PURE__ */ e.jsxs(x, { children: [
       n === "api-token" && /* @__PURE__ */ e.jsx(
         E,
         {
@@ -658,11 +660,11 @@ function On() {
           ]
         }
       ),
-      n === "anond-token" && /* @__PURE__ */ e.jsx(v, { message: "API Audit runtime is configured to use 42Crunch API Security Testing Binary" })
+      n === "anond-token" && /* @__PURE__ */ e.jsx(C, { message: "API Audit runtime is configured to use 42Crunch API Security Testing Binary" })
     ] })
   ] });
 }
-const Nn = p({
+const Nn = m({
   auditRuntime: M(["platform", "cli"])
 }), z = {
   id: "audit-runtime",
@@ -671,10 +673,10 @@ const Nn = p({
   form: On
 };
 function Vn() {
-  const n = f({ name: "platformAuthType" }), r = f({ name: "scanRuntime" });
+  const n = j({ name: "platformAuthType" }), r = j({ name: "scanRuntime" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "Runtime for API Scan" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "Runtime for API Scan" }),
+    /* @__PURE__ */ e.jsxs(x, { children: [
       n === "api-token" && /* @__PURE__ */ e.jsx(
         E,
         {
@@ -687,8 +689,8 @@ function Vn() {
           ]
         }
       ),
-      n === "anond-token" && /* @__PURE__ */ e.jsx(v, { message: "API Scan runtime is configured to use 42Crunch API Security Testing Binary" }),
-      (r === "docker" || r === "cli") && /* @__PURE__ */ e.jsxs(h, { children: [
+      n === "anond-token" && /* @__PURE__ */ e.jsx(C, { message: "API Scan runtime is configured to use 42Crunch API Security Testing Binary" }),
+      (r === "docker" || r === "cli") && /* @__PURE__ */ e.jsxs(x, { children: [
         /* @__PURE__ */ e.jsx(
           nn,
           {
@@ -702,9 +704,9 @@ function Vn() {
     ] })
   ] });
 }
-const _n = p({
+const _n = m({
   scanRuntime: M(["docker", "scand-manager", "cli"]),
-  scanProxy: m().url().optional().or(y(""))
+  scanProxy: c().url().optional().or(v(""))
 }), W = {
   id: "scan-runtime",
   label: "API Scan runtime",
@@ -720,7 +722,7 @@ function J(n) {
   return /* @__PURE__ */ e.jsx(Zn, { ...a, ...o, children: t });
 }
 function zn({ name: n }) {
-  const r = f({ name: n });
+  const r = j({ name: n });
   return /* @__PURE__ */ e.jsx(Qn, { children: r });
 }
 function Wn({ name: n }) {
@@ -828,7 +830,7 @@ const Jn = s.div``, Xn = s.div`
     min-width: 14px;
     fill: var(${i.foreground});
   }
-`, tt = p({
+`, tt = m({
   approvedHosts: _e(ee())
 }), Y = {
   id: "openapi-external-refs",
@@ -838,14 +840,14 @@ const Jn = s.div``, Xn = s.div`
 };
 function rt() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(x, { children: "Internal settings" }),
-    /* @__PURE__ */ e.jsxs(h, { children: [
+    /* @__PURE__ */ e.jsx(g, { children: "Internal settings" }),
+    /* @__PURE__ */ e.jsxs(x, { children: [
       /* @__PURE__ */ e.jsx(D, { label: "Use development endpoints", name: "internalUseDevEndpoints" }),
       /* @__PURE__ */ e.jsx(D, { label: "Disable log redaction", name: "internalDisableLogRedaction" })
     ] })
   ] });
 }
-const at = p({
+const at = m({
   internalUseDevEndpoints: F(),
   internalDisableLogRedaction: F()
 }), K = {
@@ -862,7 +864,7 @@ function ot(n) {
   return JSON.parse(JSON.stringify(n));
 }
 function st() {
-  const n = w(), { ready: r, errors: t, data: a } = R((k) => k.config), o = An(), u = Pn(a.platformCollectionNamingConvention), d = [
+  const n = k(), { ready: r, errors: t, data: a } = R((h) => h.config), o = An(), u = Pn(a.platformCollectionNamingConvention), d = [
     {
       id: "platform",
       title: "42Crunch Platform",
@@ -891,7 +893,7 @@ function st() {
     title: "Internal",
     items: [K]
   });
-  const l = {
+  const p = {
     [L.id]: L,
     [O.id]: O,
     [z.id]: z,
@@ -905,9 +907,9 @@ function st() {
     [K.id]: K
   };
   return S.useEffect(() => {
-    const k = oe(a);
-    for (const P of Object.keys(l)) {
-      const { success: H } = l[P].schema.safeParse(k);
+    const h = oe(a);
+    for (const P of Object.keys(p)) {
+      const { success: H } = p[P].schema.safeParse(h);
       n(H ? ie(P) : le({
         screen: P,
         error: "Validation errors, configuration is not being saved"
@@ -919,8 +921,8 @@ function st() {
       sections: d,
       errors: t,
       defaultSelection: { sectionId: "platform", itemId: "platform-connection" },
-      render: (k) => {
-        const { id: P, form: H, schema: me } = l[k.itemId];
+      render: (h) => {
+        const { id: P, form: H, schema: me } = p[h.itemId];
         return /* @__PURE__ */ e.jsxs(
           ze,
           {
@@ -940,7 +942,7 @@ function st() {
   ) : null;
 }
 function it({ id: n }) {
-  const r = w(), {
+  const r = k(), {
     trigger: t,
     formState: { isValid: a }
   } = se();
@@ -950,17 +952,17 @@ function it({ id: n }) {
     r(a ? ie(n) : le({ screen: n, error: "Validation errors, configuration is not being saved" }));
   }, [n, a]), null;
 }
-const de = je(), g = de.startListening;
+const de = je(), f = de.startListening;
 function lt(n) {
   const r = {
-    saveConfig: cn(g, n),
-    testOverlordConnection: ln(g, n),
-    testScandManagerConnection: sn(g, n),
-    testPlatformConnection: on(g, n),
-    testCli: an(g, n),
-    downloadCli: rn(g, n),
-    openLink: tn(g, n),
-    sendHttpRequest: qe(g, n)
+    saveConfig: cn(f, n),
+    testOverlordConnection: ln(f, n),
+    testScandManagerConnection: sn(f, n),
+    testPlatformConnection: on(f, n),
+    testCli: an(f, n),
+    downloadCli: rn(f, n),
+    openLink: tn(f, n),
+    sendHttpRequest: qe(f, n)
   };
   return be(r), de;
 }
