@@ -44,7 +44,7 @@ public class LaunchPadPanel implements Disposable {
         capturePanel.setBackground(launchPadPanel.getBackground());
 
         Label info = new Label(capturePanel, SWT.NULL);
-        info.setText("Convert HAR/Postman files to OpenAPI");
+        info.setText("Convert Postman or HAR files to OpenAPI");
 
         Composite captureButtonPanel = new Composite(capturePanel, SWT.NONE);
         GridLayout layout3 = new GridLayout();

@@ -505,7 +505,7 @@
                         id="com.xliic.openapi.capture.CaptureAction"
                         label="API Contract Generator"
                         style="push"
-                        tooltip="Convert HAR/Postman files to OpenAPI">
+                        tooltip="Convert Postman or HAR files to OpenAPI">
                     </command>
                 </menu>
                 <command
