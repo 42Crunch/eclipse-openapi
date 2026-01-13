@@ -26,13 +26,13 @@ public class OpenFileLink extends WebAppProduce {
     public void run(@Nullable Object payload) {
         if (payload instanceof String) {
             String url = (String)payload;
-            if(url.startsWith("file")) {
-                VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(url));
+            if(url.startsWith("http://") || url.startsWith("https://")) {
+            	BrowserUtil.browse(url);
+            } else {
+            	VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(url));
                 if (file != null) {
                     new OpenFileDescriptor(project, file).navigate(true);
                 }
-            } else {
-                BrowserUtil.browse(url);
             }
         }
     }
