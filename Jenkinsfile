@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     options {
-        buildDiscarder(logRotator(numToKeepStr:'5'))
+        buildDiscarder(logRotator(numToKeepStr:'3'))
     }
 
     stages {
@@ -16,17 +16,11 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
-                    reuseNode true
                 }
             }
 
             steps {
                 sh 'cp /build/openapi-repository/target/openapi-repository-*.zip .'
-            }
-        }
-
-        stage('Archive Artifacts') {
-            steps {
                 archiveArtifacts artifacts: 'openapi-repository-*.zip'
             }
         }
