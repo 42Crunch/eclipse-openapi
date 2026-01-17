@@ -16,6 +16,7 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
+	            additionalBuildArgs "--build-arg BUILD_TAG=${BUILD_TAG}"
                 }
             }
 
