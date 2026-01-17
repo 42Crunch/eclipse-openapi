@@ -1,8 +1,7 @@
-ARG BUILD_TAG
-
-LABEL jenkins.build.tag="${BUILD_TAG}"
-
 FROM maven:3.9.9-eclipse-temurin-17
+
+ARG BUILD_TAG
+LABEL jenkins.build.tag="${BUILD_TAG}"
 
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
