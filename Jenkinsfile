@@ -30,7 +30,7 @@ pipeline {
     post {
         always {
             sh '''
-              docker images --filter "label=jenkins.build.tag=${BUILD_TAG}"
+              docker images --filter "label=jenkins.build.tag=${BUILD_TAG}" -q | xargs -r docker rmi -f
             '''
             cleanWs()
         }
