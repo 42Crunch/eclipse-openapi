@@ -1,8 +1,7 @@
 package com.xliic.openapi.preview;
 
 import static com.xliic.openapi.preview.PreviewConfigurator.USER_PROP_QUERY_KEY;
-import static com.xliic.openapi.preview.PreviewUtils.getCanonicalPathFromQuery;
-import static com.xliic.openapi.preview.PreviewUtils.getProjectIdFromQuery;
+import static com.xliic.openapi.preview.PreviewUtils.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,10 +35,13 @@ public class PreviewEndpoint extends Endpoint {
     @Nullable
     private Session session;
     @NotNull
+    private final String sessionId;
+    @NotNull
     private final Map<String, PreviewEndpoint> endpoints;
 
     public PreviewEndpoint(@NotNull Map<String, PreviewEndpoint> endpoints) {
         this.endpoints = endpoints;
+        sessionId = PreviewService.getInstance().getSessionId();
     }
 
     @Override
@@ -49,6 +51,10 @@ public class PreviewEndpoint extends Endpoint {
         final String query = (String) config.getUserProperties().get(USER_PROP_QUERY_KEY);
         if (query == null) {
             close(CloseReason.CloseCodes.CANNOT_ACCEPT, "Query is not defined");
+            return;
+        }
+        if (!sessionId.equals(getSessionIdFromQuery(query))) {
+            close(CloseReason.CloseCodes.CANNOT_ACCEPT, "Query session is not valid");
             return;
         }
         ApplicationManager.getApplication().runReadAction(() -> {

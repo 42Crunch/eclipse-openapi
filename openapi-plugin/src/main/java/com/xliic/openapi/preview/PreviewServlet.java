@@ -21,10 +21,10 @@ public class PreviewServlet extends HttpServlet {
     private static final Map<String, String> CONTENT = new HashMap<>();
 
     @NotNull
-    private final String token;
+    private final String sessionId;
 
-    public PreviewServlet(@NotNull String token) {
-        this.token = token;
+    public PreviewServlet(@NotNull String sessionId) {
+        this.sessionId = sessionId;
     }
 
     @Override
@@ -34,7 +34,6 @@ public class PreviewServlet extends HttpServlet {
         initResource("/js/swaggerui.js", "swaggerui.js");
         initResource("/redoc.html", "redoc.html");
         initResource("/js/redoc.js", "redoc.js");
-        initResource("/js/token.js", null);
     }
 
     @Override
@@ -45,6 +44,10 @@ public class PreviewServlet extends HttpServlet {
             return;
         }
         if (path.endsWith(".html")) {
+            if (!sessionId.equals(req.getParameter("session"))) {
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+                return;
+            }
             serveResource(new PreviewResource(CONTENT.get(path), "text/html"), resp);
         } else if (path.startsWith("/styles/") && path.endsWith(".css")) {
             serveResource(new PreviewResource(CONTENT.get(path), "text/css"), resp);
@@ -66,11 +69,7 @@ public class PreviewServlet extends HttpServlet {
 
     private void initResource(String path, String fileName) {
         if (CONTENT.get(path) == null) {
-            if ("/js/token.js".equals(path)) {
-                CONTENT.put(path, "window.previewToken=\"" + token +"\"");
-            } else {
-                CONTENT.put(path, getPreviewResource(getClass(), fileName));
-            }
+            CONTENT.put(path, getPreviewResource(getClass(), fileName));
         }
     }
 }

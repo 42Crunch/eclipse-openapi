@@ -1,6 +1,5 @@
 package com.xliic.openapi.preview;
 
-import static com.xliic.openapi.preview.PreviewUtils.getSecurityHandler;
 import static com.xliic.openapi.settings.Settings.Preview.DEFAULT_PORT;
 import static com.xliic.openapi.settings.Settings.Preview.PORT;
 
@@ -26,19 +25,14 @@ public class PreviewService implements IPreviewService, Disposable {
 
     private volatile Server server;
     @NotNull
-    private final String token;
-    @NotNull
-    private final String password;
+    private final String sessionId;
     @NotNull
     private final PreviewConfigurator configurator;
 
     // This is app level service, no matter how many IDE projects are opened the jetty server will be started only once
     public PreviewService() {
         server = null;
-        // Use to protect web socket channel
-        token = UUID.randomUUID().toString();
-        // Use to protect static server content (html, js, CSS)
-        password = UUID.randomUUID().toString();
+        sessionId = UUID.randomUUID().toString();
         configurator = new PreviewConfigurator();
     }
 
@@ -54,7 +48,7 @@ public class PreviewService implements IPreviewService, Disposable {
     public void sendText(String projectId, String canonicalPath, String text) {
         if (isServerStated()) {
             for (int rendererIndex = 0; rendererIndex < 2; rendererIndex++) {
-                String query = PreviewUtils.getQuery(projectId, canonicalPath, rendererIndex);
+                String query = PreviewUtils.getQuery(projectId, canonicalPath, rendererIndex, sessionId);
                 configurator.sendText(query, text);
             }
         }
@@ -65,12 +59,8 @@ public class PreviewService implements IPreviewService, Disposable {
     	runServer(callback);
     }
     
-    public @NotNull String getToken() {
-        return token;
-    }
-
-    public @NotNull String getPassword() {
-        return password;
+    public @NotNull String getSessionId() {
+        return sessionId;
     }
 
     private void runServer(PreviewCallback callback) {
@@ -113,12 +103,12 @@ public class PreviewService implements IPreviewService, Disposable {
             // Create web resources context (html, js, ...)
             ServletContextHandler contextHandler = new ServletContextHandler();
             contextHandler.setContextPath("/");
-            ServletHolder holder = new ServletHolder(new PreviewServlet(token));
+            ServletHolder holder = new ServletHolder(new PreviewServlet(sessionId));
             contextHandler.addServlet(holder, "/*");
 
             ContextHandlerCollection handlerCollection = new ContextHandlerCollection();
-            handlerCollection.addHandler(getSecurityHandler("/*", password, contextHandler));
-            handlerCollection.addHandler(getSecurityHandler("/preview/*", token, servletContextHandler));
+            handlerCollection.addHandler(contextHandler);
+            handlerCollection.addHandler(servletContextHandler);
 
             server.setHandler(handlerCollection);
             server.addEventListener(new LifeCycle.Listener() {

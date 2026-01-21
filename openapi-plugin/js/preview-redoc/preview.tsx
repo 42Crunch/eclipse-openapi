@@ -8,11 +8,11 @@ export const Preview = () => {
     const project = urlParams.get('project');
     const filename = urlParams.get('filename');
     const renderer = urlParams.get('renderer');
-    const token = (window as any).previewToken;
+    const sessionId = urlParams.get('session');
     const port = window.location.port;
 
-    const { sendMessage, lastMessage, readyState } = useWebSocket("ws://preview:" + token + "@localhost:" +
-        port + "/preview/ws?project=" + project + "&filename=" + filename + "&renderer=" + renderer);
+    const { sendMessage, lastMessage, readyState } = useWebSocket("ws://localhost:" +
+        port + "/preview/ws?project=" + project + "&filename=" + filename + "&renderer=" + renderer + "&session=" + sessionId);
 
     if (!lastMessage) {
         return <p>Loading...</p>;

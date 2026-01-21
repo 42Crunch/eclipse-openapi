@@ -5,15 +5,6 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import org.eclipse.jetty.ee10.servlet.security.ConstraintMapping;
-import org.eclipse.jetty.ee10.servlet.security.ConstraintSecurityHandler;
-import org.eclipse.jetty.security.Constraint;
-import org.eclipse.jetty.security.DefaultIdentityService;
-import org.eclipse.jetty.security.HashLoginService;
-import org.eclipse.jetty.security.UserStore;
-import org.eclipse.jetty.security.authentication.BasicAuthenticator;
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.util.security.Credential;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.project.Project;
@@ -28,8 +19,8 @@ public class PreviewUtils {
     public final static String RENDERER_REDOC = "redoc";
 
     @NotNull
-    public static String getQuery(String projectId, String canonicalPath, int rendererIndex) {
-        return "project=" + projectId + "&filename=" + canonicalPath + "&renderer=" + rendererIndex;
+    public static String getQuery(@NotNull String projectId, @NotNull String canonicalPath, int rendererIndex, @NotNull String sessionId) {
+        return "project=" + projectId + "&filename=" + canonicalPath + "&renderer=" + rendererIndex + "&session=" + sessionId;
     }
 
     @NotNull
@@ -45,35 +36,18 @@ public class PreviewUtils {
     public static boolean isPortInRange(int port) {
         return (port >= 0) && (port <= 65535);
     }
+    
+    @NotNull
+    public static String getSessionIdFromQuery(@NotNull String query) {
+        return query.split("&")[3].split("=")[1];
+    }
 
     @NotNull
     public static URL getURL(@NotNull Project project, @NotNull VirtualFile file, int rendererIndex) throws Exception {
         String port = SettingsService.getInstance().getValue(Settings.Preview.PORT);
         String renderer = (rendererIndex == 0) ? RENDERER_SWAGGERUI : RENDERER_REDOC;
-        String query = getQuery(project.getLocationHash(), Objects.requireNonNull(file.getCanonicalPath()), rendererIndex);
-        String password = PreviewService.getInstance().getPassword();
-        return new URL("http://" + PREVIEW_USER + ":" + password + "@localhost:" + port + "/" + renderer + ".html?" + query);
-    }
-
-    @NotNull
-    public static ConstraintSecurityHandler getSecurityHandler(@NotNull String pathSpec,
-                                                               @NotNull String password,
-                                                               @NotNull ContextHandler context) {
-        ConstraintSecurityHandler handler = new ConstraintSecurityHandler();
-        handler.setAuthenticator(new BasicAuthenticator());
-        handler.setHandler(context);
-        // Configure constraint mapping
-        ConstraintMapping mapping = new ConstraintMapping();
-        mapping.setPathSpec(pathSpec);
-        mapping.setConstraint(Constraint.from(PREVIEW_USER));
-        handler.addConstraintMapping(mapping);
-        // Configure login service
-        HashLoginService loginService = new HashLoginService();
-        UserStore userStore = new UserStore();
-        userStore.addUser(PREVIEW_USER, Credential.getCredential(password), new String[]{ PREVIEW_USER });
-        loginService.setUserStore(userStore);
-        loginService.setIdentityService(new DefaultIdentityService());
-        handler.setLoginService(loginService);
-        return handler;
+        String sessionId = PreviewService.getInstance().getSessionId();
+        String query = getQuery(project.getLocationHash(), Objects.requireNonNull(file.getCanonicalPath()), rendererIndex, sessionId);
+        return new URL("http://localhost:" + port + "/" + renderer + ".html?" + query);
     }
 }

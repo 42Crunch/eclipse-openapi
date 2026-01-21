@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Swagger UI Preview</title>
-		<link rel="stylesheet" href="/styles/swaggerui.css">
-		<!-- Add style to fix hovering over a referenced schema issue -->
-		<style type="text/css">
+    <head>
+        <meta charset="UTF-8">
+        <title>Swagger UI Preview</title>
+        <link rel="stylesheet" href="/styles/swaggerui.css">
+        <!-- Add style to fix hovering over a referenced schema issue -->
+        <style>
             .model-hint {
-				display: none !important;
-			}
+                display: none !important;
+            }
+            body {
+                background-color: #FEFEFE;
+            }
+            .dark-mode body {
+                background-color: #1C2022;
+            }
         </style>
-	</head>
+    </head>
 
-	<body>
-		<div id="root"></div>
-		 <script src="/js/token.js" charset="UTF-8" defer></script>
-		 <script src="/js/swaggerui.js" charset="UTF-8" defer></script>
-	</body>
+    <body>
+        <div id="root"></div>
+        <script>
+            function setTheme(isLightTheme) {
+                if (isLightTheme) {
+                    document.documentElement.classList.remove("dark-mode");
+                } else {
+                    document.documentElement.classList.add("dark-mode");
+                }
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+                setTheme(window.matchMedia('(prefers-color-scheme: light)').matches);
+                window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+                    setTheme(e.matches);
+                });
+            });
+        </script>
+        <script src="/js/swaggerui.js" charset="UTF-8" defer></script>
+    </body>
 
 </html>
