@@ -6,7 +6,7 @@ import { S } from "./ExclamationCircle.B52mCnLi.js";
 import { S as k, a as Ae } from "./Switch.9_FKivxn.js";
 import { S as J } from "./AngleDown.mnq0UxQI.js";
 import { S as Z } from "./AngleUp.BzadahNt.js";
-import { P as I } from "./Select.DFlflRyd.js";
+import { P as I } from "./Select.Bl5G0Qoo.js";
 import { B as Te, S as De } from "./Banner.xHM1dtia.js";
 const D = ["info", "low", "medium", "high", "critical"], f = {
   Info: 1,
@@ -26,7 +26,7 @@ const D = ["info", "low", "medium", "high", "critical"], f = {
   [f.Medium]: "Medium",
   [f.High]: "High",
   [f.Critical]: "Critical"
-}, Re = {
+}, qe = {
   audit: {
     filename: "",
     files: {},
@@ -59,14 +59,14 @@ const D = ["info", "low", "medium", "high", "critical"], f = {
   type: "openapi"
 }, ie = ae({
   name: "audit",
-  initialState: Re,
+  initialState: qe,
   reducers: {
     startAudit: (i, t) => {
     },
     cancelAudit: (i, t) => {
     },
     showFullReport: (i, { payload: t }) => {
-      i.audit.filename !== t.filename && (i.tab = "priority", i.filter = {}, i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".gql") || t.filename.toLowerCase().endsWith(".graphqls") || t.filename.toLowerCase().endsWith(".sdl") ? "graphql" : "openapi"), (t.compliance === void 0 || t.compliance.acceptance === "yes") && (i.sqgTodo = !1), i.audit = t, C(i);
+      i.audit.filename !== t.filename && (i.tab = "priority", i.filter = {}, i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".gql") || t.filename.toLowerCase().endsWith(".graphqls") || t.filename.toLowerCase().endsWith(".sdl") || t.filename.toLowerCase().endsWith(".gqls") ? "graphql" : "openapi"), (t.compliance === void 0 || t.compliance.acceptance === "yes") && (i.sqgTodo = !1), i.audit = t, C(i);
     },
     showPartialReport: (i, {
       payload: { report: t, uri: n, ids: o }
@@ -96,7 +96,7 @@ const D = ["info", "low", "medium", "high", "critical"], f = {
   }
 });
 function C(i) {
-  const { issues: t, filtered: n, stats: o, titles: a } = qe(
+  const { issues: t, filtered: n, stats: o, titles: a } = Re(
     i.sqgTodo ? i.audit.todo : i.audit.issues,
     i.audit.files,
     i.kdb,
@@ -105,7 +105,7 @@ function C(i) {
   );
   i.issues = t, i.filtered = n, i.stats = o, i.issueTitles = a;
 }
-function qe(i, t, n, o, a) {
+function Re(i, t, n, o, a) {
   const l = ze(i, t, n, a), r = Me(l, n, a), d = Ve(r), s = Fe(l, o);
   return { issues: l, filtered: s, stats: r, titles: d };
 }
@@ -127,7 +127,7 @@ function Me(i, t, n) {
     o[r.id] || (o[r.id] = []), o[r.id].push(r);
   const a = Object.keys(o).map((r) => ({
     id: r,
-    kdb: n === "graphql" ? He : t[r] || Oe,
+    kdb: n === "graphql" ? We : t[r] || Oe,
     title: n === "graphql" ? o[r][0].description : t[r].title.text.replace(/^<h1>|<\/h1>$/g, ""),
     domain: o[r][0].domain,
     score: o[r].reduce((d, s) => d + s.score, 0),
@@ -183,7 +183,7 @@ const Oe = {
     text: `<p>Whoops! Looks like there has been an oversight and we are missing a page for this issue.</p>
            <p><a href="https://apisecurity.io/contact-us/">Let us know</a> the title of the issue, and we make sure to add it to the encyclopedia.</p>`
   }
-}, He = {
+}, We = {
   title: {
     text: ""
   },
@@ -196,13 +196,13 @@ const Oe = {
   showFullReport: z,
   showPartialReport: M,
   showNoReport: V,
-  loadKdb: Ne,
+  loadKdb: He,
   goToLine: B,
   copyIssueId: O,
   openLink: L,
   changeTab: j,
   changeFilter: u,
-  setSqgTodo: We
+  setSqgTodo: Ne
 } = ie.actions, Ee = ie.reducer, Ge = {
   audit: Ee,
   theme: ue,
@@ -252,7 +252,7 @@ function Ke(i, t) {
   }), ke($, t), fe(n), re;
 }
 const P = (i) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...i, children: /* @__PURE__ */ e.jsx("path", { d: "M476.3 0c-6.365 0-13.01 1.35-19.34 4.233-45.69 20.86-79.56 27.94-107.8 27.94-59.96 0-94.81-31.86-163.9-31.87-34.63 0-77.87 8.003-137.2 32.05V24C48 10.75 37.25 0 24 0S0 10.75 0 24v464c0 13.3 10.75 24 24 24s24-10.75 24-24V384c53.59-23.86 96.02-31.81 132.8-31.81 73.63 0 124.9 31.78 198.6 31.78 31.91 0 68.02-5.971 111.1-23.09 13.6-4.98 21.5-16.48 21.5-28.78V30.73C512 11.1 495.3 0 476.3 0M464 319.8c-30.31 10.82-58.08 16.1-84.6 16.1-30.8 0-58.31-7-87.44-14.41-32.01-8.141-68.29-17.37-111.1-17.37-42.35 0-85.99 9.09-132.8 27.73V84.14l18.03-7.301c47.39-19.2 86.38-28.54 119.2-28.54 28.24.004 49.12 6.711 73.31 14.48 25.38 8.148 54.13 17.39 90.58 17.39 35.43 0 72.24-8.496 114.9-26.61V319.8z" }) });
-function R({
+function q({
   children: i,
   defaultCollapsed: t
 }) {
@@ -309,7 +309,7 @@ const _e = c.div`
   border-left: 5px solid transparent;
   ${({ $collapsed: i }) => !i && `border-bottom: 1px solid var(${p.border});
     border-left: 5px solid var(${p.badgeBackground});`}
-`, q = c.div`
+`, R = c.div`
   display: flex;
   gap: 4px;
   align-items: center;
@@ -576,7 +576,7 @@ const ui = c.div`
 function hi() {
   const { filtered: i, filter: t, type: n } = x((s) => s.audit), o = h(), [a, l] = y.useState(!0), d = ["rule", "domain", "group", "severity"].filter((s) => t && t[s] !== void 0).length;
   return /* @__PURE__ */ e.jsxs(xi, { children: [
-    t.ids !== void 0 && /* @__PURE__ */ e.jsxs(N, { children: [
+    t.ids !== void 0 && /* @__PURE__ */ e.jsxs(H, { children: [
       /* @__PURE__ */ e.jsxs("div", { children: [
         i.length,
         " issues"
@@ -595,7 +595,7 @@ function hi() {
         }
       )
     ] }),
-    t.ids === void 0 && /* @__PURE__ */ e.jsxs(N, { children: [
+    t.ids === void 0 && /* @__PURE__ */ e.jsxs(H, { children: [
       /* @__PURE__ */ e.jsxs("div", { children: [
         i.length,
         " issues"
@@ -618,7 +618,7 @@ const xi = c.div`
   display: flex;
   flex-direction: column;
   position: relative;
-`, N = c.div`
+`, H = c.div`
   margin: 6px;
   display: flex;
   flex-direction: row;
@@ -654,8 +654,8 @@ function gi() {
   } = x((l) => l.audit), a = h();
   return /* @__PURE__ */ e.jsxs(mi, { children: [
     /* @__PURE__ */ e.jsx(hi, {}),
-    t.map((l, r) => /* @__PURE__ */ e.jsxs(R, { children: [
-      /* @__PURE__ */ e.jsx(q, { children: l.description }),
+    t.map((l, r) => /* @__PURE__ */ e.jsxs(q, { children: [
+      /* @__PURE__ */ e.jsx(R, { children: l.description }),
       /* @__PURE__ */ e.jsx(w, { children: /* @__PURE__ */ e.jsxs(w, { children: [
         /* @__PURE__ */ e.jsxs(v, { children: [
           /* @__PURE__ */ e.jsx(S, {}),
@@ -756,11 +756,11 @@ const yi = c.div`
     flex: 1;
   }
 `;
-function W({ issueId: i, issues: t }) {
+function N({ issueId: i, issues: t }) {
   const n = h(), [o, a] = y.useState(!1), l = t.filter((s) => s.id === i), r = o ? l.length : 4, d = l.slice(0, r);
   return d.sort((s, g) => {
-    const H = s.filename.localeCompare(g.filename);
-    return H === 0 ? s.lineNo - g.lineNo : H;
+    const W = s.filename.localeCompare(g.filename);
+    return W === 0 ? s.lineNo - g.lineNo : W;
   }), /* @__PURE__ */ e.jsxs(wi, { children: [
     /* @__PURE__ */ e.jsxs("h2", { children: [
       l.length,
@@ -844,8 +844,8 @@ function $i() {
   } = x((r) => r.audit), o = h(), a = i.byIssue.filter((r) => r.important).slice().sort((r, d) => d.count - r.count).slice(0, 4), l = i.byIssue.filter((r) => r.important).slice().sort((r, d) => d.score - r.score).slice(0, 4);
   return /* @__PURE__ */ e.jsxs(Si, { children: [
     /* @__PURE__ */ e.jsx(E, { children: "Most common issues" }),
-    a.map((r, d) => /* @__PURE__ */ e.jsxs(R, { children: [
-      /* @__PURE__ */ e.jsx(q, { children: r.title }),
+    a.map((r, d) => /* @__PURE__ */ e.jsxs(q, { children: [
+      /* @__PURE__ */ e.jsx(R, { children: r.title }),
       /* @__PURE__ */ e.jsx(w, { children: /* @__PURE__ */ e.jsxs(w, { children: [
         /* @__PURE__ */ e.jsxs(v, { children: [
           /* @__PURE__ */ e.jsx(S, {}),
@@ -879,7 +879,7 @@ function $i() {
         ] })
       ] }) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(W, { issueId: r.id, issues: t }),
+        /* @__PURE__ */ e.jsx(N, { issueId: r.id, issues: t }),
         /* @__PURE__ */ e.jsx(
           F,
           {
@@ -891,8 +891,8 @@ function $i() {
       ] })
     ] }, `issue-${d}`)),
     /* @__PURE__ */ e.jsx(E, { children: "Opportunities" }),
-    l.map((r, d) => /* @__PURE__ */ e.jsxs(R, { children: [
-      /* @__PURE__ */ e.jsx(q, { children: r.title }),
+    l.map((r, d) => /* @__PURE__ */ e.jsxs(q, { children: [
+      /* @__PURE__ */ e.jsx(R, { children: r.title }),
       /* @__PURE__ */ e.jsx(w, { children: /* @__PURE__ */ e.jsxs(w, { children: [
         /* @__PURE__ */ e.jsxs(v, { children: [
           /* @__PURE__ */ e.jsx(S, {}),
@@ -912,7 +912,7 @@ function $i() {
         ] })
       ] }) }),
       /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(W, { issueId: r.id, issues: t }),
+        /* @__PURE__ */ e.jsx(N, { issueId: r.id, issues: t }),
         /* @__PURE__ */ e.jsx(
           F,
           {
@@ -1043,7 +1043,7 @@ const Di = c.div``, Pi = c.div`
 `, b = c.div`
   ${({ $highlight: i }) => i && "font-weight: 700;"}
 `;
-function Ri({ sqg: i, stats: t }) {
+function qi({ sqg: i, stats: t }) {
   const n = h(), o = i.directives.subcategoryRules, a = t.byGroup, l = {
     security: [
       {
@@ -1115,7 +1115,7 @@ function Ri({ sqg: i, stats: t }) {
       }
     ]
   };
-  return /* @__PURE__ */ e.jsxs(qi, { children: [
+  return /* @__PURE__ */ e.jsxs(Ri, { children: [
     /* @__PURE__ */ e.jsx("h4", { children: "Allowed issue security levels" }),
     /* @__PURE__ */ e.jsxs(Fi, { children: [
       /* @__PURE__ */ e.jsx("div", { children: "Category" }),
@@ -1166,7 +1166,7 @@ function Ri({ sqg: i, stats: t }) {
     ] }, d))
   ] });
 }
-const qi = c.div`
+const Ri = c.div`
   > div {
     margin-top: 8px;
     margin-bottom: 8px;
@@ -1256,7 +1256,7 @@ function Bi({
       }
     ),
     /* @__PURE__ */ e.jsx(Ti, { sqg: l, summary: t }),
-    /* @__PURE__ */ e.jsx(Ri, { sqg: l, stats: n }),
+    /* @__PURE__ */ e.jsx(qi, { sqg: l, stats: n }),
     /* @__PURE__ */ e.jsx(Mi, { sqg: l, stats: n })
   ] });
 }
@@ -1266,12 +1266,12 @@ const Oi = c.div`
   background-color: var(${p.background});
   border-top: 1px solid var(${p.errorBorder});
 `;
-function Hi() {
+function Wi() {
   const { compliance: i, summary: t } = x((s) => s.audit.audit), n = x((s) => s.audit.stats), o = x((s) => s.audit.sqgTodo), a = h(), l = (s) => {
-    a(We(s));
+    a(Ne(s));
   }, [r, d] = y.useState(!1);
-  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Ei, { children: /* @__PURE__ */ e.jsx(Te, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Ni, { children: [
-    /* @__PURE__ */ e.jsxs(Wi, { children: [
+  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Ei, { children: /* @__PURE__ */ e.jsx(Te, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Hi, { children: [
+    /* @__PURE__ */ e.jsxs(Ni, { children: [
       /* @__PURE__ */ e.jsx(S, {}),
       /* @__PURE__ */ e.jsx("div", { children: "Security quality gates failed" }),
       /* @__PURE__ */ e.jsx(Ae, { value: o, onChange: l }),
@@ -1288,13 +1288,13 @@ function Hi() {
     r && /* @__PURE__ */ e.jsx(Bi, { compliance: i, summary: t, stats: n })
   ] });
 }
-const Ni = c.div`
+const Hi = c.div`
   margin: 8px;
   border-radius: 2px;
   border: 1px solid var(${p.errorBorder});
   background-color: var(${p.errorBackground});
   color: var(${p.errorForeground});
-`, Wi = c.div`
+`, Ni = c.div`
   display: flex;
   padding: 8px;
   flex-direction: row;
@@ -1410,7 +1410,7 @@ function _() {
       }
     ),
     /* @__PURE__ */ e.jsx(Gi, {}),
-    /* @__PURE__ */ e.jsx(Hi, {}),
+    /* @__PURE__ */ e.jsx(Wi, {}),
     /* @__PURE__ */ e.jsx(
       Le,
       {
@@ -1519,7 +1519,7 @@ const Ji = c.div`
   showFullReport: z,
   showPartialReport: M,
   showNoReport: V,
-  loadKdb: Ne,
+  loadKdb: He,
   changeTheme: Se
 };
 function tt() {

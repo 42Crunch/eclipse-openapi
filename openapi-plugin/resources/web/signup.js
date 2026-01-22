@@ -1,9 +1,9 @@
 import { j as e, c as N, d as G, s as Y, a as J, p as K, t as Q, l as X, u as Z, b as ee, T, e as s, B as ne, g as oe, R as te, P as re, n as ae, k as ie } from "./TriangleExclamation.DrtDYmuA.js";
-import { c as g, u as A } from "./index.esm.B9REA_Vl.js";
+import { c as g, u as A } from "./index.esm.BsB7bqBr.js";
 import { N as D } from "./ProgressButton.CKH84UAo.js";
-import { o as w, s as f, F as b } from "./types.h_AaHWF9.js";
-import { I as y, T as se } from "./Textarea.CDYN1NOa.js";
-import { E as k } from "./Banner.xHM1dtia.js";
+import { o as w, s as f, F as b } from "./schemas.B-yaH2kf.js";
+import { I as k, T as se } from "./Textarea.CfvFRvvk.js";
+import { E as y } from "./Banner.xHM1dtia.js";
 import { C as B } from "./Checkbox.BfJkh696.js";
 const le = (n) => /* @__PURE__ */ e.jsxs(
   "svg",
@@ -177,12 +177,12 @@ function je(n) {
 const ve = {
   theme: Q,
   signup: Ce
-}, ye = {
+}, ke = {
   changeTheme: K,
   setSignupType: Te,
   showPlatformConnectionTestError: ue,
   showAnondTokenResponse: ce
-}, ke = (n, o) => J({
+}, ye = (n, o) => J({
   reducer: ve,
   middleware: (t) => t().prepend(n.middleware).concat(X),
   preloadedState: {
@@ -224,11 +224,11 @@ function Ae({
           )
         ] }),
         /* @__PURE__ */ e.jsxs(E, { children: [
-          /* @__PURE__ */ e.jsx(y, { label: "Email", name: "email", disabled: U }),
+          /* @__PURE__ */ e.jsx(k, { label: "Email", name: "email", disabled: U }),
           /* @__PURE__ */ e.jsx(_, { children: "Enter a valid email address to receive a once off access token." }),
-          l && !l.success && /* @__PURE__ */ e.jsx(z, { children: /* @__PURE__ */ e.jsx(k, { message: "Unexpected error when trying to request a token", children: l.message }) }),
+          l && !l.success && /* @__PURE__ */ e.jsx(z, { children: /* @__PURE__ */ e.jsx(y, { message: "Unexpected error when trying to request a token", children: l.message }) }),
           /* @__PURE__ */ e.jsx(Ee, {}),
-          i && !r && /* @__PURE__ */ e.jsx(k, { message: "Please accept Terms and Conditions to continue" }),
+          i && !r && /* @__PURE__ */ e.jsx(y, { message: "Please accept Terms and Conditions to continue" }),
           /* @__PURE__ */ e.jsx(Ue, {}),
           /* @__PURE__ */ e.jsx(Ie, {})
         ] }),
@@ -397,9 +397,9 @@ function Se({
         ] }),
         /* @__PURE__ */ e.jsxs(E, { children: [
           /* @__PURE__ */ e.jsx(_, { children: "If you are an existing Teams or Enterprise customer, activate your account here." }),
-          /* @__PURE__ */ e.jsx(y, { label: "Platform URL", name: "platformUrl", disabled: i }),
-          /* @__PURE__ */ e.jsx(y, { label: "IDE token", name: "platformApiToken", disabled: i, password: !0 }),
-          r && /* @__PURE__ */ e.jsx(z, { children: /* @__PURE__ */ e.jsx(k, { message: "Failed to connect", children: r.error }) })
+          /* @__PURE__ */ e.jsx(k, { label: "Platform URL", name: "platformUrl", disabled: i }),
+          /* @__PURE__ */ e.jsx(k, { label: "IDE token", name: "platformApiToken", disabled: i, password: !0 }),
+          r && /* @__PURE__ */ e.jsx(z, { children: /* @__PURE__ */ e.jsx(y, { message: "Failed to connect", children: r.error }) })
         ] }),
         /* @__PURE__ */ e.jsx(I, { children: /* @__PURE__ */ e.jsx(Pe, {}) })
       ] })
@@ -647,7 +647,7 @@ const V = s.div`
   font-weight: 500;
 `;
 function ze(n, o) {
-  const t = ke(je(n), o);
+  const t = ye(je(n), o);
   oe.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ e.jsx(te.StrictMode, { children: /* @__PURE__ */ e.jsxs(re, { store: t, children: [
       /* @__PURE__ */ e.jsx(ae, {}),
@@ -656,7 +656,7 @@ function ze(n, o) {
         /* @__PURE__ */ e.jsx(Le, {})
       ] })
     ] }) })
-  ), window.addEventListener("message", ie(t, ye));
+  ), window.addEventListener("message", ie(t, ke));
 }
 window.renderWebView = ze;
 const We = s.div`

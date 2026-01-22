@@ -1,19 +1,20 @@
-import { j as e, e as s, T as i, p as ue, a as he, t as xe, l as ge, u as fe, B as te, f as S, d as je, s as be, g as ye, R as ve, P as Ce, n as Te, k as we } from "./TriangleExclamation.DrtDYmuA.js";
-import { u as se, a as Z, c as j, b as ke } from "./index.esm.B9REA_Vl.js";
+import { j as e, e as s, T as i, p as pe, a as he, t as xe, l as ge, u as fe, B as te, f as S, d as je, s as be, g as ve, R as ye, P as Ce, n as we, k as Te } from "./TriangleExclamation.DrtDYmuA.js";
+import { u as se, a as Z, c as j, b as ke } from "./index.esm.BsB7bqBr.js";
 import { S as Pe } from "./SearchSidebar.BkfGCTmV.js";
 import { s as Se, b as $e, d as Ae, e as Re, f as Ie, l as Fe, c as De, o as re, u as k, g as R, t as Me, h as Be, i as Ee, j as He, k as Ue, m as ie, n as le, p as Le } from "./slice.CPtQvM1w.js";
-import { o as m, s as c, e as M, l as v, u as ee, i as Oe, a as Ne, c as Ve, b as F, d as _e, F as ze } from "./types.h_AaHWF9.js";
-import { T as ce, I as l } from "./Textarea.CDYN1NOa.js";
-import { N as We } from "./ProgressButton.CKH84UAo.js";
+import { o as m, s as c, l as y, _ as M, u as ee, i as Oe, a as Ne, b as F, c as Ve, F as _e } from "./schemas.B-yaH2kf.js";
+import { T as ce, I as l } from "./Textarea.CfvFRvvk.js";
+import { N as ze } from "./ProgressButton.CKH84UAo.js";
 import { B as C, E as B } from "./Banner.xHM1dtia.js";
-import { R as Ge, p as q } from "./platform-api.DivS31Sc.js";
-import { f as Q, u as Je, g as Xe } from "./freemiumd-api.DyefyGjJ.js";
-import { s as Ye } from "./rtk-query-react.modern.Do0gBnMl.js";
-import { c as Ke, o as qe } from "./listener.Cd9yvFW1.js";
-import { S as E } from "./Select.DFlflRyd.js";
+import { R as We, p as q } from "./platform-api.DivS31Sc.js";
+import { f as Q, u as Ge, g as Je } from "./freemiumd-api.DyefyGjJ.js";
+import { s as Xe } from "./rtk-query-react.modern.Do0gBnMl.js";
+import { c as Ye, o as Ke } from "./listener.Cd9yvFW1.js";
+import { S as E } from "./Select.Bl5G0Qoo.js";
+import { n as qe } from "./coerce.nWmLnCas.js";
 import { C as Qe, a as Ze } from "./index.nhmpHOCU.js";
 import { S as en } from "./Check.KUo-upzE.js";
-import { I as nn } from "./Input.RWnDfcXi.js";
+import { I as nn } from "./Input.CRzE2S1j.js";
 import { a as tn, b as rn, c as an, d as on, e as sn, f as ln, o as cn } from "./listener.BKbC70Rn.js";
 const dn = (n) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 576 512", width: "1em", height: "1em", ...n, children: /* @__PURE__ */ e.jsx("path", { d: "M288 288a64 64 0 0 0 0-128c-1 0-1.88.24-2.85.29a47.5 47.5 0 0 1-60.86 60.86c0 1-.29 1.88-.29 2.85a64 64 0 0 0 64 64m284.52-46.6C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19M288 96a128 128 0 1 1-128 128A128.14 128.14 0 0 1 288 96m0 320c-107.36 0-205.46-61.31-256-160a294.78 294.78 0 0 1 129.78-129.33C140.91 153.69 128 187.17 128 224a160 160 0 0 0 320 0c0-36.83-12.91-70.31-33.78-97.33A294.78 294.78 0 0 1 544 256c-50.53 98.69-148.64 160-256 160" }) });
 function $({
@@ -24,7 +25,7 @@ function $({
   const {
     formState: { isValid: a }
   } = se();
-  return /* @__PURE__ */ e.jsx(We, { disabled: !a, label: n, waiting: r, onClick: t });
+  return /* @__PURE__ */ e.jsx(ze, { disabled: !a, label: n, waiting: r, onClick: t });
 }
 function ne({ result: n }) {
   return n !== void 0 ? n.success ? /* @__PURE__ */ e.jsx(C, { message: "Successfully connected" }) : /* @__PURE__ */ e.jsx(B, { message: "Failed to connect", children: n.message }) : null;
@@ -58,7 +59,7 @@ function mn({ name: n, options: r }) {
     name: n
   });
   return /* @__PURE__ */ e.jsx(
-    Ge,
+    We,
     {
       value: t.value,
       options: r,
@@ -68,12 +69,12 @@ function mn({ name: n, options: r }) {
 }
 function I({ progress: n, label: r }) {
   const t = Math.ceil(n * 100), a = r !== void 0 ? r : `${t}%`;
-  return /* @__PURE__ */ e.jsxs(pn, { children: [
-    /* @__PURE__ */ e.jsx(un, { children: a }),
+  return /* @__PURE__ */ e.jsxs(un, { children: [
+    /* @__PURE__ */ e.jsx(pn, { children: a }),
     /* @__PURE__ */ e.jsx(hn, { $progress: n, children: a })
   ] });
 }
-const pn = s.div`
+const un = s.div`
   position: relative;
   display: flex;
   height: 26px;
@@ -81,7 +82,7 @@ const pn = s.div`
   border: 1px solid var(${i.buttonBorder});
   border-radius: 6px;
   overflow: hidden;
-`, un = s.div`
+`, pn = s.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,11 +106,11 @@ const pn = s.div`
 `, xn = {
   theme: xe,
   config: De,
-  client: Ke,
+  client: Ye,
   [q.reducerPath]: q.reducer,
   [Q.reducerPath]: Q.reducer
 }, gn = {
-  changeTheme: ue,
+  changeTheme: pe,
   loadConfig: Fe,
   showPlatformConnectionTest: Ie,
   showOverlordConnectionTest: Re,
@@ -126,34 +127,34 @@ const pn = s.div`
       theme: r
     }
   });
-  return Ye(t.dispatch), t;
+  return Xe(t.dispatch), t;
 }, jn = () => fe();
 function bn({
   token: n,
   useDevEndpoints: r
 }) {
-  const { data: t, error: a, isLoading: o } = Je(n.trim(), {
+  const { data: t, error: a, isLoading: o } = Ge(n.trim(), {
     refetchOnFocus: !0,
     pollingInterval: 6e5
     // refresh every 10 minutes
-  }), u = jn(), { upgradeUrl: d, stripeBillingUrl: p } = Xe(r);
+  }), p = jn(), { upgradeUrl: d, stripeBillingUrl: u } = Je(r);
   return a ? /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsxs(B, { message: "Failed to load subscription status", children: [
     a.code,
     " ",
     a.message
   ] }) }) : o || t === void 0 ? /* @__PURE__ */ e.jsx(U, { children: /* @__PURE__ */ e.jsx(C, { message: "Loading subscription status..." }) }) : /* @__PURE__ */ e.jsxs(U, { children: [
-    /* @__PURE__ */ e.jsxs(T, { children: [
+    /* @__PURE__ */ e.jsxs(w, { children: [
       /* @__PURE__ */ e.jsxs(b, { children: [
         "Subscription type: ",
         t?.subscriptionKind
       ] }),
-      /* @__PURE__ */ e.jsx(w, { children: "Upgrade or manage your subscription plan" }),
-      /* @__PURE__ */ e.jsxs(y, { children: [
+      /* @__PURE__ */ e.jsx(T, { children: "Upgrade or manage your subscription plan" }),
+      /* @__PURE__ */ e.jsxs(v, { children: [
         t.subscriptionKind === "free" && /* @__PURE__ */ e.jsx(
           te,
           {
             onClick: (h) => {
-              h.preventDefault(), h.stopPropagation(), u(re(`${d}?email=${encodeURIComponent(t.userEmail)}`));
+              h.preventDefault(), h.stopPropagation(), p(re(`${d}?email=${encodeURIComponent(t.userEmail)}`));
             },
             children: "Upgrade"
           }
@@ -162,9 +163,9 @@ function bn({
           te,
           {
             onClick: (h) => {
-              h.preventDefault(), h.stopPropagation(), u(
+              h.preventDefault(), h.stopPropagation(), p(
                 re(
-                  `${p}?prefilled_email=${encodeURIComponent(t.userEmail)}`
+                  `${u}?prefilled_email=${encodeURIComponent(t.userEmail)}`
                 )
               );
             },
@@ -173,39 +174,39 @@ function bn({
         )
       ] })
     ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
+    /* @__PURE__ */ e.jsxs(w, { children: [
       /* @__PURE__ */ e.jsx(b, { children: "Registered email" }),
-      /* @__PURE__ */ e.jsx(y, { children: t.userEmail })
+      /* @__PURE__ */ e.jsx(v, { children: t.userEmail })
     ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
+    /* @__PURE__ */ e.jsxs(w, { children: [
       /* @__PURE__ */ e.jsx(b, { children: "Subscription date" }),
-      /* @__PURE__ */ e.jsx(w, { children: "Date when your monthly allowance started" }),
-      /* @__PURE__ */ e.jsx(y, { children: t.periodStart })
+      /* @__PURE__ */ e.jsx(T, { children: "Date when your monthly allowance started" }),
+      /* @__PURE__ */ e.jsx(v, { children: t.periodStart })
     ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
+    /* @__PURE__ */ e.jsxs(w, { children: [
       /* @__PURE__ */ e.jsx(b, { children: "Audit" }),
-      /* @__PURE__ */ e.jsx(w, { children: "Monthly operation audits left" }),
-      /* @__PURE__ */ e.jsxs(y, { children: [
+      /* @__PURE__ */ e.jsx(T, { children: "Monthly operation audits left" }),
+      /* @__PURE__ */ e.jsxs(v, { children: [
         t.monthlyAudit - t.currentAuditUsage,
         " / ",
         t.monthlyAudit
       ] }),
       /* @__PURE__ */ e.jsx(I, { label: "", progress: 1 - t.currentAuditUsage / t.monthlyAudit })
     ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
+    /* @__PURE__ */ e.jsxs(w, { children: [
       /* @__PURE__ */ e.jsx(b, { children: "Scan" }),
-      /* @__PURE__ */ e.jsx(w, { children: "Monthly operation scans left" }),
-      /* @__PURE__ */ e.jsxs(y, { children: [
+      /* @__PURE__ */ e.jsx(T, { children: "Monthly operation scans left" }),
+      /* @__PURE__ */ e.jsxs(v, { children: [
         t.monthlyScan - t.currentScanUsage,
         " / ",
         t.monthlyScan
       ] }),
       /* @__PURE__ */ e.jsx(I, { label: "", progress: 1 - t.currentScanUsage / t.monthlyScan })
     ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
+    /* @__PURE__ */ e.jsxs(w, { children: [
       /* @__PURE__ */ e.jsx(b, { children: "API Contract Generator" }),
-      /* @__PURE__ */ e.jsx(w, { children: "Monthly operations left" }),
-      /* @__PURE__ */ e.jsxs(y, { children: [
+      /* @__PURE__ */ e.jsx(T, { children: "Monthly operations left" }),
+      /* @__PURE__ */ e.jsxs(v, { children: [
         t.monthlyCapture - t.currentCaptureUsage,
         " / ",
         t.monthlyCapture
@@ -221,16 +222,16 @@ const U = s.div`
   max-width: 560px;
 `, b = s.div`
   font-weight: 700;
-`, w = s.div`
+`, T = s.div`
   font-weight: 400;
   font-size: 90%;
-`, y = s.div`
+`, v = s.div`
   font-weight: 600;
   font-size: 110%;
   > div {
     font-size: 80%;
   }
-`, T = s.div`
+`, w = s.div`
   display: grid;
   grid-template-columns: 7fr 3fr;
   gap: 4px;
@@ -240,11 +241,11 @@ const U = s.div`
     grid-column: 1;
     grid-row: 1;
   }
-  > ${w} {
+  > ${T} {
     grid-column: 1;
     grid-row: 2;
   }
-  > ${y} {
+  > ${v} {
     grid-column: 2;
     grid-row: span 2;
     align-self: center;
@@ -255,12 +256,12 @@ const U = s.div`
     grid-row: 3;
   }
 `;
-function yn() {
+function vn() {
   const n = k(), {
     platformConnectionTestResult: r,
     waitingForPlatformConnectionTest: t,
     data: { internalUseDevEndpoints: a }
-  } = R((d) => d.config), o = j({ name: "platformAuthType" }), u = j({ name: "anondToken" });
+  } = R((d) => d.config), o = j({ name: "platformAuthType" }), p = j({ name: "anondToken" });
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
     /* @__PURE__ */ e.jsx(g, { children: "Connection to 42Crunch Platform" }),
     /* @__PURE__ */ e.jsxs(x, { children: [
@@ -276,7 +277,7 @@ function yn() {
       ),
       o === "anond-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(ce, { label: "Freemium token", name: "anondToken" }),
-        u !== "" && /* @__PURE__ */ e.jsx(bn, { token: u, useDevEndpoints: a })
+        p !== "" && /* @__PURE__ */ e.jsx(bn, { token: p, useDevEndpoints: a })
       ] }),
       o === "api-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(l, { label: "Platform URL", name: "platformUrl" }),
@@ -298,7 +299,7 @@ function yn() {
     ] })
   ] });
 }
-const vn = m({
+const yn = m({
   platformAuthType: M(["anond-token", "api-token"]),
   platformUrl: c().url().startsWith("https://").refine(
     (n) => {
@@ -317,12 +318,12 @@ const vn = m({
   platformApiToken: c().regex(
     /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
     "Token is invalid"
-  ).or(v(""))
+  ).or(y(""))
 }), L = {
   id: "platform-connection",
   label: "Connection",
-  schema: vn,
-  form: yn
+  schema: yn,
+  form: vn
 };
 function Cn() {
   const n = k(), {
@@ -361,7 +362,7 @@ function Cn() {
     ] })
   ] });
 }
-const Tn = m({
+const wn = m({
   platformServices: m({
     source: M(["auto", "manual"]),
     manual: c(),
@@ -370,9 +371,9 @@ const Tn = m({
 }), O = {
   id: "platform-services",
   label: "Services",
-  schema: Tn,
+  schema: wn,
   form: Cn
-}, ae = "^[\\w _.\\/:-]{1,2048}$", wn = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
+}, ae = "^[\\w _.\\/:-]{1,2048}$", Tn = "^([\\w\\-@.+]{1,255}:[\\w\\-@.+]{1,255}[\\s,]*)*$";
 function kn() {
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
     /* @__PURE__ */ e.jsx(g, { children: "Temporary Collection Name" }),
@@ -418,7 +419,7 @@ function Sn() {
 }
 const $n = m({
   platformMandatoryTags: c().regex(
-    new RegExp(wn),
+    new RegExp(Tn),
     "Tags are invalid, must be a comma or space separated list of key:value pairs, e.g. env:dev app:myapp"
   )
 });
@@ -439,9 +440,9 @@ function In() {
     cliTestResult: t,
     waitingForCliDownload: a,
     cliDownloadPercent: o,
-    cliDownloadError: u,
+    cliDownloadError: p,
     data: { cli: d }
-  } = R((p) => p.config);
+  } = R((u) => u.config);
   return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
     /* @__PURE__ */ e.jsx(g, { children: "Configuration for 42Crunch Binary runtime" }),
     /* @__PURE__ */ e.jsxs(x, { children: [
@@ -462,8 +463,8 @@ function In() {
             {
               label: "Download",
               waiting: a,
-              onClick: (p) => {
-                n(Ee()), p.preventDefault(), p.stopPropagation();
+              onClick: (u) => {
+                n(Ee()), u.preventDefault(), u.stopPropagation();
               }
             }
           ),
@@ -476,7 +477,7 @@ function In() {
           }
         )
       ] }),
-      u !== void 0 && /* @__PURE__ */ e.jsx(B, { message: u }),
+      p !== void 0 && /* @__PURE__ */ e.jsx(B, { message: p }),
       d.found && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
         /* @__PURE__ */ e.jsx(C, { message: `Using 42Crunch API Security Testing Binary in ${d.location}` }),
         /* @__PURE__ */ e.jsxs(A, { children: [
@@ -485,8 +486,8 @@ function In() {
             {
               label: "Check",
               waiting: r,
-              onClick: (p) => {
-                n(He()), p.preventDefault(), p.stopPropagation();
+              onClick: (u) => {
+                n(He()), u.preventDefault(), u.stopPropagation();
               }
             }
           ),
@@ -499,7 +500,7 @@ function In() {
 const Fn = m({
   repository: c().url(),
   cliDirectoryOverride: Ne([
-    v(""),
+    y(""),
     c().regex(/^(\/.+|[A-Za-z]:\\.+)$/, {
       message: "Must be an absolute path (e.g. /home/username/42crunch-cli or C:\\Users\\username\\42crunch-cli)"
     })
@@ -565,12 +566,12 @@ function Dn() {
 }
 const Mn = m({
   scandManager: m({
-    timeout: Ve.number().int().min(1).max(3600 * 24),
+    timeout: qe().int().min(1).max(3600 * 24),
     // 1 day
-    httpProxy: c().url().optional().or(v("")),
-    httpsProxy: c().url().optional().or(v("")),
-    httpProxyApi: c().url().optional().or(v("")),
-    httpsProxyApi: c().url().optional().or(v(""))
+    httpProxy: c().url().optional().or(y("")),
+    httpsProxy: c().url().optional().or(y("")),
+    httpProxyApi: c().url().optional().or(y("")),
+    httpsProxyApi: c().url().optional().or(y(""))
   }).catchall(ee())
 }), V = {
   id: "runtime-scand-manager",
@@ -706,7 +707,7 @@ function Vn() {
 }
 const _n = m({
   scanRuntime: M(["docker", "scand-manager", "cli"]),
-  scanProxy: c().url().optional().or(v(""))
+  scanProxy: c().url().optional().or(y(""))
 }), W = {
   id: "scan-runtime",
   label: "API Scan runtime",
@@ -831,7 +832,7 @@ const Jn = s.div``, Xn = s.div`
     fill: var(${i.foreground});
   }
 `, tt = m({
-  approvedHosts: _e(ee())
+  approvedHosts: Ve(ee())
 }), Y = {
   id: "openapi-external-refs",
   label: "External References",
@@ -864,14 +865,14 @@ function ot(n) {
   return JSON.parse(JSON.stringify(n));
 }
 function st() {
-  const n = k(), { ready: r, errors: t, data: a } = R((h) => h.config), o = An(), u = Pn(a.platformCollectionNamingConvention), d = [
+  const n = k(), { ready: r, errors: t, data: a } = R((h) => h.config), o = An(), p = Pn(a.platformCollectionNamingConvention), d = [
     {
       id: "platform",
       title: "42Crunch Platform",
       items: [
         L,
         O,
-        u,
+        p,
         o,
         z,
         W
@@ -893,12 +894,12 @@ function st() {
     title: "Internal",
     items: [K]
   });
-  const p = {
+  const u = {
     [L.id]: L,
     [O.id]: O,
     [z.id]: z,
     [W.id]: W,
-    [u.id]: u,
+    [p.id]: p,
     [o.id]: o,
     [N.id]: N,
     [V.id]: V,
@@ -908,8 +909,8 @@ function st() {
   };
   return S.useEffect(() => {
     const h = oe(a);
-    for (const P of Object.keys(p)) {
-      const { success: H } = p[P].schema.safeParse(h);
+    for (const P of Object.keys(u)) {
+      const { success: H } = u[P].schema.safeParse(h);
       n(H ? ie(P) : le({
         screen: P,
         error: "Validation errors, configuration is not being saved"
@@ -922,14 +923,14 @@ function st() {
       errors: t,
       defaultSelection: { sectionId: "platform", itemId: "platform-connection" },
       render: (h) => {
-        const { id: P, form: H, schema: me } = p[h.itemId];
+        const { id: P, form: H, schema: me } = u[h.itemId];
         return /* @__PURE__ */ e.jsxs(
-          ze,
+          _e,
           {
             data: a,
             wrapFormData: oe,
             unwrapFormData: ot,
-            saveData: (pe) => n(Le(pe)),
+            saveData: (ue) => n(Le(ue)),
             schema: me,
             children: [
               /* @__PURE__ */ e.jsx(H, {}),
@@ -962,17 +963,17 @@ function lt(n) {
     testCli: an(f, n),
     downloadCli: rn(f, n),
     openLink: tn(f, n),
-    sendHttpRequest: qe(f, n)
+    sendHttpRequest: Ke(f, n)
   };
   return be(r), de;
 }
 function ct(n, r) {
   const t = fn(lt(n), r);
-  ye.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(ve.StrictMode, { children: /* @__PURE__ */ e.jsxs(Ce, { store: t, children: [
-      /* @__PURE__ */ e.jsx(Te, {}),
+  ve.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(ye.StrictMode, { children: /* @__PURE__ */ e.jsxs(Ce, { store: t, children: [
+      /* @__PURE__ */ e.jsx(we, {}),
       /* @__PURE__ */ e.jsx(st, {})
     ] }) })
-  ), window.addEventListener("message", we(t, gn));
+  ), window.addEventListener("message", Te(t, gn));
 }
 window.renderWebView = ct;

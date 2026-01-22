@@ -39,7 +39,8 @@ public class FileUtils {
     }
 
     public static boolean isGraphQl(@NotNull String fileName) {
-        return fileName.endsWith(".graphql") || fileName.endsWith(".graphqls") || fileName.endsWith(".sdl") || fileName.endsWith(".gql");
+        return fileName.endsWith(".graphql") || fileName.endsWith(".graphqls") || 
+                   fileName.endsWith(".sdl") || fileName.endsWith(".gql") || fileName.endsWith(".gqls");
     }
 
     @Nullable
