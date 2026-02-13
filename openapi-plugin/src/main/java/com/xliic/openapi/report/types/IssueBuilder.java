@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.diagnostic.Logger;
@@ -14,7 +15,8 @@ import com.xliic.openapi.parser.ast.node.Node;
 
 public class IssueBuilder {
 
-    private static final String ISSUES = "issues";
+    public static final String ISSUES = "issues";
+    public static final String WARNINGS = "warnings";
     private static final String POINTER = "pointer";
     private static final String SPECIFIC_DESCRIPTION = "specificDescription";
     private static final String DESCRIPTION = "description";
@@ -22,7 +24,7 @@ public class IssueBuilder {
     private static final String CRITICALITY = "criticality";
     private static final String LOCATION = "location";
     private static final String OCCURRENCES = "occurrences";
-    
+
     @NotNull
     private final Project project;
     @NotNull
@@ -43,21 +45,33 @@ public class IssueBuilder {
     }
 
     @NotNull
-    public List<Issue> buildGraphQl(@NotNull Node node) {
+    public List<Issue> buildGraphQl(@NotNull Node node, @NotNull String sourceKey) {
         List<Issue> issues = new LinkedList<>();
         try {
-            Node issuesNode = node.getChildRequireNonNull(ISSUES);
+            Node issuesNode = node.getChild(sourceKey);
+            if (issuesNode == null) {
+                // Old format report may not contain warnings section
+                return issues;
+            }
             for (Node issueNode : issuesNode.getChildren()) {
                 String id = issueNode.getKey();
                 String desc = Objects.requireNonNullElse(issueNode.getChildValue(DESCRIPTION), "");
+                if (StringUtils.isEmpty(desc)) {
+                    desc = "ID: " + id;
+                }
                 Node occurrences = issueNode.getChildRequireNonNull(OCCURRENCES);
                 for (Node occNode : occurrences.getChildren()) {
-                    String pointer = Objects.requireNonNullElse(occNode.getChildValue(LOCATION), "");
+                    String locOrIndex = Objects.requireNonNullElse(occNode.getChildValue(LOCATION), "");
+                    String location = getLocation(locOrIndex);
+                    if (location == null) {
+                        // Must not happen if graphql report is valid
+                        continue;
+                    }
                     float score = getScore(occNode);
                     // GraphQL report doesn't contain criticality property
                     // Set default value to consider all issues as high severity ones
-                    int criticality = 4;
-                    issues.add(new Issue(project, fileName, id, desc, pointer, score, criticality, !downloaded));
+                    int criticality = WARNINGS.equals(sourceKey) ? 3 : 4;
+                    issues.add(new Issue(project, fileName, id, desc, location, score, criticality, !downloaded));
                 }
             }
         } catch (Exception e) {
@@ -65,7 +79,7 @@ public class IssueBuilder {
         }
         return issues;
     }
-    
+
     @NotNull
     public List<Issue> build(@NotNull Node node, int defaultCriticality) {
         List<Issue> issues = new LinkedList<>();
@@ -86,6 +100,20 @@ public class IssueBuilder {
         	Logger.getInstance(IssueBuilder.class).error(e);
         }
         return issues;
+    }
+
+    private String getLocation(String locOrIndex) {
+        try {
+            // New format where location = index number
+            int index = Integer.parseInt(locOrIndex);
+            if (index < 0 || index >= pointers.size()) {
+                return null;
+            }
+            return pointers.get(index);
+        } catch (NumberFormatException e) {
+            // Old format where location is a real string location
+            return locOrIndex;
+        }
     }
 
     private String getPointer(Node node) {

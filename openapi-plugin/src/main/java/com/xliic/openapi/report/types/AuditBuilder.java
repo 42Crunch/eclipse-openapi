@@ -1,6 +1,8 @@
 package com.xliic.openapi.report.types;
 
 import static com.xliic.openapi.utils.FileUtils.isGraphQl;
+import static com.xliic.openapi.report.types.IssueBuilder.ISSUES;
+import static com.xliic.openapi.report.types.IssueBuilder.WARNINGS;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -122,13 +124,20 @@ public class AuditBuilder {
         report.setMinimalReport(false);
         report.setCompliance(compliance);
         report.setDisplayOptions(displayOptions);
-        Objects.requireNonNull(issueBuilder).setPointers(new LinkedList<>());
-        List<Issue> issues = new LinkedList<>(issueBuilder.buildGraphQl(reportNode));
+        List<String> pointers = getPointers(reportNode);
+        boolean hasIndexFormat = (reportNode.getChild("index") != null);
+        if (hasIndexFormat && pointers.isEmpty()) {
+            // Successful report with 100% score may not contain any pointers
+            return report;
+        }
+        Objects.requireNonNull(issueBuilder).setPointers(pointers);
+        List<Issue> issues = new LinkedList<>(issueBuilder.buildGraphQl(reportNode, ISSUES));
+        issues.addAll(issueBuilder.buildGraphQl(reportNode, WARNINGS));
         issues.sort(ISSUE_COMPARATOR);
         report.addIssues(issues);
         return report;
     }
-    
+
     private void clear() {
         fileName = null;
         compliance = null;
