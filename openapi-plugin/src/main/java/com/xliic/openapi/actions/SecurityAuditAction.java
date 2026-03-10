@@ -3,7 +3,6 @@ package com.xliic.openapi.actions;
 import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 
 import java.util.Collection;
-import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,8 +38,10 @@ public class SecurityAuditAction extends ProjectAction {
             return;
         }
         if (isGraphQl(myFile)) {
+            event.getPresentation().setText("GraphQL: API Audit");
             event.getPresentation().setEnabled(true);
         } else {
+            event.getPresentation().setText("OpenAPI: API Audit");
             super.update(event);
         }
     }
@@ -61,7 +62,7 @@ public class SecurityAuditAction extends ProjectAction {
                 MsgUtils.error(project, OpenApiBundle.message("openapi.non.project.file", name), false);
                 return;
             }
-            actionPerformedForGraphQl(project, file);
+            GraphQlService.getInstance(project).actionPerformedForGraphQl(project, file);
         } else {
             super.actionPerformed(e);
         }
@@ -97,21 +98,6 @@ public class SecurityAuditAction extends ProjectAction {
                 @Override
                 public void complete() {
                     auditService.actionPerformed(project, file, Credentials.getCredentialsType());
-                }
-            });
-        }
-    }
-    
-    private void actionPerformedForGraphQl(@NotNull Project project, @NotNull VirtualFile file) {
-        Credentials.Type type = Credentials.getCredentialsType();
-        GraphQlService graphQlService = GraphQlService.getInstance(project);
-        if (type != null) {
-            graphQlService.actionPerformed(project, file, type);
-        } else {
-            Credentials.configureCredentials(project, new WizardCallback() {
-                @Override
-                public void complete() {
-                    graphQlService.actionPerformed(project, file, Objects.requireNonNull(Credentials.getCredentialsType()));
                 }
             });
         }

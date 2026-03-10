@@ -29,6 +29,7 @@ import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.NamingConvention;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.PlatformReportPuller;
+import com.xliic.openapi.platform.Tag;
 import com.xliic.openapi.platform.callback.PlatformCollectionCallback;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
@@ -39,7 +40,6 @@ import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
-import com.xliic.openapi.tags.TagsUtils;
 import com.xliic.openapi.tryit.TryItUtils;
 import com.xliic.openapi.utils.NetUtils;
 
@@ -60,8 +60,8 @@ public class ScanUtils {
             "Please contact support@42crunch.com to upgrade your account.";
 
     @NotNull
-    public static String createTempAPI(@NotNull String collectionId, @NotNull String oas) throws Exception {
-        PlatformAPI api = ScanUtils.createTempApi(collectionId, oas, null);
+    public static String createTempAPI(@NotNull String collectionId, @NotNull String oas, @NotNull Set<Tag> tags) throws Exception {
+        PlatformAPI api = ScanUtils.createTempApi(collectionId, oas, tags);
         return api.getId();
     }
 
@@ -183,16 +183,12 @@ public class ScanUtils {
     }
 
     @NotNull
-    public static PlatformAPI createTempApi(@NotNull String collectionId, @NotNull String text, @Nullable Set<String> tagIds) throws Exception {
-        Set<String> apiTagIds = TagsUtils.getMandatoryTagIds();
-        if (tagIds != null) {
-            apiTagIds.addAll(tagIds);
-        }
+    public static PlatformAPI createTempApi(@NotNull String collectionId, @NotNull String text, @NotNull Set<Tag> tags) throws Exception {
         // If the api naming convention is configured, use its example as the api name
         // this way we don't have to come up with a name that matches its pattern
         NamingConvention convention = PlatformUtils.getApiNamingConvention();
         String apiName = convention.getPattern().isEmpty() ? TMP_PREFIX + API_TEMP_NAME_DATE_FORMATTER.format(new Date()) : convention.getExample();
-        try (Response response = ScanAPIs.createAPI(collectionId, apiName, text, apiTagIds)) {
+        try (Response response = ScanAPIs.createAPI(collectionId, apiName, text, tags)) {
             Node body = NetUtils.getBodyNodeIgnoreCode(response);
             if (body != null) {
                 if (response.code() == 200) {
@@ -202,6 +198,8 @@ public class ScanUtils {
                     String message = body.getChildValue("message");
                     if ("109".equals(code) && "limit reached".equals(message)) {
                         throw new Exception(LIMIT_REACHED_MSG);
+                    } else {
+                        throw new Exception("Failed to create temporary api: code " + code + ", " + message);
                     }
                 }
             }

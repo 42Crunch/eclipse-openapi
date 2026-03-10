@@ -22,14 +22,16 @@ import com.xliic.openapi.webapp.messages.WebAppProduce;
 public class RunFullScan extends WebAppProduce {
 
     @NotNull
-    private final Project project;
+    protected final Project project;
     @NotNull
-    private final Map<String, Object> cache;
+    protected final Map<String, Object> cache;
+    protected final boolean isGraphQl;
 
-    public RunFullScan(@NotNull Project project, @NotNull Map<String, Object> cache) {
+    public RunFullScan(@NotNull Project project, @NotNull Map<String, Object> cache, boolean isGraphQl) {
         super("runFullScan");
         this.project = project;
         this.cache = cache;
+        this.isGraphQl = isGraphQl;
     }
 
     @Override
@@ -41,20 +43,31 @@ public class RunFullScan extends WebAppProduce {
             Map<String, String> configEnv = env.entrySet().stream().collect(
                     Collectors.toMap(Map.Entry::getKey, e -> String.valueOf(e.getValue())));
             String filePath = (String) cache.get(SavePreferences.PSI_FILE_PATH);
-            String scanConfPath = (String) cache.get(SCAN_CONF_PATH);
+            String scanConfPath = getScanConfPath();
             String scanconf = (String) map.get("scanconf");
             if (filePath != null && scanconf != null) {
                 VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(filePath));
                 if (file != null) {
-                    BundleService bundleService = BundleService.getInstance(project);
-                    BundleResult bundle = bundleService.getBundle(file.getPath());
-                    if (bundle != null && bundle.isBundleComplete()) {
-                        String rawOas = bundle.getJsonText();
-                        ScanFullRunConfig config = new ScanFullRunConfig(scanConfPath, scanconf, configEnv, rawOas);
+                    String text = getText(file);
+                    if (text != null) {
+                        ScanFullRunConfig config = new ScanFullRunConfig(scanConfPath, scanconf, configEnv, text, isGraphQl);
                         ScanService.getInstance(project).runScan(file, config, true);
                     }
                 }
             }
+        }
+    }
+
+    protected String getScanConfPath() {
+        return (String) cache.get(SCAN_CONF_PATH);
+    }
+
+    protected @Nullable String getText(@NotNull VirtualFile file) {
+        BundleResult bundle = BundleService.getInstance(project).getBundle(file.getPath());
+        if (bundle != null && bundle.isBundleComplete()) {
+            return bundle.getJsonText();
+        } else {
+            return null;
         }
     }
 }

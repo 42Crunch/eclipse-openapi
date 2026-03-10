@@ -31,6 +31,7 @@ import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.WindowUtils;
+import com.xliic.openapi.graphql.scan.task.GqlScanCliTask;
 import com.xliic.openapi.webapp.chunks.ChunksProvider;
 import com.xliic.openapi.webapp.chunks.FileChunksProvider;
 import com.xliic.openapi.webapp.chunks.MemoryChunksProvider;
@@ -64,7 +65,7 @@ public final class ScanService implements IScanService, Disposable {
         }
         inProgress = true;
         final String runtime = SettingsService.getInstance().getValue(RUNTIME);
-        if (RUNTIME_SCAND_MANAGER.equals(runtime)) {
+        if (!config.isGraphQl() && RUNTIME_SCAND_MANAGER.equals(runtime)) {
             ScandManagerConnection connection = new ScandManagerConnection();
             if (StringUtils.isEmpty(connection.getUrl())) {
             	MsgUtils.notifyError(project, "Scand-manager url is not defined");
@@ -99,15 +100,19 @@ public final class ScanService implements IScanService, Disposable {
         };       
         Credentials.Type type = Credentials.getCredentialsType();
         WindowUtils.openWebTab(project, SCAN_EDITOR_ID, tabId, file.getPath(), () -> {
-            if (type == Credentials.Type.AnondToken) {
-                ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, callback, isFullScan));
+            if (config.isGraphQl() && type != null) {
+                ProgressManager.getInstance().run(new GqlScanCliTask(project, tabId, config, file.getPath(), type, callback));
             } else {
-                if (RUNTIME_CLI.equals(runtime)) {
-                    ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, callback, isFullScan));
-                } else if (RUNTIME_DOCKER.equals(runtime)) {
-                    ProgressManager.getInstance().run(new ScanDockerTask(project, tabId, config, callback));
+                if (type == Credentials.Type.AnondToken) {
+                   ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, file, type, callback, isFullScan));
                 } else {
-                    ProgressManager.getInstance().run(new ScanJobTask(project, tabId, config, callback));
+                    if (RUNTIME_CLI.equals(runtime)) {
+                        ProgressManager.getInstance().run(new ScanCliTask(project, tabId, config, file, type, callback, isFullScan));
+                    } else if (RUNTIME_DOCKER.equals(runtime)) {
+                        ProgressManager.getInstance().run(new ScanDockerTask(project, tabId, config, file, type, callback));
+                    } else {
+                        ProgressManager.getInstance().run(new ScanJobTask(project, tabId, config, file, type, callback));
+                    }
                 }
             }
         });

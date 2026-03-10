@@ -1,9 +1,11 @@
 package com.xliic.openapi.graphql.task;
 
 import java.util.Objects;
+import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -13,6 +15,7 @@ import com.xliic.openapi.graphql.GraphQlCliResult;
 import com.xliic.openapi.graphql.GraphQlService;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.tags.TagsUtils;
 import com.xliic.openapi.utils.Utils;
 
 import graphql.schema.idl.SchemaParser;
@@ -28,12 +31,18 @@ public class GraphQlCliTask extends Task.Backgroundable {
     @NotNull
     private final VirtualFile file;
     @NotNull
+    private final Credentials.Type type;
+    @NotNull
     private final GraphQlService.GraphQlCallback callback;
 
-    public GraphQlCliTask(@NotNull Project project, @NotNull VirtualFile file, @NotNull GraphQlService.GraphQlCallback callback) {
+    public GraphQlCliTask(@NotNull Project project, 
+                          @NotNull VirtualFile file, 
+                          @NotNull Credentials.Type type, 
+                          @NotNull GraphQlService.GraphQlCallback callback) {
         super(project, RUNNING_GRAPHQL_AUDIT, false);
         this.project = project;
         this.file = file;
+        this.type = type;
         this.callback = callback;
     }
 
@@ -46,7 +55,8 @@ public class GraphQlCliTask extends Task.Backgroundable {
                 callback.reject("Failed to get text");
                 return;
             }
-            GraphQlCliResult result = CliUtils.runGraphQlAuditWithCliBinary(project, text);
+            Set<String> tags = TagsUtils.getFullTagNames(project, type, file.getPath());
+            GraphQlCliResult result = CliUtils.runGraphQlAuditWithCliBinary(project, text, tags);
             if (result.hasError()) {
                 callback.reject("Unexpected error running API Security Testing Binary Audit: " + result);
                 return;

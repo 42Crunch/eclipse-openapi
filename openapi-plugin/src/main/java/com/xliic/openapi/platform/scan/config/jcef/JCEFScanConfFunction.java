@@ -1,5 +1,7 @@
 package com.xliic.openapi.platform.scan.config.jcef;
 
+import static com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel.SCAN_CONF_PATH;
+
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,9 +26,9 @@ public class JCEFScanConfFunction extends WebAppFunction {
     		                    @NotNull Browser browser, 
     		                    @NotNull String name) {
         super(browser, name);
-        add(new RunScan(project, cache));
-        add(new RunFullScan(project, cache));
-        add(new SaveScanConf(project, cache));
+        add(new RunScan(project, cache, false));
+        add(new RunFullScan(project, cache, false));
+        add(new SaveScanConf(project, cache, SCAN_CONF_PATH));
         add(new UpdateScanConf(project, cache));
         add(new ShowEnvWindow(project));
         add(new SavePreferences(project, cache));

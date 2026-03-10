@@ -9,10 +9,13 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.xliic.core.diagnostic.Logger;
 import com.xliic.openapi.platform.PlatformAPIs;
+import com.xliic.openapi.platform.Tag;
 
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -105,14 +108,21 @@ public class ScanAPIs {
     public static Response createAPI(@NotNull String collectionId,
                                      @NotNull String name,
                                      @NotNull String text,
-                                     @NotNull Set<String> tags) throws IOException {
+                                     @NotNull Set<Tag> tags) throws IOException {
+        Set<String> tagIds = tags.stream().map(Tag::getTagId).collect(Collectors.toSet());
         @SuppressWarnings("serial")
 		RequestBody body = Objects.requireNonNull(getJsonRequestBody(new HashMap<>() {{
             put("cid", collectionId);
             put("name", name);
-            put("tags", tags);
+            put("tags", tagIds);
             put("specfile", Base64.getUrlEncoder().encodeToString(text.getBytes()));
         }}));
+        Logger logger = Logger.getInstance(ScanAPIs.class);
+        if (logger.isDebugEnabled()) {
+            for (Tag tag : tags) {
+                logger.debug("Assign tag " + tag.getFullTagName() + " id " + tag.getTagId() + " to a new api in collection " + collectionId);
+            }
+        }
         Request request = PlatformAPIs.getRequestBuilder("api/v2/apis").post(body).build();
         return getHttpClient().newCall(request).execute();
     }

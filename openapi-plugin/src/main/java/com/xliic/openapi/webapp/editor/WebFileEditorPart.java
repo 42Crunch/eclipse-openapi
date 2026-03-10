@@ -4,6 +4,7 @@ import static com.xliic.openapi.webapp.editor.WebFileEditor.CAPTURE_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.CONFIG_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.DATA_DICTIONARY_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCANCONF_EDITOR_ID;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.GQL_SCANCONF_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SCAN_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.SIGNUP_EDITOR_ID;
 import static com.xliic.openapi.webapp.editor.WebFileEditor.TAGS_EDITOR_ID;
@@ -25,6 +26,7 @@ import com.xliic.core.project.Project;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.capture.jcef.JCEFCapturePanel;
 import com.xliic.openapi.config.jcef.JCEFConfigPanel;
+import com.xliic.openapi.graphql.scan.config.jcef.JCEFGqlScanConfPanel;
 import com.xliic.openapi.platform.dictionary.jcef.JCEFDictionaryPanel;
 import com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel;
 import com.xliic.openapi.platform.scan.report.jcef.JCEFScanReportPanel;
@@ -47,6 +49,7 @@ public class WebFileEditorPart extends EditorPart {
     	put(CONFIG_EDITOR_ID, 1L);
     	put(SCAN_EDITOR_ID, 100L);
     	put(SCANCONF_EDITOR_ID, 100L);
+    	put(GQL_SCANCONF_EDITOR_ID, 100L);
     	put(DATA_DICTIONARY_EDITOR_ID, 1L);
     	put(WHATS_NEW_EDITOR_ID, 1L);
     	put(SIGNUP_EDITOR_ID, 1L);
@@ -78,7 +81,7 @@ public class WebFileEditorPart extends EditorPart {
 		final String resId =  webFile.getResourceId();
 		if (CONFIG_EDITOR_ID.equals(resId)) {
 			setTitleImage(CONFIG_ICON_IMAGE);	
-		} else if (SCAN_EDITOR_ID.equals(resId) || SCANCONF_EDITOR_ID.equals(resId)) {
+		} else if (SCAN_EDITOR_ID.equals(resId) || SCANCONF_EDITOR_ID.equals(resId) || GQL_SCANCONF_EDITOR_ID.equals(resId)) {
 			setTitleImage(SCAN_ICON_IMAGE);
 		} else if (DATA_DICTIONARY_EDITOR_ID.equals(resId)) {
 			setTitleImage(DATA_DICTIONARY_ICON_IMAGE);
@@ -113,6 +116,9 @@ public class WebFileEditorPart extends EditorPart {
         	  break;
           case SCANCONF_EDITOR_ID:
         	  webEditor = new JCEFScanConfPanel(project, parent, webFile);
+        	  break;
+          case GQL_SCANCONF_EDITOR_ID:
+        	  webEditor = new JCEFGqlScanConfPanel(project, parent, webFile);
         	  break;
           case SCAN_EDITOR_ID:
         	  webEditor = new JCEFScanReportPanel(project, parent, webFile);

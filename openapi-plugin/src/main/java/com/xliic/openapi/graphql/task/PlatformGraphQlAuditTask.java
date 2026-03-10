@@ -19,6 +19,7 @@ import com.xliic.openapi.platform.PlatformReportPuller;
 import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.utils.Utils;
 
 import graphql.schema.idl.SchemaParser;
@@ -35,12 +36,18 @@ public class PlatformGraphQlAuditTask extends Task.Backgroundable {
     @NotNull
     private final VirtualFile file;
     @NotNull
+    private final Credentials.Type type;
+    @NotNull
     private final GraphQlService.GraphQlCallback callback;
 
-    public PlatformGraphQlAuditTask(@NotNull Project project, @NotNull VirtualFile file, @NotNull GraphQlService.GraphQlCallback callback) {
+    public PlatformGraphQlAuditTask(@NotNull Project project, 
+                                    @NotNull VirtualFile file,
+                                    @NotNull Credentials.Type type,
+                                    @NotNull GraphQlService.GraphQlCallback callback) {
         super(project, RUNNING_SECURITY_AUDIT, false);
         this.project = project;
         this.file = file;
+        this.type = type;
         this.callback = callback;
     }
 
@@ -56,8 +63,15 @@ public class PlatformGraphQlAuditTask extends Task.Backgroundable {
         try {
             AuditService.getInstance(project).downloadArticles(progress);
             collectionId = ScanUtils.findOrCreateTempCollection();
+//          Set<Tag> tags = TagsUtils.getTags(project, type, file.getPath());
             PlatformAPI api = GraphQlUtils.createTempApi(collectionId, text);
             apiId = api.getId();
+            // Assign tags, improve it later
+//          if (!tags.isEmpty()) {
+//              for (Tag tag : tags) {
+//                  GraphQlUtils.assignTags(apiId, tag);
+//              }
+//          }
             Node fullReport = new PlatformReportPuller(project, apiId, PAUSE, PULL_REPORT_DURATION, true).get();
             String data = fullReport.getChildValue("report");
             if (data == null) {

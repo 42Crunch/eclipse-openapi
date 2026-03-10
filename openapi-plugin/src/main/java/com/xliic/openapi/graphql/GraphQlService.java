@@ -25,6 +25,7 @@ import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.settings.wizard.WizardCallback;
 import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.WindowUtils;
@@ -56,6 +57,21 @@ public class GraphQlService implements IGraphQlService, Disposable {
     public void actionPerformed(@NotNull Project project, @NotNull VirtualFile file, @NotNull Credentials.Type type) {
         runCliAudit(project, file, type);
     }
+    
+    public void actionPerformedForGraphQl(@NotNull Project project, @NotNull VirtualFile file) {
+        Credentials.Type type = Credentials.getCredentialsType();
+        GraphQlService graphQlService = GraphQlService.getInstance(project);
+        if (type != null) {
+            graphQlService.actionPerformed(project, file, type);
+        } else {
+            Credentials.configureCredentials(project, new WizardCallback() {
+                @Override
+                public void complete() {
+                    graphQlService.actionPerformed(project, file, Objects.requireNonNull(Credentials.getCredentialsType()));
+                }
+            });
+        }
+    }
 
     public void runCliAudit(@NotNull Project project, @NotNull VirtualFile file, @NotNull Credentials.Type type) {
         if (isGraphQlAuditAlreadyInProgress(file)) {
@@ -83,7 +99,7 @@ public class GraphQlService implements IGraphQlService, Disposable {
             CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
                 @Override
                 public void complete(@NotNull String cliPath) {
-                    startAuditTask(file, new GraphQlCliTask(project, file, callback));
+                    startAuditTask(file, new GraphQlCliTask(project, file, type, callback));
                 }
                 @Override
                 public void reject(@NotNull String error) {
@@ -98,9 +114,10 @@ public class GraphQlService implements IGraphQlService, Disposable {
         } else if (type == Credentials.Type.ApiToken) {
             String auditRuntime = SettingsService.getInstance().getValue(Settings.Audit.AUDIT_RUNTIME);
             if (Objects.equals(auditRuntime, AUDIT_RUNTIME_CLI)) {
-                startAuditTask(file, new GraphQlCliTask(project, file, callback));
+                startAuditTask(file, new GraphQlCliTask(project, file, type, callback));
             } else {
-                startAuditTask(file, new PlatformGraphQlAuditTask(project, file, callback));            }
+                startAuditTask(file, new PlatformGraphQlAuditTask(project, file, type, callback));            
+            }
         }
     }
 

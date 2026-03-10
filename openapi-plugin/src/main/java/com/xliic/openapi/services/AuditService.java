@@ -461,7 +461,7 @@ public final class AuditService implements IAuditService, Disposable {
                     new AuditCliTask(project, type, file, callback) : new AuditCliTask(project, type, payload, callback));
             } else {
                 startAuditTask(file, isFullAudit ? 
-                    new PlatformAuditTask(project, file, callback) : new PlatformAuditTask(project, payload, callback));
+                    new PlatformAuditTask(project, file, type, callback) : new PlatformAuditTask(project, payload, type, callback));
             }
         }
     }

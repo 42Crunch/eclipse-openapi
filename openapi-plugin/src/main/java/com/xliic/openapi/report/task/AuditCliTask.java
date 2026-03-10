@@ -4,7 +4,6 @@ import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT_CLI
 import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
 import static com.xliic.openapi.utils.MsgUtils.notifyAuditsLimit;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -90,7 +89,7 @@ public class AuditCliTask extends Task.Backgroundable {
                 callback.reject("Security audit token is not set");
                 return;
             }
-            Set<String> tags = (type == Credentials.Type.AnondToken) ? new HashSet<>(0) : TagsUtils.getTags(project, file.getPath());
+            Set<String> tags = TagsUtils.getFullTagNames(project, type, file.getPath());
             AuditCliResult result = CliUtils.runAuditWithCliBinary(project, text, tags, isFullAudit, progress);
             if (result.hasError()) {
                 if (result.getStatusCode() == 3 && result.isLimitsReached()) {

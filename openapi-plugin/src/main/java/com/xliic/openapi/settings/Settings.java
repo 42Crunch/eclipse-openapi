@@ -224,11 +224,13 @@ public class Settings {
         public static final String INTERNAL_FEATURES = "com.xliic.openapi.settings.internal.features";
         public static final String INTERNAL_USE_DEV_ENDPOINTS = "com.xliic.openapi.settings.internal.use.dev.endpoints";
         public static final String INTERNAL_DISABLE_LOG_REDACTION = "com.xliic.openapi.settings.internal.disable.log.redaction";
-        
+        public static final String INTERNAL_REGISTER_MCP = "com.xliic.openapi.settings.internal.register.mcp";
+
         static {
             DEFAULTS.put(INTERNAL_FEATURES, false);
             DEFAULTS.put(INTERNAL_USE_DEV_ENDPOINTS, false);
             DEFAULTS.put(INTERNAL_DISABLE_LOG_REDACTION, false);
+            DEFAULTS.put(INTERNAL_REGISTER_MCP, false);
         }
     }
     

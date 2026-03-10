@@ -176,7 +176,8 @@ public class PlatformAPIs {
     public static void deleteCollection(@NotNull String collectionId) {
         try {
             Request request = getRequestBuilder(String.format("api/v1/collections/%s", collectionId)).delete().build();
-            getHttpClient().newCall(request).execute();
+            Response response = getHttpClient().newCall(request).execute();
+            response.close();
         } catch (IOException ignored) {
         }
     }

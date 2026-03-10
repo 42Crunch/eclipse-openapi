@@ -41,6 +41,9 @@ public class AnActionEvent {
         return this;
     }
 
+    public void setText(String text) {
+    }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }

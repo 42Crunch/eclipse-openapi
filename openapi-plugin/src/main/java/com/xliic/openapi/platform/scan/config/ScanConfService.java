@@ -8,7 +8,6 @@ import static com.xliic.openapi.webapp.editor.WebFileEditor.SCANCONF_EDITOR_ID;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.Disposable;
-import com.xliic.core.diagnostic.Logger;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
 import com.xliic.core.services.IScanConfService;
@@ -52,11 +51,11 @@ public final class ScanConfService implements IScanConfService, Disposable {
     public static ScanConfService getInstance(@NotNull Project project) {
         return project.getService(ScanConfService.class);
     }
-    
+
     public boolean isInProgress() {
         return inProgress;
     }
-    
+
     public void updateScanconf(@NotNull VirtualFile file, @NotNull String scanConfPath) {
         BundleService bundleService = BundleService.getInstance(project);
         BundleResult bundle = bundleService.getBundle(file.getPath());
@@ -85,13 +84,13 @@ public final class ScanConfService implements IScanConfService, Disposable {
         ScanUpdateConfTask task;
         Credentials.Type type = Credentials.getCredentialsType();
         if (type == Credentials.Type.AnondToken) {
-            task = new ScanUpdateCliConfTask(project, bundle, callback);
+            task = new ScanUpdateCliConfTask(project, bundle, file, type, callback);
         } else {
             final String runtime = SettingsService.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
             if (RUNTIME_CLI.equals(runtime)) {
-                task = new ScanUpdateCliConfTask(project, bundle, callback);
+                task = new ScanUpdateCliConfTask(project, bundle, file, type, callback);
             } else {
-                task = new ScanUpdatePlatformConfTask(project, bundle, callback);
+                task = new ScanUpdatePlatformConfTask(project, bundle, file, type, callback);
             }
         }
         ProgressManager.getInstance().run(task);
@@ -105,7 +104,7 @@ public final class ScanConfService implements IScanConfService, Disposable {
             Credentials.configureCredentials(project, new WizardCallback() {
                 @Override
                 public void complete() {
-                	new Thread(() -> scanConfActionPerformed(file, payload, Credentials.getCredentialsType())).start();
+                    new Thread(() -> scanConfActionPerformed(file, payload, Credentials.getCredentialsType())).start();
                 }
             });
         }
@@ -139,13 +138,14 @@ public final class ScanConfService implements IScanConfService, Disposable {
             createScanConf(file, payload, type);
         }
     }
-    
+
     private void createScanConf(@NotNull VirtualFile file, @NotNull ScanConfOperation payload, @NotNull Credentials.Type type) {
         BundleService bundleService = BundleService.getInstance(project);
         BundleResult bundle = bundleService.getBundle(file.getPath());
         if (bundle == null || !bundle.isBundleComplete()) {
             MsgUtils.notifyError(project,"Failed to bundle, check OpenAPI file for errors.");
             bundleService.notifyOfErrors(file.getPath());
+            inProgress = false;
             return;
         }
         String title = ScanConfigUtils.getScanTitle(bundle);
@@ -170,7 +170,6 @@ public final class ScanConfService implements IScanConfService, Disposable {
                 if (turnedOff) {
                     turnOnVcsShowConfirmation(project);
                 }
-                Logger.getInstance(ScanConfService.class).error(e);
             }
             @Override
             public void cancel() {
@@ -194,14 +193,14 @@ public final class ScanConfService implements IScanConfService, Disposable {
             if (type == Credentials.Type.AnondToken) {
                 // Free users must use CLI for scan, there is no need to fall back to anond for initial audit
                 // if there is no CLI available, they will not be able to run scan or create a scan config in any case
-                task = new ScanCliConfTask(project, bundle, scanConfPath, callback);
+                task = new ScanCliConfTask(project, bundle, scanConfPath, file, type, callback);
             } else {
                 final String runtime = SettingsService.getInstance().getValue(Settings.Platform.Scan.RUNTIME);
                 if (RUNTIME_CLI.equals(runtime)) {
-                    task = new ScanCliConfTask(project, bundle, scanConfPath, callback);
+                    task = new ScanCliConfTask(project, bundle, scanConfPath, file, type, callback);
                 } else {
                     // This will run audit on the platform as well
-                    task = new ScanPlatformConfTask(project, bundle, scanConfPath, callback);
+                    task = new ScanPlatformConfTask(project, bundle, scanConfPath, file, type, callback);
                 }
             }
             ProgressManager.getInstance().run(task);

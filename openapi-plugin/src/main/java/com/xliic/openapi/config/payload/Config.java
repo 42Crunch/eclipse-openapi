@@ -5,6 +5,7 @@ import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_DISABLE_LOG_REDACTION;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_USE_DEV_ENDPOINTS;
+import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_REGISTER_MCP;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -63,7 +64,8 @@ public class Config {
     private final boolean internalFeatures;
     private final boolean internalUseDevEndpoints;
     private final boolean internalDisableLogRedaction;
-    
+    private final boolean internalRegisterMcp;
+
     public Config() {
         this(false);
     }
@@ -97,6 +99,7 @@ public class Config {
         internalFeatures  = settingsService.getValue(INTERNAL_FEATURES, false);
         internalUseDevEndpoints = settingsService.getValue(INTERNAL_USE_DEV_ENDPOINTS, false);
         internalDisableLogRedaction = settingsService.getValue(INTERNAL_DISABLE_LOG_REDACTION, false);
+        internalRegisterMcp = settingsService.getValue(INTERNAL_REGISTER_MCP, false);
     }
 
     public @NotNull String getPlatformUrl() {
@@ -218,5 +221,9 @@ public class Config {
     
     public boolean isInternalDisableLogRedaction() {
         return internalDisableLogRedaction;
+    }
+    
+    public boolean isInternalRegisterMcp() {
+        return internalRegisterMcp;
     }
 }

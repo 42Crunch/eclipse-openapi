@@ -24,6 +24,7 @@ import com.xliic.openapi.report.types.AuditCompliance;
 import com.xliic.openapi.report.types.AuditToDoReport;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.tags.TagsUtils;
 
 public class PlatformAuditTask extends Task.Backgroundable {
@@ -36,23 +37,33 @@ public class PlatformAuditTask extends Task.Backgroundable {
     private final Project project;
     @NotNull
     private final VirtualFile file;
+    @NotNull
+    private final Credentials.Type type;
     @Nullable
     private final AuditOperation operation;
     @NotNull
     private final AuditService.Callback callback;
 
-    public PlatformAuditTask(@NotNull Project project, @NotNull VirtualFile file, @NotNull AuditService.Callback callback) {
+    public PlatformAuditTask(@NotNull Project project, 
+                             @NotNull VirtualFile file, 
+                             @NotNull Credentials.Type type, 
+                             @NotNull AuditService.Callback callback) {
         super(project, RUNNING_SECURITY_AUDIT, false);
         this.project = project;
         this.file = file;
+        this.type = type;
         operation = null;
         this.callback = callback;
     }
 
-    public PlatformAuditTask(@NotNull Project project, @NotNull AuditOperation operation, @NotNull AuditService.Callback callback) {
+    public PlatformAuditTask(@NotNull Project project, 
+                             @NotNull AuditOperation operation, 
+                             @NotNull Credentials.Type type, 
+                             @NotNull AuditService.Callback callback) {
         super(project, RUNNING_SECURITY_AUDIT, false);
         this.project = project;
         this.file = operation.getPsiFile().getVirtualFile();
+        this.type = type;
         this.operation = operation;
         this.callback = callback;
     }
@@ -71,8 +82,8 @@ public class PlatformAuditTask extends Task.Backgroundable {
         try {
             AuditService.getInstance(project).downloadArticles(progress);
             collectionId = ScanUtils.findOrCreateTempCollection();
-            Set<String> tagIds = TagsUtils.getTagIds(project, file.getPath());
-            PlatformAPI api = ScanUtils.createTempApi(collectionId, text, tagIds);
+            Set<Tag> tags = TagsUtils.getTags(project, type, file.getPath());
+            PlatformAPI api = ScanUtils.createTempApi(collectionId, text, tags);
             apiId = api.getId();
             Node fullReport = new PlatformReportPuller(project, apiId, PAUSE, PULL_REPORT_DURATION).get();
             Node report = PlatformUtils.getAssessmentReportNode(fullReport);

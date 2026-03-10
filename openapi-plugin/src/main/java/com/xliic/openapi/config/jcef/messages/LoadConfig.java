@@ -76,6 +76,7 @@ public class LoadConfig extends WebAppConsume {
         result.put("internalFeatures", config.isInternalFeatures());
         result.put("internalUseDevEndpoints", config.isInternalUseDevEndpoints());
         result.put("internalDisableLogRedaction", config.isInternalDisableLogRedaction());
+        result.put("internalRegisterMcp", config.isInternalRegisterMcp());
 
         return result;
     }
