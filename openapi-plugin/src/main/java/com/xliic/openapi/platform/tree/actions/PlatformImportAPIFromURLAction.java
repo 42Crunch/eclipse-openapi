@@ -1,10 +1,11 @@
 package com.xliic.openapi.platform.tree.actions;
 
-import static com.xliic.openapi.tags.TagsUtils.getMandatoryTagIds;
 import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 import static com.xliic.openapi.utils.NetUtils.getResponseBody;
+import static com.xliic.openapi.tags.TagsUtils.getMandatoryTags;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -22,6 +23,7 @@ import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
+import com.xliic.openapi.platform.Tag;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.platform.tree.form.PlatformURLChooser;
 import com.xliic.openapi.utils.MsgUtils;
@@ -101,7 +103,7 @@ public class PlatformImportAPIFromURLAction extends AnJAction implements DumbAwa
                         if (StringUtils.isEmpty(name)) {
                             name = Utils.getFileNameFromURL(href, "defaultAPI");
                         }
-                        Set<String> tagIds = getMandatoryTagIds();
+                        Set<String> tagIds = getMandatoryTags(project).stream().map(Tag::getTagId).collect(Collectors.toSet());
                         PlatformAPIs.createAPI(collectionId, name, text, tagIds,
                                 new PlatformImportAPICallback(project, tree, collectionId, name, subRootDn));
                     }

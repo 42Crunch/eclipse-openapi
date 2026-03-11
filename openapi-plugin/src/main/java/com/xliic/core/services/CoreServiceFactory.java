@@ -9,6 +9,7 @@ import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.config.ConfigService;
 import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.graphql.GraphQlService;
+import com.xliic.openapi.graphql.scan.config.GqlScanConfService;
 import com.xliic.openapi.inlined.AnnotationService;
 import com.xliic.openapi.platform.scan.ScanService;
 import com.xliic.openapi.platform.scan.config.ScanConfService;
@@ -65,6 +66,8 @@ public class CoreServiceFactory extends AbstractServiceFactory {
 			return new ScanService(PROJECT);
 		} else if (IScanConfService.class.equals(serviceInterface)) {
 			return new ScanConfService(PROJECT);
+		} else if (IGqlScanConfService.class.equals(serviceInterface)) {
+			return new GqlScanConfService(PROJECT);
 		} else if (ITerminalService.class.equals(serviceInterface)) {
 			return new TerminalService(PROJECT);
 		} else if (IEnvService.class.equals(serviceInterface)) {

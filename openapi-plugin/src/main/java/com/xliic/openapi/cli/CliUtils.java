@@ -35,6 +35,7 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.Endpoints;
 import com.xliic.openapi.graphql.GraphQlCliResult;
 import com.xliic.openapi.platform.PlatformConnection;
+import com.xliic.openapi.platform.scan.task.ScanCliTask;
 import com.xliic.openapi.report.AuditCliResult;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
@@ -42,9 +43,10 @@ import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
-
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+
+import static com.xliic.openapi.tags.TagsUtils.applyTags;
 
 public class CliUtils {
 
@@ -58,7 +60,7 @@ public class CliUtils {
                                                    @NotNull String currentVersion,
                                                    @NotNull String platform) throws Exception {
         try (Response response = CliAPIs.Sync.getManifest(repository)) {
-            try (ResponseBody body =  getResponseBody(response)) {
+            try (ResponseBody body = getResponseBody(response)) {
                 if (body != null && response.code() == 200) {
                     List<Map<String, String>> manifest = OBJECT_MAPPER.readValue(body.string(), List.class);
                     if (manifest != null) {
@@ -79,7 +81,7 @@ public class CliUtils {
     }
 
     @NotNull
-    public static GraphQlCliResult runGraphQlAuditWithCliBinary(@NotNull Project project, @NotNull String text) {
+    public static GraphQlCliResult runGraphQlAuditWithCliBinary(@NotNull Project project, @NotNull String text, @NotNull Set<String> tags) {
         try {
             VirtualFile dir = createTempDirectory(project, "graphql-audit");
             writeFile(project, dir, INPUT_GRAPHQL, text);
@@ -91,7 +93,10 @@ public class CliUtils {
                 "--output",
                 REPORT_JSON
             ));
-            final Map<String, String> env = new HashMap<>();
+            applyTags(args, tags);
+            applyFreemiumHost(args);
+            Map<String, String> env = new HashMap<>();
+            applyProxyAndCredentials(args, env);
             String output = ExecUtils.asyncExecFile(cli, args, dir, env, false);
             String report = FileUtils.readFile(dir, REPORT_JSON);
             removeFile(project, dir, REPORT_JSON);
@@ -131,32 +136,13 @@ public class CliUtils {
                 "--user-agent",
                 Utils.getUserAgent(),
                 "--enrich=false"));
-            if (SettingsService.getInstance().useDevEndpoints()) {
-                args.add("--freemium-host");
-                args.add(Endpoints.getCliFreemiumdHost());
-            }
             if (!isFullAudit) {
                 args.add("--is-operation");
             }
-            if (!tags.isEmpty()) {
-                args.add("--tag");
-                args.add(String.join(",", tags));
-            }
-            final Map<String, String> env = new HashMap<>();
-            final Credentials.Type type = Credentials.getCredentialsType();
-            String serverUrl;
-            if (type == Credentials.Type.AnondToken) {
-                args.add("--token");
-                args.add(Credentials.getAnonCredentials());
-                serverUrl = Endpoints.getFreemiumdUrl();
-            } else {
-                PlatformConnection con = PlatformConnection.getOptions();
-                env.put("API_KEY", con.getApiToken());
-                env.put("PLATFORM_HOST", con.getPlatformUrl());
-                serverUrl = con.getPlatformUrl();
-                Logger.getInstance(CliUtils.class).debug("Setting PLATFORM_HOST environment variable to: " + serverUrl);
-            }
-            setProxyEnv(env, serverUrl, null);
+            applyTags(args, tags);
+            applyFreemiumHost(args);
+            Map<String, String> env = new HashMap<>();
+            applyProxyAndCredentials(args, env);
             String output = ExecUtils.asyncExecFile(cli, args, dir, env);
             String report = FileUtils.readFile(dir, "report.json");
             String todo = FileUtils.readFile(dir, "todo.json");
@@ -168,10 +154,10 @@ public class CliUtils {
             removeDir(project, dir);
             return new AuditCliResult(report, todo, sqg, output);
         } catch (ExecUtils.ExecException ex) {
-        	Logger.getInstance(CliUtils.class).error("Error running Security Audit: " + ex);
+            Logger.getInstance(CliUtils.class).error("Error running Security Audit: " + ex);
             return new AuditCliResult(ex);
         } catch (IOException ex) {
-        	Logger.getInstance(CliUtils.class).error("Error running Security Audit: " + ex);
+            Logger.getInstance(CliUtils.class).error("Error running Security Audit: " + ex);
             return new AuditCliResult(ex.toString());
         }
     }
@@ -246,7 +232,7 @@ public class CliUtils {
         }
         return null;
     }
-    
+
     public static void setProxyEnv(@NotNull Map<String, String> env, @NotNull String backendUrl, @Nullable String apiUrl) {
         String backendProxy = getProxyString(backendUrl);
         if (backendProxy != null) {
@@ -277,7 +263,31 @@ public class CliUtils {
             }
         }
     }
-    
+
+    public static void applyProxyAndCredentials(@NotNull List<String> args, @NotNull Map<String, String> env) {
+        Credentials.Type type = Credentials.getCredentialsType();
+        String serverUrl;
+        if (type == Credentials.Type.AnondToken) {
+            args.add("--token");
+            args.add(Credentials.getAnonCredentials());
+            serverUrl = Endpoints.getFreemiumdUrl();
+        } else {
+            PlatformConnection con = PlatformConnection.getOptions();
+            env.put("API_KEY", con.getApiToken());
+            env.put("PLATFORM_HOST", con.getPlatformUrl());
+            serverUrl = con.getPlatformUrl();
+            Logger.getInstance(ScanCliTask.class).debug("Setting PLATFORM_HOST environment variable to: " + serverUrl);
+        }
+        setProxyEnv(env, serverUrl, env.get("SCAN42C_HOST"));
+    }
+
+    public static void applyFreemiumHost(@NotNull List<String> args) {
+        if (SettingsService.getInstance().useDevEndpoints()) {
+            args.add("--freemium-host");
+            args.add(Endpoints.getCliFreemiumdHost());
+        }
+    }
+
     private static URL getURL(String url) {
         try {
             return new URL(url);

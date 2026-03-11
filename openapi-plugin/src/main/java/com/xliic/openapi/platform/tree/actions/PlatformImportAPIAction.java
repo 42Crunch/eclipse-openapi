@@ -1,8 +1,9 @@
 package com.xliic.openapi.platform.tree.actions;
 
-import static com.xliic.openapi.tags.TagsUtils.getMandatoryTagIds;
+import static com.xliic.openapi.tags.TagsUtils.getMandatoryTags;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -23,6 +24,7 @@ import com.xliic.openapi.bundler.BundleError;
 import com.xliic.openapi.bundler.BundleResult;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.PlatformAPIs;
+import com.xliic.openapi.platform.Tag;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
@@ -80,7 +82,7 @@ public class PlatformImportAPIAction extends AnJAction implements DumbAware {
                             name = name.substring(0, name.lastIndexOf('.'));
                         }
                         try {
-                            Set<String> tagIds = getMandatoryTagIds();
+                        	Set<String> tagIds = getMandatoryTags(project).stream().map(Tag::getTagId).collect(Collectors.toSet());
                             PlatformAPIs.createAPI(collectionId, name, text, tagIds,
                                     new PlatformImportAPICallback(project, tree, collectionId, name, subRootDn));
                         } catch (Exception e) {

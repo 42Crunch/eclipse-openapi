@@ -6,7 +6,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class ScanFullRunConfig extends ScanRunConfig {
 
-    public ScanFullRunConfig(@NotNull String scanConfPath, @NotNull String config, @NotNull Map<String, String> env, @NotNull String rawOas) {
-        super("", "", "", scanConfPath, config, env, rawOas);
+    public ScanFullRunConfig(@NotNull String scanConfPath,
+                             @NotNull String config,
+                             @NotNull Map<String, String> env,
+                             @NotNull String rawOas,
+                             boolean isGraphQl) {
+        super("", "", "", scanConfPath, config, env, rawOas, isGraphQl);
     }
 }

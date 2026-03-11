@@ -13,18 +13,25 @@ import org.jetbrains.annotations.NotNull;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.SystemInfoRt;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.platform.scan.ScanService;
 import com.xliic.openapi.platform.scan.config.ScanRunConfig;
 import com.xliic.openapi.services.TerminalService;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.SettingsService;
 
 public class ScanDockerTask extends ScanRunTask {
 
 	private static final String DEFAULT_SHELL = "sh";
 
-    public ScanDockerTask(@NotNull Project project, @NotNull String tabId, @NotNull ScanRunConfig runConfig, @NotNull Callback callback) {
-        super(project, tabId, runConfig, callback);
-    }
+    public ScanDockerTask(@NotNull Project project,
+            @NotNull String tabId,
+            @NotNull ScanRunConfig runConfig,
+            @NotNull VirtualFile file,
+            @NotNull Credentials.Type type,
+            @NotNull Callback callback) {
+    	super(project, tabId, runConfig, file, type, callback);
+	}
 
     @Override
     protected void runScan(@NotNull ProgressIndicator progress,

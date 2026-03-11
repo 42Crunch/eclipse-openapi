@@ -329,6 +329,9 @@
             <service serviceClass="com.xliic.core.services.IScanConfService"></service>
         </serviceFactory>
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
+            <service serviceClass="com.xliic.core.services.IGqlScanConfService"></service>
+        </serviceFactory>
+        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
             <service serviceClass="com.xliic.core.services.ITerminalService"></service>
         </serviceFactory>
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">

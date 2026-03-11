@@ -14,6 +14,7 @@ import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.NamingConvention;
+import com.xliic.openapi.platform.Tag;
 import com.xliic.openapi.platform.callback.PlatformImportAPICallback;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
@@ -42,11 +43,24 @@ public class GraphQlUtils {
                     String message = body.getChildValue("message");
                     if ("109".equals(code) && "limit reached".equals(message)) {
                         throw new Exception(LIMIT_REACHED_MSG);
+                    } else {
+                        throw new Exception("Failed to create temporary api: code " + code + ", " + message);
                     }
                 }
             }
         }
         throw new Exception("Failed to create temporary api " + apiName);
+    }
+
+    public static void assignTags(@NotNull String apiId, @NotNull Tag tag) throws Exception {
+        try (Response response = GraphQlAPIs.assignTag(apiId, tag)) {
+            Node body = NetUtils.getBodyNodeIgnoreCode(response);
+            if (body != null) {
+                if (response.code() != 200) {
+                    throw new Exception("Failed to assign tag " + tag.getFullTagName() + " for " + apiId);
+                }
+            }
+        }
     }
 
     public static void goToLocationInFile(@NotNull Project project, @NotNull VirtualFile file, @NotNull String pointer) {

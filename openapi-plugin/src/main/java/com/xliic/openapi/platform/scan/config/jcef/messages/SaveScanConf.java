@@ -1,7 +1,5 @@
 package com.xliic.openapi.platform.scan.config.jcef.messages;
 
-import static com.xliic.openapi.platform.scan.config.jcef.JCEFScanConfPanel.SCAN_CONF_PATH;
-
 import java.io.IOException;
 import java.util.Map;
 
@@ -19,17 +17,20 @@ public class SaveScanConf extends WebAppProduce {
     private final Project project;
     @NotNull
     private final Map<String, Object> cache;
+    @NotNull
+    private final String scanConfPathKey;
 
-    public SaveScanConf(@NotNull Project project, @NotNull Map<String, Object> cache) {
+    public SaveScanConf(@NotNull Project project, @NotNull Map<String, Object> cache, @NotNull String scanConfPathKey) {
         super("saveScanconf");
         this.project = project;
         this.cache = cache;
+        this.scanConfPathKey = scanConfPathKey;
     }
 
     @Override
     public void run(@Nullable Object payload) {
         if (payload instanceof String) {
-            String scanConfPath = (String) cache.get(SCAN_CONF_PATH);
+            String scanConfPath = (String) cache.get(scanConfPathKey);
             try {
                 ScanConfigUtils.createScanConf(project, scanConfPath, (String) payload);
             } catch (IOException e) {

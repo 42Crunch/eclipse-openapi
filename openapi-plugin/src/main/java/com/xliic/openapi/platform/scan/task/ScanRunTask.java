@@ -5,23 +5,28 @@ import static com.xliic.openapi.settings.Settings.Platform.Scan.Docker.REPLACE_L
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
+import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.config.payload.PlatformServices;
 import com.xliic.openapi.environment.EnvService;
 import com.xliic.openapi.environment.Environment;
+import com.xliic.openapi.platform.Tag;
 import com.xliic.openapi.platform.scan.ScanConfiguration;
 import com.xliic.openapi.platform.scan.ScanGeneralError;
 import com.xliic.openapi.platform.scan.ScanLogger;
 import com.xliic.openapi.platform.scan.ScanUtils;
 import com.xliic.openapi.platform.scan.config.ScanRunConfig;
 import com.xliic.openapi.platform.scan.report.payload.ScanReport;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
+import com.xliic.openapi.tags.TagsUtils;
 import com.xliic.openapi.utils.Utils;
 
 public abstract class ScanRunTask extends Task.Backgroundable {
@@ -38,6 +43,10 @@ public abstract class ScanRunTask extends Task.Backgroundable {
     @NotNull
     protected final ScanRunConfig runConfig;
     @NotNull
+    private final VirtualFile file;
+    @NotNull
+    private final Credentials.Type type;
+    @NotNull
     protected final Callback callback;
     @NotNull
     protected final ScanLogger logger;
@@ -48,10 +57,17 @@ public abstract class ScanRunTask extends Task.Backgroundable {
         void cancel();
     }
 
-    public ScanRunTask(@NotNull Project project, @NotNull String tabId, @NotNull ScanRunConfig runConfig, @NotNull Callback callback) {
+    public ScanRunTask(@NotNull Project project, 
+    		           @NotNull String tabId, 
+    		           @NotNull ScanRunConfig runConfig, 
+    		           @NotNull VirtualFile file,
+    		           @NotNull Credentials.Type type,
+    		           @NotNull Callback callback) {
         super(project, "Running scan", false);
         this.project = project;
         this.runConfig = runConfig;
+        this.file = file;
+        this.type = type;
         this.callback = callback;
         logger = new ScanLogger(project, tabId);
     }
@@ -76,7 +92,8 @@ public abstract class ScanRunTask extends Task.Backgroundable {
         try {
             log(progress, "Starting API Conformance scan");
             collectionId = ScanUtils.findOrCreateTempCollection();
-            apiId = ScanUtils.createTempAPI(collectionId, runConfig.getRawOas());
+            Set<Tag> tags = TagsUtils.getTags(project, type, file.getPath());
+            apiId = ScanUtils.createTempAPI(collectionId, runConfig.getRawOas(), tags);
             log(progress, "Created temp API " + apiId + ", waiting for Security Audit");
             ScanUtils.auditTempAPI(getProject(), apiId);
             log(progress, "Security Audit check is successfull");

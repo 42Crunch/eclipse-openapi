@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -243,26 +245,28 @@ public class PlatformUtils {
     }
 
     @NotNull
-    public static List<Tag> getTags(boolean withOnlyAdminCanTag) {
+    public static List<Tag> getTags() {
         List<Tag> tags = new LinkedList<>();
         Map<String, Boolean> idToOnlyAdminCanTag = new HashMap<>();
-        if (withOnlyAdminCanTag) {
-            try (Response response = PlatformAPIs.Sync.getCategories()) {
-                Node body = NetUtils.getBodyNode(response);
-                if (body != null) {
-                    Node list = body.find("/list");
-                    if (list != null) {
-                        for (Node item : list.getChildren()) {
-                            String id = item.getChildValue("id");
-                            if (id != null) {
-                                boolean onlyAdminCanTag = item.getBooleanChildValue("onlyAdminCanTag");
-                                idToOnlyAdminCanTag.put(id, onlyAdminCanTag);
-                            }
+        Set<String> exclusiveCategoryIds = new HashSet<>();
+        try (Response response = PlatformAPIs.Sync.getCategories()) {
+            Node body = NetUtils.getBodyNode(response);
+            if (body != null) {
+                Node list = body.find("/list");
+                if (list != null) {
+                    for (Node item : list.getChildren()) {
+                        String id = item.getChildValue("id");
+                        if (id != null) {
+                            boolean onlyAdminCanTag = item.getBooleanChildValue("onlyAdminCanTag");
+                            idToOnlyAdminCanTag.put(id, onlyAdminCanTag);
+                        }
+                        if (item.getBooleanChildValue("isExclusive")) {
+                            exclusiveCategoryIds.add(id);
                         }
                     }
                 }
-            } catch (IOException ignored) {
             }
+        } catch (IOException ignored) {
         }
         try (Response response = PlatformAPIs.Sync.getTags()) {
             Node body = NetUtils.getBodyNode(response);
@@ -270,12 +274,16 @@ public class PlatformUtils {
                 Node list = body.find("/list");
                 if (list != null) {
                     for (Node item : list.getChildren()) {
-                    	String categoryId = item.getChildValueOrEmpty("categoryId");
+                        String categoryId = item.getChildValueOrEmpty("categoryId");
                         String categoryName = item.getChildValueOrEmpty("categoryName");
                         String tagName = item.getChildValueOrEmpty("tagName");
                         String tagId = item.getChildValueOrEmpty("tagId");
                         boolean onlyAdminCanTag = idToOnlyAdminCanTag.getOrDefault(categoryId, false);
-                        tags.add(new Tag(categoryName, tagName, tagId, onlyAdminCanTag));
+                        if (exclusiveCategoryIds.contains(categoryId)) {
+                            tags.add(new Tag(categoryName, tagName, tagId, categoryId, onlyAdminCanTag));
+                        } else {
+                            tags.add(new Tag(categoryName, tagName, tagId, null, onlyAdminCanTag));
+                        }
                     }
                 }
             }

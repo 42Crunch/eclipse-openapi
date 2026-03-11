@@ -22,6 +22,7 @@ public class ScanRunConfig {
     private final String rawOas;
     @NotNull
     private final String scanConfPath;
+    private final boolean isGraphQl;
 
     public ScanRunConfig(@NotNull String path,
                          @NotNull String method,
@@ -29,7 +30,8 @@ public class ScanRunConfig {
                          @NotNull String scanConfPath,
                          @NotNull String config,
                          @NotNull Map<String, String> env,
-                         @NotNull String rawOas) {
+                         @NotNull String rawOas,
+                         boolean isGraphQl) {
         this.path = path;
         this.method = method;
         this.operationId = operationId;
@@ -37,6 +39,7 @@ public class ScanRunConfig {
         this.config = config;
         this.env = env;
         this.rawOas = rawOas;
+        this.isGraphQl = isGraphQl;
     }
 
     public @NotNull String getPath() {
@@ -73,5 +76,9 @@ public class ScanRunConfig {
 
     public @NotNull String getScanConfPath() {
         return scanConfPath;
+    }
+
+    public boolean isGraphQl() {
+        return isGraphQl;
     }
 }
