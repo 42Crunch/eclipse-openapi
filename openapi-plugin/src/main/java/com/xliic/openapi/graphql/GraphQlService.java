@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
+import com.xliic.core.editor.Document;
+import com.xliic.core.fileEditor.FileDocumentManager;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -20,6 +22,8 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.graphql.task.GraphQlCliTask;
 import com.xliic.openapi.graphql.task.PlatformGraphQlAuditTask;
+import com.xliic.openapi.inlined.AnnotationService;
+import com.xliic.openapi.listeners.GqlDocumentListener;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.settings.Credentials;
@@ -40,6 +44,8 @@ public class GraphQlService implements IGraphQlService, Disposable {
     private final Map<String, TypeDefinitionRegistry> cache = new HashMap<>();
     @NotNull
     private final Map<String, Boolean> pendingAudits = new HashMap<>();
+    @NotNull
+    private final Map<String, GqlDocumentListener> gqlListenersMap = new HashMap<>();
 
     public interface GraphQlCallback {
         void complete(@NotNull Node report, @NotNull TypeDefinitionRegistry reg);
@@ -141,9 +147,38 @@ public class GraphQlService implements IGraphQlService, Disposable {
         return Boolean.TRUE.equals(pendingAudits.get(file.getPath()));
     }
 
+    public void onFileOpened(@NotNull VirtualFile file) {
+    	String fileName = file.getPath();
+        if (!gqlListenersMap.containsKey(fileName)) {
+            ApplicationManager.getApplication().runReadAction(() -> {
+                Document document = FileDocumentManager.getInstance().getDocument(file);
+                if (document != null) {
+                    AnnotationService.getInstance(project).install(file);
+                	GqlDocumentListener gqlListener = new GqlDocumentListener(project);
+                    gqlListenersMap.put(fileName, gqlListener);
+                    document.addDocumentListener(gqlListener);
+                }
+            });
+        }
+    }
+
+    public void onFileClosed(@NotNull VirtualFile file) {
+        GqlDocumentListener gqlListener = gqlListenersMap.remove(file.getPath());
+        if (gqlListener != null) {
+            ApplicationManager.getApplication().runReadAction(() -> {
+                Document document = FileDocumentManager.getInstance().getDocument(file);
+                if (document != null) {
+                    document.removeDocumentListener(gqlListener);
+                    AnnotationService.getInstance(project).uninstall(file);
+                }
+            });
+        }
+    }
+
     @Override
     public void dispose() {
         cache.clear();
         pendingAudits.clear();
+        gqlListenersMap.clear();
     }
 }

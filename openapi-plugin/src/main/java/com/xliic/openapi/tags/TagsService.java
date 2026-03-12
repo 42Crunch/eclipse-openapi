@@ -1,6 +1,7 @@
 package com.xliic.openapi.tags;
 
 import static com.xliic.openapi.webapp.editor.WebFileEditor.TAGS_EDITOR_ID;
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 
 import java.util.List;
 
@@ -72,13 +73,17 @@ public final class TagsService implements ITagsService, PersistentStateComponent
         hasApiTokenCredentials = (type == Credentials.Type.ApiToken);
         InlayHintsService inlayHintsService = InlayHintsService.getInstance(project);
         for (VirtualFile file : FileEditorManager.getInstance(project).getOpenFiles()) {
-            OpenApiFileType fileType = Utils.getFileType(file);
-            if (fileType != OpenApiFileType.Unsupported) {
-                OpenApiVersion version = ASTService.getOpenAPIVersion(project, file);
-                if (version != OpenApiVersion.Unknown) {
-                    inlayHintsService.restartHintsProvider(file.getPath());
+        	if (isGraphQl(file)) {
+        		inlayHintsService.restartHintsProvider(file.getPath());
+        	} else {
+                OpenApiFileType fileType = Utils.getFileType(file);
+                if (fileType != OpenApiFileType.Unsupported) {
+                    OpenApiVersion version = ASTService.getOpenAPIVersion(project, file);
+                    if (version != OpenApiVersion.Unknown) {
+                        inlayHintsService.restartHintsProvider(file.getPath());
+                    }
                 }
-            }
+        	}
         }
     }
 

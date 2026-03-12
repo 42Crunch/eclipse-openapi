@@ -29,6 +29,7 @@ import com.xliic.openapi.OpenApiFileType;
 import com.xliic.openapi.OpenApiVersion;
 import com.xliic.openapi.async.AsyncService;
 import com.xliic.openapi.async.AsyncTask;
+import com.xliic.openapi.graphql.GqlDfsHandler;
 import com.xliic.openapi.inlined.AnnotationService;
 import com.xliic.openapi.inlined.InlinedDfsHandler;
 import com.xliic.openapi.listeners.TreeDocumentListener;
@@ -40,6 +41,7 @@ import com.xliic.openapi.platform.dictionary.DictionaryDfsHandler;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.utils.Utils;
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 
 public class ASTService extends AsyncService implements IASTService, Disposable {
 
@@ -52,6 +54,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     private final Map<String, OpenApiVersion> versionCache;
     private final Map<String, TreeDocumentListener> astListenersMap;
     private final Set<String> knownOpenAPIFiles;
+    private final DfsHandler<?> gqlDfsHandler = new GqlDfsHandler(project);
     private final List<DfsHandler<?>> dfsHandlers;
 
     private final ParserJsonAST parserJsonAST = new ParserJsonAST();
@@ -119,7 +122,12 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
 
     @Override
     protected void documentChanged(AsyncTask task) {
-        parse(task.getFile(), task.getData(), true);
+    	VirtualFile file = task.getFile();
+    	if (isGraphQl(file)) {
+    		runDfs(file.getPath(), null, task.getData(), true);
+    	} else {
+    		parse(task.getFile(), task.getData(), true);
+    	}
     }
 
     @Override
@@ -189,7 +197,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
     protected void treeDfs(AsyncTask task) {
         VirtualFile file = task.getFile();
         Node root = cache.get(file.getPath());
-        runDfs(file.getPath(), root, task.getData());
+        runDfs(file.getPath(), root, task.getData(), isGraphQl(file));
         if (root != null) {
             ApplicationManager.getApplication().invokeLater(() -> {
                 if (!project.isDisposed()) {
@@ -217,7 +225,7 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
                 knownOpenAPIFiles.add(fileName);
             }
         }
-        runDfs(fileName, root, props);
+        runDfs(fileName, root, props, false);
         if (!astListenersMap.containsKey(fileName)) {
             ApplicationManager.getApplication().runReadAction(() -> {
                 Document document = FileDocumentManager.getInstance().getDocument(file);
@@ -339,15 +347,20 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         return (version == null) ? OpenApiVersion.Unknown : version;
     }
 
-    private void runDfs(String fileName, Node root, Map<String, Object> props) {
-        OpenApiVersion version = getOpenAPIVersion(fileName);
-        dfsHandlers.forEach(handler -> handler.init(fileName, version, props));
-        if (root == null) {
-            dfsHandlers.forEach(handler -> handler.finish(false));
-            return;
-        }
-        dfs(root);
-        dfsHandlers.forEach(handler -> handler.finish(true));
+    private void runDfs(String fileName, Node root, Map<String, Object> props, boolean isGraphQl) {
+    	if (isGraphQl) {
+    		gqlDfsHandler.init(fileName, null, props);
+    		gqlDfsHandler.finish(true);
+    	} else {
+            OpenApiVersion version = getOpenAPIVersion(fileName);
+            dfsHandlers.forEach(handler -> handler.init(fileName, version, props));
+            if (root == null) {
+                dfsHandlers.forEach(handler -> handler.finish(false));
+                return;
+            }
+            dfs(root);
+            dfsHandlers.forEach(handler -> handler.finish(true));
+    	}
     }
 
     private void dfs(Node node) {

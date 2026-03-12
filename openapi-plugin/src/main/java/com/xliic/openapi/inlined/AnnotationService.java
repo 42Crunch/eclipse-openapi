@@ -80,10 +80,13 @@ public final class AnnotationService implements IAnnotationService, FileListener
     }
 
     public void updateAnnotations(@NotNull PsiFile psiFile, @NotNull List<Object> payloads, boolean redraw) {
+    	updateAnnotations(psiFile.getVirtualFile(), payloads, redraw);
+    }
+
+    public void updateAnnotations(@NotNull VirtualFile file, @NotNull List<Object> payloads, boolean redraw) {
         if (!isAnnotationsEnabled) {
             return;
         }
-        VirtualFile file = psiFile.getVirtualFile();
         InlinedAnnotationSupport support = cache.get(file.getPath());
         if (support != null) {
             Set<Integer> offsets = new HashSet<>();
