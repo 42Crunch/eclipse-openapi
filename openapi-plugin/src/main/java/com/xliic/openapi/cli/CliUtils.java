@@ -1,6 +1,7 @@
 package com.xliic.openapi.cli;
 
 import static com.xliic.openapi.settings.Settings.Platform.Scan.PROXY;
+import static com.xliic.openapi.tags.TagsUtils.applyTags;
 import static com.xliic.openapi.utils.FileUtils.join;
 import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
@@ -43,10 +44,9 @@ import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
+
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-
-import static com.xliic.openapi.tags.TagsUtils.applyTags;
 
 public class CliUtils {
 

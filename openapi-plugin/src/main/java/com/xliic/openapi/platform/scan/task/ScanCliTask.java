@@ -1,13 +1,13 @@
 package com.xliic.openapi.platform.scan.task;
 
+import static com.xliic.openapi.cli.CliUtils.applyFreemiumHost;
+import static com.xliic.openapi.cli.CliUtils.applyProxyAndCredentials;
 import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
+import static com.xliic.openapi.tags.TagsUtils.applyTags;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.MsgUtils.notifyScansLimit;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
-import static com.xliic.openapi.cli.CliUtils.applyFreemiumHost;
-import static com.xliic.openapi.cli.CliUtils.applyProxyAndCredentials;
-import static com.xliic.openapi.tags.TagsUtils.applyTags;
 
 import java.io.File;
 import java.io.IOException;

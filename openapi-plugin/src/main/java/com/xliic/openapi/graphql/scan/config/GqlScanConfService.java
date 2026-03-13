@@ -1,5 +1,13 @@
 package com.xliic.openapi.graphql.scan.config;
 
+import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
+import static com.xliic.openapi.utils.Utils.turnOffVcsShowConfirmation;
+import static com.xliic.openapi.utils.Utils.turnOnVcsShowConfirmation;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.GQL_SCANCONF_EDITOR_ID;
+
+import org.apache.commons.io.FilenameUtils;
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.Disposable;
 import com.xliic.core.progress.ProgressManager;
 import com.xliic.core.project.Project;
@@ -23,13 +31,6 @@ import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
 import com.xliic.openapi.utils.WindowUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.jetbrains.annotations.NotNull;
-
-import static com.xliic.openapi.settings.Settings.Platform.Scan.RUNTIME_CLI;
-import static com.xliic.openapi.utils.Utils.turnOffVcsShowConfirmation;
-import static com.xliic.openapi.utils.Utils.turnOnVcsShowConfirmation;
-import static com.xliic.openapi.webapp.editor.WebFileEditor.GQL_SCANCONF_EDITOR_ID;
 
 public final class GqlScanConfService implements IGqlScanConfService, Disposable {
 

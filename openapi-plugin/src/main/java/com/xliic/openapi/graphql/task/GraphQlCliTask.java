@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.xliic.openapi.settings.Credentials;
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
@@ -15,6 +14,7 @@ import com.xliic.openapi.graphql.GraphQlCliResult;
 import com.xliic.openapi.graphql.GraphQlService;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.AuditService;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.tags.TagsUtils;
 import com.xliic.openapi.utils.Utils;
 

@@ -1,8 +1,8 @@
 package com.xliic.openapi.report.types;
 
-import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 import static com.xliic.openapi.report.types.IssueBuilder.ISSUES;
 import static com.xliic.openapi.report.types.IssueBuilder.WARNINGS;
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 
 import java.util.Comparator;
 import java.util.LinkedList;

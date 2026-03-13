@@ -2,11 +2,11 @@ package com.xliic.openapi.tags;
 
 import static com.xliic.openapi.platform.NamingConvention.TAGS_PATTERN;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,13 +14,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.xliic.openapi.settings.Credentials;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.NamingConvention;
 import com.xliic.openapi.platform.PlatformAPIs;
 import com.xliic.openapi.platform.Tag;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
+import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.settings.Settings;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.utils.MsgUtils;

@@ -1,22 +1,22 @@
 package com.xliic.openapi.platform.scan.config.task.update;
 
+import static com.xliic.openapi.cli.CliUtils.applyFreemiumHost;
+import static com.xliic.openapi.cli.CliUtils.applyProxyAndCredentials;
+import static com.xliic.openapi.tags.TagsUtils.applyTags;
 import static com.xliic.openapi.utils.FileUtils.removeDir;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
-import static com.xliic.openapi.cli.CliUtils.applyFreemiumHost;
-import static com.xliic.openapi.cli.CliUtils.applyProxyAndCredentials;
-import static com.xliic.openapi.tags.TagsUtils.applyTags;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 

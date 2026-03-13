@@ -1,7 +1,7 @@
 package com.xliic.openapi.tags;
 
-import static com.xliic.openapi.webapp.editor.WebFileEditor.TAGS_EDITOR_ID;
 import static com.xliic.openapi.utils.FileUtils.isGraphQl;
+import static com.xliic.openapi.webapp.editor.WebFileEditor.TAGS_EDITOR_ID;
 
 import java.util.List;
 

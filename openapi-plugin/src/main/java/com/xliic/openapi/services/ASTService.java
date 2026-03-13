@@ -1,5 +1,6 @@
 package com.xliic.openapi.services;
 
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 import static com.xliic.openapi.utils.Utils.getFileType;
 import static com.xliic.openapi.utils.Utils.getTextFromFile;
 
@@ -41,7 +42,6 @@ import com.xliic.openapi.platform.dictionary.DictionaryDfsHandler;
 import com.xliic.openapi.report.types.Audit;
 import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.utils.Utils;
-import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 
 public class ASTService extends AsyncService implements IASTService, Disposable {
 

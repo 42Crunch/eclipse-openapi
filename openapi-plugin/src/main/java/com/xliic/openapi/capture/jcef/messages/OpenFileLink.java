@@ -6,10 +6,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.fileEditor.OpenFileDescriptor;
+import com.xliic.core.ide.BrowserUtil;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
-import com.xliic.core.ide.BrowserUtil;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 public class OpenFileLink extends WebAppProduce {

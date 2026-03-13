@@ -1,9 +1,10 @@
 package com.xliic.openapi.graphql.scan.config.task;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.progress.Task;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class GqlScanConfTask extends Task.Backgroundable {
 

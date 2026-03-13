@@ -1,5 +1,29 @@
 package com.xliic.openapi.graphql.scan.config.task;
 
+import static com.xliic.openapi.cli.CliUtils.applyFreemiumHost;
+import static com.xliic.openapi.cli.CliUtils.applyProxyAndCredentials;
+import static com.xliic.openapi.tags.TagsUtils.applyTags;
+import static com.xliic.openapi.utils.FileUtils.removeDir;
+import static com.xliic.openapi.utils.FileUtils.removeFile;
+import static com.xliic.openapi.utils.FileUtils.writeFile;
+import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.xliic.core.progress.ProgressIndicator;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.LocalFileSystem;
@@ -11,21 +35,6 @@ import com.xliic.openapi.tags.TagsUtils;
 import com.xliic.openapi.utils.ExecUtils;
 import com.xliic.openapi.utils.FileUtils;
 import com.xliic.openapi.utils.Utils;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.*;
-
-import static com.xliic.openapi.cli.CliUtils.applyFreemiumHost;
-import static com.xliic.openapi.cli.CliUtils.applyProxyAndCredentials;
-import static com.xliic.openapi.tags.TagsUtils.applyTags;
-import static com.xliic.openapi.utils.FileUtils.*;
-import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 public class GqlScanCliConfTask extends GqlScanConfTask {
 

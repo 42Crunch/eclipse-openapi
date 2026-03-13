@@ -1,7 +1,9 @@
 package com.xliic.openapi.preview;
 
 import static com.xliic.openapi.preview.PreviewConfigurator.USER_PROP_QUERY_KEY;
-import static com.xliic.openapi.preview.PreviewUtils.*;
+import static com.xliic.openapi.preview.PreviewUtils.getCanonicalPathFromQuery;
+import static com.xliic.openapi.preview.PreviewUtils.getProjectIdFromQuery;
+import static com.xliic.openapi.preview.PreviewUtils.getSessionIdFromQuery;
 
 import java.io.File;
 import java.io.IOException;

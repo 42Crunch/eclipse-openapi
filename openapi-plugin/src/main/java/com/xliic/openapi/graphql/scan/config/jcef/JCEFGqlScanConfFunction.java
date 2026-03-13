@@ -1,5 +1,11 @@
 package com.xliic.openapi.graphql.scan.config.jcef;
 
+import static com.xliic.openapi.graphql.scan.config.jcef.JCEFGqlScanConfPanel.GQL_SCAN_CONF_PATH;
+
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.equo.chromium.swt.Browser;
 import com.xliic.core.project.Project;
 import com.xliic.openapi.environment.jcef.messages.ShowEnvWindow;
@@ -10,11 +16,6 @@ import com.xliic.openapi.preferences.jcef.messages.SavePreferences;
 import com.xliic.openapi.webapp.WebAppFunction;
 import com.xliic.openapi.webapp.http.SendHttpRequest;
 import com.xliic.openapi.webapp.messages.OpenLink;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-
-import static com.xliic.openapi.graphql.scan.config.jcef.JCEFGqlScanConfPanel.GQL_SCAN_CONF_PATH;
 
 public class JCEFGqlScanConfFunction extends WebAppFunction {
 

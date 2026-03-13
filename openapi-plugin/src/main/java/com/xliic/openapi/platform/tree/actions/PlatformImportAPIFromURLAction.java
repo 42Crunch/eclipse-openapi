@@ -1,8 +1,8 @@
 package com.xliic.openapi.platform.tree.actions;
 
+import static com.xliic.openapi.tags.TagsUtils.getMandatoryTags;
 import static com.xliic.openapi.utils.NetUtils.getHttpClient;
 import static com.xliic.openapi.utils.NetUtils.getResponseBody;
-import static com.xliic.openapi.tags.TagsUtils.getMandatoryTags;
 
 import java.util.Set;
 import java.util.stream.Collectors;
