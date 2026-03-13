@@ -15,6 +15,7 @@ import com.xliic.core.fileEditor.FileEditorManagerListener;
 import com.xliic.core.project.Project;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.async.AsyncTaskType;
+import com.xliic.openapi.graphql.GraphQlService;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.PlaceHolderService;
@@ -47,6 +48,9 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
                 }
             }
         }
+        if (isGraphQl(file)) {
+        	GraphQlService.getInstance(project).onFileOpened(file);
+        }
     }
 
     @Override
@@ -67,6 +71,7 @@ public class OpenApiFileEditorManagerListener implements FileEditorManagerListen
             astService.runAsyncTask(project, AsyncTaskType.ALL_FILES_CLOSED, file);
         }
         if (isGraphQl(file)) {
+        	GraphQlService.getInstance(project).onFileClosed(file);
             ApplicationManager.getApplication().invokeLater(() -> {
                 if (!project.isDisposed()) {
                     AuditService.getInstance(project).removeAuditReport(file.getPath());

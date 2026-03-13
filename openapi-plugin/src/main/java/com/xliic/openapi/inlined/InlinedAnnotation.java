@@ -1,5 +1,7 @@
 package com.xliic.openapi.inlined;
 
+import static com.xliic.openapi.utils.FileUtils.isGraphQl;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -22,6 +24,9 @@ import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.OpenAPIImages;
 import com.xliic.openapi.Operation;
 import com.xliic.openapi.bundler.BundleResult;
+import com.xliic.openapi.graphql.GraphQlService;
+import com.xliic.openapi.graphql.scan.config.GqlScanConfService;
+import com.xliic.openapi.graphql.scan.config.payload.GqlScanConfOperation;
 import com.xliic.openapi.platform.scan.config.ScanConfService;
 import com.xliic.openapi.platform.scan.config.payload.ScanConfOperation;
 import com.xliic.openapi.report.payload.AuditOperation;
@@ -97,7 +102,10 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
             }
         } else if (annotationId == SCAN_ID) {
             ScanConfOperation scanConfOp = (ScanConfOperation) operations.get(SCAN_ID);
-            if (scanConfOp instanceof ScanConfOperation) {
+            if (scanConfOp instanceof GqlScanConfOperation) {
+                VirtualFile file = scanConfOp.getPsiFile().getVirtualFile();
+                GqlScanConfService.getInstance(project).scanConfActionPerformed(file, (GqlScanConfOperation) scanConfOp);
+            } else if (scanConfOp instanceof ScanConfOperation) {
                 VirtualFile file = scanConfOp.getPsiFile().getVirtualFile();
                 ScanConfService.getInstance(project).scanConfActionPerformed(file, scanConfOp);
             }
@@ -105,7 +113,11 @@ public class InlinedAnnotation extends LineHeaderAnnotation {
             AuditOperation auditOp = (AuditOperation) operations.get(AUDIT_ID);
             if (auditOp instanceof AuditOperation) {
                 VirtualFile file = auditOp.getPsiFile().getVirtualFile();
-                AuditService.getInstance(project).actionPerformed(project, file, auditOp);
+                if (isGraphQl(file)) {
+                	GraphQlService.getInstance(project).actionPerformedForGraphQl(project, file);
+                } else {
+                	AuditService.getInstance(project).actionPerformed(project, file, auditOp);
+                }
             }
         }
     }
