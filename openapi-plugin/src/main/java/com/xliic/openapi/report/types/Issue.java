@@ -4,6 +4,8 @@ import static com.xliic.openapi.utils.FileUtils.isGraphQl;
 
 import java.io.File;
 import java.net.URI;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
@@ -16,20 +18,16 @@ import com.xliic.core.vfs.LocalFileSystem;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.bundler.BundleLocation;
 import com.xliic.openapi.bundler.BundleResult;
-import com.xliic.openapi.graphql.GraphQlService;
-import com.xliic.openapi.graphql.locator.GraphQlHandler;
-import com.xliic.openapi.graphql.locator.GraphQlPosition;
 import com.xliic.openapi.parser.ast.Range;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.ASTService;
 import com.xliic.openapi.services.BundleService;
 
-import graphql.schema.idl.TypeDefinitionRegistry;
-
 public class Issue {
 
     private static final String SCORE_ZERO = "0";
     private static final String SCORE_LTO = "less than 1";
+    private static final String GQL_DEFAULT_LOCATION = "1,1,1,2";
 
     @NotNull
     private final Project project;
@@ -86,20 +84,53 @@ public class Issue {
     private void finalizeGraphQlInReadAction() {
         fileName = auditFileName;
         disposeRangeMarker();
-        TypeDefinitionRegistry reg = GraphQlService.getInstance(project).getTypeDefinitionRegistry(fileName);
-        if (reg != null) {
-            VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
-            if (file != null) {
-                Document document = FileDocumentManager.getInstance().getDocument(file);
-                if (document != null) {
-                    GraphQlPosition pos = new GraphQlHandler(reg).getPosition(pointer);
-                    if (pos != null) {
-                        range = GraphQlHandler.getRange(document, pos);
-                        rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+        VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(fileName));
+        if (file != null) {
+            Document document = FileDocumentManager.getInstance().getDocument(file);
+            if (document != null) {
+                range = getRangeByGqlLocation(document, pointer);
+                if (range == null) {
+                    range = getRangeByGqlLocation(document, GQL_DEFAULT_LOCATION);
+                }
+                if (range != null) {
+                    rangeMarker = document.createRangeMarker(range.getStartOffset(), range.getEndOffset());
+                }
+            }
+        }
+    }
+    
+    private static Range getRangeByGqlLocation(Document document, String pointer) {
+        if (!pointer.isEmpty()) {
+            String[] values = pointer.split(",");
+            if (values.length == 4) {
+                List<Integer> ints = new LinkedList<>();
+                for (String value : values) {
+                    try {
+                        int intValue = Math.abs(Integer.parseInt(value)) - 1;
+                        if (intValue < 0) {
+                            ints.clear();
+                            break;
+                        }
+                        ints.add(intValue);
+                    } catch (NumberFormatException ignored) {
+                        ints.clear();
+                        break;
+                    }
+                }
+                if (ints.size() == 4) {
+                    int startLine = ints.get(0);
+                    int startCol = ints.get(1);
+                    int endLine = ints.get(2);
+                    int endCol = ints.get(3);
+                    int startOffset = document.getLineStartOffset(startLine) + startCol;
+                    int endOffset = document.getLineStartOffset(endLine) + endCol;
+                    if (startOffset < endOffset) {
+                        return new Range(startOffset, endOffset, startLine, startCol);
                     }
                 }
             }
         }
+        return null;
     }
 
     private void finalizeOasInReadAction() {

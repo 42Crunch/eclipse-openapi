@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.Disposable;
 import com.xliic.core.application.ApplicationManager;
@@ -33,21 +32,17 @@ import com.xliic.openapi.topic.AuditListener;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.WindowUtils;
 
-import graphql.schema.idl.TypeDefinitionRegistry;
-
 public class GraphQlService implements IGraphQlService, Disposable {
 
     @NotNull
     private final Project project;
-    @NotNull
-    private final Map<String, TypeDefinitionRegistry> cache = new HashMap<>();
     @NotNull
     private final Map<String, Boolean> pendingAudits = new HashMap<>();
     @NotNull
     private final Map<String, GqlDocumentListener> gqlListenersMap = new HashMap<>();
 
     public interface GraphQlCallback {
-        void complete(@NotNull Node report, @NotNull TypeDefinitionRegistry reg);
+        void complete(@NotNull Node report);
         void reject(@NotNull String error);
     }
 
@@ -86,9 +81,8 @@ public class GraphQlService implements IGraphQlService, Disposable {
         final GraphQlCallback callback = new GraphQlCallback() {
 
             @Override
-            public void complete(@NotNull Node report, @NotNull TypeDefinitionRegistry reg) {
+            public void complete(@NotNull Node report) {
                 pendingAudits.remove(file.getPath());
-                cache.put(file.getPath(), reg);
                 AuditService.getInstance(project).processAuditReport(file, report, null, null);
             }
 
@@ -137,11 +131,6 @@ public class GraphQlService implements IGraphQlService, Disposable {
         });
     }
 
-    @Nullable
-    public TypeDefinitionRegistry getTypeDefinitionRegistry(@NotNull String file) {
-        return cache.get(file);
-    }
-
     public boolean isGraphQlAuditAlreadyInProgress(@NotNull VirtualFile file) {
         return Boolean.TRUE.equals(pendingAudits.get(file.getPath()));
     }
@@ -176,7 +165,6 @@ public class GraphQlService implements IGraphQlService, Disposable {
 
     @Override
     public void dispose() {
-        cache.clear();
         pendingAudits.clear();
         gqlListenersMap.clear();
     }

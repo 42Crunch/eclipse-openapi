@@ -1,3 +1,0 @@
-Query.searchUsers(): [User!]!
-Query.getUser().User.email: String
-Query.searchUsers()[0].User.email: String

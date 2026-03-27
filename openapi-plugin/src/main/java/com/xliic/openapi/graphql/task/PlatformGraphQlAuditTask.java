@@ -22,9 +22,6 @@ import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.utils.Utils;
 
-import graphql.schema.idl.SchemaParser;
-import graphql.schema.idl.TypeDefinitionRegistry;
-
 public class PlatformGraphQlAuditTask extends Task.Backgroundable {
 
     private static final int PAUSE = 1000;
@@ -79,9 +76,7 @@ public class PlatformGraphQlAuditTask extends Task.Backgroundable {
                 return;
             }
             Node report = Utils.getJsonAST(new String(Base64.getDecoder().decode(data)));
-            SchemaParser schemaParser = new SchemaParser();
-            TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(text);
-            callback.complete(Objects.requireNonNull(report), typeDefinitionRegistry);
+            callback.complete(Objects.requireNonNull(report));
         } catch (Exception e) {
             if (e instanceof AuditService.KdbException) {
                 callback.reject(e.getMessage());

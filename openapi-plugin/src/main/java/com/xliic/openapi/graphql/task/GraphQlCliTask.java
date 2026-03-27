@@ -18,9 +18,6 @@ import com.xliic.openapi.settings.Credentials;
 import com.xliic.openapi.tags.TagsUtils;
 import com.xliic.openapi.utils.Utils;
 
-import graphql.schema.idl.SchemaParser;
-import graphql.schema.idl.TypeDefinitionRegistry;
-
 public class GraphQlCliTask extends Task.Backgroundable {
 
     private static final String RUNNING_GRAPHQL_AUDIT = "Running graphql audit using 42Crunch API security testing binary";
@@ -62,9 +59,7 @@ public class GraphQlCliTask extends Task.Backgroundable {
                 return;
             }
             Node report = Utils.getJsonAST(Objects.requireNonNull(result.getReport()));
-            SchemaParser schemaParser = new SchemaParser();
-            TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(text);
-            callback.complete(Objects.requireNonNull(report), typeDefinitionRegistry);
+            callback.complete(Objects.requireNonNull(report));
         } catch (Exception e) {
             callback.reject(e instanceof AuditService.KdbException ? e.getMessage() : ERROR_MSG + e);
         } finally {

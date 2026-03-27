@@ -22,8 +22,8 @@ public class IssueBuilder {
     private static final String DESCRIPTION = "description";
     private static final String SCORE = "score";
     private static final String CRITICALITY = "criticality";
-    private static final String LOCATION = "location";
     private static final String OCCURRENCES = "occurrences";
+    private static final String ABSOLUTE_LOCATION = "absoluteLocation";
 
     @NotNull
     private final Project project;
@@ -61,12 +61,14 @@ public class IssueBuilder {
                 }
                 Node occurrences = issueNode.getChildRequireNonNull(OCCURRENCES);
                 for (Node occNode : occurrences.getChildren()) {
-                    String locOrIndex = Objects.requireNonNullElse(occNode.getChildValue(LOCATION), "");
-                    String location = getLocation(locOrIndex);
-                    if (location == null) {
-                        // Must not happen if graphql report is valid
-                        continue;
+                    List<String> locValues = new LinkedList<>();
+                    Node absLocNode = occNode.getChild(ABSOLUTE_LOCATION);
+                    if (absLocNode != null) {
+                        for (Node child : absLocNode.getChildren()) {
+                            locValues.add(child.getValue());
+                        }
                     }
+                    String location = locValues.isEmpty() ? "" : String.join(",", locValues);
                     float score = getScore(occNode);
                     // GraphQL report doesn't contain criticality property
                     // Set default value to consider all issues as high severity ones
@@ -100,20 +102,6 @@ public class IssueBuilder {
         	Logger.getInstance(IssueBuilder.class).error(e);
         }
         return issues;
-    }
-
-    private String getLocation(String locOrIndex) {
-        try {
-            // New format where location = index number
-            int index = Integer.parseInt(locOrIndex);
-            if (index < 0 || index >= pointers.size()) {
-                return null;
-            }
-            return pointers.get(index);
-        } catch (NumberFormatException e) {
-            // Old format where location is a real string location
-            return locOrIndex;
-        }
     }
 
     private String getPointer(Node node) {
