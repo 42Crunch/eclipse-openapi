@@ -89,7 +89,10 @@ public class ASTService extends AsyncService implements IASTService, Disposable 
         return project.getService(ASTService.class);
     }
 
-    public static @NotNull OpenApiVersion getOpenAPIVersion(@NotNull Project project, @NotNull VirtualFile file) {
+    public static @NotNull OpenApiVersion getOpenAPIVersion(@NotNull Project project, @Nullable VirtualFile file) {
+        if (file == null) {
+            return OpenApiVersion.Unknown;
+        }
         return getOpenAPIVersion(project, file.getPath());
     }
 

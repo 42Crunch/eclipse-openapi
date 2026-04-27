@@ -26,8 +26,6 @@ import com.xliic.openapi.report.types.AuditToDoReport;
 import com.xliic.openapi.services.AuditService;
 import com.xliic.openapi.services.BundleService;
 import com.xliic.openapi.settings.Credentials;
-import com.xliic.openapi.settings.Settings;
-import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tags.TagsUtils;
 import com.xliic.openapi.utils.MsgUtils;
 import com.xliic.openapi.utils.Utils;
@@ -84,11 +82,6 @@ public class AuditCliTask extends Task.Backgroundable {
             AuditService.getInstance(project).downloadArticles(progress);
             boolean isFullAudit = operation == null;
             String text = isFullAudit ? bundle.getJsonText() : extractSingleOperation(operation.getPath(), operation.getMethod(), bundle);
-            String token = SettingsService.getInstance().getValue(Settings.Audit.TOKEN);
-            if (token == null) {
-                callback.reject("Security audit token is not set");
-                return;
-            }
             Set<String> tags = TagsUtils.getFullTagNames(project, type, file.getPath());
             AuditCliResult result = CliUtils.runAuditWithCliBinary(project, text, tags, isFullAudit, progress);
             if (result.hasError()) {

@@ -54,6 +54,7 @@ public class CliBinaryTask extends Task.Backgroundable {
                             Files.copy(Path.of(tempCliPath), path, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
                         } catch (Exception ex) {
                             callback.reject("Failed to copy to " + cliPath + " " + ex);
+                            return;
                         }
                         String os = Utils.getOs();
                         if (!"win32".equals(os)) {
@@ -61,6 +62,7 @@ public class CliBinaryTask extends Task.Backgroundable {
                                 Files.setPosixFilePermissions(path, PosixFilePermissions.fromString("rwxr-xr-x"));
                             } catch (Exception ex) {
                                 callback.reject("Failed to set executable permissions on " + cliPath + " " + ex);
+                                return;
                             }
                         }
                         callback.complete(cliPath);
