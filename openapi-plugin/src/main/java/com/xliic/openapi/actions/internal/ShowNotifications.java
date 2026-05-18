@@ -34,8 +34,6 @@ public class ShowNotifications extends AnAction implements DumbAware {
         // Test notification balloons
         DictionaryUtils.suggestAlwaysUpdate(project);
         DictionaryUtils.suggestNeverUpdate(project);
-   		MsgUtils.notifyAuditsLimit(project, 10);
-   		MsgUtils.notifyScansLimit(project, 15);
    		MsgUtils.notifyError(project, "Random error text " + RandomStringUtils.random(50, true, false));
    		MsgUtils.notifyInfo(project, "Random info text " + RandomStringUtils.random(100, true, false));
    		NotificationGroupManager.getInstance().getNotificationGroup("").createNotification(
