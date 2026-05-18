@@ -1,4 +1,4 @@
-import { c as i, u as s, b as l } from "./TriangleExclamation.BLKAXJ8l.js";
+import { c as s, u as i, b as l } from "./TriangleExclamation.BLKAXJ8l.js";
 const c = {
   ready: !1,
   data: {
@@ -43,7 +43,8 @@ const c = {
     internalUseDevEndpoints: !1,
     internalFeatures: !1,
     internalDisableLogRedaction: !1,
-    internalRegisterMcp: !1
+    internalRegisterMcp: !1,
+    host: "vscode"
   },
   platformConnectionTestResult: void 0,
   waitingForPlatformConnectionTest: !1,
@@ -69,7 +70,7 @@ const c = {
     "internal-settings": void 0
   },
   hasErrors: !1
-}, a = i({
+}, a = s({
   name: "config",
   initialState: c,
   reducers: {
@@ -157,7 +158,7 @@ const {
   downloadCli: M,
   showCliDownload: E,
   openLink: H
-} = a.actions, k = s, O = l, x = a.reducer;
+} = a.actions, k = i, O = l, x = a.reducer;
 export {
   S as a,
   P as b,

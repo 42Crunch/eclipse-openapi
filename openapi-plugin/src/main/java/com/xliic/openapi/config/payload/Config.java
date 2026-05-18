@@ -61,6 +61,8 @@ public class Config {
     private final String cliDirectoryOverride;
     @NotNull
     private final String auditRuntime;
+    @NotNull
+    private final String host;
     private final boolean internalFeatures;
     private final boolean internalUseDevEndpoints;
     private final boolean internalDisableLogRedaction;
@@ -100,6 +102,7 @@ public class Config {
         internalUseDevEndpoints = settingsService.getValue(INTERNAL_USE_DEV_ENDPOINTS, false);
         internalDisableLogRedaction = settingsService.getValue(INTERNAL_DISABLE_LOG_REDACTION, false);
         internalRegisterMcp = settingsService.getValue(INTERNAL_REGISTER_MCP, false);
+        host = "eclipse";
     }
 
     public @NotNull String getPlatformUrl() {
@@ -210,7 +213,11 @@ public class Config {
     public @NotNull String getAuditRuntime() {
         return auditRuntime;
     }
-    
+
+    public @NotNull String getHost() {
+        return host;
+    }
+
     public boolean isInternalFeatures() {
         return internalFeatures;
     }

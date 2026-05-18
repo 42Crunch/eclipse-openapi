@@ -88,17 +88,6 @@ public class AuditCliResult {
     public int getStatusCode() {
         return statusCode;
     }
-
-    public long getRemainingPerOperationAudit() {
-        Node out = Utils.getJsonAST(stdOut);
-        if (out != null) {
-            String value = out.getChildValue("remainingPerOperationAudit");
-            if (value != null) {
-                return Long.parseLong(value);
-            }
-        }
-        return Long.MAX_VALUE;
-    }
     
     public boolean isLimitsReached() {
         Node out = Utils.getJsonAST(stdOut);

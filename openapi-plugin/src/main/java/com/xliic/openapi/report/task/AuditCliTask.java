@@ -2,7 +2,6 @@ package com.xliic.openapi.report.task;
 
 import static com.xliic.openapi.services.AuditService.RUNNING_SECURITY_AUDIT_CLI;
 import static com.xliic.openapi.tryit.TryItUtils.extractSingleOperation;
-import static com.xliic.openapi.utils.MsgUtils.notifyAuditsLimit;
 
 import java.util.Map;
 import java.util.Objects;
@@ -94,9 +93,6 @@ public class AuditCliTask extends Task.Backgroundable {
                     callback.reject("Unexpected error running API Security Testing Binary Audit: " + result);
                 }
                 return;
-            }
-            if (result.getRemainingPerOperationAudit() < UPGRADE_WARN_LIMIT) {
-                notifyAuditsLimit(project, result.getRemainingPerOperationAudit());
             }
             Node report = Utils.getJsonAST(Objects.requireNonNull(result.getReport()));
             AuditToDoReport todo = getAuditToDoReport(result.getTodo());

@@ -2,11 +2,9 @@ package com.xliic.openapi.platform.scan.task;
 
 import static com.xliic.openapi.cli.CliUtils.applyFreemiumHost;
 import static com.xliic.openapi.cli.CliUtils.applyProxyAndCredentials;
-import static com.xliic.openapi.report.task.AuditCliTask.UPGRADE_WARN_LIMIT;
 import static com.xliic.openapi.tags.TagsUtils.applyTags;
 import static com.xliic.openapi.utils.FileUtils.removeFile;
 import static com.xliic.openapi.utils.FileUtils.writeFile;
-import static com.xliic.openapi.utils.MsgUtils.notifyScansLimit;
 import static com.xliic.openapi.utils.TempFileUtils.createTempDirectory;
 
 import java.io.File;
@@ -141,13 +139,6 @@ public class ScanCliTask extends Task.Backgroundable {
                 String output = ExecUtils.asyncExecFile(cli, args, scanTmpDir, env);
                 Node out = Utils.getJsonAST(output);
                 if (out != null) {
-                	String value = out.getChildValue("remainingPerOperationScan");
-                    if (value != null) {
-                        long remainingValue = Long.parseLong(value);
-                        if (remainingValue < UPGRADE_WARN_LIMIT) {
-                            notifyScansLimit(project, remainingValue);
-                        }
-                    }
                     Node scanLogs = out.getChild("scanLogs");
                     if (scanLogs != null) {
                         for (Node logNode : scanLogs.getChildren()) {

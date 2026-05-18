@@ -1,5 +1,5 @@
 import { j as t, v as Gt, f as w, e as g, T as h, S as tt, R as nt, w as O, i as ne, d as Lt, s as Vt, x as rt, y as ot, z as st, A as at, D as it, C as ct, O as lt, E as dt, F as Ut, B as Wt, G as Yt, g as _t, P as Jt, h as Xt, N as Kt, k as Qt } from "./TriangleExclamation.BLKAXJ8l.js";
-import { i as E, D as Zt, p as He, u as ut, w as pt, S as en, a as tn, b as nn, c as rn, d as on, E as sn, R as an, e as le, F as Pe, f as q, g as I, s as Ie, r as M, h as z, m as F, j as B, k as H, T as se, l as ht, C as $, n as ae, o as ft, B as te, q as gt, t as Ce, v as mt, x as de, y as xt, z as Oe, A as cn, G as ln, H as me, I as dn, J as un, K as pn, L as Re, M as hn, N as vt, O as ke, P as bt, Q as fn, U as gn, V as mn, W as xn, X as vn, Y as bn, Z as yn, _ as jn, $ as Sn, a0 as wn, a1 as In, a2 as Cn, a3 as On, a4 as kn, a5 as Tn, a6 as Ae, a7 as Ee, a8 as Dn, a9 as qn, aa as Me, ab as $n, ac as Pn, ad as ze, ae as yt, af as Rn, ag as Te, ah as jt, ai as St, aj as wt, ak as It, al as An, am as En, an as Ct, ao as Ot, ap as Mn, aq as zn, ar as ee, as as kt, at as Tt, au as Dt, av as Fn, aw as Bn, ax as Hn, ay as Nn, az as Gn, aA as Ln, aB as xe, aC as Ne, aD as Vn, aE as Un, aF as Wn, aG as Yn, aH as _n, aI as Jn, aJ as Xn, aK as Kn } from "./UpdatePrompt.BvaPN4uk.js";
+import { i as E, D as Zt, p as He, u as ut, w as pt, S as en, a as tn, b as nn, c as rn, d as on, E as sn, R as an, e as le, F as Pe, f as q, g as I, s as Ie, r as M, h as z, m as F, j as B, k as H, T as se, l as ht, C as $, n as ae, o as ft, B as te, q as gt, t as Ce, v as mt, x as de, y as xt, z as Oe, A as cn, G as ln, H as me, I as dn, J as un, K as pn, L as Re, M as hn, N as vt, O as ke, P as bt, Q as fn, U as gn, V as mn, W as xn, X as vn, Y as bn, Z as yn, _ as jn, $ as Sn, a0 as wn, a1 as In, a2 as Cn, a3 as On, a4 as kn, a5 as Tn, a6 as Ae, a7 as Ee, a8 as Dn, a9 as qn, aa as Me, ab as $n, ac as Pn, ad as ze, ae as yt, af as Rn, ag as Te, ah as jt, ai as St, aj as wt, ak as It, al as An, am as En, an as Ct, ao as Ot, ap as Mn, aq as zn, ar as ee, as as kt, at as Tt, au as Dt, av as Fn, aw as Bn, ax as Hn, ay as Nn, az as Gn, aA as Ln, aB as xe, aC as Ne, aD as Vn, aE as Un, aF as Wn, aG as Yn, aH as _n, aI as Jn, aJ as Xn, aK as Kn } from "./UpdatePrompt.8u08_Y_L.js";
 import { a as re } from "./SearchSidebar.CtwbvK_x.js";
 import { o as ue, d as Qn, s as C, a as Ge, l as Le, F as pe, c as Ve } from "./schemas.BH6uGBRD.js";
 import { u as qt, b as Zn, c as er, a as tr, d as nr, F as rr } from "./index.esm.MIM2ge_D.js";
@@ -3479,11 +3479,11 @@ function Ze(n) {
       children: "What is API Conformance Scan"
     }), `
 `, t.jsx(e.p, {
-      children: `API Conformance Scan is a dynamic API testing tool designed to ensure that your API implementation aligns with its OpenAPI/Swagger definition.
+      children: `API Conformance Scan is a dynamic API testing tool designed to ensure that your API implementation aligns with its OpenAPI/Swagger definition.\r
 By comparing the documented API specification with the actual implementation, Scan helps you identify any discrepancies or inconsistencies.`
     }), `
 `, t.jsx(e.p, {
-      children: `To achieve this, Scan generates a multitude of requests that deviate from the declared OpenAPI file and sends them to your server.
+      children: `To achieve this, Scan generates a multitude of requests that deviate from the declared OpenAPI file and sends them to your server.\r
 The tool then evaluates each response, providing insights into how well your API implementation matches its documented counterpart.`
     }), `
 `, t.jsx(e.h2, {
@@ -3502,18 +3502,18 @@ The tool then evaluates each response, providing insights into how well your API
       children: "Default configuration"
     }), `
 `, t.jsx(e.p, {
-      children: `When you run Scan for the first time, it generates a default configuration for your OpenAPI file.
+      children: `When you run Scan for the first time, it generates a default configuration for your OpenAPI file.\r
 This initial setup produces a set of "happy path" requests, one for every operation defined in your OpenAPI specification.`
     }), `
 `, t.jsx(e.p, {
       children: 'The contents of each "happy path" request is available to you in the "Operations" tab of the Scan UI.'
     }), `
 `, t.jsx(e.p, {
-      children: `These "happy path" requests serve as the foundation for testing, establishing a reliable baseline of expected behavior for each operation.
+      children: `These "happy path" requests serve as the foundation for testing, establishing a reliable baseline of expected behavior for each operation.\r
 At the start of a test for each operation Scan expects to successfully execute a "happy path" request before running the rest of the test.`
     }), `
 `, t.jsx(e.p, {
-      children: `This default configuration is suitable for simple operations; however, more complex operations may require customizations
+      children: `This default configuration is suitable for simple operations; however, more complex operations may require customizations\r
 to ensure effective testing.`
     }), `
 `, t.jsx(e.h2, {
@@ -3523,22 +3523,22 @@ to ensure effective testing.`
       children: "Operations"
     }), `
 `, t.jsx(e.p, {
-      children: `You can change the default happy path requests by modifying their payloads within the Operations tab.
-Additionally, you can configure authentication details and fine-tune the body and parameters
+      children: `You can change the default happy path requests by modifying their payloads within the Operations tab.\r
+Additionally, you can configure authentication details and fine-tune the body and parameters\r
 of each operation either directly or utilize variable expressions.`
     }), `
 `, t.jsx(e.h3, {
       children: "Scenarios"
     }), `
 `, t.jsx(e.p, {
-      children: `When your API operation relies on pre-existing resources or requires post-execution cleanup,
-Scenarios come into play. This is particularly useful when you need to set up certain conditions
+      children: `When your API operation relies on pre-existing resources or requires post-execution cleanup,\r
+Scenarios come into play. This is particularly useful when you need to set up certain conditions\r
 before executing an operation and then tear them down afterwards.`
     }), `
 `, t.jsx(e.p, {
-      children: `A great example of this is the "update user" operation, which updates a user object.
-Before calling this operation, you'd typically want to ensure that the user object exists and after the update, remove it.
-Scenarios enable you to achieve this by adding operations to the "Before" block (e.g., creating the user),
+      children: `A great example of this is the "update user" operation, which updates a user object.\r
+Before calling this operation, you'd typically want to ensure that the user object exists and after the update, remove it.\r
+Scenarios enable you to achieve this by adding operations to the "Before" block (e.g., creating the user),\r
 using the resulting resource in the happy path of the scenario, and then performing cleanup in the "After" block (e.g., deleting the user).`
     }), `
 `, t.jsx(e.p, {
@@ -3554,15 +3554,15 @@ using the resulting resource in the happy path of the scenario, and then perform
       children: 'To facilitate this process, the Scan UI provides a "Try" feature.'
     }), `
 `, t.jsx(e.p, {
-      children: `When you click "Try" on an Operation or Scenario, the Scan UI will send relevant requests to the server and allow
+      children: `When you click "Try" on an Operation or Scenario, the Scan UI will send relevant requests to the server and allow\r
 you to inspect the details of the payload sent and the response received.`
     }), `
 `, t.jsx(e.h2, {
       children: "Starting the Scan"
     }), `
 `, t.jsx(e.p, {
-      children: `You can initiate scanning from the "Operations" tab in the Scan UI, where you have two options to do that:
-scan the entire API by clicking the "Scan all operations" button at the bottom of the list,
+      children: `You can initiate scanning from the "Operations" tab in the Scan UI, where you have two options to do that:\r
+scan the entire API by clicking the "Scan all operations" button at the bottom of the list,\r
 or click the "Scan" button at the top of a currently selected operation to test just that one operation.`
     }), `
 `, t.jsx(e.h1, {
@@ -3572,25 +3572,25 @@ or click the "Scan" button at the top of a currently selected operation to test 
       children: "Operations"
     }), `
 `, t.jsx(e.p, {
-      children: `Operations tab shows all operations defined in your OpenAPI file. Details of a request configured in this tab are used as a "happy path" request,
+      children: `Operations tab shows all operations defined in your OpenAPI file. Details of a request configured in this tab are used as a "happy path" request,\r
 if not overriden by a Scenario for this request.`
     }), `
 `, t.jsxs(e.p, {
-      children: [`You can edit details of a request body and parameters by editing them here.
+      children: [`You can edit details of a request body and parameters by editing them here.\r
 You can also use variable expressions (such as `, t.jsx(e.code, {
         children: "{{name}}"
-      }), `) to substitute parameters or parts of
+      }), `) to substitute parameters or parts of\r
 the body with values from a variables.`]
     }), `
 `, t.jsx(e.h3, {
       children: "Environment"
     }), `
 `, t.jsx(e.p, {
-      children: `The Environment tab in each Operation allows you to define variables that can be used in variable
+      children: `The Environment tab in each Operation allows you to define variables that can be used in variable\r
 expressions in request bodies and parameters.`
     }), `
 `, t.jsx(e.p, {
-      children: `You can also use variable expression within the VALUE field of environment entries,
+      children: `You can also use variable expression within the VALUE field of environment entries,\r
 creating values that combine other existing variables and constants.`
     }), `
 `, t.jsxs(e.p, {
@@ -3598,7 +3598,7 @@ creating values that combine other existing variables and constants.`
         children: "username"
       }), " with a value like ", t.jsx(e.code, {
         children: "user-{{$randomuint}}@company.com"
-      }), `,
+      }), `,\r
 you can set its actual value to something like `, t.jsx(e.code, {
         children: "user-555@company.com"
       }), "."]
@@ -3607,43 +3607,43 @@ you can set its actual value to something like `, t.jsx(e.code, {
       children: "Response processing"
     }), `
 `, t.jsx(e.p, {
-      children: `The Response Processing feature allows you to extract specific values from an operation's responses and
+      children: `The Response Processing feature allows you to extract specific values from an operation's responses and\r
 store them in variables, which can then be used in subsequent operations (particularly useful when multiple operations are part of a Scenario).`
     }), `
 `, t.jsx(e.p, {
-      children: `To achieve this, you can define response processing statements that specify what information to extract,
-where to find it, and where to store the retrieved data. These statements are organized by response code, so if your operation returns multiple
+      children: `To achieve this, you can define response processing statements that specify what information to extract,\r
+where to find it, and where to store the retrieved data. These statements are organized by response code, so if your operation returns multiple\r
 possible codes (e.g., 200, 400, 5XX), you can create separate groups for each.`
     }), `
 `, t.jsx(e.p, {
-      children: `Each response processing statement consists of a name of the variable where the extracted information will be stored, as well as a source,
-specifying the location where Scan should look for the desired information, such as request
+      children: `Each response processing statement consists of a name of the variable where the extracted information will be stored, as well as a source,\r
+specifying the location where Scan should look for the desired information, such as request\r
 or response body, headers, cookies, path or query string parameters.`
     }), `
 `, t.jsx(e.p, {
-      children: `Additionally, if you're extracting a value from a request or response body, you can use
+      children: `Additionally, if you're extracting a value from a request or response body, you can use\r
 JsonPointer or JsonPath to pinpoint the exact location of the value you're looking for.`
     }), `
 `, t.jsx(e.h3, {
       children: "Unset variables"
     }), `
 `, t.jsx(e.p, {
-      children: `In an Operation, every variable expression must resolve to a value before
-the Operation can be executed. However, it is possible to reference variables
+      children: `In an Operation, every variable expression must resolve to a value before\r
+the Operation can be executed. However, it is possible to reference variables\r
 that do not have a value set.`
     }), `
 `, t.jsx(e.p, {
-      children: `Unset variables in an Operation may be useful when you plan to use the same
-Operation in multiple Scenarios, each providing a different set of values
+      children: `Unset variables in an Operation may be useful when you plan to use the same\r
+Operation in multiple Scenarios, each providing a different set of values\r
 for every variable used in the Operation.`
     }), `
 `, t.jsx(e.p, {
-      children: `However, if an Operation contains an unset variable, you cannot utilize the
+      children: `However, if an Operation contains an unset variable, you cannot utilize the\r
 'Try' feature to test the Operation without first providing a value for it.`
     }), `
 `, t.jsx(e.p, {
-      children: `To resolve this issue, Scan UI lists all required variables for the Operation
-in "Unset variables" and enables you to provide values for them, allowing you
+      children: `To resolve this issue, Scan UI lists all required variables for the Operation\r
+in "Unset variables" and enables you to provide values for them, allowing you\r
 to use the 'Try' feature.`
     }), `
 `, t.jsx(e.p, {
@@ -3653,7 +3653,7 @@ to use the 'Try' feature.`
       children: "Scenarios"
     }), `
 `, t.jsx(e.p, {
-      children: `Use scenarios to create complex sequences of operations to implement a "happy path" request for any operation
+      children: `Use scenarios to create complex sequences of operations to implement a "happy path" request for any operation\r
 that cannot be tested with a single request defined in the Operations tab.`
     }), `
 `, t.jsx(e.p, {
@@ -3666,77 +3666,77 @@ that cannot be tested with a single request defined in the Operations tab.`
       children: "Happy path scenario"
     }), `
 `, t.jsx(e.p, {
-      children: `The  "happy path" scenario is the only type of scenario you can currently create in Scan.
+      children: `The  "happy path" scenario is the only type of scenario you can currently create in Scan.\r
 In future versions of Scan, we plan to introduce additional scenario types.`
     }), `
 `, t.jsx(e.p, {
-      children: `This scenario contains operation references that should be performed in order to execute the test.
+      children: `This scenario contains operation references that should be performed in order to execute the test.\r
 When creating a new scenario, it will initially contain just one reference to the operation selected during scenario creation.`
     }), `
 `, t.jsx(e.p, {
-      children: `You can add more operation references to the scenario by clicking the "Pick operation" button.
+      children: `You can add more operation references to the scenario by clicking the "Pick operation" button.\r
 These references can also be reordered within the scenario using drag-and-drop functionality.`
     }), `
 `, t.jsx(e.p, {
-      children: `Each operation reference within a scenario has its own distinct response processing configuration and
+      children: `Each operation reference within a scenario has its own distinct response processing configuration and\r
 environment variables, which take precedence over those defined at the operation level.`
     }), `
 `, t.jsx(e.h3, {
       children: "Before and after blocks"
     }), `
 `, t.jsx(e.p, {
-      children: `Before and after blocks are used to define operations that should be executed before and after the happy path scenario,
+      children: `Before and after blocks are used to define operations that should be executed before and after the happy path scenario,\r
 and serve mainly as setup and cleanup steps.`
     }), `
 `, t.jsx(e.p, {
-      children: `The "Before" and "After" blocks in Scan allow you to define operations that should be executed before and after your Scenario.
+      children: `The "Before" and "After" blocks in Scan allow you to define operations that should be executed before and after your Scenario.\r
 These blocks primarily serve as setup and cleanup steps. These blocks are shared between all scenarios.`
     }), `
 `, t.jsx(e.h3, {
       children: "Autorization tests"
     }), `
 `, t.jsx(e.p, {
-      children: `The Authorization Tests section enables you to apply Broken Object Level Authorization (BOLA)
+      children: `The Authorization Tests section enables you to apply Broken Object Level Authorization (BOLA)\r
 and Broken Function Level Authorization (BLFA) tests, as defined in the global Tests section, to your scenario.`
     }), `
 `, t.jsx(e.h2, {
       children: "Global blocks"
     }), `
 `, t.jsx(e.p, {
-      children: `The Global Before and After blocks provide an opportunity to execute setup and cleanup steps at the Scan level.
-These blocks are run only once, respectively, before and after the entire scan execution, allowing you to perform
+      children: `The Global Before and After blocks provide an opportunity to execute setup and cleanup steps at the Scan level.\r
+These blocks are run only once, respectively, before and after the entire scan execution, allowing you to perform\r
 global initialization and cleanup tasks.`
     }), `
 `, t.jsx(e.h2, {
       children: "Authentication"
     }), `
 `, t.jsx(e.p, {
-      children: `Certain operations may require authentication to function properly.
+      children: `Certain operations may require authentication to function properly.\r
 Configure authentication settings in the Scan UI's Authentication section.`
     }), `
 `, t.jsx(e.h3, {
       children: "Security schemes"
     }), `
 `, t.jsx(e.p, {
-      children: `A "Security Scheme" describes the type of authentication required by an operation,
+      children: `A "Security Scheme" describes the type of authentication required by an operation,\r
 closely following the contents of the relevant OpenAPI's Security Scheme.`
     }), `
 `, t.jsx(e.p, {
-      children: `These security schemes define the authentication requirements and how they should be sent.
+      children: `These security schemes define the authentication requirements and how they should be sent.\r
 For example, you can specify using an API key and sending it in a specific HTTP header.`
     }), `
 `, t.jsx(e.h3, {
       children: "Credentials"
     }), `
 `, t.jsx(e.p, {
-      children: `Credentials are primarily related to authorization aspects of your operations.
+      children: `Credentials are primarily related to authorization aspects of your operations.\r
 Although all operations might share the same authentication type, some may have different authorization requirements.`
     }), `
 `, t.jsx(e.p, {
       children: "For example, while most operations might be accessible to ordinary users, others might require admin privileges."
     }), `
 `, t.jsx(e.p, {
-      children: `To effectively test such APIs, you can create distinct Credentials for "ordinary" and
+      children: `To effectively test such APIs, you can create distinct Credentials for "ordinary" and\r
 "admin" users, configuring respective operations to use one or the other.`
     }), `
 `, t.jsx(e.h3, {
@@ -3749,14 +3749,14 @@ Although all operations might share the same authentication type, some may have 
       children: "The best practice is to avoid storing these sensitive values directly in your scan configuration."
     }), `
 `, t.jsx(e.p, {
-      children: `Instead, consider using variables to access secret values received from external sources.
-You can create a variable using the "External inputs" feature in the global Environment section of the scan configuration
+      children: `Instead, consider using variables to access secret values received from external sources.\r
+You can create a variable using the "External inputs" feature in the global Environment section of the scan configuration\r
 and then utilize variable expression to inject the value into your credential.`
     }), `
 `, t.jsxs(e.p, {
       children: ['For instance, you could create an entry in "External inputs" to define the ', t.jsx(e.code, {
         children: "password1"
-      }), ` variable,
+      }), ` variable,\r
 and then set credential value to `, t.jsx(e.code, {
         children: "{{password1}}"
       }), "."]
@@ -3771,12 +3771,12 @@ and then set credential value to `, t.jsx(e.code, {
       children: 'A common example is when all operations in an API require authentication with a token returned by a "login" operation.'
     }), `
 `, t.jsxs(e.p, {
-      children: [`To achieve this, you can add a call to the "login" operation within credential, extract the token from its
+      children: [`To achieve this, you can add a call to the "login" operation within credential, extract the token from its\r
 response and store it in a variable named `, t.jsx(e.code, {
         children: "token"
       }), ". Then, use the expression ", t.jsx(e.code, {
         children: "{{token}}"
-      }), ` in the credential value to access
+      }), ` in the credential value to access\r
 the dynamically retrieved token.`]
     }), `
 `, t.jsx(e.p, {
@@ -3786,7 +3786,7 @@ the dynamically retrieved token.`]
       children: "Tests"
     }), `
 `, t.jsx(e.p, {
-      children: `The Tests section enables you to define Broken Object Level Authorization (BOLA) and Broken Function Level Authorization (BLFA) tests,
+      children: `The Tests section enables you to define Broken Object Level Authorization (BOLA) and Broken Function Level Authorization (BLFA) tests,\r
 which can be applied to your scenarios and API operations.`
     }), `
 `, t.jsx(e.h2, {
@@ -3820,11 +3820,11 @@ which can be applied to your scenarios and API operations.`
 `]
     }), `
 `, t.jsx(e.p, {
-      children: `Each entry in this section defines a variable name that can be used in the Scan configuration "Name" and the corresponding environment
+      children: `Each entry in this section defines a variable name that can be used in the Scan configuration "Name" and the corresponding environment\r
 variable to pass the value to the Scan configuration "Source environment variable".`
     }), `
 `, t.jsx(e.p, {
-      children: `These entries are marked as either required or not. For non-required entries, you can specify a default value that will be us
+      children: `These entries are marked as either required or not. For non-required entries, you can specify a default value that will be us\r
 ed if an external value is not provided.`
     }), `
 `, t.jsxs(e.p, {
@@ -3842,7 +3842,7 @@ ed if an external value is not provided.`
       children: "Logging configuration"
     }), `
 `, t.jsx(e.p, {
-      children: `In this section, you can configure the logging level and log destination to control the verbosity and output location
+      children: `In this section, you can configure the logging level and log destination to control the verbosity and output location\r
 of logs generated during the scan.`
     }), `
 `, t.jsx(e.h3, {
@@ -3936,7 +3936,7 @@ of logs generated during the scan.`
       children: "Variables in JSON"
     }), `
 `, t.jsx(e.p, {
-      children: `When substituting variables in the request body, always quote
+      children: `When substituting variables in the request body, always quote\r
 the variable expression, even if you're substituting a number or boolean.`
     }), `
 `, t.jsx(e.p, {
@@ -3945,7 +3945,7 @@ the variable expression, even if you're substituting a number or boolean.`
 `, t.jsxs(e.p, {
       children: ["For example, if you define a variable ", t.jsx(e.code, {
         children: "age"
-      }), ` with a numeric value of 10, and use it in a request body like this:
+      }), ` with a numeric value of 10, and use it in a request body like this:\r
 `, t.jsx(e.code, {
         children: '{ "user_ age": "{{age}}"}'
       }), " the resulting JSON will be ", t.jsx(e.code, {
@@ -3996,10 +3996,10 @@ the variable expression, even if you're substituting a number or boolean.`
       children: "Keeping configuration in sync with OpenAPI"
     }), `
 `, t.jsx(e.p, {
-      children: `The scan configuration must be kept in sync with the OpenAPI file it is based on,
-as it is crucial for accurate and comprehensive testing. To help users keep
-their scan configuration in sync, the Scan UI checks if the scan configuration
-matches the OpenAPI file, and in the presence of changes, offers to update the scan configuration
+      children: `The scan configuration must be kept in sync with the OpenAPI file it is based on,\r
+as it is crucial for accurate and comprehensive testing. To help users keep\r
+their scan configuration in sync, the Scan UI checks if the scan configuration\r
+matches the OpenAPI file, and in the presence of changes, offers to update the scan configuration\r
 accordingly.`
     }), `
 `, t.jsx(e.p, {
@@ -4024,15 +4024,15 @@ accordingly.`
 `]
     }), `
 `, t.jsx(e.p, {
-      children: `However, changes to the schemas describing operation payloads (body, parameters, etc),
+      children: `However, changes to the schemas describing operation payloads (body, parameters, etc),\r
 adding or removing parameters, etc. are not handled by the Scan UI, as these can be customized by the user.`
     }), `
 `, t.jsx(e.p, {
-      children: `If such changes are made to the OpenAPI file, the user must make appropriate changes to
+      children: `If such changes are made to the OpenAPI file, the user must make appropriate changes to\r
 the scan configuration manually.`
     }), `
 `, t.jsx(e.p, {
-      children: `When changes are detected, the Scan UI will prompt you to update the
+      children: `When changes are detected, the Scan UI will prompt you to update the\r
 scan configuration to reflect the modifications made to the OpenAPI file.`
     })]
   });

@@ -72,6 +72,7 @@ public class LoadConfig extends WebAppConsume {
         result.put("approvedHosts", config.getApprovedHosts().stream().map(ApprovedHostConfig::getPayload).collect(Collectors.toList()));
         result.put("cliDirectoryOverride", config.getCliDirectoryOverride());
         result.put("auditRuntime", config.getAuditRuntime());
+        result.put("host", config.getHost());
 
         result.put("internalFeatures", config.isInternalFeatures());
         result.put("internalUseDevEndpoints", config.isInternalUseDevEndpoints());
