@@ -1,11 +1,11 @@
-import { j as e, c as N, d as G, s as Y, a as J, p as K, t as Q, l as X, u as Z, b as ee, T, e as s, B as ne, g as oe, R as te, P as re, n as ae, k as ie } from "./TriangleExclamation.BLKAXJ8l.js";
+import { j as n, c as N, d as G, s as Y, a as J, p as K, t as Q, l as X, u as Z, b as ee, T as x, e as s, B as ne, g as oe, R as te, P as re, n as ae, k as ie } from "./TriangleExclamation.BLKAXJ8l.js";
 import { c as g, u as A } from "./index.esm.MIM2ge_D.js";
-import { N as D } from "./ProgressButton.BXekI9TY.js";
-import { o as w, s as f, F as b } from "./schemas.BH6uGBRD.js";
+import { N as B } from "./ProgressButton.BXekI9TY.js";
+import { o as w, s as h, F as b } from "./schemas.BH6uGBRD.js";
 import { I as k, T as se } from "./Textarea.7FvXKGUa.js";
 import { E as y } from "./Banner.BZe2qI8d.js";
-import { C as B } from "./Checkbox.CtRxkpPH.js";
-const le = (n) => /* @__PURE__ */ e.jsxs(
+import { C as L } from "./Checkbox.CtRxkpPH.js";
+const le = (e) => /* @__PURE__ */ n.jsxs(
   "svg",
   {
     xmlns: "http://www.w3.org/2000/svg",
@@ -13,23 +13,23 @@ const le = (n) => /* @__PURE__ */ e.jsxs(
     height: "1em",
     fill: "none",
     viewBox: "0 0 60 70",
-    ...n,
+    ...e,
     children: [
-      /* @__PURE__ */ e.jsx(
+      /* @__PURE__ */ n.jsx(
         "path",
         {
           fill: "url(#crunch-logo-main_svg__a)",
           d: "M60 52.505v-35.01L29.99 0 0 17.495v35.01L29.99 70z"
         }
       ),
-      /* @__PURE__ */ e.jsx(
+      /* @__PURE__ */ n.jsx(
         "path",
         {
           fill: "#fff",
           d: "M38.995 49.367a6.66 6.66 0 0 1-4.402-1.514 5.3 5.3 0 0 1-1.423-1.97 5.4 5.4 0 0 1-.404-2.404 5.3 5.3 0 0 1 .391-2.418c.318-.763.81-1.44 1.436-1.974a6.88 6.88 0 0 1 4.457-1.476c1.75-.041 3.469.475 4.913 1.476v-3.691a10.36 10.36 0 0 0-5.48-1.384H27.525q.007-.302.09-.59.076-.274.183-.536.135-.278.33-.517l.401-.461a3.4 3.4 0 0 1 .511-.48l.585-.424.676-.406.676-.425.748-.461.713-.443a18.1 18.1 0 0 0 3.981-3.064 5.38 5.38 0 0 0 1.462-3.69 4.9 4.9 0 0 0-.414-2.277 4.8 4.8 0 0 0-1.413-1.82 7.94 7.94 0 0 0-4.95-1.44 11.13 11.13 0 0 0-6.32 1.845v3.23a10.6 10.6 0 0 1 6.028-2.104 5.2 5.2 0 0 1 2.85.664 2.194 2.194 0 0 1 1.023 1.846 3.5 3.5 0 0 1-.313 1.387 3.45 3.45 0 0 1-.839 1.141 21 21 0 0 1-3.123 2.049c-1.607.996-2.721 1.716-3.306 2.16a8.5 8.5 0 0 0-2.32 2.73v-7.234h-3.36L11.03 37.611v2.897h10.594v4.023h3.16V37.15h6.374a8.9 8.9 0 0 0-1.861 3.038 9 9 0 0 0-.532 3.532 8.5 8.5 0 0 0 .627 3.765 8.4 8.4 0 0 0 2.204 3.1 10.13 10.13 0 0 0 6.704 2.4 13.2 13.2 0 0 0 5.863-1.237v-3.69a10.16 10.16 0 0 1-5.17 1.31M21.625 37.61h-6.94l6.94-8.6z"
         }
       ),
-      /* @__PURE__ */ e.jsx("defs", { children: /* @__PURE__ */ e.jsxs(
+      /* @__PURE__ */ n.jsx("defs", { children: /* @__PURE__ */ n.jsxs(
         "linearGradient",
         {
           id: "crunch-logo-main_svg__a",
@@ -39,11 +39,11 @@ const le = (n) => /* @__PURE__ */ e.jsxs(
           y2: 58.413,
           gradientUnits: "userSpaceOnUse",
           children: [
-            /* @__PURE__ */ e.jsx("stop", { stopColor: "#783C8C" }),
-            /* @__PURE__ */ e.jsx("stop", { offset: 0.19, stopColor: "#6F3C8B" }),
-            /* @__PURE__ */ e.jsx("stop", { offset: 0.49, stopColor: "#583A87" }),
-            /* @__PURE__ */ e.jsx("stop", { offset: 0.87, stopColor: "#323881" }),
-            /* @__PURE__ */ e.jsx("stop", { offset: 0.95, stopColor: "#29387F" })
+            /* @__PURE__ */ n.jsx("stop", { stopColor: "#783C8C" }),
+            /* @__PURE__ */ n.jsx("stop", { offset: 0.19, stopColor: "#6F3C8B" }),
+            /* @__PURE__ */ n.jsx("stop", { offset: 0.49, stopColor: "#583A87" }),
+            /* @__PURE__ */ n.jsx("stop", { offset: 0.87, stopColor: "#323881" }),
+            /* @__PURE__ */ n.jsx("stop", { offset: 0.95, stopColor: "#29387F" })
           ]
         }
       ) })
@@ -65,53 +65,53 @@ const le = (n) => /* @__PURE__ */ e.jsxs(
   currentFormId: "AnondSignUpEmailForm",
   signupType: "regular",
   complete: !1
-}, L = N({
+}, D = N({
   name: "signup",
   initialState: de,
   reducers: {
-    requestAnondTokenByEmail: (n, o) => {
-      n.anondCredentials.email = o.payload, n.waitingForAnondToken = !0, n.anondTokenRequestResult = void 0;
+    requestAnondTokenByEmail: (e, o) => {
+      e.anondCredentials.email = o.payload, e.waitingForAnondToken = !0, e.anondTokenRequestResult = void 0;
     },
-    showAnondTokenResponse: (n, o) => {
-      n.waitingForAnondToken = !1, n.anondTokenRequestResult = o.payload, n.currentFormId === "AnondSignUpEmailForm" && n.anondTokenRequestResult?.success && (n.currentFormId = "AnondSignUpTokenForm");
+    showAnondTokenResponse: (e, o) => {
+      e.waitingForAnondToken = !1, e.anondTokenRequestResult = o.payload, e.currentFormId === "AnondSignUpEmailForm" && e.anondTokenRequestResult?.success && (e.currentFormId = "AnondSignUpTokenForm");
     },
-    saveAnondEmail: (n, o) => {
-      n.anondCredentials.email = o.payload, n.anondTokenRequestResult = void 0;
+    saveAnondEmail: (e, o) => {
+      e.anondCredentials.email = o.payload, e.anondTokenRequestResult = void 0;
     },
-    saveAnondToken: (n, o) => {
-      n.anondCredentials.anondToken = o.payload;
+    saveAnondToken: (e, o) => {
+      e.anondCredentials.anondToken = o.payload;
     },
-    resetAnondTokenRequestResult: (n, o) => {
-      n.anondTokenRequestResult = void 0, n.currentFormId === "AnondSignUpTokenForm" && (n.currentFormId = "AnondSignUpEmailForm");
+    resetAnondTokenRequestResult: (e, o) => {
+      e.anondTokenRequestResult = void 0, e.currentFormId === "AnondSignUpTokenForm" && (e.currentFormId = "AnondSignUpEmailForm");
     },
-    anondSignUpComplete: (n, o) => {
-      n.complete = !0, n.anondCredentials.anondToken = o.payload.anondToken;
+    anondSignUpComplete: (e, o) => {
+      e.complete = !0, e.anondCredentials.anondToken = o.payload.anondToken;
     },
-    savePlatformCredentials: (n, o) => {
-      n.platformCredentials.platformUrl = o.payload.platformUrl, n.platformCredentials.platformApiToken = o.payload.platformApiToken, n.platformConnectionTestResult = void 0;
+    savePlatformCredentials: (e, o) => {
+      e.platformCredentials.platformUrl = o.payload.platformUrl, e.platformCredentials.platformApiToken = o.payload.platformApiToken, e.platformConnectionTestResult = void 0;
     },
-    showPlatformConnectionTestError: (n, o) => {
-      n.waitingForPlatformConnectionTest = !1, n.platformConnectionTestResult = o.payload, n.complete = !1;
+    showPlatformConnectionTestError: (e, o) => {
+      e.waitingForPlatformConnectionTest = !1, e.platformConnectionTestResult = o.payload, e.complete = !1;
     },
-    platformSignUpComplete: (n, o) => {
-      n.platformCredentials.platformUrl = o.payload.platformUrl, n.platformCredentials.platformApiToken = o.payload.platformApiToken, n.waitingForPlatformConnectionTest = !0, n.platformConnectionTestResult = void 0, n.complete = !0;
+    platformSignUpComplete: (e, o) => {
+      e.platformCredentials.platformUrl = o.payload.platformUrl, e.platformCredentials.platformApiToken = o.payload.platformApiToken, e.waitingForPlatformConnectionTest = !0, e.platformConnectionTestResult = void 0, e.complete = !0;
     },
-    saveAgreeToTermsAndConditions: (n, o) => {
-      n.agreeToTermsAndConditions = o.payload, n.agreeToTermsAndConditions && (n.showTermsAndConditionsError = !1);
+    saveAgreeToTermsAndConditions: (e, o) => {
+      e.agreeToTermsAndConditions = o.payload, e.agreeToTermsAndConditions && (e.showTermsAndConditionsError = !1);
     },
-    saveAgreeToEmailOptIn: (n, o) => {
-      n.agreeToEmailOptIn = o.payload;
+    saveAgreeToEmailOptIn: (e, o) => {
+      e.agreeToEmailOptIn = o.payload;
     },
-    showTermsAndConditionsError: (n, o) => {
-      n.showTermsAndConditionsError = o.payload;
+    showTermsAndConditionsError: (e, o) => {
+      e.showTermsAndConditionsError = o.payload;
     },
-    openLink: (n, o) => {
+    openLink: (e, o) => {
     },
-    setCurrentFormId: (n, o) => {
-      n.currentFormId = o.payload;
+    setCurrentFormId: (e, o) => {
+      e.currentFormId = o.payload;
     },
-    setSignupType: (n, o) => {
-      n.signupType = o.payload;
+    setSignupType: (e, o) => {
+      e.signupType = o.payload;
     }
   }
 }), {
@@ -122,51 +122,51 @@ const le = (n) => /* @__PURE__ */ e.jsxs(
   resetAnondTokenRequestResult: R,
   anondSignUpComplete: M,
   showPlatformConnectionTestError: ue,
-  savePlatformCredentials: he,
+  savePlatformCredentials: ge,
   platformSignUpComplete: O,
-  saveAgreeToTermsAndConditions: ge,
+  saveAgreeToTermsAndConditions: he,
   saveAgreeToEmailOptIn: fe,
   showTermsAndConditionsError: xe,
-  openLink: p,
+  openLink: T,
   setCurrentFormId: j,
   setSignupType: Te
-} = L.actions, Ce = L.reducer, $ = G(), h = $.startListening;
-function je(n) {
+} = D.actions, Ce = D.reducer, $ = G(), u = $.startListening;
+function je(e) {
   return Y({
-    requestAnondTokenByEmail: () => h({
+    requestAnondTokenByEmail: () => u({
       actionCreator: q,
       effect: async (t, r) => {
         const {
-          signup: { agreeToEmailOptIn: i }
+          signup: { agreeToEmailOptIn: a }
         } = r.getState();
-        n.postMessage({
+        e.postMessage({
           command: "requestAnondTokenByEmail",
-          payload: { email: t.payload, optIn: i }
+          payload: { email: t.payload, optIn: a }
         });
       }
     }),
-    openLink: () => h({
-      actionCreator: p,
+    openLink: () => u({
+      actionCreator: T,
       effect: async (t, r) => {
-        n.postMessage({
+        e.postMessage({
           command: "openLink",
           payload: t.payload
         });
       }
     }),
-    anondSignUpComplete: () => h({
+    anondSignUpComplete: () => u({
       actionCreator: M,
       effect: async (t, r) => {
-        n.postMessage({
+        e.postMessage({
           command: "anondSignUpComplete",
           payload: t.payload
         });
       }
     }),
-    platformSignUpComplete: () => h({
+    platformSignUpComplete: () => u({
       actionCreator: O,
       effect: async (t, r) => {
-        n.postMessage({
+        e.postMessage({
           command: "platformSignUpComplete",
           payload: t.payload
         });
@@ -182,67 +182,67 @@ const ve = {
   setSignupType: Te,
   showPlatformConnectionTestError: ue,
   showAnondTokenResponse: ce
-}, ye = (n, o) => J({
+}, ye = (e, o) => J({
   reducer: ve,
-  middleware: (t) => t().prepend(n.middleware).concat(X),
+  middleware: (t) => t().prepend(e.middleware).concat(X),
   preloadedState: {
     theme: o
   }
-}), d = () => Z(), c = ee, m = (n) => n;
+}), d = () => Z(), c = ee, p = (e) => e;
 function Ae({
-  data: n,
+  data: e,
   backToPrevForm: o
 }) {
   const t = d(), {
     agreeToTermsAndConditions: r,
-    showTermsAndConditionsError: i,
+    showTermsAndConditionsError: a,
     anondTokenRequestResult: l,
-    waitingForAnondToken: a,
+    waitingForAnondToken: i,
     complete: U
   } = c((C) => C.signup), H = w({
-    email: f().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
+    email: h().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
   });
-  return /* @__PURE__ */ e.jsx(
+  return /* @__PURE__ */ n.jsx(
     b,
     {
-      data: n,
+      data: e,
       saveData: (C) => t(pe(C.email)),
-      wrapFormData: m,
-      unwrapFormData: m,
+      wrapFormData: p,
+      unwrapFormData: p,
       schema: H,
       useFormMode: "onBlur",
-      children: /* @__PURE__ */ e.jsxs(P, { children: [
-        /* @__PURE__ */ e.jsxs(F, { children: [
-          /* @__PURE__ */ e.jsx(S, { children: "Register" }),
-          /* @__PURE__ */ e.jsx(
-            x,
+      children: /* @__PURE__ */ n.jsxs(P, { children: [
+        /* @__PURE__ */ n.jsxs(F, { children: [
+          /* @__PURE__ */ n.jsx(S, { children: "Register" }),
+          /* @__PURE__ */ n.jsx(
+            f,
             {
               text: "I have an existing account",
-              disabled: U || a,
+              disabled: U || i,
               backToPrevForm: o
             }
           )
         ] }),
-        /* @__PURE__ */ e.jsxs(E, { children: [
-          /* @__PURE__ */ e.jsx(k, { label: "Email", name: "email", disabled: U }),
-          /* @__PURE__ */ e.jsx(_, { children: "Enter a valid email address to receive a once off access token." }),
-          l && !l.success && /* @__PURE__ */ e.jsx(z, { children: /* @__PURE__ */ e.jsx(y, { message: "Unexpected error when trying to request a token", children: l.message }) }),
-          /* @__PURE__ */ e.jsx(Ee, {}),
-          i && !r && /* @__PURE__ */ e.jsx(y, { message: "Please accept Terms and Conditions to continue" }),
-          /* @__PURE__ */ e.jsx(Ue, {}),
-          /* @__PURE__ */ e.jsx(Ie, {})
+        /* @__PURE__ */ n.jsxs(E, { children: [
+          /* @__PURE__ */ n.jsx(k, { label: "Email", name: "email", disabled: U }),
+          /* @__PURE__ */ n.jsx(_, { children: "Enter a valid email address to receive a once off access token." }),
+          l && !l.success && /* @__PURE__ */ n.jsx(z, { children: /* @__PURE__ */ n.jsx(y, { message: "Unexpected error when trying to request a token", children: l.message }) }),
+          /* @__PURE__ */ n.jsx(Ee, {}),
+          a && !r && /* @__PURE__ */ n.jsx(y, { message: "Please accept Terms and Conditions to continue" }),
+          /* @__PURE__ */ n.jsx(Ue, {}),
+          /* @__PURE__ */ n.jsx(Ie, {})
         ] }),
-        /* @__PURE__ */ e.jsx(I, { children: /* @__PURE__ */ e.jsx(we, {}) })
+        /* @__PURE__ */ n.jsx(I, { children: /* @__PURE__ */ n.jsx(we, {}) })
       ] })
     }
   );
 }
-function x({
-  text: n,
+function f({
+  text: e,
   disabled: o,
   backToPrevForm: t
 }) {
-  return /* @__PURE__ */ e.jsx(
+  return /* @__PURE__ */ n.jsx(
     Re,
     {
       href: "#",
@@ -250,119 +250,89 @@ function x({
       onClick: (r) => {
         r.preventDefault(), r.stopPropagation(), t();
       },
-      children: n
+      children: e
     }
   );
 }
 function we() {
-  const n = d(), { agreeToTermsAndConditions: o, waitingForAnondToken: t, complete: r } = c(
-    (a) => a.signup
-  ), i = g({ name: "email" }), {
+  const e = d(), { agreeToTermsAndConditions: o, waitingForAnondToken: t, complete: r } = c(
+    (i) => i.signup
+  ), a = g({ name: "email" }), {
     formState: { isValid: l }
   } = A();
-  return /* @__PURE__ */ e.jsx(
-    D,
+  return /* @__PURE__ */ n.jsx(
+    B,
     {
       label: "Request a token",
       disabled: r || !l,
       waiting: t,
-      onClick: (a) => {
-        n(o ? q(i) : xe(!0)), a.preventDefault(), a.stopPropagation();
+      onClick: (i) => {
+        e(o ? q(a) : xe(!0)), i.preventDefault(), i.stopPropagation();
       }
     }
   );
 }
 function be({
-  data: n,
+  data: e,
   backToPrevForm: o,
   backToPlatformSignup: t
 }) {
-  const r = d(), { complete: i } = c((a) => a.signup), l = w({
-    anondToken: f().min(1, { message: "This field has to be filled." })
+  const r = d(), { complete: a } = c((i) => i.signup), l = w({
+    anondToken: h().min(1, { message: "This field has to be filled." })
   });
-  return /* @__PURE__ */ e.jsx(
+  return /* @__PURE__ */ n.jsx(
     b,
     {
-      data: n,
-      saveData: (a) => r(me(a.anondToken)),
-      wrapFormData: m,
-      unwrapFormData: m,
+      data: e,
+      saveData: (i) => r(me(i.anondToken)),
+      wrapFormData: p,
+      unwrapFormData: p,
       schema: l,
       useFormMode: "onChange",
-      children: /* @__PURE__ */ e.jsxs(P, { children: [
-        /* @__PURE__ */ e.jsxs(F, { children: [
-          /* @__PURE__ */ e.jsx(S, { children: "Register" }),
-          /* @__PURE__ */ e.jsx(
-            x,
+      children: /* @__PURE__ */ n.jsxs(P, { children: [
+        /* @__PURE__ */ n.jsxs(F, { children: [
+          /* @__PURE__ */ n.jsx(S, { children: "Register" }),
+          /* @__PURE__ */ n.jsx(
+            f,
             {
               text: "I have an existing account",
-              disabled: i,
+              disabled: a,
               backToPrevForm: t
             }
           )
         ] }),
-        /* @__PURE__ */ e.jsxs(E, { children: [
-          /* @__PURE__ */ e.jsxs("div", { children: [
-            /* @__PURE__ */ e.jsx("p", { children: "We just sent you an access token to the email address you provided. Enter the token below to activate your API security testing account." }),
-            /* @__PURE__ */ e.jsx("p", { children: "If you did not get the token, check your spam mail." }),
-            /* @__PURE__ */ e.jsx(
-              x,
+        /* @__PURE__ */ n.jsxs(E, { children: [
+          /* @__PURE__ */ n.jsxs("div", { children: [
+            /* @__PURE__ */ n.jsx("p", { children: "We just sent you an access token to the email address you provided. Enter the token below to activate your API security testing account." }),
+            /* @__PURE__ */ n.jsx("p", { children: "If you did not get the token, check your spam mail." }),
+            /* @__PURE__ */ n.jsx(
+              f,
               {
                 text: "Resubmit email request",
-                disabled: i,
+                disabled: a,
                 backToPrevForm: o
               }
             )
           ] }),
-          /* @__PURE__ */ e.jsx(se, { label: "Token", name: "anondToken", disabled: i }),
-          /* @__PURE__ */ e.jsxs("div", { children: [
-            "Audit and Scan usage allowances apply, upgrade",
-            " ",
-            /* @__PURE__ */ e.jsx(
-              "a",
-              {
-                href: "#",
-                onClick: (a) => {
-                  a.preventDefault(), a.stopPropagation(), r(p("https://42crunch.com/single-user-pricing/"));
-                },
-                children: "options"
-              }
-            ),
-            " ",
-            "available."
-          ] }),
-          /* @__PURE__ */ e.jsxs("div", { children: [
-            "Developer support",
-            " ",
-            /* @__PURE__ */ e.jsx(
-              "a",
-              {
-                href: "#",
-                onClick: (a) => {
-                  a.preventDefault(), a.stopPropagation(), r(p("https://developers.42crunch.com/"));
-                },
-                children: "community"
-              }
-            )
-          ] })
+          /* @__PURE__ */ n.jsx(se, { label: "Token", name: "anondToken", disabled: a })
         ] }),
-        /* @__PURE__ */ e.jsx(I, { children: /* @__PURE__ */ e.jsx(Fe, {}) })
+        /* @__PURE__ */ n.jsx(I, { children: /* @__PURE__ */ n.jsx(Fe, {}) })
       ] })
     }
   );
 }
 function Fe() {
-  const n = d(), { anondCredentials: o, complete: t } = c((l) => l.signup), r = g({ name: "anondToken" });
+  const e = d(), { anondCredentials: o, complete: t } = c((l) => l.signup), r = g({ name: "anondToken" });
   console.log("my token", r);
   const {
-    formState: { isValid: i }
+    formState: { isValid: a }
   } = A();
-  return /* @__PURE__ */ e.jsx(
-    De,
+  return /* @__PURE__ */ n.jsx(
+    Be,
     {
-      disabled: t || !i,
+      disabled: t || !a,
       onClick: (l) => {
-        n(
+        e(
           M({ email: o.email, anondToken: r.trim() })
         ), l.preventDefault(), l.stopPropagation();
       },
@@ -371,75 +341,75 @@ function Fe() {
   );
 }
 function Se({
-  data: n,
+  data: e,
   backToPrevForm: o
 }) {
-  const t = d(), { platformConnectionTestResult: r, complete: i } = c((a) => a.signup), l = w({
-    platformUrl: f().url().startsWith("https://"),
-    platformApiToken: f().regex(
+  const t = d(), { platformConnectionTestResult: r, complete: a } = c((i) => i.signup), l = w({
+    platformUrl: h().url().startsWith("https://"),
+    platformApiToken: h().regex(
       /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       "Token is invalid"
     )
   });
-  return /* @__PURE__ */ e.jsx(
+  return /* @__PURE__ */ n.jsx(
     b,
     {
-      data: n,
-      saveData: (a) => t(he(a)),
-      wrapFormData: m,
-      unwrapFormData: m,
+      data: e,
+      saveData: (i) => t(ge(i)),
+      wrapFormData: p,
+      unwrapFormData: p,
       schema: l,
       useFormMode: "onChange",
-      children: /* @__PURE__ */ e.jsxs(P, { children: [
-        /* @__PURE__ */ e.jsxs(F, { children: [
-          /* @__PURE__ */ e.jsx(S, { children: "Sign in" }),
-          /* @__PURE__ */ e.jsx(x, { text: "Register", disabled: i, backToPrevForm: o })
+      children: /* @__PURE__ */ n.jsxs(P, { children: [
+        /* @__PURE__ */ n.jsxs(F, { children: [
+          /* @__PURE__ */ n.jsx(S, { children: "Sign in" }),
+          /* @__PURE__ */ n.jsx(f, { text: "Register", disabled: a, backToPrevForm: o })
         ] }),
-        /* @__PURE__ */ e.jsxs(E, { children: [
-          /* @__PURE__ */ e.jsx(_, { children: "If you are an existing Teams or Enterprise customer, activate your account here." }),
-          /* @__PURE__ */ e.jsx(k, { label: "Platform URL", name: "platformUrl", disabled: i }),
-          /* @__PURE__ */ e.jsx(k, { label: "IDE token", name: "platformApiToken", disabled: i, password: !0 }),
-          r && /* @__PURE__ */ e.jsx(z, { children: /* @__PURE__ */ e.jsx(y, { message: "Failed to connect", children: r.error }) })
+        /* @__PURE__ */ n.jsxs(E, { children: [
+          /* @__PURE__ */ n.jsx(_, { children: "If you are an existing Teams or Enterprise customer, activate your account here." }),
+          /* @__PURE__ */ n.jsx(k, { label: "Platform URL", name: "platformUrl", disabled: a }),
+          /* @__PURE__ */ n.jsx(k, { label: "IDE token", name: "platformApiToken", disabled: a, password: !0 }),
+          r && /* @__PURE__ */ n.jsx(z, { children: /* @__PURE__ */ n.jsx(y, { message: "Failed to connect", children: r.error }) })
         ] }),
-        /* @__PURE__ */ e.jsx(I, { children: /* @__PURE__ */ e.jsx(Pe, {}) })
+        /* @__PURE__ */ n.jsx(I, { children: /* @__PURE__ */ n.jsx(Pe, {}) })
       ] })
     }
   );
 }
 function Pe() {
-  const n = d(), { waitingForPlatformConnectionTest: o, complete: t } = c((a) => a.signup), r = g({ name: "platformUrl" }), i = g({ name: "platformApiToken" }), {
+  const e = d(), { waitingForPlatformConnectionTest: o, complete: t } = c((i) => i.signup), r = g({ name: "platformUrl" }), a = g({ name: "platformApiToken" }), {
     formState: { isValid: l }
   } = A();
-  return /* @__PURE__ */ e.jsx(
-    D,
+  return /* @__PURE__ */ n.jsx(
+    B,
     {
       label: "Activate account",
       disabled: t || !l,
       waiting: o,
-      onClick: (a) => {
-        n(O({ platformUrl: r, platformApiToken: i })), a.preventDefault(), a.stopPropagation();
+      onClick: (i) => {
+        e(O({ platformUrl: r, platformApiToken: a })), i.preventDefault(), i.stopPropagation();
       }
     }
   );
 }
 function Ee() {
-  const n = d(), { agreeToTermsAndConditions: o } = c((t) => t.signup);
-  return /* @__PURE__ */ e.jsx(W, { children: /* @__PURE__ */ e.jsx(
-    B,
+  const e = d(), { agreeToTermsAndConditions: o } = c((t) => t.signup);
+  return /* @__PURE__ */ n.jsx(W, { children: /* @__PURE__ */ n.jsx(
+    L,
     {
       value: o,
       onChange: (t) => {
-        n(ge(t));
+        e(he(t));
       },
-      label: /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+      label: /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
         "I agree to the",
         " ",
-        /* @__PURE__ */ e.jsx(
+        /* @__PURE__ */ n.jsx(
           "a",
           {
             href: "#",
             onClick: (t) => {
-              t.preventDefault(), t.stopPropagation(), n(p("https://42crunch.com/freemium-terms-and-conditions/"));
+              t.preventDefault(), t.stopPropagation(), e(T("https://42crunch.com/freemium-terms-and-conditions/"));
             },
             children: "terms & conditions"
           }
@@ -451,16 +421,16 @@ function Ee() {
   ) });
 }
 function Ie() {
-  const n = d();
-  return /* @__PURE__ */ e.jsxs("div", { children: [
+  const e = d();
+  return /* @__PURE__ */ n.jsxs("div", { children: [
     "42Crunch is committed to protecting and respecting your privacy.",
     " ",
-    /* @__PURE__ */ e.jsx(
+    /* @__PURE__ */ n.jsx(
       "a",
       {
         href: "#",
         onClick: (o) => {
-          o.preventDefault(), o.stopPropagation(), n(p("https://42crunch.com/privacy-policy/"));
+          o.preventDefault(), o.stopPropagation(), e(T("https://42crunch.com/privacy-policy/"));
         },
         children: "Privacy Policy"
       }
@@ -468,13 +438,13 @@ function Ie() {
   ] });
 }
 function Ue() {
-  const n = d(), { agreeToEmailOptIn: o } = c((t) => t.signup);
-  return /* @__PURE__ */ e.jsx(W, { children: /* @__PURE__ */ e.jsx(
-    B,
+  const e = d(), { agreeToEmailOptIn: o } = c((t) => t.signup);
+  return /* @__PURE__ */ n.jsx(W, { children: /* @__PURE__ */ n.jsx(
+    L,
     {
       value: o,
       onChange: (t) => {
-        n(fe(t));
+        e(fe(t));
       },
       label: "I want to receive news about 42Crunch and their other products and services.",
       size: "medium"
@@ -482,7 +452,7 @@ function Ue() {
   ) });
 }
 const F = s.div`
-  // border-bottom-color: var(${T.border});
+  // border-bottom-color: var(${x.border});
   // border-bottom-width: 1px;
   // border-bottom-style: solid;
   display: flex;
@@ -511,9 +481,9 @@ const F = s.div`
   padding: 16px;
 `, Re = s.a`
   text-decoration: none;
-  ${({ $disabled: n }) => n && "opacity: 0.4;"}
-  ${({ $disabled: n }) => n && "cursor: default;"}
-  ${({ $disabled: n }) => n && "pointer-events: none;"}
+  ${({ $disabled: e }) => e && "opacity: 0.4;"}
+  ${({ $disabled: e }) => e && "cursor: default;"}
+  ${({ $disabled: e }) => e && "pointer-events: none;"}
 `, I = s.div`
   display: flex;
   gap: 16px;
@@ -536,67 +506,67 @@ const F = s.div`
   display: flex;
   gap: 5px;
   align-items: center;
-`, De = s(ne)`
+`, Be = s(ne)`
   &:disabled {
     opacity: 0.4;
   }
 `;
-function Be() {
-  const n = d(), { currentFormId: o, signupType: t } = c((r) => r.signup);
-  return /* @__PURE__ */ e.jsx(qe, { children: /* @__PURE__ */ e.jsxs(Oe, { children: [
-    /* @__PURE__ */ e.jsx($e, { children: /* @__PURE__ */ e.jsx(le, {}) }),
-    o === "AnondSignUpEmailForm" && t === "regular" && /* @__PURE__ */ e.jsx(u, { children: "Check your API for quality, conformance and security vulnerabilities, including BOLA, BFLA & BOPLA" }),
-    o === "AnondSignUpEmailForm" && t === "capture" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-      /* @__PURE__ */ e.jsx(u, { children: "Welcome to API Contract Generator" }),
-      /* @__PURE__ */ e.jsx(v, { children: "Save time by reducing the manual creation of OpenAPI files. Automatically generate OpenAPI files from Postman collections or HAR files, directly in your IDE." }),
-      /* @__PURE__ */ e.jsx(_e, { children: /* @__PURE__ */ e.jsx(
+function Le() {
+  const e = d(), { currentFormId: o, signupType: t } = c((r) => r.signup);
+  return /* @__PURE__ */ n.jsx(qe, { children: /* @__PURE__ */ n.jsxs(Oe, { children: [
+    /* @__PURE__ */ n.jsx($e, { children: /* @__PURE__ */ n.jsx(le, {}) }),
+    o === "AnondSignUpEmailForm" && t === "regular" && /* @__PURE__ */ n.jsx(m, { children: "Check your API for quality, conformance and security vulnerabilities, including BOLA, BFLA & BOPLA" }),
+    o === "AnondSignUpEmailForm" && t === "capture" && /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
+      /* @__PURE__ */ n.jsx(m, { children: "Welcome to API Contract Generator" }),
+      /* @__PURE__ */ n.jsx(v, { children: "Save time by reducing the manual creation of OpenAPI files. Automatically generate OpenAPI files from Postman collections or HAR files, directly in your IDE." }),
+      /* @__PURE__ */ n.jsx(_e, { children: /* @__PURE__ */ n.jsx(
         "a",
         {
           href: "#",
           onClick: (r) => {
-            r.preventDefault(), r.stopPropagation(), n(p("https://42crunch.com/api-contract-generator/"));
+            r.preventDefault(), r.stopPropagation(), e(T("https://42crunch.com/api-contract-generator/"));
           },
           children: "Learn more"
         }
       ) })
     ] }),
-    o === "AnondSignUpTokenForm" && /* @__PURE__ */ e.jsx(e.Fragment, { children: /* @__PURE__ */ e.jsx(u, { children: "#1 API Security testing tools for your IDE, CICD and SaaS environments" }) }),
-    o === "PlatformSignUpForm" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-      /* @__PURE__ */ e.jsx(u, { children: "API Capture" }),
-      /* @__PURE__ */ e.jsx(v, { children: "Automatically generate OpenAPI definition files." }),
-      /* @__PURE__ */ e.jsx(u, { children: "API Protect" }),
-      /* @__PURE__ */ e.jsx(v, { children: "Immediately protect APIs at runtime." })
+    o === "AnondSignUpTokenForm" && /* @__PURE__ */ n.jsx(n.Fragment, { children: /* @__PURE__ */ n.jsx(m, { children: "#1 API Security testing tools for your IDE, CICD and SaaS environments" }) }),
+    o === "PlatformSignUpForm" && /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
+      /* @__PURE__ */ n.jsx(m, { children: "API Capture" }),
+      /* @__PURE__ */ n.jsx(v, { children: "Automatically generate OpenAPI definition files." }),
+      /* @__PURE__ */ n.jsx(m, { children: "API Protect" }),
+      /* @__PURE__ */ n.jsx(v, { children: "Immediately protect APIs at runtime." })
     ] })
   ] }) });
 }
-function Le() {
-  const n = d(), { platformCredentials: o, anondCredentials: t, currentFormId: r } = c(
-    (i) => i.signup
+function De() {
+  const e = d(), { platformCredentials: o, anondCredentials: t, currentFormId: r } = c(
+    (a) => a.signup
   );
-  return /* @__PURE__ */ e.jsx(V, { children: /* @__PURE__ */ e.jsxs(Me, { children: [
-    r === "PlatformSignUpForm" && /* @__PURE__ */ e.jsx(
+  return /* @__PURE__ */ n.jsx(V, { children: /* @__PURE__ */ n.jsxs(Me, { children: [
+    r === "PlatformSignUpForm" && /* @__PURE__ */ n.jsx(
       Se,
       {
         data: o,
-        backToPrevForm: () => n(j("AnondSignUpEmailForm"))
+        backToPrevForm: () => e(j("AnondSignUpEmailForm"))
       }
     ),
-    r === "AnondSignUpEmailForm" && /* @__PURE__ */ e.jsx(
+    r === "AnondSignUpEmailForm" && /* @__PURE__ */ n.jsx(
       Ae,
       {
         data: { email: t.email },
-        backToPrevForm: () => n(j("PlatformSignUpForm"))
+        backToPrevForm: () => e(j("PlatformSignUpForm"))
       }
     ),
-    r === "AnondSignUpTokenForm" && /* @__PURE__ */ e.jsx(
+    r === "AnondSignUpTokenForm" && /* @__PURE__ */ n.jsx(
       be,
       {
         data: { anondToken: t.anondToken },
         backToPrevForm: () => {
-          n(R());
+          e(R());
         },
         backToPlatformSignup: () => {
-          n(R()), n(j("PlatformSignUpForm"));
+          e(R()), e(j("PlatformSignUpForm"));
         }
       }
     )
@@ -606,9 +576,9 @@ const V = s.div`
   display: flex;
   align-items: center;
   width: 50%;
-  background-color: var(${T.computedOne});
+  background-color: var(${x.computedOne});
 `, qe = s(V)`
-  background-color: var(${T.computedTwo});
+  background-color: var(${x.computedTwo});
 `, Me = s.div`
   margin-right: auto;
   margin-left: auto;
@@ -618,7 +588,7 @@ const V = s.div`
   height: 430px;
 
   // border-radius: 7px;
-  // border-color: var(${T.border});
+  // border-color: var(${x.border});
   // border-width: 2px;
   // border-style: solid;
 `, Oe = s.div`
@@ -631,7 +601,7 @@ const V = s.div`
     width: 60px;
     height: 60px;
   }
-`, u = s.p`
+`, m = s.p`
   font-size: 42px;
   line-height: 54px;
   font-weight: 700;
@@ -646,14 +616,14 @@ const V = s.div`
   line-height: 30px;
   font-weight: 500;
 `;
-function ze(n, o) {
-  const t = ye(je(n), o);
+function ze(e, o) {
+  const t = ye(je(e), o);
   oe.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(te.StrictMode, { children: /* @__PURE__ */ e.jsxs(re, { store: t, children: [
-      /* @__PURE__ */ e.jsx(ae, {}),
-      /* @__PURE__ */ e.jsxs(We, { children: [
-        /* @__PURE__ */ e.jsx(Be, {}),
-        /* @__PURE__ */ e.jsx(Le, {})
+    /* @__PURE__ */ n.jsx(te.StrictMode, { children: /* @__PURE__ */ n.jsxs(re, { store: t, children: [
+      /* @__PURE__ */ n.jsx(ae, {}),
+      /* @__PURE__ */ n.jsxs(We, { children: [
+        /* @__PURE__ */ n.jsx(Le, {}),
+        /* @__PURE__ */ n.jsx(De, {})
       ] })
     ] }) })
   ), window.addEventListener("message", ie(t, ke));
