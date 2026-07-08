@@ -101,11 +101,13 @@ public class GraphQlService implements IGraphQlService, Disposable {
             if (Objects.equals(auditRuntime, AUDIT_RUNTIME_CLI)) {
             	runAuditCliTask(file, type, callback);
             } else {
-                startAuditTask(file, new PlatformGraphQlAuditTask(project, file, type, callback));
+                // TODO: temp WA to align logic with the VSCode implementation
+                //startAuditTask(file, new PlatformGraphQlAuditTask(project, file, type, callback));
+                runAuditCliTask(file, type, callback);
             }
         }
     }
-    
+
     private void runAuditCliTask(VirtualFile file, Credentials.Type type, GraphQlCallback callback) {
         CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
             @Override
