@@ -95,29 +95,35 @@ public class GraphQlService implements IGraphQlService, Disposable {
             }
         };
         if (type == Credentials.Type.AnondToken) {
-            CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
-                @Override
-                public void complete(@NotNull String cliPath) {
-                    startAuditTask(file, new GraphQlCliTask(project, file, type, callback));
-                }
-                @Override
-                public void reject(@NotNull String error) {
-                    callback.reject(error);
-                }
-                @Override
-                public void cancel() {
-                    pendingAudits.remove(file.getPath());
-                    MsgUtils.notifyInfo(project, "42Crunch API Security Testing Binary is required to run Audit.");
-                }
-            }, true);
+        	runAuditCliTask(file, type, callback);
         } else if (type == Credentials.Type.ApiToken) {
             String auditRuntime = SettingsService.getInstance().getValue(Settings.Audit.AUDIT_RUNTIME);
             if (Objects.equals(auditRuntime, AUDIT_RUNTIME_CLI)) {
-                startAuditTask(file, new GraphQlCliTask(project, file, type, callback));
+            	runAuditCliTask(file, type, callback);
             } else {
-                startAuditTask(file, new PlatformGraphQlAuditTask(project, file, type, callback));            
+                // TODO: temp WA to align logic with the VSCode implementation
+                //startAuditTask(file, new PlatformGraphQlAuditTask(project, file, type, callback));
+                runAuditCliTask(file, type, callback);
             }
         }
+    }
+
+    private void runAuditCliTask(VirtualFile file, Credentials.Type type, GraphQlCallback callback) {
+        CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
+            @Override
+            public void complete(@NotNull String cliPath) {
+                startAuditTask(file, new GraphQlCliTask(project, file, type, callback));
+            }
+            @Override
+            public void reject(@NotNull String error) {
+                callback.reject(error);
+            }
+            @Override
+            public void cancel() {
+                pendingAudits.remove(file.getPath());
+                MsgUtils.notifyInfo(project, "42Crunch API Security Testing Binary is required to run Audit.");
+            }
+        }, true);
     }
 
     private void startAuditTask(VirtualFile file, Task.Backgroundable task) {

@@ -438,32 +438,36 @@ public final class AuditService implements IAuditService, Disposable {
         boolean isFullAudit = payload == null || payload.isFull();
         // Paid users always run audit using the platform, free users use CLI or fallback to anond
         if (type == Credentials.Type.AnondToken) {
-            CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
-                @Override
-                public void complete(@NotNull String cliPath) {
-                    startAuditTask(file, isFullAudit ? 
-                        new AuditCliTask(project, type, file, callback) : new AuditCliTask(project, type, payload, callback));
-                }
-                @Override
-                public void reject(@NotNull String error) {
-                    callback.reject(error);
-                }
-                @Override
-                public void cancel() {
-                    pendingAudits.remove(file.getPath());
-                    MsgUtils.notifyInfo(project, "42Crunch API Security Testing Binary is required to run Audit.");
-                }
-            }, true);
+            runAuditCliTask(file, payload, type, callback);
         } else if (type == Credentials.Type.ApiToken) {
             String auditRuntime = SettingsService.getInstance().getValue(Settings.Audit.AUDIT_RUNTIME);
             if (Objects.equals(auditRuntime, AUDIT_RUNTIME_CLI)) {
-                startAuditTask(file, isFullAudit ? 
-                    new AuditCliTask(project, type, file, callback) : new AuditCliTask(project, type, payload, callback));
+            	runAuditCliTask(file, payload, type, callback);
             } else {
                 startAuditTask(file, isFullAudit ? 
                     new PlatformAuditTask(project, file, type, callback) : new PlatformAuditTask(project, payload, type, callback));
             }
         }
+    }
+
+    private void runAuditCliTask(VirtualFile file, AuditOperation payload, Credentials.Type type, Callback callback) {
+        CliService.getInstance().downloadOrUpdateIfNecessary(project, new CliService.Callback() {
+            @Override
+            public void complete(@NotNull String cliPath) {
+                boolean isFullAudit = payload == null || payload.isFull();
+                startAuditTask(file, isFullAudit ? new AuditCliTask(project, type, file, callback) :
+                        new AuditCliTask(project, type, payload, callback));
+            }
+            @Override
+            public void reject(@NotNull String error) {
+                callback.reject(error);
+            }
+            @Override
+            public void cancel() {
+                pendingAudits.remove(file.getPath());
+                MsgUtils.notifyInfo(project, "42Crunch API Security Testing Binary is required to run Audit.");
+            }
+        }, true);
     }
 
     private void startAuditTask(VirtualFile file, Task.Backgroundable task) {
