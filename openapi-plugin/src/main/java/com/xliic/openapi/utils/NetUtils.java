@@ -3,6 +3,7 @@ package com.xliic.openapi.utils;
 import static com.xliic.openapi.LogRedactor.Scope.REQUEST_QUERY;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,9 +17,14 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.KeyManagementException;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +32,11 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.codec.binary.Hex;
@@ -54,6 +62,7 @@ import com.xliic.openapi.report.AuditAPIs;
 import com.xliic.openapi.settings.SettingsService;
 import com.xliic.openapi.tryit.TryItTrustManager;
 import com.xliic.openapi.webapp.http.SendHttpRequest;
+import com.xliic.openapi.webapp.http.payload.MtlsConfig;
 
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -70,7 +79,8 @@ public class NetUtils {
     // The safest why to fix that is to create a new OkHttpClient instance with newBuilder()
     private static final OkHttpClient HTTP_CLIENT = new OkHttpClient.Builder().build();
     private static final LogRedactor REDACTOR = new LogRedactor.Builder().addQueryRule("token").build();
-
+    private static final String NO_CA_CERTIFICATE_MSG = "No CA certificate, use the default JVM trust store";
+    
     public interface ProgressListener {
         void update(long bytesRead, long contentLength, boolean done, @NotNull String hash);
     }
@@ -116,20 +126,22 @@ public class NetUtils {
     }
 
     @Nullable
-    public static OkHttpClient getSSLClient() {
-        return getSSLClient(null);
+    public static OkHttpClient getSSLClient(@Nullable MtlsConfig mtlsConfig, boolean rejectUnauthorized) {
+        return getSSLClient(mtlsConfig, null, rejectUnauthorized);
     }
 
     @Nullable
-    public static OkHttpClient getSSLClient(@Nullable String proxy) {
+    public static OkHttpClient getSSLClient(@Nullable MtlsConfig mtlsConfig, @Nullable String proxy, boolean rejectUnauthorized) {
         OkHttpClient.Builder builder = HTTP_CLIENT.newBuilder();
-        TrustManager[] trustAllCerts = new TrustManager[] { new TryItTrustManager() };
         try {
-            SSLContext context = SSLContext.getInstance("SSL");
-            context.init(null, trustAllCerts, new java.security.SecureRandom());
-            SSLSocketFactory trustAllSslSocketFactory = context.getSocketFactory();
-            builder.sslSocketFactory(trustAllSslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-            builder.hostnameVerifier((hostname, session) -> true);
+            SSLContext context = SSLContext.getInstance(mtlsConfig == null ? "SSL" : "TLS");
+            KeyManager[] keyManagers = getKeyManagers(mtlsConfig);
+            TrustManager[] trustManagers = getTrustManagers(mtlsConfig, rejectUnauthorized);
+            context.init(keyManagers, trustManagers, new SecureRandom());
+            builder.sslSocketFactory(context.getSocketFactory(), (X509TrustManager) trustManagers[0]);
+            if (!rejectUnauthorized) {
+                builder.hostnameVerifier((hostname, session) -> true);
+            }
             if (proxy == null) {
                 builder.proxySelector(new CustomProxySelector());
                 builder.proxyAuthenticator(new CustomAuthenticator());
@@ -140,7 +152,7 @@ public class NetUtils {
             builder.eventListener(new ProxyEventListener());
             setTimeouts(builder);
             return builder.build();
-        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+        } catch (GeneralSecurityException | IOException e) {
             Logger.getInstance(SendHttpRequest.class).info(e);
         }
         return null;
@@ -399,6 +411,72 @@ public class NetUtils {
             }
         }
         return builder.build().toString();
+    }
+    
+    private static KeyManager[] getKeyManagers(MtlsConfig config) throws GeneralSecurityException, IOException {
+        if (config == null) {
+            return null;
+        }
+        String password = config.getClientCertificatePassword();
+        KeyStore clientKeyStore = KeyStore.getInstance("PKCS12");
+        try (InputStream is = new ByteArrayInputStream(config.getClientCertificate())) {
+            clientKeyStore.load(is, password.toCharArray());
+        }
+        Logger logger = Logger.getInstance(NetUtils.class);
+        if (logger.isDebugEnabled()) {
+            StringBuilder builder = new StringBuilder("Client certificate details:");
+            Enumeration<String> aliases = clientKeyStore.aliases();
+            while (aliases.hasMoreElements()) {
+                String alias = aliases.nextElement();
+                if (clientKeyStore.isKeyEntry(alias)) {
+                    X509Certificate cert = (X509Certificate) clientKeyStore.getCertificate(alias);
+                    builder.append("Subject: ").append(cert.getSubjectX500Principal());
+                    builder.append("Issuer: ").append(cert.getIssuerX500Principal());
+                    builder.append("Valid until: ").append(cert.getNotAfter());
+                    Certificate[] chain = clientKeyStore.getCertificateChain(alias);
+                    builder.append("Chain length: ").append(chain != null ? chain.length : 0);
+                }
+            }
+            logger.debug(builder.toString());
+        }
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        kmf.init(clientKeyStore, password.toCharArray());
+        return kmf.getKeyManagers();
+    }
+
+    private static TrustManager[] getTrustManagers(MtlsConfig config, boolean rejectUnauthorized) throws GeneralSecurityException, IOException {
+        if (config == null) {
+            if (rejectUnauthorized) {
+                return getDefaultTrustManagers();
+            } else {
+                return new TrustManager[] { new TryItTrustManager() };
+            }
+        } else {
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            X509Certificate caCert;
+            byte[] caCertRaw = config.getCaServerCertificate();
+            if (caCertRaw != null) {
+                try (InputStream is = new ByteArrayInputStream(caCertRaw)) {
+                    caCert = (X509Certificate) cf.generateCertificate(is);
+                }
+                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                trustStore.load(null, null);
+                trustStore.setCertificateEntry("ca", caCert);
+                TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                tmf.init(trustStore);
+                Logger.getInstance(NetUtils.class).debug("CA certificate: " + caCert.getSubjectX500Principal());
+                return tmf.getTrustManagers();
+            } else {
+                return getDefaultTrustManagers();
+            }
+        }
+    }
+
+    private static TrustManager[] getDefaultTrustManagers() throws GeneralSecurityException {
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        tmf.init((KeyStore) null);
+        Logger.getInstance(NetUtils.class).debug(NO_CA_CERTIFICATE_MSG);
+        return tmf.getTrustManagers();
     }
     
     private static void setTimeouts(OkHttpClient.Builder builder) {

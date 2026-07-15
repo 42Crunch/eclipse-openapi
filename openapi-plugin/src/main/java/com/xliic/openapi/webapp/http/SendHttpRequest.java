@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.xliic.core.project.Project;
 import com.xliic.openapi.webapp.http.payload.HttpRequest;
+import com.xliic.openapi.webapp.http.payload.MtlsConfig;
 import com.xliic.openapi.webapp.messages.WebAppProduce;
 
 import okhttp3.OkHttpClient;
@@ -48,7 +49,8 @@ public class SendHttpRequest extends WebAppProduce {
             String proxy = (String) https.get("proxy");
             Object body = request.get("body");
             String id = (String) map.get("id");
-            HttpRequest httpRequest = new HttpRequest(url, method, headers, body, id, rejectUnauthorized, proxy);
+            MtlsConfig mtlsConfig = MtlsConfig.getInstance((Map<String, Object>) map.get("mtlsConfig"));
+            HttpRequest httpRequest = new HttpRequest(url, method, headers, body, id, rejectUnauthorized, proxy, mtlsConfig);
             send(httpRequest, new HttpCallback(project, webAppId, httpRequest.getId()));
         }
     }
@@ -69,29 +71,30 @@ public class SendHttpRequest extends WebAppProduce {
             for (Map.Entry<String, String> header : request.getHeaders().entrySet()) {
                 builder.addHeader(header.getKey(), header.getValue());
             }
-            if (request.isHTTPS() && !request.isRejectUnauthorized()) {
+            boolean rejectUnauthorized = request.isRejectUnauthorized();
+            if (request.isHTTPS()) {
                 if (request.hasCustomProxy()) {
                     String proxy = request.getProxy();
-                    OkHttpClient sslProxyClient = getSSLClient(proxy);
+                    OkHttpClient sslProxyClient = getSSLClient(request.getMtlsConfig(), proxy, rejectUnauthorized);
                     if (sslProxyClient != null) {
                         sslProxyClient.newCall(builder.build()).enqueue(callback);
                     } else {
                         callback.onFailure("Failed to initialize SSL client with proxy " + proxy, true);
                     }
                 } else {
-                    OkHttpClient sslClient = getSSLClient();
+                    OkHttpClient sslClient = getSSLClient(request.getMtlsConfig(), rejectUnauthorized);
                     if (sslClient != null) {
                         sslClient.newCall(builder.build()).enqueue(callback);
                     } else {
                         callback.onFailure("Failed to initialize SSL client", true);
                     }
                 }
-                return;
-            }
-            if (request.hasCustomProxy()) {
-                getHttpClient(request.getProxy()).newCall(builder.build()).enqueue(callback);
             } else {
-            	getHttpClient().newCall(builder.build()).enqueue(callback);
+                if (request.hasCustomProxy()) {
+                    getHttpClient(request.getProxy()).newCall(builder.build()).enqueue(callback);
+                } else {
+                    getHttpClient().newCall(builder.build()).enqueue(callback);
+                }
             }
         } catch (Throwable t) {
             callback.onFailure(t);

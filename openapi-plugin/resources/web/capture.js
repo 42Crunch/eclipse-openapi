@@ -1,23 +1,23 @@
-import { j as e, c as Z, d as ee, s as se, w as te, i as ie, p as ne, a as re, I as oe, r as ae, t as le, l as de, u as ce, b as pe, T as l, e as a, m as ue, B, g as he, R as ge, P as xe, h as me, a0 as fe, k as ve } from "./TriangleExclamation.BLKAXJ8l.js";
-import { s as je } from "./listener.BM8yBkLB.js";
-import { o as we, c as ye } from "./listener.Dm65kE--.js";
-import { s as be } from "./rtk-query-react.modern.kJqw8Vn6.js";
-import { l as Ce, c as Se, o as D } from "./slice.s4_w0CJL.js";
-import { s as Fe, g as Ie, M as H, a as z, b as Pe, G as Ae, S as $e } from "./GeneralError.Dvjq_B8a.js";
-import { f as k, u as ke, g as Me } from "./freemiumd-api.Dj6bF4iR.js";
+import { j as e, c as Y, d as Z, s as ee, w as se, i as te, p as ie, a as ne, I as re, r as oe, t as ae, l as le, u as de, b as ce, T as l, e as a, m as pe, B as D, g as ue, R as he, P as ge, h as xe, a0 as me, k as fe } from "./TriangleExclamation.BLKAXJ8l.js";
+import { s as ve } from "./listener.BM8yBkLB.js";
+import { o as je, c as we } from "./listener.BNWHQqef.js";
+import { s as ye } from "./rtk-query-react.modern.kJqw8Vn6.js";
+import { l as be, c as Ce } from "./slice.s4_w0CJL.js";
+import { s as Se, g as Fe, M as H, a as z, b as Ie, G as Pe, S as Ae } from "./GeneralError.Dvjq_B8a.js";
+import { f as M, u as $e, g as ke } from "./freemiumd-api.YVoWfg3P.js";
 import { S as G } from "./TrashCan.DYWcjlk_.js";
-import { a as Le } from "./SearchSidebar.CtwbvK_x.js";
-import { u as Oe } from "./index.esm.MIM2ge_D.js";
+import { a as Me } from "./SearchSidebar.CtwbvK_x.js";
+import { u as Le } from "./index.esm.MIM2ge_D.js";
 import { I as E } from "./Input.BQnalfHf.js";
-import { o as Be, s as R, F as De } from "./schemas.BH6uGBRD.js";
-import { E as Ee, B as Re } from "./Banner.BZe2qI8d.js";
-const Ue = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M18.8 232c8.2 0 15.1-6.2 16.5-14.3 5.7-33.3 18.8-64.1 37.5-90.7 4.7-6.7 4.3-16-1.5-21.8-6.7-6.7-17.8-6.2-23.3 1.5-22.5 31.4-38.2 68-44.6 107.7-1.6 9.4 5.9 17.6 15.4 17.6M127 72.8c26.5-18.7 57.3-31.8 90.6-37.6 8.2-1.3 14.4-8.2 14.4-16.4 0-9.5-8.2-17-17.5-15.4-39.8 6.4-76.4 22.1-107.8 44.6-7.7 5.5-8.2 16.6-1.5 23.3 5.8 5.8 15.1 6.3 21.8 1.5m153 420.4c0 9.5 8.2 17 17.5 15.4 39.7-6.5 76.4-22.1 107.7-44.6 7.7-5.5 8.2-16.6 1.5-23.3-5.8-5.8-15.1-6.3-21.8-1.5-26.5 18.7-57.3 31.8-90.6 37.6-8.1 1.4-14.3 8.2-14.3 16.5zM439.2 385c-4.7 6.7-4.3 16 1.5 21.8 6.7 6.7 17.8 6.2 23.3-1.5 22.5-31.4 38.2-68 44.6-107.7 1.5-9.4-5.9-17.5-15.4-17.5-8.2 0-15.1 6.2-16.5 14.3-5.7 33.3-18.8 64.1-37.6 90.6zm-334 55.7c-6.7 6.7-6.2 17.8 1.5 23.3 31.4 22.5 68 38.2 107.7 44.6 9.4 1.5 17.5-5.9 17.5-15.4 0-8.2-6.2-15.1-14.3-16.5-33.3-5.7-64.1-18.8-90.6-37.6-6.7-4.7-16-4.3-21.8 1.5zM48 405.3c5.5 7.7 16.6 8.2 23.3 1.5 5.8-5.8 6.3-15.1 1.5-21.8-18.7-26.6-31.8-57.4-37.5-90.7-1.4-8.1-8.3-14.3-16.5-14.3-9.5 0-17 8.2-15.4 17.5 6.4 39.8 22.1 76.4 44.6 107.8m358.8-334c6.7-6.7 6.2-17.8-1.5-23.3-31.4-22.5-68-38.2-107.7-44.6-9.4-1.6-17.6 5.9-17.6 15.4 0 8.2 6.2 15.1 14.3 16.5 33.3 5.7 64.1 18.8 90.7 37.5 6.7 4.7 16 4.3 21.8-1.5m32.4 55.7c18.7 26.5 31.8 57.3 37.6 90.6 1.4 8.1 8.2 14.3 16.5 14.3 9.5 0 17-8.2 15.4-17.5-6.5-39.7-22.1-76.4-44.6-107.7-5.5-7.7-16.6-8.2-23.3-1.5-5.8 5.8-6.3 15.1-1.5 21.8z" }) }), Te = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0m0 480C132.5 480 32 379.5 32 256S132.5 32 256 32s224 100.5 224 224-100.5 224-224 224m0-176c8.844 0 16-7.156 16-16V128c0-8.844-7.156-16-16-16s-16 7.2-16 16v160c0 8.8 7.2 16 16 16m0 40c-13.25 0-24 10.75-24 24s10.75 24 24 24 24-10.75 24-24-10.7-24-24-24" }) }), V = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M207.4 20.4c2.4 8.5-2.6 17.3-11.2 19.7C101.5 66.2 32 153 32 256c0 123.7 100.3 224 224 224s224-100.3 224-224c0-103-69.5-189.8-164.3-215.9-8.5-2.4-13.5-11.2-11.2-19.7s11.2-13.5 19.7-11.2C432.5 39.1 512 138.2 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 138.2 79.5 39.1 187.7 9.2c8.5-2.4 17.3 2.6 19.7 11.2" }) }), He = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M354.9 121.7c13.8 16 36.5 21.1 55.9 12.5 8.9-3.9 18.7-6.2 29.2-6.2 39.8 0 72 32.2 72 72q0 6-.9 11.7c-3.5 21.6 8.1 42.9 28.1 51.7C570.4 276.9 592 308 592 344c0 46.8-36.6 85.2-82.8 87.8-.6 0-1.3.1-1.9.2H144c-53 0-96-43-96-96 0-41.7 26.6-77.3 64-90.5 19.2-6.8 32-24.9 32-45.3v-.2c0-66.3 53.7-120 120-120 36.3 0 68.8 16.1 90.9 41.7M512 480v-.2c71.4-4.1 128-63.3 128-135.8 0-55.7-33.5-103.7-81.5-124.7 1-6.3 1.5-12.8 1.5-19.3 0-66.3-53.7-120-120-120-17.4 0-33.8 3.7-48.7 10.3C360.4 54.6 314.9 32 264 32c-92.8 0-168 75.2-168 168v.2C40.1 220 0 273.3 0 336c0 79.5 64.5 144 144 144h368M223 313l80 80c9.4 9.4 24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-39 39V184c0-13.3-10.7-24-24-24s-24 10.7-24 24v134.1l-39-39c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z" }) }), ze = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M320 480H64c-17.7 0-32-14.3-32-32V64c0-17.7 14.3-32 32-32h128v112c0 26.5 21.5 48 48 48h112v256c0 17.7-14.3 32-32 32m-80-320c-8.8 0-16-7.2-16-16V32.5c2.8.7 5.4 2.1 7.4 4.2l115.9 115.9c2.1 2.1 3.5 4.6 4.2 7.4zM64 0C28.7 0 0 28.7 0 64v384c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V163.9c0-12.7-5.1-24.9-14.1-33.9L254.1 14.1c-9-9-21.2-14.1-33.9-14.1zm91.3 299.3c6.2-6.2 6.2-16.4 0-22.6s-16.4-6.2-22.6 0l-48 48c-6.2 6.2-6.2 16.4 0 22.6l48 48c6.2 6.2 16.4 6.2 22.6 0s6.2-16.4 0-22.6L118.6 336zm144 25.4-48-48c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6l36.7 36.7-36.7 36.7c-6.2 6.2-6.2 16.4 0 22.6s16.4 6.2 22.6 0l48-48c6.2-6.2 6.2-16.4 0-22.6" }) }), L = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M448 464H192c-8.8 0-16-7.2-16-16v-80h-48v80c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3l-90.6-90.5C390.7 6.7 374.5 0 357.5 0H192c-35.3 0-64 28.7-64 64v192h48V64c0-8.8 7.2-16 16-16h160v80c0 17.7 14.3 32 32 32h80v288c0 8.8-7.2 16-16 16M297 215c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l39 39H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h278.1l-39 39c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9l-80-80z" }) }), Ge = {
+import { o as Oe, s as R, F as Be } from "./schemas.BH6uGBRD.js";
+import { E as De, B as Ee } from "./Banner.BZe2qI8d.js";
+const Re = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M18.8 232c8.2 0 15.1-6.2 16.5-14.3 5.7-33.3 18.8-64.1 37.5-90.7 4.7-6.7 4.3-16-1.5-21.8-6.7-6.7-17.8-6.2-23.3 1.5-22.5 31.4-38.2 68-44.6 107.7-1.6 9.4 5.9 17.6 15.4 17.6M127 72.8c26.5-18.7 57.3-31.8 90.6-37.6 8.2-1.3 14.4-8.2 14.4-16.4 0-9.5-8.2-17-17.5-15.4-39.8 6.4-76.4 22.1-107.8 44.6-7.7 5.5-8.2 16.6-1.5 23.3 5.8 5.8 15.1 6.3 21.8 1.5m153 420.4c0 9.5 8.2 17 17.5 15.4 39.7-6.5 76.4-22.1 107.7-44.6 7.7-5.5 8.2-16.6 1.5-23.3-5.8-5.8-15.1-6.3-21.8-1.5-26.5 18.7-57.3 31.8-90.6 37.6-8.1 1.4-14.3 8.2-14.3 16.5zM439.2 385c-4.7 6.7-4.3 16 1.5 21.8 6.7 6.7 17.8 6.2 23.3-1.5 22.5-31.4 38.2-68 44.6-107.7 1.5-9.4-5.9-17.5-15.4-17.5-8.2 0-15.1 6.2-16.5 14.3-5.7 33.3-18.8 64.1-37.6 90.6zm-334 55.7c-6.7 6.7-6.2 17.8 1.5 23.3 31.4 22.5 68 38.2 107.7 44.6 9.4 1.5 17.5-5.9 17.5-15.4 0-8.2-6.2-15.1-14.3-16.5-33.3-5.7-64.1-18.8-90.6-37.6-6.7-4.7-16-4.3-21.8 1.5zM48 405.3c5.5 7.7 16.6 8.2 23.3 1.5 5.8-5.8 6.3-15.1 1.5-21.8-18.7-26.6-31.8-57.4-37.5-90.7-1.4-8.1-8.3-14.3-16.5-14.3-9.5 0-17 8.2-15.4 17.5 6.4 39.8 22.1 76.4 44.6 107.8m358.8-334c6.7-6.7 6.2-17.8-1.5-23.3-31.4-22.5-68-38.2-107.7-44.6-9.4-1.6-17.6 5.9-17.6 15.4 0 8.2 6.2 15.1 14.3 16.5 33.3 5.7 64.1 18.8 90.7 37.5 6.7 4.7 16 4.3 21.8-1.5m32.4 55.7c18.7 26.5 31.8 57.3 37.6 90.6 1.4 8.1 8.2 14.3 16.5 14.3 9.5 0 17-8.2 15.4-17.5-6.5-39.7-22.1-76.4-44.6-107.7-5.5-7.7-16.6-8.2-23.3-1.5-5.8 5.8-6.3 15.1-1.5 21.8z" }) }), Ue = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0m0 480C132.5 480 32 379.5 32 256S132.5 32 256 32s224 100.5 224 224-100.5 224-224 224m0-176c8.844 0 16-7.156 16-16V128c0-8.844-7.156-16-16-16s-16 7.2-16 16v160c0 8.8 7.2 16 16 16m0 40c-13.25 0-24 10.75-24 24s10.75 24 24 24 24-10.75 24-24-10.7-24-24-24" }) }), V = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M207.4 20.4c2.4 8.5-2.6 17.3-11.2 19.7C101.5 66.2 32 153 32 256c0 123.7 100.3 224 224 224s224-100.3 224-224c0-103-69.5-189.8-164.3-215.9-8.5-2.4-13.5-11.2-11.2-19.7s11.2-13.5 19.7-11.2C432.5 39.1 512 138.2 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 138.2 79.5 39.1 187.7 9.2c8.5-2.4 17.3 2.6 19.7 11.2" }) }), Te = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M354.9 121.7c13.8 16 36.5 21.1 55.9 12.5 8.9-3.9 18.7-6.2 29.2-6.2 39.8 0 72 32.2 72 72q0 6-.9 11.7c-3.5 21.6 8.1 42.9 28.1 51.7C570.4 276.9 592 308 592 344c0 46.8-36.6 85.2-82.8 87.8-.6 0-1.3.1-1.9.2H144c-53 0-96-43-96-96 0-41.7 26.6-77.3 64-90.5 19.2-6.8 32-24.9 32-45.3v-.2c0-66.3 53.7-120 120-120 36.3 0 68.8 16.1 90.9 41.7M512 480v-.2c71.4-4.1 128-63.3 128-135.8 0-55.7-33.5-103.7-81.5-124.7 1-6.3 1.5-12.8 1.5-19.3 0-66.3-53.7-120-120-120-17.4 0-33.8 3.7-48.7 10.3C360.4 54.6 314.9 32 264 32c-92.8 0-168 75.2-168 168v.2C40.1 220 0 273.3 0 336c0 79.5 64.5 144 144 144h368M223 313l80 80c9.4 9.4 24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-39 39V184c0-13.3-10.7-24-24-24s-24 10.7-24 24v134.1l-39-39c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z" }) }), He = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M320 480H64c-17.7 0-32-14.3-32-32V64c0-17.7 14.3-32 32-32h128v112c0 26.5 21.5 48 48 48h112v256c0 17.7-14.3 32-32 32m-80-320c-8.8 0-16-7.2-16-16V32.5c2.8.7 5.4 2.1 7.4 4.2l115.9 115.9c2.1 2.1 3.5 4.6 4.2 7.4zM64 0C28.7 0 0 28.7 0 64v384c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V163.9c0-12.7-5.1-24.9-14.1-33.9L254.1 14.1c-9-9-21.2-14.1-33.9-14.1zm91.3 299.3c6.2-6.2 6.2-16.4 0-22.6s-16.4-6.2-22.6 0l-48 48c-6.2 6.2-6.2 16.4 0 22.6l48 48c6.2 6.2 16.4 6.2 22.6 0s6.2-16.4 0-22.6L118.6 336zm144 25.4-48-48c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6l36.7 36.7-36.7 36.7c-6.2 6.2-6.2 16.4 0 22.6s16.4 6.2 22.6 0l48-48c6.2-6.2 6.2-16.4 0-22.6" }) }), O = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...s, children: /* @__PURE__ */ e.jsx("path", { d: "M448 464H192c-8.8 0-16-7.2-16-16v-80h-48v80c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3l-90.6-90.5C390.7 6.7 374.5 0 357.5 0H192c-35.3 0-64 28.7-64 64v192h48V64c0-8.8 7.2-16 16-16h160v80c0 17.7 14.3 32 32 32h80v288c0 8.8-7.2 16-16 16M297 215c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l39 39H24c-13.3 0-24 10.7-24 24s10.7 24 24 24h278.1l-39 39c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9l-80-80z" }) }), ze = {
   items: [],
   selectedId: void 0,
   token: void 0
-}, W = Z({
+}, W = Y({
   name: "capture",
-  initialState: Ge,
+  initialState: ze,
   reducers: {
     showCaptureWindow: (s, t) => {
       s.items = t.payload.items, s.selectedId = t.payload.items.length > 0 ? t.payload.items[0].id : void 0;
@@ -56,26 +56,26 @@ const Ue = (s) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/
   }
 }), {
   showCaptureWindow: q,
-  selectFiles: S,
+  selectFiles: F,
   saveCaptureSettings: J,
   convert: N,
-  saveCapture: Ve,
+  saveCapture: Ge,
   downloadFile: K,
   deleteJob: _,
   deleteFile: Q,
-  openLink: X,
-  setSelectedItemId: We,
-  setCaptureToken: qe
-} = W.actions, Je = W.reducer, Y = ee(), c = Y.startListening;
-function Ne(s, t) {
+  openLink: S,
+  setSelectedItemId: Ve,
+  setCaptureToken: We
+} = W.actions, qe = W.reducer, X = Z(), c = X.startListening;
+function Je(s, t) {
   const n = () => c({
     actionCreator: q,
     effect: async (r, o) => {
-      o.dispatch(te(["main", "capture"]));
+      o.dispatch(se(["main", "capture"]));
     }
   }), i = {
     selectFiles: () => c({
-      actionCreator: S,
+      actionCreator: F,
       effect: async (r, o) => {
         s.postMessage({
           command: "selectFiles",
@@ -84,9 +84,9 @@ function Ne(s, t) {
       }
     }),
     saveCaptureSettings: () => c({
-      matcher: ie(J, Q),
+      matcher: te(J, Q),
       effect: async (r, o) => {
-        const d = r.payload.id, y = o.getState().capture.items.find((F) => F.id === d);
+        const d = r.payload.id, y = o.getState().capture.items.find((I) => I.id === d);
         s.postMessage({
           command: "saveCaptureSettings",
           payload: {
@@ -127,7 +127,7 @@ function Ne(s, t) {
       }
     }),
     openLink: () => c({
-      actionCreator: X,
+      actionCreator: S,
       effect: async (r, o) => {
         s.postMessage({
           command: "openLink",
@@ -135,46 +135,46 @@ function Ne(s, t) {
         });
       }
     }),
-    sendHttpRequest: we(c, s)
+    sendHttpRequest: je(c, s)
   };
-  return je(c, t), se({ ...i, onShowCaptureWindow: n }), Y;
+  return ve(c, t), ee({ ...i, onShowCaptureWindow: n }), X;
 }
-const Ke = {
-  theme: le,
-  capture: Je,
-  router: ae,
-  confirmationDialog: oe,
-  config: Se,
-  client: ye,
-  generalError: Ie,
-  [k.reducerPath]: k.reducer
-}, _e = {
-  changeTheme: ne,
+const Ne = {
+  theme: ae,
+  capture: qe,
+  router: oe,
+  confirmationDialog: re,
+  config: Ce,
+  client: we,
+  generalError: Fe,
+  [M.reducerPath]: M.reducer
+}, Ke = {
+  changeTheme: ie,
   showCaptureWindow: q,
-  setCaptureToken: qe,
-  saveCapture: Ve,
-  loadConfig: Ce,
+  setCaptureToken: We,
+  saveCapture: Ge,
+  loadConfig: be,
   showHttpError: () => null,
   showHttpResponse: () => null,
-  showGeneralError: Fe
-}, Qe = (s, t) => {
-  const n = re({
-    reducer: Ke,
-    middleware: (i) => i().prepend(s.middleware).concat(de, k.middleware),
+  showGeneralError: Se
+}, _e = (s, t) => {
+  const n = ne({
+    reducer: Ne,
+    middleware: (i) => i().prepend(s.middleware).concat(le, M.middleware),
     preloadedState: {
       theme: t
     }
   });
-  return be(n.dispatch), n;
-}, w = () => ce(), j = pe;
-function M({ progress: s, label: t }) {
+  return ye(n.dispatch), n;
+}, w = () => de(), j = ce;
+function L({ progress: s, label: t }) {
   const n = Math.ceil(s * 100), i = t !== void 0 ? t : `${n}%`;
-  return /* @__PURE__ */ e.jsxs(Xe, { children: [
-    /* @__PURE__ */ e.jsx(Ye, { children: i }),
-    /* @__PURE__ */ e.jsx(Ze, { $progress: s, children: i })
+  return /* @__PURE__ */ e.jsxs(Qe, { children: [
+    /* @__PURE__ */ e.jsx(Xe, { children: i }),
+    /* @__PURE__ */ e.jsx(Ye, { $progress: s, children: i })
   ] });
 }
-const Xe = a.div`
+const Qe = a.div`
   position: relative;
   display: flex;
   height: 26px;
@@ -182,7 +182,7 @@ const Xe = a.div`
   border: 1px solid var(${l.buttonBorder});
   border-radius: 6px;
   overflow: hidden;
-`, Ye = a.div`
+`, Xe = a.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -190,7 +190,7 @@ const Xe = a.div`
   background-color: var(${l.computedOne});
   color: var(${l.foreground});
   border-radius: 6px;
-`, Ze = a.div`
+`, Ye = a.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -204,16 +204,16 @@ const Xe = a.div`
   clip-path: inset(0 ${({ $progress: s }) => 100 - s * 100}% 0 0);
   transition: clip-path 0.3s linear;
 `;
-function es() {
+function Ze() {
   const s = w(), { selectedId: t, items: n } = j((r) => r.capture), i = n.find((r) => r.id === t);
   return i ? /* @__PURE__ */ e.jsx(
-    De,
+    Be,
     {
-      wrapFormData: ts,
-      unwrapFormData: is,
+      wrapFormData: ss,
+      unwrapFormData: ts,
       useFormMode: "onChange",
       data: i.prepareOptions,
-      schema: gs,
+      schema: hs,
       saveData: (r) => {
         s(
           J({
@@ -222,14 +222,14 @@ function es() {
           })
         );
       },
-      children: /* @__PURE__ */ e.jsx(ss, { item: i })
+      children: /* @__PURE__ */ e.jsx(es, { item: i })
     }
   ) : /* @__PURE__ */ e.jsx("div", { children: "No job selected" });
 }
-function ss({ item: s }) {
+function es({ item: s }) {
   const t = w(), {
     formState: { isValid: n }
-  } = Oe();
+  } = Le();
   return /* @__PURE__ */ e.jsxs("div", { children: [
     /* @__PURE__ */ e.jsx(f, { children: "API Contract Generator" }),
     /* @__PURE__ */ e.jsxs("ul", { children: [
@@ -240,31 +240,31 @@ function ss({ item: s }) {
     ] }),
     /* @__PURE__ */ e.jsx(C, {}),
     /* @__PURE__ */ e.jsx(f, { children: "Selected files" }),
-    /* @__PURE__ */ e.jsxs(os, { children: [
-      s.files && /* @__PURE__ */ e.jsx("div", { children: s.files.map((i, r) => /* @__PURE__ */ e.jsxs(ns, { children: [
-        /* @__PURE__ */ e.jsx(ze, {}),
+    /* @__PURE__ */ e.jsxs(rs, { children: [
+      s.files && /* @__PURE__ */ e.jsx("div", { children: s.files.map((i, r) => /* @__PURE__ */ e.jsxs(is, { children: [
+        /* @__PURE__ */ e.jsx(He, {}),
         " ",
-        A(i),
+        $(i),
         /* @__PURE__ */ e.jsx(H, { children: /* @__PURE__ */ e.jsxs(z, { onSelect: () => t(Q({ id: s.id, file: i })), children: [
           /* @__PURE__ */ e.jsx(G, {}),
           "Delete"
         ] }) })
       ] }, `item-${s.id}-file-${r}`)) }),
-      /* @__PURE__ */ e.jsxs(ls, { children: [
+      /* @__PURE__ */ e.jsxs(as, { children: [
         (s.status === "pending" || s.status === "failed") && /* @__PURE__ */ e.jsxs(
-          P,
+          A,
           {
             onClick: (i) => {
-              t(S({ id: s.id })), i.stopPropagation(), i.preventDefault();
+              t(F({ id: s.id })), i.stopPropagation(), i.preventDefault();
             },
             children: [
-              /* @__PURE__ */ e.jsx(L, {}),
+              /* @__PURE__ */ e.jsx(O, {}),
               "Add more files"
             ]
           }
         ),
         (s.status === "pending" || s.status === "failed") && s.files.length > 0 && /* @__PURE__ */ e.jsxs(
-          P,
+          A,
           {
             $disabled: !n,
             $primary: !0,
@@ -272,7 +272,7 @@ function ss({ item: s }) {
               n && t(N({ id: s.id })), i.stopPropagation(), i.preventDefault();
             },
             children: [
-              /* @__PURE__ */ e.jsx(Pe, {}),
+              /* @__PURE__ */ e.jsx(Ie, {}),
               "Generate"
             ]
           }
@@ -281,7 +281,7 @@ function ss({ item: s }) {
     ] }),
     /* @__PURE__ */ e.jsx(C, {}),
     /* @__PURE__ */ e.jsx(f, { children: "Options" }),
-    /* @__PURE__ */ e.jsxs(rs, { children: [
+    /* @__PURE__ */ e.jsxs(ns, { children: [
       /* @__PURE__ */ e.jsx(
         E,
         {
@@ -295,20 +295,20 @@ function ss({ item: s }) {
     Object.keys(s.uploadStatus).length > 0 && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
       /* @__PURE__ */ e.jsx(C, {}),
       /* @__PURE__ */ e.jsx(f, { children: "Progress" }),
-      /* @__PURE__ */ e.jsxs(ps, { children: [
-        /* @__PURE__ */ e.jsx(cs, { children: Object.entries(s.uploadStatus || {}).map(([i, r]) => /* @__PURE__ */ e.jsxs(as, { children: [
-          /* @__PURE__ */ e.jsx(M, { label: A(i), progress: r.percent }, i),
-          s.status === "running" && /* @__PURE__ */ e.jsx(hs, { children: /* @__PURE__ */ e.jsx(V, {}) })
+      /* @__PURE__ */ e.jsxs(cs, { children: [
+        /* @__PURE__ */ e.jsx(ds, { children: Object.entries(s.uploadStatus || {}).map(([i, r]) => /* @__PURE__ */ e.jsxs(os, { children: [
+          /* @__PURE__ */ e.jsx(L, { label: $(i), progress: r.percent }, i),
+          s.status === "running" && /* @__PURE__ */ e.jsx(us, { children: /* @__PURE__ */ e.jsx(V, {}) })
         ] }, `file-${i}`)) }),
         s.status === "finished" && /* @__PURE__ */ e.jsxs(
-          P,
+          A,
           {
             $primary: !0,
             onClick: (i) => {
               t(K({ id: s.id })), i.stopPropagation(), i.preventDefault();
             },
             children: [
-              /* @__PURE__ */ e.jsx(He, {}),
+              /* @__PURE__ */ e.jsx(Te, {}),
               "Save OpenAPI file"
             ]
           }
@@ -321,9 +321,9 @@ function ss({ item: s }) {
             {
               href: "#",
               onClick: (i) => {
-                i.preventDefault(), i.stopPropagation(), t(X(s.downloadedFile || ""));
+                i.preventDefault(), i.stopPropagation(), t(S(s.downloadedFile || ""));
               },
-              children: A(s.downloadedFile)
+              children: $(s.downloadedFile)
             }
           )
         ] })
@@ -332,17 +332,17 @@ function ss({ item: s }) {
     s.log.length > 0 && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
       /* @__PURE__ */ e.jsx(C, {}),
       /* @__PURE__ */ e.jsx(f, { children: "Logs" }),
-      /* @__PURE__ */ e.jsx(ds, { children: s.log.map((i, r) => /* @__PURE__ */ e.jsx("div", { children: i }, r)) })
+      /* @__PURE__ */ e.jsx(ls, { children: s.log.map((i, r) => /* @__PURE__ */ e.jsx("div", { children: i }, r)) })
     ] })
   ] });
 }
-function ts(s) {
+function ss(s) {
   return { basePath: s.basePath, servers: s.servers.join(",") };
 }
-function is(s) {
+function ts(s) {
   return { basePath: s.basePath, servers: s.servers.split(",") };
 }
-const P = a.div`
+const A = a.div`
   display: flex;
   gap: 4px;
   align-items: center;
@@ -356,7 +356,7 @@ const P = a.div`
       ${({ $disabled: s }) => s ? l.disabledForeground : l.linkForeground}
     );
   }
-`, ns = a.div`
+`, is = a.div`
   display: flex;
   padding: 0 8px;
   gap: 4px;
@@ -376,19 +376,19 @@ const P = a.div`
   font-size: 13px;
   font-weight: 600;
   color: var(${l.foreground});
-`, rs = a.div`
+`, ns = a.div`
   margin-top: 16px;
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
   max-width: 600px;
   gap: 16px;
-`, os = a.div`
+`, rs = a.div`
   display: flex;
   flex-direction: row;
   padding-bottom: 8px;
   align-items: start;
-`, as = a.div`
+`, os = a.div`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -396,43 +396,43 @@ const P = a.div`
     flex: 1;
     max-width: 600px;
   }
-`, ls = a.div`
+`, as = a.div`
   display: flex;
   flex-direction: row;
   gap: 16px;
-`, ds = a.div`
+`, ls = a.div`
   font-family: monospace;
   display: flex;
   flex-direction: column;
   gap: 4px;
-`, cs = a.div`
+`, ds = a.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, ps = a.div`
+`, cs = a.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
 `, C = a.hr`
   border: none;
   border-top: 1px solid var(${l.border});
-`, us = ue`
+`, ps = pe`
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(359deg);
   }
-`, hs = a.div`
+`, us = a.div`
   display: flex;
   align-items: center;
   justify-content: center;
   > svg {
-    animation: ${us} 2s infinite linear;
+    animation: ${ps} 2s infinite linear;
     transition: width 0.2s linear;
     fill: var(${l.foreground});
   }
-`, gs = Be({
+`, hs = Oe({
   basePath: R().min(1).trim(),
   servers: R().min(1).refine(
     (s) => s.split(",").map((t) => t.trim()).filter((t) => t.length > 0).every((t) => t.startsWith("http://") || t.startsWith("https://")),
@@ -441,28 +441,28 @@ const P = a.div`
     }
   )
 });
-function A(s) {
+function $(s) {
   return decodeURIComponent(s.substring(s.lastIndexOf("/") + 1));
 }
-function xs({
+function gs({
   token: s,
   useDevEndpoints: t
 }) {
-  const { data: n, error: i, isLoading: r } = ke(s.trim(), {
+  const { data: n, error: i, isLoading: r } = $e(s.trim(), {
     refetchOnFocus: !0,
     pollingInterval: 6e5
     // refresh every 10 minutes
-  }), o = w(), d = j((g) => g.config.data.platformAuthType), { upgradeUrl: y, stripeBillingUrl: F } = Me(t);
+  }), o = w(), d = j((g) => g.config.data.platformAuthType), { upgradeUrl: y, stripeBillingUrl: I } = ke(t);
   if (i)
-    return /* @__PURE__ */ e.jsx($, { children: /* @__PURE__ */ e.jsxs(Ee, { message: "Failed to load subscription status", children: [
+    return /* @__PURE__ */ e.jsx(k, { children: /* @__PURE__ */ e.jsxs(De, { message: "Failed to load subscription status", children: [
       i.code,
       " ",
       i.message
     ] }) });
   if (r || n === void 0)
-    return /* @__PURE__ */ e.jsx($, { children: /* @__PURE__ */ e.jsx(Re, { message: "Loading subscription status..." }) });
-  const h = n.monthlyOp + n.bonusOp, I = n.currentAuditUsage + n.currentScanUsage + n.currentGraphqlAuditUsage + n.currentGraphqlScanUsage + n.currentCaptureUsage, O = h > 0 ? 1 - I / h : 0, b = n?.subscriptionKind.toLowerCase().includes("trial");
-  return /* @__PURE__ */ e.jsxs($, { children: [
+    return /* @__PURE__ */ e.jsx(k, { children: /* @__PURE__ */ e.jsx(Ee, { message: "Loading subscription status..." }) });
+  const h = n.monthlyOp + n.bonusOp, P = n.currentAuditUsage + n.currentScanUsage + n.currentGraphqlAuditUsage + n.currentGraphqlScanUsage + n.currentCaptureUsage, B = h > 0 ? 1 - P / h : 0, b = n?.subscriptionKind.toLowerCase().includes("trial") || n?.subscriptionKind === "free";
+  return /* @__PURE__ */ e.jsxs(k, { children: [
     d === "anond-token" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
       /* @__PURE__ */ e.jsxs(x, { children: [
         /* @__PURE__ */ e.jsxs(u, { children: [
@@ -472,21 +472,21 @@ function xs({
         /* @__PURE__ */ e.jsx(v, { children: "Upgrade or manage your subscription plan" }),
         /* @__PURE__ */ e.jsxs(m, { children: [
           b && /* @__PURE__ */ e.jsx(
-            B,
+            D,
             {
               onClick: (g) => {
-                g.preventDefault(), g.stopPropagation(), o(D(`${y}?email=${encodeURIComponent(n.userEmail)}`));
+                g.preventDefault(), g.stopPropagation(), o(S(`${y}?email=${encodeURIComponent(n.userEmail)}`));
               },
               children: "Upgrade"
             }
           ),
           !b && /* @__PURE__ */ e.jsx(
-            B,
+            D,
             {
               onClick: (g) => {
                 g.preventDefault(), g.stopPropagation(), o(
-                  D(
-                    `${F}?prefilled_email=${encodeURIComponent(n.userEmail)}`
+                  S(
+                    `${I}?prefilled_email=${encodeURIComponent(n.userEmail)}`
                   )
                 );
               },
@@ -508,11 +508,11 @@ function xs({
         /* @__PURE__ */ e.jsx(u, { children: "Usage" }),
         /* @__PURE__ */ e.jsx(v, { children: "Monthly allowance left" }),
         /* @__PURE__ */ e.jsxs(m, { children: [
-          h - I,
+          h - P,
           " / ",
           h
         ] }),
-        /* @__PURE__ */ e.jsx(M, { label: "", progress: O })
+        /* @__PURE__ */ e.jsx(L, { label: "", progress: B })
       ] }),
       b && h <= 0 && /* @__PURE__ */ e.jsx(x, { children: /* @__PURE__ */ e.jsx(u, { children: "This trial subscription is now finished." }) })
     ] }),
@@ -521,11 +521,11 @@ function xs({
         /* @__PURE__ */ e.jsx(u, { children: "Tenant Allowance" }),
         /* @__PURE__ */ e.jsx(v, { children: "Monthly allowance left" }),
         /* @__PURE__ */ e.jsxs(m, { children: [
-          h - I,
+          h - P,
           " / ",
           h
         ] }),
-        /* @__PURE__ */ e.jsx(M, { label: "", progress: O })
+        /* @__PURE__ */ e.jsx(L, { label: "", progress: B })
       ] }),
       /* @__PURE__ */ e.jsxs(x, { children: [
         /* @__PURE__ */ e.jsxs(u, { children: [
@@ -538,7 +538,7 @@ function xs({
     ] })
   ] });
 }
-const $ = a.div`
+const k = a.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -579,19 +579,19 @@ const $ = a.div`
     grid-row: 3;
   }
 `;
-function ms() {
+function xs() {
   const s = w(), t = j((i) => i.config.data.internalUseDevEndpoints), n = j((i) => i.capture.token);
-  return /* @__PURE__ */ e.jsxs(fs, { children: [
+  return /* @__PURE__ */ e.jsxs(ms, { children: [
     /* @__PURE__ */ e.jsx("h1", { children: "Welcome to API Contract Generator" }),
     /* @__PURE__ */ e.jsx("p", { children: "Generate OpenAPI files automatically from Postman collections and HAR files, directly in your IDE. This saves you time and avoids extra manual effort." }),
     /* @__PURE__ */ e.jsxs(
-      js,
+      vs,
       {
         onClick: (i) => {
-          s(S({ id: void 0 })), i.stopPropagation(), i.preventDefault();
+          s(F({ id: void 0 })), i.stopPropagation(), i.preventDefault();
         },
         children: [
-          /* @__PURE__ */ e.jsx(L, {}),
+          /* @__PURE__ */ e.jsx(O, {}),
           "Select Postman or HAR files"
         ]
       }
@@ -623,18 +623,18 @@ function ms() {
       /* @__PURE__ */ e.jsx(p, { children: "edit" }),
       " it it directly in the IDE. We recommend your run audit on your API contract to improve its quality and security."
     ] }),
-    n !== void 0 && /* @__PURE__ */ e.jsx(vs, { children: /* @__PURE__ */ e.jsx(xs, { token: n, useDevEndpoints: t }) }),
-    /* @__PURE__ */ e.jsx(Ae, {})
+    n !== void 0 && /* @__PURE__ */ e.jsx(fs, { children: /* @__PURE__ */ e.jsx(gs, { token: n, useDevEndpoints: t }) }),
+    /* @__PURE__ */ e.jsx(Pe, {})
   ] });
 }
-const fs = a.div`
+const ms = a.div`
   max-width: 600px;
-`, vs = a.div`
+`, fs = a.div`
   margin-top: 2em;
   margin-bottom: 2em;
 `, p = a.span`
   font-weight: 600;
-`, js = a.div`
+`, vs = a.div`
   margin-top: 2em;
   margin-bottom: 2em;
   display: flex;
@@ -653,15 +653,15 @@ const fs = a.div`
     );
   }
 `;
-function ws() {
-  const s = w(), { items: t, selectedId: n } = j((o) => o.capture), i = ({ sectionId: o, itemId: d }) => s(We(d)), r = [
+function js() {
+  const s = w(), { items: t, selectedId: n } = j((o) => o.capture), i = ({ sectionId: o, itemId: d }) => s(Ve(d)), r = [
     {
       id: "capture",
       title: "Capture",
       items: t.map((o) => ({
         id: o.id,
-        label: ys(o),
-        icon: bs(o.status),
+        label: ws(o),
+        icon: ys(o.status),
         menu: /* @__PURE__ */ e.jsx(H, { children: /* @__PURE__ */ e.jsxs(
           z,
           {
@@ -678,7 +678,7 @@ function ws() {
     }
   ];
   return /* @__PURE__ */ e.jsx(
-    Le,
+    Me,
     {
       selected: n ? { sectionId: "capture", itemId: n } : void 0,
       onSelected: i,
@@ -686,16 +686,16 @@ function ws() {
       noSectionTitles: !0,
       hideEmptySidebar: !0,
       sections: r,
-      render: () => /* @__PURE__ */ e.jsx(es, {}),
-      renderEmpty: () => /* @__PURE__ */ e.jsx(ms, {}),
+      render: () => /* @__PURE__ */ e.jsx(Ze, {}),
+      renderEmpty: () => /* @__PURE__ */ e.jsx(xs, {}),
       renderButtons: () => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsxs(
-        Cs,
+        bs,
         {
           onClick: (o) => {
-            s(S({ id: void 0 })), o.stopPropagation(), o.preventDefault();
+            s(F({ id: void 0 })), o.stopPropagation(), o.preventDefault();
           },
           children: [
-            /* @__PURE__ */ e.jsx(L, {}),
+            /* @__PURE__ */ e.jsx(O, {}),
             "New API contract"
           ]
         }
@@ -703,7 +703,7 @@ function ws() {
     }
   );
 }
-function ys(s) {
+function ws(s) {
   if (!s.files || s.files.length === 0)
     return "No files";
   const t = s.files[0];
@@ -712,19 +712,19 @@ function ys(s) {
 function U(s) {
   return decodeURIComponent(s.substring(s.lastIndexOf("/") + 1));
 }
-function bs(s) {
+function ys(s) {
   switch (s) {
     case "pending":
-      return /* @__PURE__ */ e.jsx(Ue, {});
+      return /* @__PURE__ */ e.jsx(Re, {});
     case "running":
       return /* @__PURE__ */ e.jsx(V, { className: "spinning" });
     case "finished":
-      return /* @__PURE__ */ e.jsx($e, {});
+      return /* @__PURE__ */ e.jsx(Ae, {});
     case "failed":
-      return /* @__PURE__ */ e.jsx(Te, {});
+      return /* @__PURE__ */ e.jsx(Ue, {});
   }
 }
-const Cs = a.div`
+const bs = a.div`
   display: flex;
   padding: 0;
   gap: 4px;
@@ -754,15 +754,15 @@ const Cs = a.div`
       {
         id: "capture",
         title: "Capture",
-        element: /* @__PURE__ */ e.jsx("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }, children: /* @__PURE__ */ e.jsx(ws, {}) })
+        element: /* @__PURE__ */ e.jsx("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }, children: /* @__PURE__ */ e.jsx(js, {}) })
       }
     ]
   }
 ];
-function Ss(s, t) {
-  const n = Qe(Ne(s, T), t);
-  he.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(ge.StrictMode, { children: /* @__PURE__ */ e.jsx(xe, { store: n, children: /* @__PURE__ */ e.jsx(me.Provider, { value: T, children: /* @__PURE__ */ e.jsx(fe, {}) }) }) })
-  ), window.addEventListener("message", ve(n, _e));
+function Cs(s, t) {
+  const n = _e(Je(s, T), t);
+  ue.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(he.StrictMode, { children: /* @__PURE__ */ e.jsx(ge, { store: n, children: /* @__PURE__ */ e.jsx(xe.Provider, { value: T, children: /* @__PURE__ */ e.jsx(me, {}) }) }) })
+  ), window.addEventListener("message", fe(n, Ke));
 }
-window.renderWebView = Ss;
+window.renderWebView = Cs;

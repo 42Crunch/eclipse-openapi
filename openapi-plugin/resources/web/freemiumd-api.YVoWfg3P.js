@@ -1,7 +1,7 @@
-import { c as d } from "./rtk-query-react.modern.kJqw8Vn6.js";
-import { w as m } from "./webapp-client.BVdSwEPq.js";
-import { s as h } from "./listener.Dm65kE--.js";
-function f(t) {
+import { c as m } from "./rtk-query-react.modern.kJqw8Vn6.js";
+import { w as h } from "./webapp-client.CEJRS8eu.js";
+import { s as f } from "./listener.BNWHQqef.js";
+function g(t) {
   return t ? {
     freemiumdUrl: "https://stateless.dev.42crunch.com",
     cliFreemiumdHost: "stateless.dev.42crunch.com:443",
@@ -16,9 +16,9 @@ function f(t) {
     stripeBillingUrl: "https://billing.stripe.com/p/login/3csaGd9xzf5k7n2aEE"
   };
 }
-const g = d({
+const b = m({
   reducerPath: "freemiumdApi",
-  baseQuery: b,
+  baseQuery: U,
   endpoints: (t) => ({
     getSubscription: t.query({
       query: (r) => ({
@@ -27,22 +27,25 @@ const g = d({
     })
   })
 });
-async function b(t, { signal: r, dispatch: i, getState: n }, U) {
-  const { freemiumdUrl: o } = f(n().config.data.internalUseDevEndpoints), c = `${o}/api/v1/anon/${t.path}`, p = m(
+async function U(t, { signal: r, dispatch: i, getState: n }, y) {
+  const { freemiumdUrl: o } = g(n().config.data.internalUseDevEndpoints), c = `${o}/api/v1/anon/${t.path}`, p = h(
     { https: { rejectUnauthorized: !0 } },
-    (a, u, l) => i(h({ id: a, request: u, config: l }))
-  ), [e, s] = await p({
-    url: c,
-    method: "get",
-    headers: {
-      Accept: "application/json"
-    }
-  });
+    (a, u, d, l) => i(f({ id: a, request: u, config: d, mtlsConfig: l }))
+  ), [e, s] = await p(
+    {
+      url: c,
+      method: "get",
+      headers: {
+        Accept: "application/json"
+      }
+    },
+    void 0
+  );
   return s !== void 0 ? { error: s } : e.statusCode !== 200 ? { error: { message: e.body, code: e.statusCode } } : { data: JSON.parse(e.body) };
 }
-const { useGetSubscriptionQuery: w } = g;
+const { useGetSubscriptionQuery: j } = b;
 export {
-  g as f,
-  f as g,
-  w as u
+  b as f,
+  g,
+  j as u
 };

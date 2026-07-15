@@ -11,6 +11,7 @@ public class FileChooserDescriptor {
     private final boolean myChooseJarContents;
     private final boolean myChooseMultiple;
     private String[] filterExtensions;
+    private String title;
 
     public FileChooserDescriptor(boolean chooseFiles,
                                  boolean chooseFolders,
@@ -25,6 +26,11 @@ public class FileChooserDescriptor {
         this.myChooseJarContents = chooseJarContents;
         this.myChooseMultiple = chooseMultiple;
         this.filterExtensions = new String[0];
+        this.title = "Select Path";
+    }
+
+    public void setTitle(@NotNull String title) {
+    	this.title = title;
     }
 
     public boolean isChooseFiles() {
@@ -53,6 +59,10 @@ public class FileChooserDescriptor {
 
     public String[] getFilterExtensions() {
         return filterExtensions;
+    }
+    
+    public String getTitle() {
+        return title;
     }
 
     public FileChooserDescriptor withExtensionFilter(@NotNull String... extensions) {

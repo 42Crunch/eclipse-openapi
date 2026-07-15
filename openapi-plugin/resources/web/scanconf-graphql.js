@@ -1,107 +1,27 @@
-import { H as R, j as n, c as H, i as se, a as ze, p as Ae, I as Me, r as Ne, t as Fe, l as Ve, u as Pe, b as He, e as h, T as v, f as z, w as D, d as Be, s as Ge, B as _e, g as Ue, R as Le, P as Je, h as We, N as Ke, k as Qe } from "./TriangleExclamation.BLKAXJ8l.js";
-import { F as Xe, B as Ye, aL as N, aM as Ze, aN as et, p as Z, u as re, w as ie, ax as tt, aO as nt, C as w, n as B, a6 as at, aP as ot, ab as st, ad as G, ap as rt, aq as it, aQ as ce, aR as de, aS as ct, c as dt, aT as lt, aU as pt, aV as ee, R as ut, aW as mt, as as _, at as U, aX as ft, aY as ht, E as vt, aZ as yt, a_ as xt, a$ as bt, aE as gt, aF as jt, aH as kt, aI as St, aJ as Ct, aK as qt } from "./UpdatePrompt.8u08_Y_L.js";
-import { a as le } from "./SearchSidebar.CtwbvK_x.js";
-import { t as Rt, r as Et, y as wt, o as pe, D as ue } from "./variables.-zE0Ry6h.js";
-import { c as Tt, u as me, b as fe } from "./index.esm.MIM2ge_D.js";
-import { I as C } from "./Textarea.7FvXKGUa.js";
-import { o as he, s as j, d as It, a as te, l as ne, F as A } from "./schemas.BH6uGBRD.js";
-import { l as Dt, c as Ot } from "./slice.s4_w0CJL.js";
-import { l as $t, e as zt, s as At } from "./index.CRy0HWMP.js";
-import { l as Mt, p as Nt, u as Ft, c as Vt, b as ve } from "./slice.CZpj5Zis.js";
-import { s as O, g as Pt, M as ye, a as xe, G as Ht } from "./GeneralError.Dvjq_B8a.js";
-import { c as Bt, o as Gt } from "./listener.Dm65kE--.js";
+import { H as w, c as K, i as me, a as Le, p as Ge, I as Ue, r as Ke, t as We, l as Je, u as Qe, b as Xe, e as f, j as a, T as y, f as z, w as $, d as Ze, s as Ye, B as et, g as tt, R as at, P as nt, h as st, N as ot, k as rt } from "./TriangleExclamation.BLKAXJ8l.js";
+import { aU as M, aV as it, M as V, aW as ct, aX as lt, p as oe, u as fe, w as ve, aG as dt, aY as ut, C as D, n as W, q as H, t as he, v as ye, Z as O, F as pt, B as mt, ad as ft, aZ as vt, ai as ht, aj as yt, al as J, ax as xt, ay as bt, a_ as xe, a$ as be, b0 as gt, c as St, b1 as jt, b2 as Ct, b3 as re, R as kt, b4 as qt, aC as Q, b5 as Rt, b6 as wt, E as Et, b7 as Tt, b8 as It, b9 as Dt, aA as ge, aB as Se, aN as Pt, aO as Ot, aQ as $t, aR as At, aS as Ft, aT as zt } from "./UpdatePrompt.BmnOlML_.js";
+import { a as je } from "./SearchSidebar.CtwbvK_x.js";
+import { y as Nt, t as Mt, r as Vt, o as Ce, D as ke } from "./variables.-zE0Ry6h.js";
+import { l as Bt, c as Ht } from "./slice.s4_w0CJL.js";
+import { l as _t, e as Lt, s as Gt } from "./index.CRy0HWMP.js";
+import { l as Ut, p as Kt, u as Wt, c as Jt, b as qe } from "./slice.CZpj5Zis.js";
+import { s as A, g as Qt, M as L, a as G, G as Xt } from "./GeneralError.Dvjq_B8a.js";
+import { c as Zt, o as Yt } from "./listener.BNWHQqef.js";
+import { o as X, d as ea, s as x, a as ie, l as ce, F } from "./schemas.BH6uGBRD.js";
+import { u as Re, b as we, c as ta } from "./index.esm.MIM2ge_D.js";
 import { I } from "./Input.BQnalfHf.js";
-import { T as L, C as _t } from "./Tabs.BfQDe6I2.js";
-import { S as Ut } from "./TrashCan.DYWcjlk_.js";
-import { o as Lt, s as Jt } from "./listener.BM8yBkLB.js";
-import { D as Wt } from "./DescriptionTooltip.Dgobq1Hx.js";
-import { C as be, T as ge, B as je } from "./CollapsibleCard.BWECYxhA.js";
-const ke = R("scanconf/runScan"), Se = R("scanconf/runFullScan"), Ce = R(
+import { T as Z, C as aa } from "./Tabs.BfQDe6I2.js";
+import { I as q } from "./Textarea.7FvXKGUa.js";
+import { S as na } from "./Select.Jkx8eZok.js";
+import { S as le } from "./TrashCan.DYWcjlk_.js";
+import { o as sa, s as oa } from "./listener.BM8yBkLB.js";
+import { D as ra } from "./DescriptionTooltip.Dgobq1Hx.js";
+import { C as Ee, T as Te, B as Ie } from "./CollapsibleCard.BWECYxhA.js";
+const De = w("scanconf/runScan"), Pe = w("scanconf/runFullScan"), Oe = w(
   "scanconf/showScanconfOperation"
-), qe = R(
+), $e = w(
   "scanconf/loadUpdatedScanconf"
-), F = R("scanconf/loadPlaybook"), Kt = R("http/sendHttpRequest"), Qt = R("http/showHttpResponse"), Xt = R("http/showHttpError");
-function Yt() {
-  const e = Tt({ name: "type" });
-  return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    /* @__PURE__ */ n.jsx(C, { label: "ID", name: "id" }),
-    /* @__PURE__ */ n.jsx(C, { label: "Type (read only)", name: "type", disabled: !0 }),
-    e !== "basic" && e !== "bearer" && /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-      /* @__PURE__ */ n.jsx(C, { label: "Location (read only)", name: "in", disabled: !0 }),
-      /* @__PURE__ */ n.jsx(C, { label: "Name", name: "name" })
-    ] }),
-    /* @__PURE__ */ n.jsx(C, { label: "Description", name: "description" }),
-    /* @__PURE__ */ n.jsx(C, { label: "Credential name (read only, auto-updates from ID)", name: "id", disabled: !0 }),
-    /* @__PURE__ */ n.jsx(C, { label: "Credential value (read only)", name: "credentialValue", disabled: !0 })
-  ] });
-}
-const q = "ENV_API_TOKEN";
-function Zt({
-  onAddCredential: e,
-  existing: t
-}) {
-  const a = {
-    id: "",
-    type: "apiKey",
-    in: "header",
-    name: "",
-    description: "",
-    credentialName: "",
-    credentialValue: "{{" + q + "}}"
-  }, o = he({
-    id: j().regex(Rt(), {
-      message: Et
-    }).refine((r) => !t.includes(r), {
-      message: "Already exists"
-    }),
-    type: j(),
-    in: j(),
-    name: j().min(1),
-    description: j(),
-    credentialName: j(),
-    // it is = id, set no constraint
-    credentialValue: j().min(1)
-  }), s = (r) => {
-    const i = {
-      [r.id]: {
-        credential: r.credentialValue,
-        requests: [],
-        description: ""
-      }
-    };
-    e(
-      r.id,
-      r.type === "bearer" || r.type === "basic" ? (
-        // skip name and in
-        {
-          type: r.type,
-          default: r.id,
-          description: r.description,
-          methods: i
-        }
-      ) : {
-        type: r.type,
-        default: r.id,
-        in: r.in,
-        name: r.name,
-        description: r.description,
-        methods: i
-      }
-    );
-  };
-  return /* @__PURE__ */ n.jsx(
-    Xe,
-    {
-      title: "New security scheme",
-      defaultValues: a,
-      schema: o,
-      onSubmit: s,
-      trigger: /* @__PURE__ */ n.jsx(Ye, { style: { width: "100%" }, children: "New security scheme" }),
-      children: /* @__PURE__ */ n.jsx(Yt, {})
-    }
-  );
-}
-const en = {
+), _ = w("scanconf/loadPlaybook"), ia = w("http/sendHttpRequest"), ca = w("http/showHttpResponse"), la = w("http/showHttpError"), R = "ENV_API_TOKEN", da = {
   graphQl: "",
   playbook: {
     operations: {},
@@ -114,9 +34,9 @@ const en = {
   },
   servers: [],
   selectedCredentialGroup: 0
-}, Re = H({
+}, Ae = K({
   name: "scanconf",
-  initialState: en,
+  initialState: da,
   reducers: {
     saveScanconf: (e) => {
     },
@@ -124,54 +44,60 @@ const en = {
       e.playbook.runtimeConfiguration = { ...e.playbook.runtimeConfiguration, ...t };
     },
     saveRequest: (e, {
-      payload: { ref: t, stage: a }
+      payload: { ref: t, stage: n }
     }) => {
-      t.type === "operation" ? e.playbook.operations[t.id].request = a : e.playbook.requests && (e.playbook.requests[t.id] = a);
+      t.type === "operation" ? e.playbook.operations[t.id].request = n : e.playbook.requests && (e.playbook.requests[t.id] = n);
     },
     removeRequest: (e, { payload: t }) => {
       t.type === "request" && e.playbook.requests?.[t.id] !== void 0 && delete e.playbook.requests[t.id];
     },
     saveCredential: (e, {
-      payload: { group: t, id: a, credential: o }
+      payload: { group: t, id: n, credential: s }
     }) => {
-      const s = Object.keys(o.methods || {})[0];
-      e.selectedSubcredential !== void 0 && o?.methods?.[e.selectedSubcredential] === void 0 && (e.selectedSubcredential = s), o.methods[o.default] === void 0 && (o.default = s);
-      const r = e.playbook.authenticationDetails[t][a].name, i = e.playbook.authenticationDetails[t][a].methods[a].credential;
-      e.playbook.authenticationDetails[t][a] = o;
-      const p = i.replace("{{", "").replace("}}", ""), d = o.methods[a].credential, u = d.replace("{{", "").replace("}}", ""), m = e.playbook.customizations.requests.additionalHeaders;
-      m[r] = d;
-      const b = e.playbook?.environments?.default?.variables;
-      b[u] = {
+      const o = Object.keys(s.methods || {})[0];
+      e.selectedSubcredential !== void 0 && s?.methods?.[e.selectedSubcredential] === void 0 && (e.selectedSubcredential = o), s.methods[s.default] === void 0 && (s.default = o);
+      const d = e.playbook.authenticationDetails[t][n].name, l = e.playbook.authenticationDetails[t][n].methods[n].credential;
+      e.playbook.authenticationDetails[t][n] = s;
+      const p = l.replace("{{", "").replace("}}", ""), r = s.methods[n].credential, c = r.replace("{{", "").replace("}}", ""), u = e.playbook.customizations.requests.additionalHeaders;
+      u[d] = r;
+      const h = e.playbook?.environments?.default?.variables;
+      h[c] = {
         from: "environment",
-        name: "SCAN42C_" + q,
+        name: "SCAN42C_" + R,
         required: !0
-      }, delete b[p];
+      }, delete h[p];
     },
     saveEnvironment: (e, {
-      payload: { name: t, environment: a }
+      payload: { name: t, environment: n }
     }) => {
-      e.playbook.environments[t] = a;
+      e.playbook.environments[t] = n;
     },
     addCredential: (e, {
-      payload: { credentialGroup: t, id: a, credential: o }
+      payload: { credentialGroup: t, id: n, credential: s }
     }) => {
-      e.playbook.authenticationDetails || (e.playbook.authenticationDetails = [{}]), e.playbook.authenticationDetails[t] === void 0 && (e.playbook.authenticationDetails[t] = {}), o.credentials = {
-        [a]: {
+      e.playbook.authenticationDetails || (e.playbook.authenticationDetails = [{}]), e.playbook.authenticationDetails[t] === void 0 && (e.playbook.authenticationDetails[t] = {}), s.credentials = {
+        [n]: {
           description: "",
-          credential: "{{" + q + "}}"
+          credential: "{{" + R + "}}"
         }
-      }, e.playbook.authenticationDetails[t][a] = o, e.playbook.customizations.requests = {
+      }, e.playbook.authenticationDetails[t][n] = s, e.playbook.customizations.requests = {
         additionalHeaders: {
-          [o.name]: "{{" + q + "}}"
+          [s.name]: "{{" + R + "}}"
         }
-      }, q in e.playbook?.environments?.default?.variables || ((e.playbook?.environments?.default?.variables)[q] = {
+      }, R in e.playbook?.environments?.default?.variables || ((e.playbook?.environments?.default?.variables)[R] = {
         from: "environment",
-        name: "SCAN42C_" + q,
+        name: "SCAN42C_" + R,
         required: !0
       });
     },
-    removeCredential: (e, { payload: { credentialGroup: t, id: a } }) => {
-      delete e.playbook.authenticationDetails[t][a], e.selectedCredential = void 0, e.selectedSubcredential = void 0, delete e.playbook.customizations.requests, delete (e.playbook?.environments?.default?.variables)[q];
+    removeCredential: (e, { payload: { credentialGroup: t, id: n } }) => {
+      delete e.playbook.authenticationDetails[t][n], e.selectedCredential = void 0, e.selectedSubcredential = void 0, delete e.playbook.customizations.requests, delete (e.playbook?.environments?.default?.variables)[R];
+    },
+    setSecurityProfile: (e, { payload: t }) => {
+      e.playbook.securityProfile = t;
+    },
+    removeSecurityProfile: (e) => {
+      e.playbook.securityProfile = void 0, e.selectedCredential === V && (e.selectedCredential = void 0, e.selectedSubcredential = void 0);
     },
     selectCredential: (e, { payload: t }) => {
       e.selectedCredentialGroup = t.group, e.selectedCredential = t.credential;
@@ -180,14 +106,14 @@ const en = {
       e.selectedSubcredential = t;
     },
     addAuthorizationTest: (e, {
-      payload: { id: t, test: a }
+      payload: { id: t, test: n }
     }) => {
-      e.playbook.authorizationTests[t] = a;
+      e.playbook.authorizationTests[t] = n;
     },
     saveAuthorizationTest: (e, {
-      payload: { id: t, test: a }
+      payload: { id: t, test: n }
     }) => {
-      e.playbook.authorizationTests[t] = a;
+      e.playbook.authorizationTests[t] = n;
     },
     removeAuthorizationTest: (e, { payload: { id: t } }) => {
       delete e.playbook.authorizationTests[t], e.selectedAuthorizationTest = Object.keys(e.playbook.authorizationTests)?.[0];
@@ -196,27 +122,27 @@ const en = {
       e.selectedAuthorizationTest = t;
     },
     saveOperationReference: (e, {
-      payload: { location: t, reference: a }
+      payload: { location: t, reference: n }
     }) => {
-      N(e.playbook, t)[t.stageIndex] = a;
+      M(e.playbook, t)[t.stageIndex] = n;
     },
     addStage: (e, {
-      payload: { container: t, stage: a }
+      payload: { container: t, stage: n }
     }) => {
-      N(e.playbook, t).push(a);
+      M(e.playbook, t).push(n);
     },
     moveStage: (e, {
-      payload: { location: t, to: a }
+      payload: { location: t, to: n }
     }) => {
-      Ze(N(e.playbook, t), t.stageIndex, a);
+      it(M(e.playbook, t), t.stageIndex, n);
     },
     removeStage: (e, { payload: t }) => {
-      N(e.playbook, t).splice(t.stageIndex, 1);
+      M(e.playbook, t).splice(t.stageIndex, 1);
     },
     updateOperationAuthorizationTests: (e, {
-      payload: { operationId: t, authorizationTests: a }
+      payload: { operationId: t, authorizationTests: n }
     }) => {
-      e.playbook.operations[t].authorizationTests = a;
+      e.playbook.operations[t].authorizationTests = n;
     },
     customizeOperation: (e, { payload: t }) => {
       e.playbook.operations[t].customized = !0;
@@ -236,59 +162,61 @@ const en = {
       ], e.playbook.operations[t].customized = !1;
     },
     createVariable: (e, {
-      payload: { name: t, location: a, jsonPointer: o, ref: s, statusCode: r }
+      payload: { name: t, location: n, jsonPointer: s, ref: o, statusCode: d }
     }) => {
-      const i = s.type === "operation" ? e.playbook.operations[s.id].request : e.playbook.requests[s.id], p = wt(r), d = i.responses[r] ? r : p !== void 0 && i.responses[p] ? p : "default";
-      i.responses[d] === void 0 && (i.responses[d] = {
+      const l = o.type === "operation" ? e.playbook.operations[o.id].request : e.playbook.requests[o.id], p = Nt(d), r = l.responses[d] ? d : p !== void 0 && l.responses[p] ? p : "default";
+      l.responses[r] === void 0 && (l.responses[r] = {
         variableAssignments: {},
-        expectations: d
-      }), i.responses[d].variableAssignments[t] = {
-        from: a,
+        expectations: r
+      }), l.responses[r].variableAssignments[t] = {
+        from: n,
         in: "body",
         contentType: "json",
         path: {
           type: "jsonPointer",
-          value: o
+          value: s
         }
       };
     }
   },
   extraReducers: (e) => {
-    e.addCase(F, (t, { payload: { graphQl: a, playbook: o } }) => {
-      t.graphQl = a, t.playbook = o, t.servers = [], t.selectedCredentialGroup = 0, t.selectedCredential = Object.keys(o?.authenticationDetails?.[0] || {})?.[0], t.selectedAuthorizationTest = Object.keys(o?.authorizationTests || {})?.[0];
+    e.addCase(_, (t, { payload: { graphQl: n, playbook: s } }) => {
+      t.graphQl = n, t.playbook = s, t.servers = [], t.selectedCredentialGroup = 0, t.selectedCredential = Object.keys(s?.authenticationDetails?.[0] || {})?.[0], t.selectedAuthorizationTest = Object.keys(s?.authorizationTests || {})?.[0];
     });
   }
 }), {
-  saveSettings: tn,
-  saveEnvironment: nn,
-  saveScanconf: Va,
-  addCredential: J,
-  removeCredential: W,
-  addStage: an,
-  moveStage: on,
-  removeStage: sn,
-  saveOperationReference: rn,
-  saveCredential: K,
-  selectCredential: V,
-  selectSubcredential: Ee,
-  addAuthorizationTest: cn,
-  saveAuthorizationTest: dn,
-  removeAuthorizationTest: ln,
-  selectAuthorizationTest: Pa,
-  saveRequest: Q,
-  removeRequest: we,
-  updateOperationAuthorizationTests: pn,
-  customizeOperation: Ha,
-  removeCustomizationForOperation: un,
-  createVariable: mn
-} = Re.actions, fn = Re.reducer, hn = {
+  saveSettings: ua,
+  saveEnvironment: pa,
+  saveScanconf: ss,
+  addCredential: Y,
+  removeCredential: ee,
+  setSecurityProfile: te,
+  removeSecurityProfile: Fe,
+  addStage: ma,
+  moveStage: fa,
+  removeStage: va,
+  saveOperationReference: ha,
+  saveCredential: ae,
+  selectCredential: B,
+  selectSubcredential: ze,
+  addAuthorizationTest: ya,
+  saveAuthorizationTest: xa,
+  removeAuthorizationTest: ba,
+  selectAuthorizationTest: os,
+  saveRequest: ne,
+  removeRequest: Ne,
+  updateOperationAuthorizationTests: ga,
+  customizeOperation: rs,
+  removeCustomizationForOperation: Sa,
+  createVariable: ja
+} = Ae.actions, Ca = Ae.reducer, ka = {
   mockCurrent: { auth: [] },
   mockResult: [],
   tryCurrent: { auth: [] },
   tryResult: []
-}, Te = H({
+}, Me = K({
   name: "auth",
-  initialState: hn,
+  initialState: ka,
   reducers: {
     startTryAuthentication: (e, { payload: t }) => {
     },
@@ -305,33 +233,33 @@ const en = {
   },
   extraReducers: (e) => {
     e.addMatcher(
-      se(
-        V,
-        Ee,
-        K,
-        J,
-        W
+      me(
+        B,
+        ze,
+        ae,
+        Y,
+        ee
       ),
-      (t, a) => {
+      (t, n) => {
         t.tryCurrent = { auth: [] }, t.tryResult = [];
       }
     );
   }
 }), {
-  startTryAuthentication: vn,
-  resetTryAuthentication: Ba,
-  addTryAuthenticationStep: Ga,
-  resetMockAuthRequestsExecution: _a,
-  addMockAuthRequestsExecutionStep: Ua
-} = Te.actions, yn = Te.reducer, xn = {
+  startTryAuthentication: qa,
+  resetTryAuthentication: is,
+  addTryAuthenticationStep: cs,
+  resetMockAuthRequestsExecution: ls,
+  addMockAuthRequestsExecutionStep: ds
+} = Me.actions, Ra = Me.reducer, wa = {
   tryCurrent: { auth: [] },
   tryResult: [],
   mockCurrent: { auth: [] },
   mockResult: [],
   mockMissingVariables: []
-}, Ie = H({
+}, Ve = K({
   name: "requests",
-  initialState: xn,
+  initialState: wa,
   reducers: {
     setRequestId: (e, { payload: t }) => {
       e.ref = t, e.tryResult = [];
@@ -347,206 +275,206 @@ const en = {
       e.mockCurrent = { auth: [] }, e.mockResult = [], e.mockMissingVariables = [];
     },
     addMockRequestExecutionStep: (e, { payload: t }) => {
-      (t.event === "payload-variables-substituted" || t.event === "credential-variables-substituted") && e.mockMissingVariables.push(...t.missing.map((a) => a.name));
+      (t.event === "payload-variables-substituted" || t.event === "credential-variables-substituted") && e.mockMissingVariables.push(...t.missing.map((n) => n.name));
     }
   },
   extraReducers: (e) => {
-    e.addCase(F, (t, { payload: { playbook: a, graphQl: o } }) => {
-      const s = Object.keys(a.operations)[0] || "";
-      t.ref = { id: s, type: "operation" };
+    e.addCase(_, (t, { payload: { playbook: n, graphQl: s } }) => {
+      const o = Object.keys(n.operations)[0] || "";
+      t.ref = { id: o, type: "operation" };
     });
   }
 }), {
-  setRequestId: ae,
-  resetExecuteRequest: La,
-  addExecutionStep: Ja,
-  executeRequest: De,
-  resetMockRequestExecution: Wa,
-  addMockRequestExecutionStep: Ka
-} = Ie.actions, bn = Ie.reducer, gn = {
-  theme: Fe,
-  client: Bt,
-  scanconf: fn,
-  scanconfUpdate: et,
-  requests: bn,
-  auth: yn,
-  router: Ne,
-  env: zt,
-  prefs: Nt,
-  config: Ot,
-  generalError: Pt,
-  confirmationDialog: Me
-}, jn = {
-  changeTheme: Ae,
-  showHttpError: Xt,
-  showHttpResponse: Qt,
-  showScanconfOperation: Ce,
-  loadUpdatedScanconf: qe,
-  loadEnv: $t,
-  loadConfig: Dt,
-  loadPrefs: Mt,
-  showGeneralError: O
-}, kn = (e, t) => ze({
-  reducer: gn,
-  middleware: (a) => a().prepend(e.middleware).concat(Ve),
+  setRequestId: de,
+  resetExecuteRequest: us,
+  addExecutionStep: ps,
+  executeRequest: Be,
+  resetMockRequestExecution: ms,
+  addMockRequestExecutionStep: fs
+} = Ve.actions, Ea = Ve.reducer, Ta = {
+  theme: We,
+  client: Zt,
+  scanconf: Ca,
+  scanconfUpdate: lt,
+  requests: Ea,
+  auth: Ra,
+  router: Ke,
+  env: Lt,
+  prefs: Kt,
+  config: Ht,
+  generalError: Qt,
+  confirmationDialog: Ue,
+  filePicker: ct
+}, Ia = {
+  changeTheme: Ge,
+  showHttpError: la,
+  showHttpResponse: ca,
+  showScanconfOperation: Oe,
+  loadUpdatedScanconf: $e,
+  loadEnv: _t,
+  loadConfig: Bt,
+  loadPrefs: Ut,
+  showGeneralError: A,
+  loadFile: () => null,
+  cancelFile: () => null
+}, Da = (e, t) => Le({
+  reducer: Ta,
+  middleware: (n) => n().prepend(e.middleware).concat(Je),
   preloadedState: {
     theme: t
   }
-}), $ = () => Pe(), x = He;
-function Sn({
+}), P = () => Qe(), b = Xe;
+function Pa({
   credential: e,
   saveCredential: t
 }) {
-  const a = he({
-    type: j(),
-    in: j(),
-    name: j(),
-    ttl: te([
-      ne(""),
-      j().refine((o) => Z(o) !== void 0, {
+  const n = X({
+    type: x(),
+    in: x(),
+    name: x(),
+    ttl: ie([
+      ce(""),
+      x().refine((s) => oe(s) !== void 0, {
         message: "Invalid duration format. Examples: '500ms', '15s', '2h30m'"
       })
     ]),
-    tti: te([
-      ne(""),
-      j().refine((o) => Z(o) !== void 0, {
+    tti: ie([
+      ce(""),
+      x().refine((s) => oe(s) !== void 0, {
         message: "Invalid duration format. Examples: '500ms', '15s', '2h30m'"
       })
     ]),
-    default: j(),
-    methods: It()
+    default: x(),
+    methods: ea()
   });
-  return /* @__PURE__ */ n.jsx(
-    A,
+  return /* @__PURE__ */ a.jsx(
+    F,
     {
       data: e,
       saveData: t,
-      wrapFormData: ie,
-      unwrapFormData: re,
-      schema: a,
-      children: /* @__PURE__ */ n.jsx(Cn, {})
+      wrapFormData: ve,
+      unwrapFormData: fe,
+      schema: n,
+      children: /* @__PURE__ */ a.jsx(Oa, {})
     }
   );
 }
-function Cn() {
-  const { getValues: e } = me();
+function Oa() {
+  const { getValues: e } = Re();
   e("methods");
   const t = e("type");
-  return /* @__PURE__ */ n.jsxs(qn, { children: [
-    /* @__PURE__ */ n.jsx(I, { label: "Type", name: "type", disabled: !0 }),
-    t !== "basic" && t !== "bearer" && /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-      /* @__PURE__ */ n.jsx(I, { label: "Location", name: "in", disabled: !0 }),
-      /* @__PURE__ */ n.jsx(I, { label: "Name", name: "name", disabled: !0 })
+  return /* @__PURE__ */ a.jsxs($a, { children: [
+    /* @__PURE__ */ a.jsx(I, { label: "Type", name: "type", disabled: !0 }),
+    t !== "basic" && t !== "bearer" && /* @__PURE__ */ a.jsxs(a.Fragment, { children: [
+      /* @__PURE__ */ a.jsx(I, { label: "Location", name: "in", disabled: !0 }),
+      /* @__PURE__ */ a.jsx(I, { label: "Name", name: "name", disabled: !0 })
     ] }),
-    /* @__PURE__ */ n.jsx(
+    /* @__PURE__ */ a.jsx(
       I,
       {
         label: "TTL",
         name: "ttl"
       }
     ),
-    /* @__PURE__ */ n.jsx(
+    /* @__PURE__ */ a.jsx(
       I,
       {
         label: "TTI",
         name: "tti"
       }
     ),
-    /* @__PURE__ */ n.jsx(I, { label: "Default credential name", name: "default", disabled: !0 })
+    /* @__PURE__ */ a.jsx(I, { label: "Default credential name", name: "default", disabled: !0 })
   ] });
 }
-const qn = h.div`
+const $a = f.div`
   padding-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
-function Rn({
+function Aa({
   group: e,
   credentialId: t
 }) {
-  const a = $(), {
-    playbook: o,
-    graphQl: s,
-    selectedSubcredential: r
-  } = x((d) => d.scanconf), { fields: i } = fe({
+  const n = P(), {
+    playbook: s,
+    graphQl: o,
+    selectedSubcredential: d
+  } = b((r) => r.scanconf), { fields: l } = we({
     name: "methods"
-  }), p = i.map((d, u) => ({
-    id: d.key,
-    title: d.key,
-    content: /* @__PURE__ */ n.jsxs(En, { value: d.key, children: [
-      /* @__PURE__ */ n.jsx(
-        C,
+  }), p = l.map((r, c) => ({
+    id: r.key,
+    title: r.key,
+    content: /* @__PURE__ */ a.jsxs(Fa, { value: r.key, children: [
+      /* @__PURE__ */ a.jsx(
+        q,
         {
           label: "Credential value",
-          name: `methods.${u}.value.credential`,
+          name: `methods.${c}.value.credential`,
           disabled: !0
         }
       ),
-      /* @__PURE__ */ n.jsx(wn, {})
+      /* @__PURE__ */ a.jsx(za, {})
     ] })
   }));
-  return /* @__PURE__ */ n.jsx(
-    L,
+  return /* @__PURE__ */ a.jsx(
+    Z,
     {
-      activeTab: r,
-      setActiveTab: (d) => a(Ee(d)),
+      activeTab: d,
+      setActiveTab: (r) => n(ze(r)),
       tabs: p
     }
   );
 }
-const En = h(_t)`
+const Fa = f(aa)`
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding-top: 8px;
-`, wn = h.div`
+`, za = f.div`
   padding-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
-function X({
+function se({
   onTry: e,
   onScan: t,
-  servers: a,
-  host: o,
+  servers: n,
   menu: s
 }) {
-  const { scanServer: r, useGlobalBlocks: i, rejectUnauthorized: p } = Ft(
-    (y) => y.prefs
-  ), d = Vt(), u = (y) => d(ve(y)), m = [...a];
-  o && !m.includes(o) && m.unshift(o);
-  const [b, k] = z.useState(
-    r !== "" ? r : m[0]
+  const { scanServer: o, useGlobalBlocks: d, rejectUnauthorized: l } = Wt(
+    (g) => g.prefs
+  ), p = Jt(), r = (g) => p(qe(g)), c = [...n], [u, h] = z.useState(
+    o !== "" ? o : c[0]
   );
-  return !m.includes(r) && r !== "" && m.push(r), /* @__PURE__ */ n.jsx(In, { children: /* @__PURE__ */ n.jsxs(Tn, { children: [
-    /* @__PURE__ */ n.jsx(
-      tt,
+  return !c.includes(o) && o !== "" && c.push(o), /* @__PURE__ */ a.jsx(Ma, { children: /* @__PURE__ */ a.jsxs(Na, { children: [
+    /* @__PURE__ */ a.jsx(
+      dt,
       {
-        options: m,
-        selected: b,
-        onSelectedItemChange: (y) => {
-          y && (k(y), u(y));
+        options: c,
+        selected: u,
+        onSelectedItemChange: (g) => {
+          g && (h(g), r(g));
         }
       }
     ),
-    t && /* @__PURE__ */ n.jsxs(
-      Dn,
+    t && /* @__PURE__ */ a.jsxs(
+      Va,
       {
-        onClick: (y) => {
-          y.stopPropagation(), y.preventDefault(), t(b);
+        onClick: (g) => {
+          g.stopPropagation(), g.preventDefault(), t(u);
         },
         children: [
-          /* @__PURE__ */ n.jsx(nt, {}),
+          /* @__PURE__ */ a.jsx(ut, {}),
           "Scan"
         ]
       }
     )
   ] }) });
 }
-const Tn = h.div`
-  border: 1px solid var(${v.border});
+const Na = f.div`
+  border: 1px solid var(${y.border});
   display: flex;
   align-items: center;
   flex: 1;
@@ -555,372 +483,614 @@ const Tn = h.div`
   & > div:first-child {
     flex: 1;
   }
-`, In = h.div`
-  background-color: var(${v.background});
-  color: var(${v.foreground});
-`, Dn = h.div`
+`, Ma = f.div`
+  background-color: var(${y.background});
+  color: var(${y.foreground});
+`, Va = f.div`
   display: flex;
   padding: 8px 12px;
   gap: 4px;
   cursor: pointer;
   align-items: center;
-  color: var(${v.linkForeground});
+  color: var(${y.linkForeground});
   > svg {
-    fill: var(${v.linkForeground});
+    fill: var(${y.linkForeground});
   }
 `;
-function On({ selected: e }) {
-  const t = $(), {
-    playbook: { authenticationDetails: a },
-    servers: o
-  } = x((u) => u.scanconf), { tryResult: s } = x((u) => u.auth), r = (u, m, b) => t(K({ group: parseInt(u), id: m, credential: b })), i = parseInt(e.sectionId), p = e.itemId;
-  if (!a)
-    return /* @__PURE__ */ n.jsx("div", {});
-  const d = a[i][p];
-  return /* @__PURE__ */ n.jsxs($n, { children: [
-    /* @__PURE__ */ n.jsx(
-      X,
+function Ba({ selected: e }) {
+  const t = P(), {
+    playbook: { authenticationDetails: n },
+    servers: s
+  } = b((c) => c.scanconf), { tryResult: o } = b((c) => c.auth), d = (c, u, h) => t(ae({ group: parseInt(c), id: u, credential: h })), l = parseInt(e.sectionId), p = e.itemId;
+  if (!n)
+    return /* @__PURE__ */ a.jsx("div", {});
+  const r = n[l][p];
+  return /* @__PURE__ */ a.jsxs(Ha, { children: [
+    /* @__PURE__ */ a.jsx(
+      se,
       {
-        servers: o,
-        onTry: (u) => {
-          t(vn(u));
+        servers: s,
+        onTry: (c) => {
+          t(qa(c));
         }
       }
     ),
-    /* @__PURE__ */ n.jsx(w, { title: "Security Scheme", children: /* @__PURE__ */ n.jsx(
-      Sn,
+    /* @__PURE__ */ a.jsx(D, { title: "Security Scheme", children: /* @__PURE__ */ a.jsx(
+      Pa,
       {
-        credential: d,
-        saveCredential: (u) => r(e.sectionId, e.itemId, u)
+        credential: r,
+        saveCredential: (c) => d(e.sectionId, e.itemId, c)
       },
       e.itemId
     ) }),
-    /* @__PURE__ */ n.jsx(
-      w,
+    /* @__PURE__ */ a.jsx(
+      D,
       {
         defaultOpen: !1,
         title: "Credentials",
-        count: d.credentials ? Object.keys(d.credentials).length : 0,
-        children: /* @__PURE__ */ n.jsx(
-          A,
+        count: r.credentials ? Object.keys(r.credentials).length : 0,
+        children: /* @__PURE__ */ a.jsx(
+          F,
           {
-            data: d,
-            saveData: (u) => r(e.sectionId, e.itemId, u),
-            wrapFormData: ie,
-            unwrapFormData: re,
-            children: /* @__PURE__ */ n.jsx(Rn, { group: i, credentialId: p })
+            data: r,
+            saveData: (c) => d(e.sectionId, e.itemId, c),
+            wrapFormData: ve,
+            unwrapFormData: fe,
+            children: /* @__PURE__ */ a.jsx(Aa, { group: l, credentialId: p })
           }
         )
       }
     ),
-    s.length > 0 && /* @__PURE__ */ n.jsx(w, { title: "Result", children: /* @__PURE__ */ n.jsx(B, { result: s }) })
+    o.length > 0 && /* @__PURE__ */ a.jsx(D, { title: "Result", children: /* @__PURE__ */ a.jsx(W, { result: o }) })
   ] });
 }
-const $n = h.div`
+const Ha = f.div`
   padding: 8px;
 `;
-function zn() {
-  const e = $(), {
-    playbook: { authenticationDetails: t },
-    selectedCredentialGroup: a,
-    selectedCredential: o
-  } = x((i) => i.scanconf), s = (i, p) => {
-    e(J({ credentialGroup: 0, id: i, credential: p })), e(V({ group: 0, credential: i }));
-  }, r = t ? t.map((i, p) => {
-    const d = p === 0 ? "Default group" : `Group ${p}`, u = Object.entries(i).map(([m, b]) => ({
-      id: m,
-      label: m,
-      menu: /* @__PURE__ */ n.jsx(ye, { children: /* @__PURE__ */ n.jsxs(
-        xe,
+function _a({
+  allowApiKey: e,
+  allowMtls: t
+}) {
+  const n = ta({ name: "type" }), s = [
+    ...e ? [{ value: "apiKey", label: "apiKey" }] : [],
+    ...t ? [{ value: "mTLS", label: "mTLS" }] : []
+  ], o = /* @__PURE__ */ a.jsx(na, { label: "Type", name: "type", options: s });
+  return n === "mTLS" ? /* @__PURE__ */ a.jsxs(a.Fragment, { children: [
+    o,
+    /* @__PURE__ */ a.jsx(
+      H,
+      {
+        label: "Client certificate",
+        name: "clientCertificate",
+        title: "Select client certificate",
+        extensions: he
+      }
+    ),
+    /* @__PURE__ */ a.jsx(q, { label: "Certificate password", name: "clientCertificatePassword", password: !0 }),
+    /* @__PURE__ */ a.jsx(
+      H,
+      {
+        label: "Server CA certificate (optional)",
+        name: "caServerCertificate",
+        title: "Select CA certificate",
+        extensions: ye
+      }
+    )
+  ] }) : /* @__PURE__ */ a.jsxs(a.Fragment, { children: [
+    /* @__PURE__ */ a.jsx(q, { label: "ID", name: "id" }),
+    o,
+    n !== "basic" && n !== "bearer" && /* @__PURE__ */ a.jsxs(a.Fragment, { children: [
+      /* @__PURE__ */ a.jsx(q, { label: "Location (read only)", name: "in", disabled: !0 }),
+      /* @__PURE__ */ a.jsx(q, { label: "Name", name: "name" })
+    ] }),
+    /* @__PURE__ */ a.jsx(q, { label: "Description", name: "description" }),
+    /* @__PURE__ */ a.jsx(q, { label: "Credential name (read only, auto-updates from ID)", name: "id", disabled: !0 }),
+    /* @__PURE__ */ a.jsx(q, { label: "Credential value (read only)", name: "credentialValue", disabled: !0 })
+  ] });
+}
+function La({
+  onAddCredential: e,
+  onAddSecurityProfile: t,
+  allowApiKey: n,
+  allowMtls: s,
+  existing: o
+}) {
+  const d = {
+    id: "",
+    type: n ? "apiKey" : "mTLS",
+    in: "header",
+    name: "",
+    description: "",
+    credentialName: "",
+    credentialValue: "{{" + R + "}}",
+    clientCertificate: "",
+    clientCertificatePassword: "",
+    caServerCertificate: ""
+  }, l = X({
+    id: x().optional(),
+    type: x(),
+    in: x().optional(),
+    name: x().optional(),
+    description: x().optional(),
+    credentialName: x().optional(),
+    credentialValue: x().optional(),
+    clientCertificate: x().optional(),
+    clientCertificatePassword: x().optional(),
+    caServerCertificate: x().optional()
+  }).superRefine((r, c) => {
+    if (r.type === "mTLS") {
+      r.clientCertificate || c.addIssue({
+        code: O.custom,
+        path: ["clientCertificate"],
+        message: "Required"
+      }), r.clientCertificatePassword || c.addIssue({
+        code: O.custom,
+        path: ["clientCertificatePassword"],
+        message: "Required"
+      });
+      return;
+    }
+    Mt().test(r.id ?? "") ? o.includes(r.id ?? "") && c.addIssue({
+      code: O.custom,
+      path: ["id"],
+      message: "Already exists"
+    }) : c.addIssue({
+      code: O.custom,
+      path: ["id"],
+      message: Vt
+    }), r.name || c.addIssue({
+      code: O.custom,
+      path: ["name"],
+      message: "Required"
+    }), r.credentialValue || c.addIssue({
+      code: O.custom,
+      path: ["credentialValue"],
+      message: "Required"
+    });
+  }), p = (r) => {
+    if (r.type === "mTLS") {
+      t({
+        clientCertificate: r.clientCertificate,
+        clientCertificatePassword: r.clientCertificatePassword,
+        caServerCertificate: r.caServerCertificate || void 0
+      });
+      return;
+    }
+    const c = {
+      [r.id]: {
+        credential: r.credentialValue,
+        requests: [],
+        description: ""
+      }
+    };
+    e(
+      r.id,
+      r.type === "bearer" || r.type === "basic" ? (
+        // skip name and in
         {
-          onClick: (k) => k.stopPropagation(),
-          onSelect: () => e(W({ credentialGroup: p, id: m })),
+          type: r.type,
+          default: r.id,
+          description: r.description,
+          methods: c
+        }
+      ) : {
+        type: r.type,
+        default: r.id,
+        in: r.in,
+        name: r.name,
+        description: r.description,
+        methods: c
+      }
+    );
+  };
+  return /* @__PURE__ */ a.jsx(
+    pt,
+    {
+      title: "New security scheme",
+      defaultValues: d,
+      schema: l,
+      onSubmit: p,
+      trigger: /* @__PURE__ */ a.jsx(mt, { style: { width: "100%" }, children: "New security scheme" }),
+      children: /* @__PURE__ */ a.jsx(_a, { allowApiKey: n, allowMtls: s })
+    }
+  );
+}
+function Ga() {
+  const e = P(), { securityProfile: t } = b((s) => s.scanconf.playbook);
+  if (t === void 0)
+    return /* @__PURE__ */ a.jsx(ue, { children: /* @__PURE__ */ a.jsx(Qa, { children: "No mutual TLS security profile is configured." }) });
+  const n = X({
+    clientCertificate: x().min(1, { message: "Required" }),
+    clientCertificatePassword: x().min(1, { message: "Required" }),
+    caServerCertificate: x()
+  });
+  return /* @__PURE__ */ a.jsx(ue, { children: /* @__PURE__ */ a.jsx(
+    F,
+    {
+      data: t,
+      saveData: (s) => e(te(s)),
+      wrapFormData: Ka,
+      unwrapFormData: Wa,
+      schema: n,
+      children: /* @__PURE__ */ a.jsx(Ua, {})
+    }
+  ) });
+}
+function Ua() {
+  return /* @__PURE__ */ a.jsxs(Ja, { children: [
+    /* @__PURE__ */ a.jsx(
+      H,
+      {
+        label: "Client certificate",
+        name: "clientCertificate",
+        title: "Select client certificate",
+        extensions: he
+      }
+    ),
+    /* @__PURE__ */ a.jsx(I, { label: "Certificate password", name: "clientCertificatePassword", password: !0 }),
+    /* @__PURE__ */ a.jsx(
+      H,
+      {
+        label: "Server CA certificate (optional)",
+        name: "caServerCertificate",
+        title: "Select CA certificate",
+        extensions: ye
+      }
+    )
+  ] });
+}
+function Ka(e) {
+  return {
+    clientCertificate: e.clientCertificate,
+    clientCertificatePassword: e.clientCertificatePassword,
+    caServerCertificate: e.caServerCertificate ?? ""
+  };
+}
+function Wa(e) {
+  return {
+    clientCertificate: e.clientCertificate,
+    clientCertificatePassword: e.clientCertificatePassword,
+    caServerCertificate: e.caServerCertificate === "" ? void 0 : e.caServerCertificate
+  };
+}
+const ue = f.div`
+  padding: 8px;
+`, Ja = f.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`, Qa = f.div`
+  opacity: 0.8;
+`;
+function Xa() {
+  const e = P(), {
+    playbook: { authenticationDetails: t, securityProfile: n },
+    selectedCredentialGroup: s,
+    selectedCredential: o
+  } = b((u) => u.scanconf), d = (u, h) => {
+    e(Y({ credentialGroup: 0, id: u, credential: h })), e(B({ group: 0, credential: u }));
+  }, l = (u) => {
+    e(te(u)), e(B({ group: 0, credential: V }));
+  }, p = Object.keys(t?.[0] || {}).length > 0, r = n !== void 0, c = t ? t.map((u, h) => {
+    const g = h === 0 ? "Default group" : `Group ${h}`, k = Object.entries(u).map(([S, E]) => ({
+      id: S,
+      label: S,
+      menu: /* @__PURE__ */ a.jsx(L, { children: /* @__PURE__ */ a.jsxs(
+        G,
+        {
+          onClick: (v) => v.stopPropagation(),
+          onSelect: () => e(ee({ credentialGroup: h, id: S })),
           children: [
-            /* @__PURE__ */ n.jsx(Ut, {}),
+            /* @__PURE__ */ a.jsx(le, {}),
             "Delete"
           ]
         }
       ) })
     }));
-    return {
-      id: `${p}`,
-      title: d,
-      items: u
+    return h === 0 && n !== void 0 && k.push({
+      id: V,
+      label: "mTLS",
+      menu: /* @__PURE__ */ a.jsx(L, { children: /* @__PURE__ */ a.jsxs(
+        G,
+        {
+          onClick: (S) => S.stopPropagation(),
+          onSelect: () => e(Fe()),
+          children: [
+            /* @__PURE__ */ a.jsx(le, {}),
+            "Delete"
+          ]
+        }
+      ) })
+    }), {
+      id: `${h}`,
+      title: g,
+      items: k
     };
   }) : [];
-  return /* @__PURE__ */ n.jsx(
-    le,
+  return /* @__PURE__ */ a.jsx(
+    je,
     {
       title: "security scheme",
-      sections: r,
-      render: (i) => /* @__PURE__ */ n.jsx(On, { selected: i }),
-      renderButtons: () => /* @__PURE__ */ n.jsx("div", { children: (!t || t.length === 0 || Object.keys(t[0]).length === 0) && /* @__PURE__ */ n.jsx(
-        Zt,
+      sections: c,
+      render: (u) => u.itemId === V ? /* @__PURE__ */ a.jsx(Ga, {}) : /* @__PURE__ */ a.jsx(Ba, { selected: u }),
+      renderButtons: () => /* @__PURE__ */ a.jsx("div", { children: (!p || !r) && /* @__PURE__ */ a.jsx(
+        La,
         {
           existing: Object.keys(t?.[0] || []),
-          onAddCredential: s
+          allowApiKey: !p,
+          allowMtls: !r,
+          onAddCredential: d,
+          onAddSecurityProfile: l
         }
       ) }),
-      selected: o !== void 0 ? { sectionId: `${a}`, itemId: o } : void 0,
-      onSelected: (i) => {
+      selected: o !== void 0 ? { sectionId: `${s}`, itemId: o } : void 0,
+      onSelected: (u) => {
         e(
-          V({ group: parseInt(i.sectionId), credential: i.itemId })
+          B({ group: parseInt(u.sectionId), credential: u.itemId })
         );
       }
     }
   );
 }
-function An(e) {
+function Za(e) {
   return () => e({
-    actionCreator: Ce,
-    effect: async ({ payload: { graphQl: t, scanconf: a } }, o) => {
-      const [s, r] = P(a);
-      if (r !== void 0) {
-        o.dispatch(
-          O({ message: `Failed to parse scan configuration: ${r}` })
-        ), o.dispatch(D(["general-error"]));
-        return;
-      }
-      const [i, p] = at(ot(), s);
-      if (p !== void 0) {
-        const d = p.map((u) => `${u.message}: ${u.pointer}`).join(" ");
-        o.dispatch(O({ message: d })), o.dispatch(D(["general-error"]));
-        return;
-      }
-      o.dispatch(F({ playbook: i, graphQl: t })), o.dispatch(D(["scanconf", "requests"]));
-    }
-  });
-}
-function Mn(e, t) {
-  return () => e({
-    actionCreator: qe,
-    effect: async ({ payload: { graphQl: a, scanconf: o } }, s) => {
-      const { changes: r, scanconf: i } = s.getState().scanconfUpdate, [p, d] = P(i);
+    actionCreator: Oe,
+    effect: async ({ payload: { graphQl: t, scanconf: n } }, s) => {
+      const [o, d] = U(n);
       if (d !== void 0) {
         s.dispatch(
-          O({
-            message: `Failed to parse original scan configuration: ${d}`
-          })
-        ), s.dispatch(D(["general-error"]));
+          A({ message: `Failed to parse scan configuration: ${d}` })
+        ), s.dispatch($(["general-error"]));
         return;
       }
-      const [u, m] = P(o);
-      if (m !== void 0) {
-        s.dispatch(
-          O({
-            message: `Failed to parse updated scan configuration: ${m}`
-          })
-        ), s.dispatch(D(["general-error"]));
+      const [l, p] = ft(vt(), o);
+      if (p !== void 0) {
+        const r = p.map((c) => `${c.message}: ${c.pointer}`).join(" ");
+        s.dispatch(A({ message: r })), s.dispatch($(["general-error"]));
         return;
       }
-      const b = u;
-      s.dispatch(F({ playbook: b, graphQl: a })), s.dispatch(D(["scanconf", "requests"]));
+      s.dispatch(_({ playbook: l, graphQl: t })), s.dispatch($(["scanconf", "requests"]));
     }
   });
 }
-function P(e) {
+function Ya(e, t) {
+  return () => e({
+    actionCreator: $e,
+    effect: async ({ payload: { graphQl: n, scanconf: s } }, o) => {
+      const { changes: d, scanconf: l } = o.getState().scanconfUpdate, [p, r] = U(l);
+      if (r !== void 0) {
+        o.dispatch(
+          A({
+            message: `Failed to parse original scan configuration: ${r}`
+          })
+        ), o.dispatch($(["general-error"]));
+        return;
+      }
+      const [c, u] = U(s);
+      if (u !== void 0) {
+        o.dispatch(
+          A({
+            message: `Failed to parse updated scan configuration: ${u}`
+          })
+        ), o.dispatch($(["general-error"]));
+        return;
+      }
+      const h = c;
+      o.dispatch(_({ playbook: h, graphQl: n })), o.dispatch($(["scanconf", "requests"]));
+    }
+  });
+}
+function U(e) {
   try {
     return [JSON.parse(e), void 0];
   } catch (t) {
     return [void 0, `${t}`];
   }
 }
-const Nn = (e, t) => ({
+const en = (e, t) => ({
   runScan: () => e({
-    actionCreator: ke,
-    effect: async (a, o) => {
+    actionCreator: De,
+    effect: async (n, s) => {
       t.postMessage({
         command: "runScan",
-        payload: a.payload
+        payload: n.payload
       });
     }
   }),
   runFullScan: () => e({
-    actionCreator: Se,
-    effect: async (a, o) => {
+    actionCreator: Pe,
+    effect: async (n, s) => {
       t.postMessage({
         command: "runFullScan",
-        payload: a.payload
+        payload: n.payload
       });
     }
   }),
   saveScanconf: () => e({
-    matcher: se(
-      Q,
-      tn,
-      K,
-      J,
-      W,
-      an,
-      on,
-      sn,
-      rn,
-      nn,
-      we,
-      dn,
-      ln,
-      cn,
-      pn,
-      mn,
-      un
+    matcher: me(
+      ne,
+      ua,
+      ae,
+      Y,
+      ee,
+      te,
+      Fe,
+      ma,
+      fa,
+      va,
+      ha,
+      pa,
+      Ne,
+      xa,
+      ba,
+      ya,
+      ga,
+      ja,
+      Sa
     ),
-    effect: async (a, o) => {
-      const { scanconf: s } = o.getState(), [r, i] = G(s.playbook);
-      i === void 0 && t.postMessage({
+    effect: async (n, s) => {
+      const { scanconf: o } = s.getState(), [d, l] = J(o.playbook);
+      l === void 0 && t.postMessage({
         command: "saveScanconf",
-        payload: JSON.stringify(r, null, 2)
+        payload: JSON.stringify(d, null, 2)
       });
     }
   }),
   sendHttpRequest: () => e({
-    actionCreator: Kt,
-    effect: async (a, o) => {
-      const { id: s, request: r, config: i } = a.payload;
-      t.postMessage({ command: "sendHttpRequest", payload: { id: s, request: r, config: i } });
+    actionCreator: ia,
+    effect: async (n, s) => {
+      const { id: o, request: d, config: l } = n.payload;
+      t.postMessage({ command: "sendHttpRequest", payload: { id: o, request: d, config: l } });
     }
   }),
   showEnvWindow: () => e({
-    actionCreator: At,
-    effect: async (a, o) => {
+    actionCreator: Gt,
+    effect: async (n, s) => {
       t.postMessage({ command: "showEnvWindow", payload: void 0 });
     }
   }),
   savePrefs: () => e({
-    actionCreator: ve,
-    effect: async (a, o) => {
-      const { prefs: s } = o.getState();
+    actionCreator: qe,
+    effect: async (n, s) => {
+      const { prefs: o } = s.getState();
       t.postMessage({
         command: "savePrefs",
-        payload: s
+        payload: o
       });
     }
   }),
-  openLink: Lt(e, t),
+  openLink: sa(e, t),
   updateScanconf: () => e({
-    actionCreator: st,
-    effect: async (a, o) => {
+    actionCreator: yt,
+    effect: async (n, s) => {
       t.postMessage({
         command: "updateScanconf",
         payload: void 0
       });
     }
+  }),
+  selectFile: () => e({
+    actionCreator: ht,
+    effect: async (n, s) => {
+      t.postMessage({ command: "selectFile", payload: n.payload });
+    }
   })
 });
-function Fn(e) {
+function tn(e) {
   return () => e({
-    actionCreator: rt,
-    effect: async (t, a) => {
+    actionCreator: xt,
+    effect: async (t, n) => {
     }
   });
 }
-const Oe = Be(), E = Oe.startListening;
-function Vn(e, t) {
-  const a = Nn(E, e);
-  return Jt(E, t), Ge({
-    ...a,
-    executeSendHttpRequestListener: Gt(E, e),
-    executeConfirmationAccept: it(E),
-    executeShowScanconfOperationListener: An(E),
-    executeLoadUpdatedScanconfListener: Mn(E),
-    executeSkipScanconfUpdate: Fn(E)
-  }), Oe;
+const He = Ze(), T = He.startListening;
+function an(e, t) {
+  const n = en(T, e);
+  return oa(T, t), Ye({
+    ...n,
+    executeSendHttpRequestListener: Yt(T, e),
+    executeConfirmationAccept: bt(T),
+    executeShowScanconfOperationListener: Za(T),
+    executeLoadUpdatedScanconfListener: Ya(T),
+    executeSkipScanconfUpdate: tn(T)
+  }), He;
 }
-function Pn(e) {
-  return e = pe.simpleClone(e), {
+function nn(e) {
+  return e = Ce.simpleClone(e), {
     path: e.request.path,
     method: e.request.method,
     parameters: e.request.parameters,
     body: { value: JSON.stringify(e.request.body.value, null, 2) },
-    environment: de(e.environment),
+    environment: be(e.environment),
     defaultResponse: e.defaultResponse,
     injectionKey: e.injectionKey,
     fuzzing: e.fuzzing,
     operationId: e.operationId,
     requestOperationId: e.request.operationId,
-    responses: ce(e.responses),
+    responses: xe(e.responses),
     auth: e.auth
   };
 }
-function Hn(e) {
-  return e = pe.simpleClone(e), {
+function sn(e) {
+  return e = Ce.simpleClone(e), {
     url: e.request.url,
     method: e.request.method,
     parameters: e.request.parameters,
     body: { value: JSON.stringify(e.request.body.value, null, 2) },
-    environment: de(e.environment),
+    environment: be(e.environment),
     defaultResponse: e.defaultResponse,
-    responses: ce(e.responses)
+    responses: xe(e.responses)
   };
 }
-function Bn({
+function on({
   requestRef: e,
   stage: t,
-  saveRequest: a,
-  defaultCollapsed: o,
-  variables: s
+  saveRequest: n,
+  defaultCollapsed: s,
+  variables: o
 }) {
-  const r = _n(t);
-  return /* @__PURE__ */ n.jsx($e, { children: /* @__PURE__ */ n.jsx(
-    A,
+  const d = cn(t);
+  return /* @__PURE__ */ a.jsx(_e, { children: /* @__PURE__ */ a.jsx(
+    F,
     {
       data: t,
-      saveData: a,
-      wrapFormData: Hn,
-      unwrapFormData: ct,
-      children: /* @__PURE__ */ n.jsxs(be, { defaultCollapsed: o, children: [
-        /* @__PURE__ */ n.jsxs(ge, { children: [
-          /* @__PURE__ */ n.jsx("span", { children: e.id }),
-          /* @__PURE__ */ n.jsxs(Wn, { children: [
-            /* @__PURE__ */ n.jsx("span", { children: "Default Response" }),
-            /* @__PURE__ */ n.jsx(dt, { name: "defaultResponse", options: r })
+      saveData: n,
+      wrapFormData: sn,
+      unwrapFormData: gt,
+      children: /* @__PURE__ */ a.jsxs(Ee, { defaultCollapsed: s, children: [
+        /* @__PURE__ */ a.jsxs(Te, { children: [
+          /* @__PURE__ */ a.jsx("span", { children: e.id }),
+          /* @__PURE__ */ a.jsxs(pn, { children: [
+            /* @__PURE__ */ a.jsx("span", { children: "Default Response" }),
+            /* @__PURE__ */ a.jsx(St, { name: "defaultResponse", options: d })
           ] })
         ] }),
-        /* @__PURE__ */ n.jsxs(je, { children: [
-          /* @__PURE__ */ n.jsx(Jn, { children: t.request.method }),
-          /* @__PURE__ */ n.jsx(Ln, { onClick: (i) => i.stopPropagation(), children: /* @__PURE__ */ n.jsx(lt, { variables: s, name: "url" }) })
+        /* @__PURE__ */ a.jsxs(Ie, { children: [
+          /* @__PURE__ */ a.jsx(un, { children: t.request.method }),
+          /* @__PURE__ */ a.jsx(dn, { onClick: (l) => l.stopPropagation(), children: /* @__PURE__ */ a.jsx(jt, { variables: o, name: "url" }) })
         ] }),
-        /* @__PURE__ */ n.jsx(Gn, { stage: t, variables: s })
+        /* @__PURE__ */ a.jsx(rn, { stage: t, variables: o })
       ] })
     }
   ) });
 }
-function Gn({
+function rn({
   stage: e,
   variables: t
 }) {
-  return /* @__PURE__ */ n.jsx($e, { children: /* @__PURE__ */ n.jsx(
-    L,
+  return /* @__PURE__ */ a.jsx(_e, { children: /* @__PURE__ */ a.jsx(
+    Z,
     {
       tabs: [
         {
           id: "body",
           title: "Body",
-          content: /* @__PURE__ */ n.jsx(pt, { variables: t, name: "body.value" }),
+          content: /* @__PURE__ */ a.jsx(Ct, { variables: t, name: "body.value" }),
           disabled: e.request.body === void 0
         },
         {
           id: "query",
           title: "Query",
-          content: /* @__PURE__ */ n.jsx(ee, { name: "parameters.query", variables: t })
+          content: /* @__PURE__ */ a.jsx(re, { name: "parameters.query", variables: t })
         },
         {
           id: "header",
           title: "Headers",
-          content: /* @__PURE__ */ n.jsx(ee, { name: "parameters.header", variables: t })
+          content: /* @__PURE__ */ a.jsx(re, { name: "parameters.header", variables: t })
         },
         {
           id: "responses",
           title: "Response processing",
-          content: /* @__PURE__ */ n.jsx(ut, { editable: !0, responseCodes: Un })
+          content: /* @__PURE__ */ a.jsx(kt, { editable: !0, responseCodes: ln })
         }
       ]
     }
   ) });
 }
-function _n(e) {
+function cn(e) {
   return Object.keys(e.responses || {}).map((t) => ({ label: t, value: t }));
 }
-const Un = [
+const ln = [
   "100",
   "101",
   "200",
@@ -962,17 +1132,17 @@ const Un = [
   "503",
   "504",
   "505"
-], $e = h.div`
+], _e = f.div`
   > div {
-    background-color: var(${v.background});
+    background-color: var(${y.background});
   }
-`, Ln = h.div`
+`, dn = f.div`
   flex: 1;
-  background-color: var(${v.background});
-  border: 1px solid var(${v.border});
-`, Jn = h.div`
-  background-color: var(${v.badgeBackground});
-  color: var(${v.badgeForeground});
+  background-color: var(${y.background});
+  border: 1px solid var(${y.border});
+`, un = f.div`
+  background-color: var(${y.badgeBackground});
+  color: var(${y.badgeForeground});
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -981,7 +1151,7 @@ const Un = [
   height: 16px;
   text-transform: uppercase;
   font-size: 11px;
-`, Wn = h.div`
+`, pn = f.div`
   display: flex;
   flex-direction: row;
   gap: 4px;
@@ -991,74 +1161,69 @@ const Un = [
   justify-content: end;
   > div {
     width: 80px;
-    border: 1px solid var(${v.border});
+    border: 1px solid var(${y.border});
   }
 `;
-function Kn({
+function mn({
   request: e,
   requestRef: t
 }) {
-  const a = x((l) => l.prefs.useGlobalBlocks), {
-    tryResult: o,
-    mockResult: s,
-    mockMissingVariables: r
-  } = x((l) => l.requests), i = $(), { playbook: p, servers: d } = x((l) => l.scanconf), u = x((l) => l.env.data), m = (l, g) => i(De({ server: l, inputs: g })), b = (l) => i(Q({ ref: t, stage: l })), k = [...ue, ...mt([])], [y, T] = z.useState({}), {
-    environment: {
-      env: { host: c }
-    }
-  } = _(U(p), u);
+  const n = b((v) => v.prefs.useGlobalBlocks), {
+    tryResult: s,
+    mockResult: o,
+    mockMissingVariables: d
+  } = b((v) => v.requests), l = P(), { playbook: p, servers: r } = b((v) => v.scanconf), c = b((v) => v.env.data), u = (v, i) => l(Be({ server: v, inputs: i })), h = (v) => l(ne({ ref: t, stage: v })), g = [...ke, ...qt([])], [k, S] = z.useState({}), E = Q(p, c, r);
   return z.useEffect(() => {
-    const l = { ...y };
-    for (const g of Object.keys(l))
-      r.includes(g) || delete l[g];
-    for (const g of r)
-      l[g] === void 0 && (l[g] = "");
-    T(l);
-  }, [r]), /* @__PURE__ */ n.jsxs(Qn, { children: [
-    /* @__PURE__ */ n.jsx(
-      X,
+    const v = { ...k };
+    for (const i of Object.keys(v))
+      d.includes(i) || delete v[i];
+    for (const i of d)
+      v[i] === void 0 && (v[i] = "");
+    S(v);
+  }, [d]), /* @__PURE__ */ a.jsxs(fn, { children: [
+    /* @__PURE__ */ a.jsx(
+      se,
       {
-        servers: d,
-        host: c,
-        onTry: (l) => m(l, y),
+        servers: E,
+        onTry: (v) => u(v, k),
         menu: !0
       }
     ),
-    /* @__PURE__ */ n.jsxs(w, { title: "Request", children: [
-      /* @__PURE__ */ n.jsx(
-        Bn,
+    /* @__PURE__ */ a.jsxs(D, { title: "Request", children: [
+      /* @__PURE__ */ a.jsx(
+        on,
         {
           defaultCollapsed: !1,
-          variables: k,
+          variables: g,
           requestRef: t,
           stage: e,
-          saveRequest: b
+          saveRequest: h
         }
       ),
-      /* @__PURE__ */ n.jsxs(Yn, { children: [
+      /* @__PURE__ */ a.jsxs(hn, { children: [
         "Unset variables",
-        /* @__PURE__ */ n.jsx(Wt, { children: "Enter values for these unset variables to 'Try' the Operation. Note that these values will not be persisted in the Scan configuration." })
+        /* @__PURE__ */ a.jsx(ra, { children: "Enter values for these unset variables to 'Try' the Operation. Note that these values will not be persisted in the Scan configuration." })
       ] }),
-      /* @__PURE__ */ n.jsx(Xn, { children: /* @__PURE__ */ n.jsx(
-        A,
+      /* @__PURE__ */ a.jsx(vn, { children: /* @__PURE__ */ a.jsx(
+        F,
         {
-          wrapFormData: ht,
-          unwrapFormData: ft,
-          data: y,
-          saveData: (l) => T(l),
-          children: /* @__PURE__ */ n.jsx(vt, { name: "env" })
+          wrapFormData: wt,
+          unwrapFormData: Rt,
+          data: k,
+          saveData: (v) => S(v),
+          children: /* @__PURE__ */ a.jsx(Et, { name: "env" })
         }
       ) })
     ] }),
-    o.length > 0 && /* @__PURE__ */ n.jsx(w, { title: "Result", children: /* @__PURE__ */ n.jsx(B, { result: o, collapsible: a }) })
+    s.length > 0 && /* @__PURE__ */ a.jsx(D, { title: "Result", children: /* @__PURE__ */ a.jsx(W, { result: s, collapsible: n }) })
   ] });
 }
-const Qn = h.div`
+const fn = f.div`
   padding: 8px;
-`, Xn = h.div`
-  border: 1px solid var(${v.border});
-  background-color: var(${v.background});
-`, Yn = h.div`
+`, vn = f.div`
+  border: 1px solid var(${y.border});
+  background-color: var(${y.background});
+`, hn = f.div`
   display: flex;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -1067,65 +1232,65 @@ const Qn = h.div`
   cursor: pointer;
   align-items: center;
 `;
-function Zn({ name: e, value: t }) {
-  return /* @__PURE__ */ n.jsxs(ta, { children: [
-    /* @__PURE__ */ n.jsx(na, { children: e }),
-    /* @__PURE__ */ n.jsx(ea, { children: t }),
-    /* @__PURE__ */ n.jsx("div", {})
+function yn({ name: e, value: t }) {
+  return /* @__PURE__ */ a.jsxs(bn, { children: [
+    /* @__PURE__ */ a.jsx(gn, { children: e }),
+    /* @__PURE__ */ a.jsx(xn, { children: t }),
+    /* @__PURE__ */ a.jsx("div", {})
   ] });
 }
-const ea = h.div`
+const xn = f.div`
   flex: 1;
-  border-bottom: 1px solid var(${v.border});
+  border-bottom: 1px solid var(${y.border});
   margin-right: 10px;
   display: flex;
   align-items: center;
   gap: 4px;
-`, ta = h.div`
+`, bn = f.div`
   display: contents;
   &:hover > :last-child {
     opacity: 1;
   }
-`, na = h.div`
+`, gn = f.div`
   flex: 1;
-  border-bottom: 1px solid var(${v.border});
+  border-bottom: 1px solid var(${y.border});
   margin-right: 10px;
   display: flex;
   align-items: center;
   gap: 4px;
 `;
-function aa({ name: e }) {
-  const { fields: t } = fe({
+function Sn({ name: e }) {
+  const { fields: t } = we({
     name: e
   });
-  return /* @__PURE__ */ n.jsxs(oa, { children: [
-    /* @__PURE__ */ n.jsxs(sa, { children: [
-      /* @__PURE__ */ n.jsx("div", { children: "Name" }),
-      /* @__PURE__ */ n.jsx("div", { children: "Value" }),
-      /* @__PURE__ */ n.jsx("div", {})
+  return /* @__PURE__ */ a.jsxs(jn, { children: [
+    /* @__PURE__ */ a.jsxs(Cn, { children: [
+      /* @__PURE__ */ a.jsx("div", { children: "Name" }),
+      /* @__PURE__ */ a.jsx("div", { children: "Value" }),
+      /* @__PURE__ */ a.jsx("div", {})
     ] }),
-    /* @__PURE__ */ n.jsx(ra, { children: t.map((a, o) => /* @__PURE__ */ n.jsx(Zn, { name: a.key, value: a.value }, a.id)) })
+    /* @__PURE__ */ a.jsx(kn, { children: t.map((n, s) => /* @__PURE__ */ a.jsx(yn, { name: n.key, value: n.value }, n.id)) })
   ] });
 }
-const oa = h.div`
+const jn = f.div`
   padding: 8px;
   display: grid;
   row-gap: 4px;
   grid-template-columns: 1fr 2fr 1em;
-`, sa = h.div`
+`, Cn = f.div`
   display: contents;
   & > div {
     padding: 4px 8px;
-    background-color: var(${v.computedOne});
+    background-color: var(${y.computedOne});
     text-transform: uppercase;
     font-size: 90%;
     font-weight: 600;
   }
-`, ra = h.div`
+`, kn = f.div`
   display: contents;
   & > div > div {
     padding: 4px 8px;
-    border-bottom: 1px solid var(${v.border});
+    border-bottom: 1px solid var(${y.border});
   }
   & > div > div:last-child {
     padding: 2px 5px;
@@ -1135,89 +1300,89 @@ const oa = h.div`
   //   grid-column: span 3;
   // }
 `;
-function ia({
+function qn({
   variables: e,
   readOnly: t
 }) {
-  return /* @__PURE__ */ n.jsx(ca, { children: /* @__PURE__ */ n.jsx(yt, { name: "body.value", readOnly: t }) });
+  return /* @__PURE__ */ a.jsx(Rn, { children: /* @__PURE__ */ a.jsx(Tt, { name: "body.value", readOnly: t }) });
 }
-const ca = h.div`
+const Rn = f.div`
   margin: 8px;
   gap: 8px;
   display: flex;
   flex-flow: column;
 `;
-function da({
+function wn({
   config: e,
   path: t,
-  method: a,
-  credentials: o,
-  settings: s,
-  availableVariables: r
+  method: n,
+  credentials: s,
+  settings: o,
+  availableVariables: d
 }) {
-  const { getValues: i } = me();
-  i("body");
-  const p = la(e, o, t, a, r);
-  return /* @__PURE__ */ n.jsx(L, { tabs: p });
+  const { getValues: l } = Re();
+  l("body");
+  const p = En(e, s, t, n, d);
+  return /* @__PURE__ */ a.jsx(Z, { tabs: p });
 }
-function la(e, t, a, o, s, r) {
+function En(e, t, n, s, o, d) {
   return [
     {
       id: "body",
       title: "Body details",
-      content: /* @__PURE__ */ n.jsx(ia, { variables: s, readOnly: !0 }),
+      content: /* @__PURE__ */ a.jsx(qn, { variables: o, readOnly: !0 }),
       disabled: !1
     },
     {
       id: "header",
       title: "Header",
-      content: /* @__PURE__ */ n.jsx(aa, { name: "parameters.header" })
+      content: /* @__PURE__ */ a.jsx(Sn, { name: "parameters.header" })
     }
   ];
 }
-function pa({
+function Tn({
   config: e,
   requestRef: t,
-  stage: a,
-  credentials: o,
-  saveRequest: s,
-  defaultCollapsed: r,
-  availableVariables: i
+  stage: n,
+  credentials: s,
+  saveRequest: o,
+  defaultCollapsed: d,
+  availableVariables: l
 }) {
-  return /* @__PURE__ */ n.jsx(ua, { children: /* @__PURE__ */ n.jsx(
-    A,
+  return /* @__PURE__ */ a.jsx(In, { children: /* @__PURE__ */ a.jsx(
+    F,
     {
-      data: a,
-      saveData: s,
-      wrapFormData: Pn,
-      unwrapFormData: xt,
-      children: /* @__PURE__ */ n.jsxs(be, { defaultCollapsed: r, children: [
-        /* @__PURE__ */ n.jsx(ge, { children: /* @__PURE__ */ n.jsx("span", { children: t.id }) }),
-        /* @__PURE__ */ n.jsxs(je, { children: [
-          /* @__PURE__ */ n.jsx(ma, { children: a.request.method }),
-          /* @__PURE__ */ n.jsx(fa, { children: a.request.path })
+      data: n,
+      saveData: o,
+      wrapFormData: nn,
+      unwrapFormData: It,
+      children: /* @__PURE__ */ a.jsxs(Ee, { defaultCollapsed: d, children: [
+        /* @__PURE__ */ a.jsx(Te, { children: /* @__PURE__ */ a.jsx("span", { children: t.id }) }),
+        /* @__PURE__ */ a.jsxs(Ie, { children: [
+          /* @__PURE__ */ a.jsx(Dn, { children: n.request.method }),
+          /* @__PURE__ */ a.jsx(Pn, { children: n.request.path })
         ] }),
-        /* @__PURE__ */ n.jsx(
-          da,
+        /* @__PURE__ */ a.jsx(
+          wn,
           {
             config: e,
-            credentials: o,
-            method: a.request.method,
-            path: a.request.path,
-            availableVariables: i
+            credentials: s,
+            method: n.request.method,
+            path: n.request.path,
+            availableVariables: l
           }
         )
       ] })
     }
   ) });
 }
-const ua = h.div`
+const In = f.div`
   > div {
-    background-color: var(${v.background});
+    background-color: var(${y.background});
   }
-`, ma = h.div`
-  background-color: var(${v.badgeBackground});
-  color: var(${v.badgeForeground});
+`, Dn = f.div`
+  background-color: var(${y.badgeBackground});
+  color: var(${y.badgeForeground});
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -1226,219 +1391,213 @@ const ua = h.div`
   height: 16px;
   text-transform: uppercase;
   font-size: 11px;
-`, fa = h.div``;
-function ha({
+`, Pn = f.div``;
+function On({
   request: e,
   requestRef: t
 }) {
-  const a = $(), { graphQl: o, playbook: s, servers: r } = x((f) => f.scanconf);
-  x((f) => f.config.data);
-  const i = x((f) => f.env.data), p = x((f) => f.prefs.useGlobalBlocks), {
-    tryResult: d,
-    mockResult: u,
-    mockMissingVariables: m
-  } = x((f) => f.requests), b = (f, S) => a(De({ server: f, inputs: S })), k = (f) => a(Q({ ref: t, stage: f })), y = s?.authenticationDetails ? s?.authenticationDetails[0] : void 0, T = [...ue, ...bt([])], [c, l] = z.useState({}), {
-    simple: g,
-    environment: {
-      env: { host: M }
-    }
-  } = _(U(s), i);
+  const n = P(), { graphQl: s, playbook: o, servers: d } = b((m) => m.scanconf);
+  b((m) => m.config.data);
+  const l = b((m) => m.env.data), p = b((m) => m.prefs.useGlobalBlocks), {
+    tryResult: r,
+    mockResult: c,
+    mockMissingVariables: u
+  } = b((m) => m.requests), h = (m, C) => n(Be({ server: m, inputs: C })), g = (m) => n(ne({ ref: t, stage: m })), k = o?.authenticationDetails ? o?.authenticationDetails[0] : void 0, S = [...ke, ...Dt([])], [E, v] = z.useState({}), { simple: i } = ge(Se(o), l), j = Q(o, l, d);
   return z.useEffect(() => {
-    const f = { ...c };
-    for (const S of Object.keys(f))
-      m.includes(S) || delete f[S];
-    for (const S of m)
-      f[S] === void 0 && (f[S] = "");
-    l(f);
-  }, [m]), /* @__PURE__ */ n.jsxs(va, { children: [
-    /* @__PURE__ */ n.jsx(
-      X,
+    const m = { ...E };
+    for (const C of Object.keys(m))
+      u.includes(C) || delete m[C];
+    for (const C of u)
+      m[C] === void 0 && (m[C] = "");
+    v(m);
+  }, [u]), /* @__PURE__ */ a.jsxs($n, { children: [
+    /* @__PURE__ */ a.jsx(
+      se,
       {
         menu: !0,
-        servers: r,
-        host: M,
-        onTry: (f) => b(f, c),
-        onScan: (f) => {
-          const [S, Y] = G(s);
-          if (Y !== void 0) {
-            console.log("failed to serialize", Y);
+        servers: j,
+        onTry: (m) => h(m, E),
+        onScan: (m) => {
+          const [C, N] = J(o);
+          if (N !== void 0) {
+            console.log("failed to serialize", N);
             return;
           }
-          a(
-            ke({
+          n(
+            De({
               path: e.request.path,
               method: e.request.method,
               operationId: e.operationId,
               env: {
-                SCAN42C_HOST: f,
-                ...g
+                SCAN42C_HOST: m,
+                ...i
               },
-              scanconf: ya(S, e.operationId)
+              scanconf: An(C, e.operationId)
             })
           );
         }
       }
     ),
-    /* @__PURE__ */ n.jsx(w, { title: "Request", children: /* @__PURE__ */ n.jsx(
-      pa,
+    /* @__PURE__ */ a.jsx(D, { title: "Request", children: /* @__PURE__ */ a.jsx(
+      Tn,
       {
         defaultCollapsed: !1,
         config: void 0,
-        credentials: y,
-        availableVariables: T,
+        credentials: k,
+        availableVariables: S,
         requestRef: t,
         stage: e,
-        saveRequest: k
+        saveRequest: g
       }
     ) }),
-    d.length > 0 && /* @__PURE__ */ n.jsx(w, { title: "Result", children: /* @__PURE__ */ n.jsx(B, { result: d, collapsible: p }) })
+    r.length > 0 && /* @__PURE__ */ a.jsx(D, { title: "Result", children: /* @__PURE__ */ a.jsx(W, { result: r, collapsible: p }) })
   ] });
 }
-const va = h.div`
+const $n = f.div`
   padding: 8px;
 `;
-function ya(e, t) {
+function An(e, t) {
   if (e.operations !== void 0)
-    for (const a of Object.keys(e?.operations))
-      a !== t && delete e.operations[a];
+    for (const n of Object.keys(e?.operations))
+      n !== t && delete e.operations[n];
   return JSON.stringify(e, null, 2);
 }
-function xa({ requestRef: e }) {
-  const { playbook: t } = x((o) => o.scanconf), a = e.type === "operation" ? t.operations[e.id].request : t.requests?.[e.id];
-  return a === void 0 ? /* @__PURE__ */ n.jsxs("div", { children: [
+function Fn({ requestRef: e }) {
+  const { playbook: t } = b((s) => s.scanconf), n = e.type === "operation" ? t.operations[e.id].request : t.requests?.[e.id];
+  return n === void 0 ? /* @__PURE__ */ a.jsxs("div", { children: [
     "Unable to locate the request, failed to resolve: ",
     JSON.stringify(e)
-  ] }) : a.operationId === void 0 ? /* @__PURE__ */ n.jsx(Kn, { requestRef: e, request: a }) : /* @__PURE__ */ n.jsx(ha, { requestRef: e, request: a });
+  ] }) : n.operationId === void 0 ? /* @__PURE__ */ a.jsx(mn, { requestRef: e, request: n }) : /* @__PURE__ */ a.jsx(On, { requestRef: e, request: n });
 }
-function ba() {
-  const e = $(), { graphQl: t, playbook: a, servers: o } = x((c) => c.scanconf), s = x((c) => c.requests.ref), r = x((c) => c.env.data), i = x((c) => c.prefs.scanServer), p = ({ sectionId: c, itemId: l }) => {
-    e(ae({ type: c === "operation" ? "operation" : "request", id: l }));
-  }, d = (c) => {
-    if (s?.type === "request" && s.id === c) {
-      const l = Object.keys(a.operations)?.[0];
-      l !== void 0 && e(ae({ type: "operation", id: l }));
+function zn() {
+  const e = P(), { graphQl: t, playbook: n, servers: s } = b((i) => i.scanconf), o = b((i) => i.requests.ref), d = b((i) => i.env.data), l = b((i) => i.prefs.scanServer), p = Q(n, d, s), r = p.includes(l) ? l : p[0], c = ({ sectionId: i, itemId: j }) => {
+    e(de({ type: i === "operation" ? "operation" : "request", id: j }));
+  }, u = (i) => {
+    if (o?.type === "request" && o.id === i) {
+      const j = Object.keys(n.operations)?.[0];
+      j !== void 0 && e(de({ type: "operation", id: j }));
     }
-    e(we({ type: "request", id: c }));
-  }, u = Object.keys(a.operations).map((c) => ({ id: c, label: c })), m = Object.entries(a.requests || {}).filter(([c, l]) => l.operationId !== void 0).map(([c, l]) => ({ id: c, label: c })), b = Object.entries(a.requests || {}).filter(([c, l]) => l.operationId === void 0).map(([c, l]) => ({
-    id: c,
-    label: c,
-    menu: /* @__PURE__ */ n.jsx(ye, { children: /* @__PURE__ */ n.jsx(xe, { onClick: (g) => g.stopPropagation(), onSelect: () => d(c), children: "Delete" }) })
+    e(Ne({ type: "request", id: i }));
+  }, h = Object.keys(n.operations).map((i) => ({ id: i, label: i })), g = Object.entries(n.requests || {}).filter(([i, j]) => j.operationId !== void 0).map(([i, j]) => ({ id: i, label: i })), k = Object.entries(n.requests || {}).filter(([i, j]) => j.operationId === void 0).map(([i, j]) => ({
+    id: i,
+    label: i,
+    menu: /* @__PURE__ */ a.jsx(L, { children: /* @__PURE__ */ a.jsx(G, { onClick: (m) => m.stopPropagation(), onSelect: () => u(i), children: "Delete" }) })
   }));
-  let k;
-  s?.type === "operation" && a.operations[s.id] !== void 0 ? k = { itemId: s.id, sectionId: "operation" } : s?.type === "request" && a.requests?.[s.id] !== void 0 && (a.requests[s.id].operationId !== void 0 ? k = { itemId: s.id, sectionId: "requests" } : k = { itemId: s.id, sectionId: "external" });
-  const y = [
+  let S;
+  o?.type === "operation" && n.operations[o.id] !== void 0 ? S = { itemId: o.id, sectionId: "operation" } : o?.type === "request" && n.requests?.[o.id] !== void 0 && (n.requests[o.id].operationId !== void 0 ? S = { itemId: o.id, sectionId: "requests" } : S = { itemId: o.id, sectionId: "external" });
+  const E = [
     {
       id: "operation",
       title: "Operations",
-      items: u
+      items: h
     },
     {
       id: "request",
       title: "Requests",
-      items: m
+      items: g
     },
     {
       id: "external",
       title: "External Requests",
-      items: b
+      items: k
     }
-  ], T = (c) => {
-    const l = c, [g, M] = G(a);
-    if (M !== void 0) {
-      console.log("failed to serialize", M);
+  ], v = (i) => {
+    const j = i, [m, C] = J(n);
+    if (C !== void 0) {
+      console.log("failed to serialize", C);
       return;
     }
-    const { simple: f } = _(U(a), r);
+    const { simple: N } = ge(Se(n), d);
     e(
-      Se({
+      Pe({
         env: {
-          SCAN42C_HOST: l,
-          ...f
+          SCAN42C_HOST: j,
+          ...N
         },
-        scanconf: JSON.stringify(g, null, 2)
+        scanconf: JSON.stringify(m, null, 2)
       })
     );
   };
-  return /* @__PURE__ */ n.jsx(
-    le,
+  return /* @__PURE__ */ a.jsx(
+    je,
     {
       title: "operations",
-      selected: k,
-      sections: y,
-      onSelected: p,
-      renderButtons: () => /* @__PURE__ */ n.jsx(
-        _e,
+      selected: S,
+      sections: E,
+      onSelected: c,
+      renderButtons: () => /* @__PURE__ */ a.jsx(
+        et,
         {
           style: { width: "100%" },
-          onClick: (c) => {
-            c.preventDefault(), c.stopPropagation(), T(i || o[0]);
+          onClick: (i) => {
+            i.preventDefault(), i.stopPropagation(), v(r);
           },
           children: "Scan all operations"
         }
       ),
       hideEmptySections: !0,
-      render: (c) => /* @__PURE__ */ n.jsx(
-        xa,
+      render: (i) => /* @__PURE__ */ a.jsx(
+        Fn,
         {
-          requestRef: { type: c.sectionId, id: c.itemId }
+          requestRef: { type: i.sectionId, id: i.itemId }
         },
-        `${c.sectionId}-${c.itemId}`
+        `${i.sectionId}-${i.itemId}`
       )
     }
   );
 }
-const oe = [
+const pe = [
   {
     id: "starting",
     title: "",
     navigation: !1,
-    element: /* @__PURE__ */ n.jsx("div", {})
+    element: /* @__PURE__ */ a.jsx("div", {})
   },
   {
     id: "general-error",
     title: "An error has occurred",
-    element: /* @__PURE__ */ n.jsx(Ht, {}),
+    element: /* @__PURE__ */ a.jsx(Xt, {}),
     navigation: !1,
-    when: O
+    when: A
   },
   {
     id: "scanconf-update",
     title: "Scan configuration is outdated",
-    element: /* @__PURE__ */ n.jsx(kt, {}),
+    element: /* @__PURE__ */ a.jsx($t, {}),
     navigation: !1
   },
   {
     id: "scanconf",
     title: "Scanconf",
-    element: /* @__PURE__ */ n.jsx("div", { children: "Main" }),
+    element: /* @__PURE__ */ a.jsx("div", { children: "Main" }),
     children: [
       {
         id: "requests",
         title: "Operations",
-        element: /* @__PURE__ */ n.jsx(ba, {})
+        element: /* @__PURE__ */ a.jsx(zn, {})
       },
       {
         id: "auth",
         title: "Authentication",
-        element: /* @__PURE__ */ n.jsx(zn, {})
+        element: /* @__PURE__ */ a.jsx(Xa, {})
       },
       {
         id: "environments",
-        title: /* @__PURE__ */ n.jsx(Ct, {}),
-        element: /* @__PURE__ */ n.jsx(St, {})
+        title: /* @__PURE__ */ a.jsx(Ft, {}),
+        element: /* @__PURE__ */ a.jsx(At, {})
       },
       {
         id: "settings",
         title: "Settings",
-        element: /* @__PURE__ */ n.jsx(qt, {})
+        element: /* @__PURE__ */ a.jsx(zt, {})
       }
     ]
   }
 ];
-function ga(e, t) {
-  const a = kn(Vn(e, oe), t);
-  Ue.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ n.jsx(Le.StrictMode, { children: /* @__PURE__ */ n.jsx(Je, { store: a, children: /* @__PURE__ */ n.jsx(We.Provider, { value: oe, children: /* @__PURE__ */ n.jsx(gt, { backend: jt, children: /* @__PURE__ */ n.jsx(Ke, {}) }) }) }) })
-  ), window.addEventListener("message", Qe(a, jn));
+function Nn(e, t) {
+  const n = Da(an(e, pe), t);
+  tt.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ a.jsx(at.StrictMode, { children: /* @__PURE__ */ a.jsx(nt, { store: n, children: /* @__PURE__ */ a.jsx(st.Provider, { value: pe, children: /* @__PURE__ */ a.jsx(Pt, { backend: Ot, children: /* @__PURE__ */ a.jsx(ot, {}) }) }) }) })
+  ), window.addEventListener("message", rt(n, Ia));
 }
-window.renderWebView = ga;
+window.renderWebView = Nn;
