@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.xliic.openapi</groupId>
 	<artifactId>openapi-parent</artifactId>
-	<version>5.6.0</version>
+	<version>5.8.0</version>
 	<packaging>pom</packaging>
 
 	<modules>
