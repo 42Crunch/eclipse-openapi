@@ -32,6 +32,8 @@ public class HttpRequest {
     protected final boolean rejectUnauthorized;
     @Nullable
     protected final String proxy;
+    @Nullable
+    protected final MtlsConfig mtlsConfig;
     
     public HttpRequest(@NotNull String url,
                        @NotNull String method,
@@ -39,7 +41,8 @@ public class HttpRequest {
                        @Nullable Object body,
                        @Nullable String id,
                        boolean rejectUnauthorized,
-                       @Nullable String proxy) {
+                       @Nullable String proxy,
+                       @Nullable MtlsConfig mtlsConfig) {
         this.url = url;
         this.method = method;
         this.headers = headers;
@@ -47,6 +50,7 @@ public class HttpRequest {
         this.id = id;
         this.rejectUnauthorized = rejectUnauthorized;
         this.proxy = proxy;
+        this.mtlsConfig = mtlsConfig;
     }
 
     @NotNull @SuppressWarnings("unchecked")
@@ -126,5 +130,9 @@ public class HttpRequest {
 
     public boolean hasCustomProxy() {
         return !StringUtils.isEmpty(proxy);
+    }
+    
+    public @Nullable MtlsConfig getMtlsConfig() {
+        return mtlsConfig;
     }
 }

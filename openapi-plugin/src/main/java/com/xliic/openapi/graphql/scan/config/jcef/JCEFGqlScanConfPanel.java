@@ -30,6 +30,10 @@ import com.xliic.openapi.topic.FileListener;
 import com.xliic.openapi.topic.SettingsListener;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
 import com.xliic.openapi.webapp.editor.WebVirtualFile;
+import com.xliic.openapi.webapp.filepicker.Base64EncodedFileContent;
+import com.xliic.openapi.webapp.filepicker.CancelFile;
+import com.xliic.openapi.webapp.filepicker.FilePickerListener;
+import com.xliic.openapi.webapp.filepicker.LoadFile;
 import com.xliic.openapi.webapp.http.HttpResponseListener;
 import com.xliic.openapi.webapp.http.ShowHttpError;
 import com.xliic.openapi.webapp.http.ShowHttpResponse;
@@ -37,7 +41,7 @@ import com.xliic.openapi.webapp.http.payload.HttpError;
 import com.xliic.openapi.webapp.http.payload.HttpResponse;
 
 public class JCEFGqlScanConfPanel extends WebFileEditor
-        implements FileListener, ScanListener, EnvListener, SettingsListener, HttpResponseListener, Disposable {
+        implements FileListener, ScanListener, EnvListener, SettingsListener, HttpResponseListener, FilePickerListener, Disposable {
 
     public static final String GQL_SCAN_CONF_PATH = "com.xliic.openapi.graphql.scan.config.jcef.JCEFGqlScanConfPanel[ScanConfPath]";
 
@@ -52,6 +56,7 @@ public class JCEFGqlScanConfPanel extends WebFileEditor
         connection.subscribe(EnvListener.TOPIC, this);
         connection.subscribe(SettingsListener.TOPIC, this);
         connection.subscribe(HttpResponseListener.TOPIC, this);
+        connection.subscribe(FilePickerListener.TOPIC, this);
     }
 
     @Override
@@ -128,5 +133,21 @@ public class JCEFGqlScanConfPanel extends WebFileEditor
             return;
         }
         new ShowHttpError(payload).send(getCefBrowser());
+    }
+
+    @Override
+    public void loadFile(@NotNull String webAppId, @NotNull String id, @NotNull Base64EncodedFileContent content) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new LoadFile(id, content).send(getCefBrowser());
+    }
+
+    @Override
+    public void cancelFile(@NotNull String webAppId, @NotNull String id) {
+        if (!Objects.equals(webAppId, myId)) {
+            return;
+        }
+        new CancelFile(id).send(getCefBrowser());
     }
 }

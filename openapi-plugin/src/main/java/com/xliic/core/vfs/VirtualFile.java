@@ -5,8 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.FileInputStream;
 import java.util.Objects;
 
 import org.apache.commons.io.FilenameUtils;
@@ -22,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import com.xliic.core.util.EclipseUtil;
 import com.xliic.core.util.io.FileUtil;
 
-public class VirtualFile {
+public class VirtualFile implements FileType {
 
     public static final VirtualFile[] EMPTY_ARRAY = new VirtualFile[0];
 
@@ -221,5 +223,32 @@ public class VirtualFile {
     		throw new IOException("File stream is not found " + path);
     	}
         return new FileOutputStream(file);
+    }
+    
+    public @NotNull FileType getFileType() {
+        return this;
+    }
+    
+    @Override
+    public boolean isBinary() {
+        try (FileInputStream fis = new FileInputStream(getName())) {
+            byte[] buffer = new byte[8192];
+            int bytesRead;          
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                for (int i = 0; i < bytesRead; i++) {
+                    // Null bytes indicate binary content
+                    if (buffer[i] == 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (IOException e) {
+            return true;
+        }
+    }
+    
+    public byte @NotNull [] contentsToByteArray() throws IOException {
+    	return Files.readAllBytes(toNioPath());
     }
 }
