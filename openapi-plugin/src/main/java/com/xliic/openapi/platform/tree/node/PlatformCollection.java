@@ -19,19 +19,35 @@ public class PlatformCollection implements Paginator, Filter {
     @NotNull
     private final Permissions permissions;
     private volatile boolean childrenUnavailable;
+    private volatile boolean fullChildrenLoaded;
     @NotNull
-    private final String techName;
-    private int pageSize = Paginator.PAGE_SIZE;
+    private final String technicalName;
+    private int page = DEFAULT_PAGE;
     private String filterName;
+    private final int apiCount;
 
-    public PlatformCollection(@NotNull String id, @NotNull String name, boolean locked, @NotNull String techName, @NotNull Permissions permissions) {
-        this.id = id;
-        this.name = name;
-        this.locked = locked;
-        this.techName = techName;
-        childrenUnavailable = true;
-        this.permissions = permissions;
-    }
+    public PlatformCollection(@NotNull String id,
+            @NotNull String name,
+            boolean locked,
+            @NotNull String techName,
+            @NotNull Permissions permissions,
+            int apiCount) {
+		this.id = id;
+		this.name = name;
+		this.locked = locked;
+		this.technicalName = techName;
+		this.permissions = permissions;
+		childrenUnavailable = true;
+		this.apiCount = apiCount;
+	}
+	
+	public PlatformCollection(@NotNull String id,
+	            @NotNull String name,
+	            boolean locked,
+	            @NotNull String techName,
+	            @NotNull Permissions permissions) {
+		this(id, name, locked, techName, permissions, -1);
+	}
 
     public @NotNull String getName() {
         return name;
@@ -50,11 +66,15 @@ public class PlatformCollection implements Paginator, Filter {
     }
 
     public @NotNull String getTechnicalName() {
-        return techName;
+        return technicalName;
     }
 
     public @NotNull Permissions getPermissions() {
         return permissions;
+    }
+    
+    public int getApiCount() {
+        return apiCount;
     }
     
     public boolean isChildrenUnavailable() {
@@ -66,7 +86,19 @@ public class PlatformCollection implements Paginator, Filter {
     }
 
     @Override
-    public boolean pass(@NotNull DefaultMutableTreeNode childDMTN) {
+    public boolean isFullChildrenLoaded()
+    {
+        return fullChildrenLoaded;
+    }
+
+    @Override
+    public void setFullChildrenLoaded(boolean fullChildrenLoaded)
+    {
+        this.fullChildrenLoaded = fullChildrenLoaded;
+    }
+
+    @Override
+    public boolean passFilter(@NotNull DefaultMutableTreeNode childDMTN) {
         if (!StringUtils.isEmpty(filterName)) {
             Object obj = childDMTN.getUserObject();
             if (obj instanceof PlatformAPI) {
@@ -78,32 +110,32 @@ public class PlatformCollection implements Paginator, Filter {
     }
 
     @Override
-    public void setFilterName(@NotNull String name) {
+    public void setFilter(@NotNull String name) {
         filterName = name;
     }
 
     @Override
-    public void reset() {
+    public void resetFilter() {
         filterName = "";
     }
 
     @Override
-    public boolean isActive() {
+    public boolean isFilterActive() {
         return !StringUtils.isEmpty(filterName);
     }
 
     @Override
-    public int getPageSize() {
-        return pageSize;
+    public int getPage() {
+        return page;
     }
 
     @Override
-    public void increasePageSize() {
-        this.pageSize += PAGE_SIZE;
+    public void increasePage() {
+        this.page += 1;
     }
 
     @Override
-    public void resetPageSize() {
-        this.pageSize = PAGE_SIZE;
+    public void resetPage() {
+        this.page = DEFAULT_PAGE;
     }
 }

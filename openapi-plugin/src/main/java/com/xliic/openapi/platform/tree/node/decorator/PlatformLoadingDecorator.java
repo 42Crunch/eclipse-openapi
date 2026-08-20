@@ -1,4 +1,4 @@
 package com.xliic.openapi.platform.tree.node.decorator;
 
-public class PlatformLoadingDecorator {
+public class PlatformLoadingDecorator implements PlatformDecorator {
 }

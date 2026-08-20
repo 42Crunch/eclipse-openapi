@@ -12,28 +12,51 @@ public class PlatformRootCloud implements Paginator, Filter {
 
     private final static String NAME = "API Collections";
     private volatile boolean childrenUnavailable;
+    private volatile boolean fullChildrenLoaded;
 
-    private int pageSize = Paginator.PAGE_SIZE;
+    private int page = DEFAULT_PAGE;
     private String filterName;
 
     public PlatformRootCloud() {
         childrenUnavailable = true;
+        resetFilter();
+    }
+
+    public void setFrom(PlatformRootCloud node) {
+        childrenUnavailable = node.isChildrenUnavailable();
+        fullChildrenLoaded = node.isFullChildrenLoaded();
+        page = node.getPage();
+        resetFilter(); // Do not copy the filter value
     }
 
     public String getName() {
         return NAME;
     }
 
+    @Override
     public boolean isChildrenUnavailable() {
         return childrenUnavailable;
     }
 
+    @Override
     public void setChildrenUnavailable(boolean childrenUnavailable) {
         this.childrenUnavailable = childrenUnavailable;
     }
 
     @Override
-    public boolean pass(@NotNull DefaultMutableTreeNode childDMTN) {
+    public boolean isFullChildrenLoaded()
+    {
+        return fullChildrenLoaded;
+    }
+
+    @Override
+    public void setFullChildrenLoaded(boolean fullChildrenLoaded)
+    {
+        this.fullChildrenLoaded = fullChildrenLoaded;
+    }
+
+    @Override
+    public boolean passFilter(@NotNull DefaultMutableTreeNode childDMTN) {
         if (!StringUtils.isEmpty(filterName)) {
             Object obj = childDMTN.getUserObject();
             if (obj instanceof PlatformCollection) {
@@ -44,33 +67,37 @@ public class PlatformRootCloud implements Paginator, Filter {
         return true;
     }
 
+    public String getFilter() {
+        return filterName;
+    }
+
     @Override
-    public void setFilterName(@NotNull String name) {
+    public void setFilter(@NotNull String name) {
         filterName = name;
     }
 
     @Override
-    public void reset() {
+    public void resetFilter() {
         filterName = "";
     }
 
     @Override
-    public boolean isActive() {
+    public boolean isFilterActive() {
         return !StringUtils.isEmpty(filterName);
     }
 
     @Override
-    public int getPageSize() {
-        return pageSize;
+    public int getPage() {
+        return page;
     }
 
     @Override
-    public void increasePageSize() {
-        this.pageSize += PAGE_SIZE;
+    public void increasePage() {
+        this.page += 1;
     }
 
     @Override
-    public void resetPageSize() {
-        this.pageSize = PAGE_SIZE;
+    public void resetPage() {
+        this.page = DEFAULT_PAGE;
     }
 }

@@ -1,6 +1,6 @@
 package com.xliic.openapi.platform.tree.node.decorator;
 
-public class PlatformErrorDecorator {
+public class PlatformErrorDecorator implements PlatformDecorator {
 
     private final String name;
 

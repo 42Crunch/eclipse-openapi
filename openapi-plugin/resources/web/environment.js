@@ -1,15 +1,15 @@
 import { a as y, t as w, l as S, d as C, s as $, e as o, T as s, j as e, g as F, R as k, P as V, k as A, p as R, n as M } from "./TriangleExclamation.BLKAXJ8l.js";
-import { e as _, a as g, u as L, b as N, l as T } from "./index.CRy0HWMP.js";
+import { e as _, b as g, u as L, c as N, a as T } from "./index.BXf_Hj-1.js";
 import { T as P } from "./Tabs.BfQDe6I2.js";
 import { u as D, a as v, d as G, b as W, F as H } from "./index.esm.MIM2ge_D.js";
 import { S as K } from "./ExclamationCircle.2wqwVNIx.js";
 import { S as X } from "./TrashCan.DYWcjlk_.js";
-import { r as B, t as I } from "./variables.-zE0Ry6h.js";
-const O = {
+import { q, r as B } from "./variables.CfsUBZ9t.js";
+const I = {
   theme: w,
   env: _
-}, q = (r, t) => y({
-  reducer: O,
+}, O = (r, t) => y({
+  reducer: I,
   middleware: (n) => n().prepend(r.middleware).concat(S),
   preloadedState: {
     theme: t
@@ -41,8 +41,8 @@ function Q({
     control: a,
     rules: {
       pattern: {
-        value: I(),
-        message: B
+        value: B(),
+        message: q
       }
     }
   }), { field: d } = v({
@@ -214,7 +214,7 @@ function me() {
   ] });
 }
 function pe(r, t) {
-  const n = q(J(r), t);
+  const n = O(J(r), t);
   F.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ e.jsx(k.StrictMode, { children: /* @__PURE__ */ e.jsx(V, { store: n, children: /* @__PURE__ */ e.jsx(me, {}) }) })
   ), window.addEventListener("message", A(n, ue));

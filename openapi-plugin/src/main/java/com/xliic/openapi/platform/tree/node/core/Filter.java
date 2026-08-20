@@ -6,11 +6,11 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Filter {
 
-    void reset();
+    void resetFilter();
 
-    boolean isActive();
+    boolean isFilterActive();
 
-    void setFilterName(@NotNull String name);
+    void setFilter(@NotNull String name);
 
-    boolean pass(@NotNull DefaultMutableTreeNode childDMTN);
+    boolean passFilter(@NotNull DefaultMutableTreeNode childDMTN);
 }

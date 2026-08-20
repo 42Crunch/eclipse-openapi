@@ -38,11 +38,15 @@ import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.node.PlatformAPI;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
+import com.xliic.openapi.platform.tree.node.PlatformRootFavorite;
 import com.xliic.openapi.platform.tree.node.core.Filter;
 import com.xliic.openapi.platform.tree.node.core.Paginator;
 import com.xliic.openapi.platform.tree.node.core.ProgressAware;
+import com.xliic.openapi.platform.tree.node.decorator.PlatformDecorator;
+import com.xliic.openapi.platform.tree.node.decorator.PlatformErrorDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformFilterDecorator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
+import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadingDecorator;
 import com.xliic.openapi.services.PlatformService;
 import com.xliic.openapi.utils.NetUtils;
 import com.xliic.openapi.utils.Utils;
@@ -81,12 +85,12 @@ public class PlatformUtils {
 
         if (parentObj instanceof PlatformRootCloud) {
             Filter filter = (Filter) parentObj;
-            boolean active = filter.isActive();
+            boolean active = filter.isFilterActive();
             for (int i = 0; i < parentDMTN.getChildCount(); i++) {
                 DefaultMutableTreeNode collectionDMTN = (DefaultMutableTreeNode) parentDMTN.getChildAt(i);
                 Object obj = collectionDMTN.getUserObject();
                 if (active && obj instanceof PlatformCollection) {
-                    if (filter.pass(collectionDMTN)) {
+                    if (filter.passFilter(collectionDMTN)) {
                         result.add(collectionDMTN);
                     }
                 } else {
@@ -95,12 +99,12 @@ public class PlatformUtils {
             }
         } else if (parentObj instanceof PlatformCollection) {
             Filter filter = (Filter) parentObj;
-            boolean active = filter.isActive();
+            boolean active = filter.isFilterActive();
             for (int i = 0; i < parentDMTN.getChildCount(); i++) {
                 DefaultMutableTreeNode apiDMTN = (DefaultMutableTreeNode) parentDMTN.getChildAt(i);
                 Object obj = apiDMTN.getUserObject();
                 if (active && obj instanceof PlatformAPI) {
-                    if (filter.pass(apiDMTN)) {
+                    if (filter.passFilter(apiDMTN)) {
                         result.add(apiDMTN);
                     }
                 } else {
@@ -112,24 +116,48 @@ public class PlatformUtils {
                 result.add((DefaultMutableTreeNode) parentDMTN.getChildAt(i));
             }
         }
+        if (hasErrorDMTN(result)) {
+            return result;
+        }
         final int size = result.size();
         // Apply pagination
         if (parentObj instanceof Paginator) {
-            Paginator paginator = (Paginator) parentDMTN.getUserObject();
-            int pageSize = paginator.getPageSize();
-            if (size > pageSize) {
-                result = new LinkedList<>(result.subList(0, pageSize));
-                result.add(new DefaultMutableTreeNode(new PlatformLoadMoreDecorator(parentDMTN), false));
+            if (parentObj instanceof PlatformRootCloud) {
+                if (!((PlatformRootCloud) parentObj).isFullChildrenLoaded())
+                {
+                    result.add(new DefaultMutableTreeNode(new PlatformLoadMoreDecorator(parentDMTN), false));
+                }
+            } else {
+                Paginator paginator = (Paginator) parentDMTN.getUserObject();
+                int pageSize = paginator.getPage() * Paginator.PAGE_SIZE;
+                if (size > pageSize) {
+                    result = new LinkedList<>(result.subList(0, pageSize));
+                    result.add(new DefaultMutableTreeNode(new PlatformLoadMoreDecorator(parentDMTN), false));
+                }
             }
         }
         // Apply filter decorator
         if (parentObj instanceof Filter) {
             Filter filter = (Filter) parentObj;
-            if (filter.isActive()) {
-                result.addFirst(new DefaultMutableTreeNode(new PlatformFilterDecorator("Found " + size, parentDMTN), false));
+            if (filter.isFilterActive()) {
+                result.addFirst(new DefaultMutableTreeNode(
+                    new PlatformFilterDecorator("Found " + getFoundItemsCount(result), parentDMTN), false));
             }
         }
         return result;
+    }
+
+    private static long getFoundItemsCount(List<DefaultMutableTreeNode> result) {
+        return result.stream().filter(node -> !(node.getUserObject() instanceof PlatformDecorator)).count();
+    }
+
+    public static boolean hasErrorDMTN(List<DefaultMutableTreeNode> nodes) {
+        for (DefaultMutableTreeNode node : nodes) {
+            if (node.getUserObject() instanceof PlatformErrorDecorator) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void reloadAll(@NotNull Project project, @NotNull Tree tree) {
@@ -139,10 +167,13 @@ public class PlatformUtils {
             childDMTN.removeAllChildren();
             Object obj = childDMTN.getUserObject();
             if (obj instanceof PlatformRootCloud) {
-                PlatformRootCloud root = (PlatformRootCloud) childDMTN.getUserObject();
-                root.setChildrenUnavailable(true);
-                root.resetPageSize();
-                root.reset();
+                PlatformRootCloud rco = (PlatformRootCloud) obj;
+                rco.setChildrenUnavailable(true);
+                rco.resetPage();
+                rco.resetFilter();
+            } else if (obj instanceof PlatformRootFavorite) {
+                PlatformRootFavorite rfo = (PlatformRootFavorite) obj;
+                rfo.setChildrenUnavailable(true);
             }
         }
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
@@ -151,12 +182,10 @@ public class PlatformUtils {
         PlatformService platformService = PlatformService.getInstance(project);
         Map<DefaultMutableTreeNode, Callback> callbacks = platformService.getTreeAsyncCallbacks();
         callbacks.clear();
-        // Eclipse Development Note
-        // If node in collapsed state its children will be ignored by the model
-        // Set it before reload to ask model to take care of non leaf children
+        model.clearCachedCollections();
+        model.reload();
         tree.expandPath(TreePathUtil.pathToTreeNode(favoriteCollections));
         tree.expandPath(TreePathUtil.pathToTreeNode(cloudCollections));
-        model.reload();
     }
 
     public static boolean hasCollectionsLoaded(@NotNull Project project, @NotNull Tree tree) {
@@ -322,9 +351,19 @@ public class PlatformUtils {
 				onTargetCb.run();
 				return;
 			} else {
-				paginator.increasePageSize();
+				paginator.increasePage();
 				reloadMe = true;
 			}
 		}
 	}
+    
+    public static void removeLoadingDecorator(@NotNull DefaultMutableTreeNode parentDMTN) {
+        // Iterate backwards to safely remove items by index
+        for (int i = parentDMTN.getChildCount() - 1; i >= 0; i--) {
+            DefaultMutableTreeNode childDMTN = (DefaultMutableTreeNode) parentDMTN.getChildAt(i);
+            if (childDMTN.getUserObject() instanceof PlatformLoadingDecorator) {
+                parentDMTN.remove(i);
+            }
+        }
+    }
 }

@@ -4,7 +4,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jetbrains.annotations.NotNull;
 
-public class PlatformLoadMoreDecorator {
+public class PlatformLoadMoreDecorator implements PlatformDecorator {
 
     private static final String NAME = "Load More...";
 

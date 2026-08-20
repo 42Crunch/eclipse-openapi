@@ -15,6 +15,8 @@ import com.xliic.openapi.platform.Permissions;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils;
 
+import static com.xliic.openapi.platform.tree.utils.PlatformCollectionUtils.getApiCount;
+
 public class PlatformCollectionCallback extends SuccessASTResponseWithFailureDecoratorCallback {
 
     public PlatformCollectionCallback(@NotNull Project project, @NotNull Tree tree, @NotNull DefaultMutableTreeNode parentDMTN) {
@@ -34,19 +36,22 @@ public class PlatformCollectionCallback extends SuccessASTResponseWithFailureDec
             for (Node item : list.getChildren()) {
                 String id, name, technicalName;
                 Node desc = item.getChild("desc");
+                int apiCount;
                 if (desc == null) {
                     id = item.getChildValueRequireNonNull("id");
                     name = item.getChildValueRequireNonNull("name");
                     technicalName = item.getChildValueRequireNonNull("technicalName");
+                    apiCount = getApiCount(item);
                 } else {
                     id = desc.getChildValueRequireNonNull("id");
                     name = desc.getChildValueRequireNonNull("name");
                     technicalName = desc.getChildValueRequireNonNull("technicalName");
+                    apiCount = getApiCount(item);
                 }
                 Node summary = item.getChild("summary");
                 Permissions permissions = Permissions.get(summary == null ? item : summary);
                 boolean locked = !permissions.isWriteApis();
-                collections.add(new PlatformCollection(id, name, locked, technicalName, permissions));
+                collections.add(new PlatformCollection(id, name, locked, technicalName, permissions, apiCount));
             }
         }
         return collections;
