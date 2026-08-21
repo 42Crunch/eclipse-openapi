@@ -1,160 +1,161 @@
-import { j as o, c as re, d as te, s as ae, p as ne, a as se, t as ie, l as le, b as de, u as ce, e as d, T as g, R as j, f as D, g as ge, P as pe, n as ue, k as fe } from "./TriangleExclamation.BLKAXJ8l.js";
-import { o as he, c as xe } from "./listener.BNWHQqef.js";
-import { s as me } from "./rtk-query-react.modern.kJqw8Vn6.js";
-import { p as L, u as ve, r as k, a as be, I as ye, b as je, S as we, O as Ce, G as Ie, c as Te, d as Se, R as $e } from "./platform-api.xQ9SQy05.js";
-import { l as ke, c as Ae } from "./slice.s4_w0CJL.js";
-import { E as H } from "./Banner.BZe2qI8d.js";
-import { S as F } from "./TrashCan.DYWcjlk_.js";
-import { b as Le, u as y } from "./downshift.esm.CwBPPnfz.js";
-import { S as He } from "./AngleDown.DBLEm0qt.js";
-import { S as Oe } from "./Check.BVLcLyMb.js";
-import { M as De, I as Ne, a as Ee } from "./Checkbox.CtRxkpPH.js";
-const V = (e) => /* @__PURE__ */ o.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...e, children: /* @__PURE__ */ o.jsx("path", { d: "M345 39.1c-9.3-9.4-24.5-9.5-33.9-.2s-9.5 24.5-.2 33.9l127.7 129.3c33.9 34.3 33.9 89.4 0 123.7L326.7 439.1c-9.3 9.4-9.2 24.6.2 33.9s24.6 9.2 33.9-.2l112-113.2c52.4-53 52.4-138.2 0-191.2zM242.7 50.7c-12-12-28.3-18.7-45.3-18.7H48C21.5 32 0 53.5 0 80v149.5c0 17 6.7 33.3 18.7 45.3l168 168c25 25 65.5 25 90.5 0l133.5-133.5c25-25 25-65.5 0-90.5l-168-168zM48 80h149.5c4.2 0 8.3 1.7 11.3 4.7l168 168c6.2 6.2 6.2 16.4 0 22.6L243.3 408.8c-6.2 6.2-16.4 6.2-22.6 0l-168-168c-3-3-4.7-7.1-4.7-11.3zm96 64a32 32 0 1 0-64 0 32 32 0 1 0 64 0" }) }), Pe = {
+import { j as e, c as se, d as ie, s as ce, p as de, a as le, t as ge, l as pe, b as ue, u as fe, e as d, T as g, R as C, f as $, g as he, P as xe, n as me, k as ve } from "./TriangleExclamation.BLKAXJ8l.js";
+import { o as ye, c as be } from "./listener.BNWHQqef.js";
+import { s as je, a as Ce } from "./rtk-query-react.modern.DVdYp0Is.js";
+import { p as N, u as we, r as L, a as Ie, b as Te, I as Se, c as $e, S as ke, O as Ae, G as Le, d as He, e as Ee, R as De } from "./platform-api.BtY3-lHu.js";
+import { l as Ne, c as Oe } from "./slice.s4_w0CJL.js";
+import { E } from "./Banner.BZe2qI8d.js";
+import { S as V } from "./TrashCan.DYWcjlk_.js";
+import { b as Pe, u as T } from "./downshift.esm.CwBPPnfz.js";
+import { S as Re } from "./AngleDown.DBLEm0qt.js";
+import { S as Be } from "./Check.BVLcLyMb.js";
+import { M as Fe, I as Me, a as Ve } from "./Checkbox.CtRxkpPH.js";
+const G = (o) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...o, children: /* @__PURE__ */ e.jsx("path", { d: "M345 39.1c-9.3-9.4-24.5-9.5-33.9-.2s-9.5 24.5-.2 33.9l127.7 129.3c33.9 34.3 33.9 89.4 0 123.7L326.7 439.1c-9.3 9.4-9.2 24.6.2 33.9s24.6 9.2 33.9-.2l112-113.2c52.4-53 52.4-138.2 0-191.2zM242.7 50.7c-12-12-28.3-18.7-45.3-18.7H48C21.5 32 0 53.5 0 80v149.5c0 17 6.7 33.3 18.7 45.3l168 168c25 25 65.5 25 90.5 0l133.5-133.5c25-25 25-65.5 0-90.5l-168-168zM48 80h149.5c4.2 0 8.3 1.7 11.3 4.7l168 168c6.2 6.2 6.2 16.4 0 22.6L243.3 408.8c-6.2 6.2-16.4 6.2-22.6 0l-168-168c-3-3-4.7-7.1-4.7-11.3zm96 64a32 32 0 1 0-64 0 32 32 0 1 0 64 0" }) }), Ge = {
   targetFileName: "",
   tagData: void 0,
   categories: []
-}, U = re({
+}, z = se({
   name: "tags",
-  initialState: Pe,
+  initialState: Ge,
   reducers: {
-    loadTags: (e, t) => {
-      e.targetFileName = t.payload.targetFileName, e.tagData = t.payload.data;
+    loadTags: (o, t) => {
+      o.targetFileName = t.payload.targetFileName, o.tagData = t.payload.data;
     },
-    saveTagsInStateOnly: (e, t) => {
-      e.tagData && (e.tagData[e.targetFileName] = t.payload[e.targetFileName]);
+    saveTagsInStateOnly: (o, t) => {
+      o.tagData && (o.tagData[o.targetFileName] = t.payload[o.targetFileName]);
     },
-    saveTags: (e, t) => {
-      e.tagData && (e.tagData[e.targetFileName] = t.payload[e.targetFileName]);
+    saveTags: (o, t) => {
+      o.tagData && (o.tagData[o.targetFileName] = t.payload[o.targetFileName]);
     },
-    sendHttpRequest: (e, t) => {
+    sendHttpRequest: (o, t) => {
     },
-    showHttpResponse: (e, t) => {
+    showHttpResponse: (o, t) => {
     },
-    showHttpError: (e, t) => {
+    showHttpError: (o, t) => {
     }
   }
 }), {
-  loadTags: Re,
-  saveTagsInStateOnly: Be,
-  saveTags: I,
-  sendHttpRequest: Ko,
-  showHttpResponse: Me,
-  showHttpError: Fe
-} = U.actions, Ve = U.reducer, G = te(), N = G.startListening;
-function Ue(e) {
+  loadTags: ze,
+  saveTagsInStateOnly: Ue,
+  saveTags: k,
+  sendHttpRequest: or,
+  showHttpResponse: qe,
+  showHttpError: Qe
+} = z.actions, We = z.reducer, U = ie(), R = U.startListening;
+function Ke(o) {
   const t = {
-    sendHttpRequest: he(N, e),
-    saveTags: () => N({
-      actionCreator: I,
-      effect: async (n, a) => {
-        e.postMessage({
+    sendHttpRequest: ye(R, o),
+    saveTags: () => R({
+      actionCreator: k,
+      effect: async (a, n) => {
+        o.postMessage({
           command: "saveTags",
-          payload: n.payload
+          payload: a.payload
         });
       }
     })
   };
-  return ae(t), G;
+  return ce(t), U;
 }
-const Ge = {
-  theme: ie,
-  config: Ae,
-  client: xe,
-  tags: Ve,
-  [L.reducerPath]: L.reducer
-}, ze = {
-  changeTheme: ne,
-  loadTags: Re,
-  loadConfig: ke,
-  showHttpResponse: Me,
-  showHttpError: Fe
-}, Qe = (e, t) => {
-  const n = se({
-    reducer: Ge,
-    middleware: (a) => a().prepend(e.middleware).concat(le, L.middleware),
+const _e = {
+  theme: ge,
+  config: Oe,
+  client: be,
+  tags: We,
+  [N.reducerPath]: N.reducer
+}, Ye = {
+  changeTheme: de,
+  loadTags: ze,
+  loadConfig: Ne,
+  showHttpResponse: qe,
+  showHttpError: Qe
+}, Je = (o, t) => {
+  const a = le({
+    reducer: _e,
+    middleware: (n) => n().prepend(o.middleware).concat(pe, N.middleware),
     preloadedState: {
       theme: t
     }
   });
-  return me(n.dispatch), n;
-}, z = () => ce(), E = de;
+  return je(a.dispatch), a;
+}, q = () => fe(), B = ue;
 function Q({
-  options: e,
+  options: o,
   placeholder: t,
-  keepOpen: n,
-  applyHoverCss: a,
+  keepOpen: a,
+  applyHoverCss: n,
   filter: r,
-  renderer: s,
-  onItemSelected: i
+  renderer: c,
+  onItemSelected: s,
+  onInputValueChanged: i
 }) {
-  const [l, c] = j.useState(""), f = j.useMemo(() => r(e, l), [e, l]), { getDropdownProps: p } = Le({
-    selectedItems: e
-  }), { isOpen: u, getToggleButtonProps: A, getMenuProps: b, getInputProps: S, getItemProps: $ } = y({
-    items: f,
-    itemToString(m) {
-      return m ? m.label : "null";
+  const [l, u] = C.useState(""), p = C.useMemo(() => r(o, l), [o, l]), { getDropdownProps: m } = Pe({
+    selectedItems: o
+  }), { isOpen: v, getToggleButtonProps: y, getMenuProps: w, getInputProps: S, getItemProps: I } = T({
+    items: p,
+    itemToString(h) {
+      return h ? h.label : "null";
     },
     inputValue: l,
-    stateReducer(m, h) {
-      const { changes: x, type: v } = h;
-      switch (v) {
-        case y.stateChangeTypes.InputKeyDownEnter:
-        case y.stateChangeTypes.ItemClick:
+    stateReducer(h, f) {
+      const { changes: x, type: D } = f;
+      switch (D) {
+        case T.stateChangeTypes.InputKeyDownEnter:
+        case T.stateChangeTypes.ItemClick:
           return {
             ...x,
-            isOpen: n
+            isOpen: a
           };
         default:
           return x;
       }
     },
-    onStateChange({ inputValue: m, type: h, selectedItem: x }) {
-      switch (h) {
-        case y.stateChangeTypes.InputKeyDownEnter:
-        case y.stateChangeTypes.ItemClick:
-        case y.stateChangeTypes.InputBlur:
-          x && (i(x), n || c(""));
+    onStateChange({ inputValue: h, type: f, selectedItem: x }) {
+      switch (f) {
+        case T.stateChangeTypes.InputKeyDownEnter:
+        case T.stateChangeTypes.ItemClick:
+        case T.stateChangeTypes.InputBlur:
+          x && (s(x), a || (u(""), i?.("")));
           break;
-        case y.stateChangeTypes.InputChange:
-          c(m || "");
+        case T.stateChangeTypes.InputChange:
+          u(h || ""), i?.(h || "");
           break;
       }
     }
-  }), w = A();
-  delete w.ref;
-  const C = a ? Je : q;
-  return /* @__PURE__ */ o.jsxs(We, { children: [
-    /* @__PURE__ */ o.jsxs(Ke, { children: [
-      /* @__PURE__ */ o.jsx(
-        _e,
+  }), b = y();
+  delete b.ref;
+  const j = n ? ro : W;
+  return /* @__PURE__ */ e.jsxs(Ze, { children: [
+    /* @__PURE__ */ e.jsxs(eo, { children: [
+      /* @__PURE__ */ e.jsx(
+        oo,
         {
           placeholder: t,
-          ...S(p({ preventKeyAction: u }))
+          ...S(m({ preventKeyAction: v }))
         }
       ),
-      /* @__PURE__ */ o.jsx(He, { ...w })
+      /* @__PURE__ */ e.jsx(Re, { ...b })
     ] }),
-    /* @__PURE__ */ o.jsx(C, { ...b(), $isOpen: u, children: u && f.map((m, h) => /* @__PURE__ */ o.jsx(Xe, { ...$({ item: m, index: h }), children: s(m, h, l) }, `li-${h}`)) })
+    /* @__PURE__ */ e.jsx(j, { ...w(), $isOpen: v, children: v && p.map((h, f) => /* @__PURE__ */ e.jsx(to, { ...I({ item: h, index: f }), children: c(h, f, l) }, `li-${f}`)) })
   ] });
 }
-function T({ value: e, searchValue: t }) {
-  if (!t || !e)
-    return /* @__PURE__ */ o.jsx("span", { children: e });
-  let n = -1, a = 0;
-  const r = e.toLowerCase(), s = t.toLocaleLowerCase(), i = [];
-  for (; (n = r.indexOf(s, n + 1)) != -1; )
-    i.push({ text: e.substring(a, n), mark: !1 }), a = n + s.length, i.push({ text: e.substring(n, a), mark: !0 });
-  return i.push({ text: e.substring(a), mark: !1 }), /* @__PURE__ */ o.jsx("span", { children: i.map((l, c) => l.mark ? /* @__PURE__ */ o.jsx(qe, { children: l.text }, c) : l.text) });
+function H({ value: o, searchValue: t }) {
+  if (!t || !o)
+    return /* @__PURE__ */ e.jsx("span", { children: o });
+  let a = -1, n = 0;
+  const r = o.toLowerCase(), c = t.toLocaleLowerCase(), s = [];
+  for (; (a = r.indexOf(c, a + 1)) != -1; )
+    s.push({ text: o.substring(n, a), mark: !1 }), n = a + c.length, s.push({ text: o.substring(a, n), mark: !0 });
+  return s.push({ text: o.substring(n), mark: !1 }), /* @__PURE__ */ e.jsx("span", { children: s.map((i, l) => i.mark ? /* @__PURE__ */ e.jsx(Xe, { children: i.text }, l) : i.text) });
 }
-const qe = d.mark`
+const Xe = d.mark`
   font-weight: bold;
   background-color: #cca700;
   border-radius: 3px;
   border: 1px solid #cca700;
   opacity: 0.5;
-`, We = d.div`
+`, Ze = d.div`
   position: relative;
-`, Ke = d.div`
+`, eo = d.div`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
@@ -163,7 +164,7 @@ const qe = d.mark`
     margin-left: 3px;
     fill: var(${g.foreground});
   }
-`, _e = d.input`
+`, oo = d.input`
   min-width: 540px;
   background-color: var(${g.inputBackground});
   border-radius: 3px;
@@ -171,7 +172,7 @@ const qe = d.mark`
   color: var(${g.inputForeground});
   height: 25px;
   cursor: pointer;
-`, q = d.ul`
+`, W = d.ul`
   position: absolute;
   z-index: 1;
   left: 0;
@@ -184,7 +185,7 @@ const qe = d.mark`
   background-color: var(${g.dropdownBackground});
   color: var(${g.dropdownForeground});
 
-  ${({ $isOpen: e }) => e && `
+  ${({ $isOpen: o }) => o && `
     border: 1px solid var(${g.dropdownBorder});
     padding: 4px;
   `}
@@ -200,7 +201,7 @@ const qe = d.mark`
   & > li[aria-disabled="true"]:hover {
     background-color: transparent;
   }
-`, Je = d(q)`
+`, ro = d(W)`
   & > li {
     border-width: 1px;
     border-style: solid;
@@ -213,49 +214,53 @@ const qe = d.mark`
     background-color: var(${g.listHoverBackground});
     border-color: var(${g.border});
   }
-`, Xe = d.li`
+`, to = d.li`
   display: flex;
   gap: 5px;
   flex-direction: column;
 `;
-function Ye({
-  type: e,
+function K({
+  type: o,
   options: t,
-  onItemSelected: n
+  onItemSelected: a,
+  onInputValueChanged: n
 }) {
-  return /* @__PURE__ */ o.jsx(
+  return /* @__PURE__ */ e.jsx(
     Q,
     {
       options: t,
-      placeholder: (e === "collection" ? "Collection" : "API") + " name or UUID",
+      placeholder: (o === "collection" ? "Collection" : "API") + " name",
       keepOpen: !1,
       applyHoverCss: !0,
-      filter: (a, r) => {
-        const s = r.toLowerCase();
-        return a.filter((i) => i.value.desc.name.toLocaleLowerCase().includes(s) || i.value.desc.id.toLocaleLowerCase().includes(s));
+      filter: (r, c) => {
+        if (n !== void 0)
+          return r;
+        const s = c.toLowerCase();
+        return r.filter((i) => i.value.desc.name.toLocaleLowerCase().includes(s) || i.value.desc.id.toLocaleLowerCase().includes(s));
       },
-      renderer: (a, r, s) => /* @__PURE__ */ o.jsxs(o.Fragment, { children: [
-        /* @__PURE__ */ o.jsx(T, { value: a.label, searchValue: s }),
-        /* @__PURE__ */ o.jsx(Ze, { children: /* @__PURE__ */ o.jsx(
-          T,
+      renderer: (r, c, s) => /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+        /* @__PURE__ */ e.jsx(H, { value: r.label, searchValue: s }),
+        /* @__PURE__ */ e.jsx(ao, { children: /* @__PURE__ */ e.jsx(
+          H,
           {
-            value: `UUID: ${a.value.desc.id}`,
+            value: `UUID: ${r.value.desc.id}`,
             searchValue: s
           }
         ) }),
-        e === "api" && a.value.tags.length > 0 && /* @__PURE__ */ o.jsxs(eo, { children: [
-          a.value.tags.length > 0 && /* @__PURE__ */ o.jsx(V, {}),
-          a.value.tags.length > 0 && /* @__PURE__ */ o.jsx(oo, { children: `${a.value.tags.length} tags` })
+        o === "api" && r.value.tags.length > 0 && /* @__PURE__ */ e.jsxs(no, { children: [
+          r.value.tags.length > 0 && /* @__PURE__ */ e.jsx(G, {}),
+          r.value.tags.length > 0 && /* @__PURE__ */ e.jsx(so, { children: `${r.value.tags.length} tags` })
         ] })
       ] }),
-      onItemSelected: n
+      onItemSelected: a,
+      onInputValueChanged: n
     }
   );
 }
-const Ze = d.span`
+const ao = d.span`
   font-weight: smaller;
   color: var(${g.disabledForeground});
-`, eo = d.div`
+`, no = d.div`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -264,168 +269,238 @@ const Ze = d.span`
     margin-left: 3px;
     fill: var(${g.foreground});
   }
-`, oo = d.div`
+`, so = d.div`
   font-size: 90%;
 `;
-function ro({
-  targetFileName: e,
+function io(o, t) {
+  const [a, n] = $.useState(o);
+  return $.useEffect(() => {
+    const r = setTimeout(() => n(o), t);
+    return () => clearTimeout(r);
+  }, [o, t]), a;
+}
+const co = 300;
+function lo({
+  targetFileName: o,
   tagData: t
 }) {
-  const n = z(), a = t[e], r = a === null || Array.isArray(a) ? void 0 : a, [s, i] = j.useState(void 0), [l, c] = j.useState(void 0);
-  D.useEffect(() => {
-    i(void 0), c(void 0);
-  }, [e]);
-  const f = s || r?.collectionId;
-  return /* @__PURE__ */ o.jsxs(ao, { children: [
-    /* @__PURE__ */ o.jsx(
-      P,
+  const a = q(), n = t[o], r = n === null || Array.isArray(n) ? void 0 : n, [c, s] = C.useState(void 0), [i, l] = C.useState(void 0);
+  $.useEffect(() => {
+    s(void 0), l(void 0);
+  }, [o]);
+  const u = c ? c.value.desc.id : r?.collectionId;
+  return /* @__PURE__ */ e.jsxs(uo, { children: [
+    /* @__PURE__ */ e.jsx(
+      go,
       {
-        type: "collection",
         apiEntry: r,
-        selectedOptionId: s ? s.id : r?.collectionId,
-        getQueryParameter: () => "",
+        selectedOption: c,
         onOptionRemoved: () => {
-          c(void 0), i(void 0), n(I({ [e]: null }));
+          l(void 0), s(void 0), a(k({ [o]: null }));
         },
         onOptionSelected: (p) => {
-          c(void 0), i(p), n(I({ [e]: null }));
+          l(void 0), s(p), a(k({ [o]: null }));
         }
       }
     ),
-    f && /* @__PURE__ */ o.jsx(
-      P,
+    u && /* @__PURE__ */ e.jsx(
+      po,
       {
-        type: "api",
         apiEntry: r,
-        selectedOptionId: l ? l.id : r?.apiId,
-        getQueryParameter: () => s ? s.value.desc.id : r?.collectionId,
+        collectionId: u,
+        selectedOptionId: i ? i.id : r?.apiId,
         onOptionRemoved: () => {
-          c(void 0);
+          l(void 0);
           const p = {};
-          p[e] = {
+          p[o] = {
             apiId: "",
             apiName: "",
-            collectionId: s?.value.desc.id || r?.collectionId,
-            collectionName: s?.value.desc.name || r?.collectionName
-          }, n(Be(p));
+            collectionId: c?.value.desc.id || r?.collectionId,
+            collectionName: c?.value.desc.name || r?.collectionName
+          }, a(Ue(p));
         },
         onOptionSelected: (p) => {
-          c(p);
-          const u = {};
-          u[e] = {
+          l(p);
+          const m = {};
+          m[o] = {
             apiId: p.value.desc.id,
             apiName: p.value.desc.name,
-            collectionId: s?.value.desc.id || r?.collectionId,
-            collectionName: s?.value.desc.name || r?.collectionName
-          }, n(I(u));
+            collectionId: c?.value.desc.id || r?.collectionId,
+            collectionName: c?.value.desc.name || r?.collectionName
+          }, a(k(m));
         }
       }
     )
   ] });
 }
-function P({
-  type: e,
-  apiEntry: t,
-  selectedOptionId: n,
-  getQueryParameter: a,
-  onOptionRemoved: r,
-  onOptionSelected: s
+function go({
+  apiEntry: o,
+  selectedOption: t,
+  onOptionRemoved: a,
+  onOptionSelected: n
 }) {
-  const { data: i, error: l, isLoading: c } = e === "collection" ? ve(void 0, k) : be(a(), k);
-  let f = [];
-  i && i.forEach(
-    (u) => f.push({
-      id: u.desc.id,
-      value: u,
-      label: u.desc.name
+  const [r, c] = C.useState(""), s = io(r, co), { data: i, error: l, isFetching: u } = we(s, L), [p, m] = C.useState(void 0);
+  $.useEffect(() => {
+    i !== void 0 && m(i);
+  }, [i]);
+  const v = i ?? p, y = t === void 0 ? o?.collectionId : void 0, {
+    data: w,
+    error: S,
+    isFetching: I
+  } = Ie(y || Ce, L), b = (v?.collections || []).filter((f) => f.desc.id !== t?.id).map((f) => ({
+    id: f.desc.id,
+    value: f,
+    label: f.desc.name
+  })), j = l || S, h = v !== void 0 && v.total > v.collections.length;
+  return /* @__PURE__ */ e.jsxs(_, { children: [
+    /* @__PURE__ */ e.jsxs(Y, { children: [
+      /* @__PURE__ */ e.jsx(O, { children: "Collection" }),
+      /* @__PURE__ */ e.jsxs(fo, { children: [
+        /* @__PURE__ */ e.jsx(
+          K,
+          {
+            type: "collection",
+            options: b,
+            onItemSelected: n,
+            onInputValueChanged: c
+          }
+        ),
+        u && /* @__PURE__ */ e.jsx(F, { children: "Searching for collections..." }),
+        !u && h && /* @__PURE__ */ e.jsx(F, { children: `Showing ${v.collections.length} of ${v.total} matching collections, refine your search` })
+      ] })
+    ] }),
+    !j && t && /* @__PURE__ */ e.jsx(
+      A,
+      {
+        id: t.value.desc.id,
+        name: t.label,
+        isLoaded: !0,
+        onOptionRemoved: a
+      }
+    ),
+    !j && y && !I && (w ? /* @__PURE__ */ e.jsx(
+      A,
+      {
+        id: w.desc.id,
+        name: w.desc.name,
+        isLoaded: !0,
+        onOptionRemoved: a
+      }
+    ) : /* @__PURE__ */ e.jsx(
+      A,
+      {
+        id: y,
+        name: o?.collectionName,
+        error: "This collection is not found on the server",
+        isLoaded: !1,
+        onOptionRemoved: a
+      }
+    )),
+    /* @__PURE__ */ e.jsx(ee, { children: j && /* @__PURE__ */ e.jsxs(E, { message: "Failed to load collections", children: [
+      "HTTPError: Response code ",
+      j.code,
+      " (",
+      j.message,
+      ")"
+    ] }) })
+  ] });
+}
+function po({
+  apiEntry: o,
+  collectionId: t,
+  selectedOptionId: a,
+  onOptionRemoved: n,
+  onOptionSelected: r
+}) {
+  const { data: c, error: s, isLoading: i } = Te(t, L);
+  let l = [];
+  c && c.forEach(
+    (p) => l.push({
+      id: p.desc.id,
+      value: p,
+      label: p.desc.name
     })
   );
-  const p = f?.filter((u) => u.id === n)[0];
-  return p && (f = f?.filter((u) => u.id !== p.id)), /* @__PURE__ */ o.jsxs(to, { children: [
-    /* @__PURE__ */ o.jsxs(no, { children: [
-      c && /* @__PURE__ */ o.jsx(B, { children: "Loading " + (e === "collection" ? "collections" : "APIs") + " from the server..." }),
-      !c && /* @__PURE__ */ o.jsx(B, { children: e === "collection" ? "Collection" : "API" }),
-      !c && /* @__PURE__ */ o.jsx(
-        Ye,
+  const u = l?.filter((p) => p.id === a)[0];
+  return u && (l = l?.filter((p) => p.id !== u.id)), /* @__PURE__ */ e.jsxs(_, { children: [
+    /* @__PURE__ */ e.jsxs(Y, { children: [
+      i && /* @__PURE__ */ e.jsx(O, { children: "Loading APIs from the server..." }),
+      !i && /* @__PURE__ */ e.jsx(O, { children: "API" }),
+      !i && /* @__PURE__ */ e.jsx(
+        K,
         {
-          type: e,
-          options: f,
-          onItemSelected: s
+          type: "api",
+          options: l,
+          onItemSelected: r
         }
       )
     ] }),
-    !c && !l && p && /* @__PURE__ */ o.jsx(
-      R,
+    !i && !s && u && /* @__PURE__ */ e.jsx(
+      A,
       {
-        id: `UUID: ${p.value.desc.id}`,
-        name: p.label,
-        tags: e === "collection" ? void 0 : p.value.tags,
+        id: u.value.desc.id,
+        name: u.label,
+        tags: u.value.tags,
         isLoaded: !0,
-        onOptionRemoved: r
+        onOptionRemoved: n
       }
     ),
-    !c && !l && !p && t && (e === "collection" && t.collectionId || e === "api" && t.apiId) && /* @__PURE__ */ o.jsx(
-      R,
+    !i && !s && !u && o && o.apiId && /* @__PURE__ */ e.jsx(
+      A,
       {
-        id: e === "collection" ? t.collectionId : t.apiId,
-        name: e === "collection" ? t.collectionName : t.apiName,
-        error: `This ${e} is not found on the server`,
+        id: o.apiId,
+        name: o.apiName,
+        error: "This api is not found on the server",
         isLoaded: !1,
-        onOptionRemoved: r
+        onOptionRemoved: n
       }
     ),
-    /* @__PURE__ */ o.jsx(so, { children: l && /* @__PURE__ */ o.jsxs(
-      H,
-      {
-        message: "Failed to load " + (e === "collection" ? "collections" : "APIs"),
-        children: [
-          "HTTPError: Response code ",
-          l.code,
-          " (",
-          l.message,
-          ")"
-        ]
-      }
-    ) })
+    /* @__PURE__ */ e.jsx(ee, { children: s && /* @__PURE__ */ e.jsxs(E, { message: "Failed to load APIs", children: [
+      "HTTPError: Response code ",
+      s.code,
+      " (",
+      s.message,
+      ")"
+    ] }) })
   ] });
 }
-function R({
-  id: e,
+function A({
+  id: o,
   name: t,
-  error: n,
-  tags: a,
+  error: a,
+  tags: n,
   isLoaded: r,
-  onOptionRemoved: s
+  onOptionRemoved: c
 }) {
-  return /* @__PURE__ */ o.jsxs(W, { $isLoaded: r, children: [
-    /* @__PURE__ */ o.jsxs(K, { children: [
-      /* @__PURE__ */ o.jsx(J, { children: t }),
-      /* @__PURE__ */ o.jsxs(O, { children: [
+  return /* @__PURE__ */ e.jsxs(J, { $isLoaded: r, children: [
+    /* @__PURE__ */ e.jsxs(X, { children: [
+      /* @__PURE__ */ e.jsx(oe, { children: t }),
+      /* @__PURE__ */ e.jsxs(P, { children: [
         "UUID: ",
-        e
+        o
       ] }),
-      a && /* @__PURE__ */ o.jsxs(lo, { children: [
-        a.length > 0 && /* @__PURE__ */ o.jsx(V, {}),
-        a.map((i, l) => /* @__PURE__ */ o.jsxs(co, { children: [
-          i.categoryName,
+      n && /* @__PURE__ */ e.jsxs(xo, { children: [
+        n.length > 0 && /* @__PURE__ */ e.jsx(G, {}),
+        n.map((s, i) => /* @__PURE__ */ e.jsxs(mo, { children: [
+          s.categoryName,
           ": ",
-          i.tagName
-        ] }, `api-tag-${l}`))
+          s.tagName
+        ] }, `api-tag-${i}`))
       ] }),
-      !r && /* @__PURE__ */ o.jsx(io, { children: n })
+      !r && /* @__PURE__ */ e.jsx(ho, { children: a })
     ] }),
-    /* @__PURE__ */ o.jsx(_, { children: /* @__PURE__ */ o.jsx(
-      X,
+    /* @__PURE__ */ e.jsx(Z, { children: /* @__PURE__ */ e.jsx(
+      re,
       {
-        onClick: (i) => {
-          i.stopPropagation(), s();
+        onClick: (s) => {
+          s.stopPropagation(), c();
         },
-        children: /* @__PURE__ */ o.jsx(F, {})
+        children: /* @__PURE__ */ e.jsx(V, {})
       }
     ) })
   ] });
 }
-const to = d.div`
+const _ = d.div`
   gap: 5px;
   display: flex;
   flex-direction: column;
@@ -434,11 +509,11 @@ d.div`
   font-weight: 700;
   margin-bottom: 16px;
 `;
-const ao = d.div`
+const uo = d.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
-`, no = d.div`
+`, Y = d.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -450,7 +525,7 @@ const ao = d.div`
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-`, W = d.div`
+`, J = d.div`
   display: flex;
   flex-direction: row;
   min-height: 50px;
@@ -459,40 +534,47 @@ const ao = d.div`
   border-width: 1px;
   border-style: solid;
   border-radius: 3px;
-  ${({ $isLoaded: e }) => !e && `
+  ${({ $isLoaded: o }) => !o && `
      border-color: var(${g.errorBorder});
   `}
-`, K = d.div`
+`, X = d.div`
   display: flex;
   flex-direction: column;
   width: 97%;
   gap: 10px;
   padding: 16px;
-`, _ = d.div`
+`, Z = d.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-`, so = d.div`
+`, fo = d.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`, F = d.span`
+  font-size: 90%;
+  color: var(${g.disabledForeground});
+`, ee = d.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
-`, B = d.span`
-  font-weight: bold;
-`, J = d.span`
-  font-weight: bold;
-`, io = d.span`
-  color: var(${g.errorForeground});
 `, O = d.span`
+  font-weight: bold;
+`, oe = d.span`
+  font-weight: bold;
+`, ho = d.span`
+  color: var(${g.errorForeground});
+`, P = d.span`
   font-weight: smaller;
   color: var(${g.disabledForeground});
-`, X = d.span`
+`, re = d.span`
   font-weight: bold;
   cursor: pointer;
   padding: 16px;
   > svg {
     fill: var(${g.foreground});
   }
-`, lo = d.div`
+`, xo = d.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -502,7 +584,7 @@ const ao = d.div`
     margin-left: 3px;
     fill: var(${g.foreground});
   }
-`, co = d.div`
+`, mo = d.div`
   border-color: var(${g.border});
   border-width: 1px;
   border-style: solid;
@@ -510,143 +592,143 @@ const ao = d.div`
   padding: 3px;
   font-size: 90%;
 `;
-function go({
-  categories: e,
+function vo({
+  categories: o,
   selectedTagIds: t,
-  onTagSelected: n
+  onTagSelected: a
 }) {
-  const a = [];
-  return e && (e.sort((r, s) => (r.onlyAdminCanTag ? 1 : 0) - (s.onlyAdminCanTag ? 1 : 0)), e.forEach(
-    (r) => a.push({
+  const n = [];
+  return o && (o.sort((r, c) => (r.onlyAdminCanTag ? 1 : 0) - (c.onlyAdminCanTag ? 1 : 0)), o.forEach(
+    (r) => n.push({
       id: r.categoryId,
       value: r,
       label: r.categoryId
     })
-  )), /* @__PURE__ */ o.jsx(
+  )), /* @__PURE__ */ e.jsx(
     Q,
     {
-      options: a,
+      options: n,
       placeholder: "Tag or category name",
       keepOpen: !0,
       applyHoverCss: !1,
-      filter: (r, s) => {
-        const i = s.toLowerCase();
-        return r.filter((l) => Y(l.value, i));
+      filter: (r, c) => {
+        const s = c.toLowerCase();
+        return r.filter((i) => te(i.value, s));
       },
-      renderer: (r, s, i) => /* @__PURE__ */ o.jsxs(o.Fragment, { children: [
-        /* @__PURE__ */ o.jsx(vo, { children: /* @__PURE__ */ o.jsx(T, { value: r.value.categoryName, searchValue: i }) }),
-        r.value.tags.length > 0 && r.value.multipleChoicesAllowed && !r.value.onlyAdminCanTag && /* @__PURE__ */ o.jsx(bo, { children: "Multiple choices are allowed" }),
-        r.value.onlyAdminCanTag && /* @__PURE__ */ o.jsx(yo, { children: "Only admin can tag" }),
-        !r.value.onlyAdminCanTag && /* @__PURE__ */ o.jsxs(jo, { children: [
-          !r.value.multipleChoicesAllowed && /* @__PURE__ */ o.jsx(
-            mo,
+      renderer: (r, c, s) => /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+        /* @__PURE__ */ e.jsx(To, { children: /* @__PURE__ */ e.jsx(H, { value: r.value.categoryName, searchValue: s }) }),
+        r.value.tags.length > 0 && r.value.multipleChoicesAllowed && !r.value.onlyAdminCanTag && /* @__PURE__ */ e.jsx(So, { children: "Multiple choices are allowed" }),
+        r.value.onlyAdminCanTag && /* @__PURE__ */ e.jsx($o, { children: "Only admin can tag" }),
+        !r.value.onlyAdminCanTag && /* @__PURE__ */ e.jsxs(ko, { children: [
+          !r.value.multipleChoicesAllowed && /* @__PURE__ */ e.jsx(
+            Io,
             {
-              value: po(r.value, t),
-              children: r.value.tags.filter((l) => M(r.value, l, i)).map((l, c) => /* @__PURE__ */ o.jsx(
-                fo,
+              value: yo(r.value, t),
+              children: r.value.tags.filter((i) => M(r.value, i, s)).map((i, l) => /* @__PURE__ */ e.jsx(
+                jo,
                 {
                   category: r.value,
-                  tag: l,
-                  checked: t.has(l.tagId),
-                  inputValue: i,
-                  onTagSelected: n
+                  tag: i,
+                  checked: t.has(i.tagId),
+                  inputValue: s,
+                  onTagSelected: a
                 },
-                `${l.tagId}${c}`
+                `${i.tagId}${l}`
               ))
             }
           ),
-          r.value.multipleChoicesAllowed && /* @__PURE__ */ o.jsx(o.Fragment, { children: r.value.tags.filter((l) => M(r.value, l, i)).map((l, c) => /* @__PURE__ */ o.jsx(
-            uo,
+          r.value.multipleChoicesAllowed && /* @__PURE__ */ e.jsx(e.Fragment, { children: r.value.tags.filter((i) => M(r.value, i, s)).map((i, l) => /* @__PURE__ */ e.jsx(
+            bo,
             {
               category: r.value,
-              tag: l,
-              checked: t.has(l.tagId),
-              inputValue: i,
-              onTagSelected: n
+              tag: i,
+              checked: t.has(i.tagId),
+              inputValue: s,
+              onTagSelected: a
             },
-            `${l.tagId}${c}`
+            `${i.tagId}${l}`
           )) })
-        ] }, `${r.value.categoryId}${s}`)
+        ] }, `${r.value.categoryId}${c}`)
       ] }),
       onItemSelected: (r) => {
       }
     }
   );
 }
-function po(e, t) {
-  for (const n of e.tags)
-    if (t.has(n.tagId))
-      return n.tagId;
+function yo(o, t) {
+  for (const a of o.tags)
+    if (t.has(a.tagId))
+      return a.tagId;
   return "";
 }
-function M(e, t, n) {
-  const a = n.toLowerCase();
-  return Y(e, a) || Z(t, a);
+function M(o, t, a) {
+  const n = a.toLowerCase();
+  return te(o, n) || ae(t, n);
 }
-function Y(e, t) {
-  if (e.categoryName.toLocaleLowerCase().includes(t))
+function te(o, t) {
+  if (o.categoryName.toLocaleLowerCase().includes(t))
     return !0;
-  for (const n of e.tags)
-    if (Z(n, t))
+  for (const a of o.tags)
+    if (ae(a, t))
       return !0;
   return !1;
 }
-function Z(e, t) {
-  return e.tagName.toLocaleLowerCase().includes(t);
+function ae(o, t) {
+  return o.tagName.toLocaleLowerCase().includes(t);
 }
-function uo({
-  category: e,
+function bo({
+  category: o,
   tag: t,
-  checked: n,
-  inputValue: a,
+  checked: a,
+  inputValue: n,
   onTagSelected: r
 }) {
-  return /* @__PURE__ */ o.jsxs(
-    ho,
+  return /* @__PURE__ */ e.jsxs(
+    Co,
     {
-      onClick: (s) => {
+      onClick: (c) => {
         if (t.onlyAdminCanTag)
           return;
-        const i = s.currentTarget.children[0];
-        if (i) {
-          const l = i.dataset.state === "checked";
-          r(e.categoryId, t.tagId, !l);
+        const s = c.currentTarget.children[0];
+        if (s) {
+          const i = s.dataset.state === "checked";
+          r(o.categoryId, t.tagId, !i);
         }
       },
       children: [
-        /* @__PURE__ */ o.jsx(De, { checked: n, children: /* @__PURE__ */ o.jsx(Ne, { children: /* @__PURE__ */ o.jsx(Oe, {}) }) }),
-        /* @__PURE__ */ o.jsx("label", { children: /* @__PURE__ */ o.jsx(T, { value: t.tagName, searchValue: a }) })
+        /* @__PURE__ */ e.jsx(Fe, { checked: a, children: /* @__PURE__ */ e.jsx(Me, { children: /* @__PURE__ */ e.jsx(Be, {}) }) }),
+        /* @__PURE__ */ e.jsx("label", { children: /* @__PURE__ */ e.jsx(H, { value: t.tagName, searchValue: n }) })
       ]
     }
   );
 }
-function fo({
-  category: e,
+function jo({
+  category: o,
   tag: t,
-  checked: n,
-  inputValue: a,
+  checked: a,
+  inputValue: n,
   onTagSelected: r
 }) {
-  return /* @__PURE__ */ o.jsxs(
-    xo,
+  return /* @__PURE__ */ e.jsxs(
+    wo,
     {
-      onClick: (s) => {
+      onClick: (c) => {
         if (t.onlyAdminCanTag)
           return;
-        const i = s.currentTarget.children[0];
-        if (i) {
-          const l = i.dataset.state === "checked";
-          r(e.categoryId, t.tagId, !l);
+        const s = c.currentTarget.children[0];
+        if (s) {
+          const i = s.dataset.state === "checked";
+          r(o.categoryId, t.tagId, !i);
         }
       },
       children: [
-        !t.onlyAdminCanTag && /* @__PURE__ */ o.jsx(ye, { value: t.tagId, children: /* @__PURE__ */ o.jsx(je, { children: /* @__PURE__ */ o.jsx(we, {}) }) }),
-        /* @__PURE__ */ o.jsx("label", { children: /* @__PURE__ */ o.jsx(T, { value: t.tagName, searchValue: a }) })
+        !t.onlyAdminCanTag && /* @__PURE__ */ e.jsx(Se, { value: t.tagId, children: /* @__PURE__ */ e.jsx($e, { children: /* @__PURE__ */ e.jsx(ke, {}) }) }),
+        /* @__PURE__ */ e.jsx("label", { children: /* @__PURE__ */ e.jsx(H, { value: t.tagName, searchValue: n }) })
       ]
     }
   );
 }
-const ho = d(Ee)`
+const Co = d(Ve)`
   padding: 2px;
   border-width: 1px;
   border-style: solid;
@@ -663,7 +745,7 @@ const ho = d(Ee)`
     background-color: var(${g.listHoverBackground});
     border-color: var(${g.border});
   }
-`, xo = d(Ce)`
+`, wo = d(Ae)`
   padding: 2px;
   border-width: 1px;
   border-style: solid;
@@ -680,177 +762,177 @@ const ho = d(Ee)`
     background-color: var(${g.listHoverBackground});
     border-color: var(${g.border});
   }
-`, mo = d(Ie)`
+`, Io = d(Le)`
   flex-direction: column;
-`, vo = d.span`
+`, To = d.span`
   font-weight: bold;
-`, bo = d.span`
+`, So = d.span`
   font-weight: smaller;
   color: var(${g.disabledForeground});
-`, yo = d.span`
+`, $o = d.span`
   font-weight: smaller;
   color: var(${g.errorForeground});
-`, jo = d.div`
+`, ko = d.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
 `;
-function wo({
-  targetFileName: e,
+function Ao({
+  targetFileName: o,
   tagData: t
 }) {
   const {
-    data: n,
-    error: a,
+    data: a,
+    error: n,
     isLoading: r
-  } = Te(void 0, k), {
-    data: s,
-    error: i,
-    isLoading: l
-  } = Se(void 0, k), c = r || l, f = $o(n || [], s || []), p = /* @__PURE__ */ new Set(), u = t[e];
-  if (t && u && Array.isArray(u))
-    for (const w of u)
-      p.add(w.tagId);
-  const A = z(), [b, S] = j.useState(p);
-  D.useEffect(() => {
-    S(p);
-  }, [e]);
-  const $ = function(w, C, m) {
-    const h = new Set(b);
-    if (m) {
-      h.add(C);
-      for (const x of f)
-        if (x.categoryId === w && !x.multipleChoicesAllowed) {
-          for (const v of x.tags)
-            v.tagId !== C && h.delete(v.tagId);
+  } = He(void 0, L), {
+    data: c,
+    error: s,
+    isLoading: i
+  } = Ee(void 0, L), l = r || i, u = No(a || [], c || []), p = /* @__PURE__ */ new Set(), m = t[o];
+  if (t && m && Array.isArray(m))
+    for (const I of m)
+      p.add(I.tagId);
+  const v = q(), [y, w] = C.useState(p);
+  $.useEffect(() => {
+    w(p);
+  }, [o]);
+  const S = function(I, b, j) {
+    const h = new Set(y);
+    if (j) {
+      h.add(b);
+      for (const f of u)
+        if (f.categoryId === I && !f.multipleChoicesAllowed) {
+          for (const x of f.tags)
+            x.tagId !== b && h.delete(x.tagId);
           break;
         }
-    } else if (C === "") {
-      const x = /* @__PURE__ */ new Set();
-      f.forEach(
-        (v) => v.tags.forEach((oe) => x.add(oe.tagId))
+    } else if (b === "") {
+      const f = /* @__PURE__ */ new Set();
+      u.forEach(
+        (x) => x.tags.forEach((D) => f.add(D.tagId))
       );
-      for (const v of b)
-        x.has(v) || h.delete(v);
+      for (const x of y)
+        f.has(x) || h.delete(x);
     } else
-      h.delete(C);
-    S(h), A(I(So(e, f, h)));
+      h.delete(b);
+    w(h), v(k(Do(o, u, h)));
   };
-  return /* @__PURE__ */ o.jsxs("div", { children: [
-    /* @__PURE__ */ o.jsxs(ko, { children: [
-      /* @__PURE__ */ o.jsxs(Ao, { children: [
-        c && /* @__PURE__ */ o.jsx(ee, { children: "Loading data from the server..." }),
-        !c && /* @__PURE__ */ o.jsx(Co, { selectedTagIds: b }),
-        !c && /* @__PURE__ */ o.jsx(
-          go,
+  return /* @__PURE__ */ e.jsxs("div", { children: [
+    /* @__PURE__ */ e.jsxs(Oo, { children: [
+      /* @__PURE__ */ e.jsxs(Po, { children: [
+        l && /* @__PURE__ */ e.jsx(ne, { children: "Loading data from the server..." }),
+        !l && /* @__PURE__ */ e.jsx(Lo, { selectedTagIds: y }),
+        !l && /* @__PURE__ */ e.jsx(
+          vo,
           {
-            categories: f,
-            selectedTagIds: b,
-            onTagSelected: $
+            categories: u,
+            selectedTagIds: y,
+            onTagSelected: S
           }
         )
       ] }),
-      /* @__PURE__ */ o.jsxs(Lo, { children: [
-        a && /* @__PURE__ */ o.jsxs(H, { message: "Failed to load categories", children: [
+      /* @__PURE__ */ e.jsxs(Ro, { children: [
+        n && /* @__PURE__ */ e.jsxs(E, { message: "Failed to load categories", children: [
           "HTTPError: Response code ",
-          a.code,
+          n.code,
           " (",
-          a.message,
+          n.message,
           ")"
         ] }),
-        i && /* @__PURE__ */ o.jsxs(H, { message: "Failed to load tags", children: [
+        s && /* @__PURE__ */ e.jsxs(E, { message: "Failed to load tags", children: [
           "HTTPError: Response code ",
-          i.code,
+          s.code,
           " (",
-          i.message,
+          s.message,
           ")"
         ] })
       ] })
     ] }),
-    !c && !(i || a) && Array.isArray(u) && /* @__PURE__ */ o.jsx(
-      Io,
+    !l && !(s || n) && Array.isArray(m) && /* @__PURE__ */ e.jsx(
+      Ho,
       {
-        tagEntries: u,
-        categories: f,
-        selectedTagIds: b,
-        onTagSelected: $
+        tagEntries: m,
+        categories: u,
+        selectedTagIds: y,
+        onTagSelected: S
       }
     )
   ] });
 }
-function Co({ selectedTagIds: e }) {
-  const t = e.size;
-  return /* @__PURE__ */ o.jsxs(ee, { children: [
+function Lo({ selectedTagIds: o }) {
+  const t = o.size;
+  return /* @__PURE__ */ e.jsxs(ne, { children: [
     t,
     " tags selected"
   ] });
 }
-function Io({
-  tagEntries: e,
+function Ho({
+  tagEntries: o,
   categories: t,
-  selectedTagIds: n,
-  onTagSelected: a
+  selectedTagIds: a,
+  onTagSelected: n
 }) {
-  return /* @__PURE__ */ o.jsx(Ho, { children: To(e, t, n).map((r, s) => /* @__PURE__ */ o.jsxs(W, { $isLoaded: r.loaded, children: [
-    /* @__PURE__ */ o.jsxs(K, { children: [
-      /* @__PURE__ */ o.jsx(J, { children: r.loaded ? r.fullTagName : "These tags do not exist on the server, please remove them" }),
-      r.loaded && /* @__PURE__ */ o.jsxs(O, { children: [
+  return /* @__PURE__ */ e.jsx(Bo, { children: Eo(o, t, a).map((r, c) => /* @__PURE__ */ e.jsxs(J, { $isLoaded: r.loaded, children: [
+    /* @__PURE__ */ e.jsxs(X, { children: [
+      /* @__PURE__ */ e.jsx(oe, { children: r.loaded ? r.fullTagName : "These tags do not exist on the server, please remove them" }),
+      r.loaded && /* @__PURE__ */ e.jsxs(P, { children: [
         "UUID: ",
         r.tagId
       ] }),
-      !r.loaded && /* @__PURE__ */ o.jsx(O, { children: r.fullTagName })
+      !r.loaded && /* @__PURE__ */ e.jsx(P, { children: r.fullTagName })
     ] }),
-    /* @__PURE__ */ o.jsx(_, { children: /* @__PURE__ */ o.jsx(
-      X,
+    /* @__PURE__ */ e.jsx(Z, { children: /* @__PURE__ */ e.jsx(
+      re,
       {
-        onClick: (i) => {
-          i.stopPropagation(), a(r.categoryId, r.tagId, !1);
+        onClick: (s) => {
+          s.stopPropagation(), n(r.categoryId, r.tagId, !1);
         },
-        children: /* @__PURE__ */ o.jsx(F, {})
+        children: /* @__PURE__ */ e.jsx(V, {})
       }
     ) })
-  ] }, `${r.tagId}${s}`)) });
+  ] }, `${r.tagId}${c}`)) });
 }
-function To(e, t, n) {
-  const a = [], r = /* @__PURE__ */ new Set();
-  for (const l of t)
-    for (const c of l.tags)
-      r.add(c.tagId), n.has(c.tagId) && a.push({
-        categoryId: l.categoryId,
-        tagId: c.tagId,
-        fullTagName: l.categoryName + ": " + c.tagName,
+function Eo(o, t, a) {
+  const n = [], r = /* @__PURE__ */ new Set();
+  for (const i of t)
+    for (const l of i.tags)
+      r.add(l.tagId), a.has(l.tagId) && n.push({
+        categoryId: i.categoryId,
+        tagId: l.tagId,
+        fullTagName: i.categoryName + ": " + l.tagName,
         loaded: !0
       });
-  const s = [], i = /* @__PURE__ */ new Map();
-  e.forEach((l) => i.set(l.tagId, l));
-  for (const l of n)
-    if (!r.has(l)) {
-      const c = i.get(l);
-      c && s.push(c.categoryName + ": " + c.tagName);
+  const c = [], s = /* @__PURE__ */ new Map();
+  o.forEach((i) => s.set(i.tagId, i));
+  for (const i of a)
+    if (!r.has(i)) {
+      const l = s.get(i);
+      l && c.push(l.categoryName + ": " + l.tagName);
     }
-  return s.length > 0 && a.push({
+  return c.length > 0 && n.push({
     categoryId: "",
     tagId: "",
-    fullTagName: s.join(", "),
+    fullTagName: c.join(", "),
     loaded: !1
-  }), a;
+  }), n;
 }
-function So(e, t, n) {
-  const a = {}, r = [];
-  for (const s of t)
-    for (const i of s.tags)
-      n.has(i.tagId) && r.push({
-        tagId: i.tagId,
-        tagName: i.tagName,
-        categoryName: s.categoryName
+function Do(o, t, a) {
+  const n = {}, r = [];
+  for (const c of t)
+    for (const s of c.tags)
+      a.has(s.tagId) && r.push({
+        tagId: s.tagId,
+        tagName: s.tagName,
+        categoryName: c.categoryName
       });
-  return a[e] = r.length > 0 ? r : null, a;
+  return n[o] = r.length > 0 ? r : null, n;
 }
-function $o(e, t) {
+function No(o, t) {
   {
-    const n = [], a = {};
-    for (const r of e) {
-      const s = {
+    const a = [], n = {};
+    for (const r of o) {
+      const c = {
         categoryId: r.id,
         categoryName: r.name,
         categoryDescription: r.description,
@@ -858,32 +940,32 @@ function $o(e, t) {
         multipleChoicesAllowed: !r.isExclusive,
         tags: []
       };
-      n.push(s), a[s.categoryId] = s;
+      a.push(c), n[c.categoryId] = c;
     }
     for (const r of t) {
-      const s = a[r.categoryId];
-      if (s) {
-        const i = {
+      const c = n[r.categoryId];
+      if (c) {
+        const s = {
           tagId: r.tagId,
           tagName: r.tagName,
           tagDescription: r.tagDescription,
-          onlyAdminCanTag: s.onlyAdminCanTag
+          onlyAdminCanTag: c.onlyAdminCanTag
         };
-        s.tags.push(i);
+        c.tags.push(s);
       }
     }
-    return n.filter((r) => r.tags.length > 0);
+    return a.filter((r) => r.tags.length > 0);
   }
 }
 d.div`
   font-weight: 700;
   margin-bottom: 16px;
 `;
-const ko = d.div`
+const Oo = d.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
-`, Ao = d.div`
+`, Po = d.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -895,13 +977,13 @@ const ko = d.div`
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-`, Lo = d.div`
+`, Ro = d.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
-`, ee = d.span`
+`, ne = d.span`
   font-weight: bold;
-`, Ho = d.div`
+`, Bo = d.div`
   display: flex;
   align-items: stretch;
   background-color: var(${g.computedOne});
@@ -910,59 +992,59 @@ const ko = d.div`
   justify-content: space-evenly;
   gap: 5px;
 `;
-function Oo() {
-  const { targetFileName: e, tagData: t } = E((a) => a.tags), { platformApiToken: n } = E((a) => a.config.data);
-  return n && e && t ? /* @__PURE__ */ o.jsx(Do, { targetFileName: e, tagData: t }) : /* @__PURE__ */ o.jsx(o.Fragment, {});
+function Fo() {
+  const { targetFileName: o, tagData: t } = B((n) => n.tags), { platformApiToken: a } = B((n) => n.config.data);
+  return a && o && t ? /* @__PURE__ */ e.jsx(Mo, { targetFileName: o, tagData: t }) : /* @__PURE__ */ e.jsx(e.Fragment, {});
 }
-function Do({
-  targetFileName: e,
+function Mo({
+  targetFileName: o,
   tagData: t
 }) {
-  const n = t[e], [a, r] = j.useState(
-    n === null || Array.isArray(n) ? "option-select-tag" : "option-bind-api"
+  const a = t[o], [n, r] = C.useState(
+    a === null || Array.isArray(a) ? "option-select-tag" : "option-bind-api"
   );
-  return D.useEffect(() => {
+  return $.useEffect(() => {
     r(
-      n === null || Array.isArray(n) ? "option-select-tag" : "option-bind-api"
+      a === null || Array.isArray(a) ? "option-select-tag" : "option-bind-api"
     );
-  }, [e]), /* @__PURE__ */ o.jsxs(Eo, { children: [
-    /* @__PURE__ */ o.jsxs(No, { children: [
+  }, [o]), /* @__PURE__ */ e.jsxs(Go, { children: [
+    /* @__PURE__ */ e.jsxs(Vo, { children: [
       "Specify tags, or link the platform API to ",
-      e
+      o
     ] }),
-    /* @__PURE__ */ o.jsx(
-      $e,
+    /* @__PURE__ */ e.jsx(
+      De,
       {
-        value: a,
+        value: n,
         options: [
           { value: "option-select-tag", label: "Tags" },
           { value: "option-bind-api", label: "Link to API" }
         ],
-        onValueChange: (s) => {
-          r(s);
+        onValueChange: (c) => {
+          r(c);
         }
       }
     ),
-    a === "option-select-tag" && /* @__PURE__ */ o.jsx(wo, { targetFileName: e, tagData: t }),
-    a === "option-bind-api" && /* @__PURE__ */ o.jsx(ro, { targetFileName: e, tagData: t })
+    n === "option-select-tag" && /* @__PURE__ */ e.jsx(Ao, { targetFileName: o, tagData: t }),
+    n === "option-bind-api" && /* @__PURE__ */ e.jsx(lo, { targetFileName: o, tagData: t })
   ] });
 }
-const No = d.div`
+const Vo = d.div`
   font-weight: 700;
   margin-bottom: 16px;
-`, Eo = d.div`
+`, Go = d.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 16px;
 `;
-function Po(e, t) {
-  const n = Qe(Ue(e), t);
-  ge.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ o.jsx(j.StrictMode, { children: /* @__PURE__ */ o.jsxs(pe, { store: n, children: [
-      /* @__PURE__ */ o.jsx(ue, {}),
-      /* @__PURE__ */ o.jsx(Oo, {})
+function zo(o, t) {
+  const a = Je(Ke(o), t);
+  he.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ e.jsx(C.StrictMode, { children: /* @__PURE__ */ e.jsxs(xe, { store: a, children: [
+      /* @__PURE__ */ e.jsx(me, {}),
+      /* @__PURE__ */ e.jsx(Fo, {})
     ] }) })
-  ), window.addEventListener("message", fe(n, ze));
+  ), window.addEventListener("message", ve(a, Ye));
 }
-window.renderWebView = Po;
+window.renderWebView = zo;

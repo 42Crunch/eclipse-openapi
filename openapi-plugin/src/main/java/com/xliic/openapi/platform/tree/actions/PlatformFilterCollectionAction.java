@@ -18,6 +18,7 @@ import com.xliic.core.util.ui.tree.TreeUtil;
 import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.filter.PlatformTreeFilter;
 import com.xliic.openapi.platform.tree.node.core.Filter;
+import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 
 public class PlatformFilterCollectionAction extends AnJAction implements DumbAware {
 
@@ -46,9 +47,18 @@ public class PlatformFilterCollectionAction extends AnJAction implements DumbAwa
                     Object filterObj = filterDMTN.getUserObject();
                     if (filterObj instanceof Filter) {
                         Filter filter = (Filter) filterObj;
-                        filter.setFilterName(chooser.getValue());
+                        boolean wasFilterActive = filter.isFilterActive();
+                        filter.setFilter(chooser.getValue());
                         PlatformAsyncTreeModel model = (PlatformAsyncTreeModel) tree.getModel();
                         List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
+                        if (!wasFilterActive) {
+                            // Cache only nodes without filtering
+                            model.cacheCollections();
+                        }
+                        PlatformRootCloud root = (PlatformRootCloud) filterObj;
+                        root.setChildrenUnavailable(true);
+                        root.resetPage();
+                        filterDMTN.removeAllChildren();
                         model.reload(filterDMTN);
                         TreeUtil.restoreExpandedPaths(tree, expandedPaths);
                     }

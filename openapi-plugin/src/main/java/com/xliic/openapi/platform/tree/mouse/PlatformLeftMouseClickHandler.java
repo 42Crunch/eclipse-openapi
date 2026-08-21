@@ -14,6 +14,7 @@ import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.node.core.Paginator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadMoreDecorator;
 import com.xliic.openapi.platform.tree.ui.PlatformPanel;
+import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 
 public class PlatformLeftMouseClickHandler {
 
@@ -33,7 +34,10 @@ public class PlatformLeftMouseClickHandler {
         if (clickedObj instanceof PlatformLoadMoreDecorator) {
             DefaultMutableTreeNode parentDMTN = ((PlatformLoadMoreDecorator) clickedObj).getParent();
             Paginator paginator = (Paginator) parentDMTN.getUserObject();
-            paginator.increasePageSize();
+            paginator.increasePage();
+            if (parentDMTN.getUserObject() instanceof PlatformRootCloud) {
+                paginator.setChildrenUnavailable(true);
+            }
             List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
             model.reload(parentDMTN);
             TreeUtil.restoreExpandedPaths(tree, expandedPaths);

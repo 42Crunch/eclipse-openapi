@@ -12,6 +12,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import com.xliic.openapi.platform.callback.EnqueueCallback;
+import com.xliic.openapi.platform.tree.PlatformFavoriteCollectionsHandler;
 import com.xliic.openapi.utils.Utils;
 
 import okhttp3.Request;
@@ -97,9 +98,28 @@ public class PlatformAPIs {
         }
     }
 
-    public static void listCollections(@NotNull EnqueueCallback callback) {
+    public static void readCollections(@NotNull PlatformFavoriteCollectionsHandler handler, @NotNull Set<String> collectionIds) {
+        for (String collectionId : collectionIds) {
+            readCollection(handler.getEnqueueCallback(collectionId), collectionId);
+        }
+    }
+
+    private static void readCollection(@NotNull EnqueueCallback callback, @NotNull String collectionId) {
         try {
-            Request request = getRequestBuilder(String.format("api/v2/collections?listOption=%s&perPage=%d", "ALL", 0)).build();
+            Request request = getRequestBuilder(String.format("api/v1/collections/%s?readOwner=true", collectionId)).build();
+            getHttpClient().newCall(request).enqueue(callback);
+        } catch (IOException e) {
+            callback.onFailure(e.toString());
+        }
+    }
+
+    public static void listCollections(@NotNull EnqueueCallback callback, int page, int perPage, @NotNull String name) {
+        try {
+            String url = String.format("api/v1/search/collections?page=%d&perPage=%d&order=default&sort=default", page, perPage);
+            if (!name.isBlank()) {
+                url += String.format("&collectionName=%s", name);
+            }
+            Request request = getRequestBuilder(url).build();
             getHttpClient().newCall(request).enqueue(callback);
         } catch (IOException e) {
             callback.onFailure(e.toString());

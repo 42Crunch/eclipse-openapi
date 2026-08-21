@@ -55,7 +55,7 @@ public class PlatformFilterAPIAction extends AnJAction implements DumbAware {
                     Object filterObj = filterDMTN.getUserObject();
                     if (filterObj instanceof Filter) {
                         Filter filter = (Filter) filterObj;
-                        filter.setFilterName(chooser.getValue());
+                        filter.setFilter(chooser.getValue());
                         PlatformAsyncTreeModel model = (PlatformAsyncTreeModel) tree.getModel();
                         List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
                         model.reload(filterDMTN);

@@ -1,6 +1,7 @@
 package com.xliic.openapi.platform.tree;
 
 import java.util.Map;
+import java.util.*;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -17,6 +18,7 @@ import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.node.PlatformDataDictionary;
 import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 import com.xliic.openapi.platform.tree.node.PlatformRootFavorite;
+import com.xliic.openapi.platform.tree.node.core.Paginator;
 import com.xliic.openapi.platform.tree.node.decorator.PlatformLoadingDecorator;
 import com.xliic.openapi.platform.tree.utils.PlatformUtils;
 import com.xliic.openapi.services.PlatformService;
@@ -35,6 +37,9 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
     private final DefaultMutableTreeNode favoriteCollections;
     private final DefaultMutableTreeNode dataDictionary;
 
+    private final PlatformRootCloud cachedRoot = new PlatformRootCloud();
+    private final List<DefaultMutableTreeNode> cachedNodes = new LinkedList<>();
+    
     public PlatformAsyncTreeModel(@NotNull Project project, @NotNull Tree tree, @NotNull DefaultMutableTreeNode root) {
         super(tree.getViewer(), root, false);
         this.project = project;
@@ -66,6 +71,30 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
         return PlatformUtils.getVisibleChildren(parent).get(index);
     }
 
+    public void cacheCollections() {
+        cachedRoot.setFrom((PlatformRootCloud) cloudCollections.getUserObject());
+        cachedNodes.clear();
+        for (int i = 0; i < cloudCollections.getChildCount(); i++) {
+            cachedNodes.add((DefaultMutableTreeNode) cloudCollections.getChildAt(i));
+        }
+    }
+
+    public void restoreCollections() {
+        ((PlatformRootCloud) cloudCollections.getUserObject()).setFrom(cachedRoot);
+        cloudCollections.removeAllChildren();
+        for (DefaultMutableTreeNode node : cachedNodes) {
+            cloudCollections.add(node);
+        }
+        cachedNodes.clear();
+    }
+
+    public void clearCachedCollections() {
+        cachedRoot.resetPage();
+        cachedRoot.resetFilter();
+        cachedRoot.setChildrenUnavailable(true);
+        cachedNodes.clear();
+    }
+
     @Override
     public int getChildCount(Object parent) {
         DefaultMutableTreeNode parentDMTN = (DefaultMutableTreeNode) parent;
@@ -75,27 +104,40 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
             PlatformService platformService = PlatformService.getInstance(project);
             Map<DefaultMutableTreeNode, Callback> callbacks = platformService.getTreeAsyncCallbacks();
             if (rco.isChildrenUnavailable() && !callbacks.containsKey(parentDMTN)) {
-            	EnqueueCallback callback = new PlatformCollectionCallback(project, tree, parentDMTN);
-                PlatformAPIs.listCollections(callback);
+                EnqueueCallback callback = new PlatformCollectionCallback(project, tree, parentDMTN);
                 callbacks.put(parentDMTN, callback);
-                parentDMTN.removeAllChildren();
+                PlatformAPIs.listCollections(callback, rco.getPage(), Paginator.PAGE_SIZE, rco.getFilter());
                 parentDMTN.add(LOADING_DECORATOR);
-                return 1;
+                // If filter is active there is one more filter node which is not in the parent, but returned by this model
+                return parentDMTN.getChildCount() + (rco.isFilterActive() ? 1 : 0);
             }
         } else if (parentObj instanceof PlatformRootFavorite) {
-            PlatformRootCloud rco = (PlatformRootCloud) (cloudCollections.getUserObject());
-            if (rco.isChildrenUnavailable()) {
-                parentDMTN.removeAllChildren();
+            PlatformRootFavorite rfo = (PlatformRootFavorite) parentObj;
+            PlatformService platformService = PlatformService.getInstance(project);
+            Set<String> collectionIds = new HashSet<>(platformService.getState().collectionIds);
+            if (collectionIds.isEmpty()) {
+                rfo.setChildrenUnavailable(false);
                 return 0;
+            }
+            Map<DefaultMutableTreeNode, Callback> callbacks = platformService.getTreeAsyncCallbacks();
+            if (rfo.isChildrenUnavailable() && !callbacks.containsKey(parentDMTN)) {
+                PlatformFavoriteCollectionsHandler handler = new PlatformFavoriteCollectionsHandler(project, tree, parentDMTN, collectionIds);
+                callbacks.put(parentDMTN, handler);
+                PlatformAPIs.readCollections(handler, collectionIds);
+                parentDMTN.add(LOADING_DECORATOR);
+                return parentDMTN.getChildCount();
             }
         } else if (parentObj instanceof PlatformCollection) {
             PlatformCollection pco = (PlatformCollection) parentObj;
+            if (pco.getApiCount() == 0) {
+                return 0;
+            }
             PlatformService platformService = PlatformService.getInstance(project);
             Map<DefaultMutableTreeNode, Callback> callbacks = platformService.getTreeAsyncCallbacks();
             if (pco.isChildrenUnavailable() && !callbacks.containsKey(parentDMTN)) {
-            	EnqueueCallback callback = new PlatformAPICallback(project, tree, parentDMTN);
-                PlatformAPIs.listApis(pco.getId(), callback);
+                EnqueueCallback callback = new PlatformAPICallback(project, tree, parentDMTN);
                 callbacks.put(parentDMTN, callback);
+                PlatformAPIs.listApis(pco.getId(), callback);
                 parentDMTN.removeAllChildren();
                 parentDMTN.add(LOADING_DECORATOR);
                 return 1;
@@ -122,7 +164,9 @@ public class PlatformAsyncTreeModel extends DefaultTreeModel {
             }
         } else if (nodeObj instanceof PlatformCollection) {
             PlatformCollection pro = (PlatformCollection) nodeObj;
-            if (pro.isChildrenUnavailable()) {
+            if (pro.getApiCount() == 0) {
+                return true;
+            } else if (pro.isChildrenUnavailable()) {
                 return false;
             }
         } else if (nodeObj instanceof PlatformDataDictionary) {

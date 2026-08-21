@@ -1,4 +1,4 @@
-import { c as m } from "./rtk-query-react.modern.kJqw8Vn6.js";
+import { c as m } from "./rtk-query-react.modern.DVdYp0Is.js";
 import { w as h } from "./webapp-client.CEJRS8eu.js";
 import { s as f } from "./listener.BNWHQqef.js";
 function g(t) {

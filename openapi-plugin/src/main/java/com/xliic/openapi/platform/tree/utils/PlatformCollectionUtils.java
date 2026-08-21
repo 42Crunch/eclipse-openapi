@@ -14,42 +14,60 @@ import com.xliic.core.project.Project;
 import com.xliic.core.ui.tree.TreePathUtil;
 import com.xliic.core.ui.treeStructure.Tree;
 import com.xliic.core.util.ui.tree.TreeUtil;
+import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.platform.tree.PlatformAsyncTreeModel;
 import com.xliic.openapi.platform.tree.node.PlatformCollection;
 import com.xliic.openapi.platform.tree.node.PlatformRootCloud;
 import com.xliic.openapi.services.PlatformService;
+import com.xliic.openapi.platform.tree.node.PlatformRootFavorite;
+import com.xliic.openapi.platform.tree.node.core.Paginator;
+
+import static com.xliic.openapi.platform.tree.utils.PlatformUtils.removeLoadingDecorator;
 
 public class PlatformCollectionUtils {
 
-    public static void addAll(@NotNull Project project, 
-    		                  @NotNull Tree tree, 
-    		                  @NotNull DefaultMutableTreeNode parentDMTN,
-                              @NotNull List<PlatformCollection> collections) {
-        PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
-        DefaultMutableTreeNode favoriteCollections = model.getFavoriteCollections();
-        parentDMTN.removeAllChildren();
-        favoriteCollections.removeAllChildren();
-        PlatformService platformService = PlatformService.getInstance(project);
-        Set<String> collectionIds = platformService.getState().collectionIds;
-        for (PlatformCollection pco : collections) {
-            DefaultMutableTreeNode pcoDMTN = new DefaultMutableTreeNode(pco);
-            parentDMTN.add(pcoDMTN);
-            if (collectionIds.contains(pco.getId())) {
-                favoriteCollections.add(getCollectionSubTreeCopy(pcoDMTN));
-            }
-        }
-        PlatformRootCloud rco = (PlatformRootCloud) parentDMTN.getUserObject();
-        rco.setChildrenUnavailable(false);
-        platformService.getTreeAsyncCallbacks().remove(parentDMTN);
-        List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
-        // Eclipse Development Note
-        // Expansion state is ignored if node has no children, restore it here
-        if (favoriteCollections.getChildCount() > 0) {
-            expandedPaths.add(TreePathUtil.pathToTreeNode(favoriteCollections));
-        }
-        model.reload();
-        TreeUtil.restoreExpandedPaths(tree, expandedPaths);
-    }
+    public static void addAll(@NotNull Project project,
+            @NotNull Tree tree,
+            @NotNull DefaultMutableTreeNode parentDMTN,
+            @NotNull List<PlatformCollection> collections) {
+		PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
+		// Do not delete all children as they may be from previously added pages
+		removeLoadingDecorator(parentDMTN);
+		// Add collections
+		for (PlatformCollection pco : collections) {
+			DefaultMutableTreeNode pcoDMTN = new DefaultMutableTreeNode(pco);
+			parentDMTN.add(pcoDMTN);
+		}
+		// Mark parent node that everything is loaded and ready
+		Object parentObj = parentDMTN.getUserObject();
+		if (parentObj instanceof PlatformRootCloud) {
+			PlatformRootCloud rco = (PlatformRootCloud) parentDMTN.getUserObject();
+			rco.setChildrenUnavailable(false);
+			rco.setFullChildrenLoaded(collections.size() < Paginator.PAGE_SIZE);
+		} else if (parentObj instanceof PlatformRootFavorite) {
+			PlatformRootFavorite rfo = (PlatformRootFavorite) parentDMTN.getUserObject();
+			rfo.setChildrenUnavailable(false);
+		}
+		// Sometimes expanded parent nodes are not returned below
+		List<TreePath> expandedPaths = TreeUtil.collectExpandedPaths(tree);
+		TreePath parentTreePath = TreePathUtil.pathToTreeNode(parentDMTN);
+		if (!isFoundInTreePaths(parentTreePath, expandedPaths)) {
+			// Add it here if not
+			expandedPaths.add(parentTreePath);
+		}
+		model.reload();
+		TreeUtil.restoreExpandedPaths(tree, expandedPaths);
+		PlatformService.getInstance(project).getTreeAsyncCallbacks().remove(parentDMTN);
+	}
+	
+	private static boolean isFoundInTreePaths(TreePath targetTreePath, List<TreePath> paths) {
+		for (TreePath treePath : paths) {
+			if (targetTreePath.equals(treePath)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
     public static void addToFavoriteCollection(@NotNull Project project, @NotNull Tree tree, @NotNull String collectionId) {
         PlatformAsyncTreeModel model = ((PlatformAsyncTreeModel) tree.getModel());
@@ -139,6 +157,19 @@ public class PlatformCollectionUtils {
                 }
             }
         }
+    }
+    
+    public static int getApiCount(@NotNull Node node) {
+        String value = node.getChildValue("apiCount");
+        if (value != null) {
+            try {
+                return Integer.parseInt(value);
+            } catch (NumberFormatException ignored) {
+                return -1;
+            }
+        }
+        // Means there is no api counter available
+        return -1;
     }
     
     private static DefaultMutableTreeNode getCollectionSubTreeCopy(DefaultMutableTreeNode colDMTN) {

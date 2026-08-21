@@ -20,7 +20,6 @@ import com.xliic.core.services.IGraphQlService;
 import com.xliic.core.vfs.VirtualFile;
 import com.xliic.openapi.cli.CliService;
 import com.xliic.openapi.graphql.task.GraphQlCliTask;
-import com.xliic.openapi.graphql.task.PlatformGraphQlAuditTask;
 import com.xliic.openapi.inlined.AnnotationService;
 import com.xliic.openapi.parser.ast.node.Node;
 import com.xliic.openapi.services.AuditService;

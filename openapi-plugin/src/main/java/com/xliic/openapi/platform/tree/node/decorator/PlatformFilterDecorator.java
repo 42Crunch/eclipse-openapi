@@ -4,7 +4,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jetbrains.annotations.NotNull;
 
-public class PlatformFilterDecorator {
+public class PlatformFilterDecorator implements PlatformDecorator {
 
     private final String name;
     private final DefaultMutableTreeNode parent;
