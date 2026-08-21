@@ -1,18 +1,18 @@
-import { j as t, v as Zt, f as w, e as h, T as u, S as it, R as at, w as T, i as oe, d as en, s as tn, x as ct, y as lt, z as dt, A as ut, D as pt, C as ht, O as ft, E as gt, F as nn, B as rn, G as on, g as sn, P as an, h as cn, N as ln, k as dn } from "./TriangleExclamation.BLKAXJ8l.js";
-import { i as E, D as un, p as Ge, u as mt, w as xt, S as pn, a as hn, b as fn, c as gn, d as mn, E as xn, R as vn, e as se, F as Ae, f as q, g as I, s as Oe, r as z, h as B, m as L, j as N, k as G, T as de, l as vt, C as R, n as ue, o as bt, q as pe, t as yt, v as jt, Z as W, B as re, x as Ee, y as St, M as be, z as wt, A as le, G as Ct, H as ge, I as It, J as Te, K as bn, L as yn, N as ye, O as jn, P as Sn, Q as wn, U as Me, V as Cn, W as kt, X as De, Y as Ot, _ as In, $ as kn, a0 as On, a1 as Tn, a2 as Dn, a3 as qn, a4 as $n, a5 as Pn, a6 as Rn, a7 as An, a8 as En, a9 as Mn, aa as Fn, ab as zn, ac as Bn, ad as Fe, ae as ze, af as Ln, ag as Nn, ah as Be, ai as Hn, aj as Gn, ak as Vn, al as Le, am as Tt, an as Un, ao as qe, ap as Dt, aq as qt, ar as $t, as as Pt, at as _n, au as Wn, av as Rt, aw as At, ax as Yn, ay as Jn, az as ne, aA as Et, aB as Mt, aC as Ft, aD as zt, aE as Xn, aF as Kn, aG as Qn, aH as Zn, aI as er, aJ as tr, aK as Bt, aL as Ve, aM as nr, aN as rr, aO as or, aP as sr, aQ as ir, aR as ar, aS as cr, aT as lr } from "./UpdatePrompt.DQlMOewA.js";
+import { j as t, v as en, f as w, e as h, T as u, S as it, R as at, w as T, i as oe, d as tn, s as nn, x as ct, y as lt, z as dt, A as ut, D as pt, C as ht, O as ft, E as gt, F as rn, B as on, G as sn, g as an, P as cn, h as ln, N as dn, k as un } from "./TriangleExclamation.BLKAXJ8l.js";
+import { i as E, D as pn, p as Ge, u as mt, w as xt, S as hn, a as fn, b as gn, c as mn, d as xn, E as vn, R as bn, e as se, F as Ae, f as q, g as I, s as Oe, r as z, h as B, m as L, j as N, k as G, T as de, l as vt, C as R, n as ue, o as bt, q as pe, t as yt, v as jt, Z as W, B as re, x as Ee, y as St, M as be, z as wt, A as le, G as Ct, H as ge, I as It, J as Te, K as yn, L as jn, N as ye, O as Sn, P as wn, Q as Cn, U as Me, V as In, W as kt, X as De, Y as Ot, _ as kn, $ as On, a0 as Tn, a1 as Dn, a2 as qn, a3 as $n, a4 as Pn, a5 as Rn, a6 as An, a7 as En, a8 as Mn, a9 as Fn, aa as zn, ab as Bn, ac as Ln, ad as Fe, ae as ze, af as Nn, ag as Hn, ah as Be, ai as Gn, aj as Vn, ak as Un, al as Le, am as Tt, an as _n, ao as qe, ap as Dt, aq as qt, ar as $t, as as Pt, at as Wn, au as Yn, av as Rt, aw as At, ax as Jn, ay as Xn, az as ne, aA as Et, aB as Mt, aC as Ft, aD as zt, aE as Kn, aF as Qn, aG as Zn, aH as er, aI as tr, aJ as nr, aK as Bt, aL as Ve, aM as rr, aN as or, aO as sr, aP as ir, aQ as ar, aR as cr, aS as lr, aT as dr } from "./UpdatePrompt.DQlMOewA.js";
 import { a as ie } from "./SearchSidebar.CtwbvK_x.js";
-import { o as ae, d as dr, s as C, a as Ue, l as _e, F as ce, c as We } from "./schemas.BH6uGBRD.js";
-import { u as Lt, b as Nt, c as ur, a as pr, d as hr, F as fr } from "./index.esm.MIM2ge_D.js";
+import { o as ae, d as ur, s as C, a as Ue, l as _e, F as ce, c as We } from "./schemas.BH6uGBRD.js";
+import { u as Lt, b as Nt, c as pr, a as hr, d as fr, F as gr } from "./index.esm.MIM2ge_D.js";
 import { I as H } from "./Input.BQnalfHf.js";
-import { T as Ne, C as gr } from "./Tabs.BfQDe6I2.js";
+import { T as Ne, C as mr } from "./Tabs.BfQDe6I2.js";
 import { I as P } from "./Textarea.7FvXKGUa.js";
-import { M, a as F, s as A, G as mr } from "./GeneralError.Dvjq_B8a.js";
-import { P as xr, R as vr, T as br, a as yr, C as jr } from "./index.CduJ8u-z.js";
-import { D as Sr, r as he, q as fe, t as wr, v as Cr, i as Ir } from "./variables.CfsUBZ9t.js";
+import { M, a as F, s as A, G as xr } from "./GeneralError.Dvjq_B8a.js";
+import { P as vr, R as br, T as yr, a as jr, C as Sr } from "./index.CduJ8u-z.js";
+import { D as wr, r as he, q as fe, t as Cr, v as Ir, i as Ht } from "./variables.CfsUBZ9t.js";
 import { S as kr } from "./Switch.BqeA-dAP.js";
 import { S as V } from "./TrashCan.DYWcjlk_.js";
 import { C as Or } from "./CollapsibleCard.BWECYxhA.js";
-import { u as Ht, a as Tr } from "./downshift.esm.CwBPPnfz.js";
+import { u as Gt, a as Tr } from "./downshift.esm.CwBPPnfz.js";
 import { S as Ye } from "./Select.Jkx8eZok.js";
 import { o as Dr, s as qr } from "./listener.BM8yBkLB.js";
 import { s as me, o as $r } from "./listener.BNWHQqef.js";
@@ -51,7 +51,7 @@ function Fr() {
   }), Se;
 }
 var zr = Fr();
-const Br = /* @__PURE__ */ Zt(zr), U = typeof window < "u" ? w.useLayoutEffect : w.useEffect;
+const Br = /* @__PURE__ */ en(zr), U = typeof window < "u" ? w.useLayoutEffect : w.useEffect;
 function Lr(n, e, r) {
   const [o, s] = w.useState(
     () => e(n)
@@ -83,14 +83,14 @@ function Nr(n, e, r) {
     s
   ]), o;
 }
-function Gt(n, e, r) {
+function Vt(n, e, r) {
   return Nr(
     e,
     n || (() => ({})),
     () => r.reconnect()
   );
 }
-function Vt(n, e) {
+function Ut(n, e) {
   const r = [];
   return typeof n != "function" && r.push(n), w.useMemo(() => typeof n == "function" ? n() : n, r);
 }
@@ -307,7 +307,7 @@ function Jr(n) {
     return Yr(o), Xr(o, r ? (a) => n(a, r) : n);
   };
 }
-function Ut(n) {
+function _t(n) {
   const e = {};
   return Object.keys(n).forEach((r) => {
     const o = n[r];
@@ -403,7 +403,7 @@ class Kr {
     this.dragPreviewNode = null, this.dragPreviewRef = null;
   }
   constructor(e) {
-    this.hooks = Ut({
+    this.hooks = _t({
       dragSource: (r, o) => {
         this.clearDragSource(), this.dragSourceOptions = o || null, Pe(r) ? this.dragSourceRef = r : this.dragSourceNode = r, this.reconnectDragSource();
       },
@@ -457,7 +457,7 @@ class Qr {
     this.dropTargetRef = null, this.dropTargetNode = null;
   }
   constructor(e) {
-    this.hooks = Ut({
+    this.hooks = _t({
       dropTarget: (r, o) => {
         this.clearDropTarget(), this.dropTargetOptions = o, Pe(r) ? this.dropTargetRef = r : this.dropTargetNode = r, this.reconnect();
       }
@@ -465,7 +465,7 @@ class Qr {
   }
 }
 function ee() {
-  const { dragDropManager: n } = w.useContext(un);
+  const { dragDropManager: n } = w.useContext(pn);
   return E(n != null, "Expected drag drop context"), n;
 }
 function Zr(n, e) {
@@ -552,11 +552,11 @@ function oo(n, e, r) {
   ]);
 }
 function so(n, e) {
-  const r = Vt(n);
+  const r = Ut(n);
   E(!r.begin, "useDrag::spec.begin was deprecated in v14. Replace spec.begin() with spec.item(). (see more here - https://react-dnd.github.io/react-dnd/docs/api/use-drag)");
   const o = eo(), s = Zr(r.options, r.previewOptions);
   return oo(r, o, s), [
-    Gt(r.collect, o, s),
+    Vt(r.collect, o, s),
     Hr(s),
     Gr(s)
   ];
@@ -643,10 +643,10 @@ function ho(n, e, r) {
     ).join("|")
   ]);
 }
-function _t(n, e) {
-  const r = Vt(n), o = co(), s = ao(r.options);
+function Wt(n, e) {
+  const r = Ut(n), o = co(), s = ao(r.options);
   return ho(r, o, s), [
-    Gt(r.collect, o, s),
+    Vt(r.collect, o, s),
     io(s)
   ];
 }
@@ -671,7 +671,7 @@ function fo({
       })
     ]),
     default: C(),
-    methods: dr()
+    methods: ur()
   });
   return /* @__PURE__ */ t.jsx(
     ce,
@@ -708,7 +708,7 @@ function go() {
       }
     ),
     /* @__PURE__ */ t.jsx(
-      pn,
+      hn,
       {
         label: "Default credential name",
         name: "default",
@@ -740,7 +740,7 @@ function xo({
   ] });
 }
 function vo(n, e) {
-  return /* @__PURE__ */ t.jsxs(Wt, { children: [
+  return /* @__PURE__ */ t.jsxs(Yt, { children: [
     /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(
       it,
       {
@@ -754,7 +754,7 @@ function vo(n, e) {
   ] }, e);
 }
 function bo(n, e, r) {
-  return /* @__PURE__ */ t.jsxs(Wt, { children: [
+  return /* @__PURE__ */ t.jsxs(Yt, { children: [
     /* @__PURE__ */ t.jsx("div", {}),
     /* @__PURE__ */ t.jsx("div", { children: n.name }),
     /* @__PURE__ */ t.jsx("div", { children: yo(n.context, r) })
@@ -806,7 +806,7 @@ const jo = h.div`
     font-size: 90%;
     font-weight: 600;
   }
-`, Wt = h.div`
+`, Yt = h.div`
   display: contents;
 `;
 function wo({
@@ -831,7 +831,7 @@ function wo({
   })), g = n.ref.type === "operation" ? c[n.ref.id] : l[n.ref.id], S = ko(g), x = Io(g), p = [
     ...x.filter((m) => m !== "default").map((m) => ({ label: m, value: m }))
   ], k = [
-    ...Sr,
+    ...wr,
     ...Co(r?.variablesReplaced?.stack || [])
   ], b = Array.from(new Set(r?.variablesReplaced?.missing || [])).map(
     (m) => m.name
@@ -841,8 +841,8 @@ function wo({
     {
       data: n,
       saveData: o,
-      wrapFormData: fn,
-      unwrapFormData: hn,
+      wrapFormData: gn,
+      unwrapFormData: fn,
       children: /* @__PURE__ */ t.jsxs(Oo, { children: [
         /* @__PURE__ */ t.jsx(To, { children: f + 1 }),
         /* @__PURE__ */ t.jsx(
@@ -884,7 +884,7 @@ function wo({
                   /* @__PURE__ */ t.jsxs(Po, { children: [
                     /* @__PURE__ */ t.jsx("span", { children: "Expected Response" }),
                     /* @__PURE__ */ t.jsx(
-                      gn,
+                      mn,
                       {
                         name: "expectedResponse",
                         options: p,
@@ -894,7 +894,7 @@ function wo({
                   ] }),
                   i && /* @__PURE__ */ t.jsxs(Ro, { children: [
                     /* @__PURE__ */ t.jsx("span", { children: "Fuzzing" }),
-                    /* @__PURE__ */ t.jsx(mn, { name: "fuzzing" })
+                    /* @__PURE__ */ t.jsx(xn, { name: "fuzzing" })
                   ] }),
                   /* @__PURE__ */ t.jsx(Ao, { className: "grab", children: /* @__PURE__ */ t.jsx(Mr, {}) }),
                   /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsxs(F, { onClick: (m) => m.stopPropagation(), onSelect: s, children: [
@@ -911,7 +911,7 @@ function wo({
                       id: "environment",
                       title: "Environment",
                       content: /* @__PURE__ */ t.jsx(
-                        xn,
+                        vn,
                         {
                           name: "environment",
                           variables: k,
@@ -924,7 +924,7 @@ function wo({
                     {
                       id: "responses",
                       title: "Response processing",
-                      content: /* @__PURE__ */ t.jsx(vn, { editable: !0, responseCodes: x })
+                      content: /* @__PURE__ */ t.jsx(bn, { editable: !0, responseCodes: x })
                     },
                     {
                       id: "variables",
@@ -1030,13 +1030,13 @@ const Oo = h.div`
   }
 `;
 function Qe({ message: n, description: e }) {
-  return /* @__PURE__ */ t.jsx(xr, { children: /* @__PURE__ */ t.jsxs(vr, { children: [
-    /* @__PURE__ */ t.jsx(br, { asChild: !0, children: /* @__PURE__ */ t.jsxs(Eo, { children: [
+  return /* @__PURE__ */ t.jsx(vr, { children: /* @__PURE__ */ t.jsxs(br, { children: [
+    /* @__PURE__ */ t.jsx(yr, { asChild: !0, children: /* @__PURE__ */ t.jsxs(Eo, { children: [
       /* @__PURE__ */ t.jsx(it, {}),
       " ",
       /* @__PURE__ */ t.jsx("span", { children: n })
     ] }) }),
-    /* @__PURE__ */ t.jsx(yr, { children: /* @__PURE__ */ t.jsx(Mo, { children: e }) })
+    /* @__PURE__ */ t.jsx(jr, { children: /* @__PURE__ */ t.jsx(Mo, { children: e }) })
   ] }) });
 }
 const Eo = h.div`
@@ -1051,7 +1051,7 @@ const Eo = h.div`
   > svg {
     fill: var(${u.foreground});
   }
-`, Mo = h(jr)`
+`, Mo = h(Sr)`
   max-width: 400px;
   color: var(${u.notificationsForeground});
   background-color: var(${u.notificationsBackground});
@@ -1073,7 +1073,7 @@ function K({
   requests: d,
   goToRequest: f
 }) {
-  const y = (x) => (p) => s(x, p), v = (x) => () => a(x), [{ isOver: g }, S] = _t(() => ({
+  const y = (x) => (p) => s(x, p), v = (x) => () => a(x), [{ isOver: g }, S] = Wt(() => ({
     accept: "stage",
     collect: (x) => ({
       isOver: !!x.isOver()
@@ -1106,7 +1106,7 @@ function Fo({
   destinationIndex: n,
   moveStage: e
 }) {
-  const [{ isOver: r }, o] = _t(() => ({
+  const [{ isOver: r }, o] = Wt(() => ({
     accept: "stage",
     drop: (s) => e(s.location, n),
     collect: (s) => ({
@@ -1147,7 +1147,7 @@ function Lo({
       })
     )
   );
-  const [i, c] = w.useState(a), { isOpen: l, getMenuProps: d, getInputProps: f, getItemProps: y, openMenu: v } = Ht({
+  const [i, c] = w.useState(a), { isOpen: l, getMenuProps: d, getInputProps: f, getItemProps: y, openMenu: v } = Gt({
     initialInputValue: "",
     items: i,
     onSelectedItemChange: ({ selectedItem: g }) => {
@@ -1406,7 +1406,7 @@ function Jo({
     }
   );
 }
-const Xo = h(gr)`
+const Xo = h(mr)`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -1465,7 +1465,7 @@ const Zo = h.div`
   padding: 8px;
 `;
 function es() {
-  const n = ur({ name: "type" }), e = /* @__PURE__ */ t.jsx(
+  const n = pr({ name: "type" }), e = /* @__PURE__ */ t.jsx(
     Ye,
     {
       label: "Type",
@@ -1799,8 +1799,8 @@ function ls(n, e) {
         o.getState(),
         ge(),
         o.dispatch,
+        Tn,
         On,
-        kn,
         v,
         "http://localhost"
       );
@@ -1825,8 +1825,8 @@ function ds(n, e) {
         o.getState(),
         ge(),
         o.dispatch,
+        qn,
         Dn,
-        Tn,
         [
           { name: "Global Before", requests: d ? a : [] },
           { name: "Request", requests: [{ ref: s }] },
@@ -1867,8 +1867,8 @@ function us(n, e) {
         o.getState(),
         ge(),
         o.dispatch,
+        Cn,
         wn,
-        Sn,
         [{ name: "auth", requests: f.requests }],
         "http://localhost"
       );
@@ -1903,8 +1903,8 @@ function ps(n, e) {
         o.getState(),
         ge(),
         o.dispatch,
+        Pn,
         $n,
-        qn,
         d,
         "http://localhost"
       );
@@ -1938,8 +1938,8 @@ function hs(n, e) {
           (S, x, p, k) => o.dispatch(me({ id: S, request: x, config: p, mtlsConfig: k }))
         ),
         o.dispatch,
+        An,
         Rn,
-        Pn,
         g,
         r
       );
@@ -1960,10 +1960,10 @@ function fs(n, e) {
       } = o.getState();
       if (i === void 0 || c === void 0)
         return;
-      const y = [bn(a, l)];
-      o.dispatch(yn()), o.dispatch(ye({ event: "playbook-started", name: "" })), o.dispatch(ye({ event: "request-started" }));
-      for await (const v of jn(
-        An(),
+      const y = [yn(a, l)];
+      o.dispatch(jn()), o.dispatch(ye({ event: "playbook-started", name: "" })), o.dispatch(ye({ event: "request-started" }));
+      for await (const v of Sn(
+        En(),
         xe(
           { https: { rejectUnauthorized: d, proxy: f } },
           (g, S, x, p) => o.dispatch(me({ id: g, request: S, config: x, mtlsConfig: p }))
@@ -1981,7 +1981,7 @@ function fs(n, e) {
 }
 function gs(n, e) {
   return () => n({
-    actionCreator: Cn,
+    actionCreator: In,
     effect: async ({ payload: { inputs: r, server: o } }, s) => {
       const {
         requests: { ref: a },
@@ -2004,8 +2004,8 @@ function gs(n, e) {
           (v, g, S, x) => s.dispatch(me({ id: v, request: g, config: S, mtlsConfig: x }))
         ),
         s.dispatch,
+        Fn,
         Mn,
-        En,
         y,
         o,
         [{ id: { type: "try-inputs" }, env: r, assignments: [] }]
@@ -2034,8 +2034,8 @@ function ms(n, e) {
           (f, y, v, g) => o.dispatch(me({ id: f, request: y, config: v, mtlsConfig: g }))
         ),
         o.dispatch,
+        Bn,
         zn,
-        Fn,
         d,
         r
       );
@@ -2044,7 +2044,7 @@ function ms(n, e) {
 }
 async function _(n, e, r, o, s, a, i, c = []) {
   r(o());
-  for await (const l of In(
+  for await (const l of kn(
     e,
     n.scanconf.oas,
     i,
@@ -2115,13 +2115,13 @@ function Cs(n, e) {
 }
 function Is(n, e) {
   const r = e.operations || {};
-  return Yt(n).filter((o) => !r[o.operationId]).map((o) => ({
+  return Jt(n).filter((o) => !r[o.operationId]).map((o) => ({
     type: "operation-added",
     ...o
   }));
 }
 function ks(n, e) {
-  const r = e.operations || {}, o = Yt(n).map((c) => c.operationId), a = Object.keys(r).filter((c) => !o.includes(c)), i = [];
+  const r = e.operations || {}, o = Jt(n).map((c) => c.operationId), a = Object.keys(r).filter((c) => !o.includes(c)), i = [];
   for (const c of a) {
     const l = Os(c, e)?.request?.request;
     if (l?.type === "42c" && l.details.url.startsWith("{{host}}")) {
@@ -2138,11 +2138,11 @@ function ks(n, e) {
   }
   return i;
 }
-function Yt(n) {
-  return wr(n).map(([r, o, s]) => ({
+function Jt(n) {
+  return Cr(n).map(([r, o, s]) => ({
     path: r,
     method: o,
-    operationId: Cr(s.operationId, r, o)
+    operationId: Ir(s.operationId, r, o)
   }));
 }
 function Os(n, e) {
@@ -2150,13 +2150,16 @@ function Os(n, e) {
 }
 function Ts(n, e) {
   const r = e.authenticationDetails || [{}];
-  return r.length === 0 ? [] : Ds(n).filter((o) => !r[0][o]).map((o) => ({
+  return r.length === 0 ? [] : qs(n).filter((o) => Ds(n, o)).filter((o) => !r[0][o]).map((o) => ({
     type: "security-added",
     schema: o
   }));
 }
-function Ds(n) {
-  if (Ir(n)) {
+function Ds(n, e) {
+  return Ht(n) && (n.openapi === "3.1.0" || n.openapi === "3.1.1") ? n.components?.securitySchemes?.[e]?.type !== "mutualTLS" : !1;
+}
+function qs(n) {
+  if (Ht(n)) {
     const e = n.components?.securitySchemes;
     return e ? Object.keys(e) : [];
   } else {
@@ -2164,16 +2167,16 @@ function Ds(n) {
     return e ? Object.keys(e) : [];
   }
 }
-function qs(n, e) {
+function $s(n, e) {
   const r = X.simpleClone(n);
   for (const o of e)
     o.container === "globalBefore" ? te(r.before, o.stageIndex) : o.container === "globalAfter" ? te(r.after, o.stageIndex) : o.container === "operationBefore" ? te(r.operations[o.operationId].before, o.stageIndex) : o.container === "operationAfter" ? te(r.operations[o.operationId].after, o.stageIndex) : o.container === "operationScenarios" && te(r.operations[o.operationId].scenarios[o.scenarioIndex].requests, o.stageIndex);
-  return $s(r), r;
+  return Ps(r), r;
 }
 function te(n, e) {
   n && (n[e] = void 0);
 }
-function $s(n) {
+function Ps(n) {
   Y(n.before), Y(n.after);
   for (const e of Object.values(n.operations || {})) {
     Y(e.before), Y(e.after);
@@ -2190,7 +2193,7 @@ function Y(n) {
     for (let e = n.length - 1; e >= 0; e--)
       n[e] === void 0 && n.splice(e, 1);
 }
-function Ps(n, e, r) {
+function Rs(n, e, r) {
   const o = X.simpleClone(n);
   J(o.before, e, r), J(o.after, e, r);
   for (const s of Object.values(o.operations || {})) {
@@ -2208,33 +2211,33 @@ function J(n, e, r) {
   for (const o of n || [])
     o.$ref === e && (o.$ref = r);
 }
-function Rs(n, e, r, o) {
+function As(n, e, r, o) {
   let s = X.simpleClone(e);
   for (const a of o)
-    a.type === "operation-added" ? s = As(n, s, r, a) : a.type === "operation-removed" ? s = Es(n, s, r, a) : a.type === "operation-renamed" ? s = Ms(s, a) : a.type === "security-added" && (s = Fs(n, s, r, a));
+    a.type === "operation-added" ? s = Es(n, s, r, a) : a.type === "operation-removed" ? s = Ms(n, s, r, a) : a.type === "operation-renamed" ? s = Fs(s, a) : a.type === "security-added" && (s = zs(n, s, r, a));
   return s;
 }
-function As(n, e, r, o) {
+function Es(n, e, r, o) {
   const s = r.operations[o.operationId];
   return e.operations[o.operationId] = s, e;
 }
-function Es(n, e, r, o) {
-  return delete e.operations[o.operationId], qs(e, o.references);
+function Ms(n, e, r, o) {
+  return delete e.operations[o.operationId], $s(e, o.references);
 }
-function Ms(n, e) {
+function Fs(n, e) {
   const r = n.operations[e.oldOperationId];
   r.operationId = e.newOperationId, r.request.operationId = e.newOperationId, r.request?.request?.type === "42c" && (r.request.request.details.operationId = e.newOperationId), delete n.operations[e.oldOperationId], n.operations[e.newOperationId] = r;
   const o = "#" + X.joinJsonPointer(["operations", e.oldOperationId, "request"]), s = "#" + X.joinJsonPointer(["operations", e.newOperationId, "request"]);
-  return Ps(n, o, s);
+  return Rs(n, o, s);
 }
-function Fs(n, e, r, o) {
+function zs(n, e, r, o) {
   e.authenticationDetails || (e.authenticationDetails = [], e.authenticationDetails.push({}));
   const s = o.schema;
   return e.authenticationDetails[0][s] = r.authenticationDetails[0][s], e;
 }
-function zs(n) {
+function Bs(n) {
   return () => n({
-    actionCreator: Ln,
+    actionCreator: Nn,
     effect: async ({ payload: { oas: e, scanconf: r } }, o) => {
       const [s, a] = Re(r);
       if (a !== void 0) {
@@ -2245,7 +2248,7 @@ function zs(n) {
       }
       const i = Cs(e, s);
       if (i.length > 0) {
-        o.dispatch(Nn({ scanconf: r, oas: e, changes: i })), o.dispatch(T(["scanconf-update"]));
+        o.dispatch(Hn({ scanconf: r, oas: e, changes: i })), o.dispatch(T(["scanconf-update"]));
         return;
       }
       const [c, l] = Fe(Be(e), s);
@@ -2258,9 +2261,9 @@ function zs(n) {
     }
   });
 }
-function Bs(n, e) {
+function Ls(n, e) {
   return () => n({
-    actionCreator: Bn,
+    actionCreator: Ln,
     effect: async ({ payload: { oas: r, scanconf: o } }, s) => {
       const { changes: a, scanconf: i } = s.getState().scanconfUpdate, [c, l] = Re(i);
       if (l !== void 0) {
@@ -2280,7 +2283,7 @@ function Bs(n, e) {
         ), s.dispatch(T(["general-error"]));
         return;
       }
-      const y = Rs(r, c, d, a), [v, g] = Fe(Be(r), y);
+      const y = As(r, c, d, a), [v, g] = Fe(Be(r), y);
       if (g !== void 0) {
         const S = g.map((x) => `${x.message}: ${x.pointer}`).join(" ");
         s.dispatch(A({ message: S })), s.dispatch(T(["general-error"]));
@@ -2300,7 +2303,7 @@ function Re(n) {
     return [void 0, `${e}`];
   }
 }
-const Ls = (n, e) => ({
+const Ns = (n, e) => ({
   runScan: () => n({
     actionCreator: At,
     effect: async (r, o) => {
@@ -2322,7 +2325,7 @@ const Ls = (n, e) => ({
   saveScanconf: () => n({
     matcher: oe(
       Me,
-      Wn,
+      Yn,
       bt,
       Ct,
       St,
@@ -2332,13 +2335,13 @@ const Ls = (n, e) => ({
       L,
       z,
       B,
-      _n,
+      Wn,
       Pt,
       $t,
       qt,
       Dt,
       qe,
-      Un,
+      _n,
       Tt
     ),
     effect: async (r, o) => {
@@ -2353,7 +2356,7 @@ const Ls = (n, e) => ({
     }
   }),
   sendHttpRequest: () => n({
-    actionCreator: Vn,
+    actionCreator: Un,
     effect: async (r, o) => {
       const { id: s, request: a, config: i } = r.payload;
       e.postMessage({ command: "sendHttpRequest", payload: { id: s, request: a, config: i } });
@@ -2377,7 +2380,7 @@ const Ls = (n, e) => ({
   }),
   openLink: Dr(n, e),
   updateScanconf: () => n({
-    actionCreator: Gn,
+    actionCreator: Vn,
     effect: async (r, o) => {
       e.postMessage({
         command: "updateScanconf",
@@ -2386,17 +2389,17 @@ const Ls = (n, e) => ({
     }
   }),
   selectFile: () => n({
-    actionCreator: Hn,
+    actionCreator: Gn,
     effect: async (r, o) => {
       e.postMessage({ command: "selectFile", payload: r.payload });
     }
   })
 });
-function Ns(n) {
+function Hs(n) {
   return () => n({
-    actionCreator: Yn,
+    actionCreator: Jn,
     effect: async (e, r) => {
-      const { oas: o, scanconf: s } = r.getState().scanconfUpdate, [a, i] = Hs(s);
+      const { oas: o, scanconf: s } = r.getState().scanconfUpdate, [a, i] = Gs(s);
       if (i !== void 0) {
         r.dispatch(
           A({ message: `Failed to parse scan configuration: ${i}` })
@@ -2413,17 +2416,17 @@ function Ns(n) {
     }
   });
 }
-function Hs(n) {
+function Gs(n) {
   try {
     return [JSON.parse(n), void 0];
   } catch (e) {
     return [void 0, `${e}`];
   }
 }
-const Jt = en(), D = Jt.startListening;
-function Gs(n, e) {
-  const r = hs(D), o = ls(D), s = ds(D), a = gs(D), i = us(D), c = fs(D), l = ms(D), d = ps(D), f = Ls(D, n);
-  return qr(D, e), tn({
+const Xt = tn(), D = Xt.startListening;
+function Vs(n, e) {
+  const r = hs(D), o = ls(D), s = ds(D), a = gs(D), i = us(D), c = fs(D), l = ms(D), d = ps(D), f = Ns(D, n);
+  return qr(D, e), nn({
     ...f,
     executeTryScenarioListener: r,
     executeMockScenarioListener: o,
@@ -2434,13 +2437,13 @@ function Gs(n, e) {
     executeTryGlobalListener: l,
     executeMockGlobalListener: d,
     executeSendHttpRequestListener: $r(D, n),
-    executeConfirmationAccept: Jn(D),
-    executeShowScanconfOperationListener: zs(D),
-    executeLoadUpdatedScanconfListener: Bs(D, n),
-    executeSkipScanconfUpdate: Ns(D)
-  }), Jt;
+    executeConfirmationAccept: Xn(D),
+    executeShowScanconfOperationListener: Bs(D),
+    executeLoadUpdatedScanconfListener: Ls(D, n),
+    executeSkipScanconfUpdate: Hs(D)
+  }), Xt;
 }
-function Vs({
+function Us({
   operationId: n,
   goToRequest: e
 }) {
@@ -2463,7 +2466,7 @@ function Vs({
       </Menu>
     ),
     */
-    content: /* @__PURE__ */ t.jsxs(Us, { children: [
+    content: /* @__PURE__ */ t.jsxs(_s, { children: [
       /* @__PURE__ */ t.jsx(
         K,
         {
@@ -2480,7 +2483,7 @@ function Vs({
           fuzzing: !0
         }
       ),
-      /* @__PURE__ */ t.jsx(_s, { children: /* @__PURE__ */ t.jsx(
+      /* @__PURE__ */ t.jsx(Ws, { children: /* @__PURE__ */ t.jsx(
         Q,
         {
           operationIds: l,
@@ -2499,19 +2502,19 @@ function Vs({
     }
   );
 }
-const Us = h.div`
+const _s = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 8px;
-`, _s = h.div`
+`, Ws = h.div`
   margin-left: 18px;
 `;
-function Ws({
+function Ys({
   authorizationTests: n,
   onSelect: e
 }) {
-  const s = n, [a, i] = w.useState(s), { isOpen: c, getMenuProps: l, getInputProps: d, getItemProps: f, openMenu: y } = Ht({
+  const s = n, [a, i] = w.useState(s), { isOpen: c, getMenuProps: l, getInputProps: d, getItemProps: f, openMenu: y } = Gt({
     initialInputValue: "",
     items: a,
     onSelectedItemChange: ({ selectedItem: v }) => {
@@ -2524,9 +2527,9 @@ function Ws({
     },
     itemToString: (v) => v || ""
   });
-  return /* @__PURE__ */ t.jsxs(Ys, { children: [
+  return /* @__PURE__ */ t.jsxs(Js, { children: [
     /* @__PURE__ */ t.jsx(
-      Js,
+      Xs,
       {
         autoFocus: !0,
         ...d({
@@ -2540,7 +2543,7 @@ function Ws({
         }
       }
     ),
-    /* @__PURE__ */ t.jsx(Xs, { children: /* @__PURE__ */ t.jsx(Ks, { ...l(), $isOpen: c, children: c && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+    /* @__PURE__ */ t.jsx(Ks, { children: /* @__PURE__ */ t.jsx(Qs, { ...l(), $isOpen: c, children: c && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
       a.map((v, g) => /* @__PURE__ */ t.jsx(
         "li",
         {
@@ -2556,13 +2559,13 @@ function Ws({
     ] }) }) })
   ] });
 }
-const Ys = h.div`
+const Js = h.div`
   padding: 10px;
   gap: 4px;
   cursor: pointer;
   align-items: center;
   border: 1px solid var(${u.border});
-`, Js = h.input`
+`, Xs = h.input`
   background: transparent;
   width: 100%;
   border: none;
@@ -2571,10 +2574,10 @@ const Ys = h.div`
   &::placeholder {
     color: var(${u.inputPlaceholderForeground});
   }
-`, Xs = h.div`
+`, Ks = h.div`
   position: relative;
   z-index: 1;
-`, Ks = h.ul`
+`, Qs = h.ul`
   ${({ $isOpen: n }) => n && `border: 1px solid var(${u.dropdownBorder});`}
   background-color: var(${u.dropdownBackground});
   color: var(${u.dropdownForeground});
@@ -2591,16 +2594,16 @@ const Ys = h.div`
     background-color: var(${u.listHoverBackground});
   }
 `;
-function Qs({
+function Zs({
   authorizationTests: n,
   auth: e,
   existing: r,
   credentials: o,
   onSelect: s
 }) {
-  const [a, i] = w.useState(!1), l = Object.entries(n).filter(([d, f]) => ei(o, e, f.source[0])).map(([d]) => d).filter((d) => !r.includes(d));
+  const [a, i] = w.useState(!1), l = Object.entries(n).filter(([d, f]) => ti(o, e, f.source[0])).map(([d]) => d).filter((d) => !r.includes(d));
   return a ? /* @__PURE__ */ t.jsx(
-    Ws,
+    Ys,
     {
       onSelect: (d) => {
         d !== void 0 && s(d), i(!1);
@@ -2608,7 +2611,7 @@ function Qs({
       authorizationTests: l
     }
   ) : /* @__PURE__ */ t.jsxs(
-    Zs,
+    ei,
     {
       onClick: (d) => {
         d.stopPropagation(), d.preventDefault(), i(!0);
@@ -2620,7 +2623,7 @@ function Qs({
     }
   );
 }
-const Zs = h.div`
+const ei = h.div`
   display: flex;
   padding: 8px 12px;
   gap: 4px;
@@ -2633,17 +2636,17 @@ const Zs = h.div`
     fill: var(${u.linkForeground});
   }
 `;
-function ei(n, e, r) {
+function ti(n, e, r) {
   return e !== void 0 && e.some((o) => {
     const s = n[o]?.default;
     return r === o || r === `${o}/${s}`;
   });
 }
-function ti({
+function ni({
   authorizationTests: n,
   removeTest: e
 }) {
-  return /* @__PURE__ */ t.jsx(ni, { children: n.map((r, o) => /* @__PURE__ */ t.jsxs(ri, { children: [
+  return /* @__PURE__ */ t.jsx(ri, { children: n.map((r, o) => /* @__PURE__ */ t.jsxs(oi, { children: [
     /* @__PURE__ */ t.jsx("div", { children: r }),
     /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsxs(F, { onClick: (s) => s.stopPropagation(), onSelect: () => e(r), children: [
       /* @__PURE__ */ t.jsx(V, {}),
@@ -2651,11 +2654,11 @@ function ti({
     ] }) })
   ] }, o)) });
 }
-const ni = h.div`
+const ri = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, ri = h.div`
+`, oi = h.div`
   border: 1px solid var(${u.border});
   background-color: var(${u.background});
   padding: 8px;
@@ -2672,7 +2675,7 @@ const ni = h.div`
     }
   }
 `;
-function oi({ operationId: n }) {
+function si({ operationId: n }) {
   const e = q(), { oas: r, playbook: o, servers: s } = I((j) => j.scanconf), a = I((j) => j.config.data), { mockResult: i, tryResult: c } = I((j) => j.operations), l = I((j) => j.env.data), d = (j) => e(z(j)), f = (j, $) => e(B({ location: j, reference: $ })), y = (j, $) => e(L({ location: j, to: $ })), v = (j, $) => {
     e(
       N({
@@ -2691,7 +2694,7 @@ function oi({ operationId: n }) {
       message: `Unable to find operation with operationId "${n}" in scan configuration`,
       children: /* @__PURE__ */ t.jsx("p", { children: "Verify if the OpenAPI file contains operations that were added after the scan configuration was created. If needed, consider deleting and recreating the scan configuration." })
     }
-  ) : /* @__PURE__ */ t.jsxs(si, { children: [
+  ) : /* @__PURE__ */ t.jsxs(ii, { children: [
     /* @__PURE__ */ t.jsx(
       de,
       {
@@ -2721,20 +2724,20 @@ function oi({ operationId: n }) {
                 SCAN42C_HOST: $,
                 ...m
               },
-              scanconf: Xn(ve, n)
+              scanconf: Kn(ve, n)
             })
           );
         }
       }
     ),
     /* @__PURE__ */ t.jsx(
-      ii,
+      ai,
       {
         onClick: (j) => {
           j.stopPropagation(), j.preventDefault(), g({ type: "operation", id: n });
         },
         children: /* @__PURE__ */ t.jsx(
-          Kn,
+          Qn,
           {
             operationId: n,
             path: p.request.request.path,
@@ -2751,7 +2754,7 @@ function oi({ operationId: n }) {
         count: p.authorizationTests.length,
         children: /* @__PURE__ */ t.jsxs(ke, { children: [
           /* @__PURE__ */ t.jsx(
-            ti,
+            ni,
             {
               authorizationTests: p.authorizationTests,
               removeTest: (j) => {
@@ -2766,7 +2769,7 @@ function oi({ operationId: n }) {
             }
           ),
           /* @__PURE__ */ t.jsx(
-            Qs,
+            Zs,
             {
               authorizationTests: o.authorizationTests,
               existing: p.authorizationTests,
@@ -2810,7 +2813,7 @@ function oi({ operationId: n }) {
         }
       )
     ] }) }),
-    /* @__PURE__ */ t.jsx(R, { title: "Scenarios", count: p.scenarios?.length, children: /* @__PURE__ */ t.jsx(Vs, { operationId: n, goToRequest: g }) }),
+    /* @__PURE__ */ t.jsx(R, { title: "Scenarios", count: p.scenarios?.length, children: /* @__PURE__ */ t.jsx(Us, { operationId: n, goToRequest: g }) }),
     /* @__PURE__ */ t.jsx(R, { defaultOpen: !1, title: "After", count: p.after?.length, children: /* @__PURE__ */ t.jsxs(ke, { children: [
       /* @__PURE__ */ t.jsx(
         K,
@@ -2841,20 +2844,20 @@ function oi({ operationId: n }) {
     c.length > 0 && /* @__PURE__ */ t.jsx(R, { title: "Result", children: /* @__PURE__ */ t.jsx(ue, { result: c, collapsible: !0 }) })
   ] });
 }
-const si = h.div`
+const ii = h.div`
   padding: 8px;
 `, ke = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, ii = h.div`
+`, ai = h.div`
   margin-bottom: 16px;
   margin-top: 16px;
   padding: 8px;
   border: 1px solid var(${u.border});
   border-radius: 2px;
   cursor: pointer;
-`, Xt = h.button`
+`, Kt = h.button`
   cursor: pointer;
   background-color: var(${u.buttonSecondaryBackground});
   color: var(${u.buttonSecondaryForeground});
@@ -2865,7 +2868,7 @@ const si = h.div`
     background-color: var(${u.buttonSecondaryHoverBackground});
   }
 `;
-function ai({
+function ci({
   onAddScenario: n,
   operations: e
 }) {
@@ -2882,12 +2885,12 @@ function ai({
       children: [
         /* @__PURE__ */ t.jsx(lt, { asChild: !0, children: /* @__PURE__ */ t.jsx(re, { style: { width: "100%" }, children: "New scenario" }) }),
         /* @__PURE__ */ t.jsxs(dt, { children: [
-          /* @__PURE__ */ t.jsx(di, {}),
-          /* @__PURE__ */ t.jsx(ui, { children: /* @__PURE__ */ t.jsxs(ci, { children: [
+          /* @__PURE__ */ t.jsx(ui, {}),
+          /* @__PURE__ */ t.jsx(pi, { children: /* @__PURE__ */ t.jsxs(li, { children: [
             /* @__PURE__ */ t.jsx(ut, { children: "New Scenario" }),
             /* @__PURE__ */ t.jsx(pt, { children: "Add happy path scenario for an operation" }),
-            /* @__PURE__ */ t.jsx(li, { children: /* @__PURE__ */ t.jsx(
-              Qn,
+            /* @__PURE__ */ t.jsx(di, { children: /* @__PURE__ */ t.jsx(
+              Zn,
               {
                 options: r,
                 placeholder: "Select operation",
@@ -2906,7 +2909,7 @@ function ai({
                   children: "Add"
                 }
               ),
-              /* @__PURE__ */ t.jsx(ht, { asChild: !0, children: /* @__PURE__ */ t.jsx(Xt, { children: "Cancel" }) })
+              /* @__PURE__ */ t.jsx(ht, { asChild: !0, children: /* @__PURE__ */ t.jsx(Kt, { children: "Cancel" }) })
             ] })
           ] }) })
         ] })
@@ -2914,17 +2917,17 @@ function ai({
     }
   );
 }
-const ci = h.div`
+const li = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, li = h.div`
+`, di = h.div`
   border: 1px solid var(${u.border});
-`, di = h(ft)`
+`, ui = h(ft)`
   background-color: var(${u.computedTwo});
   position: fixed;
   inset: 0;
-`, ui = h(gt)`
+`, pi = h(gt)`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -2939,8 +2942,8 @@ const ci = h.div`
   border-radius: 6px;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
 `;
-function pi() {
-  const n = q(), e = I((c) => c.operations.operationId), r = (c) => n(De(c)), o = (c) => n(Zn(c)), {
+function hi() {
+  const n = q(), e = I((c) => c.operations.operationId), r = (c) => n(De(c)), o = (c) => n(er(c)), {
     playbook: { operations: s }
   } = I((c) => c.scanconf), i = [
     {
@@ -2954,7 +2957,7 @@ function pi() {
           {
             onClick: (d) => d.stopPropagation(),
             onSelect: () => n(
-              nn({
+              rn({
                 title: "Delete scenario",
                 message: `Are you sure you want to delete scenario for operation "${c}"?`,
                 actions: [
@@ -2978,14 +2981,14 @@ function pi() {
       selected: e ? { sectionId: "operations", itemId: e } : void 0,
       sections: i,
       onSelected: (c) => r(c.itemId),
-      render: (c) => /* @__PURE__ */ t.jsx(oi, { operationId: c.itemId }, c.itemId),
+      render: (c) => /* @__PURE__ */ t.jsx(si, { operationId: c.itemId }, c.itemId),
       renderEmpty: () => /* @__PURE__ */ t.jsxs("div", { children: [
         /* @__PURE__ */ t.jsx("h2", { children: "Scenarios" }),
         /* @__PURE__ */ t.jsx("p", { children: "Scan scenarios let you test operations that involve complex request flows" }),
         /* @__PURE__ */ t.jsx("p", { children: "Scenarios let you set up exact request and response sequences, ensuring resources are created or deleted as needed for testing specific API operations. Additionally, you can extract values from responses and pass them between subsequent operations." })
       ] }),
       renderButtons: () => /* @__PURE__ */ t.jsx(
-        ai,
+        ci,
         {
           operations: s,
           onAddScenario: (c) => {
@@ -2996,7 +2999,7 @@ function pi() {
     }
   );
 }
-function hi(n) {
+function fi(n) {
   return n ? n.label : "";
 }
 function tt({
@@ -3005,14 +3008,14 @@ function tt({
   placeholder: r,
   label: o
 }) {
-  const { field: s } = pr({
+  const { field: s } = hr({
     name: n,
     rules: { required: !0 }
-  }), a = gi(e, s.value), i = (c) => {
+  }), a = mi(e, s.value), i = (c) => {
     s.onChange(c?.value);
   };
   return /* @__PURE__ */ t.jsx(
-    fi,
+    gi,
     {
       options: e,
       placeholder: r,
@@ -3022,7 +3025,7 @@ function tt({
     }
   );
 }
-function fi({
+function gi({
   options: n,
   placeholder: e,
   label: r,
@@ -3031,31 +3034,31 @@ function fi({
 }) {
   const a = n.filter((f) => f.value === o)?.[0], { isOpen: i, getToggleButtonProps: c, getMenuProps: l, getItemProps: d } = Tr({
     items: n,
-    itemToString: hi,
+    itemToString: fi,
     selectedItem: a || null,
     onSelectedItemChange: ({ selectedItem: f }) => {
       s(f);
     }
   });
-  return /* @__PURE__ */ t.jsxs(mi, { children: [
-    /* @__PURE__ */ t.jsxs(xi, { children: [
+  return /* @__PURE__ */ t.jsxs(xi, { children: [
+    /* @__PURE__ */ t.jsxs(vi, { children: [
       r !== void 0 && /* @__PURE__ */ t.jsx("div", { children: r }),
-      /* @__PURE__ */ t.jsxs(vi, { ...c(), children: [
+      /* @__PURE__ */ t.jsxs(bi, { ...c(), children: [
         /* @__PURE__ */ t.jsx("span", { children: a ? a.label : e ?? "" }),
         /* @__PURE__ */ t.jsx(Er, {})
       ] })
     ] }),
-    /* @__PURE__ */ t.jsx(bi, { ...l(), $isOpen: i, children: i && n.map((f, y) => /* @__PURE__ */ t.jsx("li", { ...d({ item: f, index: y }), children: /* @__PURE__ */ t.jsx("span", { children: f.label }) }, `${f.value}${y}`)) })
+    /* @__PURE__ */ t.jsx(yi, { ...l(), $isOpen: i, children: i && n.map((f, y) => /* @__PURE__ */ t.jsx("li", { ...d({ item: f, index: y }), children: /* @__PURE__ */ t.jsx("span", { children: f.label }) }, `${f.value}${y}`)) })
   ] });
 }
-function gi(n, e) {
+function mi(n, e) {
   return n.filter((r) => r.value === e)?.[0];
 }
-const mi = h.div`
+const xi = h.div`
   display: flex;
   flex-direction: column;
   position: relative;
-`, xi = h.div`
+`, vi = h.div`
   height: 40px;
   background-color: var(${u.inputBackground});
   border-radius: 2px;
@@ -3074,7 +3077,7 @@ const mi = h.div`
     line-height: 16px;
     color: var(${u.inputPlaceholderForeground});
   }
-`, vi = h.div`
+`, bi = h.div`
   display: flex;
   color: var(${u.foreground});
   align-items: center;
@@ -3089,7 +3092,7 @@ const mi = h.div`
   > svg {
     fill: var(${u.foreground});
   }
-`, bi = h.ul`
+`, yi = h.ul`
   max-height: 350px;
   overflow-y: auto;
   z-index: 1;
@@ -3114,10 +3117,10 @@ const mi = h.div`
     background-color: var(${u.listHoverBackground});
   }
 `;
-function yi({
+function ji({
   onAddExternalRequest: n
 }) {
-  const e = hr({
+  const e = fr({
     defaultValues: {
       id: "",
       method: "post",
@@ -3136,11 +3139,11 @@ function yi({
         s(i), i && e.reset();
       },
       children: [
-        /* @__PURE__ */ t.jsx(lt, { asChild: !0, children: /* @__PURE__ */ t.jsx(Ci, { children: /* @__PURE__ */ t.jsx(se, {}) }) }),
+        /* @__PURE__ */ t.jsx(lt, { asChild: !0, children: /* @__PURE__ */ t.jsx(Ii, { children: /* @__PURE__ */ t.jsx(se, {}) }) }),
         /* @__PURE__ */ t.jsxs(dt, { children: [
-          /* @__PURE__ */ t.jsx(Si, {}),
-          /* @__PURE__ */ t.jsx(wi, { children: /* @__PURE__ */ t.jsx(fr, { ...e, children: /* @__PURE__ */ t.jsxs(
-            ji,
+          /* @__PURE__ */ t.jsx(wi, {}),
+          /* @__PURE__ */ t.jsx(Ci, { children: /* @__PURE__ */ t.jsx(gr, { ...e, children: /* @__PURE__ */ t.jsxs(
+            Si,
             {
               onSubmit: (i) => {
                 e.handleSubmit(a)(i), i.preventDefault(), s(!1);
@@ -3164,7 +3167,7 @@ function yi({
                 ),
                 /* @__PURE__ */ t.jsxs("div", { style: { display: "flex", marginTop: 25, justifyContent: "flex-end", gap: 4 }, children: [
                   /* @__PURE__ */ t.jsx(re, { type: "submit", children: "Add" }),
-                  /* @__PURE__ */ t.jsx(ht, { asChild: !0, children: /* @__PURE__ */ t.jsx(Xt, { children: "Cancel" }) })
+                  /* @__PURE__ */ t.jsx(ht, { asChild: !0, children: /* @__PURE__ */ t.jsx(Kt, { children: "Cancel" }) })
                 ] })
               ]
             }
@@ -3174,16 +3177,16 @@ function yi({
     }
   );
 }
-const ji = h.form`
+const Si = h.form`
   margin: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, Si = h(ft)`
+`, wi = h(ft)`
   background-color: var(${u.computedTwo});
   position: fixed;
   inset: 0;
-`, wi = h(gt)`
+`, Ci = h(gt)`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -3197,7 +3200,7 @@ const ji = h.form`
   color: var(${u.foreground});
   border-radius: 6px;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-`, Ci = h.button`
+`, Ii = h.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -3208,14 +3211,14 @@ const ji = h.form`
     }
   }
 `;
-function Ii({ requestRef: n }) {
+function ki({ requestRef: n }) {
   const { playbook: e } = I((o) => o.scanconf), r = n.type === "operation" ? e.operations[n.id].request : e.requests?.[n.id];
   return r === void 0 ? /* @__PURE__ */ t.jsxs("div", { children: [
     "Unable to locate the request, failed to resolve: ",
     JSON.stringify(n)
-  ] }) : r.operationId === void 0 ? /* @__PURE__ */ t.jsx(er, { requestRef: n, request: r }) : /* @__PURE__ */ t.jsx(tr, { requestRef: n, request: r });
+  ] }) : r.operationId === void 0 ? /* @__PURE__ */ t.jsx(tr, { requestRef: n, request: r }) : /* @__PURE__ */ t.jsx(nr, { requestRef: n, request: r });
 }
-function ki() {
+function Oi() {
   const n = q(), { oas: e, playbook: r, servers: o } = I((b) => b.scanconf), s = I((b) => b.requests.ref), a = I((b) => b.config.data), i = I((b) => b.env.data), c = I((b) => b.prefs.scanServer), l = Ft(r, i, o), d = l.includes(c) ? c : l[0], f = ({ sectionId: b, itemId: m }) => {
     n(G({ type: b === "operation" ? "operation" : "request", id: m }));
   }, y = (b) => {
@@ -3247,13 +3250,13 @@ function ki() {
       title: "External Requests",
       items: S,
       menu: /* @__PURE__ */ t.jsx(
-        yi,
+        ji,
         {
           onAddExternalRequest: (b, m, O, j) => {
             n(
               Me({
                 ref: { id: b, type: "request" },
-                stage: Di(m, O, j)
+                stage: qi(m, O, j)
               })
             ), n(G({ type: "request", id: b }));
           }
@@ -3291,7 +3294,7 @@ function ki() {
       sections: p,
       onSelected: f,
       renderButtons: () => /* @__PURE__ */ t.jsx(
-        rn,
+        on,
         {
           style: { width: "100%" },
           onClick: (b) => {
@@ -3302,7 +3305,7 @@ function ki() {
       ),
       hideEmptySections: !0,
       render: (b) => /* @__PURE__ */ t.jsx(
-        Ii,
+        ki,
         {
           requestRef: { type: b.sectionId, id: b.itemId }
         },
@@ -3311,25 +3314,25 @@ function ki() {
     }
   );
 }
-function Kt(n) {
+function Qt(n) {
   return ["post", "put", "patch"].includes(n);
 }
-function Oi(n, e) {
-  if (Kt(n))
+function Ti(n, e) {
+  if (Qt(n))
     return {
       mediaType: e === "urlencoded" ? "application/x-www-form-urlencoded" : "application/json",
       value: {}
     };
 }
-function Ti(n, e) {
-  return Kt(n) ? [
+function Di(n, e) {
+  return Qt(n) ? [
     {
       key: "Content-Type",
       value: e === "urlencoded" ? "application/x-www-form-urlencoded" : "application/json"
     }
   ] : [];
 }
-function Di(n, e, r) {
+function qi(n, e, r) {
   return {
     operationId: void 0,
     defaultResponse: "200",
@@ -3337,12 +3340,12 @@ function Di(n, e, r) {
       url: e,
       method: n,
       parameters: {
-        header: Ti(n, r),
+        header: Di(n, r),
         path: [],
         query: [],
         cookie: []
       },
-      body: Oi(n, r)
+      body: Ti(n, r)
     },
     responses: {
       200: {
@@ -3354,7 +3357,7 @@ function Di(n, e, r) {
     }
   };
 }
-function qi() {
+function $i() {
   const n = q(), { oas: e, playbook: r, servers: o } = I((x) => x.scanconf), { selected: s } = I((x) => x.global), { tryResult: a, mockResult: i } = I((x) => x.global), c = (x) => n(z(x)), l = (x, p) => n(B({ location: x, reference: p })), d = (x, p) => n(L({ location: x, to: p })), f = (x, p) => {
     n(
       N({
@@ -3465,8 +3468,8 @@ const nt = h.div`
   gap: 8px;
   padding: 8px;
 `;
-function Qt({ credentials: n }) {
-  const e = $i(n).map(({ name: r }) => ({ label: r, value: r }));
+function Zt({ credentials: n }) {
+  const e = Pi(n).map(({ name: r }) => ({ label: r, value: r }));
   return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
     /* @__PURE__ */ t.jsx(
       Bt,
@@ -3489,12 +3492,12 @@ function rt({
   options: r
 }) {
   const { fields: o, append: s, remove: a } = Nt({ name: e });
-  return /* @__PURE__ */ t.jsxs(Pi, { children: [
-    /* @__PURE__ */ t.jsx(Ri, { children: n }),
-    o.map((i, c) => /* @__PURE__ */ t.jsxs(Ai, { children: [
+  return /* @__PURE__ */ t.jsxs(Ri, { children: [
+    /* @__PURE__ */ t.jsx(Ai, { children: n }),
+    o.map((i, c) => /* @__PURE__ */ t.jsxs(Ei, { children: [
       /* @__PURE__ */ t.jsx(Bt, { name: `${e}.${c}`, options: r }),
       /* @__PURE__ */ t.jsx(
-        Ei,
+        Mi,
         {
           onClick: (l) => {
             l.preventDefault(), l.stopPropagation(), a(c);
@@ -3504,7 +3507,7 @@ function rt({
       )
     ] }, i.id)),
     /* @__PURE__ */ t.jsxs(
-      Mi,
+      Fi,
       {
         onClick: (i) => {
           i.preventDefault(), i.stopPropagation(), s("");
@@ -3518,26 +3521,26 @@ function rt({
     )
   ] });
 }
-function $i(n) {
+function Pi(n) {
   return Object.entries(n).map(([e, r]) => Object.entries(r.methods || {}).map(([o, s]) => ({ name: `${e}/${o}`, credential: r }))).flat();
 }
-const Pi = h.div`
+const Ri = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, Ri = h.div`
+`, Ai = h.div`
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
   color: var(${u.inputPlaceholderForeground});
-`, Ai = h.div`
+`, Ei = h.div`
   display: flex;
   align-items: center;
   gap: 8px;
   > :first-child {
     flex: 1;
   }
-`, Ei = h.button`
+`, Mi = h.button`
   background: none;
   border: none;
   padding: 0;
@@ -3549,7 +3552,7 @@ const Pi = h.div`
   > svg {
     fill: var(${u.foreground});
   }
-`, Mi = h.div`
+`, Fi = h.div`
   display: flex;
   padding: 8px 12px;
   gap: 4px;
@@ -3561,14 +3564,14 @@ const Pi = h.div`
     fill: var(${u.linkForeground});
   }
 `;
-function Fi({
+function zi({
   selected: n,
   credentials: e
 }) {
   const r = q(), {
     playbook: { authorizationTests: o }
   } = I((i) => i.scanconf), s = (i, c) => r($t({ id: i, test: c })), a = o[n.itemId];
-  return /* @__PURE__ */ t.jsxs(zi, { children: [
+  return /* @__PURE__ */ t.jsxs(Bi, { children: [
     /* @__PURE__ */ t.jsx("h4", { children: n.itemId }),
     /* @__PURE__ */ t.jsx(
       ce,
@@ -3577,18 +3580,18 @@ function Fi({
         wrapFormData: (i) => i,
         unwrapFormData: (i) => i,
         saveData: (i) => s(n.itemId, i),
-        children: /* @__PURE__ */ t.jsx(Qt, { credentials: e })
+        children: /* @__PURE__ */ t.jsx(Zt, { credentials: e })
       }
     )
   ] });
 }
-const zi = h.div`
+const Bi = h.div`
   padding: 8px;
   gap: 8px;
   display: flex;
   flex-direction: column;
 `;
-function Bi({
+function Li({
   onAddTest: n,
   existing: e,
   credentials: r
@@ -3618,20 +3621,20 @@ function Bi({
       schema: s,
       onSubmit: a,
       trigger: /* @__PURE__ */ t.jsx(re, { style: { width: "100%" }, children: "New authorization test" }),
-      children: /* @__PURE__ */ t.jsxs(Li, { children: [
+      children: /* @__PURE__ */ t.jsxs(Ni, { children: [
         /* @__PURE__ */ t.jsx(H, { label: "Test ID", name: "id" }),
-        /* @__PURE__ */ t.jsx(Qt, { credentials: r })
+        /* @__PURE__ */ t.jsx(Zt, { credentials: r })
       ] })
     }
   );
 }
-const Li = h.div`
+const Ni = h.div`
   padding: 8px;
   gap: 8px;
   display: flex;
   flex-direction: column;
 `;
-function Ni() {
+function Hi() {
   const n = q(), {
     playbook: { authorizationTests: e, authenticationDetails: r },
     selectedAuthorizationTest: o
@@ -3663,14 +3666,14 @@ function Ni() {
     {
       title: "tests",
       sections: i,
-      render: (c) => /* @__PURE__ */ t.jsx(Fi, { selected: c, credentials: r[0] }),
+      render: (c) => /* @__PURE__ */ t.jsx(zi, { selected: c, credentials: r[0] }),
       renderEmpty: () => /* @__PURE__ */ t.jsxs("div", { children: [
         /* @__PURE__ */ t.jsx("h2", { children: "Authorization Tests" }),
         /* @__PURE__ */ t.jsx("p", { children: "BOLA and BFLA tests" }),
         /* @__PURE__ */ t.jsx("p", { children: "Define advanced security tests, such as testing how your API implementation handles BOLA/IDOR (Broken Object Level Authorization, also known as Insecure Direct Object Reference) attack or BFLA (Broken Function Level Authorization)" })
       ] }),
       renderButtons: () => /* @__PURE__ */ t.jsx(
-        Bi,
+        Li,
         {
           credentials: r[0],
           existing: Object.keys(e),
@@ -3696,7 +3699,7 @@ function ot(n) {
     ul: "ul",
     ...n.components
   }, { Link: r } = e;
-  return r || Gi("Link"), t.jsxs(t.Fragment, {
+  return r || Vi("Link"), t.jsxs(t.Fragment, {
     children: [t.jsx(e.h1, {
       children: "What is API Conformance Scan"
     }), `
@@ -4259,7 +4262,7 @@ scan configuration to reflect the modifications made to the OpenAPI file.`
     })]
   });
 }
-function Hi(n = {}) {
+function Gi(n = {}) {
   const { wrapper: e } = n.components || {};
   return e ? t.jsx(e, {
     ...n,
@@ -4268,14 +4271,14 @@ function Hi(n = {}) {
     })
   }) : ot(n);
 }
-function Gi(n, e) {
+function Vi(n, e) {
   throw new Error("Expected component `" + n + "` to be defined: you likely forgot to import, pass, or provide it.");
 }
-function Vi() {
-  const n = w.useRef(null), e = Wi(n);
+function Ui() {
+  const n = w.useRef(null), e = Yi(n);
   return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
-    /* @__PURE__ */ t.jsx(Yi, { children: e.map((r, o) => /* @__PURE__ */ t.jsx(
-      Ji,
+    /* @__PURE__ */ t.jsx(Ji, { children: e.map((r, o) => /* @__PURE__ */ t.jsx(
+      Xi,
       {
         $level: r.level,
         onClick: (s) => {
@@ -4285,23 +4288,23 @@ function Vi() {
       },
       o
     )) }),
-    /* @__PURE__ */ t.jsx(Xi, { ref: n, $expanded: !0, children: /* @__PURE__ */ t.jsx(Hi, { components: { Link: Ui } }) })
+    /* @__PURE__ */ t.jsx(Ki, { ref: n, $expanded: !0, children: /* @__PURE__ */ t.jsx(Gi, { components: { Link: _i } }) })
   ] });
 }
-function Ui({ href: n, children: e }) {
+function _i({ href: n, children: e }) {
   const r = q();
   return /* @__PURE__ */ t.jsx(
     "a",
     {
       onClick: (o) => {
-        o.preventDefault(), o.stopPropagation(), r(on(n));
+        o.preventDefault(), o.stopPropagation(), r(sn(n));
       },
       href: n,
       children: e
     }
   );
 }
-function _i(n) {
+function Wi(n) {
   switch (n) {
     case "H1":
       return 1;
@@ -4311,20 +4314,20 @@ function _i(n) {
       return 3;
   }
 }
-const Wi = (n) => {
+const Yi = (n) => {
   const [e, r] = w.useState([]);
   return w.useEffect(() => {
     const o = [];
     if (n.current !== null) {
       for (const s of n.current.querySelectorAll("h1, h2, h3"))
         if (s.textContent) {
-          const a = s.textContent, i = _i(s.tagName);
+          const a = s.textContent, i = Wi(s.tagName);
           o.push({ title: a, element: s, level: i });
         }
     }
     r(o);
   }, [n]), e;
-}, Yi = h.div`
+}, Ji = h.div`
   position: absolute;
   left: 0;
   top: 0;
@@ -4335,7 +4338,7 @@ const Wi = (n) => {
   display: flex;
   flex-direction: column;
   background-color: var(${u.background});
-`, Ji = h.div`
+`, Xi = h.div`
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -4360,7 +4363,7 @@ const Wi = (n) => {
     font-size: 12px;
     padding: 4px 32px;
   `}
-`, Xi = h.div`
+`, Ki = h.div`
   position: absolute;
   ${({ $expanded: n }) => n ? "left: 320px;" : "left: 40px;"}
   top: 0;
@@ -4384,14 +4387,14 @@ const Wi = (n) => {
   {
     id: "general-error",
     title: "An error has occurred",
-    element: /* @__PURE__ */ t.jsx(mr, {}),
+    element: /* @__PURE__ */ t.jsx(xr, {}),
     navigation: !1,
     when: A
   },
   {
     id: "scanconf-update",
     title: "Scan configuration is outdated",
-    element: /* @__PURE__ */ t.jsx(ir, {}),
+    element: /* @__PURE__ */ t.jsx(ar, {}),
     navigation: !1
   },
   {
@@ -4402,17 +4405,17 @@ const Wi = (n) => {
       {
         id: "requests",
         title: "Operations",
-        element: /* @__PURE__ */ t.jsx(ki, {})
+        element: /* @__PURE__ */ t.jsx(Oi, {})
       },
       {
         id: "operations",
         title: "Scenarios",
-        element: /* @__PURE__ */ t.jsx(pi, {})
+        element: /* @__PURE__ */ t.jsx(hi, {})
       },
       {
         id: "global",
         title: "Global blocks",
-        element: /* @__PURE__ */ t.jsx(qi, {})
+        element: /* @__PURE__ */ t.jsx($i, {})
       },
       {
         id: "auth",
@@ -4422,30 +4425,30 @@ const Wi = (n) => {
       {
         id: "authorizationTests",
         title: "Tests",
-        element: /* @__PURE__ */ t.jsx(Ni, {})
+        element: /* @__PURE__ */ t.jsx(Hi, {})
       },
       {
         id: "environments",
-        title: /* @__PURE__ */ t.jsx(cr, {}),
-        element: /* @__PURE__ */ t.jsx(ar, {})
+        title: /* @__PURE__ */ t.jsx(lr, {}),
+        element: /* @__PURE__ */ t.jsx(cr, {})
       },
       {
         id: "settings",
         title: "Settings",
-        element: /* @__PURE__ */ t.jsx(lr, {})
+        element: /* @__PURE__ */ t.jsx(dr, {})
       },
       {
         id: "help",
         title: "Help",
-        element: /* @__PURE__ */ t.jsx(Vi, {})
+        element: /* @__PURE__ */ t.jsx(Ui, {})
       }
     ]
   }
 ];
-function Ki(n, e) {
-  const r = nr(Gs(n, st), e);
-  sn.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ t.jsx(at.StrictMode, { children: /* @__PURE__ */ t.jsx(an, { store: r, children: /* @__PURE__ */ t.jsx(cn.Provider, { value: st, children: /* @__PURE__ */ t.jsx(rr, { backend: or, children: /* @__PURE__ */ t.jsx(ln, {}) }) }) }) })
-  ), window.addEventListener("message", dn(r, sr));
+function Qi(n, e) {
+  const r = rr(Vs(n, st), e);
+  an.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ t.jsx(at.StrictMode, { children: /* @__PURE__ */ t.jsx(cn, { store: r, children: /* @__PURE__ */ t.jsx(ln.Provider, { value: st, children: /* @__PURE__ */ t.jsx(or, { backend: sr, children: /* @__PURE__ */ t.jsx(dn, {}) }) }) }) })
+  ), window.addEventListener("message", un(r, ir));
 }
-window.renderWebView = Ki;
+window.renderWebView = Qi;
