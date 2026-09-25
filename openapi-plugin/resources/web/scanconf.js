@@ -1,30 +1,31 @@
-import { j as t, v as en, f as w, e as h, T as u, S as it, R as at, w as T, i as oe, d as tn, s as nn, x as ct, y as lt, z as dt, A as ut, D as pt, C as ht, O as ft, E as gt, F as rn, B as on, G as sn, g as an, P as cn, h as ln, N as dn, k as un } from "./TriangleExclamation.BLKAXJ8l.js";
-import { i as E, D as pn, p as Ge, u as mt, w as xt, S as hn, a as fn, b as gn, c as mn, d as xn, E as vn, R as bn, e as se, F as Ae, f as q, g as I, s as Oe, r as z, h as B, m as L, j as N, k as G, T as de, l as vt, C as R, n as ue, o as bt, q as pe, t as yt, v as jt, Z as W, B as re, x as Ee, y as St, M as be, z as wt, A as le, G as Ct, H as ge, I as It, J as Te, K as yn, L as jn, N as ye, O as Sn, P as wn, Q as Cn, U as Me, V as In, W as kt, X as De, Y as Ot, _ as kn, $ as On, a0 as Tn, a1 as Dn, a2 as qn, a3 as $n, a4 as Pn, a5 as Rn, a6 as An, a7 as En, a8 as Mn, a9 as Fn, aa as zn, ab as Bn, ac as Ln, ad as Fe, ae as ze, af as Nn, ag as Hn, ah as Be, ai as Gn, aj as Vn, ak as Un, al as Le, am as Tt, an as _n, ao as qe, ap as Dt, aq as qt, ar as $t, as as Pt, at as Wn, au as Yn, av as Rt, aw as At, ax as Jn, ay as Xn, az as ne, aA as Et, aB as Mt, aC as Ft, aD as zt, aE as Kn, aF as Qn, aG as Zn, aH as er, aI as tr, aJ as nr, aK as Bt, aL as Ve, aM as rr, aN as or, aO as sr, aP as ir, aQ as ar, aR as cr, aS as lr, aT as dr } from "./UpdatePrompt.DQlMOewA.js";
-import { a as ie } from "./SearchSidebar.CtwbvK_x.js";
-import { o as ae, d as ur, s as C, a as Ue, l as _e, F as ce, c as We } from "./schemas.BH6uGBRD.js";
-import { u as Lt, b as Nt, c as pr, a as hr, d as fr, F as gr } from "./index.esm.MIM2ge_D.js";
+import { j as t, v as rn, f as w, e as h, T as u, S as at, R as ct, w as T, i as se, d as on, s as sn, x as lt, y as dt, z as ut, A as pt, D as ht, C as ft, O as gt, E as mt, F as an, B as cn, G as ln, g as dn, P as un, h as pn, N as hn, k as fn } from "./TriangleExclamation.BLKAXJ8l.js";
+import { i as E, D as gn, p as Ve, u as xt, w as vt, S as mn, a as xn, b as vn, c as bn, E as yn, R as jn, d as ie, F as Ee, e as $, f as I, s as Te, r as z, g as B, m as L, h as N, j as G, T as ue, k as bt, C as R, l as pe, n as yt, o as he, q as jt, t as St, Z as W, B as oe, v as Me, x as wt, M as ye, y as Ct, z as de, A as It, G as me, H as kt, I as De, J as Sn, K as wn, L as je, N as Cn, O as In, P as kn, Q as Fe, U as On, V as Ot, W as $e, X as Tt, Y as Tn, _ as Dn, $ as $n, a0 as qn, a1 as Pn, a2 as Rn, a3 as An, a4 as En, a5 as Mn, a6 as Fn, a7 as zn, a8 as Bn, a9 as Ln, aa as Nn, ab as Hn, ac as ze, ad as Be, ae as Gn, af as Vn, ag as Le, ah as Un, ai as _n, aj as Wn, ak as Ne, al as Dt, am as Yn, an as qe, ao as $t, ap as qt, aq as Pt, ar as Rt, as as Jn, at as Xn, au as At, av as Et, aw as Kn, ax as Qn, ay as ne, az as Mt, aA as Ft, aB as zt, aC as Bt, aD as Zn, aE as er, aF as tr, aG as nr, aH as rr, aI as or, aJ as Lt, aK as Ue, aL as sr, aM as ir, aN as ar, aO as cr, aP as lr, aQ as dr, aR as ur, aS as pr } from "./UpdatePrompt.KUh2HlGB.js";
+import { a as ae } from "./SearchSidebar.CtwbvK_x.js";
+import { o as ce, d as hr, s as C, a as _e, l as We, F as le, c as Ye } from "./schemas.BH6uGBRD.js";
+import { u as Nt, a as Ht, b as Gt, c as fr, d as gr, F as mr } from "./index.esm.MIM2ge_D.js";
 import { I as H } from "./Input.BQnalfHf.js";
-import { T as Ne, C as mr } from "./Tabs.BfQDe6I2.js";
+import { T as He, C as xr } from "./Tabs.BfQDe6I2.js";
 import { I as P } from "./Textarea.7FvXKGUa.js";
-import { M, a as F, s as A, G as xr } from "./GeneralError.Dvjq_B8a.js";
-import { P as vr, R as br, T as yr, a as jr, C as Sr } from "./index.CduJ8u-z.js";
-import { D as wr, r as he, q as fe, t as Cr, v as Ir, i as Ht } from "./variables.CfsUBZ9t.js";
-import { S as kr } from "./Switch.BqeA-dAP.js";
+import { M, a as F, s as A, G as vr } from "./GeneralError.Dvjq_B8a.js";
+import { P as br, R as yr, T as jr, a as Sr, C as wr } from "./index.CduJ8u-z.js";
+import { D as Cr, r as fe, q as ge, t as Ir, v as kr, i as Vt } from "./variables.CfsUBZ9t.js";
+import { S as Or } from "./Switch.BqeA-dAP.js";
 import { S as V } from "./TrashCan.DYWcjlk_.js";
-import { C as Or } from "./CollapsibleCard.BWECYxhA.js";
-import { u as Gt, a as Tr } from "./downshift.esm.CwBPPnfz.js";
-import { S as Ye } from "./Select.Jkx8eZok.js";
-import { o as Dr, s as qr } from "./listener.BM8yBkLB.js";
-import { s as me, o as $r } from "./listener.BNWHQqef.js";
-import { w as xe } from "./webapp-client.CEJRS8eu.js";
-import { l as X, s as Pr, H as Rr } from "./index.BXf_Hj-1.js";
-import { b as Ar } from "./slice.CZpj5Zis.js";
-import { E as je } from "./Banner.BZe2qI8d.js";
-import { S as Er } from "./AngleDown.DBLEm0qt.js";
+import { C as Tr } from "./CollapsibleCard.BWECYxhA.js";
+import { a as re, u as Ut } from "./downshift.esm.CwBPPnfz.js";
+import { S as _t } from "./AngleDown.DBLEm0qt.js";
+import { S as Dr } from "./Check.BVLcLyMb.js";
+import { S as Je } from "./Select.Jkx8eZok.js";
+import { o as $r, s as qr } from "./listener.BM8yBkLB.js";
+import { s as xe, o as Pr } from "./listener.BNWHQqef.js";
+import { w as ve } from "./webapp-client.CEJRS8eu.js";
+import { l as X, s as Rr, H as Ar } from "./index.BXf_Hj-1.js";
+import { b as Er } from "./slice.CZpj5Zis.js";
+import { E as Se } from "./Banner.BZe2qI8d.js";
 const Mr = (n) => /* @__PURE__ */ t.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", width: "1em", height: "1em", ...n, children: /* @__PURE__ */ t.jsx("path", { d: "M40 480c-22.09 0-40-17.9-40-40v-48c0-22.1 17.91-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40zm48-40v-48H40v48zm144 40c-22.1 0-40-17.9-40-40v-48c0-22.1 17.9-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40zm48-40v-48h-48v48zM0 232c0-22.1 17.91-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40H40c-22.09 0-40-17.9-40-40zm40 0v48h48v-48zm192 88c-22.1 0-40-17.9-40-40v-48c0-22.1 17.9-40 40-40h48c22.1 0 40 17.9 40 40v48c0 22.1-17.9 40-40 40zm48-40v-48h-48v48zM0 72c0-22.09 17.91-40 40-40h48c22.1 0 40 17.91 40 40v48c0 22.1-17.9 40-40 40H40c-22.09 0-40-17.9-40-40zm40 0v48h48V72zm192 88c-22.1 0-40-17.9-40-40V72c0-22.09 17.9-40 40-40h48c22.1 0 40 17.91 40 40v48c0 22.1-17.9 40-40 40zm48-40V72h-48v48z" }) });
-var Se, Je;
+var we, Xe;
 function Fr() {
-  return Je || (Je = 1, Se = function n(e, r) {
+  return Xe || (Xe = 1, we = function n(e, r) {
     if (e === r) return !0;
     if (e && r && typeof e == "object" && typeof r == "object") {
       if (e.constructor !== r.constructor) return !1;
@@ -48,10 +49,10 @@ function Fr() {
       return !0;
     }
     return e !== e && r !== r;
-  }), Se;
+  }), we;
 }
 var zr = Fr();
-const Br = /* @__PURE__ */ en(zr), U = typeof window < "u" ? w.useLayoutEffect : w.useEffect;
+const Br = /* @__PURE__ */ rn(zr), U = typeof window < "u" ? w.useLayoutEffect : w.useEffect;
 function Lr(n, e, r) {
   const [o, s] = w.useState(
     () => e(n)
@@ -83,14 +84,14 @@ function Nr(n, e, r) {
     s
   ]), o;
 }
-function Vt(n, e, r) {
+function Wt(n, e, r) {
   return Nr(
     e,
     n || (() => ({})),
     () => r.reconnect()
   );
 }
-function Ut(n, e) {
+function Yt(n, e) {
   const r = [];
   return typeof n != "function" && r.push(n), w.useMemo(() => typeof n == "function" ? n() : n, r);
 }
@@ -110,7 +111,7 @@ function Gr(n) {
     ]
   );
 }
-let we = !1, Ce = !1;
+let Ce = !1, Ie = !1;
 class Vr {
   receiveHandlerId(e) {
     this.sourceId = e;
@@ -119,21 +120,21 @@ class Vr {
     return this.sourceId;
   }
   canDrag() {
-    E(!we, "You may not call monitor.canDrag() inside your canDrag() implementation. Read more: http://react-dnd.github.io/react-dnd/docs/api/drag-source-monitor");
+    E(!Ce, "You may not call monitor.canDrag() inside your canDrag() implementation. Read more: http://react-dnd.github.io/react-dnd/docs/api/drag-source-monitor");
     try {
-      return we = !0, this.internalMonitor.canDragSource(this.sourceId);
+      return Ce = !0, this.internalMonitor.canDragSource(this.sourceId);
     } finally {
-      we = !1;
+      Ce = !1;
     }
   }
   isDragging() {
     if (!this.sourceId)
       return !1;
-    E(!Ce, "You may not call monitor.isDragging() inside your isDragging() implementation. Read more: http://react-dnd.github.io/react-dnd/docs/api/drag-source-monitor");
+    E(!Ie, "You may not call monitor.isDragging() inside your isDragging() implementation. Read more: http://react-dnd.github.io/react-dnd/docs/api/drag-source-monitor");
     try {
-      return Ce = !0, this.internalMonitor.isDraggingSource(this.sourceId);
+      return Ie = !0, this.internalMonitor.isDraggingSource(this.sourceId);
     } finally {
-      Ce = !1;
+      Ie = !1;
     }
   }
   subscribeToStateChange(e, r) {
@@ -194,7 +195,7 @@ class Vr {
     this.sourceId = null, this.internalMonitor = e.getMonitor();
   }
 }
-let Ie = !1;
+let ke = !1;
 class Ur {
   receiveHandlerId(e) {
     this.targetId = e;
@@ -208,11 +209,11 @@ class Ur {
   canDrop() {
     if (!this.targetId)
       return !1;
-    E(!Ie, "You may not call monitor.canDrop() inside your canDrop() implementation. Read more: http://react-dnd.github.io/react-dnd/docs/api/drop-target-monitor");
+    E(!ke, "You may not call monitor.canDrop() inside your canDrop() implementation. Read more: http://react-dnd.github.io/react-dnd/docs/api/drop-target-monitor");
     try {
-      return Ie = !0, this.internalMonitor.canDropOnTarget(this.targetId);
+      return ke = !0, this.internalMonitor.canDropOnTarget(this.targetId);
     } finally {
-      Ie = !1;
+      ke = !1;
     }
   }
   isOver(e) {
@@ -263,7 +264,7 @@ function Wr(n, e, r) {
     () => o.removeSource(s)
   ];
 }
-function $e(n, e, r, o) {
+function Pe(n, e, r, o) {
   let s;
   if (s !== void 0)
     return !!s;
@@ -279,13 +280,13 @@ function $e(n, e, r, o) {
     const d = a[l];
     if (!c(d))
       return !1;
-    const f = n[d], y = e[d];
-    if (s = void 0, s === !1 || s === void 0 && f !== y)
+    const f = n[d], j = e[d];
+    if (s = void 0, s === !1 || s === void 0 && f !== j)
       return !1;
   }
   return !0;
 }
-function Pe(n) {
+function Re(n) {
   return (
     // eslint-disable-next-line no-prototype-builtins
     n !== null && typeof n == "object" && Object.prototype.hasOwnProperty.call(n, "current")
@@ -307,7 +308,7 @@ function Jr(n) {
     return Yr(o), Xr(o, r ? (a) => n(a, r) : n);
   };
 }
-function _t(n) {
+function Jt(n) {
   const e = {};
   return Object.keys(n).forEach((r) => {
     const o = n[r];
@@ -319,14 +320,14 @@ function _t(n) {
     }
   }), e;
 }
-function Xe(n, e) {
+function Ke(n, e) {
   typeof n == "function" ? n(e) : n.current = e;
 }
 function Xr(n, e) {
   const r = n.ref;
   return E(typeof r != "string", "Cannot connect React DnD to an element with an existing string ref. Please convert it to use a callback ref instead, or wrap it into a <span> or <div>. Read more: https://reactjs.org/docs/refs-and-the-dom.html#callback-refs"), r ? w.cloneElement(n, {
     ref: (o) => {
-      Xe(r, o), Xe(e, o);
+      Ke(r, o), Ke(e, o);
     }
   }) : w.cloneElement(n, {
     ref: e
@@ -379,10 +380,10 @@ class Kr {
     return this.lastConnectedDragPreview !== this.dragPreview;
   }
   didDragSourceOptionsChange() {
-    return !$e(this.lastConnectedDragSourceOptions, this.dragSourceOptions);
+    return !Pe(this.lastConnectedDragSourceOptions, this.dragSourceOptions);
   }
   didDragPreviewOptionsChange() {
-    return !$e(this.lastConnectedDragPreviewOptions, this.dragPreviewOptions);
+    return !Pe(this.lastConnectedDragPreviewOptions, this.dragPreviewOptions);
   }
   disconnectDragSource() {
     this.dragSourceUnsubscribe && (this.dragSourceUnsubscribe(), this.dragSourceUnsubscribe = void 0);
@@ -403,12 +404,12 @@ class Kr {
     this.dragPreviewNode = null, this.dragPreviewRef = null;
   }
   constructor(e) {
-    this.hooks = _t({
+    this.hooks = Jt({
       dragSource: (r, o) => {
-        this.clearDragSource(), this.dragSourceOptions = o || null, Pe(r) ? this.dragSourceRef = r : this.dragSourceNode = r, this.reconnectDragSource();
+        this.clearDragSource(), this.dragSourceOptions = o || null, Re(r) ? this.dragSourceRef = r : this.dragSourceNode = r, this.reconnectDragSource();
       },
       dragPreview: (r, o) => {
-        this.clearDragPreview(), this.dragPreviewOptions = o || null, Pe(r) ? this.dragPreviewRef = r : this.dragPreviewNode = r, this.reconnectDragPreview();
+        this.clearDragPreview(), this.dragPreviewOptions = o || null, Re(r) ? this.dragPreviewRef = r : this.dragPreviewNode = r, this.reconnectDragPreview();
       }
     }), this.handlerId = null, this.dragSourceRef = null, this.dragSourceOptionsInternal = null, this.dragPreviewRef = null, this.dragPreviewOptionsInternal = null, this.lastConnectedHandlerId = null, this.lastConnectedDragSource = null, this.lastConnectedDragSourceOptions = null, this.lastConnectedDragPreview = null, this.lastConnectedDragPreviewOptions = null, this.backend = e;
   }
@@ -445,7 +446,7 @@ class Qr {
     return this.lastConnectedDropTarget !== this.dropTarget;
   }
   didOptionsChange() {
-    return !$e(this.lastConnectedDropTargetOptions, this.dropTargetOptions);
+    return !Pe(this.lastConnectedDropTargetOptions, this.dropTargetOptions);
   }
   disconnectDropTarget() {
     this.unsubscribeDropTarget && (this.unsubscribeDropTarget(), this.unsubscribeDropTarget = void 0);
@@ -457,15 +458,15 @@ class Qr {
     this.dropTargetRef = null, this.dropTargetNode = null;
   }
   constructor(e) {
-    this.hooks = _t({
+    this.hooks = Jt({
       dropTarget: (r, o) => {
-        this.clearDropTarget(), this.dropTargetOptions = o, Pe(r) ? this.dropTargetRef = r : this.dropTargetNode = r, this.reconnect();
+        this.clearDropTarget(), this.dropTargetOptions = o, Re(r) ? this.dropTargetRef = r : this.dropTargetNode = r, this.reconnect();
       }
     }), this.handlerId = null, this.dropTargetRef = null, this.dropTargetOptionsInternal = null, this.lastConnectedHandlerId = null, this.lastConnectedDropTarget = null, this.lastConnectedDropTargetOptions = null, this.backend = e;
   }
 }
 function ee() {
-  const { dragDropManager: n } = w.useContext(pn);
+  const { dragDropManager: n } = w.useContext(gn);
   return E(n != null, "Expected drag drop context"), n;
 }
 function Zr(n, e) {
@@ -552,11 +553,11 @@ function oo(n, e, r) {
   ]);
 }
 function so(n, e) {
-  const r = Ut(n);
+  const r = Yt(n);
   E(!r.begin, "useDrag::spec.begin was deprecated in v14. Replace spec.begin() with spec.item(). (see more here - https://react-dnd.github.io/react-dnd/docs/api/use-drag)");
   const o = eo(), s = Zr(r.options, r.previewOptions);
   return oo(r, o, s), [
-    Vt(r.collect, o, s),
+    Wt(r.collect, o, s),
     Hr(s),
     Gr(s)
   ];
@@ -643,10 +644,10 @@ function ho(n, e, r) {
     ).join("|")
   ]);
 }
-function Wt(n, e) {
-  const r = Ut(n), o = co(), s = ao(r.options);
+function Xt(n, e) {
+  const r = Yt(n), o = co(), s = ao(r.options);
   return ho(r, o, s), [
-    Vt(r.collect, o, s),
+    Wt(r.collect, o, s),
     io(s)
   ];
 }
@@ -654,39 +655,39 @@ function fo({
   credential: n,
   saveCredential: e
 }) {
-  const r = ae({
+  const r = ce({
     type: C(),
     in: C(),
     name: C(),
-    ttl: Ue([
-      _e(""),
-      C().refine((o) => Ge(o) !== void 0, {
+    ttl: _e([
+      We(""),
+      C().refine((o) => Ve(o) !== void 0, {
         message: "Invalid duration format. Examples: '500ms', '15s', '2h30m'"
       })
     ]),
-    tti: Ue([
-      _e(""),
-      C().refine((o) => Ge(o) !== void 0, {
+    tti: _e([
+      We(""),
+      C().refine((o) => Ve(o) !== void 0, {
         message: "Invalid duration format. Examples: '500ms', '15s', '2h30m'"
       })
     ]),
     default: C(),
-    methods: ur()
+    methods: hr()
   });
   return /* @__PURE__ */ t.jsx(
-    ce,
+    le,
     {
       data: n,
       saveData: e,
-      wrapFormData: xt,
-      unwrapFormData: mt,
+      wrapFormData: vt,
+      unwrapFormData: xt,
       schema: r,
       children: /* @__PURE__ */ t.jsx(go, {})
     }
   );
 }
 function go() {
-  const { getValues: n } = Lt(), e = n("methods") || [], r = n("type");
+  const { getValues: n } = Nt(), e = n("methods") || [], r = n("type");
   return /* @__PURE__ */ t.jsxs(mo, { children: [
     /* @__PURE__ */ t.jsx(H, { label: "Type", name: "type", disabled: !0 }),
     r !== "basic" && r !== "bearer" && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
@@ -708,7 +709,7 @@ function go() {
       }
     ),
     /* @__PURE__ */ t.jsx(
-      hn,
+      mn,
       {
         label: "Default credential name",
         name: "default",
@@ -724,25 +725,178 @@ const mo = h.div`
   gap: 8px;
 `;
 function xo({
+  options: n,
+  placeholder: e,
+  selected: r,
+  onSelectedItemsChange: o,
+  bottomMenu: s
+}) {
+  const a = r || [], i = n.filter((v) => a.includes(v.value));
+  function c(v) {
+    return v ? v.label : "";
+  }
+  function l(v) {
+    return v?.disabled === !0;
+  }
+  function d(v) {
+    const m = a.includes(v) ? a.filter((p) => p !== v) : [...a, v];
+    o(
+      n.filter((p) => m.includes(p.value)).map((p) => p.value)
+    );
+  }
+  const { isOpen: f, getToggleButtonProps: j, getMenuProps: b, getItemProps: g } = re({
+    items: n,
+    isItemDisabled: l,
+    itemToString: c,
+    // selection is kept in the 'selected' property, downshift itself holds no selected item
+    selectedItem: null,
+    stateReducer: (v, { changes: m, type: p }) => {
+      switch (p) {
+        case re.stateChangeTypes.ToggleButtonKeyDownEnter:
+        case re.stateChangeTypes.ToggleButtonKeyDownSpaceButton:
+        case re.stateChangeTypes.ItemClick:
+          return { ...m, isOpen: !0, highlightedIndex: v.highlightedIndex };
+        default:
+          return m;
+      }
+    },
+    onSelectedItemChange: ({ selectedItem: v }) => {
+      v != null && d(v.value);
+    }
+  });
+  return /* @__PURE__ */ t.jsxs(vo, { onClick: (v) => v.stopPropagation(), children: [
+    /* @__PURE__ */ t.jsx(bo, { children: /* @__PURE__ */ t.jsxs(yo, { ...j(), children: [
+      i.length === 0 && e !== void 0 && /* @__PURE__ */ t.jsx(jo, { children: e }),
+      i.length > 0 && /* @__PURE__ */ t.jsx(So, { title: i.map(c).join(", "), children: i.map(c).join(", ") }),
+      /* @__PURE__ */ t.jsx(_t, {})
+    ] }) }),
+    /* @__PURE__ */ t.jsxs(Co, { ...b(), $isOpen: f, children: [
+      f && n.map((v, m) => /* @__PURE__ */ t.jsxs(
+        "li",
+        {
+          ...g({ item: v, index: m }),
+          "aria-selected": a.includes(v.value),
+          children: [
+            /* @__PURE__ */ t.jsx(wo, { $checked: a.includes(v.value), children: /* @__PURE__ */ t.jsx(Dr, {}) }),
+            /* @__PURE__ */ t.jsx("span", { children: v.label })
+          ]
+        },
+        `${v.value}${m}`
+      )),
+      f && s
+    ] })
+  ] });
+}
+const vo = h.div`
+  position: relative;
+`, bo = h.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  &:focus-within {
+    border: 1px solid var(${u.focusBorder});
+  }
+  border: 1px solid transparent;
+`, yo = h.div`
+  display: flex;
+  color: var(${u.foreground});
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  > span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  > svg {
+    margin-left: 3px;
+    fill: var(${u.foreground});
+  }
+`, jo = h.span`
+  color: var(${u.inputPlaceholderForeground});
+`, So = h.span``, wo = h.div`
+  display: flex;
+  align-items: center;
+  width: 12px;
+  > svg {
+    fill: var(${u.foreground});
+    visibility: ${({ $checked: n }) => n ? "visible" : "hidden"};
+  }
+`, Co = h.ul`
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0;
+  list-style: none;
+  background-color: var(${u.dropdownBackground});
+  color: var(${u.dropdownForeground});
+  ${({ $isOpen: n }) => n && `
+    border: 1px solid var(${u.dropdownBorder});
+    padding: 4px;
+  `}
+
+  & > li {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    cursor: pointer;
+  }
+
+  & > li:hover {
+    background-color: var(${u.listHoverBackground});
+  }
+
+  & > li[aria-disabled="true"] {
+    color: var(${u.disabledForeground});
+  }
+
+  & > li[aria-disabled="true"]:hover {
+    background-color: transparent;
+  }
+`;
+function Io({
+  name: n,
+  options: e,
+  placeholder: r
+}) {
+  const { field: o } = Ht({
+    name: n
+  });
+  return /* @__PURE__ */ t.jsx(
+    xo,
+    {
+      placeholder: r,
+      options: e,
+      selected: o.value,
+      onSelectedItemsChange: (s) => o.onChange(s)
+    }
+  );
+}
+function ko({
   found: n,
   missing: e,
   currentStep: r
 }) {
   const o = n !== void 0 ? [...new Map(n.map((a) => [a.name, a])).values()] : void 0, s = e !== void 0 ? [...new Map(e.map((a) => [a.name, a])).values()] : void 0;
-  return o?.sort((a, i) => a.name.localeCompare(i.name)), s?.sort((a, i) => a.name.localeCompare(i.name)), /* @__PURE__ */ t.jsxs(jo, { children: [
-    /* @__PURE__ */ t.jsxs(So, { children: [
+  return o?.sort((a, i) => a.name.localeCompare(i.name)), s?.sort((a, i) => a.name.localeCompare(i.name)), /* @__PURE__ */ t.jsxs($o, { children: [
+    /* @__PURE__ */ t.jsxs(qo, { children: [
       /* @__PURE__ */ t.jsx("div", {}),
       /* @__PURE__ */ t.jsx("div", { children: "Variable name" }),
       /* @__PURE__ */ t.jsx("div", { children: "Location where the variable is defined" })
     ] }),
-    o?.map((a, i) => bo(a, i, r)),
-    s?.map(vo)
+    o?.map((a, i) => To(a, i, r)),
+    s?.map(Oo)
   ] });
 }
-function vo(n, e) {
-  return /* @__PURE__ */ t.jsxs(Yt, { children: [
+function Oo(n, e) {
+  return /* @__PURE__ */ t.jsxs(Kt, { children: [
     /* @__PURE__ */ t.jsx("div", { children: /* @__PURE__ */ t.jsx(
-      it,
+      at,
       {
         style: {
           fill: `var(${u.errorForeground})`
@@ -753,14 +907,14 @@ function vo(n, e) {
     /* @__PURE__ */ t.jsx("div", { children: "Variable is not found" })
   ] }, e);
 }
-function bo(n, e, r) {
-  return /* @__PURE__ */ t.jsxs(Yt, { children: [
+function To(n, e, r) {
+  return /* @__PURE__ */ t.jsxs(Kt, { children: [
     /* @__PURE__ */ t.jsx("div", {}),
     /* @__PURE__ */ t.jsx("div", { children: n.name }),
-    /* @__PURE__ */ t.jsx("div", { children: yo(n.context, r) })
+    /* @__PURE__ */ t.jsx("div", { children: Do(n.context, r) })
   ] }, e);
 }
-function yo(n, e) {
+function Do(n, e) {
   if (n.type === "global-environment")
     return "Global Environment";
   if (n.type === "built-in")
@@ -772,11 +926,11 @@ function yo(n, e) {
   if (n.type === "request-environment")
     return `Scenario / Step ${e + 1} / Operation / Environment`;
   if (n.type === "playbook-request")
-    return `${Ke(n.name)} / Step ${n.step + 1} / Operation / Response processing`;
+    return `${Qe(n.name)} / Step ${n.step + 1} / Operation / Response processing`;
   if (n.type === "playbook-stage")
-    return `${Ke(n.name)} / Step ${n.step + 1} / Response processing`;
+    return `${Qe(n.name)} / Step ${n.step + 1} / Response processing`;
 }
-function Ke(n) {
+function Qe(n) {
   if (n === "operationScenarios")
     return "Scenario";
   if (n === "operationBefore")
@@ -790,7 +944,7 @@ function Ke(n) {
   if (n === "credential")
     return "Credential";
 }
-const jo = h.div`
+const $o = h.div`
   display: grid;
   grid-template-columns: 2em 16em 1fr;
   padding: 8px;
@@ -798,7 +952,7 @@ const jo = h.div`
     padding: 4px;
     line-break: anywhere;
   }
-`, So = h.div`
+`, qo = h.div`
   display: contents;
   > div {
     background-color: var(${u.computedOne});
@@ -806,10 +960,10 @@ const jo = h.div`
     font-size: 90%;
     font-weight: 600;
   }
-`, Yt = h.div`
+`, Kt = h.div`
   display: contents;
 `;
-function wo({
+function Po({
   stage: n,
   oas: e,
   result: r,
@@ -822,115 +976,115 @@ function wo({
   goToRequest: d,
   stageIndex: f
 }) {
-  const [{ isDragging: y }, v] = so(() => ({
+  const [{ isDragging: j }, b] = so(() => ({
     type: "stage",
     item: { location: a },
-    collect: (m) => ({
-      isDragging: !!m.isDragging()
+    collect: (x) => ({
+      isDragging: !!x.isDragging()
     })
-  })), g = n.ref.type === "operation" ? c[n.ref.id] : l[n.ref.id], S = ko(g), x = Io(g), p = [
-    ...x.filter((m) => m !== "default").map((m) => ({ label: m, value: m }))
+  })), g = n.ref.type === "operation" ? c[n.ref.id] : l[n.ref.id], v = Eo(g), m = Ao(g), p = [
+    ...m.filter((x) => x !== "default").map((x) => ({ label: x, value: x }))
   ], k = [
-    ...wr,
-    ...Co(r?.variablesReplaced?.stack || [])
-  ], b = Array.from(new Set(r?.variablesReplaced?.missing || [])).map(
-    (m) => m.name
+    ...Cr,
+    ...Ro(r?.variablesReplaced?.stack || [])
+  ], y = Array.from(new Set(r?.variablesReplaced?.missing || [])).map(
+    (x) => x.name
   );
   return /* @__PURE__ */ t.jsx(
-    ce,
+    le,
     {
       data: n,
       saveData: o,
-      wrapFormData: gn,
-      unwrapFormData: fn,
-      children: /* @__PURE__ */ t.jsxs(Oo, { children: [
-        /* @__PURE__ */ t.jsx(To, { children: f + 1 }),
+      wrapFormData: vn,
+      unwrapFormData: xn,
+      children: /* @__PURE__ */ t.jsxs(Mo, { children: [
+        /* @__PURE__ */ t.jsx(Fo, { children: f + 1 }),
         /* @__PURE__ */ t.jsx(
-          Do,
+          zo,
           {
-            ref: v,
+            ref: b,
             style: {
-              opacity: y ? 0.5 : 1,
-              cursor: y ? "move" : "auto"
+              opacity: j ? 0.5 : 1,
+              cursor: j ? "move" : "auto"
             },
-            children: /* @__PURE__ */ t.jsxs(Or, { children: [
-              /* @__PURE__ */ t.jsxs(qo, { children: [
+            children: /* @__PURE__ */ t.jsxs(Tr, { children: [
+              /* @__PURE__ */ t.jsxs(Bo, { children: [
                 /* @__PURE__ */ t.jsxs("span", { children: [
                   n.ref.id,
                   /* @__PURE__ */ t.jsx(
-                    kr,
+                    Or,
                     {
-                      onClick: (m) => {
-                        m.preventDefault(), m.stopPropagation(), d(n.ref);
+                      onClick: (x) => {
+                        x.preventDefault(), x.stopPropagation(), d(n.ref);
                       }
                     }
                   )
                 ] }),
-                /* @__PURE__ */ t.jsxs($o, { onClick: (m) => m.stopPropagation(), children: [
-                  b.length > 0 && /* @__PURE__ */ t.jsx(
-                    Qe,
+                /* @__PURE__ */ t.jsxs(Lo, { onClick: (x) => x.stopPropagation(), children: [
+                  y.length > 0 && /* @__PURE__ */ t.jsx(
+                    Ze,
                     {
                       message: "Unset variables",
                       description: "There are unset variables in this step of the scenario. You can set their values in the 'Environment' section of the step, or in the 'Response processing' section of the previous steps."
                     }
                   ),
                   g === void 0 && /* @__PURE__ */ t.jsx(
-                    Qe,
+                    Ze,
                     {
                       message: `${n.ref.type}/${n.ref.id} is missing`,
                       description: "Target of a reference is missing"
                     }
                   ),
-                  /* @__PURE__ */ t.jsxs(Po, { children: [
+                  /* @__PURE__ */ t.jsxs(No, { children: [
                     /* @__PURE__ */ t.jsx("span", { children: "Expected Response" }),
                     /* @__PURE__ */ t.jsx(
-                      mn,
+                      Io,
                       {
                         name: "expectedResponse",
                         options: p,
-                        placeholder: S
+                        placeholder: v
                       }
                     )
                   ] }),
-                  i && /* @__PURE__ */ t.jsxs(Ro, { children: [
+                  i && /* @__PURE__ */ t.jsxs(Ho, { children: [
                     /* @__PURE__ */ t.jsx("span", { children: "Fuzzing" }),
-                    /* @__PURE__ */ t.jsx(xn, { name: "fuzzing" })
+                    /* @__PURE__ */ t.jsx(bn, { name: "fuzzing" })
                   ] }),
-                  /* @__PURE__ */ t.jsx(Ao, { className: "grab", children: /* @__PURE__ */ t.jsx(Mr, {}) }),
-                  /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsxs(F, { onClick: (m) => m.stopPropagation(), onSelect: s, children: [
+                  /* @__PURE__ */ t.jsx(Go, { className: "grab", children: /* @__PURE__ */ t.jsx(Mr, {}) }),
+                  /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsxs(F, { onClick: (x) => x.stopPropagation(), onSelect: s, children: [
                     /* @__PURE__ */ t.jsx(V, {}),
                     "Delete"
                   ] }) })
                 ] })
               ] }),
               /* @__PURE__ */ t.jsx(
-                Ne,
+                He,
                 {
                   tabs: [
                     {
                       id: "environment",
                       title: "Environment",
                       content: /* @__PURE__ */ t.jsx(
-                        vn,
+                        yn,
                         {
                           name: "environment",
                           variables: k,
-                          missing: b
+                          missing: y
                         }
                       ),
-                      counter: b.length,
+                      counter: y.length,
                       counterKind: "error"
                     },
                     {
                       id: "responses",
                       title: "Response processing",
-                      content: /* @__PURE__ */ t.jsx(bn, { editable: !0, responseCodes: x })
+                      content: /* @__PURE__ */ t.jsx(jn, { editable: !0, responseCodes: m })
                     },
                     {
                       id: "variables",
                       title: "Context",
                       content: /* @__PURE__ */ t.jsx(
-                        xo,
+                        ko,
                         {
                           currentStep: f,
                           missing: r?.variablesReplaced?.missing,
@@ -948,35 +1102,35 @@ function wo({
     }
   );
 }
-function Co(n) {
+function Ro(n) {
   const e = [];
   for (const r of n)
     for (const o of Object.keys(r.env))
       e.includes(o) || e.push(o);
   return e.sort(), e;
 }
-function Io(n) {
+function Ao(n) {
   if (n !== void 0) {
     const e = "scenarios" in n ? n.request.responses : n.responses;
     return Object.keys(e || {}).map((o) => o);
   }
   return [];
 }
-function ko(n) {
+function Eo(n) {
   if (n !== void 0)
     return ("scenarios" in n ? n.request : n).defaultResponse;
 }
-const Oo = h.div`
+const Mo = h.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`, To = h.div`
+`, Fo = h.div`
   font-weight: 400;
   font-size: 12px;
   align-items: center;
   justify-content: center;
   width: 18px;
-`, Do = h.div`
+`, zo = h.div`
   background-color: var(${u.background});
   flex: 1;
   .grab,
@@ -989,7 +1143,7 @@ const Oo = h.div`
       opacity: 1;
     }
   }
-`, qo = h.div`
+`, Bo = h.div`
   display: flex;
   gap: 4px;
   align-items: center;
@@ -1003,43 +1157,43 @@ const Oo = h.div`
     gap: 4px;
     align-items: center;
   }
-`, $o = h.div`
+`, Lo = h.div`
   cursor: auto;
   display: flex;
   justify-content: end;
   align-items: center;
   gap: 10px;
-`, Po = h.div`
+`, No = h.div`
   display: flex;
   flex-direction: row;
   gap: 4px;
   align-items: center;
   > div {
-    width: 60px;
+    width: 120px;
     border: 1px solid var(${u.border});
   }
-`, Ro = h.div`
+`, Ho = h.div`
   display: flex;
   flex-direction: row;
   gap: 4px;
   align-items: center;
-`, Ao = h.div`
+`, Go = h.div`
   cursor: grab;
   > svg {
     fill: var(${u.foreground});
   }
 `;
-function Qe({ message: n, description: e }) {
-  return /* @__PURE__ */ t.jsx(vr, { children: /* @__PURE__ */ t.jsxs(br, { children: [
-    /* @__PURE__ */ t.jsx(yr, { asChild: !0, children: /* @__PURE__ */ t.jsxs(Eo, { children: [
-      /* @__PURE__ */ t.jsx(it, {}),
+function Ze({ message: n, description: e }) {
+  return /* @__PURE__ */ t.jsx(br, { children: /* @__PURE__ */ t.jsxs(yr, { children: [
+    /* @__PURE__ */ t.jsx(jr, { asChild: !0, children: /* @__PURE__ */ t.jsxs(Vo, { children: [
+      /* @__PURE__ */ t.jsx(at, {}),
       " ",
       /* @__PURE__ */ t.jsx("span", { children: n })
     ] }) }),
-    /* @__PURE__ */ t.jsx(jr, { children: /* @__PURE__ */ t.jsx(Mo, { children: e }) })
+    /* @__PURE__ */ t.jsx(Sr, { children: /* @__PURE__ */ t.jsx(Uo, { children: e }) })
   ] }) });
 }
-const Eo = h.div`
+const Vo = h.div`
   cursor: help;
   display: flex;
   justify-content: center;
@@ -1051,7 +1205,7 @@ const Eo = h.div`
   > svg {
     fill: var(${u.foreground});
   }
-`, Mo = h(Sr)`
+`, Uo = h(wr)`
   max-width: 400px;
   color: var(${u.notificationsForeground});
   background-color: var(${u.notificationsBackground});
@@ -1073,24 +1227,24 @@ function K({
   requests: d,
   goToRequest: f
 }) {
-  const y = (x) => (p) => s(x, p), v = (x) => () => a(x), [{ isOver: g }, S] = Wt(() => ({
+  const j = (m) => (p) => s(m, p), b = (m) => () => a(m), [{ isOver: g }, v] = Xt(() => ({
     accept: "stage",
-    collect: (x) => ({
-      isOver: !!x.isOver()
+    collect: (m) => ({
+      isOver: !!m.isOver()
     })
   }));
-  return e.length === 0 ? null : /* @__PURE__ */ t.jsx(zo, { ref: S, children: e.map((x, p) => {
+  return e.length === 0 ? null : /* @__PURE__ */ t.jsx(Wo, { ref: v, children: e.map((m, p) => {
     const k = { ...r, stageIndex: p };
-    return /* @__PURE__ */ t.jsxs(at.Fragment, { children: [
-      g && /* @__PURE__ */ t.jsx(Fo, { moveStage: i, destinationIndex: p }),
+    return /* @__PURE__ */ t.jsxs(ct.Fragment, { children: [
+      g && /* @__PURE__ */ t.jsx(_o, { moveStage: i, destinationIndex: p }),
       /* @__PURE__ */ t.jsx(
-        wo,
+        Po,
         {
           oas: n,
-          stage: x,
+          stage: m,
           result: o?.results?.[p],
-          saveStage: y(k),
-          removeStage: v(k),
+          saveStage: j(k),
+          removeStage: b(k),
           goToRequest: f,
           location: k,
           fuzzing: c,
@@ -1099,34 +1253,34 @@ function K({
           stageIndex: p
         }
       )
-    ] }, `stage-${p}-${x.ref.type}-${x.ref.id}`);
+    ] }, `stage-${p}-${m.ref.type}-${m.ref.id}`);
   }) });
 }
-function Fo({
+function _o({
   destinationIndex: n,
   moveStage: e
 }) {
-  const [{ isOver: r }, o] = Wt(() => ({
+  const [{ isOver: r }, o] = Xt(() => ({
     accept: "stage",
     drop: (s) => e(s.location, n),
     collect: (s) => ({
       isOver: !!s.isOver()
     })
   }));
-  return /* @__PURE__ */ t.jsx(Bo, { ref: o, $isOver: r });
+  return /* @__PURE__ */ t.jsx(Yo, { ref: o, $isOver: r });
 }
-const zo = h.div`
+const Wo = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, Bo = h.div`
+`, Yo = h.div`
   display: flex;
   border: 16px solid var(${u.border});
   opacity: 0.5;
   cursor: pointer;
   ${({ $isOver: n }) => n && "opacity: 1;"}
 `;
-function Lo({
+function Jo({
   operationIds: n,
   requestIds: e,
   onSelect: r
@@ -1147,7 +1301,7 @@ function Lo({
       })
     )
   );
-  const [i, c] = w.useState(a), { isOpen: l, getMenuProps: d, getInputProps: f, getItemProps: y, openMenu: v } = Gt({
+  const [i, c] = w.useState(a), { isOpen: l, getMenuProps: d, getInputProps: f, getItemProps: j, openMenu: b } = Ut({
     initialInputValue: "",
     items: i,
     onSelectedItemChange: ({ selectedItem: g }) => {
@@ -1155,19 +1309,19 @@ function Lo({
     },
     onInputValueChange: ({ inputValue: g }) => {
       c(
-        a.filter((S) => !g || S.id.toLowerCase().includes(g))
+        a.filter((v) => !g || v.id.toLowerCase().includes(g))
       );
     },
     itemToString: (g) => g ? g.id : ""
   });
-  return /* @__PURE__ */ t.jsxs(No, { children: [
+  return /* @__PURE__ */ t.jsxs(Xo, { children: [
     /* @__PURE__ */ t.jsx(
-      Ho,
+      Ko,
       {
         autoFocus: !0,
         ...f({
           onFocus() {
-            v();
+            b();
           }
         }),
         placeholder: "",
@@ -1176,41 +1330,41 @@ function Lo({
         }
       }
     ),
-    /* @__PURE__ */ t.jsx(Go, { children: /* @__PURE__ */ t.jsx(Vo, { ...d(), $isOpen: l, children: l && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
-      /* @__PURE__ */ t.jsx(Ze, { children: "Operations" }),
-      i.map((g, S) => g.type === "operation" ? /* @__PURE__ */ t.jsx(
+    /* @__PURE__ */ t.jsx(Qo, { children: /* @__PURE__ */ t.jsx(Zo, { ...d(), $isOpen: l, children: l && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+      /* @__PURE__ */ t.jsx(et, { children: "Operations" }),
+      i.map((g, v) => g.type === "operation" ? /* @__PURE__ */ t.jsx(
         "li",
         {
-          ...y({
+          ...j({
             item: g,
-            index: S
+            index: v
           }),
           children: g.id
         },
-        `li-${g.type}-${g.id}-${S}`
+        `li-${g.type}-${g.id}-${v}`
       ) : null),
-      /* @__PURE__ */ t.jsx(Ze, { children: "Requests" }),
-      i.map((g, S) => g.type === "request" ? /* @__PURE__ */ t.jsx(
+      /* @__PURE__ */ t.jsx(et, { children: "Requests" }),
+      i.map((g, v) => g.type === "request" ? /* @__PURE__ */ t.jsx(
         "li",
         {
-          ...y({
+          ...j({
             item: g,
-            index: S
+            index: v
           }),
           children: g.id
         },
-        `li-${g.type}-${g.id}-${S}`
+        `li-${g.type}-${g.id}-${v}`
       ) : null)
     ] }) }) })
   ] });
 }
-const No = h.div`
+const Xo = h.div`
   padding: 10px;
   gap: 4px;
   cursor: pointer;
   align-items: center;
   border: 1px solid var(${u.border});
-`, Ho = h.input`
+`, Ko = h.input`
   background: transparent;
   width: 100%;
   border: none;
@@ -1219,10 +1373,10 @@ const No = h.div`
   &::placeholder {
     color: var(${u.inputPlaceholderForeground});
   }
-`, Go = h.div`
+`, Qo = h.div`
   position: relative;
   z-index: 1;
-`, Vo = h.ul`
+`, Zo = h.ul`
   ${({ $isOpen: n }) => n && `border: 1px solid var(${u.dropdownBorder});`}
   background-color: var(${u.dropdownBackground});
   color: var(${u.dropdownForeground});
@@ -1240,7 +1394,7 @@ const No = h.div`
   & > li:hover {
     background-color: var(${u.listHoverBackground});
   }
-`, Ze = h.div`
+`, et = h.div`
   font-weight: 600;
   margin: 4px;
 `;
@@ -1251,7 +1405,7 @@ function Q({
 }) {
   const [o, s] = w.useState(!1);
   return o ? /* @__PURE__ */ t.jsx(
-    Lo,
+    Jo,
     {
       onSelect: (a) => {
         a !== void 0 && r(a), s(!1);
@@ -1260,19 +1414,19 @@ function Q({
       operationIds: n
     }
   ) : /* @__PURE__ */ t.jsxs(
-    Uo,
+    es,
     {
       onClick: (a) => {
         a.stopPropagation(), a.preventDefault(), s(!0);
       },
       children: [
-        /* @__PURE__ */ t.jsx(se, {}),
+        /* @__PURE__ */ t.jsx(ie, {}),
         " Pick the operation"
       ]
     }
   );
 }
-const Uo = h.div`
+const es = h.div`
   display: flex;
   padding: 8px 12px;
   gap: 4px;
@@ -1285,38 +1439,38 @@ const Uo = h.div`
     fill: var(${u.linkForeground});
   }
 `;
-function _o({
+function ts({
   onAddCredentialValue: n,
   existing: e
 }) {
   const r = { name: "", value: "" }, o = (a) => {
     n(a.name, { credential: a.value, requests: [] });
-  }, s = ae({
-    name: C().regex(he(), {
-      message: fe
+  }, s = ce({
+    name: C().regex(fe(), {
+      message: ge
     }).refine((a) => !e.includes(a), {
       message: "Already exists"
     }),
     value: C().min(1)
   });
   return /* @__PURE__ */ t.jsx(
-    Ae,
+    Ee,
     {
       defaultValues: r,
       onSubmit: o,
       schema: s,
-      trigger: /* @__PURE__ */ t.jsx(Yo, { children: /* @__PURE__ */ t.jsx(se, {}) }),
-      children: /* @__PURE__ */ t.jsx(Wo, {})
+      trigger: /* @__PURE__ */ t.jsx(rs, { children: /* @__PURE__ */ t.jsx(ie, {}) }),
+      children: /* @__PURE__ */ t.jsx(ns, {})
     }
   );
 }
-function Wo() {
+function ns() {
   return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
     /* @__PURE__ */ t.jsx(P, { label: "Credential name", name: "name" }),
     /* @__PURE__ */ t.jsx(P, { label: "Credential value", name: "value" })
   ] });
 }
-const Yo = h.button`
+const rs = h.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -1327,47 +1481,47 @@ const Yo = h.button`
     }
   }
 `;
-function Jo({
+function os({
   group: n,
   credentialId: e
 }) {
-  const r = q(), { playbook: o, oas: s, selectedSubcredential: a } = I((m) => m.scanconf), { mockResult: i } = I((m) => m.auth), c = Object.keys(o.operations), l = Object.keys(o.requests || {}), d = (m) => r(z(m)), f = (m, O) => r(B({ location: m, reference: O })), y = (m, O) => r(L({ location: m, to: O })), v = (m, O) => {
+  const r = $(), { playbook: o, oas: s, selectedSubcredential: a } = I((x) => x.scanconf), { mockResult: i } = I((x) => x.auth), c = Object.keys(o.operations), l = Object.keys(o.requests || {}), d = (x) => r(z(x)), f = (x, O) => r(B({ location: x, reference: O })), j = (x, O) => r(L({ location: x, to: O })), b = (x, O) => {
     r(
       N({
-        container: m,
+        container: x,
         stage: {
           ref: O
         }
       })
     );
-  }, g = (m) => {
-    r(G(m)), r(T(["scanconf", "requests"]));
-  }, { fields: S, append: x, remove: p } = Nt({
+  }, g = (x) => {
+    r(G(x)), r(T(["scanconf", "requests"]));
+  }, { fields: v, append: m, remove: p } = Gt({
     name: "methods"
-  }), { getValues: k } = Lt(), b = S.map((m, O) => ({
-    id: m.key,
-    title: m.key,
-    menu: /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsxs(F, { onClick: (j) => j.stopPropagation(), onSelect: () => p(O), children: [
+  }), { getValues: k } = Nt(), y = v.map((x, O) => ({
+    id: x.key,
+    title: x.key,
+    menu: /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsxs(F, { onClick: (S) => S.stopPropagation(), onSelect: () => p(O), children: [
       /* @__PURE__ */ t.jsx(V, {}),
       "Delete"
     ] }) }),
-    content: /* @__PURE__ */ t.jsxs(Xo, { value: m.key, children: [
+    content: /* @__PURE__ */ t.jsxs(ss, { value: x.key, children: [
       /* @__PURE__ */ t.jsx(P, { label: "Credential value", name: `methods.${O}.value.credential` }),
-      /* @__PURE__ */ t.jsxs(Ko, { children: [
+      /* @__PURE__ */ t.jsxs(is, { children: [
         /* @__PURE__ */ t.jsx(
           K,
           {
             oas: s,
-            stages: m.value.requests,
+            stages: x.value.requests,
             container: {
               container: "credential",
               group: n,
               credentialId: e,
-              subCredentialId: m.key
+              subCredentialId: x.key
             },
             executionResult: i?.[0],
             saveStage: f,
-            moveStage: y,
+            moveStage: j,
             removeStage: d,
             operations: o.operations,
             requests: o.requests,
@@ -1379,9 +1533,9 @@ function Jo({
           {
             operationIds: c,
             requestIds: l,
-            onSelect: (j) => v(
-              { container: "credential", group: n, credentialId: e, subCredentialId: m.key },
-              j
+            onSelect: (S) => b(
+              { container: "credential", group: n, credentialId: e, subCredentialId: x.key },
+              S
             )
           }
         )
@@ -1389,46 +1543,46 @@ function Jo({
     ] })
   }));
   return /* @__PURE__ */ t.jsx(
-    Ne,
+    He,
     {
       activeTab: a,
-      setActiveTab: (m) => r(Oe(m)),
-      tabs: b,
+      setActiveTab: (x) => r(Te(x)),
+      tabs: y,
       menu: /* @__PURE__ */ t.jsx(
-        _o,
+        ts,
         {
-          existing: k("methods").map((m) => m.key),
-          onAddCredentialValue: (m, O) => {
-            x({ key: m, value: O }), r(Oe(m));
+          existing: k("methods").map((x) => x.key),
+          onAddCredentialValue: (x, O) => {
+            m({ key: x, value: O }), r(Te(x));
           }
         }
       )
     }
   );
 }
-const Xo = h(mr)`
+const ss = h(xr)`
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding-top: 8px;
-`, Ko = h.div`
+`, is = h.div`
   padding-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
-function Qo({ selected: n }) {
-  const e = q(), {
+function as({ selected: n }) {
+  const e = $(), {
     playbook: { authenticationDetails: r },
     servers: o
-  } = I((d) => d.scanconf), { tryResult: s } = I((d) => d.auth), a = (d, f, y) => e(bt({ group: parseInt(d), id: f, credential: y })), i = parseInt(n.sectionId), c = n.itemId, l = r[i][c];
-  return /* @__PURE__ */ t.jsxs(Zo, { children: [
+  } = I((d) => d.scanconf), { tryResult: s } = I((d) => d.auth), a = (d, f, j) => e(yt({ group: parseInt(d), id: f, credential: j })), i = parseInt(n.sectionId), c = n.itemId, l = r[i][c];
+  return /* @__PURE__ */ t.jsxs(cs, { children: [
     /* @__PURE__ */ t.jsx(
-      de,
+      ue,
       {
         servers: o,
         onTry: (d) => {
-          e(vt(d));
+          e(bt(d));
         }
       }
     ),
@@ -1447,26 +1601,26 @@ function Qo({ selected: n }) {
         title: "Credentials",
         count: Object.keys(l.methods).length,
         children: /* @__PURE__ */ t.jsx(
-          ce,
+          le,
           {
             data: l,
             saveData: (d) => a(n.sectionId, n.itemId, d),
-            wrapFormData: xt,
-            unwrapFormData: mt,
-            children: /* @__PURE__ */ t.jsx(Jo, { group: i, credentialId: c })
+            wrapFormData: vt,
+            unwrapFormData: xt,
+            children: /* @__PURE__ */ t.jsx(os, { group: i, credentialId: c })
           }
         )
       }
     ),
-    s.length > 0 && /* @__PURE__ */ t.jsx(R, { title: "Result", children: /* @__PURE__ */ t.jsx(ue, { result: s }) })
+    s.length > 0 && /* @__PURE__ */ t.jsx(R, { title: "Result", children: /* @__PURE__ */ t.jsx(pe, { result: s }) })
   ] });
 }
-const Zo = h.div`
+const cs = h.div`
   padding: 8px;
 `;
-function es() {
-  const n = pr({ name: "type" }), e = /* @__PURE__ */ t.jsx(
-    Ye,
+function ls() {
+  const n = fr({ name: "type" }), e = /* @__PURE__ */ t.jsx(
+    Je,
     {
       label: "Type",
       name: "type",
@@ -1483,22 +1637,22 @@ function es() {
   return n === "mTLS" ? /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
     e,
     /* @__PURE__ */ t.jsx(
-      pe,
+      he,
       {
         label: "Client certificate",
         name: "clientCertificate",
         title: "Select client certificate",
-        extensions: yt
+        extensions: jt
       }
     ),
     /* @__PURE__ */ t.jsx(P, { label: "Certificate password", name: "clientCertificatePassword", password: !0 }),
     /* @__PURE__ */ t.jsx(
-      pe,
+      he,
       {
         label: "Server CA certificate (optional)",
         name: "caServerCertificate",
         title: "Select CA certificate",
-        extensions: jt
+        extensions: St
       }
     )
   ] }) : /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
@@ -1506,7 +1660,7 @@ function es() {
     e,
     n !== "basic" && n !== "bearer" && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
       /* @__PURE__ */ t.jsx(
-        Ye,
+        Je,
         {
           label: "Location",
           name: "in",
@@ -1524,7 +1678,7 @@ function es() {
     /* @__PURE__ */ t.jsx(P, { label: "Credential value", name: "credentialValue" })
   ] });
 }
-function ts({
+function ds({
   onAddCredential: n,
   onAddSecurityProfile: e,
   existing: r
@@ -1540,7 +1694,7 @@ function ts({
     clientCertificate: "",
     clientCertificatePassword: "",
     caServerCertificate: ""
-  }, s = ae({
+  }, s = ce({
     id: C().optional(),
     type: C(),
     in: C().optional(),
@@ -1564,18 +1718,18 @@ function ts({
       });
       return;
     }
-    he().test(i.id ?? "") ? r.includes(i.id ?? "") && c.addIssue({
+    fe().test(i.id ?? "") ? r.includes(i.id ?? "") && c.addIssue({
       code: W.custom,
       path: ["id"],
       message: "Already exists"
     }) : c.addIssue({
       code: W.custom,
       path: ["id"],
-      message: fe
-    }), he().test(i.credentialName ?? "") || c.addIssue({
+      message: ge
+    }), fe().test(i.credentialName ?? "") || c.addIssue({
       code: W.custom,
       path: ["credentialName"],
-      message: fe
+      message: ge
     }), i.credentialValue || c.addIssue({
       code: W.custom,
       path: ["credentialValue"],
@@ -1618,102 +1772,102 @@ function ts({
     );
   };
   return /* @__PURE__ */ t.jsx(
-    Ae,
+    Ee,
     {
       title: "New security scheme",
       defaultValues: o,
       schema: s,
       onSubmit: a,
-      trigger: /* @__PURE__ */ t.jsx(re, { style: { width: "100%" }, children: "New security scheme" }),
-      children: /* @__PURE__ */ t.jsx(es, {})
+      trigger: /* @__PURE__ */ t.jsx(oe, { style: { width: "100%" }, children: "New security scheme" }),
+      children: /* @__PURE__ */ t.jsx(ls, {})
     }
   );
 }
-function ns() {
-  const n = q(), { securityProfile: e } = I((o) => o.scanconf.playbook);
+function us() {
+  const n = $(), { securityProfile: e } = I((o) => o.scanconf.playbook);
   if (e === void 0)
-    return /* @__PURE__ */ t.jsx(et, { children: /* @__PURE__ */ t.jsx(as, { children: "No mutual TLS security profile is configured." }) });
-  const r = ae({
+    return /* @__PURE__ */ t.jsx(tt, { children: /* @__PURE__ */ t.jsx(ms, { children: "No mutual TLS security profile is configured." }) });
+  const r = ce({
     clientCertificate: C().min(1, { message: "Required" }),
     clientCertificatePassword: C().min(1, { message: "Required" }),
     caServerCertificate: C()
   });
-  return /* @__PURE__ */ t.jsx(et, { children: /* @__PURE__ */ t.jsx(
-    ce,
+  return /* @__PURE__ */ t.jsx(tt, { children: /* @__PURE__ */ t.jsx(
+    le,
     {
       data: e,
-      saveData: (o) => n(Ee(o)),
-      wrapFormData: os,
-      unwrapFormData: ss,
+      saveData: (o) => n(Me(o)),
+      wrapFormData: hs,
+      unwrapFormData: fs,
       schema: r,
-      children: /* @__PURE__ */ t.jsx(rs, {})
+      children: /* @__PURE__ */ t.jsx(ps, {})
     }
   ) });
 }
-function rs() {
-  return /* @__PURE__ */ t.jsxs(is, { children: [
+function ps() {
+  return /* @__PURE__ */ t.jsxs(gs, { children: [
     /* @__PURE__ */ t.jsx(
-      pe,
+      he,
       {
         label: "Client certificate",
         name: "clientCertificate",
         title: "Select client certificate",
-        extensions: yt
+        extensions: jt
       }
     ),
     /* @__PURE__ */ t.jsx(H, { label: "Certificate password", name: "clientCertificatePassword", password: !0 }),
     /* @__PURE__ */ t.jsx(
-      pe,
+      he,
       {
         label: "Server CA certificate (optional)",
         name: "caServerCertificate",
         title: "Select CA certificate",
-        extensions: jt
+        extensions: St
       }
     )
   ] });
 }
-function os(n) {
+function hs(n) {
   return {
     clientCertificate: n.clientCertificate,
     clientCertificatePassword: n.clientCertificatePassword,
     caServerCertificate: n.caServerCertificate ?? ""
   };
 }
-function ss(n) {
+function fs(n) {
   return {
     clientCertificate: n.clientCertificate,
     clientCertificatePassword: n.clientCertificatePassword,
     caServerCertificate: n.caServerCertificate === "" ? void 0 : n.caServerCertificate
   };
 }
-const et = h.div`
+const tt = h.div`
   padding: 8px;
-`, is = h.div`
+`, gs = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, as = h.div`
+`, ms = h.div`
   opacity: 0.8;
 `;
-function cs() {
-  const n = q(), {
+function xs() {
+  const n = $(), {
     playbook: { authenticationDetails: e, securityProfile: r },
     selectedCredentialGroup: o,
     selectedCredential: s
   } = I((l) => l.scanconf), a = (l, d) => {
-    n(Ct({ credentialGroup: 0, id: l, credential: d })), n(le({ group: 0, credential: l }));
+    n(It({ credentialGroup: 0, id: l, credential: d })), n(de({ group: 0, credential: l }));
   }, i = (l) => {
-    n(Ee(l)), n(le({ group: 0, credential: be }));
+    n(Me(l)), n(de({ group: 0, credential: ye }));
   }, c = e.map((l, d) => {
-    const f = d === 0 ? "Default group" : `Group ${d}`, y = Object.entries(l).map(([v, g]) => ({
-      id: v,
-      label: v,
+    const f = d === 0 ? "Default group" : `Group ${d}`, j = Object.entries(l).map(([b, g]) => ({
+      id: b,
+      label: b,
       menu: /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsxs(
         F,
         {
-          onClick: (S) => S.stopPropagation(),
-          onSelect: () => n(St({ credentialGroup: d, id: v })),
+          onClick: (v) => v.stopPropagation(),
+          onSelect: () => n(wt({ credentialGroup: d, id: b })),
           children: [
             /* @__PURE__ */ t.jsx(V, {}),
             "Delete"
@@ -1721,14 +1875,14 @@ function cs() {
         }
       ) })
     }));
-    return d === 0 && r !== void 0 && y.push({
-      id: be,
+    return d === 0 && r !== void 0 && j.push({
+      id: ye,
       label: "mTLS",
       menu: /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsxs(
         F,
         {
-          onClick: (v) => v.stopPropagation(),
-          onSelect: () => n(wt()),
+          onClick: (b) => b.stopPropagation(),
+          onSelect: () => n(Ct()),
           children: [
             /* @__PURE__ */ t.jsx(V, {}),
             "Delete"
@@ -1738,17 +1892,17 @@ function cs() {
     }), {
       id: `${d}`,
       title: f,
-      items: y
+      items: j
     };
   });
   return /* @__PURE__ */ t.jsx(
-    ie,
+    ae,
     {
       title: "security schemes",
       sections: c,
-      render: (l) => l.itemId === be ? /* @__PURE__ */ t.jsx(ns, {}) : /* @__PURE__ */ t.jsx(Qo, { selected: l }),
+      render: (l) => l.itemId === ye ? /* @__PURE__ */ t.jsx(us, {}) : /* @__PURE__ */ t.jsx(as, { selected: l }),
       renderButtons: () => /* @__PURE__ */ t.jsx(
-        ts,
+        ds,
         {
           existing: Object.keys(e?.[0] || []),
           onAddCredential: a,
@@ -1758,18 +1912,18 @@ function cs() {
       selected: s !== void 0 ? { sectionId: `${o}`, itemId: s } : void 0,
       onSelected: (l) => {
         n(
-          le({ group: parseInt(l.sectionId), credential: l.itemId })
+          de({ group: parseInt(l.sectionId), credential: l.itemId })
         );
       }
     }
   );
 }
-function ls(n, e) {
+function vs(n, e) {
   return () => n({
-    matcher: oe(
+    matcher: se(
       T,
-      De,
-      kt,
+      $e,
+      Ot,
       B,
       N,
       L,
@@ -1788,28 +1942,28 @@ function ls(n, e) {
       if (d !== "scanconf" || f !== "operations" || l === void 0)
         return;
       o.cancelActiveListeners(), await o.delay(1e3);
-      const y = i[l], v = [
+      const j = i[l], b = [
         { name: "before", requests: s },
-        { name: "operationBefore", requests: y.before },
-        { name: "operationScenarios", requests: y.scenarios[c].requests },
-        { name: "operationAfter", requests: y.after },
+        { name: "operationBefore", requests: j.before },
+        { name: "operationScenarios", requests: j.scenarios[c].requests },
+        { name: "operationAfter", requests: j.after },
         { name: "after", requests: a }
       ].filter((g) => g.requests.length > 0);
       await _(
         o.getState(),
-        ge(),
+        me(),
         o.dispatch,
-        Tn,
-        On,
-        v,
+        $n,
+        Dn,
+        b,
         "http://localhost"
       );
     }
   });
 }
-function ds(n, e) {
+function bs(n, e) {
   return () => n({
-    matcher: oe(T, G, Me),
+    matcher: se(T, G, Fe),
     effect: async (r, o) => {
       const {
         requests: { ref: s },
@@ -1823,10 +1977,10 @@ function ds(n, e) {
       } = o.getState();
       c !== "scanconf" || l !== "requests" || (o.cancelActiveListeners(), await o.delay(1e3), await _(
         o.getState(),
-        ge(),
+        me(),
         o.dispatch,
+        Pn,
         qn,
-        Dn,
         [
           { name: "Global Before", requests: d ? a : [] },
           { name: "Request", requests: [{ ref: s }] },
@@ -1837,13 +1991,13 @@ function ds(n, e) {
     }
   });
 }
-function us(n, e) {
+function ys(n, e) {
   return () => n({
-    matcher: oe(
+    matcher: se(
       T,
       B,
-      le,
-      Oe,
+      de,
+      Te,
       N,
       L,
       z
@@ -1865,21 +2019,21 @@ function us(n, e) {
       const f = s?.authenticationDetails?.[a]?.[i]?.methods?.[c];
       f === void 0 || f.requests === void 0 || f.requests.length === 0 || await _(
         o.getState(),
-        ge(),
+        me(),
         o.dispatch,
-        Cn,
-        wn,
+        kn,
+        In,
         [{ name: "auth", requests: f.requests }],
         "http://localhost"
       );
     }
   });
 }
-function ps(n, e) {
+function js(n, e) {
   return () => n({
-    matcher: oe(
+    matcher: se(
       T,
-      It,
+      kt,
       N,
       L,
       z,
@@ -1901,19 +2055,19 @@ function ps(n, e) {
       const d = i === "before" ? [{ name: "Global Before", requests: s }] : [{ name: "Global After", requests: a }];
       await _(
         o.getState(),
-        ge(),
+        me(),
         o.dispatch,
-        Pn,
-        $n,
+        An,
+        Rn,
         d,
         "http://localhost"
       );
     }
   });
 }
-function hs(n, e) {
+function Ss(n, e) {
   return () => n({
-    actionCreator: Ot,
+    actionCreator: Tt,
     effect: async ({ payload: r }, o) => {
       const {
         scanconf: {
@@ -1922,33 +2076,33 @@ function hs(n, e) {
         operations: { scenarioId: c, operationId: l },
         prefs: { useGlobalBlocks: d, rejectUnauthorized: f },
         config: {
-          data: { scanProxy: y }
+          data: { scanProxy: j }
         }
-      } = o.getState(), v = i[l], g = [
+      } = o.getState(), b = i[l], g = [
         { name: "Global Before", requests: d ? s : [] },
-        { name: "Before", requests: v.before },
-        { name: "Scenario", requests: v.scenarios[c].requests },
-        { name: "After", requests: v.after },
+        { name: "Before", requests: b.before },
+        { name: "Scenario", requests: b.scenarios[c].requests },
+        { name: "After", requests: b.after },
         { name: "Global After", requests: d ? a : [] }
-      ].filter((S) => S.requests.length > 0);
+      ].filter((v) => v.requests.length > 0);
       await _(
         o.getState(),
-        xe(
-          { https: { rejectUnauthorized: f, proxy: y } },
-          (S, x, p, k) => o.dispatch(me({ id: S, request: x, config: p, mtlsConfig: k }))
+        ve(
+          { https: { rejectUnauthorized: f, proxy: j } },
+          (v, m, p, k) => o.dispatch(xe({ id: v, request: m, config: p, mtlsConfig: k }))
         ),
         o.dispatch,
-        An,
-        Rn,
+        Mn,
+        En,
         g,
         r
       );
     }
   });
 }
-function fs(n, e) {
+function ws(n, e) {
   return () => n({
-    actionCreator: vt,
+    actionCreator: bt,
     effect: async ({ payload: r }, o) => {
       const {
         scanconf: { oas: s, playbook: a, selectedCredential: i, selectedSubcredential: c },
@@ -1960,28 +2114,28 @@ function fs(n, e) {
       } = o.getState();
       if (i === void 0 || c === void 0)
         return;
-      const y = [yn(a, l)];
-      o.dispatch(jn()), o.dispatch(ye({ event: "playbook-started", name: "" })), o.dispatch(ye({ event: "request-started" }));
-      for await (const v of Sn(
-        En(),
-        xe(
+      const j = [Sn(a, l)];
+      o.dispatch(wn()), o.dispatch(je({ event: "playbook-started", name: "" })), o.dispatch(je({ event: "request-started" }));
+      for await (const b of Cn(
+        Fn(),
+        ve(
           { https: { rejectUnauthorized: d, proxy: f } },
-          (g, S, x, p) => o.dispatch(me({ id: g, request: S, config: x, mtlsConfig: p }))
+          (g, v, m, p) => o.dispatch(xe({ id: g, request: v, config: m, mtlsConfig: p }))
         ),
         s,
         r,
         a,
         [`${i}/${c}`],
-        y,
+        j,
         0
       ))
-        o.dispatch(ye(v));
+        o.dispatch(je(b));
     }
   });
 }
-function gs(n, e) {
+function Cs(n, e) {
   return () => n({
-    actionCreator: In,
+    actionCreator: On,
     effect: async ({ payload: { inputs: r, server: o } }, s) => {
       const {
         requests: { ref: a },
@@ -1992,30 +2146,30 @@ function gs(n, e) {
         config: {
           data: { scanProxy: f }
         }
-      } = s.getState(), y = [
+      } = s.getState(), j = [
         { name: "Global Before", requests: l ? i : [] },
         { name: "Request", requests: [{ ref: a }] },
         { name: "Global After", requests: l ? c : [] }
-      ].filter((v) => v.requests.length > 0);
+      ].filter((b) => b.requests.length > 0);
       await _(
         s.getState(),
-        xe(
+        ve(
           { https: { rejectUnauthorized: d, proxy: f } },
-          (v, g, S, x) => s.dispatch(me({ id: v, request: g, config: S, mtlsConfig: x }))
+          (b, g, v, m) => s.dispatch(xe({ id: b, request: g, config: v, mtlsConfig: m }))
         ),
         s.dispatch,
-        Fn,
-        Mn,
-        y,
+        Bn,
+        zn,
+        j,
         o,
         [{ id: { type: "try-inputs" }, env: r, assignments: [] }]
       );
     }
   });
 }
-function ms(n, e) {
+function Is(n, e) {
   return () => n({
-    actionCreator: Te,
+    actionCreator: De,
     effect: async ({ payload: r }, o) => {
       const {
         scanconf: {
@@ -2029,13 +2183,13 @@ function ms(n, e) {
       } = o.getState(), d = i === "before" ? [{ name: "Global Before", requests: s }] : [{ name: "Global After", requests: a }];
       await _(
         o.getState(),
-        xe(
+        ve(
           { https: { rejectUnauthorized: c, proxy: l } },
-          (f, y, v, g) => o.dispatch(me({ id: f, request: y, config: v, mtlsConfig: g }))
+          (f, j, b, g) => o.dispatch(xe({ id: f, request: j, config: b, mtlsConfig: g }))
         ),
         o.dispatch,
-        Bn,
-        zn,
+        Nn,
+        Ln,
         d,
         r
       );
@@ -2044,7 +2198,7 @@ function ms(n, e) {
 }
 async function _(n, e, r, o, s, a, i, c = []) {
   r(o());
-  for await (const l of kn(
+  for await (const l of Tn(
     e,
     n.scanconf.oas,
     i,
@@ -2055,18 +2209,18 @@ async function _(n, e, r, o, s, a, i, c = []) {
   ))
     r(s(l));
 }
-function xs(n, e) {
-  const r = Z(n.before || [], e).map((i) => ({ container: "globalBefore", stageIndex: i })), o = Z(n.after || [], e).map((i) => ({ container: "globalAfter", stageIndex: i })), s = Object.entries(n.operations || {}).flatMap(([i, c]) => i !== e ? vs(c, i, e) : []), a = (n.authenticationDetails || []).flatMap(
+function ks(n, e) {
+  const r = Z(n.before || [], e).map((i) => ({ container: "globalBefore", stageIndex: i })), o = Z(n.after || [], e).map((i) => ({ container: "globalAfter", stageIndex: i })), s = Object.entries(n.operations || {}).flatMap(([i, c]) => i !== e ? Os(c, i, e) : []), a = (n.authenticationDetails || []).flatMap(
     // TODO: handle credentials that contain just a $ref
-    (i, c) => Object.entries(i).flatMap(([l, d]) => ys(d, l, c, e))
+    (i, c) => Object.entries(i).flatMap(([l, d]) => Ds(d, l, c, e))
   );
   return [...r, ...o, ...a, ...s];
 }
-function vs(n, e, r) {
-  const o = Z(n.before || [], r).map((i) => ({ container: "operationBefore", operationId: e, stageIndex: i })), s = Z(n.after || [], r).map((i) => ({ container: "operationAfter", operationId: e, stageIndex: i })), a = n.scenarios.flatMap((i, c) => bs(i, e, c, r));
+function Os(n, e, r) {
+  const o = Z(n.before || [], r).map((i) => ({ container: "operationBefore", operationId: e, stageIndex: i })), s = Z(n.after || [], r).map((i) => ({ container: "operationAfter", operationId: e, stageIndex: i })), a = n.scenarios.flatMap((i, c) => Ts(i, e, c, r));
   return [...o, ...a, ...s];
 }
-function bs(n, e, r, o) {
+function Ts(n, e, r, o) {
   return Z(n.requests || [], o).map((s) => ({
     container: "operationScenarios",
     operationId: e,
@@ -2074,7 +2228,7 @@ function bs(n, e, r, o) {
     stageIndex: s
   }));
 }
-function ys(n, e, r, o) {
+function Ds(n, e, r, o) {
   return Object.entries(n.credentials).flatMap(([s, a]) => Z(a.requests || [], o).map((i) => ({
     container: "credential",
     group: r,
@@ -2086,18 +2240,18 @@ function ys(n, e, r, o) {
 function Z(n, e) {
   const r = "#" + X.joinJsonPointer(["operations", e, "request"]);
   return n.map((o, s) => {
-    if (js(o) && o.$ref === r)
+    if ($s(o) && o.$ref === r)
       return s;
   }).filter((o) => o !== void 0);
 }
-function js(n) {
+function $s(n) {
   return "$ref" in n;
 }
-function Ss(n, e) {
+function qs(n, e) {
   const r = [];
   for (const o of n)
     for (const s of e)
-      ws(o, s) && r.push({
+      Ps(o, s) && r.push({
         type: "operation-renamed",
         path: o.path,
         method: o.method,
@@ -2106,24 +2260,24 @@ function Ss(n, e) {
       });
   return r;
 }
-function ws(n, e) {
+function Ps(n, e) {
   return n.path === e.path && n.method === e.method;
 }
-function Cs(n, e) {
-  const r = Is(n, e), o = ks(n, e), s = Ss(r, o), a = r.filter((l) => !s.some((d) => d.newOperationId === l.operationId)), i = o.filter((l) => !s.some((d) => d.oldOperationId === l.operationId)), c = Ts(n, e);
+function Rs(n, e) {
+  const r = As(n, e), o = Es(n, e), s = qs(r, o), a = r.filter((l) => !s.some((d) => d.newOperationId === l.operationId)), i = o.filter((l) => !s.some((d) => d.oldOperationId === l.operationId)), c = Fs(n, e);
   return [...a, ...i, ...s, ...c];
 }
-function Is(n, e) {
+function As(n, e) {
   const r = e.operations || {};
-  return Jt(n).filter((o) => !r[o.operationId]).map((o) => ({
+  return Qt(n).filter((o) => !r[o.operationId]).map((o) => ({
     type: "operation-added",
     ...o
   }));
 }
-function ks(n, e) {
-  const r = e.operations || {}, o = Jt(n).map((c) => c.operationId), a = Object.keys(r).filter((c) => !o.includes(c)), i = [];
+function Es(n, e) {
+  const r = e.operations || {}, o = Qt(n).map((c) => c.operationId), a = Object.keys(r).filter((c) => !o.includes(c)), i = [];
   for (const c of a) {
-    const l = Os(c, e)?.request?.request;
+    const l = Ms(c, e)?.request?.request;
     if (l?.type === "42c" && l.details.url.startsWith("{{host}}")) {
       const d = l.details.method.toLowerCase(), f = l.details.url.substring(8);
       i.push({
@@ -2131,35 +2285,35 @@ function ks(n, e) {
         operationId: c,
         method: d,
         path: f,
-        references: xs(e, c)
+        references: ks(e, c)
       });
     } else
       throw new Error(`Unsupported operation: operationId: ${c}, request ${JSON.stringify(l)}`);
   }
   return i;
 }
-function Jt(n) {
-  return Cr(n).map(([r, o, s]) => ({
+function Qt(n) {
+  return Ir(n).map(([r, o, s]) => ({
     path: r,
     method: o,
-    operationId: Ir(s.operationId, r, o)
+    operationId: kr(s.operationId, r, o)
   }));
 }
-function Os(n, e) {
+function Ms(n, e) {
   return e.operations?.[n];
 }
-function Ts(n, e) {
+function Fs(n, e) {
   const r = e.authenticationDetails || [{}];
-  return r.length === 0 ? [] : qs(n).filter((o) => Ds(n, o)).filter((o) => !r[0][o]).map((o) => ({
+  return r.length === 0 ? [] : Bs(n).filter((o) => zs(n, o)).filter((o) => !r[0][o]).map((o) => ({
     type: "security-added",
     schema: o
   }));
 }
-function Ds(n, e) {
-  return Ht(n) && (n.openapi === "3.1.0" || n.openapi === "3.1.1") ? n.components?.securitySchemes?.[e]?.type !== "mutualTLS" : !1;
+function zs(n, e) {
+  return Vt(n) && (n.openapi === "3.1.0" || n.openapi === "3.1.1") ? n.components?.securitySchemes?.[e]?.type !== "mutualTLS" : !1;
 }
-function qs(n) {
-  if (Ht(n)) {
+function Bs(n) {
+  if (Vt(n)) {
     const e = n.components?.securitySchemes;
     return e ? Object.keys(e) : [];
   } else {
@@ -2167,16 +2321,16 @@ function qs(n) {
     return e ? Object.keys(e) : [];
   }
 }
-function $s(n, e) {
+function Ls(n, e) {
   const r = X.simpleClone(n);
   for (const o of e)
     o.container === "globalBefore" ? te(r.before, o.stageIndex) : o.container === "globalAfter" ? te(r.after, o.stageIndex) : o.container === "operationBefore" ? te(r.operations[o.operationId].before, o.stageIndex) : o.container === "operationAfter" ? te(r.operations[o.operationId].after, o.stageIndex) : o.container === "operationScenarios" && te(r.operations[o.operationId].scenarios[o.scenarioIndex].requests, o.stageIndex);
-  return Ps(r), r;
+  return Ns(r), r;
 }
 function te(n, e) {
   n && (n[e] = void 0);
 }
-function Ps(n) {
+function Ns(n) {
   Y(n.before), Y(n.after);
   for (const e of Object.values(n.operations || {})) {
     Y(e.before), Y(e.after);
@@ -2193,7 +2347,7 @@ function Y(n) {
     for (let e = n.length - 1; e >= 0; e--)
       n[e] === void 0 && n.splice(e, 1);
 }
-function Rs(n, e, r) {
+function Hs(n, e, r) {
   const o = X.simpleClone(n);
   J(o.before, e, r), J(o.after, e, r);
   for (const s of Object.values(o.operations || {})) {
@@ -2211,61 +2365,61 @@ function J(n, e, r) {
   for (const o of n || [])
     o.$ref === e && (o.$ref = r);
 }
-function As(n, e, r, o) {
+function Gs(n, e, r, o) {
   let s = X.simpleClone(e);
   for (const a of o)
-    a.type === "operation-added" ? s = Es(n, s, r, a) : a.type === "operation-removed" ? s = Ms(n, s, r, a) : a.type === "operation-renamed" ? s = Fs(s, a) : a.type === "security-added" && (s = zs(n, s, r, a));
+    a.type === "operation-added" ? s = Vs(n, s, r, a) : a.type === "operation-removed" ? s = Us(n, s, r, a) : a.type === "operation-renamed" ? s = _s(s, a) : a.type === "security-added" && (s = Ws(n, s, r, a));
   return s;
 }
-function Es(n, e, r, o) {
+function Vs(n, e, r, o) {
   const s = r.operations[o.operationId];
   return e.operations[o.operationId] = s, e;
 }
-function Ms(n, e, r, o) {
-  return delete e.operations[o.operationId], $s(e, o.references);
+function Us(n, e, r, o) {
+  return delete e.operations[o.operationId], Ls(e, o.references);
 }
-function Fs(n, e) {
+function _s(n, e) {
   const r = n.operations[e.oldOperationId];
   r.operationId = e.newOperationId, r.request.operationId = e.newOperationId, r.request?.request?.type === "42c" && (r.request.request.details.operationId = e.newOperationId), delete n.operations[e.oldOperationId], n.operations[e.newOperationId] = r;
   const o = "#" + X.joinJsonPointer(["operations", e.oldOperationId, "request"]), s = "#" + X.joinJsonPointer(["operations", e.newOperationId, "request"]);
-  return Rs(n, o, s);
+  return Hs(n, o, s);
 }
-function zs(n, e, r, o) {
+function Ws(n, e, r, o) {
   e.authenticationDetails || (e.authenticationDetails = [], e.authenticationDetails.push({}));
   const s = o.schema;
   return e.authenticationDetails[0][s] = r.authenticationDetails[0][s], e;
 }
-function Bs(n) {
+function Ys(n) {
   return () => n({
-    actionCreator: Nn,
+    actionCreator: Gn,
     effect: async ({ payload: { oas: e, scanconf: r } }, o) => {
-      const [s, a] = Re(r);
+      const [s, a] = Ae(r);
       if (a !== void 0) {
         o.dispatch(
           A({ message: `Failed to parse scan configuration: ${a}` })
         ), o.dispatch(T(["general-error"]));
         return;
       }
-      const i = Cs(e, s);
+      const i = Rs(e, s);
       if (i.length > 0) {
-        o.dispatch(Hn({ scanconf: r, oas: e, changes: i })), o.dispatch(T(["scanconf-update"]));
+        o.dispatch(Vn({ scanconf: r, oas: e, changes: i })), o.dispatch(T(["scanconf-update"]));
         return;
       }
-      const [c, l] = Fe(Be(e), s);
+      const [c, l] = ze(Le(e), s);
       if (l !== void 0) {
         const d = l.map((f) => `${f.message}: ${f.pointer}`).join(" ");
         o.dispatch(A({ message: d })), o.dispatch(T(["general-error"]));
         return;
       }
-      o.dispatch(ze({ playbook: c, oas: e })), o.dispatch(T(["scanconf", "requests"]));
+      o.dispatch(Be({ playbook: c, oas: e })), o.dispatch(T(["scanconf", "requests"]));
     }
   });
 }
-function Ls(n, e) {
+function Js(n, e) {
   return () => n({
-    actionCreator: Ln,
+    actionCreator: Hn,
     effect: async ({ payload: { oas: r, scanconf: o } }, s) => {
-      const { changes: a, scanconf: i } = s.getState().scanconfUpdate, [c, l] = Re(i);
+      const { changes: a, scanconf: i } = s.getState().scanconfUpdate, [c, l] = Ae(i);
       if (l !== void 0) {
         s.dispatch(
           A({
@@ -2274,7 +2428,7 @@ function Ls(n, e) {
         ), s.dispatch(T(["general-error"]));
         return;
       }
-      const [d, f] = Re(o);
+      const [d, f] = Ae(o);
       if (f !== void 0) {
         s.dispatch(
           A({
@@ -2283,29 +2437,29 @@ function Ls(n, e) {
         ), s.dispatch(T(["general-error"]));
         return;
       }
-      const y = As(r, c, d, a), [v, g] = Fe(Be(r), y);
+      const j = Gs(r, c, d, a), [b, g] = ze(Le(r), j);
       if (g !== void 0) {
-        const S = g.map((x) => `${x.message}: ${x.pointer}`).join(" ");
-        s.dispatch(A({ message: S })), s.dispatch(T(["general-error"]));
+        const v = g.map((m) => `${m.message}: ${m.pointer}`).join(" ");
+        s.dispatch(A({ message: v })), s.dispatch(T(["general-error"]));
         return;
       }
       e.postMessage({
         command: "saveScanconf",
-        payload: JSON.stringify(y, null, 2)
-      }), s.dispatch(ze({ playbook: v, oas: r })), s.dispatch(T(["scanconf", "requests"]));
+        payload: JSON.stringify(j, null, 2)
+      }), s.dispatch(Be({ playbook: b, oas: r })), s.dispatch(T(["scanconf", "requests"]));
     }
   });
 }
-function Re(n) {
+function Ae(n) {
   try {
     return [JSON.parse(n), void 0];
   } catch (e) {
     return [void 0, `${e}`];
   }
 }
-const Ns = (n, e) => ({
+const Xs = (n, e) => ({
   runScan: () => n({
-    actionCreator: At,
+    actionCreator: Et,
     effect: async (r, o) => {
       e.postMessage({
         command: "runScan",
@@ -2314,7 +2468,7 @@ const Ns = (n, e) => ({
     }
   }),
   runFullScan: () => n({
-    actionCreator: Rt,
+    actionCreator: At,
     effect: async (r, o) => {
       e.postMessage({
         command: "runFullScan",
@@ -2323,29 +2477,29 @@ const Ns = (n, e) => ({
     }
   }),
   saveScanconf: () => n({
-    matcher: oe(
-      Me,
-      Yn,
-      bt,
-      Ct,
-      St,
-      Ee,
+    matcher: se(
+      Fe,
+      Xn,
+      yt,
+      It,
       wt,
+      Me,
+      Ct,
       N,
       L,
       z,
       B,
-      Wn,
+      Jn,
+      Rt,
       Pt,
-      $t,
       qt,
-      Dt,
+      $t,
       qe,
-      _n,
-      Tt
+      Yn,
+      Dt
     ),
     effect: async (r, o) => {
-      const { scanconf: s } = o.getState(), [a, i] = Le(s.playbook);
+      const { scanconf: s } = o.getState(), [a, i] = Ne(s.playbook);
       if (i !== void 0)
         return;
       const c = JSON.stringify(a, null, 2);
@@ -2356,20 +2510,20 @@ const Ns = (n, e) => ({
     }
   }),
   sendHttpRequest: () => n({
-    actionCreator: Un,
+    actionCreator: Wn,
     effect: async (r, o) => {
       const { id: s, request: a, config: i } = r.payload;
       e.postMessage({ command: "sendHttpRequest", payload: { id: s, request: a, config: i } });
     }
   }),
   showEnvWindow: () => n({
-    actionCreator: Pr,
+    actionCreator: Rr,
     effect: async (r, o) => {
       e.postMessage({ command: "showEnvWindow", payload: void 0 });
     }
   }),
   savePrefs: () => n({
-    actionCreator: Ar,
+    actionCreator: Er,
     effect: async (r, o) => {
       const { prefs: s } = o.getState();
       e.postMessage({
@@ -2378,9 +2532,9 @@ const Ns = (n, e) => ({
       });
     }
   }),
-  openLink: Dr(n, e),
+  openLink: $r(n, e),
   updateScanconf: () => n({
-    actionCreator: Vn,
+    actionCreator: _n,
     effect: async (r, o) => {
       e.postMessage({
         command: "updateScanconf",
@@ -2389,44 +2543,44 @@ const Ns = (n, e) => ({
     }
   }),
   selectFile: () => n({
-    actionCreator: Gn,
+    actionCreator: Un,
     effect: async (r, o) => {
       e.postMessage({ command: "selectFile", payload: r.payload });
     }
   })
 });
-function Hs(n) {
+function Ks(n) {
   return () => n({
-    actionCreator: Jn,
+    actionCreator: Kn,
     effect: async (e, r) => {
-      const { oas: o, scanconf: s } = r.getState().scanconfUpdate, [a, i] = Gs(s);
+      const { oas: o, scanconf: s } = r.getState().scanconfUpdate, [a, i] = Qs(s);
       if (i !== void 0) {
         r.dispatch(
           A({ message: `Failed to parse scan configuration: ${i}` })
         ), r.dispatch(T(["general-error"]));
         return;
       }
-      const [c, l] = Fe(Be(o), a);
+      const [c, l] = ze(Le(o), a);
       if (l !== void 0) {
         const d = l.map((f) => `${f.message}: ${f.pointer}`).join(" ");
         r.dispatch(A({ message: d })), r.dispatch(T(["general-error"]));
         return;
       }
-      r.dispatch(ze({ playbook: c, oas: o })), r.dispatch(T(["scanconf", "operations"]));
+      r.dispatch(Be({ playbook: c, oas: o })), r.dispatch(T(["scanconf", "operations"]));
     }
   });
 }
-function Gs(n) {
+function Qs(n) {
   try {
     return [JSON.parse(n), void 0];
   } catch (e) {
     return [void 0, `${e}`];
   }
 }
-const Xt = tn(), D = Xt.startListening;
-function Vs(n, e) {
-  const r = hs(D), o = ls(D), s = ds(D), a = gs(D), i = us(D), c = fs(D), l = ms(D), d = ps(D), f = Ns(D, n);
-  return qr(D, e), nn({
+const Zt = on(), D = Zt.startListening;
+function Zs(n, e) {
+  const r = Ss(D), o = vs(D), s = bs(D), a = Cs(D), i = ys(D), c = ws(D), l = Is(D), d = js(D), f = Xs(D, n);
+  return qr(D, e), sn({
     ...f,
     executeTryScenarioListener: r,
     executeMockScenarioListener: o,
@@ -2436,18 +2590,18 @@ function Vs(n, e) {
     executeTryAuthenticationListener: c,
     executeTryGlobalListener: l,
     executeMockGlobalListener: d,
-    executeSendHttpRequestListener: $r(D, n),
-    executeConfirmationAccept: Xn(D),
-    executeShowScanconfOperationListener: Bs(D),
-    executeLoadUpdatedScanconfListener: Ls(D, n),
-    executeSkipScanconfUpdate: Hs(D)
-  }), Xt;
+    executeSendHttpRequestListener: Pr(D, n),
+    executeConfirmationAccept: Qn(D),
+    executeShowScanconfOperationListener: Ys(D),
+    executeLoadUpdatedScanconfListener: Js(D, n),
+    executeSkipScanconfUpdate: Ks(D)
+  }), Zt;
 }
-function Us({
+function ei({
   operationId: n,
   goToRequest: e
 }) {
-  const r = q(), { playbook: o, oas: s } = I((p) => p.scanconf), { scenarioId: a, mockResult: i } = I((p) => p.operations), c = o.operations[n].scenarios, l = Object.keys(o.operations), d = Object.keys(o.requests || {}), f = (p) => r(kt(p)), y = (p, k) => r(B({ location: p, reference: k })), v = (p) => r(z(p)), g = (p, k) => r(L({ location: p, to: k })), S = (p, k) => {
+  const r = $(), { playbook: o, oas: s } = I((p) => p.scanconf), { scenarioId: a, mockResult: i } = I((p) => p.operations), c = o.operations[n].scenarios, l = Object.keys(o.operations), d = Object.keys(o.requests || {}), f = (p) => r(Ot(p)), j = (p, k) => r(B({ location: p, reference: k })), b = (p) => r(z(p)), g = (p, k) => r(L({ location: p, to: k })), v = (p, k) => {
     r(
       N({
         container: p,
@@ -2456,7 +2610,7 @@ function Us({
         }
       })
     );
-  }, x = c.map((p, k) => ({
+  }, m = c.map((p, k) => ({
     id: `${k}`,
     title: p.key,
     /* not implemented
@@ -2466,7 +2620,7 @@ function Us({
       </Menu>
     ),
     */
-    content: /* @__PURE__ */ t.jsxs(_s, { children: [
+    content: /* @__PURE__ */ t.jsxs(ti, { children: [
       /* @__PURE__ */ t.jsx(
         K,
         {
@@ -2474,84 +2628,84 @@ function Us({
           stages: p.requests,
           container: { container: "operationScenarios", operationId: n, scenarioIndex: k },
           executionResult: ne(i, "operationScenarios"),
-          saveStage: y,
+          saveStage: j,
           moveStage: g,
-          removeStage: v,
+          removeStage: b,
           operations: o.operations,
           requests: o.requests,
           goToRequest: e,
           fuzzing: !0
         }
       ),
-      /* @__PURE__ */ t.jsx(Ws, { children: /* @__PURE__ */ t.jsx(
+      /* @__PURE__ */ t.jsx(ni, { children: /* @__PURE__ */ t.jsx(
         Q,
         {
           operationIds: l,
           requestIds: d,
-          onSelect: (b) => S({ container: "operationScenarios", operationId: n, scenarioIndex: k }, b)
+          onSelect: (y) => v({ container: "operationScenarios", operationId: n, scenarioIndex: k }, y)
         }
       ) })
     ] })
   }));
   return /* @__PURE__ */ t.jsx(
-    Ne,
+    He,
     {
       activeTab: `${a}`,
       setActiveTab: (p) => f(parseInt(p)),
-      tabs: x
+      tabs: m
     }
   );
 }
-const _s = h.div`
+const ti = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 8px;
-`, Ws = h.div`
+`, ni = h.div`
   margin-left: 18px;
 `;
-function Ys({
+function ri({
   authorizationTests: n,
   onSelect: e
 }) {
-  const s = n, [a, i] = w.useState(s), { isOpen: c, getMenuProps: l, getInputProps: d, getItemProps: f, openMenu: y } = Gt({
+  const s = n, [a, i] = w.useState(s), { isOpen: c, getMenuProps: l, getInputProps: d, getItemProps: f, openMenu: j } = Ut({
     initialInputValue: "",
     items: a,
-    onSelectedItemChange: ({ selectedItem: v }) => {
-      v && e(v);
+    onSelectedItemChange: ({ selectedItem: b }) => {
+      b && e(b);
     },
-    onInputValueChange: ({ inputValue: v }) => {
+    onInputValueChange: ({ inputValue: b }) => {
       i(
-        s.filter((g) => !v || g.toLowerCase().includes(v))
+        s.filter((g) => !b || g.toLowerCase().includes(b))
       );
     },
-    itemToString: (v) => v || ""
+    itemToString: (b) => b || ""
   });
-  return /* @__PURE__ */ t.jsxs(Js, { children: [
+  return /* @__PURE__ */ t.jsxs(oi, { children: [
     /* @__PURE__ */ t.jsx(
-      Xs,
+      si,
       {
         autoFocus: !0,
         ...d({
           onFocus() {
-            y();
+            j();
           }
         }),
         placeholder: "",
-        onBlur: (v) => {
+        onBlur: (b) => {
           e(void 0);
         }
       }
     ),
-    /* @__PURE__ */ t.jsx(Ks, { children: /* @__PURE__ */ t.jsx(Qs, { ...l(), $isOpen: c, children: c && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
-      a.map((v, g) => /* @__PURE__ */ t.jsx(
+    /* @__PURE__ */ t.jsx(ii, { children: /* @__PURE__ */ t.jsx(ai, { ...l(), $isOpen: c, children: c && /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+      a.map((b, g) => /* @__PURE__ */ t.jsx(
         "li",
         {
           ...f({
-            item: v,
+            item: b,
             index: g
           }),
-          children: v
+          children: b
         },
         `li-${g}`
       )),
@@ -2559,13 +2713,13 @@ function Ys({
     ] }) }) })
   ] });
 }
-const Js = h.div`
+const oi = h.div`
   padding: 10px;
   gap: 4px;
   cursor: pointer;
   align-items: center;
   border: 1px solid var(${u.border});
-`, Xs = h.input`
+`, si = h.input`
   background: transparent;
   width: 100%;
   border: none;
@@ -2574,10 +2728,10 @@ const Js = h.div`
   &::placeholder {
     color: var(${u.inputPlaceholderForeground});
   }
-`, Ks = h.div`
+`, ii = h.div`
   position: relative;
   z-index: 1;
-`, Qs = h.ul`
+`, ai = h.ul`
   ${({ $isOpen: n }) => n && `border: 1px solid var(${u.dropdownBorder});`}
   background-color: var(${u.dropdownBackground});
   color: var(${u.dropdownForeground});
@@ -2594,16 +2748,16 @@ const Js = h.div`
     background-color: var(${u.listHoverBackground});
   }
 `;
-function Zs({
+function ci({
   authorizationTests: n,
   auth: e,
   existing: r,
   credentials: o,
   onSelect: s
 }) {
-  const [a, i] = w.useState(!1), l = Object.entries(n).filter(([d, f]) => ti(o, e, f.source[0])).map(([d]) => d).filter((d) => !r.includes(d));
+  const [a, i] = w.useState(!1), l = Object.entries(n).filter(([d, f]) => di(o, e, f.source[0])).map(([d]) => d).filter((d) => !r.includes(d));
   return a ? /* @__PURE__ */ t.jsx(
-    Ys,
+    ri,
     {
       onSelect: (d) => {
         d !== void 0 && s(d), i(!1);
@@ -2611,19 +2765,19 @@ function Zs({
       authorizationTests: l
     }
   ) : /* @__PURE__ */ t.jsxs(
-    ei,
+    li,
     {
       onClick: (d) => {
         d.stopPropagation(), d.preventDefault(), i(!0);
       },
       children: [
-        /* @__PURE__ */ t.jsx(se, {}),
+        /* @__PURE__ */ t.jsx(ie, {}),
         " Add authorization test"
       ]
     }
   );
 }
-const ei = h.div`
+const li = h.div`
   display: flex;
   padding: 8px 12px;
   gap: 4px;
@@ -2636,17 +2790,17 @@ const ei = h.div`
     fill: var(${u.linkForeground});
   }
 `;
-function ti(n, e, r) {
+function di(n, e, r) {
   return e !== void 0 && e.some((o) => {
     const s = n[o]?.default;
     return r === o || r === `${o}/${s}`;
   });
 }
-function ni({
+function ui({
   authorizationTests: n,
   removeTest: e
 }) {
-  return /* @__PURE__ */ t.jsx(ri, { children: n.map((r, o) => /* @__PURE__ */ t.jsxs(oi, { children: [
+  return /* @__PURE__ */ t.jsx(pi, { children: n.map((r, o) => /* @__PURE__ */ t.jsxs(hi, { children: [
     /* @__PURE__ */ t.jsx("div", { children: r }),
     /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsxs(F, { onClick: (s) => s.stopPropagation(), onSelect: () => e(r), children: [
       /* @__PURE__ */ t.jsx(V, {}),
@@ -2654,11 +2808,11 @@ function ni({
     ] }) })
   ] }, o)) });
 }
-const ri = h.div`
+const pi = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, oi = h.div`
+`, hi = h.div`
   border: 1px solid var(${u.border});
   background-color: var(${u.background});
   padding: 8px;
@@ -2675,69 +2829,69 @@ const ri = h.div`
     }
   }
 `;
-function si({ operationId: n }) {
-  const e = q(), { oas: r, playbook: o, servers: s } = I((j) => j.scanconf), a = I((j) => j.config.data), { mockResult: i, tryResult: c } = I((j) => j.operations), l = I((j) => j.env.data), d = (j) => e(z(j)), f = (j, $) => e(B({ location: j, reference: $ })), y = (j, $) => e(L({ location: j, to: $ })), v = (j, $) => {
+function fi({ operationId: n }) {
+  const e = $(), { oas: r, playbook: o, servers: s } = I((S) => S.scanconf), a = I((S) => S.config.data), { mockResult: i, tryResult: c } = I((S) => S.operations), l = I((S) => S.env.data), d = (S) => e(z(S)), f = (S, q) => e(B({ location: S, reference: q })), j = (S, q) => e(L({ location: S, to: q })), b = (S, q) => {
     e(
       N({
-        container: j,
+        container: S,
         stage: {
-          ref: $
+          ref: q
         }
       })
     );
-  }, g = (j) => {
-    e(G(j)), e(T(["scanconf", "requests"]));
-  }, S = Object.keys(o.operations), x = Object.keys(o.requests || {}), p = o.operations[n], k = ne(i, "before"), b = ne(i, "after"), { simple: m } = Et(Mt(o), l), O = Ft(o, l, s);
+  }, g = (S) => {
+    e(G(S)), e(T(["scanconf", "requests"]));
+  }, v = Object.keys(o.operations), m = Object.keys(o.requests || {}), p = o.operations[n], k = ne(i, "before"), y = ne(i, "after"), { simple: x } = Mt(Ft(o), l), O = zt(o, l, s);
   return p === void 0 ? /* @__PURE__ */ t.jsx(
-    je,
+    Se,
     {
       message: `Unable to find operation with operationId "${n}" in scan configuration`,
       children: /* @__PURE__ */ t.jsx("p", { children: "Verify if the OpenAPI file contains operations that were added after the scan configuration was created. If needed, consider deleting and recreating the scan configuration." })
     }
-  ) : /* @__PURE__ */ t.jsxs(ii, { children: [
+  ) : /* @__PURE__ */ t.jsxs(gi, { children: [
     /* @__PURE__ */ t.jsx(
-      de,
+      ue,
       {
         menu: !0,
         servers: O,
-        onTry: (j) => {
-          e(Ot(j));
+        onTry: (S) => {
+          e(Tt(S));
         },
-        onScan: (j) => {
-          const $ = zt(
-            j,
+        onScan: (S) => {
+          const q = Bt(
+            S,
             a.platformAuthType,
             a.scanRuntime,
             a.docker.replaceLocalhost,
             a.platform
-          ), [ve, He] = Le(o);
-          if (He !== void 0) {
-            console.log("failed to serialize", He);
+          ), [be, Ge] = Ne(o);
+          if (Ge !== void 0) {
+            console.log("failed to serialize", Ge);
             return;
           }
           e(
-            At({
+            Et({
               path: p.request.request.path,
               method: p.request.request.method,
               operationId: n,
               env: {
-                SCAN42C_HOST: $,
-                ...m
+                SCAN42C_HOST: q,
+                ...x
               },
-              scanconf: Kn(ve, n)
+              scanconf: Zn(be, n)
             })
           );
         }
       }
     ),
     /* @__PURE__ */ t.jsx(
-      ai,
+      mi,
       {
-        onClick: (j) => {
-          j.stopPropagation(), j.preventDefault(), g({ type: "operation", id: n });
+        onClick: (S) => {
+          S.stopPropagation(), S.preventDefault(), g({ type: "operation", id: n });
         },
         children: /* @__PURE__ */ t.jsx(
-          Qn,
+          er,
           {
             operationId: n,
             path: p.request.request.path,
@@ -2752,34 +2906,34 @@ function si({ operationId: n }) {
         defaultOpen: !1,
         title: "Authorization Tests",
         count: p.authorizationTests.length,
-        children: /* @__PURE__ */ t.jsxs(ke, { children: [
+        children: /* @__PURE__ */ t.jsxs(Oe, { children: [
           /* @__PURE__ */ t.jsx(
-            ni,
+            ui,
             {
               authorizationTests: p.authorizationTests,
-              removeTest: (j) => {
-                const $ = p.authorizationTests.filter((ve) => ve !== j);
+              removeTest: (S) => {
+                const q = p.authorizationTests.filter((be) => be !== S);
                 e(
                   qe({
                     operationId: n,
-                    authorizationTests: $
+                    authorizationTests: q
                   })
                 );
               }
             }
           ),
           /* @__PURE__ */ t.jsx(
-            Zs,
+            ci,
             {
               authorizationTests: o.authorizationTests,
               existing: p.authorizationTests,
               auth: p.request.auth,
               credentials: o.authenticationDetails[0],
-              onSelect: (j) => {
+              onSelect: (S) => {
                 e(
                   qe({
                     operationId: n,
-                    authorizationTests: [...p.authorizationTests, j]
+                    authorizationTests: [...p.authorizationTests, S]
                   })
                 );
               }
@@ -2788,7 +2942,7 @@ function si({ operationId: n }) {
         ] })
       }
     ),
-    /* @__PURE__ */ t.jsx(R, { defaultOpen: !1, title: "Before", count: p.before?.length, children: /* @__PURE__ */ t.jsxs(ke, { children: [
+    /* @__PURE__ */ t.jsx(R, { defaultOpen: !1, title: "Before", count: p.before?.length, children: /* @__PURE__ */ t.jsxs(Oe, { children: [
       /* @__PURE__ */ t.jsx(
         K,
         {
@@ -2797,7 +2951,7 @@ function si({ operationId: n }) {
           container: { container: "operationBefore", operationId: n },
           executionResult: ne(i, "operationBefore"),
           saveStage: f,
-          moveStage: y,
+          moveStage: j,
           removeStage: d,
           operations: o.operations,
           requests: o.requests,
@@ -2807,14 +2961,14 @@ function si({ operationId: n }) {
       /* @__PURE__ */ t.jsx(
         Q,
         {
-          operationIds: S,
-          requestIds: x,
-          onSelect: (j) => v({ container: "operationBefore", operationId: n }, j)
+          operationIds: v,
+          requestIds: m,
+          onSelect: (S) => b({ container: "operationBefore", operationId: n }, S)
         }
       )
     ] }) }),
-    /* @__PURE__ */ t.jsx(R, { title: "Scenarios", count: p.scenarios?.length, children: /* @__PURE__ */ t.jsx(Us, { operationId: n, goToRequest: g }) }),
-    /* @__PURE__ */ t.jsx(R, { defaultOpen: !1, title: "After", count: p.after?.length, children: /* @__PURE__ */ t.jsxs(ke, { children: [
+    /* @__PURE__ */ t.jsx(R, { title: "Scenarios", count: p.scenarios?.length, children: /* @__PURE__ */ t.jsx(ei, { operationId: n, goToRequest: g }) }),
+    /* @__PURE__ */ t.jsx(R, { defaultOpen: !1, title: "After", count: p.after?.length, children: /* @__PURE__ */ t.jsxs(Oe, { children: [
       /* @__PURE__ */ t.jsx(
         K,
         {
@@ -2824,7 +2978,7 @@ function si({ operationId: n }) {
           executionResult: ne(i, "operationAfter"),
           saveStage: f,
           removeStage: d,
-          moveStage: y,
+          moveStage: j,
           operations: o.operations,
           requests: o.requests,
           goToRequest: g
@@ -2833,31 +2987,31 @@ function si({ operationId: n }) {
       /* @__PURE__ */ t.jsx(
         Q,
         {
-          operationIds: S,
-          requestIds: x,
-          onSelect: (j) => v({ container: "operationAfter", operationId: n }, j)
+          operationIds: v,
+          requestIds: m,
+          onSelect: (S) => b({ container: "operationAfter", operationId: n }, S)
         }
       )
     ] }) }),
-    k?.status === "failure" && /* @__PURE__ */ t.jsx(je, { message: "Check Global Before block" }),
-    b?.status === "failure" && /* @__PURE__ */ t.jsx(je, { message: "Check Global After block" }),
-    c.length > 0 && /* @__PURE__ */ t.jsx(R, { title: "Result", children: /* @__PURE__ */ t.jsx(ue, { result: c, collapsible: !0 }) })
+    k?.status === "failure" && /* @__PURE__ */ t.jsx(Se, { message: "Check Global Before block" }),
+    y?.status === "failure" && /* @__PURE__ */ t.jsx(Se, { message: "Check Global After block" }),
+    c.length > 0 && /* @__PURE__ */ t.jsx(R, { title: "Result", children: /* @__PURE__ */ t.jsx(pe, { result: c, collapsible: !0 }) })
   ] });
 }
-const ii = h.div`
+const gi = h.div`
   padding: 8px;
-`, ke = h.div`
+`, Oe = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, ai = h.div`
+`, mi = h.div`
   margin-bottom: 16px;
   margin-top: 16px;
   padding: 8px;
   border: 1px solid var(${u.border});
   border-radius: 2px;
   cursor: pointer;
-`, Kt = h.button`
+`, en = h.button`
   cursor: pointer;
   background-color: var(${u.buttonSecondaryBackground});
   color: var(${u.buttonSecondaryForeground});
@@ -2868,7 +3022,7 @@ const ii = h.div`
     background-color: var(${u.buttonSecondaryHoverBackground});
   }
 `;
-function ci({
+function xi({
   onAddScenario: n,
   operations: e
 }) {
@@ -2876,21 +3030,21 @@ function ci({
     void 0
   );
   return /* @__PURE__ */ t.jsxs(
-    ct,
+    lt,
     {
       open: o,
       onOpenChange: (c) => {
         s(c);
       },
       children: [
-        /* @__PURE__ */ t.jsx(lt, { asChild: !0, children: /* @__PURE__ */ t.jsx(re, { style: { width: "100%" }, children: "New scenario" }) }),
-        /* @__PURE__ */ t.jsxs(dt, { children: [
-          /* @__PURE__ */ t.jsx(ui, {}),
-          /* @__PURE__ */ t.jsx(pi, { children: /* @__PURE__ */ t.jsxs(li, { children: [
-            /* @__PURE__ */ t.jsx(ut, { children: "New Scenario" }),
-            /* @__PURE__ */ t.jsx(pt, { children: "Add happy path scenario for an operation" }),
-            /* @__PURE__ */ t.jsx(di, { children: /* @__PURE__ */ t.jsx(
-              Zn,
+        /* @__PURE__ */ t.jsx(dt, { asChild: !0, children: /* @__PURE__ */ t.jsx(oe, { style: { width: "100%" }, children: "New scenario" }) }),
+        /* @__PURE__ */ t.jsxs(ut, { children: [
+          /* @__PURE__ */ t.jsx(yi, {}),
+          /* @__PURE__ */ t.jsx(ji, { children: /* @__PURE__ */ t.jsxs(vi, { children: [
+            /* @__PURE__ */ t.jsx(pt, { children: "New Scenario" }),
+            /* @__PURE__ */ t.jsx(ht, { children: "Add happy path scenario for an operation" }),
+            /* @__PURE__ */ t.jsx(bi, { children: /* @__PURE__ */ t.jsx(
+              tr,
               {
                 options: r,
                 placeholder: "Select operation",
@@ -2901,7 +3055,7 @@ function ci({
             ) }),
             /* @__PURE__ */ t.jsxs("div", { style: { display: "flex", marginTop: 25, justifyContent: "flex-end", gap: 4 }, children: [
               /* @__PURE__ */ t.jsx(
-                re,
+                oe,
                 {
                   onClick: () => {
                     a != null && r.includes(a) && (n(a), s(!1));
@@ -2909,7 +3063,7 @@ function ci({
                   children: "Add"
                 }
               ),
-              /* @__PURE__ */ t.jsx(ht, { asChild: !0, children: /* @__PURE__ */ t.jsx(Kt, { children: "Cancel" }) })
+              /* @__PURE__ */ t.jsx(ft, { asChild: !0, children: /* @__PURE__ */ t.jsx(en, { children: "Cancel" }) })
             ] })
           ] }) })
         ] })
@@ -2917,17 +3071,17 @@ function ci({
     }
   );
 }
-const li = h.div`
+const vi = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, di = h.div`
+`, bi = h.div`
   border: 1px solid var(${u.border});
-`, ui = h(ft)`
+`, yi = h(gt)`
   background-color: var(${u.computedTwo});
   position: fixed;
   inset: 0;
-`, pi = h(gt)`
+`, ji = h(mt)`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -2942,8 +3096,8 @@ const li = h.div`
   border-radius: 6px;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
 `;
-function hi() {
-  const n = q(), e = I((c) => c.operations.operationId), r = (c) => n(De(c)), o = (c) => n(er(c)), {
+function Si() {
+  const n = $(), e = I((c) => c.operations.operationId), r = (c) => n($e(c)), o = (c) => n(nr(c)), {
     playbook: { operations: s }
   } = I((c) => c.scanconf), i = [
     {
@@ -2957,13 +3111,13 @@ function hi() {
           {
             onClick: (d) => d.stopPropagation(),
             onSelect: () => n(
-              rn({
+              an({
                 title: "Delete scenario",
                 message: `Are you sure you want to delete scenario for operation "${c}"?`,
                 actions: [
-                  Tt(c),
+                  Dt(c),
                   // if removing the current operation, clear the operationId
-                  De(e === c ? void 0 : e)
+                  $e(e === c ? void 0 : e)
                 ]
               })
             ),
@@ -2974,21 +3128,21 @@ function hi() {
     }
   ];
   return /* @__PURE__ */ t.jsx(
-    ie,
+    ae,
     {
       title: "operations",
       noSectionTitles: !0,
       selected: e ? { sectionId: "operations", itemId: e } : void 0,
       sections: i,
       onSelected: (c) => r(c.itemId),
-      render: (c) => /* @__PURE__ */ t.jsx(si, { operationId: c.itemId }, c.itemId),
+      render: (c) => /* @__PURE__ */ t.jsx(fi, { operationId: c.itemId }, c.itemId),
       renderEmpty: () => /* @__PURE__ */ t.jsxs("div", { children: [
         /* @__PURE__ */ t.jsx("h2", { children: "Scenarios" }),
         /* @__PURE__ */ t.jsx("p", { children: "Scan scenarios let you test operations that involve complex request flows" }),
         /* @__PURE__ */ t.jsx("p", { children: "Scenarios let you set up exact request and response sequences, ensuring resources are created or deleted as needed for testing specific API operations. Additionally, you can extract values from responses and pass them between subsequent operations." })
       ] }),
       renderButtons: () => /* @__PURE__ */ t.jsx(
-        ci,
+        xi,
         {
           operations: s,
           onAddScenario: (c) => {
@@ -2999,23 +3153,23 @@ function hi() {
     }
   );
 }
-function fi(n) {
+function wi(n) {
   return n ? n.label : "";
 }
-function tt({
+function nt({
   name: n,
   options: e,
   placeholder: r,
   label: o
 }) {
-  const { field: s } = hr({
+  const { field: s } = Ht({
     name: n,
     rules: { required: !0 }
-  }), a = mi(e, s.value), i = (c) => {
+  }), a = Ii(e, s.value), i = (c) => {
     s.onChange(c?.value);
   };
   return /* @__PURE__ */ t.jsx(
-    gi,
+    Ci,
     {
       options: e,
       placeholder: r,
@@ -3025,40 +3179,40 @@ function tt({
     }
   );
 }
-function gi({
+function Ci({
   options: n,
   placeholder: e,
   label: r,
   selected: o,
   onSelectedItemChange: s
 }) {
-  const a = n.filter((f) => f.value === o)?.[0], { isOpen: i, getToggleButtonProps: c, getMenuProps: l, getItemProps: d } = Tr({
+  const a = n.filter((f) => f.value === o)?.[0], { isOpen: i, getToggleButtonProps: c, getMenuProps: l, getItemProps: d } = re({
     items: n,
-    itemToString: fi,
+    itemToString: wi,
     selectedItem: a || null,
     onSelectedItemChange: ({ selectedItem: f }) => {
       s(f);
     }
   });
-  return /* @__PURE__ */ t.jsxs(xi, { children: [
-    /* @__PURE__ */ t.jsxs(vi, { children: [
+  return /* @__PURE__ */ t.jsxs(ki, { children: [
+    /* @__PURE__ */ t.jsxs(Oi, { children: [
       r !== void 0 && /* @__PURE__ */ t.jsx("div", { children: r }),
-      /* @__PURE__ */ t.jsxs(bi, { ...c(), children: [
+      /* @__PURE__ */ t.jsxs(Ti, { ...c(), children: [
         /* @__PURE__ */ t.jsx("span", { children: a ? a.label : e ?? "" }),
-        /* @__PURE__ */ t.jsx(Er, {})
+        /* @__PURE__ */ t.jsx(_t, {})
       ] })
     ] }),
-    /* @__PURE__ */ t.jsx(yi, { ...l(), $isOpen: i, children: i && n.map((f, y) => /* @__PURE__ */ t.jsx("li", { ...d({ item: f, index: y }), children: /* @__PURE__ */ t.jsx("span", { children: f.label }) }, `${f.value}${y}`)) })
+    /* @__PURE__ */ t.jsx(Di, { ...l(), $isOpen: i, children: i && n.map((f, j) => /* @__PURE__ */ t.jsx("li", { ...d({ item: f, index: j }), children: /* @__PURE__ */ t.jsx("span", { children: f.label }) }, `${f.value}${j}`)) })
   ] });
 }
-function mi(n, e) {
+function Ii(n, e) {
   return n.filter((r) => r.value === e)?.[0];
 }
-const xi = h.div`
+const ki = h.div`
   display: flex;
   flex-direction: column;
   position: relative;
-`, vi = h.div`
+`, Oi = h.div`
   height: 40px;
   background-color: var(${u.inputBackground});
   border-radius: 2px;
@@ -3077,7 +3231,7 @@ const xi = h.div`
     line-height: 16px;
     color: var(${u.inputPlaceholderForeground});
   }
-`, bi = h.div`
+`, Ti = h.div`
   display: flex;
   color: var(${u.foreground});
   align-items: center;
@@ -3092,7 +3246,7 @@ const xi = h.div`
   > svg {
     fill: var(${u.foreground});
   }
-`, yi = h.ul`
+`, Di = h.ul`
   max-height: 350px;
   overflow-y: auto;
   z-index: 1;
@@ -3117,10 +3271,10 @@ const xi = h.div`
     background-color: var(${u.listHoverBackground});
   }
 `;
-function ji({
+function $i({
   onAddExternalRequest: n
 }) {
-  const e = fr({
+  const e = gr({
     defaultValues: {
       id: "",
       method: "post",
@@ -3128,34 +3282,34 @@ function ji({
       mode: "json"
     },
     mode: "onChange"
-  }), r = Rr.map((i) => ({ value: i, label: i.toUpperCase() })), [o, s] = w.useState(!1), a = (i) => {
+  }), r = Ar.map((i) => ({ value: i, label: i.toUpperCase() })), [o, s] = w.useState(!1), a = (i) => {
     n(i.id, i.method, i.url, i.mode);
   };
   return /* @__PURE__ */ t.jsxs(
-    ct,
+    lt,
     {
       open: o,
       onOpenChange: (i) => {
         s(i), i && e.reset();
       },
       children: [
-        /* @__PURE__ */ t.jsx(lt, { asChild: !0, children: /* @__PURE__ */ t.jsx(Ii, { children: /* @__PURE__ */ t.jsx(se, {}) }) }),
-        /* @__PURE__ */ t.jsxs(dt, { children: [
-          /* @__PURE__ */ t.jsx(wi, {}),
-          /* @__PURE__ */ t.jsx(Ci, { children: /* @__PURE__ */ t.jsx(gr, { ...e, children: /* @__PURE__ */ t.jsxs(
-            Si,
+        /* @__PURE__ */ t.jsx(dt, { asChild: !0, children: /* @__PURE__ */ t.jsx(Ai, { children: /* @__PURE__ */ t.jsx(ie, {}) }) }),
+        /* @__PURE__ */ t.jsxs(ut, { children: [
+          /* @__PURE__ */ t.jsx(Pi, {}),
+          /* @__PURE__ */ t.jsx(Ri, { children: /* @__PURE__ */ t.jsx(mr, { ...e, children: /* @__PURE__ */ t.jsxs(
+            qi,
             {
               onSubmit: (i) => {
                 e.handleSubmit(a)(i), i.preventDefault(), s(!1);
               },
               children: [
-                /* @__PURE__ */ t.jsx(ut, { children: "New External Request" }),
-                /* @__PURE__ */ t.jsx(pt, { children: "Add new external request" }),
+                /* @__PURE__ */ t.jsx(pt, { children: "New External Request" }),
+                /* @__PURE__ */ t.jsx(ht, { children: "Add new external request" }),
                 /* @__PURE__ */ t.jsx(P, { label: "Request ID", name: "id" }),
                 /* @__PURE__ */ t.jsx(P, { label: "URL", name: "url" }),
-                /* @__PURE__ */ t.jsx(tt, { label: "Method", name: "method", options: r }),
+                /* @__PURE__ */ t.jsx(nt, { label: "Method", name: "method", options: r }),
                 /* @__PURE__ */ t.jsx(
-                  tt,
+                  nt,
                   {
                     label: "Content type",
                     name: "mode",
@@ -3166,8 +3320,8 @@ function ji({
                   }
                 ),
                 /* @__PURE__ */ t.jsxs("div", { style: { display: "flex", marginTop: 25, justifyContent: "flex-end", gap: 4 }, children: [
-                  /* @__PURE__ */ t.jsx(re, { type: "submit", children: "Add" }),
-                  /* @__PURE__ */ t.jsx(ht, { asChild: !0, children: /* @__PURE__ */ t.jsx(Kt, { children: "Cancel" }) })
+                  /* @__PURE__ */ t.jsx(oe, { type: "submit", children: "Add" }),
+                  /* @__PURE__ */ t.jsx(ft, { asChild: !0, children: /* @__PURE__ */ t.jsx(en, { children: "Cancel" }) })
                 ] })
               ]
             }
@@ -3177,16 +3331,16 @@ function ji({
     }
   );
 }
-const Si = h.form`
+const qi = h.form`
   margin: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, wi = h(ft)`
+`, Pi = h(gt)`
   background-color: var(${u.computedTwo});
   position: fixed;
   inset: 0;
-`, Ci = h(gt)`
+`, Ri = h(mt)`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -3200,7 +3354,7 @@ const Si = h.form`
   color: var(${u.foreground});
   border-radius: 6px;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-`, Ii = h.button`
+`, Ai = h.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -3211,34 +3365,34 @@ const Si = h.form`
     }
   }
 `;
-function ki({ requestRef: n }) {
+function Ei({ requestRef: n }) {
   const { playbook: e } = I((o) => o.scanconf), r = n.type === "operation" ? e.operations[n.id].request : e.requests?.[n.id];
   return r === void 0 ? /* @__PURE__ */ t.jsxs("div", { children: [
     "Unable to locate the request, failed to resolve: ",
     JSON.stringify(n)
-  ] }) : r.operationId === void 0 ? /* @__PURE__ */ t.jsx(tr, { requestRef: n, request: r }) : /* @__PURE__ */ t.jsx(nr, { requestRef: n, request: r });
+  ] }) : r.operationId === void 0 ? /* @__PURE__ */ t.jsx(rr, { requestRef: n, request: r }) : /* @__PURE__ */ t.jsx(or, { requestRef: n, request: r });
 }
-function Oi() {
-  const n = q(), { oas: e, playbook: r, servers: o } = I((b) => b.scanconf), s = I((b) => b.requests.ref), a = I((b) => b.config.data), i = I((b) => b.env.data), c = I((b) => b.prefs.scanServer), l = Ft(r, i, o), d = l.includes(c) ? c : l[0], f = ({ sectionId: b, itemId: m }) => {
-    n(G({ type: b === "operation" ? "operation" : "request", id: m }));
-  }, y = (b) => {
-    if (s?.type === "request" && s.id === b) {
-      const m = Object.keys(r.operations)?.[0];
-      m !== void 0 && n(G({ type: "operation", id: m }));
+function Mi() {
+  const n = $(), { oas: e, playbook: r, servers: o } = I((y) => y.scanconf), s = I((y) => y.requests.ref), a = I((y) => y.config.data), i = I((y) => y.env.data), c = I((y) => y.prefs.scanServer), l = zt(r, i, o), d = l.includes(c) ? c : l[0], f = ({ sectionId: y, itemId: x }) => {
+    n(G({ type: y === "operation" ? "operation" : "request", id: x }));
+  }, j = (y) => {
+    if (s?.type === "request" && s.id === y) {
+      const x = Object.keys(r.operations)?.[0];
+      x !== void 0 && n(G({ type: "operation", id: x }));
     }
-    n(Pt({ type: "request", id: b }));
-  }, v = Object.keys(r.operations).map((b) => ({ id: b, label: b })), g = Object.entries(r.requests || {}).filter(([b, m]) => m.operationId !== void 0).map(([b, m]) => ({ id: b, label: b })), S = Object.entries(r.requests || {}).filter(([b, m]) => m.operationId === void 0).map(([b, m]) => ({
-    id: b,
-    label: b,
-    menu: /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsx(F, { onClick: (O) => O.stopPropagation(), onSelect: () => y(b), children: "Delete" }) })
+    n(Rt({ type: "request", id: y }));
+  }, b = Object.keys(r.operations).map((y) => ({ id: y, label: y })), g = Object.entries(r.requests || {}).filter(([y, x]) => x.operationId !== void 0).map(([y, x]) => ({ id: y, label: y })), v = Object.entries(r.requests || {}).filter(([y, x]) => x.operationId === void 0).map(([y, x]) => ({
+    id: y,
+    label: y,
+    menu: /* @__PURE__ */ t.jsx(M, { children: /* @__PURE__ */ t.jsx(F, { onClick: (O) => O.stopPropagation(), onSelect: () => j(y), children: "Delete" }) })
   }));
-  let x;
-  s?.type === "operation" && r.operations[s.id] !== void 0 ? x = { itemId: s.id, sectionId: "operation" } : s?.type === "request" && r.requests?.[s.id] !== void 0 && (r.requests[s.id].operationId !== void 0 ? x = { itemId: s.id, sectionId: "requests" } : x = { itemId: s.id, sectionId: "external" });
+  let m;
+  s?.type === "operation" && r.operations[s.id] !== void 0 ? m = { itemId: s.id, sectionId: "operation" } : s?.type === "request" && r.requests?.[s.id] !== void 0 && (r.requests[s.id].operationId !== void 0 ? m = { itemId: s.id, sectionId: "requests" } : m = { itemId: s.id, sectionId: "external" });
   const p = [
     {
       id: "operation",
       title: "Operations",
-      items: v
+      items: b
     },
     {
       id: "request",
@@ -3248,91 +3402,91 @@ function Oi() {
     {
       id: "external",
       title: "External Requests",
-      items: S,
+      items: v,
       menu: /* @__PURE__ */ t.jsx(
-        ji,
+        $i,
         {
-          onAddExternalRequest: (b, m, O, j) => {
+          onAddExternalRequest: (y, x, O, S) => {
             n(
-              Me({
-                ref: { id: b, type: "request" },
-                stage: qi(m, O, j)
+              Fe({
+                ref: { id: y, type: "request" },
+                stage: Bi(x, O, S)
               })
-            ), n(G({ type: "request", id: b }));
+            ), n(G({ type: "request", id: y }));
           }
         }
       )
     }
-  ], k = (b) => {
-    const m = zt(
-      b,
+  ], k = (y) => {
+    const x = Bt(
+      y,
       a.platformAuthType,
       a.scanRuntime,
       a.docker.replaceLocalhost,
       a.platform
-    ), [O, j] = Le(r);
-    if (j !== void 0) {
-      console.log("failed to serialize", j);
+    ), [O, S] = Ne(r);
+    if (S !== void 0) {
+      console.log("failed to serialize", S);
       return;
     }
-    const { simple: $ } = Et(Mt(r), i);
+    const { simple: q } = Mt(Ft(r), i);
     n(
-      Rt({
+      At({
         env: {
-          SCAN42C_HOST: m,
-          ...$
+          SCAN42C_HOST: x,
+          ...q
         },
         scanconf: JSON.stringify(O, null, 2)
       })
     );
   };
   return /* @__PURE__ */ t.jsx(
-    ie,
+    ae,
     {
       title: "operations",
-      selected: x,
+      selected: m,
       sections: p,
       onSelected: f,
       renderButtons: () => /* @__PURE__ */ t.jsx(
-        on,
+        cn,
         {
           style: { width: "100%" },
-          onClick: (b) => {
-            b.preventDefault(), b.stopPropagation(), k(d);
+          onClick: (y) => {
+            y.preventDefault(), y.stopPropagation(), k(d);
           },
           children: "Scan all operations"
         }
       ),
       hideEmptySections: !0,
-      render: (b) => /* @__PURE__ */ t.jsx(
-        ki,
+      render: (y) => /* @__PURE__ */ t.jsx(
+        Ei,
         {
-          requestRef: { type: b.sectionId, id: b.itemId }
+          requestRef: { type: y.sectionId, id: y.itemId }
         },
-        `${b.sectionId}-${b.itemId}`
+        `${y.sectionId}-${y.itemId}`
       )
     }
   );
 }
-function Qt(n) {
+function tn(n) {
   return ["post", "put", "patch"].includes(n);
 }
-function Ti(n, e) {
-  if (Qt(n))
+function Fi(n, e) {
+  if (tn(n))
     return {
       mediaType: e === "urlencoded" ? "application/x-www-form-urlencoded" : "application/json",
       value: {}
     };
 }
-function Di(n, e) {
-  return Qt(n) ? [
+function zi(n, e) {
+  return tn(n) ? [
     {
       key: "Content-Type",
       value: e === "urlencoded" ? "application/x-www-form-urlencoded" : "application/json"
     }
   ] : [];
 }
-function qi(n, e, r) {
+function Bi(n, e, r) {
   return {
     operationId: void 0,
     defaultResponse: "200",
@@ -3340,12 +3494,12 @@ function qi(n, e, r) {
       url: e,
       method: n,
       parameters: {
-        header: Di(n, r),
+        header: zi(n, r),
         path: [],
         query: [],
         cookie: []
       },
-      body: Ti(n, r)
+      body: Fi(n, r)
     },
     responses: {
       200: {
@@ -3357,19 +3511,19 @@ function qi(n, e, r) {
     }
   };
 }
-function $i() {
-  const n = q(), { oas: e, playbook: r, servers: o } = I((x) => x.scanconf), { selected: s } = I((x) => x.global), { tryResult: a, mockResult: i } = I((x) => x.global), c = (x) => n(z(x)), l = (x, p) => n(B({ location: x, reference: p })), d = (x, p) => n(L({ location: x, to: p })), f = (x, p) => {
+function Li() {
+  const n = $(), { oas: e, playbook: r, servers: o } = I((m) => m.scanconf), { selected: s } = I((m) => m.global), { tryResult: a, mockResult: i } = I((m) => m.global), c = (m) => n(z(m)), l = (m, p) => n(B({ location: m, reference: p })), d = (m, p) => n(L({ location: m, to: p })), f = (m, p) => {
     n(
       N({
-        container: x,
+        container: m,
         stage: {
           ref: p
         }
       })
     );
-  }, y = (x) => {
-    n(G(x)), n(T(["scanconf", "requests"]));
-  }, v = Object.keys(r.operations), g = Object.keys(r.requests || {}), S = [
+  }, j = (m) => {
+    n(G(m)), n(T(["scanconf", "requests"]));
+  }, b = Object.keys(r.operations), g = Object.keys(r.requests || {}), v = [
     {
       id: "general",
       title: "General",
@@ -3380,21 +3534,21 @@ function $i() {
     }
   ];
   return /* @__PURE__ */ t.jsx(
-    ie,
+    ae,
     {
       title: "items",
       selected: { sectionId: "general", itemId: s },
-      onSelected: (x) => n(It(x.itemId)),
+      onSelected: (m) => n(kt(m.itemId)),
       noSectionTitles: !0,
-      sections: S,
-      render: (x) => /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
-        x?.itemId === "before" && /* @__PURE__ */ t.jsxs(nt, { children: [
+      sections: v,
+      render: (m) => /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
+        m?.itemId === "before" && /* @__PURE__ */ t.jsxs(rt, { children: [
           /* @__PURE__ */ t.jsx(
-            de,
+            ue,
             {
               servers: o,
               onTry: (p) => {
-                n(Te(p));
+                n(De(p));
               }
             }
           ),
@@ -3410,26 +3564,26 @@ function $i() {
               removeStage: c,
               operations: r.operations,
               requests: r.requests,
-              goToRequest: y
+              goToRequest: j
             }
           ),
           /* @__PURE__ */ t.jsx(
             Q,
             {
-              operationIds: v,
+              operationIds: b,
               requestIds: g,
               onSelect: (p) => f({ container: "globalBefore" }, p)
             }
           ),
-          a.length > 0 && /* @__PURE__ */ t.jsx(R, { title: "Result", children: /* @__PURE__ */ t.jsx(ue, { result: a }) })
+          a.length > 0 && /* @__PURE__ */ t.jsx(R, { title: "Result", children: /* @__PURE__ */ t.jsx(pe, { result: a }) })
         ] }, "before"),
-        x?.itemId === "after" && /* @__PURE__ */ t.jsxs(nt, { children: [
+        m?.itemId === "after" && /* @__PURE__ */ t.jsxs(rt, { children: [
           /* @__PURE__ */ t.jsx(
-            de,
+            ue,
             {
               servers: o,
               onTry: (p) => {
-                n(Te(p));
+                n(De(p));
               }
             }
           ),
@@ -3445,34 +3599,34 @@ function $i() {
               moveStage: d,
               operations: r.operations,
               requests: r.requests,
-              goToRequest: y
+              goToRequest: j
             }
           ),
           /* @__PURE__ */ t.jsx(
             Q,
             {
-              operationIds: v,
+              operationIds: b,
               requestIds: g,
               onSelect: (p) => f({ container: "globalAfter" }, p)
             }
           ),
-          a.length > 0 && /* @__PURE__ */ t.jsx(R, { title: "Result", children: /* @__PURE__ */ t.jsx(ue, { result: a }) })
+          a.length > 0 && /* @__PURE__ */ t.jsx(R, { title: "Result", children: /* @__PURE__ */ t.jsx(pe, { result: a }) })
         ] }, "after")
       ] })
     }
   );
 }
-const nt = h.div`
+const rt = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 8px;
 `;
-function Zt({ credentials: n }) {
-  const e = Pi(n).map(({ name: r }) => ({ label: r, value: r }));
+function nn({ credentials: n }) {
+  const e = Ni(n).map(({ name: r }) => ({ label: r, value: r }));
   return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
     /* @__PURE__ */ t.jsx(
-      Bt,
+      Lt,
       {
         label: "Type",
         name: "key",
@@ -3482,22 +3636,22 @@ function Zt({ credentials: n }) {
         ]
       }
     ),
-    /* @__PURE__ */ t.jsx(rt, { label: "Source", name: "source", options: e }),
-    /* @__PURE__ */ t.jsx(rt, { label: "Target", name: "target", options: e })
+    /* @__PURE__ */ t.jsx(ot, { label: "Source", name: "source", options: e }),
+    /* @__PURE__ */ t.jsx(ot, { label: "Target", name: "target", options: e })
   ] });
 }
-function rt({
+function ot({
   label: n,
   name: e,
   options: r
 }) {
-  const { fields: o, append: s, remove: a } = Nt({ name: e });
-  return /* @__PURE__ */ t.jsxs(Ri, { children: [
-    /* @__PURE__ */ t.jsx(Ai, { children: n }),
-    o.map((i, c) => /* @__PURE__ */ t.jsxs(Ei, { children: [
-      /* @__PURE__ */ t.jsx(Bt, { name: `${e}.${c}`, options: r }),
+  const { fields: o, append: s, remove: a } = Gt({ name: e });
+  return /* @__PURE__ */ t.jsxs(Hi, { children: [
+    /* @__PURE__ */ t.jsx(Gi, { children: n }),
+    o.map((i, c) => /* @__PURE__ */ t.jsxs(Vi, { children: [
+      /* @__PURE__ */ t.jsx(Lt, { name: `${e}.${c}`, options: r }),
       /* @__PURE__ */ t.jsx(
-        Mi,
+        Ui,
         {
           onClick: (l) => {
             l.preventDefault(), l.stopPropagation(), a(c);
@@ -3507,13 +3661,13 @@ function rt({
       )
     ] }, i.id)),
     /* @__PURE__ */ t.jsxs(
-      Fi,
+      _i,
       {
         onClick: (i) => {
           i.preventDefault(), i.stopPropagation(), s("");
         },
         children: [
-          /* @__PURE__ */ t.jsx(se, {}),
+          /* @__PURE__ */ t.jsx(ie, {}),
           " Add ",
           n.toLowerCase()
         ]
@@ -3521,26 +3675,26 @@ function rt({
     )
   ] });
 }
-function Pi(n) {
+function Ni(n) {
   return Object.entries(n).map(([e, r]) => Object.entries(r.methods || {}).map(([o, s]) => ({ name: `${e}/${o}`, credential: r }))).flat();
 }
-const Ri = h.div`
+const Hi = h.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, Ai = h.div`
+`, Gi = h.div`
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
   color: var(${u.inputPlaceholderForeground});
-`, Ei = h.div`
+`, Vi = h.div`
   display: flex;
   align-items: center;
   gap: 8px;
   > :first-child {
     flex: 1;
   }
-`, Mi = h.button`
+`, Ui = h.button`
   background: none;
   border: none;
   padding: 0;
@@ -3552,7 +3706,7 @@ const Ri = h.div`
   > svg {
     fill: var(${u.foreground});
   }
-`, Fi = h.div`
+`, _i = h.div`
   display: flex;
   padding: 8px 12px;
   gap: 4px;
@@ -3564,34 +3718,34 @@ const Ri = h.div`
     fill: var(${u.linkForeground});
   }
 `;
-function zi({
+function Wi({
   selected: n,
   credentials: e
 }) {
-  const r = q(), {
+  const r = $(), {
     playbook: { authorizationTests: o }
-  } = I((i) => i.scanconf), s = (i, c) => r($t({ id: i, test: c })), a = o[n.itemId];
-  return /* @__PURE__ */ t.jsxs(Bi, { children: [
+  } = I((i) => i.scanconf), s = (i, c) => r(Pt({ id: i, test: c })), a = o[n.itemId];
+  return /* @__PURE__ */ t.jsxs(Yi, { children: [
     /* @__PURE__ */ t.jsx("h4", { children: n.itemId }),
     /* @__PURE__ */ t.jsx(
-      ce,
+      le,
       {
         data: a,
         wrapFormData: (i) => i,
         unwrapFormData: (i) => i,
         saveData: (i) => s(n.itemId, i),
-        children: /* @__PURE__ */ t.jsx(Zt, { credentials: e })
+        children: /* @__PURE__ */ t.jsx(nn, { credentials: e })
       }
     )
   ] });
 }
-const Bi = h.div`
+const Yi = h.div`
   padding: 8px;
   gap: 8px;
   display: flex;
   flex-direction: column;
 `;
-function Li({
+function Ji({
   onAddTest: n,
   existing: e,
   credentials: r
@@ -3601,45 +3755,45 @@ function Li({
     key: "authentication-swapping-bola",
     source: [""],
     target: [""]
-  }, s = ae({
-    id: C().regex(he(), {
-      message: fe
+  }, s = ce({
+    id: C().regex(fe(), {
+      message: ge
     }).refine((i) => !e.includes(i), {
       message: "Already exists"
     }),
     key: C(),
-    source: We(C().min(1)),
-    target: We(C().min(1))
+    source: Ye(C().min(1)),
+    target: Ye(C().min(1))
   }), a = (i) => {
     n(i.id, { key: i.key, source: i.source, target: i.target });
   };
   return /* @__PURE__ */ t.jsx(
-    Ae,
+    Ee,
     {
       title: "New authorization test",
       defaultValues: o,
       schema: s,
       onSubmit: a,
-      trigger: /* @__PURE__ */ t.jsx(re, { style: { width: "100%" }, children: "New authorization test" }),
-      children: /* @__PURE__ */ t.jsxs(Ni, { children: [
+      trigger: /* @__PURE__ */ t.jsx(oe, { style: { width: "100%" }, children: "New authorization test" }),
+      children: /* @__PURE__ */ t.jsxs(Xi, { children: [
         /* @__PURE__ */ t.jsx(H, { label: "Test ID", name: "id" }),
-        /* @__PURE__ */ t.jsx(Zt, { credentials: r })
+        /* @__PURE__ */ t.jsx(nn, { credentials: r })
       ] })
     }
   );
 }
-const Ni = h.div`
+const Xi = h.div`
   padding: 8px;
   gap: 8px;
   display: flex;
   flex-direction: column;
 `;
-function Hi() {
-  const n = q(), {
+function Ki() {
+  const n = $(), {
     playbook: { authorizationTests: e, authenticationDetails: r },
     selectedAuthorizationTest: o
   } = I((c) => c.scanconf), s = (c, l) => {
-    n(Dt({ id: c, test: l })), n(Ve({ id: c }));
+    n($t({ id: c, test: l })), n(Ue({ id: c }));
   }, i = [
     {
       id: "authorizationTests",
@@ -3662,18 +3816,18 @@ function Hi() {
     }
   ];
   return /* @__PURE__ */ t.jsx(
-    ie,
+    ae,
     {
       title: "tests",
       sections: i,
-      render: (c) => /* @__PURE__ */ t.jsx(zi, { selected: c, credentials: r[0] }),
+      render: (c) => /* @__PURE__ */ t.jsx(Wi, { selected: c, credentials: r[0] }),
       renderEmpty: () => /* @__PURE__ */ t.jsxs("div", { children: [
         /* @__PURE__ */ t.jsx("h2", { children: "Authorization Tests" }),
         /* @__PURE__ */ t.jsx("p", { children: "BOLA and BFLA tests" }),
         /* @__PURE__ */ t.jsx("p", { children: "Define advanced security tests, such as testing how your API implementation handles BOLA/IDOR (Broken Object Level Authorization, also known as Insecure Direct Object Reference) attack or BFLA (Broken Function Level Authorization)" })
       ] }),
       renderButtons: () => /* @__PURE__ */ t.jsx(
-        Li,
+        Ji,
         {
           credentials: r[0],
           existing: Object.keys(e),
@@ -3682,12 +3836,12 @@ function Hi() {
       ),
       selected: o !== void 0 ? { sectionId: "authorizationTests", itemId: o } : void 0,
       onSelected: (c) => {
-        n(Ve({ id: c.itemId }));
+        n(Ue({ id: c.itemId }));
       }
     }
   );
 }
-function ot(n) {
+function st(n) {
   const e = {
     code: "code",
     h1: "h1",
@@ -3699,7 +3853,7 @@ function ot(n) {
     ul: "ul",
     ...n.components
   }, { Link: r } = e;
-  return r || Vi("Link"), t.jsxs(t.Fragment, {
+  return r || Zi("Link"), t.jsxs(t.Fragment, {
     children: [t.jsx(e.h1, {
       children: "What is API Conformance Scan"
     }), `
@@ -4262,23 +4416,23 @@ scan configuration to reflect the modifications made to the OpenAPI file.`
     })]
   });
 }
-function Gi(n = {}) {
+function Qi(n = {}) {
   const { wrapper: e } = n.components || {};
   return e ? t.jsx(e, {
     ...n,
-    children: t.jsx(ot, {
+    children: t.jsx(st, {
       ...n
     })
-  }) : ot(n);
+  }) : st(n);
 }
-function Vi(n, e) {
+function Zi(n, e) {
   throw new Error("Expected component `" + n + "` to be defined: you likely forgot to import, pass, or provide it.");
 }
-function Ui() {
-  const n = w.useRef(null), e = Yi(n);
+function ea() {
+  const n = w.useRef(null), e = ra(n);
   return /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
-    /* @__PURE__ */ t.jsx(Ji, { children: e.map((r, o) => /* @__PURE__ */ t.jsx(
-      Xi,
+    /* @__PURE__ */ t.jsx(oa, { children: e.map((r, o) => /* @__PURE__ */ t.jsx(
+      sa,
       {
         $level: r.level,
         onClick: (s) => {
@@ -4288,23 +4442,23 @@ function Ui() {
       },
       o
     )) }),
-    /* @__PURE__ */ t.jsx(Ki, { ref: n, $expanded: !0, children: /* @__PURE__ */ t.jsx(Gi, { components: { Link: _i } }) })
+    /* @__PURE__ */ t.jsx(ia, { ref: n, $expanded: !0, children: /* @__PURE__ */ t.jsx(Qi, { components: { Link: ta } }) })
   ] });
 }
-function _i({ href: n, children: e }) {
-  const r = q();
+function ta({ href: n, children: e }) {
+  const r = $();
   return /* @__PURE__ */ t.jsx(
     "a",
     {
       onClick: (o) => {
-        o.preventDefault(), o.stopPropagation(), r(sn(n));
+        o.preventDefault(), o.stopPropagation(), r(ln(n));
       },
       href: n,
       children: e
     }
   );
 }
-function Wi(n) {
+function na(n) {
   switch (n) {
     case "H1":
       return 1;
@@ -4314,20 +4468,20 @@ function Wi(n) {
       return 3;
   }
 }
-const Yi = (n) => {
+const ra = (n) => {
   const [e, r] = w.useState([]);
   return w.useEffect(() => {
     const o = [];
     if (n.current !== null) {
       for (const s of n.current.querySelectorAll("h1, h2, h3"))
         if (s.textContent) {
-          const a = s.textContent, i = Wi(s.tagName);
+          const a = s.textContent, i = na(s.tagName);
           o.push({ title: a, element: s, level: i });
         }
     }
     r(o);
   }, [n]), e;
-}, Ji = h.div`
+}, oa = h.div`
   position: absolute;
   left: 0;
   top: 0;
@@ -4338,7 +4492,7 @@ const Yi = (n) => {
   display: flex;
   flex-direction: column;
   background-color: var(${u.background});
-`, Xi = h.div`
+`, sa = h.div`
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -4363,7 +4517,7 @@ const Yi = (n) => {
     font-size: 12px;
     padding: 4px 32px;
   `}
-`, Ki = h.div`
+`, ia = h.div`
   position: absolute;
   ${({ $expanded: n }) => n ? "left: 320px;" : "left: 40px;"}
   top: 0;
@@ -4377,7 +4531,7 @@ const Yi = (n) => {
     padding: 0;
     border-radius: 0;
   }
-`, st = [
+`, it = [
   {
     id: "starting",
     title: "",
@@ -4387,14 +4541,14 @@ const Yi = (n) => {
   {
     id: "general-error",
     title: "An error has occurred",
-    element: /* @__PURE__ */ t.jsx(xr, {}),
+    element: /* @__PURE__ */ t.jsx(vr, {}),
     navigation: !1,
     when: A
   },
   {
     id: "scanconf-update",
     title: "Scan configuration is outdated",
-    element: /* @__PURE__ */ t.jsx(ar, {}),
+    element: /* @__PURE__ */ t.jsx(lr, {}),
     navigation: !1
   },
   {
@@ -4405,50 +4559,50 @@ const Yi = (n) => {
       {
         id: "requests",
         title: "Operations",
-        element: /* @__PURE__ */ t.jsx(Oi, {})
+        element: /* @__PURE__ */ t.jsx(Mi, {})
       },
       {
         id: "operations",
         title: "Scenarios",
-        element: /* @__PURE__ */ t.jsx(hi, {})
+        element: /* @__PURE__ */ t.jsx(Si, {})
       },
       {
         id: "global",
         title: "Global blocks",
-        element: /* @__PURE__ */ t.jsx($i, {})
+        element: /* @__PURE__ */ t.jsx(Li, {})
       },
       {
         id: "auth",
         title: "Authentication",
-        element: /* @__PURE__ */ t.jsx(cs, {})
+        element: /* @__PURE__ */ t.jsx(xs, {})
       },
       {
         id: "authorizationTests",
         title: "Tests",
-        element: /* @__PURE__ */ t.jsx(Hi, {})
+        element: /* @__PURE__ */ t.jsx(Ki, {})
       },
       {
         id: "environments",
-        title: /* @__PURE__ */ t.jsx(lr, {}),
-        element: /* @__PURE__ */ t.jsx(cr, {})
+        title: /* @__PURE__ */ t.jsx(ur, {}),
+        element: /* @__PURE__ */ t.jsx(dr, {})
       },
       {
         id: "settings",
         title: "Settings",
-        element: /* @__PURE__ */ t.jsx(dr, {})
+        element: /* @__PURE__ */ t.jsx(pr, {})
       },
       {
         id: "help",
         title: "Help",
-        element: /* @__PURE__ */ t.jsx(Ui, {})
+        element: /* @__PURE__ */ t.jsx(ea, {})
       }
     ]
   }
 ];
-function Qi(n, e) {
-  const r = rr(Vs(n, st), e);
-  an.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ t.jsx(at.StrictMode, { children: /* @__PURE__ */ t.jsx(cn, { store: r, children: /* @__PURE__ */ t.jsx(ln.Provider, { value: st, children: /* @__PURE__ */ t.jsx(or, { backend: sr, children: /* @__PURE__ */ t.jsx(dn, {}) }) }) }) })
-  ), window.addEventListener("message", un(r, ir));
+function aa(n, e) {
+  const r = sr(Zs(n, it), e);
+  dn.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ t.jsx(ct.StrictMode, { children: /* @__PURE__ */ t.jsx(un, { store: r, children: /* @__PURE__ */ t.jsx(pn.Provider, { value: it, children: /* @__PURE__ */ t.jsx(ir, { backend: ar, children: /* @__PURE__ */ t.jsx(hn, {}) }) }) }) })
+  ), window.addEventListener("message", fn(r, cr));
 }
-window.renderWebView = Qi;
+window.renderWebView = aa;
