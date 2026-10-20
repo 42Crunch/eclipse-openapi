@@ -9,8 +9,6 @@ import com.xliic.core.Disposable;
 import com.xliic.core.project.Project;
 import com.xliic.core.util.messages.MessageBusConnection;
 import com.xliic.openapi.signup.SignUpListener;
-import com.xliic.openapi.signup.SignUpType;
-import com.xliic.openapi.signup.jcef.messages.SetSignUpType;
 import com.xliic.openapi.signup.jcef.messages.ShowAnondTokenResponse;
 import com.xliic.openapi.signup.jcef.messages.ShowPlatformConnectionTestError;
 import com.xliic.openapi.webapp.editor.WebFileEditor;
@@ -32,11 +30,6 @@ public class JCEFSignUpPanel extends WebFileEditor implements SignUpListener, Di
         return new JCEFSignUpFunction(project, cache, browser, name);
     }
     
-    @Override
-    public void setSignUpType(@NotNull SignUpType type) {
-        new SetSignUpType(type).send(getCefBrowser());
-    }
-
     @Override
     public void showAnondTokenResponse(boolean success, @NotNull String message) {
         new ShowAnondTokenResponse(success, message).send(getCefBrowser());
