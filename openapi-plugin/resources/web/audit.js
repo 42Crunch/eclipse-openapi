@@ -1,283 +1,270 @@
-import { c as le, a as de, u as ce, b as pe, r as ue, t as he, l as xe, d as ve, i as fe, s as ge, j as e, T as p, e as c, f as y, m as me, g as je, R as ye, P as be, h as we, k as $e, n as Ce, o as Se, p as ke } from "./TriangleExclamation.BLKAXJ8l.js";
-import { s as Ie } from "./listener.BM8yBkLB.js";
-import { T as Le } from "./Tabs.BfQDe6I2.js";
-import { S as Ae, a as Y, b as J } from "./Xmark.Doc6BN9Q.js";
-import { S } from "./ExclamationCircle.2wqwVNIx.js";
-import { S as k, a as Te } from "./Switch.BqeA-dAP.js";
-import { S as Z } from "./AngleDown.DBLEm0qt.js";
-import { S as ee } from "./AngleUp.d5m1Xwr8.js";
-import { P as L } from "./Select.Jkx8eZok.js";
-import { B as De, S as Pe } from "./Banner.BZe2qI8d.js";
-const D = ["info", "low", "medium", "high", "critical"], f = {
-  Info: 1,
-  Low: 2,
-  Medium: 3,
-  High: 4,
-  Critical: 5
-}, Re = {
-  [f.Info]: "info",
-  [f.Low]: "low",
-  [f.Medium]: "medium",
-  [f.High]: "high",
-  [f.Critical]: "critical"
-}, ie = {
-  [f.Info]: "Info",
-  [f.Low]: "Low",
-  [f.Medium]: "Medium",
-  [f.High]: "High",
-  [f.Critical]: "Critical"
-}, qe = ["graphql", "gql", "graphqls", "sdl", "gqls"], ze = {
-  audit: {
-    filename: "",
-    files: {},
-    issues: {},
-    minimalReport: !1,
-    valid: !0,
-    openapiState: "",
-    summary: {
-      documentUri: "",
-      subdocumentUris: [],
-      errors: !1,
-      invalid: !1,
-      all: 0,
-      datavalidation: { max: 0, value: 0 },
-      security: { max: 0, value: 0 },
-      oasconformance: { max: 0, value: 0 }
-    }
-  },
-  tab: "priority",
-  issues: [],
-  filtered: [],
-  stats: {
-    byIssue: [],
-    byGroup: oe([])
-  },
-  kdb: {},
-  issueTitles: [],
-  filter: {},
-  sqgTodo: !1,
-  type: "openapi"
-}, te = le({
-  name: "audit",
-  initialState: ze,
-  reducers: {
-    startAudit: (i, t) => {
-    },
-    cancelAudit: (i, t) => {
-    },
-    showFullReport: (i, { payload: t }) => {
-      i.audit.filename !== t.filename && (i.tab = "priority", i.filter = {}, i.sqgTodo = !1, i.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".gql") || t.filename.toLowerCase().endsWith(".graphqls") || t.filename.toLowerCase().endsWith(".sdl") || t.filename.toLowerCase().endsWith(".gqls") ? "graphql" : "openapi"), (t.compliance === void 0 || t.compliance.acceptance === "yes") && (i.sqgTodo = !1), i.audit = t, $(i);
-    },
-    showPartialReport: (i, {
-      payload: { report: t, uri: n, ids: o }
-    }) => {
-      i.audit = t, i.filter = { ids: o }, i.tab = "issues", i.sqgTodo = !1, i.type = qe.some((l) => t.filename.toLowerCase().endsWith(`.${l}`)) ? "graphql" : "openapi", $(i);
-    },
-    loadKdb: (i, { payload: t }) => {
-      i.kdb = t, $(i);
-    },
-    changeTab: (i, t) => {
-      i.tab = t.payload;
-    },
-    changeFilter: (i, { payload: t }) => {
-      i.filter = t, $(i);
-    },
-    setSqgTodo: (i, { payload: t }) => {
-      i.sqgTodo = t, i.filter = {}, $(i);
-    },
-    showNoReport: (i) => {
-    },
-    goToLine: (i, t) => {
-    },
-    copyIssueId: (i, t) => {
-    },
-    openLink: (i, t) => {
-    }
-  }
+import { o as e } from "./rolldown-runtime.BItFwnF5.js";
+import { At as t, C as n, Dt as r, E as i, Et as a, Ft as o, Gt as s, H as ee, Ht as te, It as ne, Nt as re, Ot as c, Pt as ie, R as l, Rt as ae, Tt as oe, U as se, Vt as ce, f as u, g as le, gn as ue, h as d, kt as de, mn as fe, pn as pe, t as f, un as me, vn as he, wt as ge, y as p, z as m } from "./icons.ODuw_IC-.js";
+import { n as _e } from "./listener.BUamXvcw.js";
+import { t as ve } from "./Tabs.Dgbi5KB9.js";
+import { t as h } from "./Select.Brxu2tMx.js";
+import { t as ye } from "./Switch.RJhbLnig.js";
+import { t as be } from "./Banner.CHX-WOk6.js";
+//#region ../common/dist/esm/audit.js
+var g = /* @__PURE__ */ e(he(), 1), xe = ue(), Se = ne(), _ = [
+	"info",
+	"low",
+	"medium",
+	"high",
+	"critical"
+], v = {
+	Info: 1,
+	Low: 2,
+	Medium: 3,
+	High: 4,
+	Critical: 5
+}, Ce = {
+	[v.Info]: "info",
+	[v.Low]: "low",
+	[v.Medium]: "medium",
+	[v.High]: "high",
+	[v.Critical]: "critical"
+}, y = {
+	[v.Info]: "Info",
+	[v.Low]: "Low",
+	[v.Medium]: "Medium",
+	[v.High]: "High",
+	[v.Critical]: "Critical"
+}, we = [
+	"graphql",
+	"gql",
+	"graphqls",
+	"sdl",
+	"gqls"
+], Te = "article-not-found";
+function b(e, t) {
+	return e[t] ?? e[Te];
+}
+var Ee = {
+	audit: {
+		filename: "",
+		files: {},
+		issues: {},
+		minimalReport: !1,
+		valid: !0,
+		openapiState: "",
+		summary: {
+			documentUri: "",
+			subdocumentUris: [],
+			errors: !1,
+			invalid: !1,
+			all: 0,
+			datavalidation: {
+				max: 0,
+				value: 0
+			},
+			security: {
+				max: 0,
+				value: 0
+			},
+			oasconformance: {
+				max: 0,
+				value: 0
+			}
+		}
+	},
+	tab: "priority",
+	issues: [],
+	filtered: [],
+	stats: {
+		byIssue: [],
+		byGroup: C([])
+	},
+	kdb: {},
+	issueTitles: [],
+	filter: {},
+	sqgTodo: !1,
+	type: "openapi"
+}, x = te({
+	name: "audit",
+	initialState: Ee,
+	reducers: {
+		startAudit: (e, t) => {},
+		cancelAudit: (e, t) => {},
+		showFullReport: (e, { payload: t }) => {
+			e.audit.filename !== t.filename && (e.tab = "priority", e.filter = {}, e.sqgTodo = !1, e.type = t.filename.toLowerCase().endsWith(".graphql") || t.filename.toLowerCase().endsWith(".gql") || t.filename.toLowerCase().endsWith(".graphqls") || t.filename.toLowerCase().endsWith(".sdl") || t.filename.toLowerCase().endsWith(".gqls") ? "graphql" : "openapi"), (t.compliance === void 0 || t.compliance.acceptance === "yes") && (e.sqgTodo = !1), e.audit = t, S(e);
+		},
+		showPartialReport: (e, { payload: { report: t, uri: n, ids: r } }) => {
+			e.audit = t, e.filter = { ids: r }, e.tab = "issues", e.sqgTodo = !1, e.type = we.some((e) => t.filename.toLowerCase().endsWith(`.${e}`)) ? "graphql" : "openapi", S(e);
+		},
+		loadKdb: (e, { payload: t }) => {
+			e.kdb = t, S(e);
+		},
+		changeTab: (e, t) => {
+			e.tab = t.payload;
+		},
+		changeFilter: (e, { payload: t }) => {
+			e.filter = t, S(e);
+		},
+		setSqgTodo: (e, { payload: t }) => {
+			e.sqgTodo = t, e.filter = {}, S(e);
+		},
+		showNoReport: (e) => {},
+		goToLine: (e, t) => {},
+		copyIssueId: (e, t) => {},
+		openLink: (e, t) => {}
+	}
 });
-function $(i) {
-  const { issues: t, filtered: n, stats: o, titles: l } = Fe(
-    i.sqgTodo ? i.audit.todo : i.audit.issues,
-    i.audit.files,
-    i.kdb,
-    i.filter,
-    i.type
-  );
-  i.issues = t, i.filtered = n, i.stats = o, i.issueTitles = l;
+function S(e) {
+	let { issues: t, filtered: n, stats: r, titles: i } = De(e.sqgTodo ? e.audit.todo : e.audit.issues, e.audit.files, e.kdb, e.filter, e.type);
+	e.issues = t, e.filtered = n, e.stats = r, e.issueTitles = i;
 }
-function Fe(i, t, n, o, l) {
-  const a = Me(i, t, n), s = Ve(a, n), d = Oe(s), r = Be(a, o);
-  return { issues: a, filtered: r, stats: s, titles: d };
+function De(e, t, n, r, i) {
+	let a = ke(e, t, n, i), o = Ae(a, n, i), s = je(o);
+	return {
+		issues: a,
+		filtered: Oe(a, r),
+		stats: o,
+		titles: s
+	};
 }
-function Be(i, t) {
-  const n = (r, g) => t.ids === void 0 || t.ids.includes(g), o = (r) => t.domain === void 0 || r.domain === t?.domain, l = (r) => t.group === void 0 || r.group === t?.group, a = (r) => t?.rule === void 0 || r.id === t.rule, s = t.severity !== void 0 ? D.indexOf(t.severity) + 1 : 0, d = (r) => t.severity === void 0 || r.criticality >= s;
-  return i.filter((r, g) => n(r, g) && o(r) && l(r) && a(r) && d(r));
+function Oe(e, t) {
+	let n = (e, n) => t.ids === void 0 || t.ids.includes(n), r = (e) => t.domain === void 0 || e.domain === t?.domain, i = (e) => t.group === void 0 || e.group === t?.group, a = (e) => t?.rule === void 0 || e.id === t.rule, o = t.severity === void 0 ? 0 : _.indexOf(t.severity) + 1, s = (e) => t.severity === void 0 || e.criticality >= o;
+	return e.filter((e, t) => n(e, t) && r(e) && i(e) && a(e) && s(e));
 }
-function Me(i, t, n, o) {
-  return Object.entries(i).map(([a, s]) => s.map((d, r) => ({
-    ...d,
-    domain: n[d.id].group,
-    group: n[d.id].subgroup,
-    filename: t[d.documentUri].relative
-  }))).reduce((a, s) => a.concat(s), []);
+function ke(e, t, n, r) {
+	return Object.entries(e).map(([e, r]) => r.map((e, r) => ({
+		...e,
+		domain: n[e.id]?.group,
+		group: n[e.id]?.subgroup,
+		filename: t[e.documentUri].relative
+	}))).reduce((e, t) => e.concat(t), []);
 }
-function Ve(i, t, n) {
-  const o = {};
-  for (const s of i)
-    o[s.id] || (o[s.id] = []), o[s.id].push(s);
-  const l = Object.keys(o).map((s) => ({
-    id: s,
-    kdb: t[s] || Ee,
-    title: t[s].title.text.replace(/^<h1>|<\/h1>$/g, ""),
-    domain: o[s][0].domain,
-    score: o[s].reduce((d, r) => d + r.score, 0),
-    criticality: Math.max(...o[s].map((d) => d.criticality)),
-    displayScore: Ne(o[s].reduce((d, r) => d + r.score, 0)),
-    count: o[s].length,
-    important: o[s].some((d) => d.criticality >= f.Low)
-  })), a = oe(i);
-  return { byIssue: l, byGroup: a };
+function Ae(e, t, n) {
+	let r = {};
+	for (let t of e) r[t.id] || (r[t.id] = []), r[t.id].push(t);
+	return {
+		byIssue: Object.keys(r).map((e) => ({
+			id: e,
+			kdb: b(t, e),
+			title: t[e]?.title?.text?.replace(/^<h1>|<\/h1>$/g, "") ?? e,
+			domain: r[e][0].domain,
+			score: r[e].reduce((e, t) => e + t.score, 0),
+			criticality: Math.max(...r[e].map((e) => e.criticality)),
+			displayScore: Me(r[e].reduce((e, t) => e + t.score, 0)),
+			count: r[e].length,
+			important: r[e].some((e) => e.criticality >= v.Low)
+		})),
+		byGroup: C(e)
+	};
 }
-function oe(i) {
-  const t = { info: 0, low: 0, medium: 0, high: 0, critical: 0 }, n = {
-    oasconformance: {
-      validation: { ...t },
-      semantics: { ...t },
-      bestpractices: { ...t }
-    },
-    datavalidation: {
-      parameters: { ...t },
-      paths: { ...t },
-      schema: { ...t },
-      responseheader: { ...t },
-      responsedefinition: { ...t }
-    },
-    security: {
-      authentication: { ...t },
-      authorization: { ...t },
-      transport: { ...t }
-    }
-  };
-  for (const o of i) {
-    const l = o.domain, a = o.group, s = Re[o.criticality];
-    l !== void 0 && a !== void 0 && //@ts-ignore
-    n[l]?.[a]?.[s] !== void 0 && n[l][a][s]++;
-  }
-  return n;
+function C(e) {
+	let t = {
+		info: 0,
+		low: 0,
+		medium: 0,
+		high: 0,
+		critical: 0
+	}, n = {
+		oasconformance: {
+			validation: { ...t },
+			semantics: { ...t },
+			bestpractices: { ...t }
+		},
+		datavalidation: {
+			parameters: { ...t },
+			paths: { ...t },
+			schema: { ...t },
+			responseheader: { ...t },
+			responsedefinition: { ...t }
+		},
+		security: {
+			authentication: { ...t },
+			authorization: { ...t },
+			transport: { ...t }
+		}
+	};
+	for (let t of e) {
+		let e = t.domain, r = t.group, i = Ce[t.criticality];
+		e !== void 0 && r !== void 0 && n[e]?.[r]?.[i] !== void 0 && n[e][r][i]++;
+	}
+	return n;
 }
-function Oe(i) {
-  return i.byIssue.map((t) => ({ value: t.id, label: t.title })).sort((t, n) => {
-    const o = t.value.toLowerCase(), l = n.value.toLowerCase();
-    return o < l ? -1 : o > l ? 1 : 0;
-  });
+function je(e) {
+	return e.byIssue.map((e) => ({
+		value: e.id,
+		label: e.title
+	})).sort((e, t) => {
+		let n = e.value.toLowerCase(), r = t.value.toLowerCase();
+		return n < r ? -1 : +(n > r);
+	});
 }
-function Ne(i) {
-  const t = Math.abs(Math.round(i));
-  return i === 0 ? "0" : t >= 1 ? t.toString() : "less than 1";
+function Me(e) {
+	let t = Math.abs(Math.round(e));
+	return e === 0 ? "0" : t >= 1 ? t.toString() : "less than 1";
 }
-const Ee = {
-  title: {
-    text: "<h1>Article not found</h1>"
-  },
-  description: {
-    text: `<p>Whoops! Looks like there has been an oversight and we are missing a page for this issue.</p>
-           <p><a href="https://apisecurity.io/contact-us/">Let us know</a> the title of the issue, and we make sure to add it to the encyclopedia.</p>`
-  }
-}, {
-  startAudit: ne,
-  cancelAudit: se,
-  showFullReport: F,
-  showPartialReport: B,
-  showNoReport: M,
-  loadKdb: He,
-  goToLine: V,
-  copyIssueId: O,
-  openLink: I,
-  changeTab: j,
-  changeFilter: u,
-  setSqgTodo: Ge
-} = te.actions, We = te.reducer, Ue = {
-  audit: We,
-  theme: he,
-  router: ue
-}, Ke = (i, t) => de({
-  reducer: Ue,
-  middleware: (n) => n().prepend(i.middleware).concat(xe),
-  preloadedState: {
-    theme: t
-  }
-}), h = () => ce(), x = pe, re = ve(), C = re.startListening;
-function _e(i, t) {
-  const n = {
-    goToLine: () => C({
-      actionCreator: V,
-      effect: async (o, l) => {
-        i.postMessage({
-          command: "goToLine",
-          payload: o.payload
-        });
-      }
-    }),
-    copyIssueId: () => C({
-      actionCreator: O,
-      effect: async (o, l) => {
-        i.postMessage({
-          command: "copyIssueId",
-          payload: o.payload
-        });
-      }
-    }),
-    openLink: () => C({
-      actionCreator: I,
-      effect: async (o, l) => {
-        i.postMessage({
-          command: "openLink",
-          payload: o.payload
-        });
-      }
-    })
-  };
-  return C({
-    matcher: fe(F, B, M),
-    effect: async (o, l) => {
-      window.scrollTo(0, 0);
-    }
-  }), Ie(C, t), ge(n), re;
+var { startAudit: w, cancelAudit: T, showFullReport: E, showPartialReport: D, showNoReport: O, loadKdb: Ne, goToLine: k, copyIssueId: A, openLink: j, changeTab: M, changeFilter: N, setSqgTodo: Pe } = x.actions, Fe = {
+	audit: x.reducer,
+	theme: o,
+	router: re
+}, Ie = (e, t) => ae({
+	reducer: Fe,
+	middleware: (t) => t().prepend(e.middleware).concat(Se.logger),
+	preloadedState: { theme: t }
+}), P = () => pe(), F = fe, I = ce(), L = I.startListening;
+function Le(e, t) {
+	return L({
+		matcher: s(E, D, O),
+		effect: async (e, t) => {
+			window.scrollTo(0, 0);
+		}
+	}), _e(L, t), se({
+		goToLine: () => L({
+			actionCreator: k,
+			effect: async (t, n) => {
+				e.postMessage({
+					command: "goToLine",
+					payload: t.payload
+				});
+			}
+		}),
+		copyIssueId: () => L({
+			actionCreator: A,
+			effect: async (t, n) => {
+				e.postMessage({
+					command: "copyIssueId",
+					payload: t.payload
+				});
+			}
+		}),
+		openLink: () => L({
+			actionCreator: j,
+			effect: async (t, n) => {
+				e.postMessage({
+					command: "openLink",
+					payload: t.payload
+				});
+			}
+		})
+	}), I;
 }
-const P = (i) => /* @__PURE__ */ e.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", width: "1em", height: "1em", ...i, children: /* @__PURE__ */ e.jsx("path", { d: "M476.3 0c-6.365 0-13.01 1.35-19.34 4.233-45.69 20.86-79.56 27.94-107.8 27.94-59.96 0-94.81-31.86-163.9-31.87-34.63 0-77.87 8.003-137.2 32.05V24C48 10.75 37.25 0 24 0S0 10.75 0 24v464c0 13.3 10.75 24 24 24s24-10.75 24-24V384c53.59-23.86 96.02-31.81 132.8-31.81 73.63 0 124.9 31.78 198.6 31.78 31.91 0 68.02-5.971 111.1-23.09 13.6-4.98 21.5-16.48 21.5-28.78V30.73C512 11.1 495.3 0 476.3 0M464 319.8c-30.31 10.82-58.08 16.1-84.6 16.1-30.8 0-58.31-7-87.44-14.41-32.01-8.141-68.29-17.37-111.1-17.37-42.35 0-85.99 9.09-132.8 27.73V84.14l18.03-7.301c47.39-19.2 86.38-28.54 119.2-28.54 28.24.004 49.12 6.711 73.31 14.48 25.38 8.148 54.13 17.39 90.58 17.39 35.43 0 72.24-8.496 114.9-26.61V319.8z" }) });
-function R({
-  children: i,
-  defaultCollapsed: t
-}) {
-  const [n, o] = y.useState(t ?? !0), l = i.slice(0, i.length - 1), a = i[i.length - 1];
-  return /* @__PURE__ */ e.jsxs(Qe, { children: [
-    /* @__PURE__ */ e.jsxs(
-      Xe,
-      {
-        $collapsed: n,
-        onClick: (s) => {
-          s.preventDefault(), s.stopPropagation(), o(!n);
-        },
-        children: [
-          /* @__PURE__ */ e.jsx("div", { children: n ? /* @__PURE__ */ e.jsx(Z, {}) : /* @__PURE__ */ e.jsx(ee, {}) }),
-          /* @__PURE__ */ e.jsxs("div", { children: [
-            ...l
-          ] })
-        ]
-      }
-    ),
-    !n && /* @__PURE__ */ e.jsx(Ye, { children: a })
-  ] });
+//#endregion
+//#region src/components/CollapsibleCard.tsx
+var R = r();
+function z({ children: e, defaultCollapsed: t }) {
+	let [n, r] = (0, g.useState)(t ?? !0), i = e.slice(0, e.length - 1), a = e[e.length - 1];
+	return /* @__PURE__ */ (0, R.jsxs)(Re, { children: [/* @__PURE__ */ (0, R.jsxs)(ze, {
+		$collapsed: n,
+		onClick: (e) => {
+			e.preventDefault(), e.stopPropagation(), r(!n);
+		},
+		children: [/* @__PURE__ */ (0, R.jsx)("div", { children: n ? /* @__PURE__ */ (0, R.jsx)(m, {}) : /* @__PURE__ */ (0, R.jsx)(l, {}) }), /* @__PURE__ */ (0, R.jsx)("div", { children: [...i] })]
+	}), !n && /* @__PURE__ */ (0, R.jsx)(Be, { children: a })] });
 }
-const Qe = c.div`
+var Re = t.div`
   margin: 8px;
-  border: 1px solid var(${p.border});
-  //background-color: var(${p.computedOne});
-`, Xe = c.div`
+  border: 1px solid var(${c.border});
+  //background-color: var(${c.computedOne});
+`, ze = t.div`
   display: flex;
   cursor: pointer;
   padding: 10px 10px 10px 0px;
-  //background-color: var(${p.computedOne});
+  //background-color: var(${c.computedOne});
   align-items: stretch;
   & > div:first-child {
     padding-left: 4px;
@@ -285,7 +272,7 @@ const Qe = c.div`
     display: flex;
     justify-content: center;
     > svg {
-      fill: var(${p.foreground});
+      fill: var(${c.foreground});
     }
   }
   & > div:nth-child(2) {
@@ -300,115 +287,102 @@ const Qe = c.div`
   }
 
   border-left: 5px solid transparent;
-  ${({ $collapsed: i }) => !i && `border-bottom: 1px solid var(${p.border});
-    border-left: 5px solid var(${p.badgeBackground});`}
-`, q = c.div`
+  ${({ $collapsed: e }) => !e && `border-bottom: 1px solid var(${c.border});
+    border-left: 5px solid var(${c.badgeBackground});`}
+`, B = t.div`
   display: flex;
   gap: 4px;
   align-items: center;
   font-weight: 600;
-`, w = c.div`
+`, V = t.div`
   //margin-top: 8px;
   display: flex;
   font-size: 90%;
   align-items: center;
   gap: 16px;
-`, v = c.div`
+`, H = t.div`
   display: flex;
   align-items: center;
   opacity: 0.8;
   & > svg {
     margin-right: 4px;
-    fill: var(${p.foreground});
+    fill: var(${c.foreground});
   }
-`, Ye = c.div`
-  //background-color: var(${p.computedOne});
+`, Be = t.div`
+  //background-color: var(${c.computedOne});
 `;
-function z({
-  article: i,
-  issueId: t,
-  lang: n,
-  openLink: o
-}) {
-  if (i === void 0)
-    return console.warn(`No article found for issue ${t}`), /* @__PURE__ */ e.jsxs(E, { children: [
-      "No KDB article available for the issue: ",
-      t
-    ] });
-  const l = (d) => {
-    d.stopPropagation(), d.preventDefault(), o(d.target.href);
-  }, a = y.useRef(null);
-  y.useEffect(() => {
-    const d = a.current.querySelectorAll("a");
-    return d.forEach((r) => {
-      r.addEventListener("click", l);
-    }), () => {
-      d.forEach((r) => {
-        r.removeEventListener("click", l);
-      });
-    };
-  });
-  const s = [
-    i ? i.description.text : "",
-    A(i.example, n),
-    A(i.exploit, n),
-    A(i.remediation, n)
-  ].join("");
-  return /* @__PURE__ */ e.jsx(E, { ref: a, dangerouslySetInnerHTML: { __html: s } });
+//#endregion
+//#region src/app/audit/KdbArticle.tsx
+function U({ article: e, issueId: t, lang: n, openLink: r }) {
+	if (e === void 0) return console.warn(`No article found for issue ${t}`), /* @__PURE__ */ (0, R.jsxs)(G, { children: ["No KDB article available for the issue: ", t] });
+	let i = (e) => {
+		e.stopPropagation(), e.preventDefault(), r(e.target.href);
+	}, a = (0, g.useRef)(null);
+	(0, g.useEffect)(() => {
+		let e = a.current.querySelectorAll("a");
+		return e.forEach((e) => {
+			e.addEventListener("click", i);
+		}), () => {
+			e.forEach((e) => {
+				e.removeEventListener("click", i);
+			});
+		};
+	});
+	let o = [
+		e ? e.description.text : "",
+		W(e.example, n),
+		W(e.exploit, n),
+		W(e.remediation, n)
+	].join("");
+	return /* @__PURE__ */ (0, R.jsx)(G, {
+		ref: a,
+		dangerouslySetInnerHTML: { __html: o }
+	});
 }
-function A(i, t) {
-  return !i || !i.sections ? "" : i.sections.map((n) => {
-    if (n.text)
-      return n.text;
-    if (n.code)
-      return `<pre>${n.code[t]}</pre>`;
-  }).join("");
+function W(e, t) {
+	return !e || !e.sections ? "" : e.sections.map((e) => {
+		if (e.text) return e.text;
+		if (e.code) return `<pre>${e.code[t]}</pre>`;
+	}).join("");
 }
-const E = c.div`
+var G = t.div`
   padding: 8px;
   weight: 500;
-  font-size: var(${p.fontSize});
+  font-size: var(${c.fontSize});
 
   > h2 {
     margin: 0;
     font-weight: 700;
-    font-size: var(${p.fontSize});
+    font-size: var(${c.fontSize});
   }
 
   & code {
-    color: var(${p.foreground});
+    color: var(${c.foreground});
     font-family: monospace;
   }
 
   > pre {
-    background-color: var(${p.computedOne});
+    background-color: var(${c.computedOne});
     padding: 8px 4px;
     white-space: pre-wrap;
     word-break: break-all;
   }
 `;
-function Je({
-  filters: i,
-  onClick: t
-}) {
-  return /* @__PURE__ */ e.jsx(
-    Ze,
-    {
-      onClick: (n) => {
-        n.preventDefault(), n.stopPropagation(), t();
-      },
-      children: /* @__PURE__ */ e.jsxs(ii, { children: [
-        /* @__PURE__ */ e.jsx(Ae, {}),
-        i !== 0 && /* @__PURE__ */ e.jsx(ei, { children: i })
-      ] })
-    }
-  );
+//#endregion
+//#region src/app/audit/FilterButton.tsx
+function Ve({ filters: e, onClick: t }) {
+	return /* @__PURE__ */ (0, R.jsx)(He, {
+		onClick: (e) => {
+			e.preventDefault(), e.stopPropagation(), t();
+		},
+		children: /* @__PURE__ */ (0, R.jsxs)(We, { children: [/* @__PURE__ */ (0, R.jsx)(le, {}), e !== 0 && /* @__PURE__ */ (0, R.jsx)(Ue, { children: e })] })
+	});
 }
-const Ze = c.div`
+var He = t.div`
   width: 34px;
   height: 26px;
   position: relative;
-`, ei = c.div`
+`, Ue = t.div`
   position: absolute;
   left: 18px;
   top: 10px;
@@ -418,17 +392,17 @@ const Ze = c.div`
   border-radius: 16px;
   width: 16px;
   height: 16px;
-  color: var(${p.buttonForeground});
-  background-color: var(${p.buttonBackground});
+  color: var(${c.buttonForeground});
+  background-color: var(${c.buttonBackground});
   font-size: 12px;
-`, ii = c.button`
+`, We = t.button`
   display: flex;
   align-items: center;
   cursor: pointer;
   background-color: transparent;
-  color: var(${p.buttonForeground});
+  color: var(${c.buttonForeground});
   border: none;
-  ${({ waiting: i }) => i && "gap: 8px;"}
+  ${({ waiting: e }) => e && "gap: 8px;"}
 
   > span {
     flex: 1;
@@ -436,51 +410,73 @@ const Ze = c.div`
   > svg {
     height: 16px;
     width: 16px;
-    fill: var(${p.foreground});
+    fill: var(${c.foreground});
   }
 `;
-function ti() {
-  const i = x((o) => o.audit.filter), t = h(), n = [
-    { label: "All", value: "all" },
-    { label: "Critical", value: "critical" },
-    { label: "High", value: "high" },
-    { label: "Medium", value: "medium" },
-    { label: "Low", value: "low" },
-    { label: "Info", value: "info" }
-  ];
-  return /* @__PURE__ */ e.jsx(oi, { children: /* @__PURE__ */ e.jsx(
-    L,
-    {
-      label: "Severity",
-      options: n,
-      placeholder: "All",
-      onSelectedItemChange: (o) => {
-        o && o.value !== "all" ? t(u({ ...i, severity: o?.value })) : t(u({ ...i, severity: void 0 }));
-      },
-      selected: i?.severity || "all"
-    }
-  ) });
+//#endregion
+//#region src/app/audit/FilterSeverity.tsx
+function Ge() {
+	let e = F((e) => e.audit.filter), t = P();
+	return /* @__PURE__ */ (0, R.jsx)(Ke, { children: /* @__PURE__ */ (0, R.jsx)(h, {
+		label: "Severity",
+		options: [
+			{
+				label: "All",
+				value: "all"
+			},
+			{
+				label: "Critical",
+				value: "critical"
+			},
+			{
+				label: "High",
+				value: "high"
+			},
+			{
+				label: "Medium",
+				value: "medium"
+			},
+			{
+				label: "Low",
+				value: "low"
+			},
+			{
+				label: "Info",
+				value: "info"
+			}
+		],
+		placeholder: "All",
+		onSelectedItemChange: (n) => {
+			n && n.value !== "all" ? t(N({
+				...e,
+				severity: n?.value
+			})) : t(N({
+				...e,
+				severity: void 0
+			}));
+		},
+		selected: e?.severity || "all"
+	}) });
 }
-const oi = c.div`
+var Ke = t.div`
   width: 264px;
 `;
-function ni() {
-  const i = h();
-  return /* @__PURE__ */ e.jsxs(
-    si,
-    {
-      onClick: (t) => {
-        i(u({})), t.preventDefault(), t.stopPropagation();
-      },
-      children: [
-        /* @__PURE__ */ e.jsx(Y, {}),
-        " ",
-        /* @__PURE__ */ e.jsx("span", { children: "Reset filters" })
-      ]
-    }
-  );
+//#endregion
+//#region src/app/audit/FilterResetAll.tsx
+function qe() {
+	let e = P();
+	return /* @__PURE__ */ (0, R.jsxs)(Je, {
+		onClick: (t) => {
+			e(N({})), t.preventDefault(), t.stopPropagation();
+		},
+		children: [
+			/* @__PURE__ */ (0, R.jsx)(f, {}),
+			" ",
+			/* @__PURE__ */ (0, R.jsx)("span", { children: "Reset filters" })
+		]
+	});
 }
-const si = c.div`
+var Je = t.div`
   width: 264px;
   height: 50px;
   display: flex;
@@ -492,132 +488,194 @@ const si = c.div`
     margin-right: 4px;
   }
 `;
-function ri() {
-  const { issueTitles: i, filter: t } = x((o) => o.audit), n = h();
-  return /* @__PURE__ */ e.jsx(ai, { children: /* @__PURE__ */ e.jsx(
-    L,
-    {
-      label: "Rules",
-      options: [{ label: "All", value: "all" }, ...i],
-      placeholder: "All",
-      onSelectedItemChange: (o) => {
-        o && o.value !== "all" ? n(u({ ...t, rule: o?.value })) : n(u({ ...t, rule: void 0 }));
-      },
-      selected: t?.severity || "all"
-    }
-  ) });
+//#endregion
+//#region src/app/audit/FilterRule.tsx
+function Ye() {
+	let { issueTitles: e, filter: t } = F((e) => e.audit), n = P();
+	return /* @__PURE__ */ (0, R.jsx)(Xe, { children: /* @__PURE__ */ (0, R.jsx)(h, {
+		label: "Rules",
+		options: [{
+			label: "All",
+			value: "all"
+		}, ...e],
+		placeholder: "All",
+		onSelectedItemChange: (e) => {
+			e && e.value !== "all" ? n(N({
+				...t,
+				rule: e?.value
+			})) : n(N({
+				...t,
+				rule: void 0
+			}));
+		},
+		selected: t?.severity || "all"
+	}) });
 }
-const ai = c.div`
+var Xe = t.div`
   width: 264px;
 `;
-function li() {
-  const i = x((o) => o.audit.filter), t = h(), n = [
-    { label: "All", value: "all" },
-    { label: "Security", value: "security" },
-    { label: "Data validation", value: "datavalidation" },
-    { label: "OpenAPI format requirements", value: "oasconformance" }
-  ];
-  return /* @__PURE__ */ e.jsx(di, { children: /* @__PURE__ */ e.jsx(
-    L,
-    {
-      label: "Category",
-      options: n,
-      placeholder: "All",
-      onSelectedItemChange: (o) => {
-        o && o.value !== "all" ? t(u({ ...i, domain: o?.value })) : t(u({ ...i, domain: void 0 }));
-      },
-      selected: i?.domain || "all"
-    }
-  ) });
+//#endregion
+//#region src/app/audit/FilterDomain.tsx
+function Ze() {
+	let e = F((e) => e.audit.filter), t = P();
+	return /* @__PURE__ */ (0, R.jsx)(Qe, { children: /* @__PURE__ */ (0, R.jsx)(h, {
+		label: "Category",
+		options: [
+			{
+				label: "All",
+				value: "all"
+			},
+			{
+				label: "Security",
+				value: "security"
+			},
+			{
+				label: "Data validation",
+				value: "datavalidation"
+			},
+			{
+				label: "OpenAPI format requirements",
+				value: "oasconformance"
+			}
+		],
+		placeholder: "All",
+		onSelectedItemChange: (n) => {
+			n && n.value !== "all" ? t(N({
+				...e,
+				domain: n?.value
+			})) : t(N({
+				...e,
+				domain: void 0
+			}));
+		},
+		selected: e?.domain || "all"
+	}) });
 }
-const di = c.div`
+var Qe = t.div`
   width: 264px;
-`, ci = {
-  security: [
-    { label: "All", value: "all" },
-    { label: "Authentication", value: "authentication" },
-    { label: "Authorization", value: "authorization" },
-    { label: "Transport", value: "transport" }
-  ],
-  oasconformance: [
-    { label: "All", value: "all" },
-    { label: "Structure", value: "validation" },
-    { label: "Semantic", value: "semantics" },
-    { label: "Best practices", value: "bestpractices" }
-  ],
-  datavalidation: [
-    { label: "All", value: "all" },
-    { label: "Parameters", value: "parameters" },
-    { label: "Paths", value: "paths" },
-    { label: "Schema", value: "schema" },
-    { label: "Response headers", value: "responseheader" },
-    { label: "Response definition", value: "responsedefinition" }
-  ]
+`, $e = {
+	security: [
+		{
+			label: "All",
+			value: "all"
+		},
+		{
+			label: "Authentication",
+			value: "authentication"
+		},
+		{
+			label: "Authorization",
+			value: "authorization"
+		},
+		{
+			label: "Transport",
+			value: "transport"
+		}
+	],
+	oasconformance: [
+		{
+			label: "All",
+			value: "all"
+		},
+		{
+			label: "Structure",
+			value: "validation"
+		},
+		{
+			label: "Semantic",
+			value: "semantics"
+		},
+		{
+			label: "Best practices",
+			value: "bestpractices"
+		}
+	],
+	datavalidation: [
+		{
+			label: "All",
+			value: "all"
+		},
+		{
+			label: "Parameters",
+			value: "parameters"
+		},
+		{
+			label: "Paths",
+			value: "paths"
+		},
+		{
+			label: "Schema",
+			value: "schema"
+		},
+		{
+			label: "Response headers",
+			value: "responseheader"
+		},
+		{
+			label: "Response definition",
+			value: "responsedefinition"
+		}
+	]
 };
-function pi() {
-  const i = x((o) => o.audit.filter), t = h(), n = i.domain !== void 0 ? ci[i.domain] : [];
-  return /* @__PURE__ */ e.jsx(ui, { children: /* @__PURE__ */ e.jsx(
-    L,
-    {
-      label: "Group",
-      options: n,
-      placeholder: "All",
-      onSelectedItemChange: (o) => {
-        o && o.value !== "all" ? t(u({ ...i, group: o?.value })) : t(u({ ...i, group: void 0 }));
-      },
-      selected: i?.group || "all"
-    }
-  ) });
+function et() {
+	let e = F((e) => e.audit.filter), t = P(), n = e.domain === void 0 ? [] : $e[e.domain];
+	return /* @__PURE__ */ (0, R.jsx)(tt, { children: /* @__PURE__ */ (0, R.jsx)(h, {
+		label: "Group",
+		options: n,
+		placeholder: "All",
+		onSelectedItemChange: (n) => {
+			n && n.value !== "all" ? t(N({
+				...e,
+				group: n?.value
+			})) : t(N({
+				...e,
+				group: void 0
+			}));
+		},
+		selected: e?.group || "all"
+	}) });
 }
-const ui = c.div`
+var tt = t.div`
   width: 264px;
 `;
-function hi() {
-  const { filtered: i, filter: t, type: n } = x((r) => r.audit), o = h(), [l, a] = y.useState(!0), d = ["rule", "domain", "group", "severity"].filter((r) => t && t[r] !== void 0).length;
-  return /* @__PURE__ */ e.jsxs(xi, { children: [
-    t.ids !== void 0 && /* @__PURE__ */ e.jsxs(H, { children: [
-      /* @__PURE__ */ e.jsxs("div", { children: [
-        i.length,
-        " issues"
-      ] }),
-      /* @__PURE__ */ e.jsxs(
-        fi,
-        {
-          onClick: (r) => {
-            o(u({})), r.preventDefault(), r.stopPropagation();
-          },
-          children: [
-            /* @__PURE__ */ e.jsx(Y, {}),
-            " ",
-            /* @__PURE__ */ e.jsx("span", { children: "Reset filters" })
-          ]
-        }
-      )
-    ] }),
-    t.ids === void 0 && /* @__PURE__ */ e.jsxs(H, { children: [
-      /* @__PURE__ */ e.jsxs("div", { children: [
-        i.length,
-        " issues"
-      ] }),
-      /* @__PURE__ */ e.jsx(Je, { filters: d, onClick: () => a(!l) })
-    ] }),
-    !l && /* @__PURE__ */ e.jsxs(vi, { children: [
-      n === "openapi" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-        /* @__PURE__ */ e.jsx(li, {}),
-        /* @__PURE__ */ e.jsx(pi, {})
-      ] }),
-      /* @__PURE__ */ e.jsx(ti, {}),
-      /* @__PURE__ */ e.jsx(ri, {}),
-      /* @__PURE__ */ e.jsx(ni, {})
-    ] })
-  ] });
+//#endregion
+//#region src/app/audit/FilterPanel.tsx
+function nt() {
+	let { filtered: e, filter: t, type: n } = F((e) => e.audit), r = P(), [i, a] = (0, g.useState)(!0), o = [
+		"rule",
+		"domain",
+		"group",
+		"severity"
+	].filter((e) => t && t[e] !== void 0).length;
+	return /* @__PURE__ */ (0, R.jsxs)(rt, { children: [
+		t.ids !== void 0 && /* @__PURE__ */ (0, R.jsxs)(K, { children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [e.length, " issues"] }), /* @__PURE__ */ (0, R.jsxs)(at, {
+			onClick: (e) => {
+				r(N({})), e.preventDefault(), e.stopPropagation();
+			},
+			children: [
+				/* @__PURE__ */ (0, R.jsx)(f, {}),
+				" ",
+				/* @__PURE__ */ (0, R.jsx)("span", { children: "Reset filters" })
+			]
+		})] }),
+		t.ids === void 0 && /* @__PURE__ */ (0, R.jsxs)(K, { children: [/* @__PURE__ */ (0, R.jsxs)("div", { children: [e.length, " issues"] }), /* @__PURE__ */ (0, R.jsx)(Ve, {
+			filters: o,
+			onClick: () => a(!i)
+		})] }),
+		!i && /* @__PURE__ */ (0, R.jsxs)(it, { children: [
+			n === "openapi" && /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [/* @__PURE__ */ (0, R.jsx)(Ze, {}), /* @__PURE__ */ (0, R.jsx)(et, {})] }),
+			/* @__PURE__ */ (0, R.jsx)(Ge, {}),
+			/* @__PURE__ */ (0, R.jsx)(Ye, {}),
+			/* @__PURE__ */ (0, R.jsx)(qe, {})
+		] })
+	] });
 }
-const xi = c.div`
+var rt = t.div`
   margin: 8px;
   display: flex;
   flex-direction: column;
   position: relative;
-`, H = c.div`
+`, K = t.div`
   margin: 6px;
   display: flex;
   flex-direction: row;
@@ -626,7 +684,7 @@ const xi = c.div`
   > div:first-child {
     font-weight: 700;
   }
-`, vi = c.div`
+`, it = t.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -634,7 +692,7 @@ const xi = c.div`
   > div {
     width: 264px;
   }
-`, fi = c.div`
+`, at = t.div`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -644,345 +702,281 @@ const xi = c.div`
     margin-right: 4px;
   }
 `;
-function gi() {
-  const {
-    kdb: i,
-    filtered: t,
-    type: n,
-    audit: { filename: o }
-  } = x((a) => a.audit), l = h();
-  return /* @__PURE__ */ e.jsxs(mi, { children: [
-    /* @__PURE__ */ e.jsx(hi, {}),
-    t.map((a, s) => /* @__PURE__ */ e.jsxs(R, { children: [
-      /* @__PURE__ */ e.jsx(q, { children: a.description }),
-      /* @__PURE__ */ e.jsx(w, { children: /* @__PURE__ */ e.jsxs(w, { children: [
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(S, {}),
-          " ",
-          ie[a.criticality]
-        ] }),
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(P, {}),
-          " Score Impact ",
-          a.displayScore
-        ] }),
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(k, {}),
-          /* @__PURE__ */ e.jsxs(
-            "a",
-            {
-              href: "#",
-              onClick: (d) => {
-                d.preventDefault(), d.stopPropagation(), l(
-                  V({
-                    uri: a.documentUri,
-                    line: a.lineNo,
-                    pointer: a.pointer
-                  })
-                );
-              },
-              children: [
-                a.filename,
-                ":",
-                a.lineNo + 1
-              ]
-            }
-          )
-        ] }),
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(J, {}),
-          /* @__PURE__ */ e.jsx(
-            "a",
-            {
-              href: "#",
-              onClick: (d) => {
-                d.preventDefault(), d.stopPropagation(), l(O(a.id));
-              },
-              children: "Issue ID"
-            }
-          )
-        ] })
-      ] }) }),
-      /* @__PURE__ */ e.jsx(
-        z,
-        {
-          lang: o.toLowerCase().endsWith("json") ? "json" : "yaml",
-          article: i[a.id],
-          issueId: a.id,
-          openLink: (d) => {
-            l(I(d));
-          }
-        }
-      )
-    ] }, `issue-${s}`))
-  ] });
+//#endregion
+//#region src/app/audit/FilteredIssues.tsx
+function ot() {
+	let { kdb: e, filtered: t, type: r, audit: { filename: i } } = F((e) => e.audit), a = P();
+	return /* @__PURE__ */ (0, R.jsxs)(st, { children: [/* @__PURE__ */ (0, R.jsx)(nt, {}), t.map((t, r) => /* @__PURE__ */ (0, R.jsxs)(z, { children: [
+		/* @__PURE__ */ (0, R.jsx)(B, { children: t.description }),
+		/* @__PURE__ */ (0, R.jsx)(V, { children: /* @__PURE__ */ (0, R.jsxs)(V, { children: [
+			/* @__PURE__ */ (0, R.jsxs)(H, { children: [
+				/* @__PURE__ */ (0, R.jsx)(p, {}),
+				" ",
+				y[t.criticality]
+			] }),
+			/* @__PURE__ */ (0, R.jsxs)(H, { children: [
+				/* @__PURE__ */ (0, R.jsx)(d, {}),
+				" Score Impact ",
+				t.displayScore
+			] }),
+			/* @__PURE__ */ (0, R.jsxs)(H, { children: [/* @__PURE__ */ (0, R.jsx)(u, {}), /* @__PURE__ */ (0, R.jsxs)("a", {
+				href: "#",
+				onClick: (e) => {
+					e.preventDefault(), e.stopPropagation(), a(k({
+						uri: t.documentUri,
+						line: t.lineNo,
+						pointer: t.pointer
+					}));
+				},
+				children: [
+					t.filename,
+					":",
+					t.lineNo + 1
+				]
+			})] }),
+			/* @__PURE__ */ (0, R.jsxs)(H, { children: [/* @__PURE__ */ (0, R.jsx)(n, {}), /* @__PURE__ */ (0, R.jsx)("a", {
+				href: "#",
+				onClick: (e) => {
+					e.preventDefault(), e.stopPropagation(), a(A(t.id));
+				},
+				children: "Issue ID"
+			})] })
+		] }) }),
+		/* @__PURE__ */ (0, R.jsx)(U, {
+			lang: i.toLowerCase().endsWith("json") ? "json" : "yaml",
+			article: b(e, t.id),
+			issueId: t.id,
+			openLink: (e) => {
+				a(j(e));
+			}
+		})
+	] }, `issue-${r}`))] });
 }
-const mi = c.div``;
-function ji({ onShowIssues: i }) {
-  return /* @__PURE__ */ e.jsx(
-    yi,
-    {
-      onClick: (t) => {
-        t.preventDefault(), t.stopPropagation(), i();
-      },
-      children: /* @__PURE__ */ e.jsxs(bi, { children: [
-        /* @__PURE__ */ e.jsx(S, {}),
-        /* @__PURE__ */ e.jsxs("div", { children: [
-          "Your API has structural or semantic issues. Fix these first and run Security Audit again to get the full audit report. Click ",
-          /* @__PURE__ */ e.jsx("a", { href: "#", children: "here" }),
-          " to display the issues."
-        ] })
-      ] })
-    }
-  );
+var st = t.div``;
+//#endregion
+//#region src/app/audit/InvalidReport.tsx
+function ct({ onShowIssues: e }) {
+	return /* @__PURE__ */ (0, R.jsx)(lt, {
+		onClick: (t) => {
+			t.preventDefault(), t.stopPropagation(), e();
+		},
+		children: /* @__PURE__ */ (0, R.jsxs)(ut, { children: [/* @__PURE__ */ (0, R.jsx)(p, {}), /* @__PURE__ */ (0, R.jsxs)("div", { children: [
+			"Your API has structural or semantic issues. Fix these first and run Security Audit again to get the full audit report. Click ",
+			/* @__PURE__ */ (0, R.jsx)("a", {
+				href: "#",
+				children: "here"
+			}),
+			" to display the issues."
+		] })] })
+	});
 }
-const yi = c.div`
+var lt = t.div`
   margin: 8px;
   border-radius: 2px;
-  border: 1px solid var(${p.errorBorder});
-  background-color: var(${p.errorBackground});
-  color: var(${p.errorForeground});
+  border: 1px solid var(${c.errorBorder});
+  background-color: var(${c.errorBackground});
+  color: var(${c.errorForeground});
   cursor: pointer;
-`, bi = c.div`
+`, ut = t.div`
   display: flex;
   padding: 8px;
   flex-direction: row;
   align-items: center;
   gap: 4px;
   > svg {
-    fill: var(${p.errorForeground});
+    fill: var(${c.errorForeground});
   }
   > div:nth-child(2) {
     flex: 1;
   }
 `;
-function G({ issueId: i, issues: t }) {
-  const n = h(), [o, l] = y.useState(!1), a = t.filter((r) => r.id === i), s = o ? a.length : 4, d = a.slice(0, s);
-  return d.sort((r, g) => {
-    const N = r.filename.localeCompare(g.filename);
-    return N === 0 ? r.lineNo - g.lineNo : N;
-  }), /* @__PURE__ */ e.jsxs(wi, { children: [
-    /* @__PURE__ */ e.jsxs("h2", { children: [
-      a.length,
-      " results with this issue"
-    ] }),
-    /* @__PURE__ */ e.jsx("div", { children: d.map((r) => /* @__PURE__ */ e.jsxs($i, { children: [
-      /* @__PURE__ */ e.jsx(k, {}),
-      /* @__PURE__ */ e.jsxs(
-        "a",
-        {
-          href: "#",
-          onClick: (g) => {
-            g.preventDefault(), g.stopPropagation(), n(
-              V({
-                uri: r.documentUri,
-                line: r.lineNo,
-                pointer: r.pointer
-              })
-            );
-          },
-          children: [
-            r.filename,
-            ":",
-            r.lineNo + 1
-          ]
-        }
-      )
-    ] }, `${r.filename}:${r.lineNo}`)) }),
-    !o && a.length > d.length && /* @__PURE__ */ e.jsxs(
-      "a",
-      {
-        href: "#",
-        onClick: (r) => {
-          r.preventDefault(), r.stopPropagation(), l(!0);
-        },
-        children: [
-          "Show ",
-          a.length - d.length,
-          " more"
-        ]
-      }
-    ),
-    o && /* @__PURE__ */ e.jsx(
-      "a",
-      {
-        href: "#",
-        onClick: (r) => {
-          r.preventDefault(), r.stopPropagation(), l(!1);
-        },
-        children: "Show less"
-      }
-    )
-  ] });
+//#endregion
+//#region src/app/audit/Locations.tsx
+function q({ issueId: e, issues: t }) {
+	let n = P(), [r, i] = (0, g.useState)(!1), a = t.filter((t) => t.id === e), o = r ? a.length : 4, s = a.slice(0, o);
+	return s.sort((e, t) => {
+		let n = e.filename.localeCompare(t.filename);
+		return n === 0 ? e.lineNo - t.lineNo : n;
+	}), /* @__PURE__ */ (0, R.jsxs)(dt, { children: [
+		/* @__PURE__ */ (0, R.jsxs)("h2", { children: [a.length, " results with this issue"] }),
+		/* @__PURE__ */ (0, R.jsx)("div", { children: s.map((e) => /* @__PURE__ */ (0, R.jsxs)(ft, { children: [/* @__PURE__ */ (0, R.jsx)(u, {}), /* @__PURE__ */ (0, R.jsxs)("a", {
+			href: "#",
+			onClick: (t) => {
+				t.preventDefault(), t.stopPropagation(), n(k({
+					uri: e.documentUri,
+					line: e.lineNo,
+					pointer: e.pointer
+				}));
+			},
+			children: [
+				e.filename,
+				":",
+				e.lineNo + 1
+			]
+		})] }, `${e.filename}:${e.lineNo}`)) }),
+		!r && a.length > s.length && /* @__PURE__ */ (0, R.jsxs)("a", {
+			href: "#",
+			onClick: (e) => {
+				e.preventDefault(), e.stopPropagation(), i(!0);
+			},
+			children: [
+				"Show ",
+				a.length - s.length,
+				" more"
+			]
+		}),
+		r && /* @__PURE__ */ (0, R.jsx)("a", {
+			href: "#",
+			onClick: (e) => {
+				e.preventDefault(), e.stopPropagation(), i(!1);
+			},
+			children: "Show less"
+		})
+	] });
 }
-const wi = c.div`
+var dt = t.div`
   padding-top: 8px;
   padding-left: 8px;
   > h2 {
     margin: 0;
     font-weight: 700;
-    font-size: var(${p.fontSize});
+    font-size: var(${c.fontSize});
   }
   > div {
     margin-top: 8px;
     margin-bottom: 8px;
   }
-`, $i = c.div`
+`, ft = t.div`
   display: flex;
   align-items: center;
   margin: 4px;
   gap: 4px;
   > svg {
-    fill: var(${p.foreground});
+    fill: var(${c.foreground});
   }
 `;
-function Ci() {
-  const {
-    stats: i,
-    issues: t,
-    audit: { filename: n }
-  } = x((s) => s.audit), o = h(), l = i.byIssue.filter((s) => s.important).slice().sort((s, d) => d.count - s.count).slice(0, 4), a = i.byIssue.filter((s) => s.important).slice().sort((s, d) => d.score - s.score).slice(0, 4);
-  return /* @__PURE__ */ e.jsxs(Si, { children: [
-    /* @__PURE__ */ e.jsx(W, { children: "Most common issues" }),
-    l.map((s, d) => /* @__PURE__ */ e.jsxs(R, { children: [
-      /* @__PURE__ */ e.jsx(q, { children: s.title }),
-      /* @__PURE__ */ e.jsx(w, { children: /* @__PURE__ */ e.jsxs(w, { children: [
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(S, {}),
-          " ",
-          ie[s.criticality]
-        ] }),
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(P, {}),
-          " Score impact: ",
-          s.displayScore
-        ] }),
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(k, {}),
-          " ",
-          s.count,
-          " result(s)"
-        ] }),
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(J, {}),
-          " ",
-          /* @__PURE__ */ e.jsx(
-            "a",
-            {
-              href: "#",
-              onClick: (r) => {
-                r.preventDefault(), r.stopPropagation(), o(O(s.id));
-              },
-              children: "Issue ID"
-            }
-          )
-        ] })
-      ] }) }),
-      /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(G, { issueId: s.id, issues: t }),
-        /* @__PURE__ */ e.jsx(
-          z,
-          {
-            lang: n.toLowerCase().endsWith("json") ? "json" : "yaml",
-            article: s.kdb,
-            openLink: (r) => o(I(r)),
-            issueId: s.id
-          }
-        )
-      ] })
-    ] }, `issue-${d}`)),
-    /* @__PURE__ */ e.jsx(W, { children: "Opportunities" }),
-    a.map((s, d) => /* @__PURE__ */ e.jsxs(R, { children: [
-      /* @__PURE__ */ e.jsx(q, { children: s.title }),
-      /* @__PURE__ */ e.jsx(w, { children: /* @__PURE__ */ e.jsxs(w, { children: [
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(S, {}),
-          " Count ",
-          s.count
-        ] }),
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(P, {}),
-          " Score impact: ",
-          s.displayScore
-        ] }),
-        /* @__PURE__ */ e.jsxs(v, { children: [
-          /* @__PURE__ */ e.jsx(k, {}),
-          " ",
-          s.count,
-          " result(s)"
-        ] })
-      ] }) }),
-      /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(G, { issueId: s.id, issues: t }),
-        /* @__PURE__ */ e.jsx(
-          z,
-          {
-            lang: n.toLowerCase().endsWith("json") ? "json" : "yaml",
-            article: s.kdb,
-            openLink: (r) => o(I(r)),
-            issueId: s.id
-          }
-        )
-      ] })
-    ] }, `issue-${d}`))
-  ] });
+//#endregion
+//#region src/app/audit/PriorityIssues.tsx
+function pt() {
+	let { stats: e, issues: t, audit: { filename: r } } = F((e) => e.audit), i = P(), a = e.byIssue.filter((e) => e.important).slice().sort((e, t) => t.count - e.count).slice(0, 4), o = e.byIssue.filter((e) => e.important).slice().sort((e, t) => t.score - e.score).slice(0, 4);
+	return /* @__PURE__ */ (0, R.jsxs)(mt, { children: [
+		/* @__PURE__ */ (0, R.jsx)(J, { children: "Most common issues" }),
+		a.map((e, a) => /* @__PURE__ */ (0, R.jsxs)(z, { children: [
+			/* @__PURE__ */ (0, R.jsx)(B, { children: e.title }),
+			/* @__PURE__ */ (0, R.jsx)(V, { children: /* @__PURE__ */ (0, R.jsxs)(V, { children: [
+				/* @__PURE__ */ (0, R.jsxs)(H, { children: [
+					/* @__PURE__ */ (0, R.jsx)(p, {}),
+					" ",
+					y[e.criticality]
+				] }),
+				/* @__PURE__ */ (0, R.jsxs)(H, { children: [
+					/* @__PURE__ */ (0, R.jsx)(d, {}),
+					" Score impact: ",
+					e.displayScore
+				] }),
+				/* @__PURE__ */ (0, R.jsxs)(H, { children: [
+					/* @__PURE__ */ (0, R.jsx)(u, {}),
+					" ",
+					e.count,
+					" result(s)"
+				] }),
+				/* @__PURE__ */ (0, R.jsxs)(H, { children: [
+					/* @__PURE__ */ (0, R.jsx)(n, {}),
+					" ",
+					/* @__PURE__ */ (0, R.jsx)("a", {
+						href: "#",
+						onClick: (t) => {
+							t.preventDefault(), t.stopPropagation(), i(A(e.id));
+						},
+						children: "Issue ID"
+					})
+				] })
+			] }) }),
+			/* @__PURE__ */ (0, R.jsxs)("div", { children: [/* @__PURE__ */ (0, R.jsx)(q, {
+				issueId: e.id,
+				issues: t
+			}), /* @__PURE__ */ (0, R.jsx)(U, {
+				lang: r.toLowerCase().endsWith("json") ? "json" : "yaml",
+				article: e.kdb,
+				openLink: (e) => i(j(e)),
+				issueId: e.id
+			})] })
+		] }, `issue-${a}`)),
+		/* @__PURE__ */ (0, R.jsx)(J, { children: "Opportunities" }),
+		o.map((e, n) => /* @__PURE__ */ (0, R.jsxs)(z, { children: [
+			/* @__PURE__ */ (0, R.jsx)(B, { children: e.title }),
+			/* @__PURE__ */ (0, R.jsx)(V, { children: /* @__PURE__ */ (0, R.jsxs)(V, { children: [
+				/* @__PURE__ */ (0, R.jsxs)(H, { children: [
+					/* @__PURE__ */ (0, R.jsx)(p, {}),
+					" Count ",
+					e.count
+				] }),
+				/* @__PURE__ */ (0, R.jsxs)(H, { children: [
+					/* @__PURE__ */ (0, R.jsx)(d, {}),
+					" Score impact: ",
+					e.displayScore
+				] }),
+				/* @__PURE__ */ (0, R.jsxs)(H, { children: [
+					/* @__PURE__ */ (0, R.jsx)(u, {}),
+					" ",
+					e.count,
+					" result(s)"
+				] })
+			] }) }),
+			/* @__PURE__ */ (0, R.jsxs)("div", { children: [/* @__PURE__ */ (0, R.jsx)(q, {
+				issueId: e.id,
+				issues: t
+			}), /* @__PURE__ */ (0, R.jsx)(U, {
+				lang: r.toLowerCase().endsWith("json") ? "json" : "yaml",
+				article: e.kdb,
+				openLink: (e) => i(j(e)),
+				issueId: e.id
+			})] })
+		] }, `issue-${n}`))
+	] });
 }
-const Si = c.div`
+var mt = t.div`
   position: relative;
-`, W = c.div`
+`, J = t.div`
   margin: 14px;
   font-size: 12px;
   font-weight: 500;
 `;
-function ki({
-  isOpen: i,
-  style: t,
-  onClick: n
-}) {
-  return i ? /* @__PURE__ */ e.jsx(
-    ee,
-    {
-      onClick: n,
-      style: {
-        cursor: "pointer",
-        fill: `var(${p.foreground})`,
-        ...t
-      }
-    }
-  ) : /* @__PURE__ */ e.jsx(
-    Z,
-    {
-      onClick: n,
-      style: {
-        cursor: "pointer",
-        fill: `var(${p.foreground})`,
-        ...t
-      }
-    }
-  );
+//#endregion
+//#region src/components/CollapsibleCaret.tsx
+function ht({ isOpen: e, style: t, onClick: n }) {
+	return e ? /* @__PURE__ */ (0, R.jsx)(l, {
+		onClick: n,
+		style: {
+			cursor: "pointer",
+			fill: `var(${c.foreground})`,
+			...t
+		}
+	}) : /* @__PURE__ */ (0, R.jsx)(m, {
+		onClick: n,
+		style: {
+			cursor: "pointer",
+			fill: `var(${c.foreground})`,
+			...t
+		}
+	});
 }
-function Ii({
-  sqgs: i,
-  selected: t,
-  onSelect: n
-}) {
-  return /* @__PURE__ */ e.jsx(Li, { children: i.map((o, l) => /* @__PURE__ */ e.jsx(
-    Ai,
-    {
-      $selected: o.id === t,
-      onClick: (a) => {
-        a.preventDefault(), a.stopPropagation(), t !== o.id && n(l);
-      },
-      children: o.name
-    },
-    o.id
-  )) });
+//#endregion
+//#region src/app/audit/SqgList.tsx
+function gt({ sqgs: e, selected: t, onSelect: n }) {
+	return /* @__PURE__ */ (0, R.jsx)(_t, { children: e.map((e, r) => /* @__PURE__ */ (0, R.jsx)(vt, {
+		$selected: e.id === t,
+		onClick: (i) => {
+			i.preventDefault(), i.stopPropagation(), t !== e.id && n(r);
+		},
+		children: e.name
+	}, e.id)) });
 }
-const Li = c.div`
+var _t = t.div`
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-`, Ai = c.div`
+`, vt = t.div`
   display: flex;
   height: 28px;
   min-width: 100px;
@@ -991,43 +985,54 @@ const Li = c.div`
   margin-right: 4px;
   padding-left: 4px;
   padding-right: 4px;
-  border: 1px solid var(${p.border});
-  color: var(${p.foreground});
+  border: 1px solid var(${c.border});
+  color: var(${c.foreground});
   cursor: pointer;
   align-items: center;
   justify-content: center;
 
-  ${({ $selected: i }) => i ? `background-color: var(${p.computedTwo});` : `background-color: var(${p.computedOne});`}
+  ${({ $selected: e }) => e ? `background-color: var(${c.computedTwo});` : `background-color: var(${c.computedOne});`}
 `;
-function Ti({ sqg: i, summary: t }) {
-  const n = i.directives.minimumAssessmentScores;
-  return i.directives.subcategoryRules, i.directives.issueRules, /* @__PURE__ */ e.jsxs(Di, { children: [
-    /* @__PURE__ */ e.jsx("h4", { children: "Minimum acceptable score" }),
-    /* @__PURE__ */ e.jsxs(Pi, { children: [
-      /* @__PURE__ */ e.jsx("div", { children: "Score" }),
-      /* @__PURE__ */ e.jsx("div", { children: "current" }),
-      /* @__PURE__ */ e.jsx("div", { children: "Minimum acceptable" })
-    ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
-      /* @__PURE__ */ e.jsx("div", { children: "Global score" }),
-      /* @__PURE__ */ e.jsx(b, { $highlight: t.all < n.global, children: t.all }),
-      /* @__PURE__ */ e.jsx(b, { children: n.global })
-    ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
-      /* @__PURE__ */ e.jsx("div", { children: "Security score" }),
-      /* @__PURE__ */ e.jsx(b, { $highlight: t.security.value < n.security, children: t.security.value }),
-      /* @__PURE__ */ e.jsx(b, { children: n.security })
-    ] }),
-    /* @__PURE__ */ e.jsxs(T, { children: [
-      /* @__PURE__ */ e.jsx("div", { children: "Data validation score" }),
-      /* @__PURE__ */ e.jsx(b, { $highlight: t.datavalidation.value < n.dataValidation, children: t.datavalidation.value }),
-      /* @__PURE__ */ e.jsx(b, { children: n.dataValidation })
-    ] })
-  ] });
+//#endregion
+//#region src/app/audit/SqgDetails.tsx
+function yt({ sqg: e, summary: t }) {
+	let n = e.directives.minimumAssessmentScores;
+	return e.directives.subcategoryRules, e.directives.issueRules, /* @__PURE__ */ (0, R.jsxs)(bt, { children: [
+		/* @__PURE__ */ (0, R.jsx)("h4", { children: "Minimum acceptable score" }),
+		/* @__PURE__ */ (0, R.jsxs)(xt, { children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "Score" }),
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "current" }),
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "Minimum acceptable" })
+		] }),
+		/* @__PURE__ */ (0, R.jsxs)(Y, { children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "Global score" }),
+			/* @__PURE__ */ (0, R.jsx)(X, {
+				$highlight: t.all < n.global,
+				children: t.all
+			}),
+			/* @__PURE__ */ (0, R.jsx)(X, { children: n.global })
+		] }),
+		/* @__PURE__ */ (0, R.jsxs)(Y, { children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "Security score" }),
+			/* @__PURE__ */ (0, R.jsx)(X, {
+				$highlight: t.security.value < n.security,
+				children: t.security.value
+			}),
+			/* @__PURE__ */ (0, R.jsx)(X, { children: n.security })
+		] }),
+		/* @__PURE__ */ (0, R.jsxs)(Y, { children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "Data validation score" }),
+			/* @__PURE__ */ (0, R.jsx)(X, {
+				$highlight: t.datavalidation.value < n.dataValidation,
+				children: t.datavalidation.value
+			}),
+			/* @__PURE__ */ (0, R.jsx)(X, { children: n.dataValidation })
+		] })
+	] });
 }
-const Di = c.div``, Pi = c.div`
+var bt = t.div``, xt = t.div`
   display: flex;
-  background-color: var(${p.computedTwo});
+  background-color: var(${c.computedTwo});
   border-radius: 2px;
   padding: 8px;
   > div {
@@ -1036,146 +1041,129 @@ const Di = c.div``, Pi = c.div`
     font-weight: 600;
     font-size: 12px;
   }
-`, T = c.div`
+`, Y = t.div`
   display: flex;
   > div {
     flex: 1;
     margin: 8px;
   }
-`, b = c.div`
-  ${({ $highlight: i }) => i && "font-weight: 700;"}
+`, X = t.div`
+  ${({ $highlight: e }) => e && "font-weight: 700;"}
 `;
-function Ri({ sqg: i, stats: t }) {
-  const n = h(), o = i.directives.subcategoryRules, l = t.byGroup, a = {
-    security: [
-      {
-        name: "Authentication",
-        domain: "security",
-        group: "authentication",
-        level: o.security.authentication,
-        violations: m(o.security.authentication, l.security.authentication)
-      },
-      {
-        name: "Authorization",
-        domain: "security",
-        group: "authorization",
-        level: o.security.authorization,
-        violations: m(o.security.authorization, l.security.authorization)
-      },
-      {
-        name: "Transport",
-        domain: "security",
-        group: "transport",
-        level: o.security.transport,
-        violations: m(o.security.transport, l.security.transport)
-      }
-    ],
-    data: [
-      {
-        name: "Paths",
-        domain: "datavalidation",
-        group: "paths",
-        level: o.dataValidation.paths,
-        violations: m(o.dataValidation.paths, l.datavalidation.paths)
-      },
-      {
-        name: "Parameters",
-        domain: "datavalidation",
-        group: "parameters",
-        level: o.dataValidation.parameters,
-        violations: m(
-          o.dataValidation.parameters,
-          t.byGroup.datavalidation.parameters
-        )
-      },
-      {
-        name: "Schema",
-        domain: "datavalidation",
-        group: "schema",
-        level: o.dataValidation.schema,
-        violations: m(o.dataValidation.schema, l.datavalidation.schema)
-      },
-      {
-        name: "Response Definition",
-        domain: "datavalidation",
-        group: "responsedefinition",
-        level: o.dataValidation.responseDefinition,
-        violations: m(
-          o.dataValidation.responseDefinition,
-          l.datavalidation.responsedefinition
-        )
-      },
-      {
-        name: "Response Headers",
-        domain: "datavalidation",
-        group: "responseheader",
-        level: o.dataValidation.responseHeaders,
-        violations: m(
-          o.dataValidation.responseHeaders,
-          l.datavalidation.responseheader
-        )
-      }
-    ]
-  };
-  return /* @__PURE__ */ e.jsxs(qi, { children: [
-    /* @__PURE__ */ e.jsx("h4", { children: "Allowed issue security levels" }),
-    /* @__PURE__ */ e.jsxs(zi, { children: [
-      /* @__PURE__ */ e.jsx("div", { children: "Category" }),
-      /* @__PURE__ */ e.jsx("div", { children: "threshold" }),
-      /* @__PURE__ */ e.jsx("div", { children: "issues found" })
-    ] }),
-    /* @__PURE__ */ e.jsx(U, { children: "Security" }),
-    a.security.filter((s) => s.violations.length > 0).map((s, d) => /* @__PURE__ */ e.jsxs(K, { children: [
-      /* @__PURE__ */ e.jsx("div", { children: s.name }),
-      /* @__PURE__ */ e.jsx("div", { children: _(s.level) }),
-      /* @__PURE__ */ e.jsx(
-        "a",
-        {
-          href: "#",
-          onClick: (r) => {
-            r.stopPropagation(), r.preventDefault(), n(j("issues")), n(
-              u({
-                severity: s.violations[0].level,
-                domain: s.domain,
-                group: s.group
-              })
-            );
-          },
-          children: s.violations.map((r) => `${r.level} ${r.count}`).join(", ")
-        }
-      )
-    ] }, d)),
-    /* @__PURE__ */ e.jsx(U, { children: "Data validation" }),
-    a.data.filter((s) => s.violations.length > 0).map((s, d) => /* @__PURE__ */ e.jsxs(K, { children: [
-      /* @__PURE__ */ e.jsx("div", { children: s.name }),
-      /* @__PURE__ */ e.jsx("div", { children: _(s.level) }),
-      /* @__PURE__ */ e.jsx(
-        "a",
-        {
-          href: "#",
-          onClick: (r) => {
-            r.stopPropagation(), r.preventDefault(), n(j("issues")), n(
-              u({
-                severity: s.violations[0].level,
-                domain: s.domain,
-                group: s.group
-              })
-            );
-          },
-          children: s.violations.map((r) => `${r.level} ${r.count}`).join(", ")
-        }
-      )
-    ] }, d))
-  ] });
+//#endregion
+//#region src/app/audit/SqgLevelViolations.tsx
+function St({ sqg: e, stats: t }) {
+	let n = P(), r = e.directives.subcategoryRules, i = t.byGroup, a = {
+		security: [
+			{
+				name: "Authentication",
+				domain: "security",
+				group: "authentication",
+				level: r.security.authentication,
+				violations: Q(r.security.authentication, i.security.authentication)
+			},
+			{
+				name: "Authorization",
+				domain: "security",
+				group: "authorization",
+				level: r.security.authorization,
+				violations: Q(r.security.authorization, i.security.authorization)
+			},
+			{
+				name: "Transport",
+				domain: "security",
+				group: "transport",
+				level: r.security.transport,
+				violations: Q(r.security.transport, i.security.transport)
+			}
+		],
+		data: [
+			{
+				name: "Paths",
+				domain: "datavalidation",
+				group: "paths",
+				level: r.dataValidation.paths,
+				violations: Q(r.dataValidation.paths, i.datavalidation.paths)
+			},
+			{
+				name: "Parameters",
+				domain: "datavalidation",
+				group: "parameters",
+				level: r.dataValidation.parameters,
+				violations: Q(r.dataValidation.parameters, t.byGroup.datavalidation.parameters)
+			},
+			{
+				name: "Schema",
+				domain: "datavalidation",
+				group: "schema",
+				level: r.dataValidation.schema,
+				violations: Q(r.dataValidation.schema, i.datavalidation.schema)
+			},
+			{
+				name: "Response Definition",
+				domain: "datavalidation",
+				group: "responsedefinition",
+				level: r.dataValidation.responseDefinition,
+				violations: Q(r.dataValidation.responseDefinition, i.datavalidation.responsedefinition)
+			},
+			{
+				name: "Response Headers",
+				domain: "datavalidation",
+				group: "responseheader",
+				level: r.dataValidation.responseHeaders,
+				violations: Q(r.dataValidation.responseHeaders, i.datavalidation.responseheader)
+			}
+		]
+	};
+	return /* @__PURE__ */ (0, R.jsxs)(Ct, { children: [
+		/* @__PURE__ */ (0, R.jsx)("h4", { children: "Allowed issue security levels" }),
+		/* @__PURE__ */ (0, R.jsxs)(wt, { children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "Category" }),
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "threshold" }),
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "issues found" })
+		] }),
+		/* @__PURE__ */ (0, R.jsx)(Z, { children: "Security" }),
+		a.security.filter((e) => e.violations.length > 0).map((e, t) => /* @__PURE__ */ (0, R.jsxs)(Tt, { children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: e.name }),
+			/* @__PURE__ */ (0, R.jsx)("div", { children: Dt(e.level) }),
+			/* @__PURE__ */ (0, R.jsx)("a", {
+				href: "#",
+				onClick: (t) => {
+					t.stopPropagation(), t.preventDefault(), n(M("issues")), n(N({
+						severity: e.violations[0].level,
+						domain: e.domain,
+						group: e.group
+					}));
+				},
+				children: e.violations.map((e) => `${e.level} ${e.count}`).join(", ")
+			})
+		] }, t)),
+		/* @__PURE__ */ (0, R.jsx)(Z, { children: "Data validation" }),
+		a.data.filter((e) => e.violations.length > 0).map((e, t) => /* @__PURE__ */ (0, R.jsxs)(Tt, { children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: e.name }),
+			/* @__PURE__ */ (0, R.jsx)("div", { children: Dt(e.level) }),
+			/* @__PURE__ */ (0, R.jsx)("a", {
+				href: "#",
+				onClick: (t) => {
+					t.stopPropagation(), t.preventDefault(), n(M("issues")), n(N({
+						severity: e.violations[0].level,
+						domain: e.domain,
+						group: e.group
+					}));
+				},
+				children: e.violations.map((e) => `${e.level} ${e.count}`).join(", ")
+			})
+		] }, t))
+	] });
 }
-const qi = c.div`
+var Ct = t.div`
   > div {
     margin-top: 8px;
     margin-bottom: 8px;
   }
-`, zi = c.div`
+`, wt = t.div`
   display: flex;
-  background-color: var(${p.computedTwo});
+  background-color: var(${c.computedTwo});
   border-radius: 2px;
   padding: 8px;
   > div {
@@ -1184,12 +1172,12 @@ const qi = c.div`
     font-weight: 600;
     font-size: 12px;
   }
-`, U = c.div`
+`, Z = t.div`
   display: flex;
-  background-color: var(${p.computedOne});
+  background-color: var(${c.computedOne});
   border-radius: 2px;
   padding: 8px;
-`, K = c.div`
+`, Tt = t.div`
   display: flex;
   > a {
     flex: 1;
@@ -1201,176 +1189,167 @@ const qi = c.div`
     margin: 8px;
   }
 `;
-function m(i, t) {
-  if (i === "none")
-    return [];
-  const n = D.indexOf(i), o = [];
-  for (const l of D.slice(n))
-    t[l] > 0 && o.push({ level: l, count: t[l] });
-  return o;
+function Q(e, t) {
+	if (e === "none") return [];
+	let n = _.indexOf(e), r = [];
+	for (let e of _.slice(n)) t[e] > 0 && r.push({
+		level: e,
+		count: t[e]
+	});
+	return r;
 }
-const Fi = {
-  info: "All issues are rejected",
-  low: "Issues up to level Info allowed, levels Low to Critical rejected",
-  medium: "Issues up to level Low allowed, levels Medium to Critical rejected",
-  high: "Issues up to level Medium allowed, levels High to Critical rejected",
-  critical: "Only Critical issues are rejected",
-  none: "No restrictions"
+var Et = {
+	info: "All issues are rejected",
+	low: "Issues up to level Info allowed, levels Low to Critical rejected",
+	medium: "Issues up to level Low allowed, levels Medium to Critical rejected",
+	high: "Issues up to level Medium allowed, levels High to Critical rejected",
+	critical: "Only Critical issues are rejected",
+	none: "No restrictions"
 };
-function _(i) {
-  return Fi[i];
+function Dt(e) {
+	return Et[e];
 }
-function Bi({ sqg: i, stats: t }) {
-  const n = h(), o = i.directives.issueRules ?? [], a = t.byIssue.filter((s) => o.includes(s.id));
-  return a.length === 0 ? null : /* @__PURE__ */ e.jsxs(Mi, { children: [
-    /* @__PURE__ */ e.jsx("h4", { children: "Forbidden issues with problem found" }),
-    a.map((s) => /* @__PURE__ */ e.jsx("div", { children: /* @__PURE__ */ e.jsx(
-      "a",
-      {
-        href: "#",
-        onClick: (d) => {
-          d.preventDefault(), d.stopPropagation(), n(j("issues")), n(u({ rule: s.id }));
-        },
-        children: s.title
-      }
-    ) }))
-  ] });
+//#endregion
+//#region src/app/audit/SqgRuleViolations.tsx
+function Ot({ sqg: e, stats: t }) {
+	let n = P(), r = e.directives.issueRules ?? [], i = t.byIssue.filter((e) => r.includes(e.id));
+	return i.length === 0 ? null : /* @__PURE__ */ (0, R.jsxs)(kt, { children: [/* @__PURE__ */ (0, R.jsx)("h4", { children: "Forbidden issues with problem found" }), i.map((e) => /* @__PURE__ */ (0, R.jsx)("div", { children: /* @__PURE__ */ (0, R.jsx)("a", {
+		href: "#",
+		onClick: (t) => {
+			t.preventDefault(), t.stopPropagation(), n(M("issues")), n(N({ rule: e.id }));
+		},
+		children: e.title
+	}) }))] });
 }
-const Mi = c.div`
+var kt = t.div`
   > div {
     margin-top: 8px;
     margin-bottom: 8px;
   }
 `;
-function Vi({
-  compliance: i,
-  summary: t,
-  stats: n
-}) {
-  const [o, l] = y.useState(0), a = i.sqgsDetail[o];
-  return /* @__PURE__ */ e.jsxs(Oi, { children: [
-    /* @__PURE__ */ e.jsx(
-      Ii,
-      {
-        sqgs: i.sqgsDetail,
-        onSelect: l,
-        selected: i.sqgsDetail[o].id
-      }
-    ),
-    /* @__PURE__ */ e.jsx(Ti, { sqg: a, summary: t }),
-    /* @__PURE__ */ e.jsx(Ri, { sqg: a, stats: n }),
-    /* @__PURE__ */ e.jsx(Bi, { sqg: a, stats: n })
-  ] });
+//#endregion
+//#region src/app/audit/SqgCompliance.tsx
+function At({ compliance: e, summary: t, stats: n }) {
+	let [r, i] = (0, g.useState)(0), a = e.sqgsDetail[r];
+	return /* @__PURE__ */ (0, R.jsxs)(jt, { children: [
+		/* @__PURE__ */ (0, R.jsx)(gt, {
+			sqgs: e.sqgsDetail,
+			onSelect: i,
+			selected: e.sqgsDetail[r].id
+		}),
+		/* @__PURE__ */ (0, R.jsx)(yt, {
+			sqg: a,
+			summary: t
+		}),
+		/* @__PURE__ */ (0, R.jsx)(St, {
+			sqg: a,
+			stats: n
+		}),
+		/* @__PURE__ */ (0, R.jsx)(Ot, {
+			sqg: a,
+			stats: n
+		})
+	] });
 }
-const Oi = c.div`
+var jt = t.div`
   padding: 8px;
-  color: var(${p.foreground});
-  background-color: var(${p.background});
-  border-top: 1px solid var(${p.errorBorder});
+  color: var(${c.foreground});
+  background-color: var(${c.background});
+  border-top: 1px solid var(${c.errorBorder});
 `;
-function Ni() {
-  const { compliance: i, summary: t } = x((r) => r.audit.audit), n = x((r) => r.audit.stats), o = x((r) => r.audit.sqgTodo), l = h(), a = (r) => {
-    l(Ge(r));
-  }, [s, d] = y.useState(!1);
-  return i === void 0 ? null : i.acceptance === "yes" ? /* @__PURE__ */ e.jsx(Gi, { children: /* @__PURE__ */ e.jsx(De, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ e.jsxs(Ei, { children: [
-    /* @__PURE__ */ e.jsxs(Hi, { children: [
-      /* @__PURE__ */ e.jsx(S, {}),
-      /* @__PURE__ */ e.jsx("div", { children: "Security quality gates failed" }),
-      /* @__PURE__ */ e.jsx(Te, { value: o, onChange: a }),
-      "Show only SQG to-do list",
-      /* @__PURE__ */ e.jsx(
-        ki,
-        {
-          isOpen: s,
-          onClick: () => d(!s),
-          style: { width: 14, height: 14 }
-        }
-      )
-    ] }),
-    s && /* @__PURE__ */ e.jsx(Vi, { compliance: i, summary: t, stats: n })
-  ] });
+//#endregion
+//#region src/app/audit/SqgReport.tsx
+function Mt() {
+	let { compliance: e, summary: t } = F((e) => e.audit.audit), n = F((e) => e.audit.stats), r = F((e) => e.audit.sqgTodo), i = P(), a = (e) => {
+		i(Pe(e));
+	}, [o, s] = (0, g.useState)(!1);
+	return e === void 0 ? null : e.acceptance === "yes" ? /* @__PURE__ */ (0, R.jsx)(Ft, { children: /* @__PURE__ */ (0, R.jsx)(be, { message: "Security quality gates passed" }) }) : /* @__PURE__ */ (0, R.jsxs)(Nt, { children: [/* @__PURE__ */ (0, R.jsxs)(Pt, { children: [
+		/* @__PURE__ */ (0, R.jsx)(p, {}),
+		/* @__PURE__ */ (0, R.jsx)("div", { children: "Security quality gates failed" }),
+		/* @__PURE__ */ (0, R.jsx)(ye, {
+			value: r,
+			onChange: a
+		}),
+		"Show only SQG to-do list",
+		/* @__PURE__ */ (0, R.jsx)(ht, {
+			isOpen: o,
+			onClick: () => s(!o),
+			style: {
+				width: 14,
+				height: 14
+			}
+		})
+	] }), o && /* @__PURE__ */ (0, R.jsx)(At, {
+		compliance: e,
+		summary: t,
+		stats: n
+	})] });
 }
-const Ei = c.div`
+var Nt = t.div`
   margin: 8px;
   border-radius: 2px;
-  border: 1px solid var(${p.errorBorder});
-  background-color: var(${p.errorBackground});
-  color: var(${p.errorForeground});
-`, Hi = c.div`
+  border: 1px solid var(${c.errorBorder});
+  background-color: var(${c.errorBackground});
+  color: var(${c.errorForeground});
+`, Pt = t.div`
   display: flex;
   padding: 8px;
   flex-direction: row;
   align-items: center;
   gap: 4px;
   > svg {
-    fill: var(${p.errorForeground});
+    fill: var(${c.errorForeground});
   }
   > div:nth-child(2) {
     flex: 1;
   }
-`, Gi = c.div`
+`, Ft = t.div`
   margin: 8px;
 `;
-function Wi() {
-  const i = x((o) => o.audit.audit.summary), t = x((o) => o.audit.type), n = h();
-  return /* @__PURE__ */ e.jsx(Ui, { children: /* @__PURE__ */ e.jsxs(Ki, { children: [
-    /* @__PURE__ */ e.jsxs(
-      "div",
-      {
-        onClick: (o) => {
-          o.preventDefault(), o.stopPropagation(), n(j("issues")), n(u({}));
-        },
-        children: [
-          /* @__PURE__ */ e.jsx("div", { children: "Global score" }),
-          /* @__PURE__ */ e.jsxs("div", { children: [
-            i.all,
-            "/100"
-          ] }),
-          /* @__PURE__ */ e.jsx("div", {})
-        ]
-      }
-    ),
-    t !== "graphql" && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-      /* @__PURE__ */ e.jsxs(
-        "div",
-        {
-          onClick: (o) => {
-            o.preventDefault(), o.stopPropagation(), n(j("issues")), n(u({ domain: "security" }));
-          },
-          children: [
-            /* @__PURE__ */ e.jsx("div", { children: "Security score" }),
-            /* @__PURE__ */ e.jsxs("div", { children: [
-              i.security.value,
-              "/",
-              i.security.max
-            ] }),
-            /* @__PURE__ */ e.jsx("div", {})
-          ]
-        }
-      ),
-      /* @__PURE__ */ e.jsxs(
-        "div",
-        {
-          onClick: (o) => {
-            o.preventDefault(), o.stopPropagation(), n(j("issues")), n(u({ domain: "datavalidation" }));
-          },
-          children: [
-            /* @__PURE__ */ e.jsx("div", { children: "Data validation score" }),
-            /* @__PURE__ */ e.jsxs("div", { children: [
-              i.datavalidation.value,
-              "/",
-              i.datavalidation.max
-            ] }),
-            /* @__PURE__ */ e.jsx("div", {})
-          ]
-        }
-      )
-    ] })
-  ] }) });
+//#endregion
+//#region src/app/audit/SummaryTiles.tsx
+function It() {
+	let e = F((e) => e.audit.audit.summary), t = F((e) => e.audit.type), n = P();
+	return /* @__PURE__ */ (0, R.jsx)(Lt, { children: /* @__PURE__ */ (0, R.jsxs)(Rt, { children: [/* @__PURE__ */ (0, R.jsxs)("div", {
+		onClick: (e) => {
+			e.preventDefault(), e.stopPropagation(), n(M("issues")), n(N({}));
+		},
+		children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "Global score" }),
+			/* @__PURE__ */ (0, R.jsxs)("div", { children: [e.all, "/100"] }),
+			/* @__PURE__ */ (0, R.jsx)("div", {})
+		]
+	}), t !== "graphql" && /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [/* @__PURE__ */ (0, R.jsxs)("div", {
+		onClick: (e) => {
+			e.preventDefault(), e.stopPropagation(), n(M("issues")), n(N({ domain: "security" }));
+		},
+		children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "Security score" }),
+			/* @__PURE__ */ (0, R.jsxs)("div", { children: [
+				e.security.value,
+				"/",
+				e.security.max
+			] }),
+			/* @__PURE__ */ (0, R.jsx)("div", {})
+		]
+	}), /* @__PURE__ */ (0, R.jsxs)("div", {
+		onClick: (e) => {
+			e.preventDefault(), e.stopPropagation(), n(M("issues")), n(N({ domain: "datavalidation" }));
+		},
+		children: [
+			/* @__PURE__ */ (0, R.jsx)("div", { children: "Data validation score" }),
+			/* @__PURE__ */ (0, R.jsxs)("div", { children: [
+				e.datavalidation.value,
+				"/",
+				e.datavalidation.max
+			] }),
+			/* @__PURE__ */ (0, R.jsx)("div", {})
+		]
+	})] })] }) });
 }
-const Ui = c.div`
+var Lt = t.div`
   margin: 8px;
-`, Ki = c.div`
+`, Rt = t.div`
   display: flex;
   gap: 8px;
   margin-top: 8px;
@@ -1381,11 +1360,11 @@ const Ui = c.div`
     flex-direction: column;
     align-items: center;
     padding: 12px 8px;
-    border: 1px solid var(${p.border});
+    border: 1px solid var(${c.border});
     border-radius: 2px;
     cursor: pointer;
     &:hover {
-      background-color: var(${p.computedOne});
+      background-color: var(${c.computedOne});
     }
     & > div:nth-child(1) {
       font-weight: 700;
@@ -1400,78 +1379,74 @@ const Ui = c.div`
     }
   }
 `;
-function Q() {
-  const i = h(), { tab: t, audit: n } = x((o) => o.audit);
-  return /* @__PURE__ */ e.jsxs(_i, { children: [
-    n.valid === !1 && /* @__PURE__ */ e.jsx(
-      ji,
-      {
-        onShowIssues: () => {
-          i(j("issues")), i(u({ domain: "oasconformance", severity: "critical" }));
-        }
-      }
-    ),
-    /* @__PURE__ */ e.jsx(Wi, {}),
-    /* @__PURE__ */ e.jsx(Ni, {}),
-    /* @__PURE__ */ e.jsx(
-      Le,
-      {
-        activeTab: t,
-        setActiveTab: (o) => i(j(o)),
-        tabs: [
-          {
-            id: "priority",
-            title: "Priority",
-            content: /* @__PURE__ */ e.jsx(Ci, {})
-          },
-          { id: "issues", title: "Issues", content: /* @__PURE__ */ e.jsx(gi, {}) }
-        ]
-      }
-    )
-  ] });
+//#endregion
+//#region src/app/audit/AuditReport.tsx
+function zt() {
+	let e = P(), { tab: t, audit: n } = F((e) => e.audit);
+	return /* @__PURE__ */ (0, R.jsxs)(Bt, { children: [
+		n.valid === !1 && /* @__PURE__ */ (0, R.jsx)(ct, { onShowIssues: () => {
+			e(M("issues")), e(N({
+				domain: "oasconformance",
+				severity: "critical"
+			}));
+		} }),
+		/* @__PURE__ */ (0, R.jsx)(It, {}),
+		/* @__PURE__ */ (0, R.jsx)(Mt, {}),
+		/* @__PURE__ */ (0, R.jsx)(ve, {
+			activeTab: t,
+			setActiveTab: (t) => e(M(t)),
+			tabs: [{
+				id: "priority",
+				title: "Priority",
+				content: /* @__PURE__ */ (0, R.jsx)(pt, {})
+			}, {
+				id: "issues",
+				title: "Issues",
+				content: /* @__PURE__ */ (0, R.jsx)(ot, {})
+			}]
+		})
+	] });
 }
-const _i = c.div``;
-function Qi() {
-  return /* @__PURE__ */ e.jsxs(Xi, { children: [
-    /* @__PURE__ */ e.jsx(Pe, {}),
-    "There is no Security Audit report available for this file"
-  ] });
+var Bt = t.div``;
+//#endregion
+//#region src/app/audit/NoReport.tsx
+function Vt() {
+	return /* @__PURE__ */ (0, R.jsxs)(Ht, { children: [/* @__PURE__ */ (0, R.jsx)(i, {}), "There is no Security Audit report available for this file"] });
 }
-const Xi = c.div`
+var Ht = t.div`
   display: flex;
   margin: 8px;
   padding: 8px;
   gap: 8px;
   align-items: center;
-  border: 1px solid var(${p.border});
+  border: 1px solid var(${c.border});
   font-size: 14px;
   > svg {
-    color: var(${p.foreground});
+    color: var(${c.foreground});
   }
 `;
-function Yi() {
-  return /* @__PURE__ */ e.jsxs(Ji, { children: [
-    /* @__PURE__ */ e.jsxs(Zi, { children: [
-      /* @__PURE__ */ e.jsx("div", {}),
-      /* @__PURE__ */ e.jsx("div", {}),
-      /* @__PURE__ */ e.jsx("div", {})
-    ] }),
-    /* @__PURE__ */ e.jsx(et, {})
-  ] });
+//#endregion
+//#region src/app/audit/Loading.tsx
+function Ut() {
+	return /* @__PURE__ */ (0, R.jsxs)(Wt, { children: [/* @__PURE__ */ (0, R.jsxs)(Kt, { children: [
+		/* @__PURE__ */ (0, R.jsx)("div", {}),
+		/* @__PURE__ */ (0, R.jsx)("div", {}),
+		/* @__PURE__ */ (0, R.jsx)("div", {})
+	] }), /* @__PURE__ */ (0, R.jsx)(qt, {})] });
 }
-const Ji = c.div`
+var Wt = t.div`
   padding: 8px;
   display: flex;
   flex-flow: column;
   gap: 8px;
-`, ae = me`
+`, Gt = de`
   0% {
-    background-color: var(${p.computedOne});
+    background-color: var(${c.computedOne});
   }
   100% {
-    background-color: var(${p.computedTwo});
+    background-color: var(${c.computedTwo});
   }
-`, Zi = c.div`
+`, Kt = t.div`
   display: flex;
   gap: 8px;
   margin-top: 8px;
@@ -1481,59 +1456,70 @@ const Ji = c.div`
     display: flex;
     height: 100px;
     flex-direction: column;
-    border: 1px solid var(${p.border});
-    animation: ${ae} 1s linear infinite alternate;
+    border: 1px solid var(${c.border});
+    animation: ${Gt} 1s linear infinite alternate;
   }
-`, et = c.div`
-  border: 1px solid var(${p.border});
+`, qt = t.div`
+  border: 1px solid var(${c.border});
   height: 15rem;
-  animation: ${ae} 1s linear infinite alternate;
-`, X = [
-  { id: "starting", title: "Starting", element: /* @__PURE__ */ e.jsx("div", {}) },
-  { id: "blank", title: "Blank", element: /* @__PURE__ */ e.jsx("div", {}), when: se },
-  {
-    id: "start-audit",
-    title: "Audit is starting",
-    element: /* @__PURE__ */ e.jsx(Yi, {}),
-    when: ne
-  },
-  {
-    id: "no-report",
-    title: "No Audit Report",
-    element: /* @__PURE__ */ e.jsx(Qi, {}),
-    when: M
-  },
-  {
-    id: "audit-report",
-    title: "Security Audit",
-    element: /* @__PURE__ */ e.jsx(Q, {}),
-    when: F
-  },
-  {
-    id: "audit-report",
-    title: "Security Audit",
-    element: /* @__PURE__ */ e.jsx(Q, {}),
-    when: B
-  }
-], it = {
-  startAudit: ne,
-  cancelAudit: se,
-  showFullReport: F,
-  showPartialReport: B,
-  showNoReport: M,
-  loadKdb: He,
-  changeTheme: ke
+  animation: ${Gt} 1s linear infinite alternate;
+`, $ = [
+	{
+		id: "starting",
+		title: "Starting",
+		element: /* @__PURE__ */ (0, R.jsx)("div", {})
+	},
+	{
+		id: "blank",
+		title: "Blank",
+		element: /* @__PURE__ */ (0, R.jsx)("div", {}),
+		when: T
+	},
+	{
+		id: "start-audit",
+		title: "Audit is starting",
+		element: /* @__PURE__ */ (0, R.jsx)(Ut, {}),
+		when: w
+	},
+	{
+		id: "no-report",
+		title: "No Audit Report",
+		element: /* @__PURE__ */ (0, R.jsx)(Vt, {}),
+		when: O
+	},
+	{
+		id: "audit-report",
+		title: "Security Audit",
+		element: /* @__PURE__ */ (0, R.jsx)(zt, {}),
+		when: E
+	},
+	{
+		id: "audit-report",
+		title: "Security Audit",
+		element: /* @__PURE__ */ (0, R.jsx)(zt, {}),
+		when: D
+	}
+], Jt = {
+	startAudit: w,
+	cancelAudit: T,
+	showFullReport: E,
+	showPartialReport: D,
+	showNoReport: O,
+	loadKdb: Ne,
+	changeTheme: ie
 };
-function tt() {
-  return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(Ce, {}),
-    /* @__PURE__ */ e.jsx(Se, {})
-  ] });
+function Yt() {
+	return /* @__PURE__ */ (0, R.jsxs)(R.Fragment, { children: [/* @__PURE__ */ (0, R.jsx)(a, {}), /* @__PURE__ */ (0, R.jsx)(ge, {})] });
 }
-function ot(i, t) {
-  const n = Ke(_e(i, X), t);
-  je.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(ye.StrictMode, { children: /* @__PURE__ */ e.jsx(be, { store: n, children: /* @__PURE__ */ e.jsx(we.Provider, { value: X, children: /* @__PURE__ */ e.jsx(tt, {}) }) }) })
-  ), window.addEventListener("message", $e(n, it));
+function Xt(e, t) {
+	let n = Ie(Le(e, $), t);
+	(0, xe.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, R.jsx)(g.StrictMode, { children: /* @__PURE__ */ (0, R.jsx)(me, {
+		store: n,
+		children: /* @__PURE__ */ (0, R.jsx)(oe.Provider, {
+			value: $,
+			children: /* @__PURE__ */ (0, R.jsx)(Yt, {})
+		})
+	}) })), window.addEventListener("message", ee(n, Jt));
 }
-window.renderWebView = ot;
+window.renderWebView = Xt;
+//#endregion

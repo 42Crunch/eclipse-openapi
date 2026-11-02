@@ -1,154 +1,201 @@
-import { c as m, a as v, t as g, l as j, b, f as h, T as l, e as o, j as e, g as f, R as y, P as S, k as $, p as w, n as I } from "./TriangleExclamation.BLKAXJ8l.js";
-import { D as p } from "./luxon.Cf3YS84f.js";
-import { S as D } from "./AngleDown.DBLEm0qt.js";
-import { S as O } from "./AngleUp.d5m1Xwr8.js";
-import { S as E } from "./SearchSidebar.CtwbvK_x.js";
-const M = {
-  dictionaries: [],
-  formats: []
-}, x = m({
-  name: "formats",
-  initialState: M,
-  reducers: {
-    showDictionary: (i, t) => {
-      const r = [], d = [];
-      for (const a of t.payload) {
-        r.push({
-          id: a.id,
-          name: a.name,
-          description: a.description
-        });
-        for (const s of Object.values(a.formats))
-          d.push({
-            ...s,
-            dictionaryId: a.id
-          });
-      }
-      i.dictionaries = r, i.formats = d;
-    }
-  }
-}), { showDictionary: F } = x.actions, T = x.reducer, k = {
-  theme: g,
-  formats: T
-}, P = (i) => v({
-  reducer: k,
-  middleware: (t) => t().prepend().concat(j),
-  preloadedState: {
-    theme: i
-  }
-}), u = b;
-function C(i = !1) {
-  const [t, r] = h.useState(i);
-  return [t, () => r(!t)];
+import { o as e } from "./rolldown-runtime.BItFwnF5.js";
+import { At as t, Dt as n, Et as r, Ft as i, H as a, Ht as o, It as s, Ot as c, Pt as l, R as u, Rt as d, gn as f, mn as p, un as m, vn as h, z as g } from "./icons.ODuw_IC-.js";
+import { t as _ } from "./luxon.DbKmGi6s.js";
+import { t as v } from "./SearchSidebar.DT4o8uWj.js";
+//#region src/app/data-dictionary/slice.ts
+var y = /* @__PURE__ */ e(h(), 1), b = f(), x = s(), S = o({
+	name: "formats",
+	initialState: {
+		dictionaries: [],
+		formats: []
+	},
+	reducers: { showDictionary: (e, t) => {
+		let n = [], r = [];
+		for (let e of t.payload) {
+			n.push({
+				id: e.id,
+				name: e.name,
+				description: e.description
+			});
+			for (let t of Object.values(e.formats)) r.push({
+				...t,
+				dictionaryId: e.id
+			});
+		}
+		e.dictionaries = n, e.formats = r;
+	} }
+}), { showDictionary: C } = S.actions, w = S.reducer, T = {
+	theme: i,
+	formats: w
+}, E = (e) => d({
+	reducer: T,
+	middleware: (e) => e().prepend().concat(x.logger),
+	preloadedState: { theme: e }
+}), D = p;
+//#endregion
+//#region src/app/data-dictionary/collapsible.ts
+function O(e = !1) {
+	let [t, n] = (0, y.useState)(e);
+	return [t, () => n(!t)];
 }
-function L({ format: i }) {
-  const [t, r] = C();
-  return /* @__PURE__ */ e.jsxs(H, { children: [
-    /* @__PURE__ */ e.jsxs(N, { $collapsed: !t, onClick: r, children: [
-      /* @__PURE__ */ e.jsx("div", { children: t ? /* @__PURE__ */ e.jsx(O, {}) : /* @__PURE__ */ e.jsx(D, {}) }),
-      /* @__PURE__ */ e.jsxs("div", { children: [
-        /* @__PURE__ */ e.jsx(U, { children: i.name }),
-        /* @__PURE__ */ e.jsxs(V, { children: [
-          "Last updated on",
-          " ",
-          p.fromSeconds(parseInt(i.lastUpdate, 10)).toLocaleString(
-            p.DATETIME_MED
-          )
-        ] })
-      ] })
-    ] }),
-    t && /* @__PURE__ */ e.jsxs(_, { children: [
-      /* @__PURE__ */ e.jsx(G, { children: i.description }),
-      A(i),
-      R(i)
-    ] })
-  ] }, `${i.dictionaryId}-${i.name}`);
+//#endregion
+//#region src/app/data-dictionary/FormatCard.tsx
+var k = n();
+function A({ format: e }) {
+	let [t, n] = O();
+	return /* @__PURE__ */ (0, k.jsxs)(L, { children: [/* @__PURE__ */ (0, k.jsxs)(R, {
+		$collapsed: !t,
+		onClick: n,
+		children: [/* @__PURE__ */ (0, k.jsx)("div", { children: t ? /* @__PURE__ */ (0, k.jsx)(u, {}) : /* @__PURE__ */ (0, k.jsx)(g, {}) }), /* @__PURE__ */ (0, k.jsxs)("div", { children: [/* @__PURE__ */ (0, k.jsx)(z, { children: e.name }), /* @__PURE__ */ (0, k.jsxs)(B, { children: [
+			"Last updated on",
+			" ",
+			_.fromSeconds(parseInt(e.lastUpdate, 10)).toLocaleString(_.DATETIME_MED)
+		] })] })]
+	}), t && /* @__PURE__ */ (0, k.jsxs)(V, { children: [
+		/* @__PURE__ */ (0, k.jsx)(H, { children: e.description }),
+		j(e),
+		M(e)
+	] })] }, `${e.dictionaryId}-${e.name}`);
 }
-function A(i) {
-  const r = {
-    1: "Not Sensitive",
-    2: "Low",
-    3: "Medium",
-    4: "High",
-    5: "Critical"
-  }[i.sensitivity] || "Unknown";
-  return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(n, { label: "Name", value: i.name }),
-    /* @__PURE__ */ e.jsx(n, { label: "Type", value: i.type }),
-    i.format && /* @__PURE__ */ e.jsx(n, { label: "Format", value: i.format }),
-    /* @__PURE__ */ e.jsx(n, { label: "Read only", value: `${i.readOnly}` }),
-    /* @__PURE__ */ e.jsx(n, { label: "Write only", value: `${i.writeOnly}` }),
-    /* @__PURE__ */ e.jsx(n, { label: "Nullable", value: `${i.writeOnly}` }),
-    /* @__PURE__ */ e.jsx(n, { label: "GDPR-PII", value: i.pii }),
-    /* @__PURE__ */ e.jsx(n, { label: "Object Identifier", value: i.objectIdentifier }),
-    /* @__PURE__ */ e.jsx(n, { label: "Sensitivity", value: r }),
-    /* @__PURE__ */ e.jsx(n, { label: "Example", value: `${i.example}` })
-  ] });
+function j(e) {
+	let t = {
+		1: "Not Sensitive",
+		2: "Low",
+		3: "Medium",
+		4: "High",
+		5: "Critical"
+	}[e.sensitivity] || "Unknown";
+	return /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Name",
+			value: e.name
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Type",
+			value: e.type
+		}),
+		e.format && /* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Format",
+			value: e.format
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Read only",
+			value: `${e.readOnly}`
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Write only",
+			value: `${e.writeOnly}`
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Nullable",
+			value: `${e.writeOnly}`
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "GDPR-PII",
+			value: e.pii
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Object Identifier",
+			value: e.objectIdentifier
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Sensitivity",
+			value: t
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Example",
+			value: `${e.example}`
+		})
+	] });
 }
-function R(i) {
-  return i.type === "integer" ? /* @__PURE__ */ e.jsx(B, { format: i }) : "enum" in i ? /* @__PURE__ */ e.jsx(z, { format: i }) : /* @__PURE__ */ e.jsx(W, { format: i });
+function M(e) {
+	return e.type === "integer" ? /* @__PURE__ */ (0, k.jsx)(F, { format: e }) : "enum" in e ? /* @__PURE__ */ (0, k.jsx)(P, { format: e }) : /* @__PURE__ */ (0, k.jsx)(N, { format: e });
 }
-function W({ format: i }) {
-  return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(n, { label: "Pattern", value: i.pattern }),
-    /* @__PURE__ */ e.jsx(n, { label: "Min length", value: `${i.minLength}` }),
-    /* @__PURE__ */ e.jsx(n, { label: "Max length", value: `${i.maxLength}` })
-  ] });
+function N({ format: e }) {
+	return /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Pattern",
+			value: e.pattern
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Min length",
+			value: `${e.minLength}`
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Max length",
+			value: `${e.maxLength}`
+		})
+	] });
 }
-function z({ format: i }) {
-  return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(n, { label: "Enum", value: i.enum.join(", ") }),
-    /* @__PURE__ */ e.jsx(n, { label: "Default", value: i.default })
-  ] });
+function P({ format: e }) {
+	return /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsx)(I, {
+		label: "Enum",
+		value: e.enum.join(", ")
+	}), /* @__PURE__ */ (0, k.jsx)(I, {
+		label: "Default",
+		value: e.default
+	})] });
 }
-function B({ format: i }) {
-  return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(n, { label: "Minimum", value: i.minimum }),
-    /* @__PURE__ */ e.jsx(n, { label: "Maximum", value: i.maximum }),
-    /* @__PURE__ */ e.jsx(n, { label: "Exclusive minimum", value: `${i.exclusiveMinimum}` }),
-    /* @__PURE__ */ e.jsx(n, { label: "Exclusive maximum", value: `${i.exclusiveMaximum}` }),
-    /* @__PURE__ */ e.jsx(n, { label: "Multiple Of", value: `${i.multipleOf}` })
-  ] });
+function F({ format: e }) {
+	return /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Minimum",
+			value: e.minimum
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Maximum",
+			value: e.maximum
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Exclusive minimum",
+			value: `${e.exclusiveMinimum}`
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Exclusive maximum",
+			value: `${e.exclusiveMaximum}`
+		}),
+		/* @__PURE__ */ (0, k.jsx)(I, {
+			label: "Multiple Of",
+			value: `${e.multipleOf}`
+		})
+	] });
 }
-function n({ label: i, value: t }) {
-  return /* @__PURE__ */ e.jsxs(q, { children: [
-    /* @__PURE__ */ e.jsx("div", { children: i }),
-    /* @__PURE__ */ e.jsx("div", { children: t })
-  ] });
+function I({ label: e, value: t }) {
+	return /* @__PURE__ */ (0, k.jsxs)(U, { children: [/* @__PURE__ */ (0, k.jsx)("div", { children: e }), /* @__PURE__ */ (0, k.jsx)("div", { children: t })] });
 }
-const H = o.div`
+var L = t.div`
   margin: 8px;
-  border: 1px solid var(${l.border});
-`, N = o.div`
+  border: 1px solid var(${c.border});
+`, R = t.div`
   display: flex;
   cursor: pointer;
   padding: 10px 10px 10px 0px;
-  background-color: var(${l.computedOne});
+  background-color: var(${c.computedOne});
   & > div:first-child {
     padding-left: 4px;
     padding-right: 8px;
     > svg {
-      fill: var(${l.foreground});
+      fill: var(${c.foreground});
     }
   }
   border-left: 5px solid transparent;
-  ${({ $collapsed: i }) => !i && `border-bottom: 1px solid var(${l.border});
-    border-left: 5px solid var(${l.badgeBackground});`}
-`, U = o.div`
+  ${({ $collapsed: e }) => !e && `border-bottom: 1px solid var(${c.border});
+    border-left: 5px solid var(${c.badgeBackground});`}
+`, z = t.div`
   font-weight: 600;
-`, V = o.div`
+`, B = t.div`
   margin-top: 8px;
   display: flex;
   font-size: 90%;
   align-items: center;
   gap: 16px;
-`, _ = o.div`
-  background-color: var(${l.computedOne});
+`, V = t.div`
+  background-color: var(${c.computedOne});
   padding: 16px;
-`, G = o.div`
+`, H = t.div`
   padding-bottom: 16px;
-  border-bottom: 1px solid var(${l.border});
-`, q = o.div`
+  border-bottom: 1px solid var(${c.border});
+`, U = t.div`
   display: flex;
   padding: 8px 0;
   gap: 8px;
@@ -161,36 +208,46 @@ const H = o.div`
     flex: 3;
   }
 `;
-function J() {
-  const i = u((s) => s.formats.formats), t = u((s) => s.formats.dictionaries);
-  if (t?.[0]?.id === void 0)
-    return null;
-  const r = t.filter((s) => s.id === "standard").map((s) => ({ ...s, label: s.name })), d = t.filter((s) => s.id !== "standard").map((s) => ({ ...s, label: s.name })), a = [
-    { id: "standard", title: "Organization standard dictionary", items: r },
-    { id: "named", title: "Organization named dictionaries", items: d }
-  ];
-  return /* @__PURE__ */ e.jsx(
-    E,
-    {
-      sections: a,
-      render: (s) => i.filter((c) => c.dictionaryId === s.itemId).map((c) => /* @__PURE__ */ e.jsx(L, { format: c }, `${c.dictionaryId}-${c.name}`))
-    }
-  );
+//#endregion
+//#region src/app/data-dictionary/Main.tsx
+function W() {
+	let e = D((e) => e.formats.formats), t = D((e) => e.formats.dictionaries);
+	if (t?.[0]?.id === void 0) return null;
+	let n = t.filter((e) => e.id === "standard").map((e) => ({
+		...e,
+		label: e.name
+	})), r = t.filter((e) => e.id !== "standard").map((e) => ({
+		...e,
+		label: e.name
+	}));
+	return /* @__PURE__ */ (0, k.jsx)(v, {
+		sections: [{
+			id: "standard",
+			title: "Organization standard dictionary",
+			items: n
+		}, {
+			id: "named",
+			title: "Organization named dictionaries",
+			items: r
+		}],
+		render: (t) => e.filter((e) => e.dictionaryId === t.itemId).map((e) => /* @__PURE__ */ (0, k.jsx)(A, { format: e }, `${e.dictionaryId}-${e.name}`))
+	});
 }
-const K = {
-  changeTheme: w,
-  showDictionary: F
+//#endregion
+//#region src/app/data-dictionary/index.tsx
+var G = {
+	changeTheme: l,
+	showDictionary: C
 };
-function Q() {
-  return /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-    /* @__PURE__ */ e.jsx(I, {}),
-    /* @__PURE__ */ e.jsx(J, {})
-  ] });
+function K() {
+	return /* @__PURE__ */ (0, k.jsxs)(k.Fragment, { children: [/* @__PURE__ */ (0, k.jsx)(r, {}), /* @__PURE__ */ (0, k.jsx)(W, {})] });
 }
-function X(i, t) {
-  const r = P(t);
-  f.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ e.jsx(y.StrictMode, { children: /* @__PURE__ */ e.jsx(S, { store: r, children: /* @__PURE__ */ e.jsx(Q, {}) }) })
-  ), window.addEventListener("message", $(r, K));
+function q(e, t) {
+	let n = E(t);
+	(0, b.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, k.jsx)(y.StrictMode, { children: /* @__PURE__ */ (0, k.jsx)(m, {
+		store: n,
+		children: /* @__PURE__ */ (0, k.jsx)(K, {})
+	}) })), window.addEventListener("message", a(n, G));
 }
-window.renderWebView = X;
+window.renderWebView = q;
+//#endregion
