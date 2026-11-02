@@ -1,458 +1,339 @@
-import { j as n, c as N, d as G, s as Y, a as J, p as K, t as Q, l as X, u as Z, b as ee, T as x, e as s, B as ne, g as oe, R as te, P as re, n as ae, k as ie } from "./TriangleExclamation.BLKAXJ8l.js";
-import { c as g, u as A } from "./index.esm.MIM2ge_D.js";
-import { N as B } from "./ProgressButton.BXekI9TY.js";
-import { o as w, s as h, F as b } from "./schemas.BH6uGBRD.js";
-import { I as k, T as se } from "./Textarea.7FvXKGUa.js";
-import { E as y } from "./Banner.BZe2qI8d.js";
-import { C as L } from "./Checkbox.CtRxkpPH.js";
-const le = (e) => /* @__PURE__ */ n.jsxs(
-  "svg",
-  {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "1em",
-    height: "1em",
-    fill: "none",
-    viewBox: "0 0 60 70",
-    ...e,
-    children: [
-      /* @__PURE__ */ n.jsx(
-        "path",
-        {
-          fill: "url(#crunch-logo-main_svg__a)",
-          d: "M60 52.505v-35.01L29.99 0 0 17.495v35.01L29.99 70z"
-        }
-      ),
-      /* @__PURE__ */ n.jsx(
-        "path",
-        {
-          fill: "#fff",
-          d: "M38.995 49.367a6.66 6.66 0 0 1-4.402-1.514 5.3 5.3 0 0 1-1.423-1.97 5.4 5.4 0 0 1-.404-2.404 5.3 5.3 0 0 1 .391-2.418c.318-.763.81-1.44 1.436-1.974a6.88 6.88 0 0 1 4.457-1.476c1.75-.041 3.469.475 4.913 1.476v-3.691a10.36 10.36 0 0 0-5.48-1.384H27.525q.007-.302.09-.59.076-.274.183-.536.135-.278.33-.517l.401-.461a3.4 3.4 0 0 1 .511-.48l.585-.424.676-.406.676-.425.748-.461.713-.443a18.1 18.1 0 0 0 3.981-3.064 5.38 5.38 0 0 0 1.462-3.69 4.9 4.9 0 0 0-.414-2.277 4.8 4.8 0 0 0-1.413-1.82 7.94 7.94 0 0 0-4.95-1.44 11.13 11.13 0 0 0-6.32 1.845v3.23a10.6 10.6 0 0 1 6.028-2.104 5.2 5.2 0 0 1 2.85.664 2.194 2.194 0 0 1 1.023 1.846 3.5 3.5 0 0 1-.313 1.387 3.45 3.45 0 0 1-.839 1.141 21 21 0 0 1-3.123 2.049c-1.607.996-2.721 1.716-3.306 2.16a8.5 8.5 0 0 0-2.32 2.73v-7.234h-3.36L11.03 37.611v2.897h10.594v4.023h3.16V37.15h6.374a8.9 8.9 0 0 0-1.861 3.038 9 9 0 0 0-.532 3.532 8.5 8.5 0 0 0 .627 3.765 8.4 8.4 0 0 0 2.204 3.1 10.13 10.13 0 0 0 6.704 2.4 13.2 13.2 0 0 0 5.863-1.237v-3.69a10.16 10.16 0 0 1-5.17 1.31M21.625 37.61h-6.94l6.94-8.6z"
-        }
-      ),
-      /* @__PURE__ */ n.jsx("defs", { children: /* @__PURE__ */ n.jsxs(
-        "linearGradient",
-        {
-          id: "crunch-logo-main_svg__a",
-          x1: 6.338,
-          x2: 54.152,
-          y1: 11.091,
-          y2: 58.413,
-          gradientUnits: "userSpaceOnUse",
-          children: [
-            /* @__PURE__ */ n.jsx("stop", { stopColor: "#783C8C" }),
-            /* @__PURE__ */ n.jsx("stop", { offset: 0.19, stopColor: "#6F3C8B" }),
-            /* @__PURE__ */ n.jsx("stop", { offset: 0.49, stopColor: "#583A87" }),
-            /* @__PURE__ */ n.jsx("stop", { offset: 0.87, stopColor: "#323881" }),
-            /* @__PURE__ */ n.jsx("stop", { offset: 0.95, stopColor: "#29387F" })
-          ]
-        }
-      ) })
-    ]
-  }
-), de = {
-  agreeToTermsAndConditions: !1,
-  agreeToEmailOptIn: !1,
-  showTermsAndConditionsError: !1,
-  anondCredentials: { email: "", anondToken: "" },
-  waitingForAnondToken: !1,
-  anondTokenRequestResult: void 0,
-  platformCredentials: {
-    platformUrl: "",
-    platformApiToken: ""
-  },
-  waitingForPlatformConnectionTest: !1,
-  platformConnectionTestResult: void 0,
-  currentFormId: "AnondSignUpEmailForm",
-  signupType: "regular",
-  complete: !1
-}, D = N({
-  name: "signup",
-  initialState: de,
-  reducers: {
-    requestAnondTokenByEmail: (e, o) => {
-      e.anondCredentials.email = o.payload, e.waitingForAnondToken = !0, e.anondTokenRequestResult = void 0;
-    },
-    showAnondTokenResponse: (e, o) => {
-      e.waitingForAnondToken = !1, e.anondTokenRequestResult = o.payload, e.currentFormId === "AnondSignUpEmailForm" && e.anondTokenRequestResult?.success && (e.currentFormId = "AnondSignUpTokenForm");
-    },
-    saveAnondEmail: (e, o) => {
-      e.anondCredentials.email = o.payload, e.anondTokenRequestResult = void 0;
-    },
-    saveAnondToken: (e, o) => {
-      e.anondCredentials.anondToken = o.payload;
-    },
-    resetAnondTokenRequestResult: (e, o) => {
-      e.anondTokenRequestResult = void 0, e.currentFormId === "AnondSignUpTokenForm" && (e.currentFormId = "AnondSignUpEmailForm");
-    },
-    anondSignUpComplete: (e, o) => {
-      e.complete = !0, e.anondCredentials.anondToken = o.payload.anondToken;
-    },
-    savePlatformCredentials: (e, o) => {
-      e.platformCredentials.platformUrl = o.payload.platformUrl, e.platformCredentials.platformApiToken = o.payload.platformApiToken, e.platformConnectionTestResult = void 0;
-    },
-    showPlatformConnectionTestError: (e, o) => {
-      e.waitingForPlatformConnectionTest = !1, e.platformConnectionTestResult = o.payload, e.complete = !1;
-    },
-    platformSignUpComplete: (e, o) => {
-      e.platformCredentials.platformUrl = o.payload.platformUrl, e.platformCredentials.platformApiToken = o.payload.platformApiToken, e.waitingForPlatformConnectionTest = !0, e.platformConnectionTestResult = void 0, e.complete = !0;
-    },
-    saveAgreeToTermsAndConditions: (e, o) => {
-      e.agreeToTermsAndConditions = o.payload, e.agreeToTermsAndConditions && (e.showTermsAndConditionsError = !1);
-    },
-    saveAgreeToEmailOptIn: (e, o) => {
-      e.agreeToEmailOptIn = o.payload;
-    },
-    showTermsAndConditionsError: (e, o) => {
-      e.showTermsAndConditionsError = o.payload;
-    },
-    openLink: (e, o) => {
-    },
-    setCurrentFormId: (e, o) => {
-      e.currentFormId = o.payload;
-    },
-    setSignupType: (e, o) => {
-      e.signupType = o.payload;
-    }
-  }
-}), {
-  requestAnondTokenByEmail: q,
-  showAnondTokenResponse: ce,
-  saveAnondEmail: pe,
-  saveAnondToken: me,
-  resetAnondTokenRequestResult: R,
-  anondSignUpComplete: M,
-  showPlatformConnectionTestError: ue,
-  savePlatformCredentials: ge,
-  platformSignUpComplete: O,
-  saveAgreeToTermsAndConditions: he,
-  saveAgreeToEmailOptIn: fe,
-  showTermsAndConditionsError: xe,
-  openLink: T,
-  setCurrentFormId: j,
-  setSignupType: Te
-} = D.actions, Ce = D.reducer, $ = G(), u = $.startListening;
-function je(e) {
-  return Y({
-    requestAnondTokenByEmail: () => u({
-      actionCreator: q,
-      effect: async (t, r) => {
-        const {
-          signup: { agreeToEmailOptIn: a }
-        } = r.getState();
-        e.postMessage({
-          command: "requestAnondTokenByEmail",
-          payload: { email: t.payload, optIn: a }
-        });
-      }
-    }),
-    openLink: () => u({
-      actionCreator: T,
-      effect: async (t, r) => {
-        e.postMessage({
-          command: "openLink",
-          payload: t.payload
-        });
-      }
-    }),
-    anondSignUpComplete: () => u({
-      actionCreator: M,
-      effect: async (t, r) => {
-        e.postMessage({
-          command: "anondSignUpComplete",
-          payload: t.payload
-        });
-      }
-    }),
-    platformSignUpComplete: () => u({
-      actionCreator: O,
-      effect: async (t, r) => {
-        e.postMessage({
-          command: "platformSignUpComplete",
-          payload: t.payload
-        });
-      }
-    })
-  }), $;
+import { o as e } from "./rolldown-runtime.BItFwnF5.js";
+import { At as t, Dt as n, Et as r, Ft as i, H as a, Ht as o, It as s, Ot as c, Pt as l, Rt as ee, U as te, Vt as ne, gn as re, mn as ie, pn as u, q as d, un as f, vn as ae, x as oe } from "./icons.ODuw_IC-.js";
+import { c as p, l as m } from "./index.esm.BTfY3KsF.js";
+import { n as h } from "./Banner.CHX-WOk6.js";
+import { t as g } from "./ProgressButton.C7qCjPbJ.js";
+import { d as _, m as v, n as y, t as se, u as b } from "./Textarea.CAL1_A19.js";
+import { t as x } from "./Checkbox.CQy20tfM.js";
+//#region src/app/signup/slice.ts
+var ce = /* @__PURE__ */ e(ae(), 1), le = re(), S = o({
+	name: "signup",
+	initialState: {
+		agreeToTermsAndConditions: !1,
+		agreeToEmailOptIn: !1,
+		showTermsAndConditionsError: !1,
+		anondCredentials: {
+			email: "",
+			anondToken: ""
+		},
+		waitingForAnondToken: !1,
+		anondTokenRequestResult: void 0,
+		platformCredentials: {
+			platformUrl: "",
+			platformApiToken: ""
+		},
+		waitingForPlatformConnectionTest: !1,
+		platformConnectionTestResult: void 0,
+		currentFormId: "AnondSignUpEmailForm",
+		complete: !1
+	},
+	reducers: {
+		requestAnondTokenByEmail: (e, t) => {
+			e.anondCredentials.email = t.payload, e.waitingForAnondToken = !0, e.anondTokenRequestResult = void 0;
+		},
+		showAnondTokenResponse: (e, t) => {
+			e.waitingForAnondToken = !1, e.anondTokenRequestResult = t.payload, e.currentFormId === "AnondSignUpEmailForm" && e.anondTokenRequestResult?.success && (e.currentFormId = "AnondSignUpTokenForm");
+		},
+		saveAnondEmail: (e, t) => {
+			e.anondCredentials.email = t.payload, e.anondTokenRequestResult = void 0;
+		},
+		saveAnondToken: (e, t) => {
+			e.anondCredentials.anondToken = t.payload;
+		},
+		resetAnondTokenRequestResult: (e, t) => {
+			e.anondTokenRequestResult = void 0, e.currentFormId === "AnondSignUpTokenForm" && (e.currentFormId = "AnondSignUpEmailForm");
+		},
+		anondSignUpComplete: (e, t) => {
+			e.complete = !0, e.anondCredentials.anondToken = t.payload.anondToken;
+		},
+		savePlatformCredentials: (e, t) => {
+			e.platformCredentials.platformUrl = t.payload.platformUrl, e.platformCredentials.platformApiToken = t.payload.platformApiToken, e.platformConnectionTestResult = void 0;
+		},
+		showPlatformConnectionTestError: (e, t) => {
+			e.waitingForPlatformConnectionTest = !1, e.platformConnectionTestResult = t.payload, e.complete = !1;
+		},
+		platformSignUpComplete: (e, t) => {
+			e.platformCredentials.platformUrl = t.payload.platformUrl, e.platformCredentials.platformApiToken = t.payload.platformApiToken, e.waitingForPlatformConnectionTest = !0, e.platformConnectionTestResult = void 0, e.complete = !0;
+		},
+		saveAgreeToTermsAndConditions: (e, t) => {
+			e.agreeToTermsAndConditions = t.payload, e.agreeToTermsAndConditions && (e.showTermsAndConditionsError = !1);
+		},
+		saveAgreeToEmailOptIn: (e, t) => {
+			e.agreeToEmailOptIn = t.payload;
+		},
+		showTermsAndConditionsError: (e, t) => {
+			e.showTermsAndConditionsError = t.payload;
+		},
+		openLink: (e, t) => {},
+		setCurrentFormId: (e, t) => {
+			e.currentFormId = t.payload;
+		}
+	}
+}), { requestAnondTokenByEmail: C, showAnondTokenResponse: w, saveAnondEmail: ue, saveAnondToken: de, resetAnondTokenRequestResult: T, anondSignUpComplete: E, showPlatformConnectionTestError: fe, savePlatformCredentials: pe, platformSignUpComplete: D, saveAgreeToTermsAndConditions: me, saveAgreeToEmailOptIn: he, showTermsAndConditionsError: O, openLink: k, setCurrentFormId: A } = S.actions, j = S.reducer, M = ne(), N = M.startListening;
+function P(e) {
+	return te({
+		requestAnondTokenByEmail: () => N({
+			actionCreator: C,
+			effect: async (t, n) => {
+				let { signup: { agreeToEmailOptIn: r } } = n.getState();
+				e.postMessage({
+					command: "requestAnondTokenByEmail",
+					payload: {
+						email: t.payload,
+						optIn: r
+					}
+				});
+			}
+		}),
+		openLink: () => N({
+			actionCreator: k,
+			effect: async (t, n) => {
+				e.postMessage({
+					command: "openLink",
+					payload: t.payload
+				});
+			}
+		}),
+		anondSignUpComplete: () => N({
+			actionCreator: E,
+			effect: async (t, n) => {
+				e.postMessage({
+					command: "anondSignUpComplete",
+					payload: t.payload
+				});
+			}
+		}),
+		platformSignUpComplete: () => N({
+			actionCreator: D,
+			effect: async (t, n) => {
+				e.postMessage({
+					command: "platformSignUpComplete",
+					payload: t.payload
+				});
+			}
+		})
+	}), M;
 }
-const ve = {
-  theme: Q,
-  signup: Ce
-}, ke = {
-  changeTheme: K,
-  setSignupType: Te,
-  showPlatformConnectionTestError: ue,
-  showAnondTokenResponse: ce
-}, ye = (e, o) => J({
-  reducer: ve,
-  middleware: (t) => t().prepend(e.middleware).concat(X),
-  preloadedState: {
-    theme: o
-  }
-}), d = () => Z(), c = ee, p = (e) => e;
-function Ae({
-  data: e,
-  backToPrevForm: o
-}) {
-  const t = d(), {
-    agreeToTermsAndConditions: r,
-    showTermsAndConditionsError: a,
-    anondTokenRequestResult: l,
-    waitingForAnondToken: i,
-    complete: U
-  } = c((C) => C.signup), H = w({
-    email: h().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
-  });
-  return /* @__PURE__ */ n.jsx(
-    b,
-    {
-      data: e,
-      saveData: (C) => t(pe(C.email)),
-      wrapFormData: p,
-      unwrapFormData: p,
-      schema: H,
-      useFormMode: "onBlur",
-      children: /* @__PURE__ */ n.jsxs(P, { children: [
-        /* @__PURE__ */ n.jsxs(F, { children: [
-          /* @__PURE__ */ n.jsx(S, { children: "Register" }),
-          /* @__PURE__ */ n.jsx(
-            f,
-            {
-              text: "I have an existing account",
-              disabled: U || i,
-              backToPrevForm: o
-            }
-          )
-        ] }),
-        /* @__PURE__ */ n.jsxs(E, { children: [
-          /* @__PURE__ */ n.jsx(k, { label: "Email", name: "email", disabled: U }),
-          /* @__PURE__ */ n.jsx(_, { children: "Enter a valid email address to receive a once off access token." }),
-          l && !l.success && /* @__PURE__ */ n.jsx(z, { children: /* @__PURE__ */ n.jsx(y, { message: "Unexpected error when trying to request a token", children: l.message }) }),
-          /* @__PURE__ */ n.jsx(Ee, {}),
-          a && !r && /* @__PURE__ */ n.jsx(y, { message: "Please accept Terms and Conditions to continue" }),
-          /* @__PURE__ */ n.jsx(Ue, {}),
-          /* @__PURE__ */ n.jsx(Ie, {})
-        ] }),
-        /* @__PURE__ */ n.jsx(I, { children: /* @__PURE__ */ n.jsx(we, {}) })
-      ] })
-    }
-  );
+//#endregion
+//#region src/app/signup/store.ts
+var F = s(), I = {
+	theme: i,
+	signup: j
+}, L = {
+	changeTheme: l,
+	showPlatformConnectionTestError: fe,
+	showAnondTokenResponse: w
+}, R = (e, t) => ee({
+	reducer: I,
+	middleware: (t) => t().prepend(e.middleware).concat(F.logger),
+	preloadedState: { theme: t }
+}), z = () => u(), B = ie, V = n(), H = (e) => e;
+function ge({ data: e, backToPrevForm: t }) {
+	let n = z(), { agreeToTermsAndConditions: r, showTermsAndConditionsError: i, anondTokenRequestResult: a, waitingForAnondToken: o, complete: s } = B((e) => e.signup), c = b({ email: _().min(1, { message: "This field has to be filled." }).email("This is not a valid email.") });
+	return /* @__PURE__ */ (0, V.jsx)(v, {
+		data: e,
+		saveData: (e) => n(ue(e.email)),
+		wrapFormData: H,
+		unwrapFormData: H,
+		schema: c,
+		useFormMode: "onBlur",
+		children: /* @__PURE__ */ (0, V.jsxs)(q, { children: [
+			/* @__PURE__ */ (0, V.jsxs)(W, { children: [/* @__PURE__ */ (0, V.jsx)(G, { children: "Register" }), /* @__PURE__ */ (0, V.jsx)(U, {
+				text: "I have an existing account",
+				disabled: s || o,
+				backToPrevForm: t
+			})] }),
+			/* @__PURE__ */ (0, V.jsxs)(J, { children: [
+				/* @__PURE__ */ (0, V.jsx)(y, {
+					label: "Email",
+					name: "email",
+					disabled: s
+				}),
+				/* @__PURE__ */ (0, V.jsx)(K, { children: "Enter a valid email address to receive a once off access token." }),
+				a && !a.success && /* @__PURE__ */ (0, V.jsx)(X, { children: /* @__PURE__ */ (0, V.jsx)(h, {
+					message: "Unexpected error when trying to request a token",
+					children: a.message
+				}) }),
+				/* @__PURE__ */ (0, V.jsx)(Se, {}),
+				i && !r && /* @__PURE__ */ (0, V.jsx)(h, { message: "Please accept Terms and Conditions to continue" }),
+				/* @__PURE__ */ (0, V.jsx)(we, {}),
+				/* @__PURE__ */ (0, V.jsx)(Ce, {})
+			] }),
+			/* @__PURE__ */ (0, V.jsx)(Y, { children: /* @__PURE__ */ (0, V.jsx)(_e, {}) })
+		] })
+	});
 }
-function f({
-  text: e,
-  disabled: o,
-  backToPrevForm: t
-}) {
-  return /* @__PURE__ */ n.jsx(
-    Re,
-    {
-      href: "#",
-      $disabled: o,
-      onClick: (r) => {
-        r.preventDefault(), r.stopPropagation(), t();
-      },
-      children: e
-    }
-  );
+function U({ text: e, disabled: t, backToPrevForm: n }) {
+	return /* @__PURE__ */ (0, V.jsx)(Te, {
+		href: "#",
+		$disabled: t,
+		onClick: (e) => {
+			e.preventDefault(), e.stopPropagation(), n();
+		},
+		children: e
+	});
+}
+function _e() {
+	let e = z(), { agreeToTermsAndConditions: t, waitingForAnondToken: n, complete: r } = B((e) => e.signup), i = m({ name: "email" }), { formState: { isValid: a } } = p();
+	return /* @__PURE__ */ (0, V.jsx)(g, {
+		label: "Request a token",
+		disabled: r || !a,
+		waiting: n,
+		onClick: (n) => {
+			e(t ? C(i) : O(!0)), n.preventDefault(), n.stopPropagation();
+		}
+	});
+}
+function ve({ data: e, backToPrevForm: t, backToPlatformSignup: n }) {
+	let r = z(), { complete: i } = B((e) => e.signup), a = b({ anondToken: _().min(1, { message: "This field has to be filled." }) });
+	return /* @__PURE__ */ (0, V.jsx)(v, {
+		data: e,
+		saveData: (e) => r(de(e.anondToken)),
+		wrapFormData: H,
+		unwrapFormData: H,
+		schema: a,
+		useFormMode: "onChange",
+		children: /* @__PURE__ */ (0, V.jsxs)(q, { children: [
+			/* @__PURE__ */ (0, V.jsxs)(W, { children: [/* @__PURE__ */ (0, V.jsx)(G, { children: "Register" }), /* @__PURE__ */ (0, V.jsx)(U, {
+				text: "I have an existing account",
+				disabled: i,
+				backToPrevForm: n
+			})] }),
+			/* @__PURE__ */ (0, V.jsxs)(J, { children: [/* @__PURE__ */ (0, V.jsxs)("div", { children: [
+				/* @__PURE__ */ (0, V.jsx)("p", { children: "We just sent you an access token to the email address you provided. Enter the token below to activate your API security testing account." }),
+				/* @__PURE__ */ (0, V.jsx)("p", { children: "If you did not get the token, check your spam mail." }),
+				/* @__PURE__ */ (0, V.jsx)(U, {
+					text: "Resubmit email request",
+					disabled: i,
+					backToPrevForm: t
+				})
+			] }), /* @__PURE__ */ (0, V.jsx)(se, {
+				label: "Token",
+				name: "anondToken",
+				disabled: i
+			})] }),
+			/* @__PURE__ */ (0, V.jsx)(Y, { children: /* @__PURE__ */ (0, V.jsx)(ye, {}) })
+		] })
+	});
+}
+function ye() {
+	let e = z(), { anondCredentials: t, complete: n } = B((e) => e.signup), r = m({ name: "anondToken" });
+	console.log("my token", r);
+	let { formState: { isValid: i } } = p();
+	return /* @__PURE__ */ (0, V.jsx)(Ee, {
+		disabled: n || !i,
+		onClick: (n) => {
+			e(E({
+				email: t.email,
+				anondToken: r.trim()
+			})), n.preventDefault(), n.stopPropagation();
+		},
+		children: "Activate account"
+	});
+}
+function be({ data: e, backToPrevForm: t }) {
+	let n = z(), { platformConnectionTestResult: r, complete: i } = B((e) => e.signup), a = b({
+		platformUrl: _().url().startsWith("https://"),
+		platformApiToken: _().regex(/^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i, "Token is invalid")
+	});
+	return /* @__PURE__ */ (0, V.jsx)(v, {
+		data: e,
+		saveData: (e) => n(pe(e)),
+		wrapFormData: H,
+		unwrapFormData: H,
+		schema: a,
+		useFormMode: "onChange",
+		children: /* @__PURE__ */ (0, V.jsxs)(q, { children: [
+			/* @__PURE__ */ (0, V.jsxs)(W, { children: [/* @__PURE__ */ (0, V.jsx)(G, { children: "Sign in" }), /* @__PURE__ */ (0, V.jsx)(U, {
+				text: "Register",
+				disabled: i,
+				backToPrevForm: t
+			})] }),
+			/* @__PURE__ */ (0, V.jsxs)(J, { children: [
+				/* @__PURE__ */ (0, V.jsx)(K, { children: "If you are an existing Teams or Enterprise customer, activate your account here." }),
+				/* @__PURE__ */ (0, V.jsx)(y, {
+					label: "Platform URL",
+					name: "platformUrl",
+					disabled: i
+				}),
+				/* @__PURE__ */ (0, V.jsx)(y, {
+					label: "IDE token",
+					name: "platformApiToken",
+					disabled: i,
+					password: !0
+				}),
+				r && /* @__PURE__ */ (0, V.jsx)(X, { children: /* @__PURE__ */ (0, V.jsx)(h, {
+					message: "Failed to connect",
+					children: r.error
+				}) })
+			] }),
+			/* @__PURE__ */ (0, V.jsx)(Y, { children: /* @__PURE__ */ (0, V.jsx)(xe, {}) })
+		] })
+	});
+}
+function xe() {
+	let e = z(), { waitingForPlatformConnectionTest: t, complete: n } = B((e) => e.signup), r = m({ name: "platformUrl" }), i = m({ name: "platformApiToken" }), { formState: { isValid: a } } = p();
+	return /* @__PURE__ */ (0, V.jsx)(g, {
+		label: "Activate account",
+		disabled: n || !a,
+		waiting: t,
+		onClick: (t) => {
+			e(D({
+				platformUrl: r,
+				platformApiToken: i
+			})), t.preventDefault(), t.stopPropagation();
+		}
+	});
+}
+function Se() {
+	let e = z(), { agreeToTermsAndConditions: t } = B((e) => e.signup);
+	return /* @__PURE__ */ (0, V.jsx)(Z, { children: /* @__PURE__ */ (0, V.jsx)(x, {
+		value: t,
+		onChange: (t) => {
+			e(me(t));
+		},
+		label: /* @__PURE__ */ (0, V.jsxs)(V.Fragment, { children: [
+			"I agree to the",
+			" ",
+			/* @__PURE__ */ (0, V.jsx)("a", {
+				href: "#",
+				onClick: (t) => {
+					t.preventDefault(), t.stopPropagation(), e(k("https://42crunch.com/freemium-terms-and-conditions/"));
+				},
+				children: "terms & conditions"
+			}),
+			". 42Crunch will send you important freemium service notifications by email. You may unsubscribe at any time."
+		] }),
+		size: "medium"
+	}) });
+}
+function Ce() {
+	let e = z();
+	return /* @__PURE__ */ (0, V.jsxs)("div", { children: [
+		"42Crunch is committed to protecting and respecting your privacy.",
+		" ",
+		/* @__PURE__ */ (0, V.jsx)("a", {
+			href: "#",
+			onClick: (t) => {
+				t.preventDefault(), t.stopPropagation(), e(k("https://42crunch.com/privacy-policy/"));
+			},
+			children: "Privacy Policy"
+		})
+	] });
 }
 function we() {
-  const e = d(), { agreeToTermsAndConditions: o, waitingForAnondToken: t, complete: r } = c(
-    (i) => i.signup
-  ), a = g({ name: "email" }), {
-    formState: { isValid: l }
-  } = A();
-  return /* @__PURE__ */ n.jsx(
-    B,
-    {
-      label: "Request a token",
-      disabled: r || !l,
-      waiting: t,
-      onClick: (i) => {
-        e(o ? q(a) : xe(!0)), i.preventDefault(), i.stopPropagation();
-      }
-    }
-  );
+	let e = z(), { agreeToEmailOptIn: t } = B((e) => e.signup);
+	return /* @__PURE__ */ (0, V.jsx)(Z, { children: /* @__PURE__ */ (0, V.jsx)(x, {
+		value: t,
+		onChange: (t) => {
+			e(he(t));
+		},
+		label: "I want to receive news about 42Crunch and their other products and services.",
+		size: "medium"
+	}) });
 }
-function be({
-  data: e,
-  backToPrevForm: o,
-  backToPlatformSignup: t
-}) {
-  const r = d(), { complete: a } = c((i) => i.signup), l = w({
-    anondToken: h().min(1, { message: "This field has to be filled." })
-  });
-  return /* @__PURE__ */ n.jsx(
-    b,
-    {
-      data: e,
-      saveData: (i) => r(me(i.anondToken)),
-      wrapFormData: p,
-      unwrapFormData: p,
-      schema: l,
-      useFormMode: "onChange",
-      children: /* @__PURE__ */ n.jsxs(P, { children: [
-        /* @__PURE__ */ n.jsxs(F, { children: [
-          /* @__PURE__ */ n.jsx(S, { children: "Register" }),
-          /* @__PURE__ */ n.jsx(
-            f,
-            {
-              text: "I have an existing account",
-              disabled: a,
-              backToPrevForm: t
-            }
-          )
-        ] }),
-        /* @__PURE__ */ n.jsxs(E, { children: [
-          /* @__PURE__ */ n.jsxs("div", { children: [
-            /* @__PURE__ */ n.jsx("p", { children: "We just sent you an access token to the email address you provided. Enter the token below to activate your API security testing account." }),
-            /* @__PURE__ */ n.jsx("p", { children: "If you did not get the token, check your spam mail." }),
-            /* @__PURE__ */ n.jsx(
-              f,
-              {
-                text: "Resubmit email request",
-                disabled: a,
-                backToPrevForm: o
-              }
-            )
-          ] }),
-          /* @__PURE__ */ n.jsx(se, { label: "Token", name: "anondToken", disabled: a })
-        ] }),
-        /* @__PURE__ */ n.jsx(I, { children: /* @__PURE__ */ n.jsx(Fe, {}) })
-      ] })
-    }
-  );
-}
-function Fe() {
-  const e = d(), { anondCredentials: o, complete: t } = c((l) => l.signup), r = g({ name: "anondToken" });
-  console.log("my token", r);
-  const {
-    formState: { isValid: a }
-  } = A();
-  return /* @__PURE__ */ n.jsx(
-    Be,
-    {
-      disabled: t || !a,
-      onClick: (l) => {
-        e(
-          M({ email: o.email, anondToken: r.trim() })
-        ), l.preventDefault(), l.stopPropagation();
-      },
-      children: "Activate account"
-    }
-  );
-}
-function Se({
-  data: e,
-  backToPrevForm: o
-}) {
-  const t = d(), { platformConnectionTestResult: r, complete: a } = c((i) => i.signup), l = w({
-    platformUrl: h().url().startsWith("https://"),
-    platformApiToken: h().regex(
-      /^(ide_|api_)?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
-      "Token is invalid"
-    )
-  });
-  return /* @__PURE__ */ n.jsx(
-    b,
-    {
-      data: e,
-      saveData: (i) => t(ge(i)),
-      wrapFormData: p,
-      unwrapFormData: p,
-      schema: l,
-      useFormMode: "onChange",
-      children: /* @__PURE__ */ n.jsxs(P, { children: [
-        /* @__PURE__ */ n.jsxs(F, { children: [
-          /* @__PURE__ */ n.jsx(S, { children: "Sign in" }),
-          /* @__PURE__ */ n.jsx(f, { text: "Register", disabled: a, backToPrevForm: o })
-        ] }),
-        /* @__PURE__ */ n.jsxs(E, { children: [
-          /* @__PURE__ */ n.jsx(_, { children: "If you are an existing Teams or Enterprise customer, activate your account here." }),
-          /* @__PURE__ */ n.jsx(k, { label: "Platform URL", name: "platformUrl", disabled: a }),
-          /* @__PURE__ */ n.jsx(k, { label: "IDE token", name: "platformApiToken", disabled: a, password: !0 }),
-          r && /* @__PURE__ */ n.jsx(z, { children: /* @__PURE__ */ n.jsx(y, { message: "Failed to connect", children: r.error }) })
-        ] }),
-        /* @__PURE__ */ n.jsx(I, { children: /* @__PURE__ */ n.jsx(Pe, {}) })
-      ] })
-    }
-  );
-}
-function Pe() {
-  const e = d(), { waitingForPlatformConnectionTest: o, complete: t } = c((i) => i.signup), r = g({ name: "platformUrl" }), a = g({ name: "platformApiToken" }), {
-    formState: { isValid: l }
-  } = A();
-  return /* @__PURE__ */ n.jsx(
-    B,
-    {
-      label: "Activate account",
-      disabled: t || !l,
-      waiting: o,
-      onClick: (i) => {
-        e(O({ platformUrl: r, platformApiToken: a })), i.preventDefault(), i.stopPropagation();
-      }
-    }
-  );
-}
-function Ee() {
-  const e = d(), { agreeToTermsAndConditions: o } = c((t) => t.signup);
-  return /* @__PURE__ */ n.jsx(W, { children: /* @__PURE__ */ n.jsx(
-    L,
-    {
-      value: o,
-      onChange: (t) => {
-        e(he(t));
-      },
-      label: /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-        "I agree to the",
-        " ",
-        /* @__PURE__ */ n.jsx(
-          "a",
-          {
-            href: "#",
-            onClick: (t) => {
-              t.preventDefault(), t.stopPropagation(), e(T("https://42crunch.com/freemium-terms-and-conditions/"));
-            },
-            children: "terms & conditions"
-          }
-        ),
-        ". 42Crunch will send you important freemium service notifications by email. You may unsubscribe at any time."
-      ] }),
-      size: "medium"
-    }
-  ) });
-}
-function Ie() {
-  const e = d();
-  return /* @__PURE__ */ n.jsxs("div", { children: [
-    "42Crunch is committed to protecting and respecting your privacy.",
-    " ",
-    /* @__PURE__ */ n.jsx(
-      "a",
-      {
-        href: "#",
-        onClick: (o) => {
-          o.preventDefault(), o.stopPropagation(), e(T("https://42crunch.com/privacy-policy/"));
-        },
-        children: "Privacy Policy"
-      }
-    )
-  ] });
-}
-function Ue() {
-  const e = d(), { agreeToEmailOptIn: o } = c((t) => t.signup);
-  return /* @__PURE__ */ n.jsx(W, { children: /* @__PURE__ */ n.jsx(
-    L,
-    {
-      value: o,
-      onChange: (t) => {
-        e(fe(t));
-      },
-      label: "I want to receive news about 42Crunch and their other products and services.",
-      size: "medium"
-    }
-  ) });
-}
-const F = s.div`
-  // border-bottom-color: var(${x.border});
+var W = t.div`
+  // border-bottom-color: var(${c.border});
   // border-bottom-width: 1px;
   // border-bottom-style: solid;
   display: flex;
@@ -461,30 +342,30 @@ const F = s.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-`, S = s.p`
+`, G = t.p`
   margin: 0;
   font-size: 25px;
   line-height: 40px;
   font-weight: 600;
-`, _ = s.div`
+`, K = t.div`
   font-weight: normal;
-`, P = s.div`
+`, q = t.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-`, E = s.div`
+`, J = t.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-width: 560px;
   height: 250px;
   padding: 16px;
-`, Re = s.a`
+`, Te = t.a`
   text-decoration: none;
   ${({ $disabled: e }) => e && "opacity: 0.4;"}
   ${({ $disabled: e }) => e && "cursor: default;"}
   ${({ $disabled: e }) => e && "pointer-events: none;"}
-`, I = s.div`
+`, Y = t.div`
   display: flex;
   gap: 16px;
   align-items: stretch;
@@ -495,91 +376,63 @@ const F = s.div`
     height: 45px;
     border-radius: 2px;
   }
-`, z = s.div`
+`, X = t.div`
   > div {
     max-width: 410px;
     word-wrap: break-word;
     overflow-y: auto;
     max-height: 50px;
   }
-`, W = s.div`
+`, Z = t.div`
   display: flex;
   gap: 5px;
   align-items: center;
-`, Be = s(ne)`
+`, Ee = t(d)`
   &:disabled {
     opacity: 0.4;
   }
 `;
-function Le() {
-  const e = d(), { currentFormId: o, signupType: t } = c((r) => r.signup);
-  return /* @__PURE__ */ n.jsx(qe, { children: /* @__PURE__ */ n.jsxs(Oe, { children: [
-    /* @__PURE__ */ n.jsx($e, { children: /* @__PURE__ */ n.jsx(le, {}) }),
-    o === "AnondSignUpEmailForm" && t === "regular" && /* @__PURE__ */ n.jsx(m, { children: "Check your API for quality, conformance and security vulnerabilities, including BOLA, BFLA & BOPLA" }),
-    o === "AnondSignUpEmailForm" && t === "capture" && /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-      /* @__PURE__ */ n.jsx(m, { children: "Welcome to API Contract Generator" }),
-      /* @__PURE__ */ n.jsx(v, { children: "Save time by reducing the manual creation of OpenAPI files. Automatically generate OpenAPI files from Postman collections or HAR files, directly in your IDE." }),
-      /* @__PURE__ */ n.jsx(_e, { children: /* @__PURE__ */ n.jsx(
-        "a",
-        {
-          href: "#",
-          onClick: (r) => {
-            r.preventDefault(), r.stopPropagation(), e(T("https://42crunch.com/api-contract-generator/"));
-          },
-          children: "Learn more"
-        }
-      ) })
-    ] }),
-    o === "AnondSignUpTokenForm" && /* @__PURE__ */ n.jsx(n.Fragment, { children: /* @__PURE__ */ n.jsx(m, { children: "#1 API Security testing tools for your IDE, CICD and SaaS environments" }) }),
-    o === "PlatformSignUpForm" && /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-      /* @__PURE__ */ n.jsx(m, { children: "API Capture" }),
-      /* @__PURE__ */ n.jsx(v, { children: "Automatically generate OpenAPI definition files." }),
-      /* @__PURE__ */ n.jsx(m, { children: "API Protect" }),
-      /* @__PURE__ */ n.jsx(v, { children: "Immediately protect APIs at runtime." })
-    ] })
-  ] }) });
-}
+//#endregion
+//#region src/app/signup/SignUp.tsx
 function De() {
-  const e = d(), { platformCredentials: o, anondCredentials: t, currentFormId: r } = c(
-    (a) => a.signup
-  );
-  return /* @__PURE__ */ n.jsx(V, { children: /* @__PURE__ */ n.jsxs(Me, { children: [
-    r === "PlatformSignUpForm" && /* @__PURE__ */ n.jsx(
-      Se,
-      {
-        data: o,
-        backToPrevForm: () => e(j("AnondSignUpEmailForm"))
-      }
-    ),
-    r === "AnondSignUpEmailForm" && /* @__PURE__ */ n.jsx(
-      Ae,
-      {
-        data: { email: t.email },
-        backToPrevForm: () => e(j("PlatformSignUpForm"))
-      }
-    ),
-    r === "AnondSignUpTokenForm" && /* @__PURE__ */ n.jsx(
-      be,
-      {
-        data: { anondToken: t.anondToken },
-        backToPrevForm: () => {
-          e(R());
-        },
-        backToPlatformSignup: () => {
-          e(R()), e(j("PlatformSignUpForm"));
-        }
-      }
-    )
-  ] }) });
+	let { currentFormId: e } = B((e) => e.signup);
+	return /* @__PURE__ */ (0, V.jsx)(ke, { children: /* @__PURE__ */ (0, V.jsxs)(je, { children: [
+		/* @__PURE__ */ (0, V.jsx)(Me, { children: /* @__PURE__ */ (0, V.jsx)(oe, {}) }),
+		e === "AnondSignUpEmailForm" && /* @__PURE__ */ (0, V.jsx)($, { children: "Check your API for quality, conformance and security vulnerabilities, including BOLA, BFLA & BOPLA" }),
+		e === "AnondSignUpTokenForm" && /* @__PURE__ */ (0, V.jsx)(V.Fragment, { children: /* @__PURE__ */ (0, V.jsx)($, { children: "#1 API Security testing tools for your IDE, CICD and SaaS environments" }) }),
+		e === "PlatformSignUpForm" && /* @__PURE__ */ (0, V.jsxs)(V.Fragment, { children: [/* @__PURE__ */ (0, V.jsx)($, { children: "API Protect" }), /* @__PURE__ */ (0, V.jsx)(Ne, { children: "Immediately protect APIs at runtime." })] })
+	] }) });
 }
-const V = s.div`
+function Oe() {
+	let e = z(), { platformCredentials: t, anondCredentials: n, currentFormId: r } = B((e) => e.signup);
+	return /* @__PURE__ */ (0, V.jsx)(Q, { children: /* @__PURE__ */ (0, V.jsxs)(Ae, { children: [
+		r === "PlatformSignUpForm" && /* @__PURE__ */ (0, V.jsx)(be, {
+			data: t,
+			backToPrevForm: () => e(A("AnondSignUpEmailForm"))
+		}),
+		r === "AnondSignUpEmailForm" && /* @__PURE__ */ (0, V.jsx)(ge, {
+			data: { email: n.email },
+			backToPrevForm: () => e(A("PlatformSignUpForm"))
+		}),
+		r === "AnondSignUpTokenForm" && /* @__PURE__ */ (0, V.jsx)(ve, {
+			data: { anondToken: n.anondToken },
+			backToPrevForm: () => {
+				e(T());
+			},
+			backToPlatformSignup: () => {
+				e(T()), e(A("PlatformSignUpForm"));
+			}
+		})
+	] }) });
+}
+var Q = t.div`
   display: flex;
   align-items: center;
   width: 50%;
-  background-color: var(${x.computedOne});
-`, qe = s(V)`
-  background-color: var(${x.computedTwo});
-`, Me = s.div`
+  background-color: var(${c.computedOne});
+`, ke = t(Q)`
+  background-color: var(${c.computedTwo});
+`, Ae = t.div`
   margin-right: auto;
   margin-left: auto;
   margin-top: auto;
@@ -588,50 +441,44 @@ const V = s.div`
   height: 430px;
 
   // border-radius: 7px;
-  // border-color: var(${x.border});
+  // border-color: var(${c.border});
   // border-width: 2px;
   // border-style: solid;
-`, Oe = s.div`
+`, je = t.div`
   margin: auto;
   width: 70%;
   min-height: 430px;
-`, $e = s.div`
+`, Me = t.div`
   margin-bottom: 30px;
   > svg {
     width: 60px;
     height: 60px;
   }
-`, m = s.p`
+`, $ = t.p`
   font-size: 42px;
   line-height: 54px;
   font-weight: 700;
   margin-top: 10px;
   margin-bottom: 10px;
-`, v = s.p`
+`, Ne = t.p`
   font-size: 26px;
   line-height: 36px;
   font-weight: 600;
-`, _e = s.p`
-  font-size: 20px;
-  line-height: 30px;
-  font-weight: 500;
 `;
-function ze(e, o) {
-  const t = ye(je(e), o);
-  oe.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ n.jsx(te.StrictMode, { children: /* @__PURE__ */ n.jsxs(re, { store: t, children: [
-      /* @__PURE__ */ n.jsx(ae, {}),
-      /* @__PURE__ */ n.jsxs(We, { children: [
-        /* @__PURE__ */ n.jsx(Le, {}),
-        /* @__PURE__ */ n.jsx(De, {})
-      ] })
-    ] }) })
-  ), window.addEventListener("message", ie(t, ke));
+//#endregion
+//#region src/app/signup/index.tsx
+function Pe(e, t) {
+	let n = R(P(e), t);
+	(0, le.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, V.jsx)(ce.StrictMode, { children: /* @__PURE__ */ (0, V.jsxs)(f, {
+		store: n,
+		children: [/* @__PURE__ */ (0, V.jsx)(r, {}), /* @__PURE__ */ (0, V.jsxs)(Fe, { children: [/* @__PURE__ */ (0, V.jsx)(De, {}), /* @__PURE__ */ (0, V.jsx)(Oe, {})] })]
+	}) })), window.addEventListener("message", a(n, L));
 }
-window.renderWebView = ze;
-const We = s.div`
+window.renderWebView = Pe;
+var Fe = t.div`
   display: flex;
   position: absolute;
   height: 100%;
   width: 100%;
 `;
+//#endregion

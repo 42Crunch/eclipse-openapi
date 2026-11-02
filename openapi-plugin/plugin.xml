@@ -95,11 +95,6 @@
             name="Open Settings">
         </command>
         <command
-            defaultHandler="com.xliic.openapi.capture.CaptureAction"
-            id="com.xliic.openapi.capture.CaptureAction"
-            name="API Contract Generator">
-        </command>
-        <command
             defaultHandler="com.xliic.openapi.actions.internal.ClearAllPropsAction"
             id="com.xliic.openapi.actions.internal.ClearAllPropsAction"
             name="Clear All Properties">
@@ -362,9 +357,6 @@
             <service serviceClass="com.xliic.core.services.IInlayHintsService"></service>
         </serviceFactory>
         <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
-            <service serviceClass="com.xliic.core.services.ICaptureService"></service>
-        </serviceFactory>
-        <serviceFactory factoryClass="com.xliic.core.services.CoreServiceFactory">
             <service serviceClass="com.xliic.core.services.IGraphQlService"></service>
         </serviceFactory>
     </extension>
@@ -498,19 +490,6 @@
                     icon="icons/platform-save.png"
                     style="push">
                 </command>
-                <menu
-                    id="com.xliic.openapi.tools.menu"
-                    label="Tools"
-                    icon="icons/tools.png">
-                    <command
-                        commandId="com.xliic.openapi.capture.CaptureAction"
-                        icon="icons/capture.png"
-                        id="com.xliic.openapi.capture.CaptureAction"
-                        label="API Contract Generator"
-                        style="push"
-                        tooltip="Convert Postman or HAR files to OpenAPI">
-                    </command>
-                </menu>
                 <command
                     commandId="com.xliic.openapi.actions.internal.ClearAllPropsAction"
                     style="push">

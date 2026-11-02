@@ -1,480 +1,355 @@
-import { H as w, c as K, i as me, a as Le, p as Ge, I as Ue, r as Ke, t as We, l as Je, u as Qe, b as Xe, e as f, j as a, T as y, f as z, w as $, d as Ze, s as Ye, B as et, g as tt, R as at, P as nt, h as st, N as ot, k as rt } from "./TriangleExclamation.BLKAXJ8l.js";
-import { aT as M, aU as it, M as V, aV as ct, aW as lt, p as oe, u as fe, w as ve, aF as dt, aX as ut, C as D, l as W, o as H, q as he, t as ye, Z as O, F as pt, B as mt, ac as ft, aY as vt, ah as ht, ai as yt, ak as J, aw as xt, ax as bt, aZ as xe, a_ as be, a$ as gt, b0 as St, b1 as jt, b2 as Ct, b3 as re, R as kt, b4 as qt, aB as Q, b5 as Rt, b6 as wt, E as Et, b7 as Tt, b8 as It, b9 as Dt, az as ge, aA as Se, aM as Pt, aN as Ot, aP as $t, aQ as At, aR as Ft, aS as zt } from "./UpdatePrompt.KUh2HlGB.js";
-import { a as je } from "./SearchSidebar.CtwbvK_x.js";
-import { x as Nt, r as Mt, q as Vt, D as Ce } from "./variables.CfsUBZ9t.js";
-import { l as Bt, c as Ht } from "./slice.s4_w0CJL.js";
-import { a as _t, e as Lt, s as Gt, l as ke } from "./index.BXf_Hj-1.js";
-import { l as Ut, p as Kt, u as Wt, c as Jt, b as qe } from "./slice.CZpj5Zis.js";
-import { s as A, g as Qt, M as L, a as G, G as Xt } from "./GeneralError.Dvjq_B8a.js";
-import { c as Zt, o as Yt } from "./listener.BNWHQqef.js";
-import { o as X, d as ea, s as x, a as ie, l as ce, F } from "./schemas.BH6uGBRD.js";
-import { u as Re, b as we, c as ta } from "./index.esm.MIM2ge_D.js";
-import { I } from "./Input.BQnalfHf.js";
-import { T as Z, C as aa } from "./Tabs.BfQDe6I2.js";
-import { I as q } from "./Textarea.7FvXKGUa.js";
-import { S as na } from "./Select.Jkx8eZok.js";
-import { S as le } from "./TrashCan.DYWcjlk_.js";
-import { o as sa, s as oa } from "./listener.BM8yBkLB.js";
-import { D as ra } from "./DescriptionTooltip.Dgobq1Hx.js";
-import { C as Ee, T as Te, B as Ie } from "./CollapsibleCard.BWECYxhA.js";
-const De = w("scanconf/runScan"), Pe = w("scanconf/runFullScan"), Oe = w(
-  "scanconf/showScanconfOperation"
-), $e = w(
-  "scanconf/loadUpdatedScanconf"
-), _ = w("scanconf/loadPlaybook"), ia = w("http/sendHttpRequest"), ca = w("http/showHttpResponse"), la = w("http/showHttpError"), R = "ENV_API_TOKEN", da = {
-  graphQl: "",
-  playbook: {
-    operations: {},
-    requests: {},
-    authenticationDetails: [{}],
-    before: [],
-    after: [],
-    environments: {},
-    authorizationTests: {}
-  },
-  servers: [],
-  selectedCredentialGroup: 0
-}, Ae = K({
-  name: "scanconf",
-  initialState: da,
-  reducers: {
-    saveScanconf: (e) => {
-    },
-    saveSettings: (e, { payload: t }) => {
-      e.playbook.runtimeConfiguration = { ...e.playbook.runtimeConfiguration, ...t };
-    },
-    saveRequest: (e, {
-      payload: { ref: t, stage: n }
-    }) => {
-      t.type === "operation" ? e.playbook.operations[t.id].request = n : e.playbook.requests && (e.playbook.requests[t.id] = n);
-    },
-    removeRequest: (e, { payload: t }) => {
-      t.type === "request" && e.playbook.requests?.[t.id] !== void 0 && delete e.playbook.requests[t.id];
-    },
-    saveCredential: (e, {
-      payload: { group: t, id: n, credential: s }
-    }) => {
-      const o = Object.keys(s.methods || {})[0];
-      e.selectedSubcredential !== void 0 && s?.methods?.[e.selectedSubcredential] === void 0 && (e.selectedSubcredential = o), s.methods[s.default] === void 0 && (s.default = o);
-      const d = e.playbook.authenticationDetails[t][n].name, l = e.playbook.authenticationDetails[t][n].methods[n].credential;
-      e.playbook.authenticationDetails[t][n] = s;
-      const p = l.replace("{{", "").replace("}}", ""), r = s.methods[n].credential, c = r.replace("{{", "").replace("}}", ""), u = e.playbook.customizations.requests.additionalHeaders;
-      u[d] = r;
-      const h = e.playbook?.environments?.default?.variables;
-      h[c] = {
-        from: "environment",
-        name: "SCAN42C_" + R,
-        required: !0
-      }, delete h[p];
-    },
-    saveEnvironment: (e, {
-      payload: { name: t, environment: n }
-    }) => {
-      e.playbook.environments[t] = n;
-    },
-    addCredential: (e, {
-      payload: { credentialGroup: t, id: n, credential: s }
-    }) => {
-      e.playbook.authenticationDetails || (e.playbook.authenticationDetails = [{}]), e.playbook.authenticationDetails[t] === void 0 && (e.playbook.authenticationDetails[t] = {}), s.credentials = {
-        [n]: {
-          description: "",
-          credential: "{{" + R + "}}"
-        }
-      }, e.playbook.authenticationDetails[t][n] = s, e.playbook.customizations.requests = {
-        additionalHeaders: {
-          [s.name]: "{{" + R + "}}"
-        }
-      }, R in e.playbook?.environments?.default?.variables || ((e.playbook?.environments?.default?.variables)[R] = {
-        from: "environment",
-        name: "SCAN42C_" + R,
-        required: !0
-      });
-    },
-    removeCredential: (e, { payload: { credentialGroup: t, id: n } }) => {
-      delete e.playbook.authenticationDetails[t][n], e.selectedCredential = void 0, e.selectedSubcredential = void 0, delete e.playbook.customizations.requests, delete (e.playbook?.environments?.default?.variables)[R];
-    },
-    setSecurityProfile: (e, { payload: t }) => {
-      e.playbook.securityProfile = t;
-    },
-    removeSecurityProfile: (e) => {
-      e.playbook.securityProfile = void 0, e.selectedCredential === V && (e.selectedCredential = void 0, e.selectedSubcredential = void 0);
-    },
-    selectCredential: (e, { payload: t }) => {
-      e.selectedCredentialGroup = t.group, e.selectedCredential = t.credential;
-    },
-    selectSubcredential: (e, { payload: t }) => {
-      e.selectedSubcredential = t;
-    },
-    addAuthorizationTest: (e, {
-      payload: { id: t, test: n }
-    }) => {
-      e.playbook.authorizationTests[t] = n;
-    },
-    saveAuthorizationTest: (e, {
-      payload: { id: t, test: n }
-    }) => {
-      e.playbook.authorizationTests[t] = n;
-    },
-    removeAuthorizationTest: (e, { payload: { id: t } }) => {
-      delete e.playbook.authorizationTests[t], e.selectedAuthorizationTest = Object.keys(e.playbook.authorizationTests)?.[0];
-    },
-    selectAuthorizationTest: (e, { payload: { id: t } }) => {
-      e.selectedAuthorizationTest = t;
-    },
-    saveOperationReference: (e, {
-      payload: { location: t, reference: n }
-    }) => {
-      M(e.playbook, t)[t.stageIndex] = n;
-    },
-    addStage: (e, {
-      payload: { container: t, stage: n }
-    }) => {
-      M(e.playbook, t).push(n);
-    },
-    moveStage: (e, {
-      payload: { location: t, to: n }
-    }) => {
-      it(M(e.playbook, t), t.stageIndex, n);
-    },
-    removeStage: (e, { payload: t }) => {
-      M(e.playbook, t).splice(t.stageIndex, 1);
-    },
-    updateOperationAuthorizationTests: (e, {
-      payload: { operationId: t, authorizationTests: n }
-    }) => {
-      e.playbook.operations[t].authorizationTests = n;
-    },
-    customizeOperation: (e, { payload: t }) => {
-      e.playbook.operations[t].customized = !0;
-    },
-    removeCustomizationForOperation: (e, { payload: t }) => {
-      e.playbook.operations[t].customTests = void 0, e.playbook.operations[t].authorizationTests = [], e.playbook.operations[t].before = [], e.playbook.operations[t].after = [], e.playbook.operations[t].scenarios = [
-        {
-          key: "happy.path",
-          requests: [
-            {
-              fuzzing: !0,
-              ref: { type: "operation", id: t }
-            }
-          ],
-          fuzzing: !0
-        }
-      ], e.playbook.operations[t].customized = !1;
-    },
-    createVariable: (e, {
-      payload: { name: t, location: n, jsonPointer: s, ref: o, statusCode: d }
-    }) => {
-      const l = o.type === "operation" ? e.playbook.operations[o.id].request : e.playbook.requests[o.id], p = Nt(d), r = l.responses[d] ? d : p !== void 0 && l.responses[p] ? p : "default";
-      l.responses[r] === void 0 && (l.responses[r] = {
-        variableAssignments: {},
-        expectations: r
-      }), l.responses[r].variableAssignments[t] = {
-        from: n,
-        in: "body",
-        contentType: "json",
-        path: {
-          type: "jsonPointer",
-          value: s
-        }
-      };
-    }
-  },
-  extraReducers: (e) => {
-    e.addCase(_, (t, { payload: { graphQl: n, playbook: s } }) => {
-      t.graphQl = n, t.playbook = s, t.servers = [], t.selectedCredentialGroup = 0, t.selectedCredential = Object.keys(s?.authenticationDetails?.[0] || {})?.[0], t.selectedAuthorizationTest = Object.keys(s?.authorizationTests || {})?.[0];
-    });
-  }
-}), {
-  saveSettings: ua,
-  saveEnvironment: pa,
-  saveScanconf: ss,
-  addCredential: Y,
-  removeCredential: ee,
-  setSecurityProfile: te,
-  removeSecurityProfile: Fe,
-  addStage: ma,
-  moveStage: fa,
-  removeStage: va,
-  saveOperationReference: ha,
-  saveCredential: ae,
-  selectCredential: B,
-  selectSubcredential: ze,
-  addAuthorizationTest: ya,
-  saveAuthorizationTest: xa,
-  removeAuthorizationTest: ba,
-  selectAuthorizationTest: os,
-  saveRequest: ne,
-  removeRequest: Ne,
-  updateOperationAuthorizationTests: ga,
-  customizeOperation: rs,
-  removeCustomizationForOperation: Sa,
-  createVariable: ja
-} = Ae.actions, Ca = Ae.reducer, ka = {
-  mockCurrent: { auth: [] },
-  mockResult: [],
-  tryCurrent: { auth: [] },
-  tryResult: []
-}, Me = K({
-  name: "auth",
-  initialState: ka,
-  reducers: {
-    startTryAuthentication: (e, { payload: t }) => {
-    },
-    resetTryAuthentication: (e) => {
-      e.tryCurrent = { auth: [] }, e.tryResult = [];
-    },
-    addTryAuthenticationStep: (e, { payload: t }) => {
-    },
-    resetMockAuthRequestsExecution: (e) => {
-      e.mockCurrent = { auth: [] }, e.mockResult = [];
-    },
-    addMockAuthRequestsExecutionStep: (e, { payload: t }) => {
-    }
-  },
-  extraReducers: (e) => {
-    e.addMatcher(
-      me(
-        B,
-        ze,
-        ae,
-        Y,
-        ee
-      ),
-      (t, n) => {
-        t.tryCurrent = { auth: [] }, t.tryResult = [];
-      }
-    );
-  }
-}), {
-  startTryAuthentication: qa,
-  resetTryAuthentication: is,
-  addTryAuthenticationStep: cs,
-  resetMockAuthRequestsExecution: ls,
-  addMockAuthRequestsExecutionStep: ds
-} = Me.actions, Ra = Me.reducer, wa = {
-  tryCurrent: { auth: [] },
-  tryResult: [],
-  mockCurrent: { auth: [] },
-  mockResult: [],
-  mockMissingVariables: []
-}, Ve = K({
-  name: "requests",
-  initialState: wa,
-  reducers: {
-    setRequestId: (e, { payload: t }) => {
-      e.ref = t, e.tryResult = [];
-    },
-    executeRequest: (e, t) => {
-    },
-    resetExecuteRequest: (e) => {
-      e.tryCurrent = { auth: [] }, e.tryResult = [];
-    },
-    addExecutionStep: (e, { payload: t }) => {
-    },
-    resetMockRequestExecution: (e) => {
-      e.mockCurrent = { auth: [] }, e.mockResult = [], e.mockMissingVariables = [];
-    },
-    addMockRequestExecutionStep: (e, { payload: t }) => {
-      (t.event === "payload-variables-substituted" || t.event === "credential-variables-substituted") && e.mockMissingVariables.push(...t.missing.map((n) => n.name));
-    }
-  },
-  extraReducers: (e) => {
-    e.addCase(_, (t, { payload: { playbook: n, graphQl: s } }) => {
-      const o = Object.keys(n.operations)[0] || "";
-      t.ref = { id: o, type: "operation" };
-    });
-  }
-}), {
-  setRequestId: de,
-  resetExecuteRequest: us,
-  addExecutionStep: ps,
-  executeRequest: Be,
-  resetMockRequestExecution: ms,
-  addMockRequestExecutionStep: fs
-} = Ve.actions, Ea = Ve.reducer, Ta = {
-  theme: We,
-  client: Zt,
-  scanconf: Ca,
-  scanconfUpdate: lt,
-  requests: Ea,
-  auth: Ra,
-  router: Ke,
-  env: Lt,
-  prefs: Kt,
-  config: Ht,
-  generalError: Qt,
-  confirmationDialog: Ue,
-  filePicker: ct
-}, Ia = {
-  changeTheme: Ge,
-  showHttpError: la,
-  showHttpResponse: ca,
-  showScanconfOperation: Oe,
-  loadUpdatedScanconf: $e,
-  loadEnv: _t,
-  loadConfig: Bt,
-  loadPrefs: Ut,
-  showGeneralError: A,
-  loadFile: () => null,
-  cancelFile: () => null
-}, Da = (e, t) => Le({
-  reducer: Ta,
-  middleware: (n) => n().prepend(e.middleware).concat(Je),
-  preloadedState: {
-    theme: t
-  }
-}), P = () => Qe(), b = Xe;
-function Pa({
-  credential: e,
-  saveCredential: t
-}) {
-  const n = X({
-    type: x(),
-    in: x(),
-    name: x(),
-    ttl: ie([
-      ce(""),
-      x().refine((s) => oe(s) !== void 0, {
-        message: "Invalid duration format. Examples: '500ms', '15s', '2h30m'"
-      })
-    ]),
-    tti: ie([
-      ce(""),
-      x().refine((s) => oe(s) !== void 0, {
-        message: "Invalid duration format. Examples: '500ms', '15s', '2h30m'"
-      })
-    ]),
-    default: x(),
-    methods: ea()
-  });
-  return /* @__PURE__ */ a.jsx(
-    F,
-    {
-      data: e,
-      saveData: t,
-      wrapFormData: ve,
-      unwrapFormData: fe,
-      schema: n,
-      children: /* @__PURE__ */ a.jsx(Oa, {})
-    }
-  );
+import { o as e } from "./rolldown-runtime.BItFwnF5.js";
+import { At as t, B as n, Dt as r, Ft as i, Gt as a, H as o, Ht as s, It as c, K as l, Nt as u, Ot as d, Pt as f, Rt as p, Tt as m, U as h, Vt as g, gn as ee, jt as _, l as te, mn as ne, pn as re, q as ie, r as ae, un as oe, vn as se, zt as v } from "./icons.ODuw_IC-.js";
+import { n as ce, t as le } from "./listener.BUamXvcw.js";
+import { n as ue, t as y } from "./Tabs.Dgbi5KB9.js";
+import { c as de, l as fe, o as pe } from "./index.esm.BTfY3KsF.js";
+import { n as me } from "./Select.Brxu2tMx.js";
+import { C as he, E as ge, T as _e, t as ve, x as ye } from "./dist.CV32AYWZ.js";
+import { C as be, S as xe, g as Se, v as Ce, w as we } from "./dist.CLG9kswM.js";
+import { i as Te, m as Ee } from "./slice.DxJ7a1u-.js";
+import { i as De, r as Oe, t as ke } from "./CollapsibleCard.DbRyUZR-.js";
+import { c as Ae, n as je, t as Me } from "./variables.XZ1hoMms.js";
+import { n as b } from "./SearchSidebar.DT4o8uWj.js";
+import { a as Ne, d as x, f as S, l as C, m as w, n as T, u as E } from "./Textarea.CAL1_A19.js";
+import { $ as D, Cn as O, F as Pe, Gt as k, H as Fe, Ht as Ie, I as Le, J as A, L as Re, Lt as j, M, N as ze, O as Be, Q as Ve, Rt as He, S as Ue, U as We, V as Ge, W as Ke, Y as qe, Z as Je, a as Ye, b as Xe, bn as Ze, c as Qe, ct as $e, d as et, dn as tt, dt as nt, et as rt, f as it, fn as at, h as ot, i as st, j as ct, lt, m as ut, n as dt, p as ft, q as N, r as pt, s as mt, st as ht, t as gt, tt as P, u as _t, un as vt, ut as yt, w as bt, x as F, y as I, yn as xt, z as St } from "./GeneralError.DSPlpJtR.js";
+import { t as L } from "./Input.CCcWQ-fu.js";
+import { t as Ct } from "./DescriptionTooltip.CPc6ZBTd.js";
+import { r as wt, t as Tt } from "./listener.DTgcTxr9.js";
+//#region src/app/scanconf-graphql/actions.ts
+var R = /* @__PURE__ */ e(se(), 1), Et = ee(), z = v("scanconf/runScan"), Dt = v("scanconf/runFullScan"), Ot = v("scanconf/showScanconfOperation"), kt = v("scanconf/loadUpdatedScanconf"), B = v("scanconf/loadPlaybook"), At = v("http/sendHttpRequest"), jt = v("http/showHttpResponse"), Mt = v("http/showHttpError"), V = "ENV_API_TOKEN", Nt = s({
+	name: "scanconf",
+	initialState: {
+		graphQl: "",
+		playbook: {
+			operations: {},
+			requests: {},
+			authenticationDetails: [{}],
+			before: [],
+			after: [],
+			environments: {},
+			authorizationTests: {}
+		},
+		servers: [],
+		selectedCredentialGroup: 0
+	},
+	reducers: {
+		saveScanconf: (e) => {},
+		saveSettings: (e, { payload: t }) => {
+			e.playbook.runtimeConfiguration = {
+				...e.playbook.runtimeConfiguration,
+				...t
+			};
+		},
+		saveRequest: (e, { payload: { ref: t, stage: n } }) => {
+			t.type === "operation" ? e.playbook.operations[t.id].request = n : e.playbook.requests && (e.playbook.requests[t.id] = n);
+		},
+		removeRequest: (e, { payload: t }) => {
+			t.type === "request" && e.playbook.requests?.[t.id] !== void 0 && delete e.playbook.requests[t.id];
+		},
+		saveCredential: (e, { payload: { group: t, id: n, credential: r } }) => {
+			let i = Object.keys(r.methods || {})[0];
+			e.selectedSubcredential !== void 0 && r?.methods?.[e.selectedSubcredential] === void 0 && (e.selectedSubcredential = i), r.methods[r.default] === void 0 && (r.default = i);
+			let a = e.playbook.authenticationDetails[t][n].name, o = e.playbook.authenticationDetails[t][n].methods[n].credential;
+			e.playbook.authenticationDetails[t][n] = r;
+			let s = o.replace("{{", "").replace("}}", ""), c = r.methods[n].credential, l = c.replace("{{", "").replace("}}", ""), u = e.playbook.customizations.requests.additionalHeaders;
+			u[a] = c;
+			let d = e.playbook?.environments?.default?.variables;
+			d[l] = {
+				from: "environment",
+				name: "SCAN42C_" + V,
+				required: !0
+			}, delete d[s];
+		},
+		saveEnvironment: (e, { payload: { name: t, environment: n } }) => {
+			e.playbook.environments[t] = n;
+		},
+		addCredential: (e, { payload: { credentialGroup: t, id: n, credential: r } }) => {
+			e.playbook.authenticationDetails || (e.playbook.authenticationDetails = [{}]), e.playbook.authenticationDetails[t] === void 0 && (e.playbook.authenticationDetails[t] = {}), r.credentials = { [n]: {
+				description: "",
+				credential: "{{" + V + "}}"
+			} }, e.playbook.authenticationDetails[t][n] = r, e.playbook.customizations.requests = { additionalHeaders: { [r.name]: "{{" + V + "}}" } }, "ENV_API_TOKEN" in e.playbook?.environments?.default?.variables || ((e.playbook?.environments?.default?.variables)[V] = {
+				from: "environment",
+				name: "SCAN42C_" + V,
+				required: !0
+			});
+		},
+		removeCredential: (e, { payload: { credentialGroup: t, id: n } }) => {
+			delete e.playbook.authenticationDetails[t][n], e.selectedCredential = void 0, e.selectedSubcredential = void 0, delete e.playbook.customizations.requests, delete (e.playbook?.environments?.default?.variables)[V];
+		},
+		setSecurityProfile: (e, { payload: t }) => {
+			e.playbook.securityProfile = t;
+		},
+		removeSecurityProfile: (e) => {
+			e.playbook.securityProfile = void 0, e.selectedCredential === "mtls:profile" && (e.selectedCredential = void 0, e.selectedSubcredential = void 0);
+		},
+		selectCredential: (e, { payload: t }) => {
+			e.selectedCredentialGroup = t.group, e.selectedCredential = t.credential;
+		},
+		selectSubcredential: (e, { payload: t }) => {
+			e.selectedSubcredential = t;
+		},
+		addAuthorizationTest: (e, { payload: { id: t, test: n } }) => {
+			e.playbook.authorizationTests[t] = n;
+		},
+		saveAuthorizationTest: (e, { payload: { id: t, test: n } }) => {
+			e.playbook.authorizationTests[t] = n;
+		},
+		removeAuthorizationTest: (e, { payload: { id: t } }) => {
+			delete e.playbook.authorizationTests[t], e.selectedAuthorizationTest = Object.keys(e.playbook.authorizationTests)?.[0];
+		},
+		selectAuthorizationTest: (e, { payload: { id: t } }) => {
+			e.selectedAuthorizationTest = t;
+		},
+		saveOperationReference: (e, { payload: { location: t, reference: n } }) => {
+			k(e.playbook, t)[t.stageIndex] = n;
+		},
+		addStage: (e, { payload: { container: t, stage: n } }) => {
+			k(e.playbook, t).push(n);
+		},
+		moveStage: (e, { payload: { location: t, to: n } }) => {
+			Ie(k(e.playbook, t), t.stageIndex, n);
+		},
+		removeStage: (e, { payload: t }) => {
+			k(e.playbook, t).splice(t.stageIndex, 1);
+		},
+		updateOperationAuthorizationTests: (e, { payload: { operationId: t, authorizationTests: n } }) => {
+			e.playbook.operations[t].authorizationTests = n;
+		},
+		customizeOperation: (e, { payload: t }) => {
+			e.playbook.operations[t].customized = !0;
+		},
+		removeCustomizationForOperation: (e, { payload: t }) => {
+			e.playbook.operations[t].customTests = void 0, e.playbook.operations[t].authorizationTests = [], e.playbook.operations[t].before = [], e.playbook.operations[t].after = [], e.playbook.operations[t].scenarios = [{
+				key: "happy.path",
+				requests: [{
+					fuzzing: !0,
+					ref: {
+						type: "operation",
+						id: t
+					}
+				}],
+				fuzzing: !0
+			}], e.playbook.operations[t].customized = !1;
+		},
+		createVariable: (e, { payload: { name: t, location: n, jsonPointer: r, ref: i, statusCode: a } }) => {
+			let o = i.type === "operation" ? e.playbook.operations[i.id].request : e.playbook.requests[i.id], s = ve(a), c = o.responses[a] ? a : s !== void 0 && o.responses[s] ? s : "default";
+			o.responses[c] === void 0 && (o.responses[c] = {
+				variableAssignments: {},
+				expectations: c
+			}), o.responses[c].variableAssignments[t] = {
+				from: n,
+				in: "body",
+				contentType: "json",
+				path: {
+					type: "jsonPointer",
+					value: r
+				}
+			};
+		}
+	},
+	extraReducers: (e) => {
+		e.addCase(B, (e, { payload: { graphQl: t, playbook: n } }) => {
+			e.graphQl = t, e.playbook = n, e.servers = [], e.selectedCredentialGroup = 0, e.selectedCredential = Object.keys(n?.authenticationDetails?.[0] || {})?.[0], e.selectedAuthorizationTest = Object.keys(n?.authorizationTests || {})?.[0];
+		});
+	}
+}), { saveSettings: Pt, saveEnvironment: Ft, saveScanconf: It, addCredential: H, removeCredential: U, setSecurityProfile: W, removeSecurityProfile: Lt, addStage: Rt, moveStage: zt, removeStage: Bt, saveOperationReference: Vt, saveCredential: G, selectCredential: K, selectSubcredential: Ht, addAuthorizationTest: Ut, saveAuthorizationTest: Wt, removeAuthorizationTest: Gt, selectAuthorizationTest: Kt, saveRequest: q, removeRequest: qt, updateOperationAuthorizationTests: Jt, customizeOperation: Yt, removeCustomizationForOperation: Xt, createVariable: Zt } = Nt.actions, Qt = Nt.reducer, $t = c(), en = s({
+	name: "auth",
+	initialState: {
+		mockCurrent: { auth: [] },
+		mockResult: [],
+		tryCurrent: { auth: [] },
+		tryResult: []
+	},
+	reducers: {
+		startTryAuthentication: (e, { payload: t }) => {},
+		resetTryAuthentication: (e) => {
+			e.tryCurrent = { auth: [] }, e.tryResult = [];
+		},
+		addTryAuthenticationStep: (e, { payload: t }) => {},
+		resetMockAuthRequestsExecution: (e) => {
+			e.mockCurrent = { auth: [] }, e.mockResult = [];
+		},
+		addMockAuthRequestsExecutionStep: (e, { payload: t }) => {}
+	},
+	extraReducers: (e) => {
+		e.addMatcher(a(K, Ht, G, H, U), (e, t) => {
+			e.tryCurrent = { auth: [] }, e.tryResult = [];
+		});
+	}
+}), { startTryAuthentication: tn, resetTryAuthentication: nn, addTryAuthenticationStep: rn, resetMockAuthRequestsExecution: an, addMockAuthRequestsExecutionStep: on } = en.actions, sn = en.reducer, cn = s({
+	name: "requests",
+	initialState: {
+		tryCurrent: { auth: [] },
+		tryResult: [],
+		mockCurrent: { auth: [] },
+		mockResult: [],
+		mockMissingVariables: []
+	},
+	reducers: {
+		setRequestId: (e, { payload: t }) => {
+			e.ref = t, e.tryResult = [];
+		},
+		executeRequest: (e, t) => {},
+		resetExecuteRequest: (e) => {
+			e.tryCurrent = { auth: [] }, e.tryResult = [];
+		},
+		addExecutionStep: (e, { payload: t }) => {},
+		resetMockRequestExecution: (e) => {
+			e.mockCurrent = { auth: [] }, e.mockResult = [], e.mockMissingVariables = [];
+		},
+		addMockRequestExecutionStep: (e, { payload: t }) => {
+			(t.event === "payload-variables-substituted" || t.event === "credential-variables-substituted") && e.mockMissingVariables.push(...t.missing.map((e) => e.name));
+		}
+	},
+	extraReducers: (e) => {
+		e.addCase(B, (e, { payload: { playbook: t, graphQl: n } }) => {
+			e.ref = {
+				id: Object.keys(t.operations)[0] || "",
+				type: "operation"
+			};
+		});
+	}
+}), { setRequestId: ln, resetExecuteRequest: un, addExecutionStep: dn, executeRequest: fn, resetMockRequestExecution: pn, addMockRequestExecutionStep: mn } = cn.actions, hn = cn.reducer, gn = {
+	theme: i,
+	client: wt,
+	scanconf: Qt,
+	scanconfUpdate: $e,
+	requests: hn,
+	auth: sn,
+	router: u,
+	env: ge,
+	prefs: xe,
+	config: Ee,
+	generalError: He,
+	confirmationDialog: l,
+	filePicker: nt
+}, _n = {
+	changeTheme: f,
+	showHttpError: Mt,
+	showHttpResponse: jt,
+	showScanconfOperation: Ot,
+	loadUpdatedScanconf: kt,
+	loadEnv: he,
+	loadConfig: Te,
+	loadPrefs: Se,
+	showGeneralError: j,
+	loadFile: () => null,
+	cancelFile: () => null
+}, vn = (e, t) => p({
+	reducer: gn,
+	middleware: (t) => t().prepend(e.middleware).concat($t.logger),
+	preloadedState: { theme: t }
+}), J = () => re(), Y = ne, X = r();
+function yn({ credential: e, saveCredential: t }) {
+	let n = E({
+		type: x(),
+		in: x(),
+		name: x(),
+		ttl: S([C(""), x().refine((e) => qe(e) !== void 0, { message: "Invalid duration format. Examples: '500ms', '15s', '2h30m'" })]),
+		tti: S([C(""), x().refine((e) => qe(e) !== void 0, { message: "Invalid duration format. Examples: '500ms', '15s', '2h30m'" })]),
+		default: x(),
+		methods: Ne()
+	});
+	return /* @__PURE__ */ (0, X.jsx)(w, {
+		data: e,
+		saveData: t,
+		wrapFormData: Ve,
+		unwrapFormData: Je,
+		schema: n,
+		children: /* @__PURE__ */ (0, X.jsx)(bn, {})
+	});
 }
-function Oa() {
-  const { getValues: e } = Re();
-  e("methods");
-  const t = e("type");
-  return /* @__PURE__ */ a.jsxs($a, { children: [
-    /* @__PURE__ */ a.jsx(I, { label: "Type", name: "type", disabled: !0 }),
-    t !== "basic" && t !== "bearer" && /* @__PURE__ */ a.jsxs(a.Fragment, { children: [
-      /* @__PURE__ */ a.jsx(I, { label: "Location", name: "in", disabled: !0 }),
-      /* @__PURE__ */ a.jsx(I, { label: "Name", name: "name", disabled: !0 })
-    ] }),
-    /* @__PURE__ */ a.jsx(
-      I,
-      {
-        label: "TTL",
-        name: "ttl"
-      }
-    ),
-    /* @__PURE__ */ a.jsx(
-      I,
-      {
-        label: "TTI",
-        name: "tti"
-      }
-    ),
-    /* @__PURE__ */ a.jsx(I, { label: "Default credential name", name: "default", disabled: !0 })
-  ] });
+function bn() {
+	let { getValues: e } = de();
+	e("methods");
+	let t = e("type");
+	return /* @__PURE__ */ (0, X.jsxs)(xn, { children: [
+		/* @__PURE__ */ (0, X.jsx)(L, {
+			label: "Type",
+			name: "type",
+			disabled: !0
+		}),
+		t !== "basic" && t !== "bearer" && /* @__PURE__ */ (0, X.jsxs)(X.Fragment, { children: [/* @__PURE__ */ (0, X.jsx)(L, {
+			label: "Location",
+			name: "in",
+			disabled: !0
+		}), /* @__PURE__ */ (0, X.jsx)(L, {
+			label: "Name",
+			name: "name",
+			disabled: !0
+		})] }),
+		/* @__PURE__ */ (0, X.jsx)(L, {
+			label: "TTL",
+			name: "ttl"
+		}),
+		/* @__PURE__ */ (0, X.jsx)(L, {
+			label: "TTI",
+			name: "tti"
+		}),
+		/* @__PURE__ */ (0, X.jsx)(L, {
+			label: "Default credential name",
+			name: "default",
+			disabled: !0
+		})
+	] });
 }
-const $a = f.div`
+var xn = t.div`
   padding-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
-function Aa({
-  group: e,
-  credentialId: t
-}) {
-  const n = P(), {
-    playbook: s,
-    graphQl: o,
-    selectedSubcredential: d
-  } = b((r) => r.scanconf), { fields: l } = we({
-    name: "methods"
-  }), p = l.map((r, c) => ({
-    id: r.key,
-    title: r.key,
-    content: /* @__PURE__ */ a.jsxs(Fa, { value: r.key, children: [
-      /* @__PURE__ */ a.jsx(
-        q,
-        {
-          label: "Credential value",
-          name: `methods.${c}.value.credential`,
-          disabled: !0
-        }
-      ),
-      /* @__PURE__ */ a.jsx(za, {})
-    ] })
-  }));
-  return /* @__PURE__ */ a.jsx(
-    Z,
-    {
-      activeTab: d,
-      setActiveTab: (r) => n(ze(r)),
-      tabs: p
-    }
-  );
+//#endregion
+//#region src/app/scanconf-graphql/auth/CredentialValues.tsx
+function Sn({ group: e, credentialId: t }) {
+	let n = J(), { playbook: r, graphQl: i, selectedSubcredential: a } = Y((e) => e.scanconf), { fields: o, append: s, remove: c } = pe({ name: "methods" }), l = o.map((e, t) => ({
+		id: e.key,
+		title: e.key,
+		content: /* @__PURE__ */ (0, X.jsxs)(Cn, {
+			value: e.key,
+			children: [/* @__PURE__ */ (0, X.jsx)(T, {
+				label: "Credential value",
+				name: `methods.${t}.value.credential`,
+				disabled: !0
+			}), /* @__PURE__ */ (0, X.jsx)(wn, {})]
+		})
+	}));
+	return /* @__PURE__ */ (0, X.jsx)(y, {
+		activeTab: a,
+		setActiveTab: (e) => n(Ht(e)),
+		tabs: l
+	});
 }
-const Fa = f(aa)`
+var Cn = t(ue)`
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding-top: 8px;
-`, za = f.div`
+`, wn = t.div`
   padding-top: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
-function se({
-  onTry: e,
-  onScan: t,
-  servers: n,
-  menu: s
-}) {
-  const { scanServer: o, useGlobalBlocks: d, rejectUnauthorized: l } = Wt(
-    (g) => g.prefs
-  ), p = Jt(), r = (g) => p(qe(g)), c = [...n], [u, h] = z.useState(
-    o !== "" ? o : c[0]
-  );
-  return !c.includes(o) && o !== "" && c.push(o), /* @__PURE__ */ a.jsx(Ma, { children: /* @__PURE__ */ a.jsxs(Na, { children: [
-    /* @__PURE__ */ a.jsx(
-      dt,
-      {
-        options: c,
-        selected: u,
-        onSelectedItemChange: (g) => {
-          g && (h(g), r(g));
-        }
-      }
-    ),
-    t && /* @__PURE__ */ a.jsxs(
-      Va,
-      {
-        onClick: (g) => {
-          g.stopPropagation(), g.preventDefault(), t(u);
-        },
-        children: [
-          /* @__PURE__ */ a.jsx(ut, {}),
-          "Scan"
-        ]
-      }
-    )
-  ] }) });
+//#endregion
+//#region src/app/scanconf-graphql/components/TryAndServerSelector.tsx
+function Z({ onTry: e, onScan: t, servers: n, menu: r }) {
+	let { scanServer: i, useGlobalBlocks: a, rejectUnauthorized: o } = we((e) => e.prefs), s = be(), c = (e) => s(Ce(e)), l = [...n], [u, d] = (0, R.useState)(i === "" ? l[0] : i);
+	return !l.includes(i) && i !== "" && l.push(i), /* @__PURE__ */ (0, X.jsx)(En, { children: /* @__PURE__ */ (0, X.jsxs)(Tn, { children: [/* @__PURE__ */ (0, X.jsx)(Pe, {
+		options: l,
+		selected: u,
+		onSelectedItemChange: (e) => {
+			e && (d(e), c(e));
+		}
+	}), t && /* @__PURE__ */ (0, X.jsxs)(Dn, {
+		onClick: (e) => {
+			e.stopPropagation(), e.preventDefault(), t(u);
+		},
+		children: [/* @__PURE__ */ (0, X.jsx)(te, {}), "Scan"]
+	})] }) });
 }
-const Na = f.div`
-  border: 1px solid var(${y.border});
+var Tn = t.div`
+  border: 1px solid var(${d.border});
   display: flex;
   align-items: center;
   flex: 1;
@@ -483,666 +358,627 @@ const Na = f.div`
   & > div:first-child {
     flex: 1;
   }
-`, Ma = f.div`
-  background-color: var(${y.background});
-  color: var(${y.foreground});
-`, Va = f.div`
+`, En = t.div`
+  background-color: var(${d.background});
+  color: var(${d.foreground});
+`, Dn = t.div`
   display: flex;
   padding: 8px 12px;
   gap: 4px;
   cursor: pointer;
   align-items: center;
-  color: var(${y.linkForeground});
+  color: var(${d.linkForeground});
   > svg {
-    fill: var(${y.linkForeground});
+    fill: var(${d.linkForeground});
   }
 `;
-function Ba({ selected: e }) {
-  const t = P(), {
-    playbook: { authenticationDetails: n },
-    servers: s
-  } = b((c) => c.scanconf), { tryResult: o } = b((c) => c.auth), d = (c, u, h) => t(ae({ group: parseInt(c), id: u, credential: h })), l = parseInt(e.sectionId), p = e.itemId;
-  if (!n)
-    return /* @__PURE__ */ a.jsx("div", {});
-  const r = n[l][p];
-  return /* @__PURE__ */ a.jsxs(Ha, { children: [
-    /* @__PURE__ */ a.jsx(
-      se,
-      {
-        servers: s,
-        onTry: (c) => {
-          t(qa(c));
-        }
-      }
-    ),
-    /* @__PURE__ */ a.jsx(D, { title: "Security Scheme", children: /* @__PURE__ */ a.jsx(
-      Pa,
-      {
-        credential: r,
-        saveCredential: (c) => d(e.sectionId, e.itemId, c)
-      },
-      e.itemId
-    ) }),
-    /* @__PURE__ */ a.jsx(
-      D,
-      {
-        defaultOpen: !1,
-        title: "Credentials",
-        count: r.credentials ? Object.keys(r.credentials).length : 0,
-        children: /* @__PURE__ */ a.jsx(
-          F,
-          {
-            data: r,
-            saveData: (c) => d(e.sectionId, e.itemId, c),
-            wrapFormData: ve,
-            unwrapFormData: fe,
-            children: /* @__PURE__ */ a.jsx(Aa, { group: l, credentialId: p })
-          }
-        )
-      }
-    ),
-    o.length > 0 && /* @__PURE__ */ a.jsx(D, { title: "Result", children: /* @__PURE__ */ a.jsx(W, { result: o }) })
-  ] });
+//#endregion
+//#region src/app/scanconf-graphql/auth/Credential.tsx
+function On({ selected: e }) {
+	let t = J(), { playbook: { authenticationDetails: n }, servers: r } = Y((e) => e.scanconf), { tryResult: i } = Y((e) => e.auth), a = (e, n, r) => t(G({
+		group: parseInt(e),
+		id: n,
+		credential: r
+	})), o = parseInt(e.sectionId), s = e.itemId;
+	if (!n) return /* @__PURE__ */ (0, X.jsx)("div", {});
+	let c = n[o][s];
+	return /* @__PURE__ */ (0, X.jsxs)(kn, { children: [
+		/* @__PURE__ */ (0, X.jsx)(Z, {
+			servers: r,
+			onTry: (e) => {
+				t(tn(e));
+			}
+		}),
+		/* @__PURE__ */ (0, X.jsx)(P, {
+			title: "Security Scheme",
+			children: /* @__PURE__ */ (0, X.jsx)(yn, {
+				credential: c,
+				saveCredential: (t) => a(e.sectionId, e.itemId, t)
+			}, e.itemId)
+		}),
+		/* @__PURE__ */ (0, X.jsx)(P, {
+			defaultOpen: !1,
+			title: "Credentials",
+			count: c.credentials ? Object.keys(c.credentials).length : 0,
+			children: /* @__PURE__ */ (0, X.jsx)(w, {
+				data: c,
+				saveData: (t) => a(e.sectionId, e.itemId, t),
+				wrapFormData: Ve,
+				unwrapFormData: Je,
+				children: /* @__PURE__ */ (0, X.jsx)(Sn, {
+					group: o,
+					credentialId: s
+				})
+			})
+		}),
+		i.length > 0 && /* @__PURE__ */ (0, X.jsx)(P, {
+			title: "Result",
+			children: /* @__PURE__ */ (0, X.jsx)(D, { result: i })
+		})
+	] });
 }
-const Ha = f.div`
+var kn = t.div`
   padding: 8px;
 `;
-function _a({
-  allowApiKey: e,
-  allowMtls: t
-}) {
-  const n = ta({ name: "type" }), s = [
-    ...e ? [{ value: "apiKey", label: "apiKey" }] : [],
-    ...t ? [{ value: "mTLS", label: "mTLS" }] : []
-  ], o = /* @__PURE__ */ a.jsx(na, { label: "Type", name: "type", options: s });
-  return n === "mTLS" ? /* @__PURE__ */ a.jsxs(a.Fragment, { children: [
-    o,
-    /* @__PURE__ */ a.jsx(
-      H,
-      {
-        label: "Client certificate",
-        name: "clientCertificate",
-        title: "Select client certificate",
-        extensions: he
-      }
-    ),
-    /* @__PURE__ */ a.jsx(q, { label: "Certificate password", name: "clientCertificatePassword", password: !0 }),
-    /* @__PURE__ */ a.jsx(
-      H,
-      {
-        label: "Server CA certificate (optional)",
-        name: "caServerCertificate",
-        title: "Select CA certificate",
-        extensions: ye
-      }
-    )
-  ] }) : /* @__PURE__ */ a.jsxs(a.Fragment, { children: [
-    /* @__PURE__ */ a.jsx(q, { label: "ID", name: "id" }),
-    o,
-    n !== "basic" && n !== "bearer" && /* @__PURE__ */ a.jsxs(a.Fragment, { children: [
-      /* @__PURE__ */ a.jsx(q, { label: "Location (read only)", name: "in", disabled: !0 }),
-      /* @__PURE__ */ a.jsx(q, { label: "Name", name: "name" })
-    ] }),
-    /* @__PURE__ */ a.jsx(q, { label: "Description", name: "description" }),
-    /* @__PURE__ */ a.jsx(q, { label: "Credential name (read only, auto-updates from ID)", name: "id", disabled: !0 }),
-    /* @__PURE__ */ a.jsx(q, { label: "Credential value (read only)", name: "credentialValue", disabled: !0 })
-  ] });
+//#endregion
+//#region src/app/scanconf-graphql/auth/NewCredentialForm.tsx
+function An({ allowApiKey: e, allowMtls: t }) {
+	let n = fe({ name: "type" }), r = [...e ? [{
+		value: "apiKey",
+		label: "apiKey"
+	}] : [], ...t ? [{
+		value: "mTLS",
+		label: "mTLS"
+	}] : []], i = /* @__PURE__ */ (0, X.jsx)(me, {
+		label: "Type",
+		name: "type",
+		options: r
+	});
+	return n === "mTLS" ? /* @__PURE__ */ (0, X.jsxs)(X.Fragment, { children: [
+		i,
+		/* @__PURE__ */ (0, X.jsx)(M, {
+			label: "Client certificate",
+			name: "clientCertificate",
+			title: "Select client certificate",
+			extensions: tt
+		}),
+		/* @__PURE__ */ (0, X.jsx)(T, {
+			label: "Certificate password",
+			name: "clientCertificatePassword",
+			password: !0
+		}),
+		/* @__PURE__ */ (0, X.jsx)(M, {
+			label: "Server CA certificate (optional)",
+			name: "caServerCertificate",
+			title: "Select CA certificate",
+			extensions: vt
+		})
+	] }) : /* @__PURE__ */ (0, X.jsxs)(X.Fragment, { children: [
+		/* @__PURE__ */ (0, X.jsx)(T, {
+			label: "ID",
+			name: "id"
+		}),
+		i,
+		n !== "basic" && n !== "bearer" && /* @__PURE__ */ (0, X.jsxs)(X.Fragment, { children: [/* @__PURE__ */ (0, X.jsx)(T, {
+			label: "Location (read only)",
+			name: "in",
+			disabled: !0
+		}), /* @__PURE__ */ (0, X.jsx)(T, {
+			label: "Name",
+			name: "name"
+		})] }),
+		/* @__PURE__ */ (0, X.jsx)(T, {
+			label: "Description",
+			name: "description"
+		}),
+		/* @__PURE__ */ (0, X.jsx)(T, {
+			label: "Credential name (read only, auto-updates from ID)",
+			name: "id",
+			disabled: !0
+		}),
+		/* @__PURE__ */ (0, X.jsx)(T, {
+			label: "Credential value (read only)",
+			name: "credentialValue",
+			disabled: !0
+		})
+	] });
 }
-function La({
-  onAddCredential: e,
-  onAddSecurityProfile: t,
-  allowApiKey: n,
-  allowMtls: s,
-  existing: o
-}) {
-  const d = {
-    id: "",
-    type: n ? "apiKey" : "mTLS",
-    in: "header",
-    name: "",
-    description: "",
-    credentialName: "",
-    credentialValue: "{{" + R + "}}",
-    clientCertificate: "",
-    clientCertificatePassword: "",
-    caServerCertificate: ""
-  }, l = X({
-    id: x().optional(),
-    type: x(),
-    in: x().optional(),
-    name: x().optional(),
-    description: x().optional(),
-    credentialName: x().optional(),
-    credentialValue: x().optional(),
-    clientCertificate: x().optional(),
-    clientCertificatePassword: x().optional(),
-    caServerCertificate: x().optional()
-  }).superRefine((r, c) => {
-    if (r.type === "mTLS") {
-      r.clientCertificate || c.addIssue({
-        code: O.custom,
-        path: ["clientCertificate"],
-        message: "Required"
-      }), r.clientCertificatePassword || c.addIssue({
-        code: O.custom,
-        path: ["clientCertificatePassword"],
-        message: "Required"
-      });
-      return;
-    }
-    Mt().test(r.id ?? "") ? o.includes(r.id ?? "") && c.addIssue({
-      code: O.custom,
-      path: ["id"],
-      message: "Already exists"
-    }) : c.addIssue({
-      code: O.custom,
-      path: ["id"],
-      message: Vt
-    }), r.name || c.addIssue({
-      code: O.custom,
-      path: ["name"],
-      message: "Required"
-    }), r.credentialValue || c.addIssue({
-      code: O.custom,
-      path: ["credentialValue"],
-      message: "Required"
-    });
-  }), p = (r) => {
-    if (r.type === "mTLS") {
-      t({
-        clientCertificate: r.clientCertificate,
-        clientCertificatePassword: r.clientCertificatePassword,
-        caServerCertificate: r.caServerCertificate || void 0
-      });
-      return;
-    }
-    const c = {
-      [r.id]: {
-        credential: r.credentialValue,
-        requests: [],
-        description: ""
-      }
-    };
-    e(
-      r.id,
-      r.type === "bearer" || r.type === "basic" ? (
-        // skip name and in
-        {
-          type: r.type,
-          default: r.id,
-          description: r.description,
-          methods: c
-        }
-      ) : {
-        type: r.type,
-        default: r.id,
-        in: r.in,
-        name: r.name,
-        description: r.description,
-        methods: c
-      }
-    );
-  };
-  return /* @__PURE__ */ a.jsx(
-    pt,
-    {
-      title: "New security scheme",
-      defaultValues: d,
-      schema: l,
-      onSubmit: p,
-      trigger: /* @__PURE__ */ a.jsx(mt, { style: { width: "100%" }, children: "New security scheme" }),
-      children: /* @__PURE__ */ a.jsx(_a, { allowApiKey: n, allowMtls: s })
-    }
-  );
+//#endregion
+//#region src/app/scanconf-graphql/auth/NewCredentialDialog.tsx
+function jn({ onAddCredential: e, onAddSecurityProfile: t, allowApiKey: n, allowMtls: r, existing: i }) {
+	let a = {
+		id: "",
+		type: n ? "apiKey" : "mTLS",
+		in: "header",
+		name: "",
+		description: "",
+		credentialName: "",
+		credentialValue: "{{" + V + "}}",
+		clientCertificate: "",
+		clientCertificatePassword: "",
+		caServerCertificate: ""
+	}, o = E({
+		id: x().optional(),
+		type: x(),
+		in: x().optional(),
+		name: x().optional(),
+		description: x().optional(),
+		credentialName: x().optional(),
+		credentialValue: x().optional(),
+		clientCertificate: x().optional(),
+		clientCertificatePassword: x().optional(),
+		caServerCertificate: x().optional()
+	}).superRefine((e, t) => {
+		e.type === "mTLS" ? (e.clientCertificate || t.addIssue({
+			code: O.custom,
+			path: ["clientCertificate"],
+			message: "Required"
+		}), e.clientCertificatePassword || t.addIssue({
+			code: O.custom,
+			path: ["clientCertificatePassword"],
+			message: "Required"
+		})) : (Me().test(e.id ?? "") ? i.includes(e.id ?? "") && t.addIssue({
+			code: O.custom,
+			path: ["id"],
+			message: "Already exists"
+		}) : t.addIssue({
+			code: O.custom,
+			path: ["id"],
+			message: je
+		}), e.name || t.addIssue({
+			code: O.custom,
+			path: ["name"],
+			message: "Required"
+		}), e.credentialValue || t.addIssue({
+			code: O.custom,
+			path: ["credentialValue"],
+			message: "Required"
+		}));
+	});
+	return /* @__PURE__ */ (0, X.jsx)(rt, {
+		title: "New security scheme",
+		defaultValues: a,
+		schema: o,
+		onSubmit: (n) => {
+			if (n.type === "mTLS") {
+				t({
+					clientCertificate: n.clientCertificate,
+					clientCertificatePassword: n.clientCertificatePassword,
+					caServerCertificate: n.caServerCertificate || void 0
+				});
+				return;
+			}
+			let r = { [n.id]: {
+				credential: n.credentialValue,
+				requests: [],
+				description: ""
+			} };
+			e(n.id, n.type === "bearer" || n.type === "basic" ? {
+				type: n.type,
+				default: n.id,
+				description: n.description,
+				methods: r
+			} : {
+				type: n.type,
+				default: n.id,
+				in: n.in,
+				name: n.name,
+				description: n.description,
+				methods: r
+			});
+		},
+		trigger: /* @__PURE__ */ (0, X.jsx)(ze, {
+			style: { width: "100%" },
+			children: "New security scheme"
+		}),
+		children: /* @__PURE__ */ (0, X.jsx)(An, {
+			allowApiKey: n,
+			allowMtls: r
+		})
+	});
 }
-function Ga() {
-  const e = P(), { securityProfile: t } = b((s) => s.scanconf.playbook);
-  if (t === void 0)
-    return /* @__PURE__ */ a.jsx(ue, { children: /* @__PURE__ */ a.jsx(Qa, { children: "No mutual TLS security profile is configured." }) });
-  const n = X({
-    clientCertificate: x().min(1, { message: "Required" }),
-    clientCertificatePassword: x().min(1, { message: "Required" }),
-    caServerCertificate: x()
-  });
-  return /* @__PURE__ */ a.jsx(ue, { children: /* @__PURE__ */ a.jsx(
-    F,
-    {
-      data: t,
-      saveData: (s) => e(te(s)),
-      wrapFormData: Ka,
-      unwrapFormData: Wa,
-      schema: n,
-      children: /* @__PURE__ */ a.jsx(Ua, {})
-    }
-  ) });
+//#endregion
+//#region src/app/scanconf-graphql/auth/SecurityProfile.tsx
+function Mn() {
+	let e = J(), { securityProfile: t } = Y((e) => e.scanconf.playbook);
+	if (t === void 0) return /* @__PURE__ */ (0, X.jsx)(In, { children: /* @__PURE__ */ (0, X.jsx)(Rn, { children: "No mutual TLS security profile is configured." }) });
+	let n = E({
+		clientCertificate: x().min(1, { message: "Required" }),
+		clientCertificatePassword: x().min(1, { message: "Required" }),
+		caServerCertificate: x()
+	});
+	return /* @__PURE__ */ (0, X.jsx)(In, { children: /* @__PURE__ */ (0, X.jsx)(w, {
+		data: t,
+		saveData: (t) => e(W(t)),
+		wrapFormData: Pn,
+		unwrapFormData: Fn,
+		schema: n,
+		children: /* @__PURE__ */ (0, X.jsx)(Nn, {})
+	}) });
 }
-function Ua() {
-  return /* @__PURE__ */ a.jsxs(Ja, { children: [
-    /* @__PURE__ */ a.jsx(
-      H,
-      {
-        label: "Client certificate",
-        name: "clientCertificate",
-        title: "Select client certificate",
-        extensions: he
-      }
-    ),
-    /* @__PURE__ */ a.jsx(I, { label: "Certificate password", name: "clientCertificatePassword", password: !0 }),
-    /* @__PURE__ */ a.jsx(
-      H,
-      {
-        label: "Server CA certificate (optional)",
-        name: "caServerCertificate",
-        title: "Select CA certificate",
-        extensions: ye
-      }
-    )
-  ] });
+function Nn() {
+	return /* @__PURE__ */ (0, X.jsxs)(Ln, { children: [
+		/* @__PURE__ */ (0, X.jsx)(M, {
+			label: "Client certificate",
+			name: "clientCertificate",
+			title: "Select client certificate",
+			extensions: tt
+		}),
+		/* @__PURE__ */ (0, X.jsx)(L, {
+			label: "Certificate password",
+			name: "clientCertificatePassword",
+			password: !0
+		}),
+		/* @__PURE__ */ (0, X.jsx)(M, {
+			label: "Server CA certificate (optional)",
+			name: "caServerCertificate",
+			title: "Select CA certificate",
+			extensions: vt
+		})
+	] });
 }
-function Ka(e) {
-  return {
-    clientCertificate: e.clientCertificate,
-    clientCertificatePassword: e.clientCertificatePassword,
-    caServerCertificate: e.caServerCertificate ?? ""
-  };
+function Pn(e) {
+	return {
+		clientCertificate: e.clientCertificate,
+		clientCertificatePassword: e.clientCertificatePassword,
+		caServerCertificate: e.caServerCertificate ?? ""
+	};
 }
-function Wa(e) {
-  return {
-    clientCertificate: e.clientCertificate,
-    clientCertificatePassword: e.clientCertificatePassword,
-    caServerCertificate: e.caServerCertificate === "" ? void 0 : e.caServerCertificate
-  };
+function Fn(e) {
+	return {
+		clientCertificate: e.clientCertificate,
+		clientCertificatePassword: e.clientCertificatePassword,
+		caServerCertificate: e.caServerCertificate === "" ? void 0 : e.caServerCertificate
+	};
 }
-const ue = f.div`
+var In = t.div`
   padding: 8px;
-`, Ja = f.div`
+`, Ln = t.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`, Qa = f.div`
+`, Rn = t.div`
   opacity: 0.8;
 `;
-function Xa() {
-  const e = P(), {
-    playbook: { authenticationDetails: t, securityProfile: n },
-    selectedCredentialGroup: s,
-    selectedCredential: o
-  } = b((u) => u.scanconf), d = (u, h) => {
-    e(Y({ credentialGroup: 0, id: u, credential: h })), e(B({ group: 0, credential: u }));
-  }, l = (u) => {
-    e(te(u)), e(B({ group: 0, credential: V }));
-  }, p = Object.keys(t?.[0] || {}).length > 0, r = n !== void 0, c = t ? t.map((u, h) => {
-    const g = h === 0 ? "Default group" : `Group ${h}`, k = Object.entries(u).map(([S, E]) => ({
-      id: S,
-      label: S,
-      menu: /* @__PURE__ */ a.jsx(L, { children: /* @__PURE__ */ a.jsxs(
-        G,
-        {
-          onClick: (v) => v.stopPropagation(),
-          onSelect: () => e(ee({ credentialGroup: h, id: S })),
-          children: [
-            /* @__PURE__ */ a.jsx(le, {}),
-            "Delete"
-          ]
-        }
-      ) })
-    }));
-    return h === 0 && n !== void 0 && k.push({
-      id: V,
-      label: "mTLS",
-      menu: /* @__PURE__ */ a.jsx(L, { children: /* @__PURE__ */ a.jsxs(
-        G,
-        {
-          onClick: (S) => S.stopPropagation(),
-          onSelect: () => e(Fe()),
-          children: [
-            /* @__PURE__ */ a.jsx(le, {}),
-            "Delete"
-          ]
-        }
-      ) })
-    }), {
-      id: `${h}`,
-      title: g,
-      items: k
-    };
-  }) : [];
-  return /* @__PURE__ */ a.jsx(
-    je,
-    {
-      title: "security scheme",
-      sections: c,
-      render: (u) => u.itemId === V ? /* @__PURE__ */ a.jsx(Ga, {}) : /* @__PURE__ */ a.jsx(Ba, { selected: u }),
-      renderButtons: () => /* @__PURE__ */ a.jsx("div", { children: (!p || !r) && /* @__PURE__ */ a.jsx(
-        La,
-        {
-          existing: Object.keys(t?.[0] || []),
-          allowApiKey: !p,
-          allowMtls: !r,
-          onAddCredential: d,
-          onAddSecurityProfile: l
-        }
-      ) }),
-      selected: o !== void 0 ? { sectionId: `${s}`, itemId: o } : void 0,
-      onSelected: (u) => {
-        e(
-          B({ group: parseInt(u.sectionId), credential: u.itemId })
-        );
-      }
-    }
-  );
+//#endregion
+//#region src/app/scanconf-graphql/auth/Auth.tsx
+function zn() {
+	let e = J(), { playbook: { authenticationDetails: t, securityProfile: n }, selectedCredentialGroup: r, selectedCredential: i } = Y((e) => e.scanconf), a = (t, n) => {
+		e(H({
+			credentialGroup: 0,
+			id: t,
+			credential: n
+		})), e(K({
+			group: 0,
+			credential: t
+		}));
+	}, o = (t) => {
+		e(W(t)), e(K({
+			group: 0,
+			credential: at
+		}));
+	}, s = Object.keys(t?.[0] || {}).length > 0, c = n !== void 0, l = t ? t.map((t, r) => {
+		let i = r === 0 ? "Default group" : `Group ${r}`, a = Object.entries(t).map(([t, n]) => ({
+			id: t,
+			label: t,
+			menu: /* @__PURE__ */ (0, X.jsx)(N, { children: /* @__PURE__ */ (0, X.jsxs)(A, {
+				onClick: (e) => e.stopPropagation(),
+				onSelect: () => e(U({
+					credentialGroup: r,
+					id: t
+				})),
+				children: [/* @__PURE__ */ (0, X.jsx)(ae, {}), "Delete"]
+			}) })
+		}));
+		return r === 0 && n !== void 0 && a.push({
+			id: at,
+			label: "mTLS",
+			menu: /* @__PURE__ */ (0, X.jsx)(N, { children: /* @__PURE__ */ (0, X.jsxs)(A, {
+				onClick: (e) => e.stopPropagation(),
+				onSelect: () => e(Lt()),
+				children: [/* @__PURE__ */ (0, X.jsx)(ae, {}), "Delete"]
+			}) })
+		}), {
+			id: `${r}`,
+			title: i,
+			items: a
+		};
+	}) : [];
+	return /* @__PURE__ */ (0, X.jsx)(b, {
+		title: "security scheme",
+		sections: l,
+		render: (e) => e.itemId === "mtls:profile" ? /* @__PURE__ */ (0, X.jsx)(Mn, {}) : /* @__PURE__ */ (0, X.jsx)(On, { selected: e }),
+		renderButtons: () => /* @__PURE__ */ (0, X.jsx)("div", { children: (!s || !c) && /* @__PURE__ */ (0, X.jsx)(jn, {
+			existing: Object.keys(t?.[0] || []),
+			allowApiKey: !s,
+			allowMtls: !c,
+			onAddCredential: a,
+			onAddSecurityProfile: o
+		}) }),
+		selected: i === void 0 ? void 0 : {
+			sectionId: `${r}`,
+			itemId: i
+		},
+		onSelected: (t) => {
+			e(K({
+				group: parseInt(t.sectionId),
+				credential: t.itemId
+			}));
+		}
+	});
 }
-function Za(e) {
-  return () => e({
-    actionCreator: Oe,
-    effect: async ({ payload: { graphQl: t, scanconf: n } }, s) => {
-      const [o, d] = U(n);
-      if (d !== void 0) {
-        s.dispatch(
-          A({ message: `Failed to parse scan configuration: ${d}` })
-        ), s.dispatch($(["general-error"]));
-        return;
-      }
-      const [l, p] = ft(vt(), o);
-      if (p !== void 0) {
-        const r = p.map((c) => `${c.message}: ${c.pointer}`).join(" ");
-        s.dispatch(A({ message: r })), s.dispatch($(["general-error"]));
-        return;
-      }
-      s.dispatch(_({ playbook: l, graphQl: t })), s.dispatch($(["scanconf", "requests"]));
-    }
-  });
+//#endregion
+//#region src/app/scanconf-graphql/listeners/host-messages.ts
+function Bn(e) {
+	return () => e({
+		actionCreator: Ot,
+		effect: async ({ payload: { graphQl: e, scanconf: t } }, n) => {
+			let [r, i] = Q(t);
+			if (i !== void 0) {
+				n.dispatch(j({ message: `Failed to parse scan configuration: ${i}` })), n.dispatch(_(["general-error"]));
+				return;
+			}
+			let [a, o] = bt(Ue(), r);
+			if (o !== void 0) {
+				let e = o.map((e) => `${e.message}: ${e.pointer}`).join(" ");
+				n.dispatch(j({ message: e })), n.dispatch(_(["general-error"]));
+			} else n.dispatch(B({
+				playbook: a,
+				graphQl: e
+			})), n.dispatch(_(["scanconf", "requests"]));
+		}
+	});
 }
-function Ya(e, t) {
-  return () => e({
-    actionCreator: $e,
-    effect: async ({ payload: { graphQl: n, scanconf: s } }, o) => {
-      const { changes: d, scanconf: l } = o.getState().scanconfUpdate, [p, r] = U(l);
-      if (r !== void 0) {
-        o.dispatch(
-          A({
-            message: `Failed to parse original scan configuration: ${r}`
-          })
-        ), o.dispatch($(["general-error"]));
-        return;
-      }
-      const [c, u] = U(s);
-      if (u !== void 0) {
-        o.dispatch(
-          A({
-            message: `Failed to parse updated scan configuration: ${u}`
-          })
-        ), o.dispatch($(["general-error"]));
-        return;
-      }
-      const h = c;
-      o.dispatch(_({ playbook: h, graphQl: n })), o.dispatch($(["scanconf", "requests"]));
-    }
-  });
+function Vn(e, t) {
+	return () => e({
+		actionCreator: kt,
+		effect: async ({ payload: { graphQl: e, scanconf: t } }, n) => {
+			let { changes: r, scanconf: i } = n.getState().scanconfUpdate, [a, o] = Q(i);
+			if (o !== void 0) {
+				n.dispatch(j({ message: `Failed to parse original scan configuration: ${o}` })), n.dispatch(_(["general-error"]));
+				return;
+			}
+			let [s, c] = Q(t);
+			if (c !== void 0) {
+				n.dispatch(j({ message: `Failed to parse updated scan configuration: ${c}` })), n.dispatch(_(["general-error"]));
+				return;
+			}
+			let l = s;
+			n.dispatch(B({
+				playbook: l,
+				graphQl: e
+			})), n.dispatch(_(["scanconf", "requests"]));
+		}
+	});
 }
-function U(e) {
-  try {
-    return [JSON.parse(e), void 0];
-  } catch (t) {
-    return [void 0, `${t}`];
-  }
+function Q(e) {
+	try {
+		return [JSON.parse(e), void 0];
+	} catch (e) {
+		return [void 0, `${e}`];
+	}
 }
-const en = (e, t) => ({
-  runScan: () => e({
-    actionCreator: De,
-    effect: async (n, s) => {
-      t.postMessage({
-        command: "runScan",
-        payload: n.payload
-      });
-    }
-  }),
-  runFullScan: () => e({
-    actionCreator: Pe,
-    effect: async (n, s) => {
-      t.postMessage({
-        command: "runFullScan",
-        payload: n.payload
-      });
-    }
-  }),
-  saveScanconf: () => e({
-    matcher: me(
-      ne,
-      ua,
-      ae,
-      Y,
-      ee,
-      te,
-      Fe,
-      ma,
-      fa,
-      va,
-      ha,
-      pa,
-      Ne,
-      xa,
-      ba,
-      ya,
-      ga,
-      ja,
-      Sa
-    ),
-    effect: async (n, s) => {
-      const { scanconf: o } = s.getState(), [d, l] = J(o.playbook);
-      l === void 0 && t.postMessage({
-        command: "saveScanconf",
-        payload: JSON.stringify(d, null, 2)
-      });
-    }
-  }),
-  sendHttpRequest: () => e({
-    actionCreator: ia,
-    effect: async (n, s) => {
-      const { id: o, request: d, config: l } = n.payload;
-      t.postMessage({ command: "sendHttpRequest", payload: { id: o, request: d, config: l } });
-    }
-  }),
-  showEnvWindow: () => e({
-    actionCreator: Gt,
-    effect: async (n, s) => {
-      t.postMessage({ command: "showEnvWindow", payload: void 0 });
-    }
-  }),
-  savePrefs: () => e({
-    actionCreator: qe,
-    effect: async (n, s) => {
-      const { prefs: o } = s.getState();
-      t.postMessage({
-        command: "savePrefs",
-        payload: o
-      });
-    }
-  }),
-  openLink: sa(e, t),
-  updateScanconf: () => e({
-    actionCreator: yt,
-    effect: async (n, s) => {
-      t.postMessage({
-        command: "updateScanconf",
-        payload: void 0
-      });
-    }
-  }),
-  selectFile: () => e({
-    actionCreator: ht,
-    effect: async (n, s) => {
-      t.postMessage({ command: "selectFile", payload: n.payload });
-    }
-  })
+//#endregion
+//#region src/app/scanconf-graphql/listeners/webapp-messages.ts
+var Hn = (e, t) => ({
+	runScan: () => e({
+		actionCreator: z,
+		effect: async (e, n) => {
+			t.postMessage({
+				command: "runScan",
+				payload: e.payload
+			});
+		}
+	}),
+	runFullScan: () => e({
+		actionCreator: Dt,
+		effect: async (e, n) => {
+			t.postMessage({
+				command: "runFullScan",
+				payload: e.payload
+			});
+		}
+	}),
+	saveScanconf: () => e({
+		matcher: a(q, Pt, G, H, U, W, Lt, Rt, zt, Bt, Vt, Ft, qt, Wt, Gt, Ut, Jt, Zt, Xt),
+		effect: async (e, n) => {
+			let { scanconf: r } = n.getState(), [i, a] = F(r.playbook);
+			a === void 0 && t.postMessage({
+				command: "saveScanconf",
+				payload: JSON.stringify(i, null, 2)
+			});
+		}
+	}),
+	sendHttpRequest: () => e({
+		actionCreator: At,
+		effect: async (e, n) => {
+			let { id: r, request: i, config: a } = e.payload;
+			t.postMessage({
+				command: "sendHttpRequest",
+				payload: {
+					id: r,
+					request: i,
+					config: a
+				}
+			});
+		}
+	}),
+	showEnvWindow: () => e({
+		actionCreator: _e,
+		effect: async (e, n) => {
+			t.postMessage({
+				command: "showEnvWindow",
+				payload: void 0
+			});
+		}
+	}),
+	savePrefs: () => e({
+		actionCreator: Ce,
+		effect: async (e, n) => {
+			let { prefs: r } = n.getState();
+			t.postMessage({
+				command: "savePrefs",
+				payload: r
+			});
+		}
+	}),
+	openLink: le(e, t),
+	updateScanconf: () => e({
+		actionCreator: lt,
+		effect: async (e, n) => {
+			t.postMessage({
+				command: "updateScanconf",
+				payload: void 0
+			});
+		}
+	}),
+	selectFile: () => e({
+		actionCreator: yt,
+		effect: async (e, n) => {
+			t.postMessage({
+				command: "selectFile",
+				payload: e.payload
+			});
+		}
+	})
 });
-function tn(e) {
-  return () => e({
-    actionCreator: xt,
-    effect: async (t, n) => {
-    }
-  });
+//#endregion
+//#region src/app/scanconf-graphql/listeners/misc.ts
+function Un(e) {
+	return () => e({
+		actionCreator: ht,
+		effect: async (e, t) => {}
+	});
 }
-const He = Ze(), T = He.startListening;
-function an(e, t) {
-  const n = en(T, e);
-  return oa(T, t), Ye({
-    ...n,
-    executeSendHttpRequestListener: Yt(T, e),
-    executeConfirmationAccept: bt(T),
-    executeShowScanconfOperationListener: Za(T),
-    executeLoadUpdatedScanconfListener: Ya(T),
-    executeSkipScanconfUpdate: tn(T)
-  }), He;
+//#endregion
+//#region src/app/scanconf-graphql/listener.ts
+var Wn = g(), $ = Wn.startListening;
+function Gn(e, t) {
+	let n = Hn($, e);
+	return ce($, t), h({
+		...n,
+		executeSendHttpRequestListener: Tt($, e),
+		executeConfirmationAccept: ct($),
+		executeShowScanconfOperationListener: Bn($),
+		executeLoadUpdatedScanconfListener: Vn($, e),
+		executeSkipScanconfUpdate: Un($)
+	}), Wn;
 }
-function nn(e) {
-  return e = ke.simpleClone(e), {
-    path: e.request.path,
-    method: e.request.method,
-    parameters: e.request.parameters,
-    body: { value: JSON.stringify(e.request.body.value, null, 2) },
-    environment: be(e.environment),
-    defaultResponse: e.defaultResponse,
-    injectionKey: e.injectionKey,
-    fuzzing: e.fuzzing,
-    operationId: e.operationId,
-    requestOperationId: e.request.operationId,
-    responses: xe(e.responses),
-    auth: e.auth
-  };
+//#endregion
+//#region src/app/scanconf-graphql/components/scenario/util.ts
+var Kn = ye();
+function qn(e) {
+	return e = (0, Kn.simpleClone)(e), {
+		path: e.request.path,
+		method: e.request.method,
+		parameters: e.request.parameters,
+		body: { value: JSON.stringify(e.request.body.value, null, 2) },
+		environment: St(e.environment),
+		defaultResponse: e.defaultResponse,
+		injectionKey: e.injectionKey,
+		fuzzing: e.fuzzing,
+		operationId: e.operationId,
+		requestOperationId: e.request.operationId,
+		responses: Ge(e.responses),
+		auth: e.auth
+	};
 }
-function sn(e) {
-  return e = ke.simpleClone(e), {
-    url: e.request.url,
-    method: e.request.method,
-    parameters: e.request.parameters,
-    body: { value: JSON.stringify(e.request.body.value, null, 2) },
-    environment: be(e.environment),
-    defaultResponse: e.defaultResponse,
-    responses: xe(e.responses)
-  };
+function Jn(e) {
+	return e = (0, Kn.simpleClone)(e), {
+		url: e.request.url,
+		method: e.request.method,
+		parameters: e.request.parameters,
+		body: { value: JSON.stringify(e.request.body.value, null, 2) },
+		environment: St(e.environment),
+		defaultResponse: e.defaultResponse,
+		responses: Ge(e.responses)
+	};
 }
-function on({
-  requestRef: e,
-  stage: t,
-  saveRequest: n,
-  defaultCollapsed: s,
-  variables: o
-}) {
-  const d = cn(t);
-  return /* @__PURE__ */ a.jsx(_e, { children: /* @__PURE__ */ a.jsx(
-    F,
-    {
-      data: t,
-      saveData: n,
-      wrapFormData: sn,
-      unwrapFormData: gt,
-      children: /* @__PURE__ */ a.jsxs(Ee, { defaultCollapsed: s, children: [
-        /* @__PURE__ */ a.jsxs(Te, { children: [
-          /* @__PURE__ */ a.jsx("span", { children: e.id }),
-          /* @__PURE__ */ a.jsxs(pn, { children: [
-            /* @__PURE__ */ a.jsx("span", { children: "Default Response" }),
-            /* @__PURE__ */ a.jsx(St, { name: "defaultResponse", options: d })
-          ] })
-        ] }),
-        /* @__PURE__ */ a.jsxs(Ie, { children: [
-          /* @__PURE__ */ a.jsx(un, { children: t.request.method }),
-          /* @__PURE__ */ a.jsx(dn, { onClick: (l) => l.stopPropagation(), children: /* @__PURE__ */ a.jsx(jt, { variables: o, name: "url" }) })
-        ] }),
-        /* @__PURE__ */ a.jsx(rn, { stage: t, variables: o })
-      ] })
-    }
-  ) });
+//#endregion
+//#region src/app/scanconf-graphql/components/scenario/RequestCardExternal.tsx
+function Yn({ requestRef: e, stage: t, saveRequest: n, defaultCollapsed: r, variables: i }) {
+	let a = Zn(t);
+	return /* @__PURE__ */ (0, X.jsx)($n, { children: /* @__PURE__ */ (0, X.jsx)(w, {
+		data: t,
+		saveData: n,
+		wrapFormData: Jn,
+		unwrapFormData: Le,
+		children: /* @__PURE__ */ (0, X.jsxs)(Oe, {
+			defaultCollapsed: r,
+			children: [
+				/* @__PURE__ */ (0, X.jsxs)(De, { children: [/* @__PURE__ */ (0, X.jsx)("span", { children: e.id }), /* @__PURE__ */ (0, X.jsxs)(nr, { children: [/* @__PURE__ */ (0, X.jsx)("span", { children: "Default Response" }), /* @__PURE__ */ (0, X.jsx)(ft, {
+					name: "defaultResponse",
+					options: a
+				})] })] }),
+				/* @__PURE__ */ (0, X.jsxs)(ke, { children: [/* @__PURE__ */ (0, X.jsx)(tr, { children: t.request.method }), /* @__PURE__ */ (0, X.jsx)(er, {
+					onClick: (e) => e.stopPropagation(),
+					children: /* @__PURE__ */ (0, X.jsx)(We, {
+						variables: i,
+						name: "url"
+					})
+				})] }),
+				/* @__PURE__ */ (0, X.jsx)(Xn, {
+					stage: t,
+					variables: i
+				})
+			]
+		})
+	}) });
 }
-function rn({
-  stage: e,
-  variables: t
-}) {
-  return /* @__PURE__ */ a.jsx(_e, { children: /* @__PURE__ */ a.jsx(
-    Z,
-    {
-      tabs: [
-        {
-          id: "body",
-          title: "Body",
-          content: /* @__PURE__ */ a.jsx(Ct, { variables: t, name: "body.value" }),
-          disabled: e.request.body === void 0
-        },
-        {
-          id: "query",
-          title: "Query",
-          content: /* @__PURE__ */ a.jsx(re, { name: "parameters.query", variables: t })
-        },
-        {
-          id: "header",
-          title: "Headers",
-          content: /* @__PURE__ */ a.jsx(re, { name: "parameters.header", variables: t })
-        },
-        {
-          id: "responses",
-          title: "Response processing",
-          content: /* @__PURE__ */ a.jsx(kt, { editable: !0, responseCodes: ln })
-        }
-      ]
-    }
-  ) });
+function Xn({ stage: e, variables: t }) {
+	return /* @__PURE__ */ (0, X.jsx)($n, { children: /* @__PURE__ */ (0, X.jsx)(y, { tabs: [
+		{
+			id: "body",
+			title: "Body",
+			content: /* @__PURE__ */ (0, X.jsx)(ot, {
+				variables: t,
+				name: "body.value"
+			}),
+			disabled: e.request.body === void 0
+		},
+		{
+			id: "query",
+			title: "Query",
+			content: /* @__PURE__ */ (0, X.jsx)(ut, {
+				name: "parameters.query",
+				variables: t
+			})
+		},
+		{
+			id: "header",
+			title: "Headers",
+			content: /* @__PURE__ */ (0, X.jsx)(ut, {
+				name: "parameters.header",
+				variables: t
+			})
+		},
+		{
+			id: "responses",
+			title: "Response processing",
+			content: /* @__PURE__ */ (0, X.jsx)(Ke, {
+				editable: !0,
+				responseCodes: Qn
+			})
+		}
+	] }) });
 }
-function cn(e) {
-  return Object.keys(e.responses || {}).map((t) => ({ label: t, value: t }));
+function Zn(e) {
+	return Object.keys(e.responses || {}).map((e) => ({
+		label: e,
+		value: e
+	}));
 }
-const ln = [
-  "100",
-  "101",
-  "200",
-  "201",
-  "202",
-  "203",
-  "204",
-  "205",
-  "206",
-  "300",
-  "301",
-  "302",
-  "303",
-  "304",
-  "305",
-  "307",
-  "400",
-  "401",
-  "402",
-  "403",
-  "404",
-  "405",
-  "406",
-  "407",
-  "408",
-  "409",
-  "410",
-  "411",
-  "412",
-  "413",
-  "414",
-  "415",
-  "416",
-  "417",
-  "426",
-  "500",
-  "501",
-  "502",
-  "503",
-  "504",
-  "505"
-], _e = f.div`
+var Qn = /* @__PURE__ */ "100.101.200.201.202.203.204.205.206.300.301.302.303.304.305.307.400.401.402.403.404.405.406.407.408.409.410.411.412.413.414.415.416.417.426.500.501.502.503.504.505".split("."), $n = t.div`
   > div {
-    background-color: var(${y.background});
+    background-color: var(${d.background});
   }
-`, dn = f.div`
+`, er = t.div`
   flex: 1;
-  background-color: var(${y.background});
-  border: 1px solid var(${y.border});
-`, un = f.div`
-  background-color: var(${y.badgeBackground});
-  color: var(${y.badgeForeground});
+  background-color: var(${d.background});
+  border: 1px solid var(${d.border});
+`, tr = t.div`
+  background-color: var(${d.badgeBackground});
+  color: var(${d.badgeForeground});
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -1151,7 +987,7 @@ const ln = [
   height: 16px;
   text-transform: uppercase;
   font-size: 11px;
-`, pn = f.div`
+`, nr = t.div`
   display: flex;
   flex-direction: row;
   gap: 4px;
@@ -1161,69 +997,65 @@ const ln = [
   justify-content: end;
   > div {
     width: 80px;
-    border: 1px solid var(${y.border});
+    border: 1px solid var(${d.border});
   }
 `;
-function mn({
-  request: e,
-  requestRef: t
-}) {
-  const n = b((v) => v.prefs.useGlobalBlocks), {
-    tryResult: s,
-    mockResult: o,
-    mockMissingVariables: d
-  } = b((v) => v.requests), l = P(), { playbook: p, servers: r } = b((v) => v.scanconf), c = b((v) => v.env.data), u = (v, i) => l(Be({ server: v, inputs: i })), h = (v) => l(ne({ ref: t, stage: v })), g = [...Ce, ...qt([])], [k, S] = z.useState({}), E = Q(p, c, r);
-  return z.useEffect(() => {
-    const v = { ...k };
-    for (const i of Object.keys(v))
-      d.includes(i) || delete v[i];
-    for (const i of d)
-      v[i] === void 0 && (v[i] = "");
-    S(v);
-  }, [d]), /* @__PURE__ */ a.jsxs(fn, { children: [
-    /* @__PURE__ */ a.jsx(
-      se,
-      {
-        servers: E,
-        onTry: (v) => u(v, k),
-        menu: !0
-      }
-    ),
-    /* @__PURE__ */ a.jsxs(D, { title: "Request", children: [
-      /* @__PURE__ */ a.jsx(
-        on,
-        {
-          defaultCollapsed: !1,
-          variables: g,
-          requestRef: t,
-          stage: e,
-          saveRequest: h
-        }
-      ),
-      /* @__PURE__ */ a.jsxs(hn, { children: [
-        "Unset variables",
-        /* @__PURE__ */ a.jsx(ra, { children: "Enter values for these unset variables to 'Try' the Operation. Note that these values will not be persisted in the Scan configuration." })
-      ] }),
-      /* @__PURE__ */ a.jsx(vn, { children: /* @__PURE__ */ a.jsx(
-        F,
-        {
-          wrapFormData: wt,
-          unwrapFormData: Rt,
-          data: k,
-          saveData: (v) => S(v),
-          children: /* @__PURE__ */ a.jsx(Et, { name: "env" })
-        }
-      ) })
-    ] }),
-    s.length > 0 && /* @__PURE__ */ a.jsx(D, { title: "Result", children: /* @__PURE__ */ a.jsx(W, { result: s, collapsible: n }) })
-  ] });
+//#endregion
+//#region src/app/scanconf-graphql/requests/RequestExternal.tsx
+function rr({ request: e, requestRef: t }) {
+	let n = Y((e) => e.prefs.useGlobalBlocks), { tryResult: r, mockResult: i, mockMissingVariables: a } = Y((e) => e.requests), o = J(), { playbook: s, servers: c } = Y((e) => e.scanconf), l = Y((e) => e.env.data), u = (e, t) => o(fn({
+		server: e,
+		inputs: t
+	})), d = (e) => o(q({
+		ref: t,
+		stage: e
+	})), f = [...Ae, ..._t([])], [p, m] = (0, R.useState)({}), h = I(s, l, c);
+	return (0, R.useEffect)(() => {
+		let e = { ...p };
+		for (let t of Object.keys(e)) a.includes(t) || delete e[t];
+		for (let t of a) e[t] === void 0 && (e[t] = "");
+		m(e);
+	}, [a]), /* @__PURE__ */ (0, X.jsxs)(ir, { children: [
+		/* @__PURE__ */ (0, X.jsx)(Z, {
+			servers: h,
+			onTry: (e) => u(e, p),
+			menu: !0
+		}),
+		/* @__PURE__ */ (0, X.jsxs)(P, {
+			title: "Request",
+			children: [
+				/* @__PURE__ */ (0, X.jsx)(Yn, {
+					defaultCollapsed: !1,
+					variables: f,
+					requestRef: t,
+					stage: e,
+					saveRequest: d
+				}),
+				/* @__PURE__ */ (0, X.jsxs)(or, { children: ["Unset variables", /* @__PURE__ */ (0, X.jsx)(Ct, { children: "Enter values for these unset variables to 'Try' the Operation. Note that these values will not be persisted in the Scan configuration." })] }),
+				/* @__PURE__ */ (0, X.jsx)(ar, { children: /* @__PURE__ */ (0, X.jsx)(w, {
+					wrapFormData: it,
+					unwrapFormData: et,
+					data: p,
+					saveData: (e) => m(e),
+					children: /* @__PURE__ */ (0, X.jsx)(Fe, { name: "env" })
+				}) })
+			]
+		}),
+		r.length > 0 && /* @__PURE__ */ (0, X.jsx)(P, {
+			title: "Result",
+			children: /* @__PURE__ */ (0, X.jsx)(D, {
+				result: r,
+				collapsible: n
+			})
+		})
+	] });
 }
-const fn = f.div`
+var ir = t.div`
   padding: 8px;
-`, vn = f.div`
-  border: 1px solid var(${y.border});
-  background-color: var(${y.background});
-`, hn = f.div`
+`, ar = t.div`
+  border: 1px solid var(${d.border});
+  background-color: var(${d.background});
+`, or = t.div`
   display: flex;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -1232,65 +1064,67 @@ const fn = f.div`
   cursor: pointer;
   align-items: center;
 `;
-function yn({ name: e, value: t }) {
-  return /* @__PURE__ */ a.jsxs(bn, { children: [
-    /* @__PURE__ */ a.jsx(gn, { children: e }),
-    /* @__PURE__ */ a.jsx(xn, { children: t }),
-    /* @__PURE__ */ a.jsx("div", {})
-  ] });
+//#endregion
+//#region src/app/scanconf-graphql/components/parameters/ParameterRow.tsx
+function sr({ name: e, value: t }) {
+	return /* @__PURE__ */ (0, X.jsxs)(lr, { children: [
+		/* @__PURE__ */ (0, X.jsx)(ur, { children: e }),
+		/* @__PURE__ */ (0, X.jsx)(cr, { children: t }),
+		/* @__PURE__ */ (0, X.jsx)("div", {})
+	] });
 }
-const xn = f.div`
+var cr = t.div`
   flex: 1;
-  border-bottom: 1px solid var(${y.border});
+  border-bottom: 1px solid var(${d.border});
   margin-right: 10px;
   display: flex;
   align-items: center;
   gap: 4px;
-`, bn = f.div`
+`, lr = t.div`
   display: contents;
   &:hover > :last-child {
     opacity: 1;
   }
-`, gn = f.div`
+`, ur = t.div`
   flex: 1;
-  border-bottom: 1px solid var(${y.border});
+  border-bottom: 1px solid var(${d.border});
   margin-right: 10px;
   display: flex;
   align-items: center;
   gap: 4px;
 `;
-function Sn({ name: e }) {
-  const { fields: t } = we({
-    name: e
-  });
-  return /* @__PURE__ */ a.jsxs(jn, { children: [
-    /* @__PURE__ */ a.jsxs(Cn, { children: [
-      /* @__PURE__ */ a.jsx("div", { children: "Name" }),
-      /* @__PURE__ */ a.jsx("div", { children: "Value" }),
-      /* @__PURE__ */ a.jsx("div", {})
-    ] }),
-    /* @__PURE__ */ a.jsx(kn, { children: t.map((n, s) => /* @__PURE__ */ a.jsx(yn, { name: n.key, value: n.value }, n.id)) })
-  ] });
+//#endregion
+//#region src/app/scanconf-graphql/components/parameters/ParameterGroup.tsx
+function dr({ name: e }) {
+	let { fields: t, append: n, remove: r } = pe({ name: e });
+	return /* @__PURE__ */ (0, X.jsxs)(fr, { children: [/* @__PURE__ */ (0, X.jsxs)(pr, { children: [
+		/* @__PURE__ */ (0, X.jsx)("div", { children: "Name" }),
+		/* @__PURE__ */ (0, X.jsx)("div", { children: "Value" }),
+		/* @__PURE__ */ (0, X.jsx)("div", {})
+	] }), /* @__PURE__ */ (0, X.jsx)(mr, { children: t.map((e, t) => /* @__PURE__ */ (0, X.jsx)(sr, {
+		name: e.key,
+		value: e.value
+	}, e.id)) })] });
 }
-const jn = f.div`
+var fr = t.div`
   padding: 8px;
   display: grid;
   row-gap: 4px;
   grid-template-columns: 1fr 2fr 1em;
-`, Cn = f.div`
+`, pr = t.div`
   display: contents;
   & > div {
     padding: 4px 8px;
-    background-color: var(${y.computedOne});
+    background-color: var(${d.computedOne});
     text-transform: uppercase;
     font-size: 90%;
     font-weight: 600;
   }
-`, kn = f.div`
+`, mr = t.div`
   display: contents;
   & > div > div {
     padding: 4px 8px;
-    border-bottom: 1px solid var(${y.border});
+    border-bottom: 1px solid var(${d.border});
   }
   & > div > div:last-child {
     padding: 2px 5px;
@@ -1300,89 +1134,72 @@ const jn = f.div`
   //   grid-column: span 3;
   // }
 `;
-function qn({
-  variables: e,
-  readOnly: t
-}) {
-  return /* @__PURE__ */ a.jsx(Rn, { children: /* @__PURE__ */ a.jsx(Tt, { name: "body.value", readOnly: t }) });
+//#endregion
+//#region src/app/scanconf-graphql/components/operation/RequestBody.tsx
+function hr({ variables: e, readOnly: t }) {
+	return /* @__PURE__ */ (0, X.jsx)(gr, { children: /* @__PURE__ */ (0, X.jsx)(Qe, {
+		name: "body.value",
+		readOnly: t
+	}) });
 }
-const Rn = f.div`
+var gr = t.div`
   margin: 8px;
   gap: 8px;
   display: flex;
   flex-flow: column;
 `;
-function wn({
-  config: e,
-  path: t,
-  method: n,
-  credentials: s,
-  settings: o,
-  availableVariables: d
-}) {
-  const { getValues: l } = Re();
-  l("body");
-  const p = En(e, s, t, n, d);
-  return /* @__PURE__ */ a.jsx(Z, { tabs: p });
+//#endregion
+//#region src/app/scanconf-graphql/components/operation/OperationTabs.tsx
+function _r({ config: e, path: t, method: n, credentials: r, settings: i, availableVariables: a }) {
+	let { getValues: o } = de(), s = vr(e, r, t, n, a, o("body") !== void 0);
+	return /* @__PURE__ */ (0, X.jsx)(y, { tabs: s });
 }
-function En(e, t, n, s, o, d) {
-  return [
-    {
-      id: "body",
-      title: "Body details",
-      content: /* @__PURE__ */ a.jsx(qn, { variables: o, readOnly: !0 }),
-      disabled: !1
-    },
-    {
-      id: "header",
-      title: "Header",
-      content: /* @__PURE__ */ a.jsx(Sn, { name: "parameters.header" })
-    }
-  ];
+function vr(e, t, n, r, i, a) {
+	return [{
+		id: "body",
+		title: "Body details",
+		content: /* @__PURE__ */ (0, X.jsx)(hr, {
+			variables: i,
+			readOnly: !0
+		}),
+		disabled: !1
+	}, {
+		id: "header",
+		title: "Header",
+		content: /* @__PURE__ */ (0, X.jsx)(dr, { name: "parameters.header" })
+	}];
 }
-function Tn({
-  config: e,
-  requestRef: t,
-  stage: n,
-  credentials: s,
-  saveRequest: o,
-  defaultCollapsed: d,
-  availableVariables: l
-}) {
-  return /* @__PURE__ */ a.jsx(In, { children: /* @__PURE__ */ a.jsx(
-    F,
-    {
-      data: n,
-      saveData: o,
-      wrapFormData: nn,
-      unwrapFormData: It,
-      children: /* @__PURE__ */ a.jsxs(Ee, { defaultCollapsed: d, children: [
-        /* @__PURE__ */ a.jsx(Te, { children: /* @__PURE__ */ a.jsx("span", { children: t.id }) }),
-        /* @__PURE__ */ a.jsxs(Ie, { children: [
-          /* @__PURE__ */ a.jsx(Dn, { children: n.request.method }),
-          /* @__PURE__ */ a.jsx(Pn, { children: n.request.path })
-        ] }),
-        /* @__PURE__ */ a.jsx(
-          wn,
-          {
-            config: e,
-            credentials: s,
-            method: n.request.method,
-            path: n.request.path,
-            availableVariables: l
-          }
-        )
-      ] })
-    }
-  ) });
+//#endregion
+//#region src/app/scanconf-graphql/components/scenario/RequestCard.tsx
+function yr({ config: e, requestRef: t, stage: n, credentials: r, saveRequest: i, defaultCollapsed: a, availableVariables: o }) {
+	return /* @__PURE__ */ (0, X.jsx)(br, { children: /* @__PURE__ */ (0, X.jsx)(w, {
+		data: n,
+		saveData: i,
+		wrapFormData: qn,
+		unwrapFormData: Re,
+		children: /* @__PURE__ */ (0, X.jsxs)(Oe, {
+			defaultCollapsed: a,
+			children: [
+				/* @__PURE__ */ (0, X.jsx)(De, { children: /* @__PURE__ */ (0, X.jsx)("span", { children: t.id }) }),
+				/* @__PURE__ */ (0, X.jsxs)(ke, { children: [/* @__PURE__ */ (0, X.jsx)(xr, { children: n.request.method }), /* @__PURE__ */ (0, X.jsx)(Sr, { children: n.request.path })] }),
+				/* @__PURE__ */ (0, X.jsx)(_r, {
+					config: e,
+					credentials: r,
+					method: n.request.method,
+					path: n.request.path,
+					availableVariables: o
+				})
+			]
+		})
+	}) });
 }
-const In = f.div`
+var br = t.div`
   > div {
-    background-color: var(${y.background});
+    background-color: var(${d.background});
   }
-`, Dn = f.div`
-  background-color: var(${y.badgeBackground});
-  color: var(${y.badgeForeground});
+`, xr = t.div`
+  background-color: var(${d.badgeBackground});
+  color: var(${d.badgeForeground});
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -1391,213 +1208,240 @@ const In = f.div`
   height: 16px;
   text-transform: uppercase;
   font-size: 11px;
-`, Pn = f.div``;
-function On({
-  request: e,
-  requestRef: t
-}) {
-  const n = P(), { graphQl: s, playbook: o, servers: d } = b((m) => m.scanconf);
-  b((m) => m.config.data);
-  const l = b((m) => m.env.data), p = b((m) => m.prefs.useGlobalBlocks), {
-    tryResult: r,
-    mockResult: c,
-    mockMissingVariables: u
-  } = b((m) => m.requests), h = (m, C) => n(Be({ server: m, inputs: C })), g = (m) => n(ne({ ref: t, stage: m })), k = o?.authenticationDetails ? o?.authenticationDetails[0] : void 0, S = [...Ce, ...Dt([])], [E, v] = z.useState({}), { simple: i } = ge(Se(o), l), j = Q(o, l, d);
-  return z.useEffect(() => {
-    const m = { ...E };
-    for (const C of Object.keys(m))
-      u.includes(C) || delete m[C];
-    for (const C of u)
-      m[C] === void 0 && (m[C] = "");
-    v(m);
-  }, [u]), /* @__PURE__ */ a.jsxs($n, { children: [
-    /* @__PURE__ */ a.jsx(
-      se,
-      {
-        menu: !0,
-        servers: j,
-        onTry: (m) => h(m, E),
-        onScan: (m) => {
-          const [C, N] = J(o);
-          if (N !== void 0) {
-            console.log("failed to serialize", N);
-            return;
-          }
-          n(
-            De({
-              path: e.request.path,
-              method: e.request.method,
-              operationId: e.operationId,
-              env: {
-                SCAN42C_HOST: m,
-                ...i
-              },
-              scanconf: An(C, e.operationId)
-            })
-          );
-        }
-      }
-    ),
-    /* @__PURE__ */ a.jsx(D, { title: "Request", children: /* @__PURE__ */ a.jsx(
-      Tn,
-      {
-        defaultCollapsed: !1,
-        config: void 0,
-        credentials: k,
-        availableVariables: S,
-        requestRef: t,
-        stage: e,
-        saveRequest: g
-      }
-    ) }),
-    r.length > 0 && /* @__PURE__ */ a.jsx(D, { title: "Result", children: /* @__PURE__ */ a.jsx(W, { result: r, collapsible: p }) })
-  ] });
+`, Sr = t.div``;
+//#endregion
+//#region src/app/scanconf-graphql/requests/RequestInternal.tsx
+function Cr({ request: e, requestRef: t }) {
+	let n = J(), { graphQl: r, playbook: i, servers: a } = Y((e) => e.scanconf);
+	Y((e) => e.config.data);
+	let o = Y((e) => e.env.data), s = Y((e) => e.prefs.useGlobalBlocks), { tryResult: c, mockResult: l, mockMissingVariables: u } = Y((e) => e.requests), d = (e, t) => n(fn({
+		server: e,
+		inputs: t
+	})), f = (e) => n(q({
+		ref: t,
+		stage: e
+	})), p = i?.authenticationDetails ? i?.authenticationDetails[0] : void 0, m = [...Ae, ...mt([])], [h, g] = (0, R.useState)({}), { simple: ee } = Be(Xe(i), o), _ = I(i, o, a);
+	return (0, R.useEffect)(() => {
+		let e = { ...h };
+		for (let t of Object.keys(e)) u.includes(t) || delete e[t];
+		for (let t of u) e[t] === void 0 && (e[t] = "");
+		g(e);
+	}, [u]), /* @__PURE__ */ (0, X.jsxs)(wr, { children: [
+		/* @__PURE__ */ (0, X.jsx)(Z, {
+			menu: !0,
+			servers: _,
+			onTry: (e) => d(e, h),
+			onScan: (t) => {
+				let [r, a] = F(i);
+				a === void 0 ? n(z({
+					path: e.request.path,
+					method: e.request.method,
+					operationId: e.operationId,
+					env: {
+						SCAN42C_HOST: t,
+						...ee
+					},
+					scanconf: Tr(r, e.operationId)
+				})) : console.log("failed to serialize", a);
+			}
+		}),
+		/* @__PURE__ */ (0, X.jsx)(P, {
+			title: "Request",
+			children: /* @__PURE__ */ (0, X.jsx)(yr, {
+				defaultCollapsed: !1,
+				config: void 0,
+				credentials: p,
+				availableVariables: m,
+				requestRef: t,
+				stage: e,
+				saveRequest: f
+			})
+		}),
+		c.length > 0 && /* @__PURE__ */ (0, X.jsx)(P, {
+			title: "Result",
+			children: /* @__PURE__ */ (0, X.jsx)(D, {
+				result: c,
+				collapsible: s
+			})
+		})
+	] });
 }
-const $n = f.div`
+var wr = t.div`
   padding: 8px;
 `;
-function An(e, t) {
-  if (e.operations !== void 0)
-    for (const n of Object.keys(e?.operations))
-      n !== t && delete e.operations[n];
-  return JSON.stringify(e, null, 2);
+function Tr(e, t) {
+	if (e.operations !== void 0) for (let n of Object.keys(e?.operations)) n !== t && delete e.operations[n];
+	return JSON.stringify(e, null, 2);
 }
-function Fn({ requestRef: e }) {
-  const { playbook: t } = b((s) => s.scanconf), n = e.type === "operation" ? t.operations[e.id].request : t.requests?.[e.id];
-  return n === void 0 ? /* @__PURE__ */ a.jsxs("div", { children: [
-    "Unable to locate the request, failed to resolve: ",
-    JSON.stringify(e)
-  ] }) : n.operationId === void 0 ? /* @__PURE__ */ a.jsx(mn, { requestRef: e, request: n }) : /* @__PURE__ */ a.jsx(On, { requestRef: e, request: n });
+//#endregion
+//#region src/app/scanconf-graphql/requests/Request.tsx
+function Er({ requestRef: e }) {
+	let { playbook: t } = Y((e) => e.scanconf), n = e.type === "operation" ? t.operations[e.id].request : t.requests?.[e.id];
+	return n === void 0 ? /* @__PURE__ */ (0, X.jsxs)("div", { children: ["Unable to locate the request, failed to resolve: ", JSON.stringify(e)] }) : n.operationId === void 0 ? /* @__PURE__ */ (0, X.jsx)(rr, {
+		requestRef: e,
+		request: n
+	}) : /* @__PURE__ */ (0, X.jsx)(Cr, {
+		requestRef: e,
+		request: n
+	});
 }
-function zn() {
-  const e = P(), { graphQl: t, playbook: n, servers: s } = b((i) => i.scanconf), o = b((i) => i.requests.ref), d = b((i) => i.env.data), l = b((i) => i.prefs.scanServer), p = Q(n, d, s), r = p.includes(l) ? l : p[0], c = ({ sectionId: i, itemId: j }) => {
-    e(de({ type: i === "operation" ? "operation" : "request", id: j }));
-  }, u = (i) => {
-    if (o?.type === "request" && o.id === i) {
-      const j = Object.keys(n.operations)?.[0];
-      j !== void 0 && e(de({ type: "operation", id: j }));
-    }
-    e(Ne({ type: "request", id: i }));
-  }, h = Object.keys(n.operations).map((i) => ({ id: i, label: i })), g = Object.entries(n.requests || {}).filter(([i, j]) => j.operationId !== void 0).map(([i, j]) => ({ id: i, label: i })), k = Object.entries(n.requests || {}).filter(([i, j]) => j.operationId === void 0).map(([i, j]) => ({
-    id: i,
-    label: i,
-    menu: /* @__PURE__ */ a.jsx(L, { children: /* @__PURE__ */ a.jsx(G, { onClick: (m) => m.stopPropagation(), onSelect: () => u(i), children: "Delete" }) })
-  }));
-  let S;
-  o?.type === "operation" && n.operations[o.id] !== void 0 ? S = { itemId: o.id, sectionId: "operation" } : o?.type === "request" && n.requests?.[o.id] !== void 0 && (n.requests[o.id].operationId !== void 0 ? S = { itemId: o.id, sectionId: "requests" } : S = { itemId: o.id, sectionId: "external" });
-  const E = [
-    {
-      id: "operation",
-      title: "Operations",
-      items: h
-    },
-    {
-      id: "request",
-      title: "Requests",
-      items: g
-    },
-    {
-      id: "external",
-      title: "External Requests",
-      items: k
-    }
-  ], v = (i) => {
-    const j = i, [m, C] = J(n);
-    if (C !== void 0) {
-      console.log("failed to serialize", C);
-      return;
-    }
-    const { simple: N } = ge(Se(n), d);
-    e(
-      Pe({
-        env: {
-          SCAN42C_HOST: j,
-          ...N
-        },
-        scanconf: JSON.stringify(m, null, 2)
-      })
-    );
-  };
-  return /* @__PURE__ */ a.jsx(
-    je,
-    {
-      title: "operations",
-      selected: S,
-      sections: E,
-      onSelected: c,
-      renderButtons: () => /* @__PURE__ */ a.jsx(
-        et,
-        {
-          style: { width: "100%" },
-          onClick: (i) => {
-            i.preventDefault(), i.stopPropagation(), v(r);
-          },
-          children: "Scan all operations"
-        }
-      ),
-      hideEmptySections: !0,
-      render: (i) => /* @__PURE__ */ a.jsx(
-        Fn,
-        {
-          requestRef: { type: i.sectionId, id: i.itemId }
-        },
-        `${i.sectionId}-${i.itemId}`
-      )
-    }
-  );
+//#endregion
+//#region src/app/scanconf-graphql/requests/Requests.tsx
+function Dr() {
+	let e = J(), { graphQl: t, playbook: n, servers: r } = Y((e) => e.scanconf), i = Y((e) => e.requests.ref), a = Y((e) => e.env.data), o = Y((e) => e.prefs.scanServer), s = I(n, a, r), c = s.includes(o) ? o : s[0], l = ({ sectionId: t, itemId: n }) => {
+		e(ln({
+			type: t === "operation" ? "operation" : "request",
+			id: n
+		}));
+	}, u = (t) => {
+		if (i?.type === "request" && i.id === t) {
+			let t = Object.keys(n.operations)?.[0];
+			t !== void 0 && e(ln({
+				type: "operation",
+				id: t
+			}));
+		}
+		e(qt({
+			type: "request",
+			id: t
+		}));
+	}, d = Object.keys(n.operations).map((e) => ({
+		id: e,
+		label: e
+	})), f = Object.entries(n.requests || {}).filter(([e, t]) => t.operationId !== void 0).map(([e, t]) => ({
+		id: e,
+		label: e
+	})), p = Object.entries(n.requests || {}).filter(([e, t]) => t.operationId === void 0).map(([e, t]) => ({
+		id: e,
+		label: e,
+		menu: /* @__PURE__ */ (0, X.jsx)(N, { children: /* @__PURE__ */ (0, X.jsx)(A, {
+			onClick: (e) => e.stopPropagation(),
+			onSelect: () => u(e),
+			children: "Delete"
+		}) })
+	})), m;
+	i?.type === "operation" && n.operations[i.id] !== void 0 ? m = {
+		itemId: i.id,
+		sectionId: "operation"
+	} : i?.type === "request" && n.requests?.[i.id] !== void 0 && (m = n.requests[i.id].operationId === void 0 ? {
+		itemId: i.id,
+		sectionId: "external"
+	} : {
+		itemId: i.id,
+		sectionId: "requests"
+	});
+	let h = [
+		{
+			id: "operation",
+			title: "Operations",
+			items: d
+		},
+		{
+			id: "request",
+			title: "Requests",
+			items: f
+		},
+		{
+			id: "external",
+			title: "External Requests",
+			items: p
+		}
+	], g = (t) => {
+		let r = t, [i, o] = F(n);
+		if (o !== void 0) {
+			console.log("failed to serialize", o);
+			return;
+		}
+		let { simple: s } = Be(Xe(n), a);
+		e(Dt({
+			env: {
+				SCAN42C_HOST: r,
+				...s
+			},
+			scanconf: JSON.stringify(i, null, 2)
+		}));
+	};
+	return /* @__PURE__ */ (0, X.jsx)(b, {
+		title: "operations",
+		selected: m,
+		sections: h,
+		onSelected: l,
+		renderButtons: () => /* @__PURE__ */ (0, X.jsx)(ie, {
+			style: { width: "100%" },
+			onClick: (e) => {
+				e.preventDefault(), e.stopPropagation(), g(c);
+			},
+			children: "Scan all operations"
+		}),
+		hideEmptySections: !0,
+		render: (e) => /* @__PURE__ */ (0, X.jsx)(Er, { requestRef: {
+			type: e.sectionId,
+			id: e.itemId
+		} }, `${e.sectionId}-${e.itemId}`)
+	});
 }
-const pe = [
-  {
-    id: "starting",
-    title: "",
-    navigation: !1,
-    element: /* @__PURE__ */ a.jsx("div", {})
-  },
-  {
-    id: "general-error",
-    title: "An error has occurred",
-    element: /* @__PURE__ */ a.jsx(Xt, {}),
-    navigation: !1,
-    when: A
-  },
-  {
-    id: "scanconf-update",
-    title: "Scan configuration is outdated",
-    element: /* @__PURE__ */ a.jsx($t, {}),
-    navigation: !1
-  },
-  {
-    id: "scanconf",
-    title: "Scanconf",
-    element: /* @__PURE__ */ a.jsx("div", { children: "Main" }),
-    children: [
-      {
-        id: "requests",
-        title: "Operations",
-        element: /* @__PURE__ */ a.jsx(zn, {})
-      },
-      {
-        id: "auth",
-        title: "Authentication",
-        element: /* @__PURE__ */ a.jsx(Xa, {})
-      },
-      {
-        id: "environments",
-        title: /* @__PURE__ */ a.jsx(Ft, {}),
-        element: /* @__PURE__ */ a.jsx(At, {})
-      },
-      {
-        id: "settings",
-        title: "Settings",
-        element: /* @__PURE__ */ a.jsx(zt, {})
-      }
-    ]
-  }
+//#endregion
+//#region src/app/scanconf-graphql/index.tsx
+var Or = [
+	{
+		id: "starting",
+		title: "",
+		navigation: !1,
+		element: /* @__PURE__ */ (0, X.jsx)("div", {})
+	},
+	{
+		id: "general-error",
+		title: "An error has occurred",
+		element: /* @__PURE__ */ (0, X.jsx)(gt, {}),
+		navigation: !1,
+		when: j
+	},
+	{
+		id: "scanconf-update",
+		title: "Scan configuration is outdated",
+		element: /* @__PURE__ */ (0, X.jsx)(dt, {}),
+		navigation: !1
+	},
+	{
+		id: "scanconf",
+		title: "Scanconf",
+		element: /* @__PURE__ */ (0, X.jsx)("div", { children: "Main" }),
+		children: [
+			{
+				id: "requests",
+				title: "Operations",
+				element: /* @__PURE__ */ (0, X.jsx)(Dr, {})
+			},
+			{
+				id: "auth",
+				title: "Authentication",
+				element: /* @__PURE__ */ (0, X.jsx)(zn, {})
+			},
+			{
+				id: "environments",
+				title: /* @__PURE__ */ (0, X.jsx)(pt, {}),
+				element: /* @__PURE__ */ (0, X.jsx)(Ye, {})
+			},
+			{
+				id: "settings",
+				title: "Settings",
+				element: /* @__PURE__ */ (0, X.jsx)(st, {})
+			}
+		]
+	}
 ];
-function Nn(e, t) {
-  const n = Da(an(e, pe), t);
-  tt.createRoot(document.getElementById("root")).render(
-    /* @__PURE__ */ a.jsx(at.StrictMode, { children: /* @__PURE__ */ a.jsx(nt, { store: n, children: /* @__PURE__ */ a.jsx(st.Provider, { value: pe, children: /* @__PURE__ */ a.jsx(Pt, { backend: Ot, children: /* @__PURE__ */ a.jsx(ot, {}) }) }) }) })
-  ), window.addEventListener("message", rt(n, Ia));
+function kr(e, t) {
+	let r = vn(Gn(e, Or), t);
+	(0, Et.createRoot)(document.getElementById("root")).render(/* @__PURE__ */ (0, X.jsx)(R.StrictMode, { children: /* @__PURE__ */ (0, X.jsx)(oe, {
+		store: r,
+		children: /* @__PURE__ */ (0, X.jsx)(m.Provider, {
+			value: Or,
+			children: /* @__PURE__ */ (0, X.jsx)(Ze, {
+				backend: xt,
+				children: /* @__PURE__ */ (0, X.jsx)(n, {})
+			})
+		})
+	}) })), window.addEventListener("message", o(r, _n));
 }
-window.renderWebView = Nn;
+window.renderWebView = kr;
+//#endregion
