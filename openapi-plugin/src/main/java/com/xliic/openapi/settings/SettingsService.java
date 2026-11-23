@@ -1,5 +1,6 @@
 package com.xliic.openapi.settings;
 
+import static com.xliic.openapi.settings.Settings.CliAst.DISABLE_ARRAY_MAX_LIMIT;
 import static com.xliic.openapi.settings.Settings.DEFAULTS;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOSTNAMES;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
@@ -56,7 +57,8 @@ public class SettingsService implements ISettingsService, Disposable  {
     private static final Set<String> IGNORED_KEYS = Set.of(TURNED_ON, TURNED_OFF);
     private static final Set<String> SAFE_KEYS = Set.of(API_KEY, ENV_SECRETS_KEY, HEADER, APPROVED_HOST_CONFIG);
     private static final Set<String> BOOLEAN_KEYS = Set.of(ABC_SORT, REPLACE_LOCALHOST, USE_HOST_NETWORK, 
-    		SHOW_OUTLINE_DEMO, INTERNAL_FEATURES, INTERNAL_USE_DEV_ENDPOINTS, ENABLE_FLAG, ENABLE_MAX_LOG_LEVEL_FLAG, INTERNAL_DISABLE_LOG_REDACTION, INTERNAL_REGISTER_MCP);
+    		SHOW_OUTLINE_DEMO, INTERNAL_FEATURES, INTERNAL_USE_DEV_ENDPOINTS, ENABLE_FLAG, ENABLE_MAX_LOG_LEVEL_FLAG, INTERNAL_DISABLE_LOG_REDACTION, INTERNAL_REGISTER_MCP,
+    		DISABLE_ARRAY_MAX_LIMIT);
     private static final Set<String> LIST_KEYS = Set.of(APPROVED_HOSTNAMES, INSECURE_SSL_HOSTNAMES);
     private static final Map<String, Converter> CONVERTERS = new HashMap<>();
     

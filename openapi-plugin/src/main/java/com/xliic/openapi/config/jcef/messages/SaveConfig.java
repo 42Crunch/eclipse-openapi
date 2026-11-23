@@ -3,6 +3,7 @@ package com.xliic.openapi.config.jcef.messages;
 import static com.xliic.openapi.settings.Settings.Audit.AUDIT_RUNTIME;
 import static com.xliic.openapi.settings.Settings.Audit.TOKEN;
 import static com.xliic.openapi.settings.Settings.CliAst.CLI_DIRECTORY_OVERRIDE;
+import static com.xliic.openapi.settings.Settings.CliAst.DISABLE_ARRAY_MAX_LIMIT;
 import static com.xliic.openapi.settings.Settings.ExtRef.APPROVED_HOST_CONFIG;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_DISABLE_LOG_REDACTION;
 import static com.xliic.openapi.settings.Settings.Internal.INTERNAL_FEATURES;
@@ -96,6 +97,7 @@ public class SaveConfig extends WebAppProduce {
             settingsService.setCacheValue(Settings.Platform.MANDATORY_TAGS, map.get("platformMandatoryTags"));
             settingsService.setCacheValue(APPROVED_HOST_CONFIG, map.get("approvedHosts"));
             settingsService.setCacheValue(CLI_DIRECTORY_OVERRIDE, map.get("cliDirectoryOverride"));
+            settingsService.setCacheValue(DISABLE_ARRAY_MAX_LIMIT, map.getOrDefault("disableArrayMaxLimit", false));
             settingsService.setCacheValue(AUDIT_RUNTIME, map.get("auditRuntime"));
             settingsService.setCacheValue(INTERNAL_FEATURES, map.get("internalFeatures"));
             settingsService.setCacheValue(INTERNAL_USE_DEV_ENDPOINTS, map.get("internalUseDevEndpoints"));

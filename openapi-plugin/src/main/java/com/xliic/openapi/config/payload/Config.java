@@ -59,6 +59,7 @@ public class Config {
     private final List<ApprovedHostConfig> approvedHosts;
     @NotNull
     private final String cliDirectoryOverride;
+    private final boolean disableArrayMaxLimit;
     @NotNull
     private final String auditRuntime;
     @NotNull
@@ -97,6 +98,7 @@ public class Config {
         }
         approvedHosts = getApprovedHostsConfiguration();
         cliDirectoryOverride = settingsService.getValue(Settings.CliAst.CLI_DIRECTORY_OVERRIDE, "");
+        disableArrayMaxLimit = settingsService.getValue(Settings.CliAst.DISABLE_ARRAY_MAX_LIMIT, false);
         auditRuntime = settingsService.getValue(Settings.Audit.AUDIT_RUNTIME, "");
         internalFeatures  = settingsService.getValue(INTERNAL_FEATURES, false);
         internalUseDevEndpoints = settingsService.getValue(INTERNAL_USE_DEV_ENDPOINTS, false);
@@ -208,6 +210,10 @@ public class Config {
     
     public @NotNull String getCliDirectoryOverride() {
         return cliDirectoryOverride;
+    }
+
+    public boolean isDisableArrayMaxLimit() {
+        return disableArrayMaxLimit;
     }
     
     public @NotNull String getAuditRuntime() {

@@ -176,10 +176,12 @@ public class Settings {
     	public static final String CLI_DIRECTORY_OVERRIDE = "com.xliic.openapi.settings.cli.ast.directory.override";
         public static final String REPOSITORY = "com.xliic.openapi.settings.cli.ast.repository";
         public static final String DEFAULT_REPOSITORY = "https://repo.42crunch.com/downloads";
+        public static final String DISABLE_ARRAY_MAX_LIMIT = "com.xliic.openapi.settings.cli.ast.disable.array.max.limit";
 
         static {
             DEFAULTS.put(REPOSITORY, DEFAULT_REPOSITORY);
             DEFAULTS.put(CLI_DIRECTORY_OVERRIDE, "");
+            DEFAULTS.put(DISABLE_ARRAY_MAX_LIMIT, false);
         }
     }
 

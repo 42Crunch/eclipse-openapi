@@ -281,6 +281,12 @@ public class CliUtils {
         setProxyEnv(env, serverUrl, env.get("SCAN42C_HOST"));
     }
 
+    public static void applyDisableArrayMaxLimit(@NotNull List<String> args) {
+        if (SettingsService.getInstance().getValue(Settings.CliAst.DISABLE_ARRAY_MAX_LIMIT, false)) {
+            args.add("--disable-array-max-limit");
+        }
+    }
+
     public static void applyFreemiumHost(@NotNull List<String> args) {
         if (SettingsService.getInstance().useDevEndpoints()) {
             args.add("--freemium-host");

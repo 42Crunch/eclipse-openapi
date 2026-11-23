@@ -1,5 +1,6 @@
 package com.xliic.openapi.platform.scan.config.task;
 
+import static com.xliic.openapi.cli.CliUtils.applyDisableArrayMaxLimit;
 import static com.xliic.openapi.cli.CliUtils.applyFreemiumHost;
 import static com.xliic.openapi.cli.CliUtils.applyProxyAndCredentials;
 import static com.xliic.openapi.tags.TagsUtils.applyTags;
@@ -80,6 +81,7 @@ public class ScanCliConfTask extends ScanConfTask {
                 OPENAPI_JSON
             ));
             applyTags(args, tags);
+            applyDisableArrayMaxLimit(args);
             applyFreemiumHost(args);
             Map<String, String> env = new HashMap<>();
             applyProxyAndCredentials(args, env);
