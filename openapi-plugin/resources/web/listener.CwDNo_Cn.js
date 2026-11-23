@@ -1,5 +1,5 @@
 import { Gt as e } from "./icons.ODuw_IC-.js";
-import { _ as t, a as n, g as r, h as i, o as a, r as o, s, t as c, v as l } from "./slice.DxJ7a1u-.js";
+import { _ as t, a as n, g as r, h as i, o as a, r as o, s, t as c, v as l } from "./slice.ChFQ4GOG.js";
 //#region src/features/config/listener.ts
 function u(t, n) {
 	return () => t({

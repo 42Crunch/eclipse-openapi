@@ -30,36 +30,47 @@ var s = i({
 ], h = /* @__PURE__ */ r(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.preserveLocationKey = e.preserveFormattingKey = e.preserveRootRangeKey = void 0, e.preserveRootRangeKey = Symbol("preserve-root-location"), e.preserveFormattingKey = Symbol("preserve-formatting"), e.preserveLocationKey = Symbol("preserve-location");
 })), g = /* @__PURE__ */ r(((e) => {
-	Object.defineProperty(e, "__esModule", { value: !0 }), e.getPreservedValue = n, e.setPreservedValue = r, e.getPreservedLocation = i, e.setPreservedLocation = a, e.getPreservedRootRange = o, e.setPreservedRootRange = s, e.copyPreservedValues = c;
-	var t = h();
-	function n(e, n) {
+	Object.defineProperty(e, "__esModule", { value: !0 }), e.preservedNumberSource = r, e.setOwnValue = i, e.getPreservedValue = a, e.setPreservedValue = o, e.getPreservedLocation = s, e.setPreservedLocation = c, e.getPreservedRootRange = l, e.setPreservedRootRange = u, e.copyPreservedValues = d;
+	var t = h(), n = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/;
+	function r(e, t) {
+		if (t !== void 0 && t !== String(e) && n.test(t)) return t;
+	}
+	function i(e, t, n) {
+		t === "__proto__" ? Object.defineProperty(e, t, {
+			value: n,
+			enumerable: !0,
+			writable: !0,
+			configurable: !0
+		}) : e[t] = n;
+	}
+	function a(e, n) {
 		return e?.[t.preserveFormattingKey]?.[n];
 	}
-	function r(e, n, r) {
+	function o(e, n, r) {
 		e[t.preserveFormattingKey] === void 0 && Object.defineProperty(e, t.preserveFormattingKey, {
 			enumerable: !1,
-			value: {}
+			value: Object.create(null)
 		}), e[t.preserveFormattingKey][n] = r;
 	}
-	function i(e, n) {
+	function s(e, n) {
 		return e?.[t.preserveLocationKey]?.[n];
 	}
-	function a(e, n, r) {
+	function c(e, n, r) {
 		e[t.preserveLocationKey] === void 0 && Object.defineProperty(e, t.preserveLocationKey, {
 			enumerable: !1,
-			value: {}
+			value: Object.create(null)
 		}), e[t.preserveLocationKey][n] = r;
 	}
-	function o(e) {
+	function l(e) {
 		return e[t.preserveRootRangeKey];
 	}
-	function s(e, n) {
+	function u(e, n) {
 		Object.defineProperty(e, t.preserveRootRangeKey, {
 			enumerable: !1,
 			value: n
 		});
 	}
-	function c(e, n) {
+	function d(e, n) {
 		e && e[t.preserveFormattingKey] !== void 0 && Object.defineProperty(n, t.preserveFormattingKey, {
 			enumerable: !1,
 			value: e[t.preserveFormattingKey]
@@ -88,19 +99,23 @@ var s = i({
 		let i = {}, a = [], o = [i];
 		return (0, t.visitObject)(void 0, "fakeroot", e, {
 			onObjectStart: (e, t, r) => {
-				a.push(t), o.push(i), i = i[t] = {}, (0, n.copyPreservedValues)(r, i);
+				a.push(t), o.push(i);
+				let s = {};
+				(0, n.setOwnValue)(i, t, s), i = s, (0, n.copyPreservedValues)(r, i);
 			},
 			onObjectEnd: () => {
 				a.pop(), i = o.pop();
 			},
 			onArrayStart: (e, t, r) => {
-				a.push(t), o.push(i), i = i[t] = [], (0, n.copyPreservedValues)(r, i);
+				a.push(t), o.push(i);
+				let s = [];
+				(0, n.setOwnValue)(i, t, s), i = s, (0, n.copyPreservedValues)(r, i);
 			},
 			onArrayEnd: () => {
 				a.pop(), i = o.pop();
 			},
-			onValue: (e, t, n, o) => {
-				i[t] = r ? r(n, [...a.slice(1), t]) : n;
+			onValue: (e, t, o, s) => {
+				(0, n.setOwnValue)(i, t, r ? r(o, [...a.slice(1), t]) : o);
 			}
 		}), o[0].fakeroot;
 	}
@@ -4560,79 +4575,47 @@ var Ki = t((() => {
 })), Qi = /* @__PURE__ */ r(((t) => {
 	Object.defineProperty(t, "__esModule", { value: !0 }), t.visitYaml = r;
 	var n = (Zi(), e(Yi));
-	function r(e, t, a, o, s) {
-		let c = i(t, a, o);
-		if ((0, n.isMap)(o)) {
-			s.onObjectStart(t, a, o, c);
-			for (let t of o.items) r(e, o, t.key.value, t.value, s);
-			s.onObjectEnd();
-		} else if ((0, n.isSeq)(o)) s.onArrayStart(t, a, o, c), o.items.forEach((t, n) => {
-			r(e, o, n, t, s);
-		}), s.onArrayEnd();
-		else if ((0, n.isScalar)(o)) s.onValue(t, a, o.value, o.source, c);
-		else if ((0, n.isAlias)(o)) {
-			let n = o.resolve(e);
-			n !== void 0 && r(e, t, a, n, s);
-		}
-	}
-	function i(e, t, n) {
-		return {
-			key: a(e, t),
-			value: {
-				start: n.range[0],
-				end: n.range[1]
-			}
-		};
-	}
-	function a(e, t) {
-		if ((0, n.isMap)(e)) {
-			let n = o(e.items, t);
-			if (n !== void 0 && n.key.range) return {
-				start: n.key.range[0],
-				end: n.key.range[1]
-			};
-		}
-	}
-	function o(e, t) {
-		let r = (0, n.isScalar)(t) ? t.value : t;
-		for (let i of e) if ((0, n.isPair)(i) && (i.key === t || i.key === r || (0, n.isScalar)(i.key) && i.key.value === r)) return i;
-	}
-})), $i = /* @__PURE__ */ r(((e) => {
-	Object.defineProperty(e, "__esModule", { value: !0 }), e.visitJson = t;
-	function t(e, n, r, i, a) {
-		if (i === void 0) {
-			a.onValue(n, r, null, void 0, { value: {
-				start: 0,
-				end: 0
-			} });
+	function r(e, t, i, a, o, s = null, c = !1) {
+		if ((0, n.isAlias)(a)) {
+			let n = a.resolve(e.document);
+			n === void 0 ? c || e.onUnresolvedAlias(s, a) : r(e, t, i, n, o, s, !0);
 			return;
 		}
-		let o = { value: {
-			start: i.offset,
-			end: i.offset + i.length
-		} };
-		if (n && n.type === "property") {
-			let e = n.children[0];
-			o.key = {
-				start: e.offset,
-				end: e.offset + e.length
-			};
+		if (!a) {
+			o.onValue(void 0, t, null, void 0, i && {
+				key: i,
+				value: i
+			});
+			return;
 		}
-		if (i.type === "object") {
-			a.onObjectStart(n, r, i, o);
-			for (let e of i.children) {
-				let [n, r] = e.children;
-				t(void 0, e, n.value, r, a);
+		let l = {
+			key: i,
+			value: {
+				start: a.range[0],
+				end: a.range[1]
 			}
-			a.onObjectEnd();
-		} else i.type === "array" ? (a.onArrayStart(n, r, i, o), i.children.forEach((e, n) => {
-			t(void 0, i, n, e, a);
-		}), a.onArrayEnd()) : a.onValue(n, r, i.value, i.rawValue, o);
+		};
+		if ((0, n.isMap)(a)) {
+			o.onObjectStart(void 0, t, a, l);
+			let i = c ? void 0 : /* @__PURE__ */ new Set();
+			for (let t of a.items) {
+				let a = t.key;
+				(0, n.isAlias)(a) && !c && a.resolve(e.document) === void 0 && e.onUnresolvedAlias("key", a), i !== void 0 && (0, n.isScalar)(a) && (i.has(a.value) ? e.hasDuplicateKeys = !0 : i.add(a.value));
+				let s = a && a.range ? {
+					start: a.range[0],
+					end: a.range[1]
+				} : void 0;
+				r(e, a?.value, s, t.value, o, "value", c);
+			}
+			o.onObjectEnd();
+		} else (0, n.isSeq)(a) ? (o.onArrayStart(void 0, t, a, l), a.items.forEach((t, n) => {
+			r(e, n, void 0, t, o, n, c);
+		}), o.onArrayEnd()) : (0, n.isScalar)(a) && o.onValue(void 0, t, a.value, a.source, l);
 	}
 }));
 //#endregion
 //#region ../node_modules/jsonc-parser/lib/esm/impl/scanner.js
-function ea(e, t = !1) {
+function $i(e, t = !1) {
 	let n = e.length, r = 0, i = "", a = 0, o = 16, s = 0, c = 0, l = 0, u = 0, d = 0;
 	function f(t, n) {
 		let i = 0, a = 0;
@@ -4652,15 +4635,15 @@ function ea(e, t = !1) {
 	function m() {
 		let t = r;
 		if (e.charCodeAt(r) === 48) r++;
-		else for (r++; r < e.length && ra(e.charCodeAt(r));) r++;
+		else for (r++; r < e.length && na(e.charCodeAt(r));) r++;
 		if (r < e.length && e.charCodeAt(r) === 46) {
-			if (r++, r < e.length && ra(e.charCodeAt(r))) for (r++; r < e.length && ra(e.charCodeAt(r));) r++;
+			if (r++, r < e.length && na(e.charCodeAt(r))) for (r++; r < e.length && na(e.charCodeAt(r));) r++;
 			else return d = 3, e.substring(t, r);
 		}
 		let n = r;
 		if (r < e.length && (e.charCodeAt(r) === 69 || e.charCodeAt(r) === 101)) {
-			if (r++, (r < e.length && e.charCodeAt(r) === 43 || e.charCodeAt(r) === 45) && r++, r < e.length && ra(e.charCodeAt(r))) {
-				for (r++; r < e.length && ra(e.charCodeAt(r));) r++;
+			if (r++, (r < e.length && e.charCodeAt(r) === 43 || e.charCodeAt(r) === 45) && r++, r < e.length && na(e.charCodeAt(r))) {
+				for (r++; r < e.length && na(e.charCodeAt(r));) r++;
 				n = r;
 			} else d = 3;
 		}
@@ -4717,7 +4700,7 @@ function ea(e, t = !1) {
 				i = r;
 			} else {
 				if (a >= 0 && a <= 31) {
-					if (na(a)) {
+					if (ta(a)) {
 						t += e.substring(i, r), d = 2;
 						break;
 					}
@@ -4731,13 +4714,13 @@ function ea(e, t = !1) {
 	function g() {
 		if (i = "", d = 0, a = r, c = s, u = l, r >= n) return a = n, o = 17;
 		let t = e.charCodeAt(r);
-		if (ta(t)) {
+		if (ea(t)) {
 			do
 				r++, i += String.fromCharCode(t), t = e.charCodeAt(r);
-			while (ta(t));
+			while (ea(t));
 			return o = 15;
 		}
-		if (na(t)) return r++, i += String.fromCharCode(t), t === 13 && e.charCodeAt(r) === 10 && (r++, i += "\n"), s++, l = r, o = 14;
+		if (ta(t)) return r++, i += String.fromCharCode(t), t === 13 && e.charCodeAt(r) === 10 && (r++, i += "\n"), s++, l = r, o = 14;
 		switch (t) {
 			case 123: return r++, o = 1;
 			case 125: return r++, o = 2;
@@ -4749,7 +4732,7 @@ function ea(e, t = !1) {
 			case 47:
 				let c = r - 1;
 				if (e.charCodeAt(r + 1) === 47) {
-					for (r += 2; r < n && !na(e.charCodeAt(r));) r++;
+					for (r += 2; r < n && !ta(e.charCodeAt(r));) r++;
 					return i = e.substring(c, r), o = 12;
 				}
 				if (e.charCodeAt(r + 1) === 42) {
@@ -4761,12 +4744,12 @@ function ea(e, t = !1) {
 							r += 2, a = !0;
 							break;
 						}
-						r++, na(t) && (t === 13 && e.charCodeAt(r) === 10 && r++, s++, l = r);
+						r++, ta(t) && (t === 13 && e.charCodeAt(r) === 10 && r++, s++, l = r);
 					}
 					return a || (r++, d = 1), i = e.substring(c, r), o = 13;
 				}
 				return i += String.fromCharCode(t), r++, o = 16;
-			case 45: if (i += String.fromCharCode(t), r++, r === n || !ra(e.charCodeAt(r))) return o = 16;
+			case 45: if (i += String.fromCharCode(t), r++, r === n || !na(e.charCodeAt(r))) return o = 16;
 			case 48:
 			case 49:
 			case 50:
@@ -4791,7 +4774,7 @@ function ea(e, t = !1) {
 		}
 	}
 	function _(e) {
-		if (ta(e) || na(e)) return !1;
+		if (ea(e) || ta(e)) return !1;
 		switch (e) {
 			case 125:
 			case 93:
@@ -4824,32 +4807,32 @@ function ea(e, t = !1) {
 		getTokenError: () => d
 	};
 }
-function ta(e) {
+function ea(e) {
 	return e === 32 || e === 9;
 }
-function na(e) {
+function ta(e) {
 	return e === 10 || e === 13;
 }
-function ra(e) {
+function na(e) {
 	return e >= 48 && e <= 57;
 }
-var ia, aa = t((() => {
+var ra, ia = t((() => {
 	(function(e) {
 		e[e.lineFeed = 10] = "lineFeed", e[e.carriageReturn = 13] = "carriageReturn", e[e.space = 32] = "space", e[e._0 = 48] = "_0", e[e._1 = 49] = "_1", e[e._2 = 50] = "_2", e[e._3 = 51] = "_3", e[e._4 = 52] = "_4", e[e._5 = 53] = "_5", e[e._6 = 54] = "_6", e[e._7 = 55] = "_7", e[e._8 = 56] = "_8", e[e._9 = 57] = "_9", e[e.a = 97] = "a", e[e.b = 98] = "b", e[e.c = 99] = "c", e[e.d = 100] = "d", e[e.e = 101] = "e", e[e.f = 102] = "f", e[e.g = 103] = "g", e[e.h = 104] = "h", e[e.i = 105] = "i", e[e.j = 106] = "j", e[e.k = 107] = "k", e[e.l = 108] = "l", e[e.m = 109] = "m", e[e.n = 110] = "n", e[e.o = 111] = "o", e[e.p = 112] = "p", e[e.q = 113] = "q", e[e.r = 114] = "r", e[e.s = 115] = "s", e[e.t = 116] = "t", e[e.u = 117] = "u", e[e.v = 118] = "v", e[e.w = 119] = "w", e[e.x = 120] = "x", e[e.y = 121] = "y", e[e.z = 122] = "z", e[e.A = 65] = "A", e[e.B = 66] = "B", e[e.C = 67] = "C", e[e.D = 68] = "D", e[e.E = 69] = "E", e[e.F = 70] = "F", e[e.G = 71] = "G", e[e.H = 72] = "H", e[e.I = 73] = "I", e[e.J = 74] = "J", e[e.K = 75] = "K", e[e.L = 76] = "L", e[e.M = 77] = "M", e[e.N = 78] = "N", e[e.O = 79] = "O", e[e.P = 80] = "P", e[e.Q = 81] = "Q", e[e.R = 82] = "R", e[e.S = 83] = "S", e[e.T = 84] = "T", e[e.U = 85] = "U", e[e.V = 86] = "V", e[e.W = 87] = "W", e[e.X = 88] = "X", e[e.Y = 89] = "Y", e[e.Z = 90] = "Z", e[e.asterisk = 42] = "asterisk", e[e.backslash = 92] = "backslash", e[e.closeBrace = 125] = "closeBrace", e[e.closeBracket = 93] = "closeBracket", e[e.colon = 58] = "colon", e[e.comma = 44] = "comma", e[e.dot = 46] = "dot", e[e.doubleQuote = 34] = "doubleQuote", e[e.minus = 45] = "minus", e[e.openBrace = 123] = "openBrace", e[e.openBracket = 91] = "openBracket", e[e.plus = 43] = "plus", e[e.slash = 47] = "slash", e[e.formFeed = 12] = "formFeed", e[e.tab = 9] = "tab";
-	})(ia ||= {});
-})), Q, oa, sa, ca, la = t((() => {
-	Q = Array(20).fill(0).map((e, t) => " ".repeat(t)), oa = 200, sa = {
+	})(ra ||= {});
+})), Q, aa, oa, sa, ca = t((() => {
+	Q = Array(20).fill(0).map((e, t) => " ".repeat(t)), aa = 200, oa = {
 		" ": {
-			"\n": Array(oa).fill(0).map((e, t) => "\n" + " ".repeat(t)),
-			"\r": Array(oa).fill(0).map((e, t) => "\r" + " ".repeat(t)),
-			"\r\n": Array(oa).fill(0).map((e, t) => "\r\n" + " ".repeat(t))
+			"\n": Array(aa).fill(0).map((e, t) => "\n" + " ".repeat(t)),
+			"\r": Array(aa).fill(0).map((e, t) => "\r" + " ".repeat(t)),
+			"\r\n": Array(aa).fill(0).map((e, t) => "\r\n" + " ".repeat(t))
 		},
 		"	": {
-			"\n": Array(oa).fill(0).map((e, t) => "\n" + "	".repeat(t)),
-			"\r": Array(oa).fill(0).map((e, t) => "\r" + "	".repeat(t)),
-			"\r\n": Array(oa).fill(0).map((e, t) => "\r\n" + "	".repeat(t))
+			"\n": Array(aa).fill(0).map((e, t) => "\n" + "	".repeat(t)),
+			"\r": Array(aa).fill(0).map((e, t) => "\r" + "	".repeat(t)),
+			"\r\n": Array(aa).fill(0).map((e, t) => "\r\n" + "	".repeat(t))
 		}
-	}, ca = [
+	}, sa = [
 		"\n",
 		"\r",
 		"\r\n"
@@ -4857,21 +4840,21 @@ var ia, aa = t((() => {
 }));
 //#endregion
 //#region ../node_modules/jsonc-parser/lib/esm/impl/format.js
-function ua(e, t, n) {
+function la(e, t, n) {
 	let r, i, a, o, s;
 	if (t) {
-		for (o = t.offset, s = o + t.length, a = o; a > 0 && !ma(e, a - 1);) a--;
+		for (o = t.offset, s = o + t.length, a = o; a > 0 && !pa(e, a - 1);) a--;
 		let c = s;
-		for (; c < e.length && !ma(e, c);) c++;
-		i = e.substring(a, c), r = fa(i, n);
+		for (; c < e.length && !pa(e, c);) c++;
+		i = e.substring(a, c), r = da(i, n);
 	} else i = e, r = 0, a = 0, o = 0, s = e.length;
-	let c = pa(n, e), l = ca.includes(c), u = 0, d = 0, f;
-	f = n.insertSpaces ? Q[n.tabSize || 4] ?? da(Q[1], n.tabSize || 4) : "	";
-	let p = f === "	" ? "	" : " ", m = ea(i, !1), h = !1;
+	let c = fa(n, e), l = sa.includes(c), u = 0, d = 0, f;
+	f = n.insertSpaces ? Q[n.tabSize || 4] ?? ua(Q[1], n.tabSize || 4) : "	";
+	let p = f === "	" ? "	" : " ", m = $i(i, !1), h = !1;
 	function g() {
-		if (u > 1) return da(c, u) + da(f, r + d);
+		if (u > 1) return ua(c, u) + ua(f, r + d);
 		let e = f.length * (r + d);
-		return !l || e > sa[p][c].length ? c + da(f, r + d) : e <= 0 ? c : sa[p][c][e];
+		return !l || e > oa[p][c].length ? c + ua(f, r + d) : e <= 0 ? c : oa[p][c][e];
 	}
 	function _() {
 		let e = m.scan();
@@ -4887,9 +4870,9 @@ function ua(e, t, n) {
 		});
 	}
 	let b = _();
-	if (n.keepLines && u > 0 && y(da(c, u), 0, 0), b !== 17) {
+	if (n.keepLines && u > 0 && y(ua(c, u), 0, 0), b !== 17) {
 		let e = m.getTokenOffset() + a;
-		y(f.length * r < 20 && n.insertSpaces ? Q[f.length * r] : da(f, r), a, e);
+		y(f.length * r < 20 && n.insertSpaces ? Q[f.length * r] : ua(f, r), a, e);
 	}
 	for (; b !== 17;) {
 		let e = m.getTokenOffset() + m.getTokenLength() + a, t = _(), r = "", i = !1;
@@ -4938,12 +4921,12 @@ function ua(e, t, n) {
 	}
 	return v;
 }
-function da(e, t) {
+function ua(e, t) {
 	let n = "";
 	for (let r = 0; r < t; r++) n += e;
 	return n;
 }
-function fa(e, t) {
+function da(e, t) {
 	let n = 0, r = 0, i = t.tabSize || 4;
 	for (; n < e.length;) {
 		let t = e.charAt(n);
@@ -4954,7 +4937,7 @@ function fa(e, t) {
 	}
 	return Math.floor(r / i);
 }
-function pa(e, t) {
+function fa(e, t) {
 	for (let e = 0; e < t.length; e++) {
 		let n = t.charAt(e);
 		if (n === "\r") return e + 1 < t.length && t.charAt(e + 1) === "\n" ? "\r\n" : "\r";
@@ -4962,15 +4945,15 @@ function pa(e, t) {
 	}
 	return e && e.eol || "\n";
 }
-function ma(e, t) {
+function pa(e, t) {
 	return "\r\n".indexOf(e.charAt(t)) !== -1;
 }
-var ha = t((() => {
-	aa(), la();
+var ma = t((() => {
+	ia(), ca();
 }));
 //#endregion
 //#region ../node_modules/jsonc-parser/lib/esm/impl/parser.js
-function ga(e, t) {
+function ha(e, t) {
 	let n = [], r = {}, i, a = {
 		value: {},
 		offset: 0,
@@ -4982,7 +4965,7 @@ function ga(e, t) {
 		a.value = e, a.offset = t, a.length = n, a.type = r, a.colonOffset = void 0, i = a;
 	}
 	try {
-		wa(e, {
+		Ca(e, {
 			onObjectBegin: (e, a) => {
 				if (t <= e) throw r;
 				i = void 0, o = t > e, n.push("");
@@ -5003,7 +4986,7 @@ function ga(e, t) {
 				i = void 0, n.pop();
 			},
 			onLiteralValue: (e, n, i) => {
-				if (t < n || (s(e, n, i, Ea(e)), t <= n + i)) throw r;
+				if (t < n || (s(e, n, i, Ta(e)), t <= n + i)) throw r;
 			},
 			onSeparator: (e, a, s) => {
 				if (t <= a) throw r;
@@ -5029,12 +5012,12 @@ function ga(e, t) {
 		}
 	};
 }
-function _a(e, t = [], n = Da.DEFAULT) {
+function ga(e, t = [], n = Ea.DEFAULT) {
 	let r = null, i = [], a = [];
 	function o(e) {
 		Array.isArray(i) ? i.push(e) : r !== null && (i[r] = e);
 	}
-	return wa(e, {
+	return Ca(e, {
 		onObjectBegin: () => {
 			let e = {};
 			o(e), a.push(i), i = e, r = null;
@@ -5062,7 +5045,7 @@ function _a(e, t = [], n = Da.DEFAULT) {
 		}
 	}, n), i[0];
 }
-function va(e, t = [], n = Da.DEFAULT) {
+function _a(e, t = [], n = Ea.DEFAULT) {
 	let r = {
 		type: "array",
 		offset: -1,
@@ -5076,7 +5059,7 @@ function va(e, t = [], n = Da.DEFAULT) {
 	function a(e) {
 		return r.children.push(e), e;
 	}
-	wa(e, {
+	Ca(e, {
 		onObjectBegin: (e) => {
 			r = a({
 				type: "object",
@@ -5118,7 +5101,7 @@ function va(e, t = [], n = Da.DEFAULT) {
 		},
 		onLiteralValue: (e, t, n) => {
 			a({
-				type: Ea(e),
+				type: Ta(e),
 				offset: t,
 				length: n,
 				parent: r,
@@ -5139,7 +5122,7 @@ function va(e, t = [], n = Da.DEFAULT) {
 	let o = r.children[0];
 	return o && delete o.parent, o;
 }
-function ya(e, t) {
+function va(e, t) {
 	if (!e) return;
 	let n = e;
 	for (let e of t) if (typeof e == "string") {
@@ -5157,9 +5140,9 @@ function ya(e, t) {
 	}
 	return n;
 }
-function ba(e) {
+function ya(e) {
 	if (!e.parent || !e.parent.children) return [];
-	let t = ba(e.parent);
+	let t = ya(e.parent);
 	if (e.parent.type === "property") {
 		let n = e.parent.children[0].value;
 		t.push(n);
@@ -5169,14 +5152,14 @@ function ba(e) {
 	}
 	return t;
 }
-function xa(e) {
+function ba(e) {
 	switch (e.type) {
-		case "array": return e.children.map(xa);
+		case "array": return e.children.map(ba);
 		case "object":
 			let t = Object.create(null);
 			for (let n of e.children) {
 				let e = n.children[1];
-				e && (t[n.children[0].value] = xa(e));
+				e && (t[n.children[0].value] = ba(e));
 			}
 			return t;
 		case "null":
@@ -5186,21 +5169,21 @@ function xa(e) {
 		default: return;
 	}
 }
-function Sa(e, t, n = !1) {
+function xa(e, t, n = !1) {
 	return t >= e.offset && t < e.offset + e.length || n && t === e.offset + e.length;
 }
-function Ca(e, t, n = !1) {
-	if (Sa(e, t, n)) {
+function Sa(e, t, n = !1) {
+	if (xa(e, t, n)) {
 		let r = e.children;
 		if (Array.isArray(r)) for (let e = 0; e < r.length && r[e].offset <= t; e++) {
-			let i = Ca(r[e], t, n);
+			let i = Sa(r[e], t, n);
 			if (i) return i;
 		}
 		return e;
 	}
 }
-function wa(e, t, n = Da.DEFAULT) {
-	let r = ea(e, !1), i = [], a = 0;
+function Ca(e, t, n = Ea.DEFAULT) {
+	let r = $i(e, !1), i = [], a = 0;
 	function o(e) {
 		return e ? () => a === 0 && e(r.getTokenOffset(), r.getTokenLength(), r.getTokenStartLine(), r.getTokenStartCharacter()) : () => !0;
 	}
@@ -5327,8 +5310,8 @@ function wa(e, t, n = Da.DEFAULT) {
 	}
 	return S(), r.getToken() === 17 ? n.allowEmptyContent ? !0 : (C(4, [], []), !1) : k() ? (r.getToken() !== 17 && C(9, [], []), !0) : (C(4, [], []), !1);
 }
-function Ta(e, t) {
-	let n = ea(e), r = [], i, a = 0, o;
+function wa(e, t) {
+	let n = $i(e), r = [], i, a = 0, o;
 	do
 		switch (o = n.getPosition(), i = n.scan(), i) {
 			case 12:
@@ -5338,7 +5321,7 @@ function Ta(e, t) {
 	while (i !== 17);
 	return r.join("");
 }
-function Ea(e) {
+function Ta(e) {
 	switch (typeof e) {
 		case "boolean": return "boolean";
 		case "number": return "number";
@@ -5347,26 +5330,26 @@ function Ea(e) {
 		default: return "null";
 	}
 }
-var Da, Oa = t((() => {
-	aa(), (function(e) {
+var Ea, Da = t((() => {
+	ia(), (function(e) {
 		e.DEFAULT = { allowTrailingComma: !1 };
-	})(Da ||= {});
+	})(Ea ||= {});
 }));
 //#endregion
 //#region ../node_modules/jsonc-parser/lib/esm/impl/edit.js
-function ka(e, t, n, r) {
-	let i = t.slice(), a = va(e, []), o, s;
-	for (; i.length > 0 && (s = i.pop(), o = ya(a, i), o === void 0 && n !== void 0);) n = typeof s == "string" ? { [s]: n } : [n];
+function Oa(e, t, n, r) {
+	let i = t.slice(), a = _a(e, []), o, s;
+	for (; i.length > 0 && (s = i.pop(), o = va(a, i), o === void 0 && n !== void 0);) n = typeof s == "string" ? { [s]: n } : [n];
 	if (!o) {
 		if (n === void 0) throw Error("Can not delete in empty document");
-		return Aa(e, {
+		return ka(e, {
 			offset: a ? a.offset : 0,
 			length: a ? a.length : 0,
 			content: JSON.stringify(n)
 		}, r);
 	}
 	if (o.type === "object" && typeof s == "string" && Array.isArray(o.children)) {
-		let t = ya(o, [s]);
+		let t = va(o, [s]);
 		if (t !== void 0) {
 			if (n === void 0) {
 				if (!t.parent) throw Error("Malformed AST");
@@ -5375,13 +5358,13 @@ function ka(e, t, n, r) {
 					let e = o.children[n - 1];
 					i = e.offset + e.length;
 				} else i = o.offset + 1, o.children.length > 1 && (a = o.children[1].offset);
-				return Aa(e, {
+				return ka(e, {
 					offset: i,
 					length: a - i,
 					content: ""
 				}, r);
 			}
-			return Aa(e, {
+			return ka(e, {
 				offset: t.offset,
 				length: t.length,
 				content: JSON.stringify(n)
@@ -5406,7 +5389,7 @@ function ka(e, t, n, r) {
 				length: 0,
 				content: t + ","
 			};
-			return Aa(e, a, r);
+			return ka(e, a, r);
 		}
 	}
 	if (o.type === "array" && typeof s == "number" && Array.isArray(o.children)) {
@@ -5426,7 +5409,7 @@ function ka(e, t, n, r) {
 					content: "," + t
 				};
 			}
-			return Aa(e, i, r);
+			return ka(e, i, r);
 		}
 		if (n === void 0 && o.children.length >= 0) {
 			let t = s, n = o.children[t], i;
@@ -5447,7 +5430,7 @@ function ka(e, t, n, r) {
 				length: o.children[t + 1].offset - n.offset,
 				content: ""
 			};
-			return Aa(e, i, r);
+			return ka(e, i, r);
 		}
 		if (n !== void 0) {
 			let t, i = `${JSON.stringify(n)}`;
@@ -5471,20 +5454,20 @@ function ka(e, t, n, r) {
 					content: "," + i
 				};
 			}
-			return Aa(e, t, r);
+			return ka(e, t, r);
 		}
 		throw Error(`Can not ${n === void 0 ? "remove" : r.isArrayInsertion ? "insert" : "modify"} Array index ${t} as length is not sufficient`);
 	}
 	throw Error(`Can not add ${typeof s == "number" ? "property" : "index"} to parent of type ${o.type}`);
 }
-function Aa(e, t, n) {
+function ka(e, t, n) {
 	if (!n.formattingOptions) return [t];
-	let r = ja(e, t), i = t.offset, a = t.offset + t.content.length;
+	let r = Aa(e, t), i = t.offset, a = t.offset + t.content.length;
 	if (t.length === 0 || t.content.length === 0) {
-		for (; i > 0 && !ma(r, i - 1);) i--;
-		for (; a < r.length && !ma(r, a);) a++;
+		for (; i > 0 && !pa(r, i - 1);) i--;
+		for (; a < r.length && !pa(r, a);) a++;
 	}
-	let o = ua(r, {
+	let o = la(r, {
 		offset: i,
 		length: a - i
 	}, {
@@ -5493,7 +5476,7 @@ function Aa(e, t, n) {
 	});
 	for (let e = o.length - 1; e >= 0; e--) {
 		let t = o[e];
-		r = ja(r, t), i = Math.min(i, t.offset), a = Math.max(a, t.offset + t.length), a += t.content.length - t.length;
+		r = Aa(r, t), i = Math.min(i, t.offset), a = Math.max(a, t.offset + t.length), a += t.content.length - t.length;
 	}
 	let s = e.length - (r.length - a) - i;
 	return [{
@@ -5502,31 +5485,31 @@ function Aa(e, t, n) {
 		content: r.substring(i, a)
 	}];
 }
-function ja(e, t) {
+function Aa(e, t) {
 	return e.substring(0, t.offset) + t.content + e.substring(t.offset + t.length);
 }
-var Ma = t((() => {
-	ha(), Oa();
-})), Na = /* @__PURE__ */ n({
-	ParseErrorCode: () => Xa,
-	ScanError: () => za,
-	SyntaxKind: () => Ba,
-	applyEdits: () => La,
-	createScanner: () => Ra,
-	findNodeAtLocation: () => Wa,
-	findNodeAtOffset: () => Ga,
-	format: () => Fa,
-	getLocation: () => Va,
-	getNodePath: () => Ka,
-	getNodeValue: () => qa,
-	modify: () => Ia,
-	parse: () => Ha,
-	parseTree: () => Ua,
-	printParseErrorCode: () => Pa,
-	stripComments: () => Ya,
-	visit: () => Ja
+var ja = t((() => {
+	ma(), Da();
+})), Ma = /* @__PURE__ */ n({
+	ParseErrorCode: () => Ya,
+	ScanError: () => Ra,
+	SyntaxKind: () => za,
+	applyEdits: () => Ia,
+	createScanner: () => La,
+	findNodeAtLocation: () => Ua,
+	findNodeAtOffset: () => Wa,
+	format: () => Pa,
+	getLocation: () => Ba,
+	getNodePath: () => Ga,
+	getNodeValue: () => Ka,
+	modify: () => Fa,
+	parse: () => Va,
+	parseTree: () => Ha,
+	printParseErrorCode: () => Na,
+	stripComments: () => Ja,
+	visit: () => qa
 });
-function Pa(e) {
+function Na(e) {
 	switch (e) {
 		case 1: return "InvalidSymbol";
 		case 2: return "InvalidNumberFormat";
@@ -5547,147 +5530,133 @@ function Pa(e) {
 	}
 	return "<unknown ParseErrorCode>";
 }
-function Fa(e, t, n) {
-	return ua(e, t, n);
+function Pa(e, t, n) {
+	return la(e, t, n);
 }
-function Ia(e, t, n, r) {
-	return ka(e, t, n, r);
+function Fa(e, t, n, r) {
+	return Oa(e, t, n, r);
 }
-function La(e, t) {
+function Ia(e, t) {
 	let n = t.slice(0).sort((e, t) => {
 		let n = e.offset - t.offset;
 		return n === 0 ? e.length - t.length : n;
 	}), r = e.length;
 	for (let t = n.length - 1; t >= 0; t--) {
 		let i = n[t];
-		if (i.offset + i.length <= r) e = ja(e, i);
+		if (i.offset + i.length <= r) e = Aa(e, i);
 		else throw Error("Overlapping edit");
 		r = i.offset;
 	}
 	return e;
 }
-var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
-	ha(), Ma(), aa(), Oa(), Ra = ea, (function(e) {
+var La, Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa = t((() => {
+	ma(), ja(), ia(), Da(), La = $i, (function(e) {
 		e[e.None = 0] = "None", e[e.UnexpectedEndOfComment = 1] = "UnexpectedEndOfComment", e[e.UnexpectedEndOfString = 2] = "UnexpectedEndOfString", e[e.UnexpectedEndOfNumber = 3] = "UnexpectedEndOfNumber", e[e.InvalidUnicode = 4] = "InvalidUnicode", e[e.InvalidEscapeCharacter = 5] = "InvalidEscapeCharacter", e[e.InvalidCharacter = 6] = "InvalidCharacter";
-	})(za ||= {}), (function(e) {
+	})(Ra ||= {}), (function(e) {
 		e[e.OpenBraceToken = 1] = "OpenBraceToken", e[e.CloseBraceToken = 2] = "CloseBraceToken", e[e.OpenBracketToken = 3] = "OpenBracketToken", e[e.CloseBracketToken = 4] = "CloseBracketToken", e[e.CommaToken = 5] = "CommaToken", e[e.ColonToken = 6] = "ColonToken", e[e.NullKeyword = 7] = "NullKeyword", e[e.TrueKeyword = 8] = "TrueKeyword", e[e.FalseKeyword = 9] = "FalseKeyword", e[e.StringLiteral = 10] = "StringLiteral", e[e.NumericLiteral = 11] = "NumericLiteral", e[e.LineCommentTrivia = 12] = "LineCommentTrivia", e[e.BlockCommentTrivia = 13] = "BlockCommentTrivia", e[e.LineBreakTrivia = 14] = "LineBreakTrivia", e[e.Trivia = 15] = "Trivia", e[e.Unknown = 16] = "Unknown", e[e.EOF = 17] = "EOF";
-	})(Ba ||= {}), Va = ga, Ha = _a, Ua = va, Wa = ya, Ga = Ca, Ka = ba, qa = xa, Ja = wa, Ya = Ta, (function(e) {
+	})(za ||= {}), Ba = ha, Va = ga, Ha = _a, Ua = va, Wa = Sa, Ga = ya, Ka = ba, qa = Ca, Ja = wa, (function(e) {
 		e[e.InvalidSymbol = 1] = "InvalidSymbol", e[e.InvalidNumberFormat = 2] = "InvalidNumberFormat", e[e.PropertyNameExpected = 3] = "PropertyNameExpected", e[e.ValueExpected = 4] = "ValueExpected", e[e.ColonExpected = 5] = "ColonExpected", e[e.CommaExpected = 6] = "CommaExpected", e[e.CloseBraceExpected = 7] = "CloseBraceExpected", e[e.CloseBracketExpected = 8] = "CloseBracketExpected", e[e.EndOfFileExpected = 9] = "EndOfFileExpected", e[e.InvalidCommentToken = 10] = "InvalidCommentToken", e[e.UnexpectedEndOfComment = 11] = "UnexpectedEndOfComment", e[e.UnexpectedEndOfString = 12] = "UnexpectedEndOfString", e[e.UnexpectedEndOfNumber = 13] = "UnexpectedEndOfNumber", e[e.InvalidUnicode = 14] = "InvalidUnicode", e[e.InvalidEscapeCharacter = 15] = "InvalidEscapeCharacter", e[e.InvalidCharacter = 16] = "InvalidCharacter";
-	})(Xa ||= {});
-})), Qa = /* @__PURE__ */ r(((t) => {
-	Object.defineProperty(t, "__esModule", { value: !0 }), t.parseTree = o;
-	var n = (Za(), e(Na)), r;
+	})(Ya ||= {});
+})), Za = /* @__PURE__ */ r(((t) => {
+	Object.defineProperty(t, "__esModule", { value: !0 }), t.ExtendedErrorCode = void 0, t.visitJson = i;
+	var n = (Xa(), e(Ma)), r;
 	(function(e) {
-		e.DEFAULT = { allowTrailingComma: !1 };
-	})(r ||= {});
-	function i(e) {
-		switch (typeof e) {
-			case "boolean": return "boolean";
-			case "number": return "number";
-			case "string": return "string";
-			case "object": return e ? Array.isArray(e) ? "array" : "object" : "null";
-			default: return "null";
+		e[e.DuplicateKey = 1] = "DuplicateKey";
+	})(r || (t.ExtendedErrorCode = r = {}));
+	function i(e, t, r, i) {
+		let o = [], s, c = !1;
+		function l() {
+			if (s === void 0) return c ? void 0 : (c = !0, ["fakeroot", void 0]);
+			if (!s.isObject) return [s.index++, void 0];
+			if (s.hasPendingKey) return s.hasPendingKey = !1, [s.key, s.keyRange];
 		}
-	}
-	function a(e) {
-		let t = [];
-		for (let n = 0; n < e.length; n++) {
-			let r = e[n];
-			if (r.type === "property") for (let i = 0; i < e.length; i++) {
-				let a = e[i];
-				a.type === "property" && r.children[0].value === a.children[0].value && n !== i && t.push(e[n].children[0]);
-			}
+		function u() {
+			s !== void 0 && s.hasPendingKey && (s.hasPendingKey = !1, t.onValue(void 0, s.key, null, void 0, { value: {
+				start: 0,
+				end: 0
+			} }));
 		}
-		return t;
-	}
-	function o(e, t = [], o = r.DEFAULT) {
-		let s = {
-			type: "array",
-			offset: -1,
-			length: -1,
-			children: [],
-			parent: void 0
-		};
-		function c(e) {
-			s.type === "property" && (s.length = e - s.offset, s = s.parent);
+		function d(e, n) {
+			let r = l();
+			if (r === void 0) return !1;
+			let [i, a] = r, c = { value: {
+				start: n,
+				end: -1
+			} };
+			return a !== void 0 && (c.key = a), e ? t.onObjectStart(void 0, i, void 0, c) : t.onArrayStart(void 0, i, void 0, c), s !== void 0 && o.push(s), s = {
+				isObject: e,
+				location: c,
+				index: 0,
+				key: "",
+				keyRange: void 0,
+				hasPendingKey: !1,
+				keys: [],
+				keyRanges: [],
+				seen: /* @__PURE__ */ new Set(),
+				hasDuplicates: !1
+			}, !0;
 		}
-		function l(e) {
-			return s.children.push(e), e;
+		function f(e, t) {
+			s.location.value.end = e + t, s = o.pop();
 		}
+		let p = 0;
 		(0, n.visit)(e, {
 			onObjectBegin: (e) => {
-				s = l({
-					type: "object",
-					offset: e,
-					length: -1,
-					parent: s,
-					children: []
-				});
+				(p > 0 || !d(!0, e)) && p++;
 			},
 			onObjectProperty: (e, t, n) => {
-				s = l({
-					type: "property",
-					offset: t,
-					length: -1,
-					parent: s,
-					children: []
-				}), s.children.push({
-					type: "string",
-					value: e,
-					offset: t,
-					length: n,
-					parent: s
-				});
+				if (p > 0) return;
+				u();
+				let r = {
+					start: t,
+					end: t + n
+				};
+				s.key = e, s.keyRange = r, s.hasPendingKey = !0, s.keys.push(e), s.keyRanges.push(r), s.seen.has(e) ? s.hasDuplicates = !0 : s.seen.add(e);
 			},
 			onObjectEnd: (e, n) => {
-				if (c(e + n), s.type === "object" && s.children && s.children.length > 1) {
-					let e = a(s.children);
-					for (let { offset: n, length: r } of e) t.push({
-						error: 0,
-						extendedError: 1,
-						offset: n,
-						length: r
-					});
-				}
-				s.length = e + n - s.offset, s = s.parent, c(e + n);
+				p > 0 ? p-- : (u(), s.hasDuplicates && a(s.keys, s.keyRanges, r), f(e, n), t.onObjectEnd());
 			},
-			onArrayBegin: (e, t) => {
-				s = l({
-					type: "array",
-					offset: e,
-					length: -1,
-					parent: s,
-					children: []
-				});
+			onArrayBegin: (e) => {
+				(p > 0 || !d(!1, e)) && p++;
 			},
-			onArrayEnd: (e, t) => {
-				s.length = e + t - s.offset, s = s.parent, c(e + t);
+			onArrayEnd: (e, n) => {
+				p > 0 ? p-- : (f(e, n), t.onArrayEnd());
 			},
-			onLiteralValue: (t, n, r) => {
-				l({
-					type: i(t),
-					offset: n,
-					length: r,
-					parent: s,
-					value: t,
-					rawValue: e.substring(n, n + r)
-				}), c(n + r);
+			onLiteralValue: (n, r, i) => {
+				if (p > 0) return;
+				let a = l();
+				if (a === void 0) return;
+				let [o, s] = a, c = { value: {
+					start: r,
+					end: r + i
+				} };
+				s !== void 0 && (c.key = s);
+				let u = typeof n == "number" ? e.substring(r, r + i) : void 0;
+				t.onValue(void 0, o, n, u, c);
 			},
-			onSeparator: (e, t, n) => {
-				s.type === "property" && (e === ":" ? s.colonOffset = t : e === "," && c(t));
-			},
-			onError: (e, n, r) => {
-				t.push({
+			onError: (e, t, n) => {
+				r.push({
 					error: e,
-					offset: n,
-					length: r
+					offset: t,
+					length: n
 				});
 			}
-		}, o);
-		let u = s.children[0];
-		return u && delete u.parent, u;
+		}, i);
 	}
-})), $a = /* @__PURE__ */ r(((t) => {
+	function a(e, t, n) {
+		let i = /* @__PURE__ */ new Map();
+		for (let t of e) i.set(t, (i.get(t) || 0) + 1);
+		for (let a = 0; a < e.length; a++) {
+			let o = i.get(e[a]);
+			for (let e = 1; e < o; e++) n.push({
+				error: 0,
+				extendedError: r.DuplicateKey,
+				offset: t[a].start,
+				length: t[a].end - t[a].start
+			});
+		}
+	}
+})), Qa = /* @__PURE__ */ r(((t) => {
 	Object.defineProperty(t, "__esModule", { value: !0 }), t.getCustomTags = a;
 	var n = (Zi(), e(Yi)), r = class {
 		constructor(e, t) {
@@ -5711,7 +5680,7 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 		for (let [n, i] of Object.entries(e)) t.push(new r(n, i));
 		return t.push(new i()), t;
 	}
-})), eo = /* @__PURE__ */ r(((t, n, r) => {
+})), $a = /* @__PURE__ */ r(((t, n, r) => {
 	var i = r && r.__createBinding || (Object.create ? (function(e, t, n, r) {
 		r === void 0 && (r = n);
 		var i = Object.getOwnPropertyDescriptor(t, n);
@@ -5745,62 +5714,77 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 			return a(n, t), n;
 		};
 	})();
-	Object.defineProperty(t, "__esModule", { value: !0 }), t.parseJson = h, t.parseYaml = _;
-	var s = Qi(), c = $i(), l = g(), u = Qa(), d = o((Za(), e(Na))), f = o((Zi(), e(Yi))), p = $a();
-	function m(e) {
-		return e.extendedError ? e.extendedError === 1 ? "DuplicateKey" : "<unknown ExtendedErrorCode>" : d.printParseErrorCode(e.error);
+	Object.defineProperty(t, "__esModule", { value: !0 }), t.parseJson = m, t.parseYaml = h;
+	var s = Qi(), c = Za(), l = g(), u = o((Xa(), e(Ma))), d = o((Zi(), e(Yi))), f = Qa();
+	function p(e) {
+		return e.extendedError ? e.extendedError === c.ExtendedErrorCode.DuplicateKey ? "DuplicateKey" : "<unknown ExtendedErrorCode>" : u.printParseErrorCode(e.error);
 	}
-	function h(e) {
-		let t = [], n = (0, u.parseTree)(e, t, {
+	function m(e) {
+		let t = [];
+		return [_((n) => (0, c.visitJson)(e, n, t, {
 			disallowComments: !0,
 			allowTrailingComma: !1,
 			allowEmptyContent: !1
-		}), r = t.map((e) => ({
-			message: m(e),
+		})), t.map((e) => ({
+			message: p(e),
 			offset: e.offset,
 			length: e.length
-		}));
-		return n ? [v(c.visitJson, void 0, n), r] : [void 0, r];
+		}))];
 	}
-	function _(e, t) {
-		let n = f.parseAllDocuments(e, { customTags: (0, p.getCustomTags)(t || {}) });
-		if (n.length !== 1) return [void 0, []];
-		let r = n[0], i = r.errors.map((e) => ({
+	function h(e, t) {
+		let n = (0, f.getCustomTags)(t || {}), r = d.parseAllDocuments(e, {
+			customTags: n,
+			uniqueKeys: !1
+		});
+		if (r.length !== 1) return [void 0, []];
+		let i = r[0], a = [], o = {
+			document: i,
+			hasDuplicateKeys: !1,
+			onUnresolvedAlias: (e, t) => {
+				a.push({
+					message: `Alias "${e}" could not be resolved`,
+					offset: t.range[0],
+					length: t.range[1] - t.range[0]
+				});
+			}
+		};
+		return [_((e) => (0, s.visitYaml)(o, "fakeroot", void 0, i.contents, e)), (o.hasDuplicateKeys ? d.parseAllDocuments(e, { customTags: n })[0].errors : i.errors).map((e) => ({
 			message: e.message,
 			offset: e.pos[0],
 			length: e.pos[1] - e.pos[0]
-		}));
-		return f.visit(r, { Alias(e, t) {
-			t.resolve(r) || i.push({
-				message: `Alias "${e}" could not be resolved`,
-				offset: t.range[0],
-				length: t.range[1] - t.range[0]
-			});
-		} }), [v(s.visitYaml, r, r.contents), i];
+		})).concat(a)];
 	}
-	function v(e, t, n) {
-		let r = {}, i = [r];
-		if (e(t, null, "fakeroot", n, {
-			onObjectStart: (e, t, n, a) => {
-				a && (0, l.setPreservedLocation)(r, t, a), i.push(r), r = r[t] = {};
+	function _(e) {
+		let t = {}, n = [t];
+		if (e({
+			onObjectStart: (e, r, i, a) => {
+				a && (0, l.setPreservedLocation)(t, r, a), n.push(t);
+				let o = {};
+				(0, l.setOwnValue)(t, r, o), t = o;
 			},
 			onObjectEnd: () => {
-				r = i.pop();
+				t = n.pop();
 			},
-			onArrayStart: (e, t, n, a) => {
-				a && (0, l.setPreservedLocation)(r, t, a), i.push(r), r = r[t] = [];
+			onArrayStart: (e, r, i, a) => {
+				a && (0, l.setPreservedLocation)(t, r, a), n.push(t);
+				let o = [];
+				(0, l.setOwnValue)(t, r, o), t = o;
 			},
 			onArrayEnd: () => {
-				r = i.pop();
+				t = n.pop();
 			},
-			onValue: (e, t, n, i, a) => {
-				r[t] = n, typeof n == "number" && i !== void 0 && (0, l.setPreservedValue)(r, t, i), a && (0, l.setPreservedLocation)(r, t, a);
+			onValue: (e, n, r, i, a) => {
+				if ((0, l.setOwnValue)(t, n, r), typeof r == "number") {
+					let e = (0, l.preservedNumberSource)(r, i);
+					e !== void 0 && (0, l.setPreservedValue)(t, n, e);
+				}
+				a && (0, l.setPreservedLocation)(t, n, a);
 			}
-		}), typeof i[0].fakeroot != "object") return;
-		let a = (0, l.getPreservedLocation)(i[0], "fakeroot")?.value;
-		return (0, l.setPreservedRootRange)(i[0].fakeroot, a), i[0].fakeroot;
+		}), typeof n[0].fakeroot != "object" || n[0].fakeroot === null) return;
+		let r = (0, l.getPreservedLocation)(n[0], "fakeroot")?.value;
+		return (0, l.setPreservedRootRange)(n[0].fakeroot, r), n[0].fakeroot;
 	}
-})), to = /* @__PURE__ */ r(((e) => {
+})), eo = /* @__PURE__ */ r(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.stringify = n;
 	var t = _();
 	function n(e, t = 0, n) {
@@ -5823,28 +5807,28 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 				r[r.length - 1].endsWith(",") && a(r, 1), r.push("],");
 			},
 			onValue: (e, t, i, a) => {
-				a === void 0 ? r.push(o(t, JSON.stringify(i)) + ",") : r.push(o(t, n ? n(i, a) : a) + ",");
+				r.push(o(t, s(i, a, n)) + ",");
 			}
 		}), r[0] = r[0].slice(11), a(r, 1), r.join("");
 	}
 	function i(e, n, r) {
 		if (!e) return JSON.stringify(e);
-		let i = [], c = 0, l = [!0];
+		let i = [], c = 0, u = [!0];
 		return (0, t.visitObject)(void 0, "fakeroot", e, {
 			onObjectStart: (e, t, r) => {
-				i.push(s(n, c) + o(t, "{\n", !1)), l[l.length - 1] = !1, l.push(!0), c++;
+				i.push(l(n, c) + o(t, "{\n", !1)), u[u.length - 1] = !1, u.push(!0), c++;
 			},
 			onObjectEnd: () => {
-				c--, l.pop() ? (a(i, 1), i.push("},\n")) : (a(i, 2), i.push("\n" + s(n, c) + "},\n"));
+				c--, u.pop() ? (a(i, 1), i.push("},\n")) : (a(i, 2), i.push("\n" + l(n, c) + "},\n"));
 			},
 			onArrayStart: (e, t, r) => {
-				i.push(s(n, c) + o(t, "[\n", !1)), l[l.length - 1] = !1, l.push(!0), c++;
+				i.push(l(n, c) + o(t, "[\n", !1)), u[u.length - 1] = !1, u.push(!0), c++;
 			},
 			onArrayEnd: () => {
-				c--, l.pop() ? (a(i, 1), i.push("],\n")) : (a(i, 2), i.push("\n" + s(n, c) + "],\n"));
+				c--, u.pop() ? (a(i, 1), i.push("],\n")) : (a(i, 2), i.push("\n" + l(n, c) + "],\n"));
 			},
-			onValue: (e, t, a, u) => {
-				l[l.length - 1] = !1, u === void 0 ? i.push(s(n, c) + o(t, JSON.stringify(a), !1) + ",\n") : i.push(s(n, c) + o(t, r ? r(a, u) : u, !1) + ",\n");
+			onValue: (e, t, a, d) => {
+				u[u.length - 1] = !1, i.push(l(n, c) + o(t, s(a, d, r), !1) + ",\n");
 			}
 		}), i[0] = i[0].slice(12), a(i, 2), i.join("");
 	}
@@ -5856,10 +5840,15 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 		let r = n ? ":" : ": ";
 		return typeof e == "string" ? JSON.stringify(e) + r + t : t;
 	}
-	function s(e, t) {
-		return " ".repeat(e * t);
+	function s(e, t, n) {
+		return n && (t !== void 0 || typeof e == "number") ? n(e, t ?? JSON.stringify(e)) : t ?? JSON.stringify(e);
 	}
-})), no = /* @__PURE__ */ r(((e) => {
+	var c = [];
+	function l(e, t) {
+		let n = e * t;
+		return c[n] ?? (c[n] = " ".repeat(n));
+	}
+})), to = /* @__PURE__ */ r(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.joinJsonPointer = i, e.parseJsonPointer = a, e.findByPath = o, e.find = s;
 	var t = /\//g, n = /~/g;
 	function r(e) {
@@ -5897,9 +5886,9 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 	function s(e, t) {
 		return o(e, a(t));
 	}
-})), ro = /* @__PURE__ */ r(((e) => {
+})), no = /* @__PURE__ */ r(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.findNodeAtOffset = i, e.findLocationForPath = o, e.findLocationForJsonPointer = s;
-	var t = g(), n = no();
+	var t = g(), n = to();
 	function r(e, t) {
 		return t >= e.start && t <= e.end;
 	}
@@ -5934,7 +5923,7 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 	function s(e, t) {
 		return o(e, (0, n.parseJsonPointer)(t));
 	}
-})), io = /* @__PURE__ */ r(((e) => {
+})), ro = /* @__PURE__ */ r(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.parseJsonPointer = e.joinJsonPointer = e.findLocationForPath = e.findByPath = e.findLocationForJsonPointer = e.find = e.findNodeAtOffset = e.getRootRange = e.getLocation = e.simpleClone = e.stringify = e.parseYaml = e.parseJson = void 0;
 	var t = v();
 	Object.defineProperty(e, "simpleClone", {
@@ -5943,7 +5932,7 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 			return t.simpleClone;
 		}
 	});
-	var n = eo();
+	var n = $a();
 	Object.defineProperty(e, "parseJson", {
 		enumerable: !0,
 		get: function() {
@@ -5955,7 +5944,7 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 			return n.parseYaml;
 		}
 	});
-	var r = to();
+	var r = eo();
 	Object.defineProperty(e, "stringify", {
 		enumerable: !0,
 		get: function() {
@@ -5974,7 +5963,7 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 			return i.getPreservedRootRange;
 		}
 	});
-	var a = ro();
+	var a = no();
 	Object.defineProperty(e, "findLocationForJsonPointer", {
 		enumerable: !0,
 		get: function() {
@@ -5991,7 +5980,7 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 			return a.findNodeAtOffset;
 		}
 	});
-	var o = no();
+	var o = to();
 	Object.defineProperty(e, "find", {
 		enumerable: !0,
 		get: function() {
@@ -6013,26 +6002,26 @@ var Ra, za, Ba, Va, Ha, Ua, Wa, Ga, Ka, qa, Ja, Ya, Xa, Za = t((() => {
 			return o.findByPath;
 		}
 	});
-})), ao = io();
+})), io = ro();
 function $(e, t) {
-	if (t != null) return typeof t == "object" && "$ref" in t ? (0, ao.find)(e, t.$ref) : t;
+	if (t != null) return typeof t == "object" && "$ref" in t ? (0, io.find)(e, t.$ref) : t;
 }
 //#endregion
 //#region ../openapi/dist/oas3.js
-function oo(e, t, n) {
+function ao(e, t, n) {
 	return $(e, e.paths?.[t])?.[n];
 }
-function so(e, t) {
+function oo(e, t) {
 	return (t.parameters ?? []).map((t) => $(e, t));
 }
-function co(e, t) {
+function so(e, t) {
 	return (t?.parameters ?? []).map((t) => $(e, t));
 }
-function lo(e) {
+function co(e) {
 	let t = (e.servers ?? []).filter((e) => e.url !== void 0 && e.url !== "").map((e) => e.url);
 	return t.length > 0 ? t : ["http://localhost/"];
 }
-function uo(e, t, n) {
+function lo(e, t, n) {
 	let r = {
 		query: {},
 		header: {},
@@ -6055,8 +6044,8 @@ function uo(e, t, n) {
 	}
 	return r;
 }
-function fo(e, t, n) {
-	let r = oo(e, t, n)?.security ?? e.security ?? [], i = [];
+function uo(e, t, n) {
+	let r = ao(e, t, n)?.security ?? e.security ?? [], i = [];
 	for (let t of r) {
 		let n = {};
 		for (let r of Object.keys(t)) if (e?.components?.securitySchemes?.[r]) {
@@ -6069,16 +6058,16 @@ function fo(e, t, n) {
 }
 //#endregion
 //#region ../openapi/dist/swagger.js
-function po(e, t, n) {
+function fo(e, t, n) {
 	if (n !== "trace") return $(e, e.paths[t])?.[n];
 }
-function mo(e, t) {
+function po(e, t) {
 	return (t.parameters ?? []).map((t) => $(e, t));
 }
-function ho(e, t) {
+function mo(e, t) {
 	return (t?.parameters ?? []).map((t) => $(e, t));
 }
-function go(e, t, n) {
+function ho(e, t, n) {
 	let r = {
 		query: {},
 		header: {},
@@ -6102,25 +6091,25 @@ function go(e, t, n) {
 	}
 	return r;
 }
-function _o(e) {
+function go(e) {
 	let t = e.schemes ?? ["http"], n = e.basePath ?? "", r = e.host ?? "localhost";
 	return t.map((e) => `${e}://${r}${n}`);
 }
-function vo(e, t) {
+function _o(e, t) {
 	return t?.consumes && t.consumes.length > 0 ? t.consumes : e?.consumes && e.consumes.length > 0 ? e.consumes : [];
 }
 //#endregion
 //#region ../openapi/dist/index.js
-function yo(e) {
+function vo(e) {
 	return "openapi" in e;
 }
-function bo(e, t, n) {
-	return n === "trace" ? yo(e) ? $(e, e.paths?.[t])?.[n] : void 0 : $(e, e.paths?.[t])?.[n];
+function yo(e, t, n) {
+	return n === "trace" ? vo(e) ? $(e, e.paths?.[t])?.[n] : void 0 : $(e, e.paths?.[t])?.[n];
 }
-function xo(e) {
+function bo(e) {
 	let t = [];
 	for (let n of Object.keys(e.paths ?? {})) for (let r of Object.keys(e.paths?.[n] ?? {})) if (m.includes(r)) {
-		let i = bo(e, n, r);
+		let i = yo(e, n, r);
 		t.push([
 			n,
 			r,
@@ -6129,21 +6118,21 @@ function xo(e) {
 	}
 	return t;
 }
-function So(e, t, n) {
+function xo(e, t, n) {
 	return e === void 0 || e === "" ? `${t}:${n}` : e;
 }
-function Co(e, t) {
-	let n = xo(e);
-	for (let [e, r, i] of n) if (So(i.operationId, e, r) === t) return {
+function So(e, t) {
+	let n = bo(e);
+	for (let [e, r, i] of n) if (xo(i.operationId, e, r) === t) return {
 		path: e,
 		method: r,
 		operation: i
 	};
 }
-function wo(e) {
-	return yo(e) ? lo(e) : _o(e);
+function Co(e) {
+	return vo(e) ? co(e) : go(e);
 }
-function To(e) {
+function wo(e) {
 	if (e >= 100 && e <= 199) return "1XX";
 	if (e >= 200 && e <= 299) return "2XX";
 	if (e >= 300 && e <= 399) return "3XX";
@@ -6151,4 +6140,4 @@ function To(e) {
 	if (e >= 500 && e <= 599) return "5XX";
 }
 //#endregion
-export { c as C, d as D, p as E, f as O, m as S, u as T, so as _, wo as a, $ as b, vo as c, go as d, mo as f, uo as g, co as h, xo as i, po as l, oo as m, bo as n, yo as o, _o as p, Co as r, So as s, To as t, ho as u, fo as v, l as w, io as x, lo as y };
+export { c as C, d as D, p as E, f as O, m as S, u as T, oo as _, Co as a, $ as b, _o as c, ho as d, po as f, lo as g, so as h, bo as i, fo as l, ao as m, yo as n, vo as o, go as p, So as r, xo as s, wo as t, mo as u, uo as v, l as w, ro as x, co as y };

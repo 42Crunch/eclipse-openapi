@@ -4,8 +4,8 @@ import { c as ce, h as le, l as ue, t as d } from "./platform-api.vCfjM7pj.js";
 import { a as f, c as de, l as p, o as fe } from "./index.esm.BTfY3KsF.js";
 import { n as m } from "./Select.Brxu2tMx.js";
 import { n as h, t as g } from "./Banner.CHX-WOk6.js";
-import { _ as pe, a as me, b as _, c as he, d as ge, f as _e, g as ve, h as ye, i as be, l as xe, m as Se, n as Ce, p as we, r as Te, s as Ee, u as De, v as Oe, y as v } from "./slice.DxJ7a1u-.js";
-import { a as ke, i as Ae, n as je, o as Me, r as Ne, s as Pe, t as Fe } from "./listener.DcDfArA_.js";
+import { _ as pe, a as me, b as _, c as he, d as ge, f as _e, g as ve, h as ye, i as be, l as xe, m as Se, n as Ce, p as we, r as Te, s as Ee, u as De, v as Oe, y as v } from "./slice.ChFQ4GOG.js";
+import { a as ke, i as Ae, n as je, o as Me, r as Ne, s as Pe, t as Fe } from "./listener.CwDNo_Cn.js";
 import { t as Ie } from "./ProgressButton.C7qCjPbJ.js";
 import { n as Le, t as Re } from "./dist.Brt3vwZ_.js";
 import { t as ze } from "./SearchSidebar.DT4o8uWj.js";
@@ -657,7 +657,11 @@ function Ot() {
 			label: "API proxy URL",
 			name: "scanProxy",
 			description: "The proxy URL for target API calls during the scan."
-		}), " "] })
+		}), " "] }),
+		(t === "cli" || e === "anond-token") && /* @__PURE__ */ (0, D.jsx)(W, {
+			name: "disableArrayMaxLimit",
+			label: "Switch off the limit for the number of items in sample arrays when creating a scan configuration"
+		})
 	] })] });
 }
 var q = {
@@ -669,7 +673,8 @@ var q = {
 			"scand-manager",
 			"cli"
 		]),
-		scanProxy: y().url().optional().or(x(""))
+		scanProxy: y().url().optional().or(x("")),
+		disableArrayMaxLimit: w()
 	}),
 	form: Ot
 }, J = {

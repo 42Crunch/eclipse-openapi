@@ -41,6 +41,7 @@ var r = e({
 				location: ""
 			},
 			cliDirectoryOverride: "",
+			disableArrayMaxLimit: !1,
 			repository: "",
 			platformTemporaryCollectionName: "",
 			platformMandatoryTags: "",
