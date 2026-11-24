@@ -16,7 +16,7 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
-	            additionalBuildArgs "--build-arg BUILD_TAG=${BUILD_TAG}"
+	            additionalBuildArgs "--build-arg BUILD_TAG=${BUILD_TAG} --build-arg BRANCH_NAME=${env.BRANCH_NAME}"
                 }
             }
 
